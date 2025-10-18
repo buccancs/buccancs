@@ -101,7 +101,8 @@ public class CalibDetailsBmp390 extends CalibDetailsBmpX80 {
                     System.out.println("PRESSURE = " + calibdata2[0]);
                     System.out.println("TEMPERATURE = " + calibdata2[1]);
 
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }

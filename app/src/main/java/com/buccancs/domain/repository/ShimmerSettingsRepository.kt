@@ -5,7 +5,15 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface ShimmerSettingsRepository {
     val settings: StateFlow<ShimmerSettings>
-    suspend fun setTargetMac(macAddress: String?)
-    suspend fun setGsrRange(index: Int)
-    suspend fun setSampleRate(sampleRateHz: Double)
+    suspend fun setTargetMac(
+        macAddress: String?
+    )
+
+    suspend fun setGsrRange(
+        index: Int
+    )
+
+    suspend fun setSampleRate(
+        sampleRateHz: Double
+    )
 }

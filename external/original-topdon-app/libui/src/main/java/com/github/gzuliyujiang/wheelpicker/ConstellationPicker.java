@@ -149,7 +149,8 @@ public class ConstellationPicker extends OptionPicker {
                 }
                 data.add(entity);
             }
-        } catch (JSONException e) {
+        } catch (
+                JSONException e) {
             DialogLog.print(e);
         }
         return data;

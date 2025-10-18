@@ -17,14 +17,32 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.module.user.R
 
-@Route(path = RouterConfig.QUESTION_DETAILS)
-class QuestionDetailsActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.QUESTION_DETAILS
+)
+class QuestionDetailsActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val question = intent.getStringExtra("question") ?: ""
-        val answer = intent.getStringExtra("answer") ?: ""
+        val question =
+            intent.getStringExtra(
+                "question"
+            )
+                ?: ""
+        val answer =
+            intent.getStringExtra(
+                "answer"
+            )
+                ?: ""
 
         setContent {
             MaterialTheme {
@@ -38,7 +56,9 @@ class QuestionDetailsActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun QuestionDetailsScreen(
     question: String,
@@ -48,9 +68,15 @@ private fun QuestionDetailsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("FAQ") },
+                title = {
+                    Text(
+                        "FAQ"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -63,9 +89,15 @@ private fun QuestionDetailsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
+                .padding(
+                    padding
+                )
+                .padding(
+                    16.dp
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
         ) {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth()
@@ -73,16 +105,26 @@ private fun QuestionDetailsScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(
+                            16.dp
+                        )
                 ) {
                     Text(
                         text = question,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(
+                        modifier = Modifier.height(
+                            16.dp
+                        )
+                    )
                     HorizontalDivider()
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(
+                        modifier = Modifier.height(
+                            16.dp
+                        )
+                    )
                     Text(
                         text = answer,
                         style = MaterialTheme.typography.bodyMedium,

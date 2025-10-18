@@ -42,7 +42,8 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
                 dataFileName = String.format("%s_%s.bin", new SimpleDateFormat("yyMMdd_HHmmss").format(new Date()), pIndex);
             }
 
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
         }
 
     }
@@ -110,7 +111,8 @@ public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocol
                 }
 
 
-            } catch (Exception ex) {
+            } catch (
+                    Exception ex) {
                 System.out.println(ex.toString());
             }
         } else {

@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializecommandEnvelope")
-public inline fun commandEnvelope(block: com.buccancs.control.CommandEnvelopeKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandEnvelope =
-    com.buccancs.control.CommandEnvelopeKt.Dsl._create(com.buccancs.control.CommandEnvelope.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializecommandEnvelope"
+)
+public inline fun commandEnvelope(
+    block: com.buccancs.control.CommandEnvelopeKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandEnvelope =
+    com.buccancs.control.CommandEnvelopeKt.Dsl._create(
+        com.buccancs.control.CommandEnvelope.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.CommandEnvelope`
  */
 public object CommandEnvelopeKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.CommandEnvelope.Builder
@@ -23,13 +34,16 @@ public object CommandEnvelopeKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandEnvelope.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.CommandEnvelope.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.CommandEnvelope = _builder.build()
+        internal fun _build(): com.buccancs.control.CommandEnvelope =
+            _builder.build()
 
         /**
          * `string command_id = 1;`
@@ -37,7 +51,9 @@ public object CommandEnvelopeKt {
         public var commandId: kotlin.String
             get() = _builder.getCommandId()
             set(value) {
-                _builder.setCommandId(value)
+                _builder.setCommandId(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object CommandEnvelopeKt {
         public var sessionId: kotlin.String
             get() = _builder.getSessionId()
             set(value) {
-                _builder.setSessionId(value)
+                _builder.setSessionId(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object CommandEnvelopeKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -85,7 +105,9 @@ public object CommandEnvelopeKt {
         public var issuedEpochMs: kotlin.Long
             get() = _builder.getIssuedEpochMs()
             set(value) {
-                _builder.setIssuedEpochMs(value)
+                _builder.setIssuedEpochMs(
+                    value
+                )
             }
 
         /**
@@ -101,7 +123,9 @@ public object CommandEnvelopeKt {
         public var executeEpochMs: kotlin.Long
             get() = _builder.getExecuteEpochMs()
             set(value) {
-                _builder.setExecuteEpochMs(value)
+                _builder.setExecuteEpochMs(
+                    value
+                )
             }
 
         /**
@@ -117,7 +141,9 @@ public object CommandEnvelopeKt {
         public var commandJson: kotlin.String
             get() = _builder.getCommandJson()
             set(value) {
-                _builder.setCommandJson(value)
+                _builder.setCommandJson(
+                    value
+                )
             }
 
         /**
@@ -130,7 +156,12 @@ public object CommandEnvelopeKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.CommandEnvelope.copy(block: `com.buccancs.control`.CommandEnvelopeKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandEnvelope =
-    `com.buccancs.control`.CommandEnvelopeKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.CommandEnvelope.copy(
+    block: `com.buccancs.control`.CommandEnvelopeKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandEnvelope =
+    `com.buccancs.control`.CommandEnvelopeKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

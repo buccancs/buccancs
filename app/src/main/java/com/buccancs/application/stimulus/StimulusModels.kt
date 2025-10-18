@@ -13,14 +13,33 @@ data class StimulusCue(
     val metadata: Map<String, String>
 ) {
     companion object {
-        fun fromPayload(payload: StimulusCommandPayload): StimulusCue {
-            val metadata = payload.metadata
-            val color = metadata["color"]?.let(::parseColor) ?: DEFAULT_COLOR
-            val duration = metadata["durationMs"]?.toLongOrNull()?.coerceIn(100L, 30_000L)
-                ?: DEFAULT_DURATION_MS
-            val audio = metadata["audio"]?.let { StimulusAudio.fromKey(it) } ?: StimulusAudio.BEEP
-            val label = metadata["label"].orEmpty()
-                .ifBlank { payload.action.ifBlank { payload.stimulusId } }
+        fun fromPayload(
+            payload: StimulusCommandPayload
+        ): StimulusCue {
+            val metadata =
+                payload.metadata
+            val color =
+                metadata["color"]?.let(
+                    ::parseColor
+                )
+                    ?: DEFAULT_COLOR
+            val duration =
+                metadata["durationMs"]?.toLongOrNull()
+                    ?.coerceIn(
+                        100L,
+                        30_000L
+                    )
+                    ?: DEFAULT_DURATION_MS
+            val audio =
+                metadata["audio"]?.let {
+                    StimulusAudio.fromKey(
+                        it
+                    )
+                }
+                    ?: StimulusAudio.BEEP
+            val label =
+                metadata["label"].orEmpty()
+                    .ifBlank { payload.action.ifBlank { payload.stimulusId } }
             return StimulusCue(
                 id = payload.stimulusId,
                 action = payload.action,
@@ -32,22 +51,30 @@ data class StimulusCue(
             )
         }
 
-        fun preview(): StimulusCue = StimulusCue(
-            id = "preview",
-            action = "Preview",
-            label = "Preview",
-            color = DEFAULT_COLOR,
-            durationMillis = DEFAULT_DURATION_MS,
-            audio = StimulusAudio.BEEP,
-            metadata = emptyMap()
-        )
+        fun preview(): StimulusCue =
+            StimulusCue(
+                id = "preview",
+                action = "Preview",
+                label = "Preview",
+                color = DEFAULT_COLOR,
+                durationMillis = DEFAULT_DURATION_MS,
+                audio = StimulusAudio.BEEP,
+                metadata = emptyMap()
+            )
 
-        private fun parseColor(raw: String): Int = runCatching {
-            android.graphics.Color.parseColor(raw)
-        }.getOrElse { DEFAULT_COLOR }
+        private fun parseColor(
+            raw: String
+        ): Int =
+            runCatching {
+                android.graphics.Color.parseColor(
+                    raw
+                )
+            }.getOrElse { DEFAULT_COLOR }
 
-        private const val DEFAULT_DURATION_MS = 1_000L
-        private const val DEFAULT_COLOR = android.graphics.Color.WHITE
+        private const val DEFAULT_DURATION_MS =
+            1_000L
+        private const val DEFAULT_COLOR =
+            android.graphics.Color.WHITE
     }
 }
 
@@ -56,10 +83,13 @@ enum class StimulusAudio {
     BEEP;
 
     companion object {
-        fun fromKey(key: String): StimulusAudio = when (key.lowercase()) {
-            "none" -> NONE
-            else -> BEEP
-        }
+        fun fromKey(
+            key: String
+        ): StimulusAudio =
+            when (key.lowercase()) {
+                "none" -> NONE
+                else -> BEEP
+            }
     }
 }
 

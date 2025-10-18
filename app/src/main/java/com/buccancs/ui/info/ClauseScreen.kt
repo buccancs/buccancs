@@ -57,7 +57,9 @@ fun ClauseRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun ClauseScreen(
     appName: String,
@@ -71,18 +73,35 @@ private fun ClauseScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Terms & Conditions") }
+                title = {
+                    Text(
+                        "Terms & Conditions"
+                    )
+                }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             Text(
                 text = "Welcome to $appName",
@@ -99,8 +118,12 @@ private fun ClauseScreen(
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(Spacing.Medium),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                    modifier = Modifier.padding(
+                        Spacing.Medium
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    )
                 ) {
                     Text(
                         text = "Before using this application, please read and agree to:",
@@ -108,24 +131,42 @@ private fun ClauseScreen(
                     )
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(1) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                1
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("User Agreement")
+                        Text(
+                            "User Agreement"
+                        )
                     }
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(2) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                2
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Privacy Policy")
+                        Text(
+                            "Privacy Policy"
+                        )
                     }
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(3) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                3
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Terms of Service")
+                        Text(
+                            "Terms of Service"
+                        )
                     }
                 }
             }
@@ -136,32 +177,54 @@ private fun ClauseScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(
+                modifier = Modifier.weight(
+                    1f
+                )
+            )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.SmallMedium
+                )
             ) {
                 OutlinedButton(
                     onClick = onDisagree,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
-                    Text("Disagree")
+                    Text(
+                        "Disagree"
+                    )
                 }
 
                 Button(
                     onClick = onAgree,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
-                    Text("Agree & Continue")
+                    Text(
+                        "Agree & Continue"
+                    )
                 }
             }
 
-            Spacer(modifier = Modifier.height(Spacing.Small))
+            Spacer(
+                modifier = Modifier.height(
+                    Spacing.Small
+                )
+            )
 
             Text(
                 text = "$yearRange\nVersion $version",

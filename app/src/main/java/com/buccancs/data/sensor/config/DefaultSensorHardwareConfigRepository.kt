@@ -32,56 +32,105 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
     @StandardJson private val json: Json
 ) : SensorHardwareConfigRepository {
-    private val configMutex = Mutex()
-    private val inventoryFile = File(context.filesDir, STORAGE_FILE_NAME)
-    private val _config = MutableStateFlow(loadConfig())
-    override val config: StateFlow<SensorHardwareConfig> = _config.asStateFlow()
+    private val configMutex =
+        Mutex()
+    private val inventoryFile =
+        File(
+            context.filesDir,
+            STORAGE_FILE_NAME
+        )
+    private val _config =
+        MutableStateFlow(
+            loadConfig()
+        )
+    override val config: StateFlow<SensorHardwareConfig> =
+        _config.asStateFlow()
 
     init {
-        scope.launch(Dispatchers.IO) {
-            _config.emit(loadConfig())
+        scope.launch(
+            Dispatchers.IO
+        ) {
+            _config.emit(
+                loadConfig()
+            )
         }
     }
 
     override suspend fun reload() {
-        val refreshed = withContext(Dispatchers.IO) { loadConfig() }
-        _config.value = refreshed
+        val refreshed =
+            withContext(
+                Dispatchers.IO
+            ) { loadConfig() }
+        _config.value =
+            refreshed
     }
 
-    override suspend fun upsertShimmerDevice(device: ShimmerDeviceConfig) {
+    override suspend fun upsertShimmerDevice(
+        device: ShimmerDeviceConfig
+    ) {
         updateConfig { current ->
-            val next = current.shimmer.associateBy { it.id }.toMutableMap()
-            next[device.id] = device
-            current.copy(shimmer = next.values.sortedBy { it.id })
+            val next =
+                current.shimmer.associateBy { it.id }
+                    .toMutableMap()
+            next[device.id] =
+                device
+            current.copy(
+                shimmer = next.values.sortedBy { it.id })
         }
     }
 
-    override suspend fun upsertTopdonDevice(device: TopdonDeviceConfig) {
+    override suspend fun upsertTopdonDevice(
+        device: TopdonDeviceConfig
+    ) {
         updateConfig { current ->
-            val next = current.topdon.associateBy { it.id }.toMutableMap()
-            next[device.id] = device
-            current.copy(topdon = next.values.sortedBy { it.id })
+            val next =
+                current.topdon.associateBy { it.id }
+                    .toMutableMap()
+            next[device.id] =
+                device
+            current.copy(
+                topdon = next.values.sortedBy { it.id })
         }
     }
 
-    override suspend fun updateConfig(transform: (SensorHardwareConfig) -> SensorHardwareConfig) {
+    override suspend fun updateConfig(
+        transform: (SensorHardwareConfig) -> SensorHardwareConfig
+    ) {
         configMutex.withLock {
-            val baseline = loadConfig()
-            val updated = transform(baseline).sanitize()
-            persist(updated)
-            _config.value = updated
+            val baseline =
+                loadConfig()
+            val updated =
+                transform(
+                    baseline
+                ).sanitize()
+            persist(
+                updated
+            )
+            _config.value =
+                updated
         }
     }
 
     private fun loadConfig(): SensorHardwareConfig {
-        val payload = runCatching { readInventoryText() }
+        val payload =
+            runCatching { readInventoryText() }
+                .getOrElse { error ->
+                    Log.w(
+                        TAG,
+                        "Unable to load $STORAGE_FILE_NAME: ${error.message}"
+                    )
+                    return defaultConfig()
+                }
+        return runCatching {
+            json.decodeFromString<SensorHardwareConfig>(
+                payload
+            )
+        }
             .getOrElse { error ->
-                Log.w(TAG, "Unable to load $STORAGE_FILE_NAME: ${error.message}")
-                return defaultConfig()
-            }
-        return runCatching { json.decodeFromString<SensorHardwareConfig>(payload) }
-            .getOrElse { error ->
-                Log.w(TAG, "Failed to parse hardware config: ${error.message}")
+                Log.w(
+                    TAG,
+                    "Failed to parse hardware config: ${error.message}"
+                )
                 defaultConfig()
             }
             .sanitize()
@@ -89,12 +138,19 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
 
     private fun readInventoryText(): String {
         ensureInventoryFile()
-        return inventoryFile.readText(StandardCharsets.UTF_8)
+        return inventoryFile.readText(
+            StandardCharsets.UTF_8
+        )
     }
 
-    private suspend fun persist(config: SensorHardwareConfig) {
+    private suspend fun persist(
+        config: SensorHardwareConfig
+    ) {
         ensureInventoryFile()
-        val encoded = json.encodeToString(config)
+        val encoded =
+            json.encodeToString(
+                config
+            )
 
         when (val result =
             AtomicFileWriter.writeAtomicSafe(
@@ -104,15 +160,25 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
                 checkSpace = true
             )) {
             is WriteResult.Success -> {
-                Log.d(TAG, "Config persisted successfully")
+                Log.d(
+                    TAG,
+                    "Config persisted successfully"
+                )
             }
 
             is WriteResult.Failure.InsufficientSpace -> {
-                Log.e(TAG, "Insufficient space to write config")
+                Log.e(
+                    TAG,
+                    "Insufficient space to write config"
+                )
             }
 
             is WriteResult.Failure.WriteError -> {
-                Log.e(TAG, "Failed to write config: ${result.message}", result.cause)
+                Log.e(
+                    TAG,
+                    "Failed to write config: ${result.message}",
+                    result.cause
+                )
             }
         }
     }
@@ -120,40 +186,58 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
     private fun ensureInventoryFile() {
         if (inventoryFile.exists()) return
         runCatching {
-            context.assets.open(ASSET_NAME).use { input ->
-                inventoryFile.outputStream().use { output ->
-                    input.copyTo(output)
+            context.assets.open(
+                ASSET_NAME
+            )
+                .use { input ->
+                    inventoryFile.outputStream()
+                        .use { output ->
+                            input.copyTo(
+                                output
+                            )
+                        }
                 }
-            }
         }.onFailure { error ->
-            Log.w(TAG, "Unable to seed inventory asset: ${error.message}")
-            val seed = json.encodeToString(defaultConfig())
-            inventoryFile.writeText(seed, StandardCharsets.UTF_8)
+            Log.w(
+                TAG,
+                "Unable to seed inventory asset: ${error.message}"
+            )
+            val seed =
+                json.encodeToString(
+                    defaultConfig()
+                )
+            inventoryFile.writeText(
+                seed,
+                StandardCharsets.UTF_8
+            )
         }
     }
 
-    private fun defaultConfig(): SensorHardwareConfig = SensorHardwareConfig(
-        shimmer = listOf(
-            ShimmerDeviceConfig(
-                id = "shimmer-primary",
-                displayName = "Shimmer3 GSR (Primary)"
-            )
-        ),
-        topdon = listOf(
-            TopdonDeviceConfig(
-                id = "topdon-tc001",
-                displayName = "Topdon TC001"
+    private fun defaultConfig(): SensorHardwareConfig =
+        SensorHardwareConfig(
+            shimmer = listOf(
+                ShimmerDeviceConfig(
+                    id = "shimmer-primary",
+                    displayName = "Shimmer3 GSR (Primary)"
+                )
+            ),
+            topdon = listOf(
+                TopdonDeviceConfig(
+                    id = "topdon-tc001",
+                    displayName = "Topdon TC001"
+                )
             )
         )
-    )
 
     private fun SensorHardwareConfig.sanitize(): SensorHardwareConfig {
-        val shimmerSanitized = shimmer
-            .filter { it.id.isNotBlank() }
-            .ifEmpty { defaultConfig().shimmer }
-        val topdonSanitized = topdon
-            .filter { it.id.isNotBlank() }
-            .ifEmpty { defaultConfig().topdon }
+        val shimmerSanitized =
+            shimmer
+                .filter { it.id.isNotBlank() }
+                .ifEmpty { defaultConfig().shimmer }
+        val topdonSanitized =
+            topdon
+                .filter { it.id.isNotBlank() }
+                .ifEmpty { defaultConfig().topdon }
         return SensorHardwareConfig(
             shimmer = shimmerSanitized.distinctBy { it.id },
             topdon = topdonSanitized.distinctBy { it.id }
@@ -161,8 +245,11 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
     }
 
     private companion object {
-        private const val TAG = "HardwareConfigRepo"
-        private const val ASSET_NAME = "device-inventory.json"
-        private const val STORAGE_FILE_NAME = "device-inventory.json"
+        private const val TAG =
+            "HardwareConfigRepo"
+        private const val ASSET_NAME =
+            "device-inventory.json"
+        private const val STORAGE_FILE_NAME =
+            "device-inventory.json"
     }
 }

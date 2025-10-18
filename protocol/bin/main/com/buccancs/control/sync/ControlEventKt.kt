@@ -2,20 +2,31 @@
 // source: sync/control.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control.sync
 
-@kotlin.jvm.JvmName("-initializecontrolEvent")
-public inline fun controlEvent(block: com.buccancs.control.sync.ControlEventKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.ControlEvent =
-    com.buccancs.control.sync.ControlEventKt.Dsl._create(com.buccancs.control.sync.ControlEvent.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializecontrolEvent"
+)
+public inline fun controlEvent(
+    block: com.buccancs.control.sync.ControlEventKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.sync.ControlEvent =
+    com.buccancs.control.sync.ControlEventKt.Dsl._create(
+        com.buccancs.control.sync.ControlEvent.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.sync.ControlEvent`
  */
 public object ControlEventKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.sync.ControlEvent.Builder
@@ -23,13 +34,16 @@ public object ControlEventKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.sync.ControlEvent.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.sync.ControlEvent.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.sync.ControlEvent = _builder.build()
+        internal fun _build(): com.buccancs.control.sync.ControlEvent =
+            _builder.build()
 
         /**
          * `string event_id = 1;`
@@ -37,7 +51,9 @@ public object ControlEventKt {
         public var eventId: kotlin.String
             get() = _builder.getEventId()
             set(value) {
-                _builder.setEventId(value)
+                _builder.setEventId(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object ControlEventKt {
         public var sessionId: kotlin.String
             get() = _builder.getSessionId()
             set(value) {
-                _builder.setSessionId(value)
+                _builder.setSessionId(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object ControlEventKt {
         public var type: kotlin.String
             get() = _builder.getType()
             set(value) {
-                _builder.setType(value)
+                _builder.setType(
+                    value
+                )
             }
 
         /**
@@ -85,7 +105,9 @@ public object ControlEventKt {
         public var detailJson: kotlin.String
             get() = _builder.getDetailJson()
             set(value) {
-                _builder.setDetailJson(value)
+                _builder.setDetailJson(
+                    value
+                )
             }
 
         /**
@@ -101,7 +123,9 @@ public object ControlEventKt {
         public var timestampEpochMs: kotlin.Long
             get() = _builder.getTimestampEpochMs()
             set(value) {
-                _builder.setTimestampEpochMs(value)
+                _builder.setTimestampEpochMs(
+                    value
+                )
             }
 
         /**
@@ -114,7 +138,12 @@ public object ControlEventKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.sync.ControlEvent.copy(block: `com.buccancs.control.sync`.ControlEventKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.ControlEvent =
-    `com.buccancs.control.sync`.ControlEventKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.sync.ControlEvent.copy(
+    block: `com.buccancs.control.sync`.ControlEventKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.sync.ControlEvent =
+    `com.buccancs.control.sync`.ControlEventKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

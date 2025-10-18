@@ -1096,7 +1096,8 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
 
         try {
             newPacketInt = UtilParseData.parseData(newPacket, mSignalDataTypeArray);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (
+                IndexOutOfBoundsException e) {
             String debugString = "SignalDataTypeArray:";
             for (String s : mSignalDataTypeArray) {
                 debugString += "\t" + s;
@@ -3758,11 +3759,13 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
                 System.arraycopy(bufferInquiry, 4, signalIdArray, 0, mNChannels);
                 interpretDataPacketFormat(mNChannels, signalIdArray);
             }
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             ex.printStackTrace();
             try {
                 disconnect();
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
         }
@@ -3954,7 +3957,8 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
                 outputStream.write(getPressureRawCoefficients().length);
                 outputStream.write(getPressureRawCoefficients());
                 rawcal = outputStream.toByteArray();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
 
@@ -3973,7 +3977,8 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
                 outputStream.write(mEMGCalRawParams.length);
                 outputStream.write(mEMGCalRawParams);
                 rawcal = outputStream.toByteArray();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
 
@@ -7981,7 +7986,8 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
         Integer sensorId = Configuration.Shimmer3.SENSOR_ID.RESERVED_ANY_SENSOR;
         try {
             sensorId = Integer.parseInt(identifier);
-        } catch (NumberFormatException nFE) {
+        } catch (
+                NumberFormatException nFE) {
         }
 
         switch (configLabel) {
@@ -8447,7 +8453,8 @@ public abstract class ShimmerObject extends ShimmerDevice implements Serializabl
             mDockID = idSplit[0] + "." + idSplit[1];
             try {
                 mSlotNumber = Integer.parseInt(idSplit[2]);
-            } catch (NumberFormatException nFE) {
+            } catch (
+                    NumberFormatException nFE) {
             }
         }
     }

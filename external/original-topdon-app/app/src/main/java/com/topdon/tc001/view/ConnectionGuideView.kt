@@ -16,51 +16,107 @@ import android.widget.TextView
 import com.blankj.utilcode.util.SizeUtils
 import com.topdon.tc001.R
 
-class ConnectionGuideView : LinearLayout {
-    private var iconRes: Int = 0
-    private var contentStr: String = ""
-    private var iconShow: Boolean = false
+class ConnectionGuideView :
+    LinearLayout {
+    private var iconRes: Int =
+        0
+    private var contentStr: String =
+        ""
+    private var iconShow: Boolean =
+        false
     private lateinit var guideIcon: ImageView
     private lateinit var contentText: TextView
 
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        val ta: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.ConnectionGuideView)
+    constructor(
+        context: Context
+    ) : this(
+        context,
+        null
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?
+    ) : super(
+        context,
+        attrs
+    ) {
+        val ta: TypedArray =
+            context.obtainStyledAttributes(
+                attrs,
+                R.styleable.ConnectionGuideView
+            )
         for (i in 0 until ta.indexCount) {
-            when (ta.getIndex(i)) {
+            when (ta.getIndex(
+                i
+            )) {
                 R.styleable.ConnectionGuideView_guide_icon -> iconRes =
-                    ta.getResourceId(R.styleable.ConnectionGuideView_guide_icon, 0)
+                    ta.getResourceId(
+                        R.styleable.ConnectionGuideView_guide_icon,
+                        0
+                    )
 
                 R.styleable.ConnectionGuideView_guide_text -> contentStr =
-                    ta.getString(R.styleable.ConnectionGuideView_guide_text).toString()
+                    ta.getString(
+                        R.styleable.ConnectionGuideView_guide_text
+                    )
+                        .toString()
 
                 R.styleable.ConnectionGuideView_guide_icon_show -> iconShow =
-                    ta.getBoolean(R.styleable.ConnectionGuideView_guide_icon_show, false)
+                    ta.getBoolean(
+                        R.styleable.ConnectionGuideView_guide_icon_show,
+                        false
+                    )
             }
         }
         ta.recycle()
         initView()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+    constructor(
+        context: Context,
+        attrs: AttributeSet,
+        defStyleAttr: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr
     )
 
     private fun initView() {
-        inflate(context, R.layout.ui_main_connection_guide, this)
-        contentText = findViewById(R.id.tv_content)
-        guideIcon = findViewById(R.id.iv_icon)
-        guideIcon.setImageResource(iconRes)
-        contentText.text = contentStr
-        guideIcon.visibility = if (iconShow) View.VISIBLE else View.GONE
+        inflate(
+            context,
+            R.layout.ui_main_connection_guide,
+            this
+        )
+        contentText =
+            findViewById(
+                R.id.tv_content
+            )
+        guideIcon =
+            findViewById(
+                R.id.iv_icon
+            )
+        guideIcon.setImageResource(
+            iconRes
+        )
+        contentText.text =
+            contentStr
+        guideIcon.visibility =
+            if (iconShow) View.VISIBLE else View.GONE
     }
 
-    fun setText(text: CharSequence?) {
-        if (contentText == null || TextUtils.isEmpty(text)) return
-        contentText.text = text
-        contentText.movementMethod = LinkMovementMethod.getInstance()
+    fun setText(
+        text: CharSequence?
+    ) {
+        if (contentText == null || TextUtils.isEmpty(
+                text
+            )
+        ) return
+        contentText.text =
+            text
+        contentText.movementMethod =
+            LinkMovementMethod.getInstance()
     }
 
     fun getText(): String {
@@ -68,23 +124,43 @@ class ConnectionGuideView : LinearLayout {
         return contentText.text.toString()
     }
 
-    fun setHighlightColor(color: Int) {
+    fun setHighlightColor(
+        color: Int
+    ) {
         if (contentText == null) return
-        contentText.highlightColor = color
+        contentText.highlightColor =
+            color
     }
 
-    fun getCompoundDrawables(content: String) {
+    fun getCompoundDrawables(
+        content: String
+    ) {
         if (contentText == null) return
-        var mContent = "$content  "
-        val spannableString = SpannableString(mContent)
-        val drawable = context.getDrawable(R.drawable.ic_connection_press_tip)
-        drawable!!.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
+        var mContent =
+            "$content  "
+        val spannableString =
+            SpannableString(
+                mContent
+            )
+        val drawable =
+            context.getDrawable(
+                R.drawable.ic_connection_press_tip
+            )
+        drawable!!.setBounds(
+            0,
+            0,
+            drawable.minimumWidth,
+            drawable.minimumHeight
+        )
         spannableString.setSpan(
-            ImageSpan(drawable),
+            ImageSpan(
+                drawable
+            ),
             mContent.length - 1,
             mContent.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        contentText.text = spannableString
+        contentText.text =
+            spannableString
     }
 }

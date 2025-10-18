@@ -37,8 +37,12 @@ fun SynchronisationScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Spacing.Large),
-        verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            .padding(
+                Spacing.Large
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        )
     ) {
         ScreenHeader(
             title = "Synchronisation",
@@ -54,14 +58,28 @@ fun SynchronisationScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                SyncMetric("Max Offset", "4.2 ms", "< 10 ms target")
-                SyncMetric("Avg Offset", "2.1 ms", "Excellent")
-                SyncMetric("Last Sync", "3s ago", "Active")
+                SyncMetric(
+                    "Max Offset",
+                    "4.2 ms",
+                    "< 10 ms target"
+                )
+                SyncMetric(
+                    "Avg Offset",
+                    "2.1 ms",
+                    "Excellent"
+                )
+                SyncMetric(
+                    "Last Sync",
+                    "3s ago",
+                    "Active"
+                )
             }
         }
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             // Individual Device Offsets
             item {
@@ -69,12 +87,34 @@ fun SynchronisationScreen() {
                     title = "Device Clock Offsets",
                     subtitle = "Milliseconds relative to orchestrator reference time"
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-                        DeviceOffsetRow("Device-001", 2.3f, Color(0xFF4CAF50))
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
+                        DeviceOffsetRow(
+                            "Device-001",
+                            2.3f,
+                            Color(
+                                0xFF4CAF50
+                            )
+                        )
                         HorizontalDivider()
-                        DeviceOffsetRow("Device-002", -4.1f, Color(0xFFFFC107))
+                        DeviceOffsetRow(
+                            "Device-002",
+                            -4.1f,
+                            Color(
+                                0xFFFFC107
+                            )
+                        )
                         HorizontalDivider()
-                        DeviceOffsetRow("Device-003", 1.8f, Color(0xFF4CAF50))
+                        DeviceOffsetRow(
+                            "Device-003",
+                            1.8f,
+                            Color(
+                                0xFF4CAF50
+                            )
+                        )
                     }
                 }
             }
@@ -85,15 +125,46 @@ fun SynchronisationScreen() {
                     title = "Synchronisation Events",
                     subtitle = "Recent time sync operations"
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
                         listOf(
-                            SyncEvent("3s ago", "All devices", "Success", "Drift: 2.1 ms"),
-                            SyncEvent("33s ago", "All devices", "Success", "Drift: 2.3 ms"),
-                            SyncEvent("1m 3s ago", "All devices", "Success", "Drift: 1.9 ms"),
-                            SyncEvent("1m 33s ago", "Device-002", "Retry", "Timeout, retried"),
-                            SyncEvent("2m 3s ago", "All devices", "Success", "Drift: 2.4 ms")
+                            SyncEvent(
+                                "3s ago",
+                                "All devices",
+                                "Success",
+                                "Drift: 2.1 ms"
+                            ),
+                            SyncEvent(
+                                "33s ago",
+                                "All devices",
+                                "Success",
+                                "Drift: 2.3 ms"
+                            ),
+                            SyncEvent(
+                                "1m 3s ago",
+                                "All devices",
+                                "Success",
+                                "Drift: 1.9 ms"
+                            ),
+                            SyncEvent(
+                                "1m 33s ago",
+                                "Device-002",
+                                "Retry",
+                                "Timeout, retried"
+                            ),
+                            SyncEvent(
+                                "2m 3s ago",
+                                "All devices",
+                                "Success",
+                                "Drift: 2.4 ms"
+                            )
                         ).forEach { event ->
-                            SyncEventRow(event)
+                            SyncEventRow(
+                                event
+                            )
                         }
                     }
                 }
@@ -105,12 +176,31 @@ fun SynchronisationScreen() {
                     title = "Sync Configuration",
                     subtitle = "Time synchronisation parameters"
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-                        ConfigRow("Sync Interval", "30 seconds")
-                        ConfigRow("Sync Protocol", "NTP-style with round-trip")
-                        ConfigRow("Max Acceptable Drift", "10 ms")
-                        ConfigRow("Sample Count", "5 measurements per sync")
-                        ConfigRow("Timeout", "2 seconds")
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
+                        ConfigRow(
+                            "Sync Interval",
+                            "30 seconds"
+                        )
+                        ConfigRow(
+                            "Sync Protocol",
+                            "NTP-style with round-trip"
+                        )
+                        ConfigRow(
+                            "Max Acceptable Drift",
+                            "10 ms"
+                        )
+                        ConfigRow(
+                            "Sample Count",
+                            "5 measurements per sync"
+                        )
+                        ConfigRow(
+                            "Timeout",
+                            "2 seconds"
+                        )
                     }
                 }
             }
@@ -119,9 +209,18 @@ fun SynchronisationScreen() {
 }
 
 @Composable
-private fun SyncMetric(label: String, value: String, subtitle: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(label, style = MaterialTheme.typography.labelMedium)
+private fun SyncMetric(
+    label: String,
+    value: String,
+    subtitle: String
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            label,
+            style = MaterialTheme.typography.labelMedium
+        )
         Text(
             value,
             style = MaterialTheme.typography.headlineSmall,
@@ -136,15 +235,30 @@ private fun SyncMetric(label: String, value: String, subtitle: String) {
 }
 
 @Composable
-private fun DeviceOffsetRow(deviceId: String, offsetMs: Float, color: Color) {
+private fun DeviceOffsetRow(
+    deviceId: String,
+    offsetMs: Float,
+    color: Color
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(deviceId, style = MaterialTheme.typography.titleSmall)
+        Column(
+            modifier = Modifier.weight(
+                1f
+            )
+        ) {
             Text(
-                "${if (offsetMs >= 0) "+" else ""}${"%.2f".format(offsetMs)} ms",
+                deviceId,
+                style = MaterialTheme.typography.titleSmall
+            )
+            Text(
+                "${if (offsetMs >= 0) "+" else ""}${
+                    "%.2f".format(
+                        offsetMs
+                    )
+                } ms",
                 style = MaterialTheme.typography.bodyMedium,
                 color = color
             )
@@ -153,48 +267,80 @@ private fun DeviceOffsetRow(deviceId: String, offsetMs: Float, color: Color) {
         // Visual offset indicator
         Canvas(
             modifier = Modifier
-                .width(200.dp)
-                .height(40.dp)
+                .width(
+                    200.dp
+                )
+                .height(
+                    40.dp
+                )
         ) {
-            val centerY = size.height / 2
-            val maxOffset = 10f
-            val normalizedOffset = (offsetMs / maxOffset).coerceIn(-1f, 1f)
-            val offsetX = size.width / 2 + (normalizedOffset * size.width / 2 * 0.8f)
+            val centerY =
+                size.height / 2
+            val maxOffset =
+                10f
+            val normalizedOffset =
+                (offsetMs / maxOffset).coerceIn(
+                    -1f,
+                    1f
+                )
+            val offsetX =
+                size.width / 2 + (normalizedOffset * size.width / 2 * 0.8f)
 
             // Center line
             drawLine(
                 color = Color.Gray,
-                start = Offset(size.width / 2, 0f),
-                end = Offset(size.width / 2, size.height),
+                start = Offset(
+                    size.width / 2,
+                    0f
+                ),
+                end = Offset(
+                    size.width / 2,
+                    size.height
+                ),
                 strokeWidth = 2f,
-                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
+                pathEffect = PathEffect.dashPathEffect(
+                    floatArrayOf(
+                        10f,
+                        10f
+                    )
+                )
             )
 
             // Offset marker
             drawCircle(
                 color = color,
                 radius = 8f,
-                center = Offset(offsetX, centerY)
+                center = Offset(
+                    offsetX,
+                    centerY
+                )
             )
         }
     }
 }
 
 @Composable
-private fun SyncEventRow(event: SyncEvent) {
+private fun SyncEventRow(
+    event: SyncEvent
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
-            Text(event.time, style = MaterialTheme.typography.bodySmall)
+            Text(
+                event.time,
+                style = MaterialTheme.typography.bodySmall
+            )
             Text(
                 event.target,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Column(horizontalAlignment = Alignment.End) {
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
             Text(
                 event.status,
                 style = MaterialTheme.typography.labelSmall,
@@ -213,12 +359,18 @@ private fun SyncEventRow(event: SyncEvent) {
 }
 
 @Composable
-private fun ConfigRow(label: String, value: String) {
+private fun ConfigRow(
+    label: String,
+    value: String
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, style = MaterialTheme.typography.bodyMedium)
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyMedium
+        )
         Text(
             value,
             style = MaterialTheme.typography.bodyMedium,

@@ -32,7 +32,8 @@ public class Version {
                 int minor = Integer.parseInt(parts[1]);
                 int internal = Integer.parseInt(parts[2]);
                 return new int[]{major, minor, internal};
-            } catch (NumberFormatException e) {
+            } catch (
+                    NumberFormatException e) {
                 e.printStackTrace();
             }
         }

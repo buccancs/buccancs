@@ -12,30 +12,53 @@ data class TimeModelAdapter(
     val recordingStartEpochMs: Long? = null,
     val recordingStartMonotonicNanos: Long? = null
 ) {
-    fun alignDeviceEpoch(deviceEpochMs: Long): Long =
+    fun alignDeviceEpoch(
+        deviceEpochMs: Long
+    ): Long =
         anchorEpochMs + clockOffsetMs + (deviceEpochMs - this.deviceEpochMs)
 
-    fun alignMonotonic(monotonicNanos: Long): Long =
+    fun alignMonotonic(
+        monotonicNanos: Long
+    ): Long =
         anchorEpochMs + clockOffsetMs + ((monotonicNanos - deviceMonotonicNanos) / NANOS_PER_MILLISECOND)
 
-    fun markRecordingStart(deviceEpochMs: Long, monotonicNanos: Long): TimeModelAdapter =
-        copy(recordingStartEpochMs = deviceEpochMs, recordingStartMonotonicNanos = monotonicNanos)
+    fun markRecordingStart(
+        deviceEpochMs: Long,
+        monotonicNanos: Long
+    ): TimeModelAdapter =
+        copy(
+            recordingStartEpochMs = deviceEpochMs,
+            recordingStartMonotonicNanos = monotonicNanos
+        )
 
     fun startAlignedEpochMillis(): Long? =
-        recordingStartEpochMs?.let { alignDeviceEpoch(it) }
+        recordingStartEpochMs?.let {
+            alignDeviceEpoch(
+                it
+            )
+        }
 
-    fun durationSinceStartMs(currentMonotonicNanos: Long): Long? {
-        val start = recordingStartMonotonicNanos ?: return null
-        val delta = currentMonotonicNanos - start
+    fun durationSinceStartMs(
+        currentMonotonicNanos: Long
+    ): Long? {
+        val start =
+            recordingStartMonotonicNanos
+                ?: return null
+        val delta =
+            currentMonotonicNanos - start
         return if (delta <= 0L) 0L else delta / NANOS_PER_MILLISECOND
     }
 
-    fun hasRecordingStarted(): Boolean = recordingStartEpochMs != null
+    fun hasRecordingStarted(): Boolean =
+        recordingStartEpochMs != null
 
     companion object {
-        private const val NANOS_PER_MILLISECOND = 1_000_000L
+        private const val NANOS_PER_MILLISECOND =
+            1_000_000L
 
-        fun fromAnchor(anchor: RecordingSessionAnchor): TimeModelAdapter =
+        fun fromAnchor(
+            anchor: RecordingSessionAnchor
+        ): TimeModelAdapter =
             TimeModelAdapter(
                 sessionId = anchor.sessionId,
                 anchorEpochMs = anchor.referenceTimestamp.toEpochMilliseconds(),

@@ -49,7 +49,9 @@ import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.Spacing
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopdonGalleryRoute(
     onNavigateUp: () -> Unit,
@@ -70,7 +72,9 @@ fun TopdonGalleryRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun TopdonGalleryScreen(
     state: GalleryUiState,
@@ -97,13 +101,14 @@ private fun TopdonGalleryScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        if (state.selectionMode) {
-                            onExitSelectionMode()
-                        } else {
-                            onNavigateUp()
-                        }
-                    }) {
+                    IconButton(
+                        onClick = {
+                            if (state.selectionMode) {
+                                onExitSelectionMode()
+                            } else {
+                                onNavigateUp()
+                            }
+                        }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Navigate back"
@@ -112,26 +117,32 @@ private fun TopdonGalleryScreen(
                 },
                 actions = {
                     if (state.selectionMode) {
-                        IconButton(onClick = onShareSelected) {
+                        IconButton(
+                            onClick = onShareSelected
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Share,
                                 contentDescription = "Share"
                             )
                         }
-                        IconButton(onClick = onDeleteSelected) {
+                        IconButton(
+                            onClick = onDeleteSelected
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Delete"
                             )
                         }
                     } else {
-                        IconButton(onClick = { }) {
+                        IconButton(
+                            onClick = { }) {
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "Search"
                             )
                         }
-                        IconButton(onClick = { }) {
+                        IconButton(
+                            onClick = { }) {
                             Icon(
                                 imageVector = Icons.Default.MoreVert,
                                 contentDescription = "More options"
@@ -144,26 +155,39 @@ private fun TopdonGalleryScreen(
                 )
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         GalleryContent(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(
+                    padding
+                ),
             items = state.items,
             selectionMode = state.selectionMode,
             selectedItems = state.selectedItems,
             isLoading = state.isLoading,
             onItemClick = { id ->
                 if (state.selectionMode) {
-                    onToggleSelection(id)
+                    onToggleSelection(
+                        id
+                    )
                 } else {
-                    onNavigateToDetail(id)
+                    onNavigateToDetail(
+                        id
+                    )
                 }
             },
             onItemLongClick = { id ->
                 if (!state.selectionMode) {
-                    onEnterSelectionMode(id)
+                    onEnterSelectionMode(
+                        id
+                    )
                 }
             }
         )
@@ -181,23 +205,49 @@ private fun GalleryContent(
     onItemLongClick: (String) -> Unit
 ) {
     when {
-        isLoading && items.isEmpty() -> LoadingGalleryState(modifier)
-        items.isEmpty() -> EmptyGalleryState(modifier)
+        isLoading && items.isEmpty() -> LoadingGalleryState(
+            modifier
+        )
+
+        items.isEmpty() -> EmptyGalleryState(
+            modifier
+        )
+
         else -> {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
+                columns = GridCells.Fixed(
+                    3
+                ),
                 modifier = modifier,
-                contentPadding = PaddingValues(Spacing.ExtraSmall),
-                horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
-                verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                contentPadding = PaddingValues(
+                    Spacing.ExtraSmall
+                ),
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.ExtraSmall
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.ExtraSmall
+                )
             ) {
-                items(items, key = { it.id }) { item ->
+                items(
+                    items,
+                    key = { it.id }) { item ->
                     GalleryItemTile(
                         item = item,
-                        isSelected = selectedItems.contains(item.id),
+                        isSelected = selectedItems.contains(
+                            item.id
+                        ),
                         selectionMode = selectionMode,
-                        onClick = { onItemClick(item.id) },
-                        onLongClick = { onItemLongClick(item.id) }
+                        onClick = {
+                            onItemClick(
+                                item.id
+                            )
+                        },
+                        onLongClick = {
+                            onItemLongClick(
+                                item.id
+                            )
+                        }
                     )
                 }
             }
@@ -215,8 +265,12 @@ private fun GalleryItemTile(
 ) {
     Card(
         modifier = Modifier
-            .aspectRatio(1f)
-            .clickable(onClick = onClick),
+            .aspectRatio(
+                1f
+            )
+            .clickable(
+                onClick = onClick
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
@@ -225,26 +279,44 @@ private fun GalleryItemTile(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                    .background(
+                        MaterialTheme.colorScheme.surfaceVariant
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.Image,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.Size48),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
+                    modifier = Modifier.size(
+                        Dimensions.Size48
+                    ),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                        alpha = 0.3f
+                    )
                 )
             }
 
             Column(
                 modifier = Modifier
-                    .align(Alignment.BottomStart)
+                    .align(
+                        Alignment.BottomStart
+                    )
                     .fillMaxWidth()
-                    .background(Color.Black.copy(alpha = 0.5f))
-                    .padding(Spacing.ExtraSmall)
+                    .background(
+                        Color.Black.copy(
+                            alpha = 0.5f
+                        )
+                    )
+                    .padding(
+                        Spacing.ExtraSmall
+                    )
             ) {
                 Text(
-                    text = item.timestamp.format(DateTimeFormatter.ofPattern("HH:mm")),
+                    text = item.timestamp.format(
+                        DateTimeFormatter.ofPattern(
+                            "HH:mm"
+                        )
+                    ),
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White
                 )
@@ -270,14 +342,22 @@ private fun GalleryItemTile(
             if (selectionMode) {
                 Box(
                     modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(Spacing.ExtraSmall)
-                        .size(Dimensions.IconSizeDefault)
+                        .align(
+                            Alignment.TopEnd
+                        )
+                        .padding(
+                            Spacing.ExtraSmall
+                        )
+                        .size(
+                            Dimensions.IconSizeDefault
+                        )
                         .background(
                             color = if (isSelected) {
                                 MaterialTheme.colorScheme.primary
                             } else {
-                                Color.White.copy(alpha = 0.7f)
+                                Color.White.copy(
+                                    alpha = 0.7f
+                                )
                             },
                             shape = MaterialTheme.shapes.small
                         ),
@@ -288,7 +368,9 @@ private fun GalleryItemTile(
                             imageVector = Icons.Default.CheckCircle,
                             contentDescription = "Selected",
                             tint = Color.White,
-                            modifier = Modifier.size(Dimensions.IconSizeSmall)
+                            modifier = Modifier.size(
+                                Dimensions.IconSizeSmall
+                            )
                         )
                     }
                 }
@@ -300,9 +382,18 @@ private fun GalleryItemTile(
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White,
                     modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .background(Color.Black.copy(alpha = 0.6f))
-                        .padding(horizontal = Spacing.ExtraSmall, vertical = Spacing.ExtraSmall / 2)
+                        .align(
+                            Alignment.TopStart
+                        )
+                        .background(
+                            Color.Black.copy(
+                                alpha = 0.6f
+                            )
+                        )
+                        .padding(
+                            horizontal = Spacing.ExtraSmall,
+                            vertical = Spacing.ExtraSmall / 2
+                        )
                 )
             }
         }
@@ -321,10 +412,18 @@ fun EmptyGalleryState(
         Icon(
             imageVector = Icons.Default.Image,
             contentDescription = null,
-            modifier = Modifier.size(Dimensions.Size80),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+            modifier = Modifier.size(
+                Dimensions.Size80
+            ),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                alpha = 0.4f
+            )
         )
-        Spacer(modifier = Modifier.height(Spacing.Medium))
+        Spacer(
+            modifier = Modifier.height(
+                Spacing.Medium
+            )
+        )
         Text(
             text = "No images yet",
             style = MaterialTheme.typography.titleMedium,
@@ -333,7 +432,9 @@ fun EmptyGalleryState(
         Text(
             text = "Capture thermal images to see them here",
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                alpha = 0.7f
+            )
         )
     }
 }

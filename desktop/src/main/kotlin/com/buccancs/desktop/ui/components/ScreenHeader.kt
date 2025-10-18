@@ -20,7 +20,9 @@ fun ScreenHeader(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Small
+        )
     ) {
         Text(
             text = title,

@@ -11,18 +11,32 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultDeviceEventRepository @Inject constructor() : DeviceEventRepository {
-    private val mutex = Mutex()
-    private val _events = MutableStateFlow<List<DeviceEvent>>(emptyList())
-    override val events: StateFlow<List<DeviceEvent>> = _events.asStateFlow()
-    override suspend fun record(event: DeviceEvent) {
+class DefaultDeviceEventRepository @Inject constructor() :
+    DeviceEventRepository {
+    private val mutex =
+        Mutex()
+    private val _events =
+        MutableStateFlow<List<DeviceEvent>>(
+            emptyList()
+        )
+    override val events: StateFlow<List<DeviceEvent>> =
+        _events.asStateFlow()
+
+    override suspend fun record(
+        event: DeviceEvent
+    ) {
         mutex.withLock {
-            val updated = (_events.value + event).takeLast(MAX_EVENTS)
-            _events.value = updated
+            val updated =
+                (_events.value + event).takeLast(
+                    MAX_EVENTS
+                )
+            _events.value =
+                updated
         }
     }
 
     private companion object {
-        private const val MAX_EVENTS = 128
+        private const val MAX_EVENTS =
+            128
     }
 }

@@ -17,43 +17,78 @@ import com.topdon.lib.core.utils.ScreenUtil
  * @author: CaiSongL
  * @date: 2023/4/13 10:57
  */
-class TipShutterDialog : Dialog {
+class TipShutterDialog :
+    Dialog {
 
 
-    constructor(context: Context) : super(context)
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
-    class Builder(private val context: Context) {
-        var dialog: TipShutterDialog? = null
-        private var titleRes: Int? = null
-        private var message: CharSequence? = null
-        private var closeEvent: ((check: Boolean) -> Unit)? = null
-        private var canceled = false
+    class Builder(
+        private val context: Context
+    ) {
+        var dialog: TipShutterDialog? =
+            null
+        private var titleRes: Int? =
+            null
+        private var message: CharSequence? =
+            null
+        private var closeEvent: ((check: Boolean) -> Unit)? =
+            null
+        private var canceled =
+            false
 
-        fun setTitle(@StringRes resId: Int): Builder {
-            this.titleRes = resId
+        fun setTitle(
+            @StringRes resId: Int
+        ): Builder {
+            this.titleRes =
+                resId
             return this
         }
 
-        fun setMessage(message: CharSequence): Builder {
-            this.message = message
+        fun setMessage(
+            message: CharSequence
+        ): Builder {
+            this.message =
+                message
             return this
         }
 
-        fun setMessage(@StringRes message: Int): Builder {
-            this.message = context.getString(message)
+        fun setMessage(
+            @StringRes message: Int
+        ): Builder {
+            this.message =
+                context.getString(
+                    message
+                )
             return this
         }
 
 
-        fun setCancelListener(event: ((check: Boolean) -> Unit)? = null): Builder {
-            this.closeEvent = event
+        fun setCancelListener(
+            event: ((check: Boolean) -> Unit)? = null
+        ): Builder {
+            this.closeEvent =
+                event
             return this
         }
 
-        fun setCanceled(canceled: Boolean): Builder {
-            this.canceled = canceled
+        fun setCanceled(
+            canceled: Boolean
+        ): Builder {
+            this.canceled =
+                canceled
             return this
         }
 
@@ -64,40 +99,75 @@ class TipShutterDialog : Dialog {
 
         fun create(): TipShutterDialog {
             if (dialog == null) {
-                dialog = TipShutterDialog(context, R.style.InfoDialog)
+                dialog =
+                    TipShutterDialog(
+                        context,
+                        R.style.InfoDialog
+                    )
             }
             val inflater =
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_tip_shutter, null)
+                context.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_tip_shutter,
+                    null
+                )
             dialog!!.addContentView(
                 view,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
-            dialog!!.setCanceledOnTouchOutside(canceled)
+            dialog!!.setCanceledOnTouchOutside(
+                canceled
+            )
 
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             lp.width =
-                (ScreenUtil.getScreenWidth(context) * if (ScreenUtil.isPortrait(context)) 0.85 else 0.35).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+                (ScreenUtil.getScreenWidth(
+                    context
+                ) * if (ScreenUtil.isPortrait(
+                        context
+                    )
+                ) 0.85 else 0.35).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
             view.tv_i_know.setOnClickListener {
                 dismiss()
-                closeEvent?.invoke(view.dialog_tip_check.isChecked)
+                closeEvent?.invoke(
+                    view.dialog_tip_check.isChecked
+                )
             }
             view.img_close.setOnClickListener {
                 dismiss()
-                closeEvent?.invoke(view.dialog_tip_check.isChecked)
+                closeEvent?.invoke(
+                    view.dialog_tip_check.isChecked
+                )
             }
             if (titleRes != null) {
-                view.tv_title.setText(titleRes!!)
+                view.tv_title.setText(
+                    titleRes!!
+                )
             }
             if (message != null) {
-                view.dialog_tip_msg_text.visibility = View.VISIBLE
-                view.dialog_tip_msg_text.setText(message, TextView.BufferType.NORMAL)
+                view.dialog_tip_msg_text.visibility =
+                    View.VISIBLE
+                view.dialog_tip_msg_text.setText(
+                    message,
+                    TextView.BufferType.NORMAL
+                )
             } else {
-                view.dialog_tip_msg_text.visibility = View.GONE
+                view.dialog_tip_msg_text.visibility =
+                    View.GONE
             }
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipShutterDialog
         }
     }
@@ -105,12 +175,22 @@ class TipShutterDialog : Dialog {
 }
 
 private val View.tv_i_know: TextView
-    get() = findViewById(R.id.tv_i_know)
+    get() = findViewById(
+        R.id.tv_i_know
+    )
 private val View.dialog_tip_check: CheckBox
-    get() = findViewById(R.id.dialog_tip_check)
+    get() = findViewById(
+        R.id.dialog_tip_check
+    )
 private val View.img_close: View
-    get() = findViewById(R.id.img_close)
+    get() = findViewById(
+        R.id.img_close
+    )
 private val View.tv_title: TextView
-    get() = findViewById(R.id.tv_title)
+    get() = findViewById(
+        R.id.tv_title
+    )
 private val View.dialog_tip_msg_text: TextView
-    get() = findViewById(R.id.dialog_tip_msg_text)
+    get() = findViewById(
+        R.id.dialog_tip_msg_text
+    )

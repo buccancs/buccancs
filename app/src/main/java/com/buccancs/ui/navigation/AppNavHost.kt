@@ -55,10 +55,16 @@ fun AppNavHost(
             ) {
                 DevicesRoute(
                     onOpenTopdon = { deviceId ->
-                        navController.navigate(Screen.TopdonDevice.createRoute(deviceId))
+                        navController.navigate(
+                            Screen.TopdonDevice.createRoute(
+                                deviceId
+                            )
+                        )
                     },
                     onOpenShimmer = { deviceId ->
-                        navController.navigate(Screen.Shimmer.route)
+                        navController.navigate(
+                            Screen.Shimmer.route
+                        )
                     }
                 )
             }
@@ -71,7 +77,11 @@ fun AppNavHost(
                 SessionLibraryRoute(
                     onNavigateUp = { navController.navigateUp() },
                     onSessionSelected = { sessionId ->
-                        navController.navigate(Screen.SessionDetail.createRoute(sessionId))
+                        navController.navigate(
+                            Screen.SessionDetail.createRoute(
+                                sessionId
+                            )
+                        )
                     }
                 )
             }
@@ -81,65 +91,111 @@ fun AppNavHost(
                 enterTransition = { MotionTransitions.fadeEnter() },
                 exitTransition = { MotionTransitions.fadeExit() }
             ) {
-                SettingsRoute(onNavigateUp = { navController.navigateUp() })
+                SettingsRoute(
+                    onNavigateUp = { navController.navigateUp() })
             }
 
             composable(
                 route = "session_detail/{sessionId}",
-                arguments = listOf(navArgument("sessionId") { type = NavType.StringType }),
+                arguments = listOf(
+                    navArgument(
+                        "sessionId"
+                    ) {
+                        type =
+                            NavType.StringType
+                    }),
                 enterTransition = { MotionTransitions.slideInFromEnd() },
                 exitTransition = { MotionTransitions.fadeExit() },
                 popEnterTransition = { MotionTransitions.fadeEnter() },
                 popExitTransition = { MotionTransitions.slideOutToStart() }
             ) {
-                SessionDetailRoute(onNavigateUp = { navController.navigateUp() })
+                SessionDetailRoute(
+                    onNavigateUp = { navController.navigateUp() })
             }
 
             composable(
                 route = "topdon/{deviceId}",
-                arguments = listOf(navArgument("deviceId") { type = NavType.StringType }),
+                arguments = listOf(
+                    navArgument(
+                        "deviceId"
+                    ) {
+                        type =
+                            NavType.StringType
+                    }),
                 enterTransition = { MotionTransitions.slideInFromEnd() },
                 exitTransition = { MotionTransitions.fadeExit() },
                 popEnterTransition = { MotionTransitions.fadeEnter() },
                 popExitTransition = { MotionTransitions.slideOutToStart() }
             ) { backStackEntry ->
-                val arg = backStackEntry.arguments?.getString("deviceId")
+                val arg =
+                    backStackEntry.arguments?.getString(
+                        "deviceId"
+                    )
                 val deviceId =
-                    arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
+                    arg?.takeIf { it.isNotBlank() }
+                        ?.let(
+                            ::DeviceId
+                        )
+                        ?: TOPDON_TC001_DEVICE_ID
                 TopdonRoute(
                     deviceId = deviceId,
                     onNavigateUp = { navController.navigateUp() },
                     onNavigateToThermalPreview = {
-                        navController.navigate(Screen.TopdonThermalPreview.createRoute(deviceId))
+                        navController.navigate(
+                            Screen.TopdonThermalPreview.createRoute(
+                                deviceId
+                            )
+                        )
                     },
                     onNavigateToGallery = {
-                        navController.navigate(Screen.TopdonGallery.route)
+                        navController.navigate(
+                            Screen.TopdonGallery.route
+                        )
                     },
                     onNavigateToSettings = {
-                        navController.navigate(Screen.TopdonSettings.route)
+                        navController.navigate(
+                            Screen.TopdonSettings.route
+                        )
                     },
                     onNavigateToGuide = {
-                        navController.navigate(Screen.TopdonConnectionGuide.route)
+                        navController.navigate(
+                            Screen.TopdonConnectionGuide.route
+                        )
                     }
                 )
             }
 
             composable(
                 route = "topdon/{deviceId}/thermal",
-                arguments = listOf(navArgument("deviceId") { type = NavType.StringType }),
+                arguments = listOf(
+                    navArgument(
+                        "deviceId"
+                    ) {
+                        type =
+                            NavType.StringType
+                    }),
                 enterTransition = { MotionTransitions.slideInFromEnd() },
                 exitTransition = { MotionTransitions.fadeExit() },
                 popEnterTransition = { MotionTransitions.fadeEnter() },
                 popExitTransition = { MotionTransitions.slideOutToStart() }
             ) { backStackEntry ->
-                val arg = backStackEntry.arguments?.getString("deviceId")
+                val arg =
+                    backStackEntry.arguments?.getString(
+                        "deviceId"
+                    )
                 val deviceId =
-                    arg?.takeIf { it.isNotBlank() }?.let(::DeviceId) ?: TOPDON_TC001_DEVICE_ID
+                    arg?.takeIf { it.isNotBlank() }
+                        ?.let(
+                            ::DeviceId
+                        )
+                        ?: TOPDON_TC001_DEVICE_ID
                 ThermalPreviewRoute(
                     deviceId = deviceId,
                     onNavigateUp = { navController.navigateUp() },
                     onNavigateToSettings = {
-                        navController.navigate(Screen.Settings.route)
+                        navController.navigate(
+                            Screen.Settings.route
+                        )
                     }
                 )
             }
@@ -154,20 +210,34 @@ fun AppNavHost(
                 TopdonGalleryRoute(
                     onNavigateUp = { navController.navigateUp() },
                     onNavigateToDetail = { imageId ->
-                        navController.navigate(Screen.TopdonImageDetail.createRoute(imageId))
+                        navController.navigate(
+                            Screen.TopdonImageDetail.createRoute(
+                                imageId
+                            )
+                        )
                     }
                 )
             }
 
             composable(
                 route = "topdon/image/{imageId}",
-                arguments = listOf(navArgument("imageId") { type = NavType.StringType }),
+                arguments = listOf(
+                    navArgument(
+                        "imageId"
+                    ) {
+                        type =
+                            NavType.StringType
+                    }),
                 enterTransition = { MotionTransitions.slideInFromEnd() },
                 exitTransition = { MotionTransitions.fadeExit() },
                 popEnterTransition = { MotionTransitions.fadeEnter() },
                 popExitTransition = { MotionTransitions.slideOutToStart() }
             ) { backStackEntry ->
-                val imageId = backStackEntry.arguments?.getString("imageId") ?: ""
+                val imageId =
+                    backStackEntry.arguments?.getString(
+                        "imageId"
+                    )
+                        ?: ""
                 ImageDetailRoute(
                     imageId = imageId,
                     onNavigateUp = { navController.navigateUp() }

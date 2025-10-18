@@ -30,26 +30,44 @@ internal abstract class BaseSimulatedConnector(
     protected val artifactFactory: SimulatedArtifactFactory,
     initialDevice: SensorDevice
 ) : SensorConnector {
-    final override val deviceId: DeviceId = initialDevice.id
-    protected val deviceState = MutableStateFlow(initialDevice)
-    protected val statusState = MutableStateFlow(emptyList<SensorStreamStatus>())
-    private var streamJob: Job? = null
-    private var simulationEnabled = false
-    private var recordingStartedAt: Instant? = null
-    protected var lastRecordingDurationMs: Long = 0
-    protected var lastSessionAnchor: RecordingSessionAnchor? = null
+    final override val deviceId: DeviceId =
+        initialDevice.id
+    protected val deviceState =
+        MutableStateFlow(
+            initialDevice
+        )
+    protected val statusState =
+        MutableStateFlow(
+            emptyList<SensorStreamStatus>()
+        )
+    private var streamJob: Job? =
+        null
+    private var simulationEnabled =
+        false
+    private var recordingStartedAt: Instant? =
+        null
+    protected var lastRecordingDurationMs: Long =
+        0
+    protected var lastSessionAnchor: RecordingSessionAnchor? =
+        null
     protected val isSimulationMode: Boolean
         get() = simulationEnabled
-    override val device: StateFlow<SensorDevice> = deviceState.asStateFlow()
-    override val streamStatuses: StateFlow<List<SensorStreamStatus>> = statusState.asStateFlow()
+    override val device: StateFlow<SensorDevice> =
+        deviceState.asStateFlow()
+    override val streamStatuses: StateFlow<List<SensorStreamStatus>> =
+        statusState.asStateFlow()
+
     override suspend fun refreshInventory() {
         if (simulationEnabled) {
             ensureConnectedForSimulation()
         }
     }
 
-    override suspend fun applySimulation(enabled: Boolean) {
-        simulationEnabled = enabled
+    override suspend fun applySimulation(
+        enabled: Boolean
+    ) {
+        simulationEnabled =
+            enabled
         if (enabled) {
             ensureConnectedForSimulation()
         } else {
@@ -59,7 +77,9 @@ internal abstract class BaseSimulatedConnector(
 
     override suspend fun connect(): DeviceCommandResult {
         if (!simulationEnabled) {
-            return DeviceCommandResult.Rejected("Simulation disabled and no hardware handler implemented yet.")
+            return DeviceCommandResult.Rejected(
+                "Simulation disabled and no hardware handler implemented yet."
+            )
         }
         ensureConnectedForSimulation()
         return DeviceCommandResult.Accepted
@@ -73,144 +93,177 @@ internal abstract class BaseSimulatedConnector(
                 isSimulated = simulationEnabled && device.isSimulated
             )
         }
-        statusState.value = emptyList()
+        statusState.value =
+            emptyList()
         clearRecordingMetadata()
         return DeviceCommandResult.Accepted
     }
 
-    override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
+    override suspend fun startStreaming(
+        anchor: RecordingSessionAnchor
+    ): DeviceCommandResult {
         if (deviceState.value.connectionStatus !is ConnectionStatus.Connected) {
-            return DeviceCommandResult.Rejected("Device not connected.")
+            return DeviceCommandResult.Rejected(
+                "Device not connected."
+            )
         }
         streamJob?.cancel()
-        recordingStartedAt = nowInstant()
-        lastSessionAnchor = anchor
-        lastRecordingDurationMs = 0
-        streamJob = scope.launch {
-            var frameCounter = 0L
-            while (isActive) {
-                statusState.value = sampleStatuses(
-                    timestamp = nowInstant(),
-                    frameCounter = frameCounter,
-                    anchor = anchor
-                )
-                frameCounter++
-                delay(streamIntervalMs())
+        recordingStartedAt =
+            nowInstant()
+        lastSessionAnchor =
+            anchor
+        lastRecordingDurationMs =
+            0
+        streamJob =
+            scope.launch {
+                var frameCounter =
+                    0L
+                while (isActive) {
+                    statusState.value =
+                        sampleStatuses(
+                            timestamp = nowInstant(),
+                            frameCounter = frameCounter,
+                            anchor = anchor
+                        )
+                    frameCounter++
+                    delay(
+                        streamIntervalMs()
+                    )
+                }
             }
-        }
         return DeviceCommandResult.Accepted
     }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         streamJob?.cancel()
-        streamJob = null
+        streamJob =
+            null
         recordingStartedAt?.let { start ->
-            val currentInstant = nowInstant()
+            val currentInstant =
+                nowInstant()
             val duration =
-                (currentInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(0)
-            lastRecordingDurationMs = duration
+                (currentInstant.toEpochMilliseconds() - start.toEpochMilliseconds()).coerceAtLeast(
+                    0
+                )
+            lastRecordingDurationMs =
+                duration
         }
-        recordingStartedAt = null
-        statusState.value = emptyList()
+        recordingStartedAt =
+            null
+        statusState.value =
+            emptyList()
         return DeviceCommandResult.Accepted
     }
 
-    override suspend fun collectArtifacts(sessionId: String): List<SessionArtifact> {
+    override suspend fun collectArtifacts(
+        sessionId: String
+    ): List<SessionArtifact> {
         if (!isSimulationMode) {
             return emptyList()
         }
-        val streams = deviceState.value.capabilities.filter { it != SensorStreamType.PREVIEW }
+        val streams =
+            deviceState.value.capabilities.filter { it != SensorStreamType.PREVIEW }
         if (streams.isEmpty()) {
             clearRecordingMetadata()
             return emptyList()
         }
-        val durationMs = recordingDurationMs()
-        val artifacts = streams.mapNotNull { stream ->
-            when (stream) {
-                SensorStreamType.GSR ->
-                    artifactFactory.createArtifact(
-                        sessionId = sessionId,
-                        deviceId = deviceId,
-                        streamType = stream,
-                        extension = "csv",
-                        mimeType = "text/csv"
-                    ) {
-                        generateGsrCsv(durationMs)
-                    }
+        val durationMs =
+            recordingDurationMs()
+        val artifacts =
+            streams.mapNotNull { stream ->
+                when (stream) {
+                    SensorStreamType.GSR ->
+                        artifactFactory.createArtifact(
+                            sessionId = sessionId,
+                            deviceId = deviceId,
+                            streamType = stream,
+                            extension = "csv",
+                            mimeType = "text/csv"
+                        ) {
+                            generateGsrCsv(
+                                durationMs
+                            )
+                        }
 
-                SensorStreamType.RGB_VIDEO ->
-                    artifactFactory.createRandomArtifact(
-                        sessionId = sessionId,
-                        deviceId = deviceId,
-                        streamType = stream,
-                        extension = "mp4",
-                        mimeType = "video/mp4",
-                        sizeBytes = estimateBinarySize(
-                            durationMs,
-                            bytesPerSecond = 750_000,
-                            minimumBytes = 512_000
+                    SensorStreamType.RGB_VIDEO ->
+                        artifactFactory.createRandomArtifact(
+                            sessionId = sessionId,
+                            deviceId = deviceId,
+                            streamType = stream,
+                            extension = "mp4",
+                            mimeType = "video/mp4",
+                            sizeBytes = estimateBinarySize(
+                                durationMs,
+                                bytesPerSecond = 750_000,
+                                minimumBytes = 512_000
+                            )
                         )
-                    )
 
-                SensorStreamType.RAW_DNG ->
-                    artifactFactory.createRandomArtifact(
-                        sessionId = sessionId,
-                        deviceId = deviceId,
-                        streamType = stream,
-                        extension = "dng",
-                        mimeType = "image/x-adobe-dng",
-                        sizeBytes = estimateBinarySize(
-                            durationMs,
-                            bytesPerSecond = 150_000,
-                            minimumBytes = 500_000
+                    SensorStreamType.RAW_DNG ->
+                        artifactFactory.createRandomArtifact(
+                            sessionId = sessionId,
+                            deviceId = deviceId,
+                            streamType = stream,
+                            extension = "dng",
+                            mimeType = "image/x-adobe-dng",
+                            sizeBytes = estimateBinarySize(
+                                durationMs,
+                                bytesPerSecond = 150_000,
+                                minimumBytes = 500_000
+                            )
                         )
-                    )
 
-                SensorStreamType.THERMAL_VIDEO ->
-                    artifactFactory.createRandomArtifact(
-                        sessionId = sessionId,
-                        deviceId = deviceId,
-                        streamType = stream,
-                        extension = "raw",
-                        mimeType = "application/octet-stream",
-                        sizeBytes = estimateBinarySize(
-                            durationMs,
-                            bytesPerSecond = 320_000,
-                            minimumBytes = 196_608
+                    SensorStreamType.THERMAL_VIDEO ->
+                        artifactFactory.createRandomArtifact(
+                            sessionId = sessionId,
+                            deviceId = deviceId,
+                            streamType = stream,
+                            extension = "raw",
+                            mimeType = "application/octet-stream",
+                            sizeBytes = estimateBinarySize(
+                                durationMs,
+                                bytesPerSecond = 320_000,
+                                minimumBytes = 196_608
+                            )
                         )
-                    )
 
-                SensorStreamType.AUDIO ->
-                    artifactFactory.createRandomArtifact(
-                        sessionId = sessionId,
-                        deviceId = deviceId,
-                        streamType = stream,
-                        extension = "wav",
-                        mimeType = "audio/wav",
-                        sizeBytes = estimateBinarySize(
-                            durationMs,
-                            bytesPerSecond = 176_000,
-                            minimumBytes = 131_072
+                    SensorStreamType.AUDIO ->
+                        artifactFactory.createRandomArtifact(
+                            sessionId = sessionId,
+                            deviceId = deviceId,
+                            streamType = stream,
+                            extension = "wav",
+                            mimeType = "audio/wav",
+                            sizeBytes = estimateBinarySize(
+                                durationMs,
+                                bytesPerSecond = 176_000,
+                                minimumBytes = 131_072
+                            )
                         )
-                    )
 
-                SensorStreamType.PREVIEW -> null
+                    SensorStreamType.PREVIEW -> null
+                }
             }
-        }
         clearRecordingMetadata()
         return artifacts
     }
 
     protected fun ensureConnectedForSimulation() {
-        val connected = deviceState.value.connectionStatus is ConnectionStatus.Connected
+        val connected =
+            deviceState.value.connectionStatus is ConnectionStatus.Connected
         if (connected) return
-        val now = nowInstant()
+        val now =
+            nowInstant()
         deviceState.update { device ->
             device.copy(
                 connectionStatus = ConnectionStatus.Connected(
                     since = now,
-                    batteryPercent = simulatedBatteryPercent(device),
-                    rssiDbm = simulatedRssi(device)
+                    batteryPercent = simulatedBatteryPercent(
+                        device
+                    ),
+                    rssiDbm = simulatedRssi(
+                        device
+                    )
                 ),
                 isSimulated = true
             )
@@ -228,12 +281,19 @@ internal abstract class BaseSimulatedConnector(
                 isSimulated = simulationEnabled && device.isSimulated
             )
         }
-        statusState.value = emptyList()
+        statusState.value =
+            emptyList()
     }
 
     protected abstract fun streamIntervalMs(): Long
-    protected abstract fun simulatedBatteryPercent(device: SensorDevice): Int?
-    protected abstract fun simulatedRssi(device: SensorDevice): Int?
+    protected abstract fun simulatedBatteryPercent(
+        device: SensorDevice
+    ): Int?
+
+    protected abstract fun simulatedRssi(
+        device: SensorDevice
+    ): Int?
+
     protected abstract fun sampleStatuses(
         timestamp: Instant,
         frameCounter: Long,
@@ -246,47 +306,108 @@ internal abstract class BaseSimulatedConnector(
         baseSample: Double,
         randomizer: () -> Double
     ): Double {
-        val base = when (streamType) {
-            SensorStreamType.GSR,
-            SensorStreamType.AUDIO -> baseSample
+        val base =
+            when (streamType) {
+                SensorStreamType.GSR,
+                SensorStreamType.AUDIO -> baseSample
 
-            else -> baseVideo
-        }
-        return (base + randomizer()).coerceAtLeast(0.0)
+                else -> baseVideo
+            }
+        return (base + randomizer()).coerceAtLeast(
+            0.0
+        )
     }
 
-    protected fun recordingDurationMs(minimumMs: Long = 1_000L): Long =
-        lastRecordingDurationMs.coerceAtLeast(minimumMs)
+    protected fun recordingDurationMs(
+        minimumMs: Long = 1_000L
+    ): Long =
+        lastRecordingDurationMs.coerceAtLeast(
+            minimumMs
+        )
 
-    protected fun currentSessionAnchor(): RecordingSessionAnchor? = lastSessionAnchor
+    protected fun currentSessionAnchor(): RecordingSessionAnchor? =
+        lastSessionAnchor
+
     protected fun clearRecordingMetadata() {
-        lastRecordingDurationMs = 0
-        lastSessionAnchor = null
+        lastRecordingDurationMs =
+            0
+        lastSessionAnchor =
+            null
     }
 
-    private fun estimateBinarySize(durationMs: Long, bytesPerSecond: Int, minimumBytes: Int): Int {
-        val seconds = durationMs.coerceAtLeast(1_000L) / 1_000.0
-        val estimated = (seconds * bytesPerSecond).toInt()
-        return max(minimumBytes, estimated)
+    private fun estimateBinarySize(
+        durationMs: Long,
+        bytesPerSecond: Int,
+        minimumBytes: Int
+    ): Int {
+        val seconds =
+            durationMs.coerceAtLeast(
+                1_000L
+            ) / 1_000.0
+        val estimated =
+            (seconds * bytesPerSecond).toInt()
+        return max(
+            minimumBytes,
+            estimated
+        )
     }
 
-    private fun generateGsrCsv(durationMs: Long): ByteArray {
-        val sampleRate = 128
-        val duration = durationMs.coerceAtLeast(1_000L)
-        val sampleCount = max(sampleRate, ((duration * sampleRate) / 1_000L).toInt())
+    private fun generateGsrCsv(
+        durationMs: Long
+    ): ByteArray {
+        val sampleRate =
+            128
+        val duration =
+            durationMs.coerceAtLeast(
+                1_000L
+            )
+        val sampleCount =
+            max(
+                sampleRate,
+                ((duration * sampleRate) / 1_000L).toInt()
+            )
         val startTimestamp =
-            (currentSessionAnchor()?.referenceTimestamp ?: nowInstant()).toEpochMilliseconds()
-        val random = Random(deviceId.value.hashCode())
-        val builder = StringBuilder()
-        builder.append("timestamp_ms,gsr_uS\n")
-        repeat(sampleCount) { index ->
-            val timestamp = startTimestamp + (index * 1_000L) / sampleRate
-            val value = 5.0 + random.nextDouble(-0.3, 0.3)
-            builder.append(timestamp)
-            builder.append(',')
-            builder.append(String.format(Locale.US, "%.4f", value))
-            builder.append('\n')
+            (currentSessionAnchor()?.referenceTimestamp
+                ?: nowInstant()).toEpochMilliseconds()
+        val random =
+            Random(
+                deviceId.value.hashCode()
+            )
+        val builder =
+            StringBuilder()
+        builder.append(
+            "timestamp_ms,gsr_uS\n"
+        )
+        repeat(
+            sampleCount
+        ) { index ->
+            val timestamp =
+                startTimestamp + (index * 1_000L) / sampleRate
+            val value =
+                5.0 + random.nextDouble(
+                    -0.3,
+                    0.3
+                )
+            builder.append(
+                timestamp
+            )
+            builder.append(
+                ','
+            )
+            builder.append(
+                String.format(
+                    Locale.US,
+                    "%.4f",
+                    value
+                )
+            )
+            builder.append(
+                '\n'
+            )
         }
-        return builder.toString().toByteArray(StandardCharsets.US_ASCII)
+        return builder.toString()
+            .toByteArray(
+                StandardCharsets.US_ASCII
+            )
     }
 }

@@ -23,27 +23,75 @@ import java.util.Date
 
 object InitUtil {
     fun initLog() {
-        val fileName = "logs_${TimeUtils.date2String(Date(), "yyyy-MM-dd")}.log"
-        val fileDir = BaseApplication.instance.getExternalFilesDir("log")!!.absolutePath
-        val tag = "TopInfrared_LOG"
-        val pattern = "{d}, {L}, {t}, {m}"
-        val backupStrategy = FileSizeBackupStrategy2(5 * 1024 * 1024L, 10)
-        val cleanStrategy = FileLastModifiedCleanStrategy(30 * 24 * 60 * 60)
-        val config = LogConfiguration.Builder()
-            .logLevel(LogLevel.ALL)
-            .tag(tag)
-            .build()
-        val androidPrinter = AndroidPrinter(true)
-        val filePrinter = FilePrinter.Builder(fileDir)
-            .fileNameGenerator(ChangelessFileNameGenerator(fileName))
-            .backupStrategy(backupStrategy)
-            .cleanStrategy(cleanStrategy)
-            .flattener(PatternFlattener(pattern))
-            .build()
+        val fileName =
+            "logs_${
+                TimeUtils.date2String(
+                    Date(),
+                    "yyyy-MM-dd"
+                )
+            }.log"
+        val fileDir =
+            BaseApplication.instance.getExternalFilesDir(
+                "log"
+            )!!.absolutePath
+        val tag =
+            "TopInfrared_LOG"
+        val pattern =
+            "{d}, {L}, {t}, {m}"
+        val backupStrategy =
+            FileSizeBackupStrategy2(
+                5 * 1024 * 1024L,
+                10
+            )
+        val cleanStrategy =
+            FileLastModifiedCleanStrategy(
+                30 * 24 * 60 * 60
+            )
+        val config =
+            LogConfiguration.Builder()
+                .logLevel(
+                    LogLevel.ALL
+                )
+                .tag(
+                    tag
+                )
+                .build()
+        val androidPrinter =
+            AndroidPrinter(
+                true
+            )
+        val filePrinter =
+            FilePrinter.Builder(
+                fileDir
+            )
+                .fileNameGenerator(
+                    ChangelessFileNameGenerator(
+                        fileName
+                    )
+                )
+                .backupStrategy(
+                    backupStrategy
+                )
+                .cleanStrategy(
+                    cleanStrategy
+                )
+                .flattener(
+                    PatternFlattener(
+                        pattern
+                    )
+                )
+                .build()
         if (BuildConfig.DEBUG) {
-            XLog.init(config, androidPrinter, filePrinter)
+            XLog.init(
+                config,
+                androidPrinter,
+                filePrinter
+            )
         } else {
-            XLog.init(config, filePrinter)
+            XLog.init(
+                config,
+                filePrinter
+            )
         }
     }
 
@@ -51,28 +99,59 @@ object InitUtil {
         val privacyPolicyUrl =
             "https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?" +
                     "softCode=${BaseApplication.instance.getSoftWareCode()}&" +
-                    "language=${LanguageUtil.getLanguageId(Utils.getApp())}&type=22"
+                    "language=${
+                        LanguageUtil.getLanguageId(
+                            Utils.getApp()
+                        )
+                    }&type=22"
         val servicesAgreementUrl =
             "https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?" +
                     "softCode=${BaseApplication.instance.getSoftWareCode()}&" +
-                    "language=${LanguageUtil.getLanguageId(Utils.getApp())}&type=21"
-        LMS.getInstance().init(BaseApplication.instance)
+                    "language=${
+                        LanguageUtil.getLanguageId(
+                            Utils.getApp()
+                        )
+                    }&type=21"
+        LMS.getInstance()
+            .init(
+                BaseApplication.instance
+            )
             .apply {
-                productType = "TC001"
-                setLoginType(ConstantUtil.LOGIN_TS001_TYPE)
-                softwareCode = BaseApplication.instance.getSoftWareCode()
-                setEnabledLog(BuildConfig.DEBUG)
-                setPrivacyPolicy(privacyPolicyUrl)
-                setServicesAgreement(servicesAgreementUrl)
+                productType =
+                    "TC001"
+                setLoginType(
+                    ConstantUtil.LOGIN_TS001_TYPE
+                )
+                softwareCode =
+                    BaseApplication.instance.getSoftWareCode()
+                setEnabledLog(
+                    BuildConfig.DEBUG
+                )
+                setPrivacyPolicy(
+                    privacyPolicyUrl
+                )
+                setServicesAgreement(
+                    servicesAgreementUrl
+                )
                 if (!BaseApplication.instance.isDomestic()) {
                     initXutils()
                 } else {
-                    setWxAppId("wx588cb319449b72dd")
-                    setBuglyAppId("0b375add84")
+                    setWxAppId(
+                        "wx588cb319449b72dd"
+                    )
+                    setBuglyAppId(
+                        "0b375add84"
+                    )
                 }
-                setAppKey(BuildConfig.APP_KEY)
-                setAppSecret(BuildConfig.APP_SECRET)
-                setAuthSecret(HttpConfig.AUTH_SECRET)
+                setAppKey(
+                    BuildConfig.APP_KEY
+                )
+                setAppSecret(
+                    BuildConfig.APP_SECRET
+                )
+                setAuthSecret(
+                    HttpConfig.AUTH_SECRET
+                )
             }
     }
 
@@ -80,25 +159,44 @@ object InitUtil {
     }
 
     fun initJPush() {
-        var registrationID = ""
+        var registrationID =
+            ""
         if (SharedManager.getHasShowClause()) {
-            XLog.w("registrationID= $registrationID")
+            XLog.w(
+                "registrationID= $registrationID"
+            )
         }
     }
 
     fun initReceiver() {
         try {
-            BaseApplication.instance.unregisterReceiver(BaseApplication.usbObserver)
+            BaseApplication.instance.unregisterReceiver(
+                BaseApplication.usbObserver
+            )
         } catch (e: Exception) {
         }
-        val filter = IntentFilter()
-        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
-        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
-        filter.addAction(UsbManager.ACTION_USB_ACCESSORY_ATTACHED)
-        filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED)
-        filter.addAction(DeviceBroadcastReceiver.ACTION_USB_PERMISSION)
+        val filter =
+            IntentFilter()
+        filter.addAction(
+            UsbManager.ACTION_USB_DEVICE_ATTACHED
+        )
+        filter.addAction(
+            UsbManager.ACTION_USB_DEVICE_DETACHED
+        )
+        filter.addAction(
+            UsbManager.ACTION_USB_ACCESSORY_ATTACHED
+        )
+        filter.addAction(
+            UsbManager.ACTION_USB_ACCESSORY_DETACHED
+        )
+        filter.addAction(
+            DeviceBroadcastReceiver.ACTION_USB_PERMISSION
+        )
         if (Build.VERSION.SDK_INT < 33) {
-            BaseApplication.instance.registerReceiver(BaseApplication.usbObserver, filter)
+            BaseApplication.instance.registerReceiver(
+                BaseApplication.usbObserver,
+                filter
+            )
         } else {
             BaseApplication.instance.registerReceiver(
                 BaseApplication.usbObserver,

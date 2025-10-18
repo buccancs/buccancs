@@ -10,12 +10,22 @@ import com.topdon.module.thermal.ir.event.ManualFinishBean
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-@Route(path = RouterConfig.MANUAL_START)
-class ManualStep1Activity : BaseActivity() {
-    override fun initContentView(): Int = R.layout.activity_manual_step1
+@Route(
+    path = RouterConfig.MANUAL_START
+)
+class ManualStep1Activity :
+    BaseActivity() {
+    override fun initContentView(): Int =
+        R.layout.activity_manual_step1
+
     override fun initView() {
         tv_manual.setOnClickListener {
-            startActivity(Intent(this, ManualStep2Activity::class.java))
+            startActivity(
+                Intent(
+                    this,
+                    ManualStep2Activity::class.java
+                )
+            )
         }
     }
 
@@ -27,8 +37,12 @@ class ManualStep1Activity : BaseActivity() {
         finish()
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onManualFinishBean(manualFinishBean: ManualFinishBean) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onManualFinishBean(
+        manualFinishBean: ManualFinishBean
+    ) {
         finish()
     }
 }

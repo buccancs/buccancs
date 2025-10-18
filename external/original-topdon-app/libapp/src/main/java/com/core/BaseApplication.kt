@@ -41,18 +41,23 @@ import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import java.io.File
 
-abstract class BaseApplication : Application() {
+abstract class BaseApplication :
+    Application() {
 
     companion object {
         lateinit var instance: BaseApplication
         val usbObserver by lazy { DeviceBroadcastReceiver() }
     }
 
-    var tau_data_H: ByteArray? = null
-    var tau_data_L: ByteArray? = null
+    var tau_data_H: ByteArray? =
+        null
+    var tau_data_L: ByteArray? =
+        null
 
-    var activitys = arrayListOf<Activity>()
-    var hasOtgShow = false//otg提示只出现一次
+    var activitys =
+        arrayListOf<Activity>()
+    var hasOtgShow =
+        false//otg提示只出现一次
 
     /**
      * 获取软件编码.
@@ -71,16 +76,22 @@ abstract class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        instance =
+            this
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            webviewSetPath(this)
+            webviewSetPath(
+                this
+            )
         }
         initARouter()
         onLanguageChange()
 
-        WebSocketProxy.getInstance().onMessageListener = {
-            parserSocketMessage(it)
-        }
+        WebSocketProxy.getInstance().onMessageListener =
+            {
+                parserSocketMessage(
+                    it
+                )
+            }
 
     }
 
@@ -90,56 +101,111 @@ abstract class BaseApplication : Application() {
         if (Build.VERSION.SDK_INT < 33) {
             registerReceiver(
                 NetworkChangedReceiver(),
-                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+                IntentFilter(
+                    ConnectivityManager.CONNECTIVITY_ACTION
+                )
             )
         } else {
             registerReceiver(
                 NetworkChangedReceiver(),
-                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION),
+                IntentFilter(
+                    ConnectivityManager.CONNECTIVITY_ACTION
+                ),
                 Context.RECEIVER_NOT_EXPORTED
             )
         }
     }
 
     private fun connectWebSocket() {
-        val ssid = WifiUtil.getCurrentWifiSSID(this) ?: return
-        Log.i("WebSocket", "当前连接 Wifi SSID: $ssid")
-        if (ssid.startsWith(DeviceConfig.TS004_NAME_START)) {
-            SharedManager.hasTS004 = true
-            WebSocketProxy.getInstance().startWebSocket(ssid)
-        } else if (ssid.startsWith(DeviceConfig.TC007_NAME_START)) {
-            SharedManager.hasTC007 = true
-            WebSocketProxy.getInstance().startWebSocket(ssid)
+        val ssid =
+            WifiUtil.getCurrentWifiSSID(
+                this
+            )
+                ?: return
+        Log.i(
+            "WebSocket",
+            "当前连接 Wifi SSID: $ssid"
+        )
+        if (ssid.startsWith(
+                DeviceConfig.TS004_NAME_START
+            )
+        ) {
+            SharedManager.hasTS004 =
+                true
+            WebSocketProxy.getInstance()
+                .startWebSocket(
+                    ssid
+                )
+        } else if (ssid.startsWith(
+                DeviceConfig.TC007_NAME_START
+            )
+        ) {
+            SharedManager.hasTC007 =
+                true
+            WebSocketProxy.getInstance()
+                .startWebSocket(
+                    ssid
+                )
         } else {
-            NetWorkUtils.switchNetwork(true)
+            NetWorkUtils.switchNetwork(
+                true
+            )
         }
     }
 
     fun disconnectWebSocket() {
-        Log.i("WebSocket", "disconnectWebSocket()")
-        WebSocketProxy.getInstance().stopWebSocket()
+        Log.i(
+            "WebSocket",
+            "disconnectWebSocket()"
+        )
+        WebSocketProxy.getInstance()
+            .stopWebSocket()
     }
 
     /**
      * 解析socket消息
      * @param msgJson
      */
-    private fun parserSocketMessage(msgJson: String) {
-        if (TextUtils.isEmpty(msgJson)) return
-        EventBus.getDefault().post(SocketMsgEvent(msgJson))
+    private fun parserSocketMessage(
+        msgJson: String
+    ) {
+        if (TextUtils.isEmpty(
+                msgJson
+            )
+        ) return
+        EventBus.getDefault()
+            .post(
+                SocketMsgEvent(
+                    msgJson
+                )
+            )
 
         if (SharedManager.is04AutoSync) {//自动保存到手机开启
-            when (SocketCmdUtil.getCmdResponse(msgJson)) {
+            when (SocketCmdUtil.getCmdResponse(
+                msgJson
+            )) {
                 WsCmdConstants.AR_COMMAND_SNAPSHOT -> {//拍照事件
-                    autoSaveNewest(false)
+                    autoSaveNewest(
+                        false
+                    )
                 }
 
                 WsCmdConstants.AR_COMMAND_VRECORD -> {//开始或结束录像事件
                     try {
-                        val data: JSONObject = JSONObject(msgJson).getJSONObject("data")
-                        val enable: Boolean = data.getBoolean("enable")
+                        val data: JSONObject =
+                            JSONObject(
+                                msgJson
+                            ).getJSONObject(
+                                "data"
+                            )
+                        val enable: Boolean =
+                            data.getBoolean(
+                                "enable"
+                            )
                         if (!enable) {//结束才同步
-                            autoSaveNewest(true)
+                            autoSaveNewest(
+                                true
+                            )
                         }
                     } catch (_: Exception) {
 
@@ -149,17 +215,35 @@ abstract class BaseApplication : Application() {
         }
     }
 
-    private fun autoSaveNewest(isVideo: Boolean) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val fileList: List<FileBean>? = TS004Repository.getNewestFile(if (isVideo) 1 else 0)
+    private fun autoSaveNewest(
+        isVideo: Boolean
+    ) {
+        CoroutineScope(
+            Dispatchers.IO
+        ).launch {
+            val fileList: List<FileBean>? =
+                TS004Repository.getNewestFile(
+                    if (isVideo) 1 else 0
+                )
             if (!fileList.isNullOrEmpty()) {
-                val fileBean: FileBean = fileList[0]
-                val url = "http://192.168.40.1:8080/DCIM/${fileBean.name}"
-                val file = File(FileConfig.ts004GalleryDir, fileBean.name)
-                TS004Repository.download(url, file)
+                val fileBean: FileBean =
+                    fileList[0]
+                val url =
+                    "http://192.168.40.1:8080/DCIM/${fileBean.name}"
+                val file =
+                    File(
+                        FileConfig.ts004GalleryDir,
+                        fileBean.name
+                    )
+                TS004Repository.download(
+                    url,
+                    file
+                )
                 MediaScannerConnection.scanFile(
                     this@BaseApplication,
-                    arrayOf(FileConfig.ts004GalleryDir),
+                    arrayOf(
+                        FileConfig.ts004GalleryDir
+                    ),
                     null,
                     null
                 )
@@ -167,18 +251,29 @@ abstract class BaseApplication : Application() {
         }
     }
 
-    private inner class NetworkChangedReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+    private inner class NetworkChangedReceiver :
+        BroadcastReceiver() {
+        override fun onReceive(
+            context: Context?,
+            intent: Intent?
+        ) {
             if (ConnectivityManager.CONNECTIVITY_ACTION == intent?.action) {
                 val manager =
-                    context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                val activeNetwork: NetworkInfo = manager.activeNetworkInfo ?: return
+                    context?.getSystemService(
+                        Context.CONNECTIVITY_SERVICE
+                    ) as ConnectivityManager
+                val activeNetwork: NetworkInfo =
+                    manager.activeNetworkInfo
+                        ?: return
                 if (activeNetwork.isConnected && activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
                     connectWebSocket()
                 } else {
 //                    NetWorkUtils.
                 }
-                Log.i("WebSocket", "网络切换 Wifi SSID: $activeNetwork" + activeNetwork.type)
+                Log.i(
+                    "WebSocket",
+                    "网络切换 Wifi SSID: $activeNetwork" + activeNetwork.type
+                )
             }
         }
     }
@@ -187,19 +282,36 @@ abstract class BaseApplication : Application() {
     /**
      * 设置webview的android9以上系统的多进程兼容性处理
      */
-    @RequiresApi(api = 28)
-    open fun webviewSetPath(context: Context?) {
+    @RequiresApi(
+        api = 28
+    )
+    open fun webviewSetPath(
+        context: Context?
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val processName = getProcessName(context)
-            if (!applicationContext.packageName.equals(processName)) { //判断不等于默认进程名称
-                WebView.setDataDirectorySuffix(processName!!)
+            val processName =
+                getProcessName(
+                    context
+                )
+            if (!applicationContext.packageName.equals(
+                    processName
+                )
+            ) { //判断不等于默认进程名称
+                WebView.setDataDirectorySuffix(
+                    processName!!
+                )
             }
         }
     }
 
-    open fun getProcessName(context: Context?): String? {
+    open fun getProcessName(
+        context: Context?
+    ): String? {
         if (context == null) return null
-        val manager: ActivityManager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val manager: ActivityManager =
+            context.getSystemService(
+                ACTIVITY_SERVICE
+            ) as ActivityManager
         for (processInfo in manager.runningAppProcesses) {
             if (processInfo.pid == Process.myPid()) {
                 return processInfo.processName
@@ -211,64 +323,120 @@ abstract class BaseApplication : Application() {
     private fun initARouter() {
         try {
             if (BuildConfig.DEBUG) {
-                Log.e("TopInfrared_LOG", "router init debug")
+                Log.e(
+                    "TopInfrared_LOG",
+                    "router init debug"
+                )
                 ARouter.openDebug()
             }
-            ARouter.init(this)
+            ARouter.init(
+                this
+            )
         } catch (e: Exception) {
             //异常后建议清除映射表 (官方文档 开发模式会清除)
             if (SharedManager.getHasShowClause()) {
-                Log.e("TopInfrared_LOG", "router init error: ${e.message}")
+                Log.e(
+                    "TopInfrared_LOG",
+                    "router init error: ${e.message}"
+                )
             }
             ARouter.openDebug()
-            ARouter.init(this)
+            ARouter.init(
+                this
+            )
         }
     }
 
     //清除无用数据
     fun clearDb() {
-        GlobalScope.launch(Dispatchers.Default) {
+        GlobalScope.launch(
+            Dispatchers.Default
+        ) {
             try {
-                AppDatabase.getInstance().thermalDao().deleteZero(SharedManager.getUserId())
+                AppDatabase.getInstance()
+                    .thermalDao()
+                    .deleteZero(
+                        SharedManager.getUserId()
+                    )
             } catch (e: Exception) {
-                XLog.e("delete db error: ${e.message}")
+                XLog.e(
+                    "delete db error: ${e.message}"
+                )
             }
         }
     }
 
     open fun onLanguageChange() {
-        val selectLan = SharedManager.getLanguage(baseContext)
-        if (TextUtils.isEmpty(selectLan)) {
+        val selectLan =
+            SharedManager.getLanguage(
+                baseContext
+            )
+        if (TextUtils.isEmpty(
+                selectLan
+            )
+        ) {
             if (isDomestic()) {
                 //国内版默认中文
-                val autoSelect = AppLanguageUtils.getChineseSystemLanguage()
-                val locale = AppLanguageUtils.getLocaleByLanguage(autoSelect)
-                LanguageUtils.applyLanguage(locale)
-                SharedManager.setLanguage(baseContext, autoSelect)
+                val autoSelect =
+                    AppLanguageUtils.getChineseSystemLanguage()
+                val locale =
+                    AppLanguageUtils.getLocaleByLanguage(
+                        autoSelect
+                    )
+                LanguageUtils.applyLanguage(
+                    locale
+                )
+                SharedManager.setLanguage(
+                    baseContext,
+                    autoSelect
+                )
             } else {
                 //初始语言设置
                 //默认初始语言，跟随系统语言设置，没有则默认英文
-                val autoSelect = AppLanguageUtils.getSystemLanguage()
-                val locale = AppLanguageUtils.getLocaleByLanguage(autoSelect)
-                LanguageUtils.applyLanguage(locale)
-                SharedManager.setLanguage(baseContext, autoSelect)
+                val autoSelect =
+                    AppLanguageUtils.getSystemLanguage()
+                val locale =
+                    AppLanguageUtils.getLocaleByLanguage(
+                        autoSelect
+                    )
+                LanguageUtils.applyLanguage(
+                    locale
+                )
+                SharedManager.setLanguage(
+                    baseContext,
+                    autoSelect
+                )
             }
         } else {
-            val locale = AppLanguageUtils.getLocaleByLanguage(SharedManager.getLanguage(this))
-            LanguageUtils.applyLanguage(locale)
+            val locale =
+                AppLanguageUtils.getLocaleByLanguage(
+                    SharedManager.getLanguage(
+                        this
+                    )
+                )
+            LanguageUtils.applyLanguage(
+                locale
+            )
         }
-        WebView(this).destroy()
+        WebView(
+            this
+        ).destroy()
     }
 
-    open fun getAppLanguage(context: Context): String? {
-        return SharedManager.getLanguage(context)
+    open fun getAppLanguage(
+        context: Context
+    ): String? {
+        return SharedManager.getLanguage(
+            context
+        )
     }
 
     /**
      * 退出所有
      */
     fun exitAll() {
-        hasOtgShow = false
+        hasOtgShow =
+            false
         activitys.forEach {
             it.finish()
         }

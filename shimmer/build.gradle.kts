@@ -1,40 +1,59 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
+    kotlin(
+        "android"
+    )
 }
 
 android {
-    namespace = "com.shimmerresearch.androidinstrumentdriver"
-    compileSdk = 35
+    namespace =
+        "com.shimmerresearch.androidinstrumentdriver"
+    compileSdk =
+        35
 
     defaultConfig {
-        minSdk = 26
-        multiDexEnabled = true
+        minSdk =
+            26
+        multiDexEnabled =
+            true
 
-        consumerProguardFiles("consumer-rules.pro")
+        consumerProguardFiles(
+            "consumer-rules.pro"
+        )
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled =
+                false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
+                getDefaultProguardFile(
+                    "proguard-android-optimize.txt"
+                ),
                 "proguard-rules.pro"
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility =
+            JavaVersion.VERSION_21
+        targetCompatibility =
+            JavaVersion.VERSION_21
     }
 
     sourceSets {
-        getByName("main") {
+        getByName(
+            "main"
+        ) {
             // Include manifest
-            manifest.srcFile("../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/AndroidManifest.xml")
+            manifest.srcFile(
+                "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/AndroidManifest.xml"
+            )
             // Include ALL source from external ShimmerAndroidAPI (including UI components)
-            java.srcDir("../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/java")
+            java.srcDir(
+                "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/src/main/java"
+            )
 
             // Include all resource directories (matching original Shimmer structure)
             res.srcDirs(
@@ -60,10 +79,15 @@ android {
     }
 
     lint {
-        abortOnError = false
-        checkReleaseBuilds = false
-        warningsAsErrors = false
-        disable += setOf("InvalidPackage")
+        abortOnError =
+            false
+        checkReleaseBuilds =
+            false
+        warningsAsErrors =
+            false
+        disable += setOf(
+            "InvalidPackage"
+        )
     }
 }
 
@@ -83,12 +107,36 @@ dependencies {
     api("com.parse.bolts:bolts-tasks:1.4.0")
 
     // Include the JAR libraries from the external repo - use API to export them
-    api(files("../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/libs/ShimmerBiophysicalProcessingLibrary_Rev_0_11.jar"))
-    api(files("../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/libs/AndroidBluetoothLibrary.jar"))
-    api(files("../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/libs/androidplot-core-0.5.0-release.jar"))
+    api(
+        files(
+            "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/libs/ShimmerBiophysicalProcessingLibrary_Rev_0_11.jar"
+        )
+    )
+    api(
+        files(
+            "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/libs/AndroidBluetoothLibrary.jar"
+        )
+    )
+    api(
+        files(
+            "../external/ShimmerAndroidAPI/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver/libs/androidplot-core-0.5.0-release.jar"
+        )
+    )
 
     // Java API libraries from Shimmer-Java-Android-API
-    api(files("../sdk/libs/shimmerbluetoothmanager-0.11.5_beta.jar"))
-    api(files("../sdk/libs/shimmerdriver-0.11.5_beta.jar"))
-    api(files("../sdk/libs/shimmerdriverpc-0.11.5_beta.jar"))
+    api(
+        files(
+            "../sdk/libs/shimmerbluetoothmanager-0.11.5_beta.jar"
+        )
+    )
+    api(
+        files(
+            "../sdk/libs/shimmerdriver-0.11.5_beta.jar"
+        )
+    )
+    api(
+        files(
+            "../sdk/libs/shimmerdriverpc-0.11.5_beta.jar"
+        )
+    )
 }

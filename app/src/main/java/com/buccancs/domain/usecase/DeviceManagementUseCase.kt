@@ -15,8 +15,14 @@ import javax.inject.Singleton
 interface DeviceManagementUseCase {
     val devices: StateFlow<List<SensorDevice>>
     val simulationEnabled: StateFlow<Boolean>
-    suspend fun connectDevice(deviceId: DeviceId): Result<Unit>
-    suspend fun disconnectDevice(deviceId: DeviceId): Result<Unit>
+    suspend fun connectDevice(
+        deviceId: DeviceId
+    ): Result<Unit>
+
+    suspend fun disconnectDevice(
+        deviceId: DeviceId
+    ): Result<Unit>
+
     suspend fun refreshInventory(): Result<Unit>
     suspend fun toggleSimulation(): Result<Unit>
 }
@@ -27,44 +33,73 @@ class DeviceManagementUseCaseImpl @Inject constructor(
     private val hardwareConfigRepository: SensorHardwareConfigRepository
 ) : DeviceManagementUseCase {
 
-    override val devices: StateFlow<List<SensorDevice>> = sensorRepository.devices
+    override val devices: StateFlow<List<SensorDevice>> =
+        sensorRepository.devices
 
-    override val simulationEnabled: StateFlow<Boolean> = sensorRepository.simulationEnabled
+    override val simulationEnabled: StateFlow<Boolean> =
+        sensorRepository.simulationEnabled
 
-    override suspend fun connectDevice(deviceId: DeviceId): Result<Unit> {
+    override suspend fun connectDevice(
+        deviceId: DeviceId
+    ): Result<Unit> {
         return try {
-            sensorRepository.connect(deviceId)
-            Result.success(Unit)
+            sensorRepository.connect(
+                deviceId
+            )
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 
-    override suspend fun disconnectDevice(deviceId: DeviceId): Result<Unit> {
+    override suspend fun disconnectDevice(
+        deviceId: DeviceId
+    ): Result<Unit> {
         return try {
-            sensorRepository.disconnect(deviceId)
-            Result.success(Unit)
+            sensorRepository.disconnect(
+                deviceId
+            )
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 
     override suspend fun refreshInventory(): Result<Unit> {
         return try {
             sensorRepository.refreshInventory()
-            Result.success(Unit)
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 
     override suspend fun toggleSimulation(): Result<Unit> {
         return try {
-            val next = !sensorRepository.simulationEnabled.value
-            sensorRepository.setSimulationEnabled(next)
-            Result.success(Unit)
+            val next =
+                !sensorRepository.simulationEnabled.value
+            sensorRepository.setSimulationEnabled(
+                next
+            )
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 }

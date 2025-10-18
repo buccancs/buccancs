@@ -81,7 +81,8 @@ public class FileUtil {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -97,7 +98,8 @@ public class FileUtil {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -112,7 +114,8 @@ public class FileUtil {
             fos.write(toByteArray(bytes));
             fos.close();
             Log.i(TAG, fileTitle + " 保存成功");
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -128,7 +131,8 @@ public class FileUtil {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(toByteArray(bytes));
             fos.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -173,7 +177,8 @@ public class FileUtil {
     }
 
     public static boolean createFileDir(File dirFile) {
-        if (dirFile == null) return true;
+        if (dirFile == null)
+            return true;
         if (dirFile.exists()) {
             return true;
         }
@@ -215,7 +220,8 @@ public class FileUtil {
                 }
             }
             return file;
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Log.e(TAG, "createFile fail :" + e.getMessage());
             e.printStackTrace();
             return null;
@@ -234,7 +240,8 @@ public class FileUtil {
             fos.write(bytes);
             fos.write(bytes2);
             fos.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -250,9 +257,11 @@ public class FileUtil {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.close();
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -268,9 +277,11 @@ public class FileUtil {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.close();
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -302,12 +313,15 @@ public class FileUtil {
                 Uri uri = Uri.parse(filePath);
                 ContentResolver cr = context.getContentResolver();
                 AssetFileDescriptor afd = cr.openAssetFileDescriptor(uri, "r");
-                if (afd == null) return false;
+                if (afd == null)
+                    return false;
                 try {
                     afd.close();
-                } catch (IOException ignore) {
+                } catch (
+                        IOException ignore) {
                 }
-            } catch (FileNotFoundException e) {
+            } catch (
+                    FileNotFoundException e) {
                 return false;
             }
             return true;
@@ -343,7 +357,8 @@ public class FileUtil {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(toByteArray(bytes));
             fos.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -352,7 +367,8 @@ public class FileUtil {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         }
@@ -381,24 +397,28 @@ public class FileUtil {
                     os.write(b, 0, len);
                 }
                 return os.toByteArray();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
                 return null;
             } finally {
                 try {
                     is.close();
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
                 try {
                     if (os != null) {
                         os.close();
                     }
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
             return null;
         }
@@ -428,7 +448,8 @@ public class FileUtil {
             myOutput.flush();
             myInput.close();
             myOutput.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -466,7 +487,8 @@ public class FileUtil {
         try {
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
             name = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (
+                PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         return name;
@@ -489,7 +511,8 @@ public class FileUtil {
                 result += temp;
             }
             return result;
-        } catch (NoSuchAlgorithmException e) {
+        } catch (
+                NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return "";
@@ -551,7 +574,8 @@ public class FileUtil {
             fc.write(ByteBuffer.wrap(bytes));
             result = 0;
 
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             result = -1;
         } finally {
@@ -560,7 +584,8 @@ public class FileUtil {
                     fc.close();
                 }
 
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
                 result = -1;
             }
@@ -581,7 +606,8 @@ public class FileUtil {
             stream.write(contentInBytes);
             stream.flush();
             stream.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -597,15 +623,18 @@ public class FileUtil {
                 txtContent.append(new String(b, 0, n, "utf-8"));
             }
             in.close();
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         } finally {
             if (in != null) {
                 try {
                     in.close();
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }

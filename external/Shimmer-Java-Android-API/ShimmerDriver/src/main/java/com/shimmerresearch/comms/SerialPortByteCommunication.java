@@ -35,7 +35,8 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
             public void serialPortRxEvent(int byteLength) {
                 try {
                     mByteCommunicationListener.eventNewBytesReceived(abstractSerialPortHal.rxBytes(byteLength));
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
 
@@ -47,7 +48,8 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
     public void connect() {
         try {
             abstractSerialPortHal.connect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -56,7 +58,8 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
     public void disconnect() {
         try {
             abstractSerialPortHal.closeSafely();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -65,7 +68,8 @@ public class SerialPortByteCommunication extends AbstractByteCommunication {
     public void writeBytes(byte[] bytes) {
         try {
             abstractSerialPortHal.txBytes(bytes);
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }

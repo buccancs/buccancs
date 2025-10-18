@@ -5,5 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface OrchestratorConfigRepository {
     val config: StateFlow<OrchestratorConfig>
-    suspend fun update(config: OrchestratorConfig)
+    suspend fun update(
+        config: OrchestratorConfig
+    )
 }

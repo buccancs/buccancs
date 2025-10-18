@@ -7,70 +7,105 @@ import com.topdon.menu.R
 import com.topdon.menu.constant.TargetType
 import com.topdon.lib.core.R as CoreR
 
-@SuppressLint("NotifyDataSetChanged")
-internal class TargetAdapter : BaseMenuAdapter() {
-    var onTargetListener: ((targetType: TargetType) -> Unit)? = null
-    fun setSelected(targetType: TargetType, isSelected: Boolean) {
+@SuppressLint(
+    "NotifyDataSetChanged"
+)
+internal class TargetAdapter :
+    BaseMenuAdapter() {
+    var onTargetListener: ((targetType: TargetType) -> Unit)? =
+        null
+
+    fun setSelected(
+        targetType: TargetType,
+        isSelected: Boolean
+    ) {
         for (i in dataArray.indices) {
             if (dataArray[i].targetType == targetType) {
-                dataArray[i].isSelected = isSelected
-                notifyItemChanged(i)
+                dataArray[i].isSelected =
+                    isSelected
+                notifyItemChanged(
+                    i
+                )
                 break
             }
         }
     }
 
-    fun setTargetMode(modeCode: Int) {
+    fun setTargetMode(
+        modeCode: Int
+    ) {
         for (i in dataArray.indices) {
             if (dataArray[i].targetType == TargetType.MODE) {
-                dataArray[i].drawableId = when (modeCode) {
-                    11 -> R.drawable.selector_menu2_target_1_sheep
-                    12 -> R.drawable.selector_menu2_target_1_dog
-                    13 -> R.drawable.selector_menu2_target_1_bird
-                    else -> R.drawable.selector_menu2_target_1_person
-                }
-                notifyItemChanged(i)
+                dataArray[i].drawableId =
+                    when (modeCode) {
+                        11 -> R.drawable.selector_menu2_target_1_sheep
+                        12 -> R.drawable.selector_menu2_target_1_dog
+                        13 -> R.drawable.selector_menu2_target_1_bird
+                        else -> R.drawable.selector_menu2_target_1_person
+                    }
+                notifyItemChanged(
+                    i
+                )
                 break
             }
         }
     }
 
-    private val dataArray: Array<Data> = arrayOf(
-        Data(
-            CoreR.string.main_tab_second_measure_mode,
-            R.drawable.selector_menu2_target_1_person,
-            TargetType.MODE
-        ),
-        Data(
-            CoreR.string.main_tab_first_target,
-            R.drawable.selector_menu2_target_2_style,
-            TargetType.STYLE
-        ),
-        Data(
-            CoreR.string.main_tab_second_target_color,
-            R.drawable.selector_menu2_target_3_color,
-            TargetType.COLOR
-        ),
-        Data(CoreR.string.thermal_delete, R.drawable.selector_menu2_del, TargetType.DELETE),
-        Data(
-            CoreR.string.main_tab_second_target_help,
-            R.drawable.selector_menu2_target_4_help,
-            TargetType.HELP
-        ),
-    )
+    private val dataArray: Array<Data> =
+        arrayOf(
+            Data(
+                CoreR.string.main_tab_second_measure_mode,
+                R.drawable.selector_menu2_target_1_person,
+                TargetType.MODE
+            ),
+            Data(
+                CoreR.string.main_tab_first_target,
+                R.drawable.selector_menu2_target_2_style,
+                TargetType.STYLE
+            ),
+            Data(
+                CoreR.string.main_tab_second_target_color,
+                R.drawable.selector_menu2_target_3_color,
+                TargetType.COLOR
+            ),
+            Data(
+                CoreR.string.thermal_delete,
+                R.drawable.selector_menu2_del,
+                TargetType.DELETE
+            ),
+            Data(
+                CoreR.string.main_tab_second_target_help,
+                R.drawable.selector_menu2_target_4_help,
+                TargetType.HELP
+            ),
+        )
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data: Data = dataArray[position]
-        holder.binding.ivIcon.setImageResource(data.drawableId)
-        holder.binding.tvText.setText(data.stringId)
-        holder.binding.ivIcon.isSelected = data.isSelected
-        holder.binding.tvText.isSelected = data.isSelected
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int
+    ) {
+        val data: Data =
+            dataArray[position]
+        holder.binding.ivIcon.setImageResource(
+            data.drawableId
+        )
+        holder.binding.tvText.setText(
+            data.stringId
+        )
+        holder.binding.ivIcon.isSelected =
+            data.isSelected
+        holder.binding.tvText.isSelected =
+            data.isSelected
         holder.binding.clRoot.setOnClickListener {
-            onTargetListener?.invoke(data.targetType)
+            onTargetListener?.invoke(
+                data.targetType
+            )
         }
     }
 
-    override fun getItemCount(): Int = dataArray.size
+    override fun getItemCount(): Int =
+        dataArray.size
+
     data class Data(
         @StringRes val stringId: Int,
         @DrawableRes var drawableId: Int,

@@ -1,4 +1,11 @@
-rootProject.name = 'ShimmerTCP'
+rootProject
+        .name =
+        'ShimmerTCP'
 
 include ':ShimmerDriver'
-project(':ShimmerDriver').projectDir = new File(settingsDir, '../ShimmerDriver')
+project(':ShimmerDriver')
+        .projectDir =
+        new File(
+                settingsDir,
+                '../ShimmerDriver'
+        )

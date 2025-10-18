@@ -79,7 +79,8 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
 
                 try {
                     boolean result = mTaskMTU.getTask().waitForCompletion(3, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
+                } catch (
+                        InterruptedException e) {
                     e.printStackTrace();
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -111,7 +112,8 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
             if (!result) {
                 System.out.println("Connect fail");
             }
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -166,7 +168,8 @@ public class VerisenseBleAndroidRadioByteCommunication extends AbstractByteCommu
                             if (mByteCommunicationListener != null) {
                                 try {
                                     mByteCommunicationListener.eventNewBytesReceived(data);
-                                } catch (Exception e) {
+                                } catch (
+                                        Exception e) {
                                     e.printStackTrace();
                                 }
                             }

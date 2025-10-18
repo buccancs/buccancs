@@ -42,7 +42,9 @@ data class GalleryImage(
     val timestamp: Long
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun GalleryScreen(
     images: List<GalleryImage>,
@@ -53,7 +55,11 @@ fun GalleryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Gallery") },
+                title = {
+                    Text(
+                        "Gallery"
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
@@ -63,18 +69,24 @@ fun GalleryScreen(
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(
+                    paddingValues
+                )
         ) {
             when {
                 isLoading -> {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(
+                            Alignment.Center
+                        )
                     )
                 }
 
                 images.isEmpty() -> {
                     EmptyGalleryContent(
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(
+                            Alignment.Center
+                        )
                     )
                 }
 
@@ -96,16 +108,30 @@ private fun ImageGrid(
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        columns = GridCells.Fixed(
+            3
+        ),
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        contentPadding = PaddingValues(
+            8.dp
+        ),
+        horizontalArrangement = Arrangement.spacedBy(
+            8.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(
+            8.dp
+        )
     ) {
-        items(images, key = { it.id }) { image ->
+        items(
+            images,
+            key = { it.id }) { image ->
             ImageThumbnail(
                 image = image,
-                onClick = { onImageClick(image) }
+                onClick = {
+                    onImageClick(
+                        image
+                    )
+                }
             )
         }
     }
@@ -119,9 +145,15 @@ private fun ImageThumbnail(
 ) {
     Card(
         modifier = modifier
-            .aspectRatio(1f)
-            .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            .aspectRatio(
+                1f
+            )
+            .clickable(
+                onClick = onClick
+            ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
     ) {
         AsyncImage(
             model = image.file,
@@ -149,14 +181,23 @@ private fun EmptyGalleryContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(32.dp),
+        modifier = modifier.padding(
+            32.dp
+        ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            16.dp
+        )
     ) {
         Icon(
             imageVector = Icons.Default.Image,
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth(0.3f).aspectRatio(1f),
+            modifier = Modifier.fillMaxWidth(
+                0.3f
+            )
+                .aspectRatio(
+                    1f
+                ),
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
 

@@ -18,18 +18,29 @@ import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.module.user.R
 
-@Route(path = RouterConfig.AUTO_SAVE)
-class AutoSaveActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.AUTO_SAVE
+)
+class AutoSaveActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
         setContent {
             MaterialTheme {
                 AutoSaveScreen(
                     initialAutoSave = SharedManager.is04AutoSync,
                     onAutoSaveChanged = { enabled ->
-                        SharedManager.is04AutoSync = enabled
+                        SharedManager.is04AutoSync =
+                            enabled
                     },
                     onNavigateUp = { finish() }
                 )
@@ -38,21 +49,35 @@ class AutoSaveActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun AutoSaveScreen(
     initialAutoSave: Boolean,
     onAutoSaveChanged: (Boolean) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    var autoSaveEnabled by remember { mutableStateOf(initialAutoSave) }
+    var autoSaveEnabled by remember {
+        mutableStateOf(
+            initialAutoSave
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.auto_save_title)) },
+                title = {
+                    Text(
+                        stringResource(
+                            R.string.auto_save_title
+                        )
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -65,8 +90,12 @@ private fun AutoSaveScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
+                .padding(
+                    padding
+                )
+                .padding(
+                    16.dp
+                )
         ) {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth()
@@ -74,18 +103,32 @@ private fun AutoSaveScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(
+                            16.dp
+                        ),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    Column(
+                        modifier = Modifier.weight(
+                            1f
+                        )
+                    ) {
                         Text(
-                            text = stringResource(R.string.auto_save_label),
+                            text = stringResource(
+                                R.string.auto_save_label
+                            ),
                             style = MaterialTheme.typography.bodyLarge
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(
+                            modifier = Modifier.height(
+                                4.dp
+                            )
+                        )
                         Text(
-                            text = stringResource(R.string.auto_save_description),
+                            text = stringResource(
+                                R.string.auto_save_description
+                            ),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -93,8 +136,11 @@ private fun AutoSaveScreen(
                     Switch(
                         checked = autoSaveEnabled,
                         onCheckedChange = { enabled ->
-                            autoSaveEnabled = enabled
-                            onAutoSaveChanged(enabled)
+                            autoSaveEnabled =
+                                enabled
+                            onAutoSaveChanged(
+                                enabled
+                            )
                         }
                     )
                 }

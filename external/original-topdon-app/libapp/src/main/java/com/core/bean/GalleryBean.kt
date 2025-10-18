@@ -19,28 +19,45 @@ open class GalleryBean(
     val timeMillis: Long,
     var hasDownload: Boolean,
 ) : Parcelable {
-    constructor(file: File) : this(
+    constructor(
+        file: File
+    ) : this(
         id = 0,
         path = file.absolutePath,
         thumb = file.absolutePath,
         name = file.name,
-        duration = VideoTools.getLocalVideoDuration(file.absolutePath),
-        timeMillis = TimeTool.updateDateTime(file),
+        duration = VideoTools.getLocalVideoDuration(
+            file.absolutePath
+        ),
+        timeMillis = TimeTool.updateDateTime(
+            file
+        ),
         hasDownload = true,
     )
 
-    constructor(isVideo: Boolean, fileBean: FileBean) : this(
+    constructor(
+        isVideo: Boolean,
+        fileBean: FileBean
+    ) : this(
         id = fileBean.id,
         path = "http://192.168.40.1:8080/DCIM/${fileBean.name}",
         thumb = if (isVideo) "http://192.168.40.1:8080/DCIM/${fileBean.thumb}" else "http://192.168.40.1:8080/DCIM/${fileBean.name}",
         name = fileBean.name,
         duration = fileBean.duration * 1000L,
-        timeMillis = fileBean.time * 1000 - TimeZone.getDefault().getOffset(fileBean.time * 1000),
-        hasDownload = File(FileConfig.ts004GalleryDir, fileBean.name).exists(),
+        timeMillis = fileBean.time * 1000 - TimeZone.getDefault()
+            .getOffset(
+                fileBean.time * 1000
+            ),
+        hasDownload = File(
+            FileConfig.ts004GalleryDir,
+            fileBean.name
+        ).exists(),
     )
 }
 
-class GalleryTitle(timeMillis: Long) : GalleryBean(
+class GalleryTitle(
+    timeMillis: Long
+) : GalleryBean(
     id = 0,
     path = "",
     thumb = "",

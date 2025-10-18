@@ -73,38 +73,47 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     }
 
     public void processShimmerGetCommandNoWait(UartComponentPropertyDetails compPropDetails, int errorCode, byte[] payload) throws DockException {
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             shimmerUartGetCommandNoWait(compPropDetails, payload);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             de.mErrorCode = errorCode;
             throw (de);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
     }
 
     public void processShimmerSetCommandNoWait(UartComponentPropertyDetails compPropDetails, int errorCode, byte[] payload) throws DockException {
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             shimmerUartSetCommandNoWait(compPropDetails, payload);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             de.mErrorCode = errorCode;
             throw (de);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
     }
 
     public void processShimmerCommandNoWait(UART_PACKET_CMD packetCmd, UartComponentPropertyDetails compPropDetails, int errorCode, byte[] payload) throws DockException {
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             shimmerUartCommandNoWait(packetCmd, compPropDetails, payload);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             de.mErrorCode = errorCode;
             throw (de);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
     }
 
@@ -114,53 +123,65 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
     public byte[] processShimmerGetCommand(UartComponentPropertyDetails compPropDetails, int errorCode, byte[] payload) throws DockException {
         byte[] rxBuf;
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             rxBuf = shimmerUartGetCommand(compPropDetails, payload);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             de.mErrorCode = errorCode;
             throw (de);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
         return rxBuf;
     }
 
     public void processShimmerSetCommand(UartComponentPropertyDetails compPropDetails, byte[] txBuf, int errorCode) throws DockException {
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             shimmerUartSetCommand(compPropDetails, txBuf);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             de.mErrorCode = errorCode;
             throw (de);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
     }
 
     public byte[] processShimmerMemGetCommand(UartComponentPropertyDetails compPropDetails, int address, int size, int errorCode) throws DockException {
         byte[] rxBuf;
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             rxBuf = shimmerUartGetMemCommand(compPropDetails, address, size);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             de.mErrorCode = errorCode;
             throw (de);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
         return rxBuf;
     }
 
     public void processShimmerMemSetCommand(UartComponentPropertyDetails compPropDetails, int address, byte[] buf, int errorCode) throws DockException {
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             shimmerUartSetMemCommand(compPropDetails, address, buf);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             de.mErrorCode = errorCode;
             throw (de);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
     }
 
@@ -168,18 +189,21 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         try {
             consolePrintLn("Opening port - " + mUniqueId + " - " + mComPort);
             mSerialPortInterface.connect();
-        } catch (ShimmerException devE) {
+        } catch (
+                ShimmerException devE) {
             DockException de = new DockException(devE);
             closeSafely();
             throw (de);
         }
-        if (!mLeavePortOpen) mIsUARTInUse = true;
+        if (!mLeavePortOpen)
+            mIsUARTInUse = true;
     }
 
     public void closeSafely() throws DockException {
         try {
             mSerialPortInterface.closeSafely();
-        } catch (ShimmerException devE) {
+        } catch (
+                ShimmerException devE) {
             DockException de = new DockException(devE);
             throw (de);
         } finally {
@@ -194,26 +218,32 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
     public byte[] uartGetCommand(UartComponentPropertyDetails cPD, byte[] payload) throws DockException {
         byte[] rxBuf;
 
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             rxBuf = shimmerUartGetCommand(cPD, payload);
-        } catch (DockException e) {
+        } catch (
+                DockException e) {
             throw (e);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
 
         return rxBuf;
     }
 
     public void uartSetCommand(UartComponentPropertyDetails cPD, byte[] txBuf) throws ExecutionException {
-        if (!mLeavePortOpen) openSafely();
+        if (!mLeavePortOpen)
+            openSafely();
         try {
             shimmerUartSetCommand(cPD, txBuf);
-        } catch (ExecutionException e) {
+        } catch (
+                ExecutionException e) {
             throw (e);
         } finally {
-            if (!mLeavePortOpen) closeSafely();
+            if (!mLeavePortOpen)
+                closeSafely();
         }
     }
 
@@ -305,7 +335,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         mUtilShimmer.consolePrintLn(mUniqueId + " TX(" + txPacket.length + ")" + UtilShimmer.bytesToHexStringWithSpacesFormatted(txPacket));
         try {
             mSerialPortInterface.txBytes(txPacket);
-        } catch (ShimmerException devE) {
+        } catch (
+                ShimmerException devE) {
             DockException de = new DockException(devE);
             throw (de);
         }
@@ -404,7 +435,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
 
             DockException de = new DockException(mComPort, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_TIMEOUT, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_TIMEOUT, mUniqueId);
             throw (de);
-        } catch (DockException de) {
+        } catch (
+                DockException de) {
             throw (de);
         } finally {
             currentPacketCmd = null;
@@ -470,7 +502,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
                 consolePrintLn("serialEvent Received(" + rxBuf.length + "):" + UtilShimmer.bytesToHexStringWithSpacesFormatted(rxBuf));
             }
             processRxBuf(rxBuf);
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             consolePrintLn("Serial port ERROR");
             System.out.println(ex.getMessage());
             ex.printStackTrace();
@@ -550,7 +583,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
             if (continueWithParsing && packet != null) {
                 try {
                     parseSinglePacket(packet, timestampMs);
-                } catch (DockException de) {
+                } catch (
+                        DockException de) {
                     mThrownException = de;
 
                     if (currentPacketCmd != null && currentMsgArg != null) {
@@ -586,7 +620,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
                 throw new DockException(mUniqueId, mComPort, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_CRC, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_CRC);
             }
             consolePrintRxPacketInfo(uRPO);
-        } catch (DockException dE) {
+        } catch (
+                DockException dE) {
             byte[] tempBuf = removeFirstByteFromArray(rxBuf);
             insertToCarrierBuffer(tempBuf);
             throw (dE);
@@ -599,7 +634,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
         try {
             try {
                 processUnexpectedResponse(uRPO);
-            } catch (DockException de) {
+            } catch (
+                    DockException de) {
                 throw de;
             }
 
@@ -610,7 +646,8 @@ public abstract class AbstractCommsProtocolWired extends BasicProcessWithCallBac
                     mListOfUartRxPacketObjects.add(uRPO);
                 }
             }
-        } catch (DockException dE) {
+        } catch (
+                DockException dE) {
             throw (dE);
         } finally {
             if (uRPO.mLeftOverBytes != null) {

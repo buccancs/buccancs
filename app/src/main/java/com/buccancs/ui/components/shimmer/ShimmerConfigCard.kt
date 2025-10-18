@@ -21,7 +21,9 @@ import androidx.compose.ui.Modifier
 import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.theme.Spacing
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun ShimmerConfigCard(
     gsrRange: String,
@@ -33,8 +35,16 @@ fun ShimmerConfigCard(
     enabled: Boolean,
     modifier: Modifier = Modifier
 ) {
-    var gsrRangeExpanded by remember { mutableStateOf(false) }
-    var sampleRateExpanded by remember { mutableStateOf(false) }
+    var gsrRangeExpanded by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    var sampleRateExpanded by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
     SectionCard(
         modifier = modifier.fillMaxWidth(),
@@ -43,8 +53,12 @@ fun ShimmerConfigCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = Spacing.ExtraSmall),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                .padding(
+                    vertical = Spacing.ExtraSmall
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             Text(
                 text = "Configuration",
@@ -53,15 +67,26 @@ fun ShimmerConfigCard(
 
             ExposedDropdownMenuBox(
                 expanded = gsrRangeExpanded,
-                onExpandedChange = { gsrRangeExpanded = !gsrRangeExpanded && enabled }
+                onExpandedChange = {
+                    gsrRangeExpanded =
+                        !gsrRangeExpanded && enabled
+                }
             ) {
                 OutlinedTextField(
                     value = gsrRange,
                     onValueChange = {},
                     readOnly = true,
                     enabled = enabled,
-                    label = { Text("GSR Range") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = gsrRangeExpanded) },
+                    label = {
+                        Text(
+                            "GSR Range"
+                        )
+                    },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = gsrRangeExpanded
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .menuAnchor(
@@ -72,14 +97,24 @@ fun ShimmerConfigCard(
 
                 ExposedDropdownMenu(
                     expanded = gsrRangeExpanded,
-                    onDismissRequest = { gsrRangeExpanded = false }
+                    onDismissRequest = {
+                        gsrRangeExpanded =
+                            false
+                    }
                 ) {
                     gsrRangeOptions.forEachIndexed { index, option ->
                         DropdownMenuItem(
-                            text = { Text(option) },
+                            text = {
+                                Text(
+                                    option
+                                )
+                            },
                             onClick = {
-                                onGsrRangeChange(index)
-                                gsrRangeExpanded = false
+                                onGsrRangeChange(
+                                    index
+                                )
+                                gsrRangeExpanded =
+                                    false
                             }
                         )
                     }
@@ -88,15 +123,26 @@ fun ShimmerConfigCard(
 
             ExposedDropdownMenuBox(
                 expanded = sampleRateExpanded,
-                onExpandedChange = { sampleRateExpanded = !sampleRateExpanded && enabled }
+                onExpandedChange = {
+                    sampleRateExpanded =
+                        !sampleRateExpanded && enabled
+                }
             ) {
                 OutlinedTextField(
                     value = "$sampleRate Hz",
                     onValueChange = {},
                     readOnly = true,
                     enabled = enabled,
-                    label = { Text("Sample Rate") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = sampleRateExpanded) },
+                    label = {
+                        Text(
+                            "Sample Rate"
+                        )
+                    },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = sampleRateExpanded
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .menuAnchor(
@@ -107,14 +153,24 @@ fun ShimmerConfigCard(
 
                 ExposedDropdownMenu(
                     expanded = sampleRateExpanded,
-                    onDismissRequest = { sampleRateExpanded = false }
+                    onDismissRequest = {
+                        sampleRateExpanded =
+                            false
+                    }
                 ) {
                     sampleRateOptions.forEach { option ->
                         DropdownMenuItem(
-                            text = { Text("$option Hz") },
+                            text = {
+                                Text(
+                                    "$option Hz"
+                                )
+                            },
                             onClick = {
-                                onSampleRateChange(option)
-                                sampleRateExpanded = false
+                                onSampleRateChange(
+                                    option
+                                )
+                                sampleRateExpanded =
+                                    false
                             }
                         )
                     }

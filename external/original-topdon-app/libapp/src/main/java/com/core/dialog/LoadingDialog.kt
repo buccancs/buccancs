@@ -17,37 +17,78 @@ import com.topdon.lib.core.utils.ScreenUtil
  *
  * Created by LCG on 2024/4/12.
  */
-class LoadingDialog(context: Context) : Dialog(context, R.style.TransparentDialog) {
+class LoadingDialog(
+    context: Context
+) : Dialog(
+    context,
+    R.style.TransparentDialog
+) {
 
-    fun setTips(@StringRes resId: Int) {
-        rootView.tv_tips.setText(resId)
-        rootView.tv_tips.isVisible = true
+    fun setTips(
+        @StringRes resId: Int
+    ) {
+        rootView.tv_tips.setText(
+            resId
+        )
+        rootView.tv_tips.isVisible =
+            true
     }
 
-    fun setTips(text: CharSequence?) {
-        rootView.tv_tips.text = text
-        rootView.tv_tips.isVisible = text?.isNotEmpty() == true
+    fun setTips(
+        text: CharSequence?
+    ) {
+        rootView.tv_tips.text =
+            text
+        rootView.tv_tips.isVisible =
+            text?.isNotEmpty() == true
     }
 
 
-    private val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null)
+    private val rootView: View =
+        LayoutInflater.from(
+            context
+        )
+            .inflate(
+                R.layout.dialog_loading,
+                null
+            )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(false)
-        setCanceledOnTouchOutside(false)
-        setContentView(rootView)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        setCancelable(
+            false
+        )
+        setCanceledOnTouchOutside(
+            false
+        )
+        setContentView(
+            rootView
+        )
 
         window?.let {
-            val layoutParams = it.attributes
+            val layoutParams =
+                it.attributes
             layoutParams.width =
-                (ScreenUtil.getScreenWidth(context) * if (ScreenUtil.isPortrait(context)) 0.3 else 0.15).toInt()
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            it.attributes = layoutParams
+                (ScreenUtil.getScreenWidth(
+                    context
+                ) * if (ScreenUtil.isPortrait(
+                        context
+                    )
+                ) 0.3 else 0.15).toInt()
+            layoutParams.height =
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            it.attributes =
+                layoutParams
         }
     }
 
 }
 
 private val View.tv_tips: TextView
-    get() = findViewById(R.id.tv_tips)
+    get() = findViewById(
+        R.id.tv_tips
+    )

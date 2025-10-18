@@ -70,7 +70,8 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
             return null;
         } else {
             Highlight h = getHighlighter().getHighlight(x, y);
-            if (h == null || !isHighlightFullBarEnabled()) return h;
+            if (h == null || !isHighlightFullBarEnabled())
+                return h;
 
             return new Highlight(h.getX(), h.getY(),
                     h.getXPx(), h.getYPx(),

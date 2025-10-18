@@ -45,7 +45,8 @@ public class BitmapUtils {
         matrix.postRotate(degree);
         try {
             returnBm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-        } catch (OutOfMemoryError e) {
+        } catch (
+                OutOfMemoryError e) {
         }
         if (returnBm == null) {
             returnBm = bm;
@@ -67,7 +68,8 @@ public class BitmapUtils {
             out.flush();
             out.close();
             return out.toByteArray();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             return null;
         }
     }
@@ -84,13 +86,15 @@ public class BitmapUtils {
             out.write(bytes);
             out.flush();
             success = true;
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         } finally {
             if (out != null) {
                 try {
                     out.close();
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -125,7 +129,8 @@ public class BitmapUtils {
     }
 
     public static boolean saveFile(String file, Bitmap bmp) {
-        if (TextUtils.isEmpty(file) || bmp == null) return false;
+        if (TextUtils.isEmpty(file) || bmp == null)
+            return false;
 
         File f = new File(file);
         if (f.exists()) {
@@ -141,7 +146,8 @@ public class BitmapUtils {
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -164,7 +170,8 @@ public class BitmapUtils {
             if (null != outStream) {
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.getStackTrace();
         } finally {
             try {
@@ -172,7 +179,8 @@ public class BitmapUtils {
                     outStream.flush();
                     outStream.close();
                 }
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         }
@@ -180,7 +188,8 @@ public class BitmapUtils {
         try {
             MediaScannerConnection.scanFile(context, new String[]{fileName}, null, null);
             Toast.makeText(context, context.getResources().getString(R.string.pic_save_success), Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getResources().getString(R.string.pic_save_fail), Toast.LENGTH_SHORT).show();
         }
@@ -211,9 +220,11 @@ public class BitmapUtils {
             fos.write(bytes);
             fos.write(bytes2);
             fos.close();
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -229,9 +240,11 @@ public class BitmapUtils {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.close();
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -247,15 +260,18 @@ public class BitmapUtils {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.close();
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
 
     public static boolean isFileExists(Context context, final File file) {
-        if (file == null) return false;
+        if (file == null)
+            return false;
         if (file.exists()) {
             return true;
         }
@@ -264,7 +280,8 @@ public class BitmapUtils {
 
     public static boolean isFileExists(Context context, final String filePath) {
         File file = new File(filePath);
-        if (file == null) return false;
+        if (file == null)
+            return false;
         if (file.exists()) {
             return true;
         }
@@ -277,12 +294,15 @@ public class BitmapUtils {
                 Uri uri = Uri.parse(filePath);
                 ContentResolver cr = context.getContentResolver();
                 AssetFileDescriptor afd = cr.openAssetFileDescriptor(uri, "r");
-                if (afd == null) return false;
+                if (afd == null)
+                    return false;
                 try {
                     afd.close();
-                } catch (IOException ignore) {
+                } catch (
+                        IOException ignore) {
                 }
-            } catch (FileNotFoundException e) {
+            } catch (
+                    FileNotFoundException e) {
                 return false;
             }
             return true;
@@ -318,7 +338,8 @@ public class BitmapUtils {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(toByteArray(bytes));
             fos.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -327,7 +348,8 @@ public class BitmapUtils {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         }
@@ -342,7 +364,8 @@ public class BitmapUtils {
     }
 
     public static byte[] readFile2BytesByStream(Context context, final File file) {
-        if (!isFileExists(context, file)) return null;
+        if (!isFileExists(context, file))
+            return null;
         try {
             ByteArrayOutputStream os = null;
             InputStream is = new BufferedInputStream(new FileInputStream(file), sBufferSize);
@@ -354,24 +377,28 @@ public class BitmapUtils {
                     os.write(b, 0, len);
                 }
                 return os.toByteArray();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
                 return null;
             } finally {
                 try {
                     is.close();
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
                 try {
                     if (os != null) {
                         os.close();
                     }
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
             return null;
         }

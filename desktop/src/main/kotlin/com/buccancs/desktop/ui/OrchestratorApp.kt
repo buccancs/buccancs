@@ -29,8 +29,14 @@ import com.buccancs.desktop.viewmodel.AppViewModel
  * Integrates all screens with a navigation rail
  */
 @Composable
-fun OrchestratorApp(viewModel: AppViewModel) {
-    var currentScreen by remember { mutableStateOf<Screen>(Screen.Dashboard) }
+fun OrchestratorApp(
+    viewModel: AppViewModel
+) {
+    var currentScreen by remember {
+        mutableStateOf<Screen>(
+            Screen.Dashboard
+        )
+    }
 
     BuccancsTheme {
         Surface(
@@ -41,13 +47,19 @@ fun OrchestratorApp(viewModel: AppViewModel) {
                 // Navigation rail
                 BuccancsNavigationRail(
                     currentScreen = currentScreen,
-                    onNavigate = { currentScreen = it }
+                    onNavigate = {
+                        currentScreen =
+                            it
+                    }
                 )
 
                 // Main content
                 Box(modifier = Modifier.fillMaxSize()) {
                     when (currentScreen) {
-                        Screen.Dashboard -> DesktopApp(viewModel)
+                        Screen.Dashboard -> DesktopApp(
+                            viewModel
+                        )
+
                         Screen.Settings -> SettingsScreen()
                         Screen.SensorStatus -> SensorStatusScreen()
                         Screen.Synchronisation -> SynchronisationScreen()

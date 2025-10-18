@@ -20,13 +20,27 @@ import com.topdon.lib.core.config.ExtraKeyConfig
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.tc001.ui.theme.TopdonTheme
 
-@Route(path = RouterConfig.WEB_VIEW)
-class WebViewActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.WEB_VIEW
+)
+class WebViewActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val url = intent.extras?.getString(ExtraKeyConfig.URL) ?: ""
+        val url =
+            intent.extras?.getString(
+                ExtraKeyConfig.URL
+            )
+                ?: ""
 
         setContent {
             TopdonTheme {
@@ -39,22 +53,42 @@ class WebViewActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun WebViewScreen(
     url: String,
     onNavigateUp: () -> Unit
 ) {
-    var isLoading by remember { mutableStateOf(true) }
-    var hasError by remember { mutableStateOf(false) }
-    var webView by remember { mutableStateOf<WebView?>(null) }
+    var isLoading by remember {
+        mutableStateOf(
+            true
+        )
+    }
+    var hasError by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    var webView by remember {
+        mutableStateOf<WebView?>(
+            null
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Web View") },
+                title = {
+                    Text(
+                        "Web View"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -67,40 +101,72 @@ private fun WebViewScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(
+                    padding
+                )
         ) {
             if (url.isNotEmpty()) {
                 AndroidView(
                     factory = { context ->
-                        WebView(context).apply {
-                            @SuppressLint("SetJavaScriptEnabled")
+                        WebView(
+                            context
+                        ).apply {
+                            @SuppressLint(
+                                "SetJavaScriptEnabled"
+                            )
                             settings.apply {
-                                javaScriptEnabled = true
-                                domStorageEnabled = true
-                                setSupportZoom(false)
-                                useWideViewPort = true
-                                javaScriptCanOpenWindowsAutomatically = true
-                                allowFileAccess = true
+                                javaScriptEnabled =
+                                    true
+                                domStorageEnabled =
+                                    true
+                                setSupportZoom(
+                                    false
+                                )
+                                useWideViewPort =
+                                    true
+                                javaScriptCanOpenWindowsAutomatically =
+                                    true
+                                allowFileAccess =
+                                    true
                             }
-                            webViewClient = object : WebViewClient() {
-                                override fun onPageFinished(view: WebView?, url: String?) {
-                                    super.onPageFinished(view, url)
-                                    isLoading = false
-                                }
+                            webViewClient =
+                                object :
+                                    WebViewClient() {
+                                    override fun onPageFinished(
+                                        view: WebView?,
+                                        url: String?
+                                    ) {
+                                        super.onPageFinished(
+                                            view,
+                                            url
+                                        )
+                                        isLoading =
+                                            false
+                                    }
 
-                                override fun onReceivedError(
-                                    view: WebView?,
-                                    errorCode: Int,
-                                    description: String?,
-                                    failingUrl: String?
-                                ) {
-                                    super.onReceivedError(view, errorCode, description, failingUrl)
-                                    isLoading = false
-                                    hasError = true
+                                    override fun onReceivedError(
+                                        view: WebView?,
+                                        errorCode: Int,
+                                        description: String?,
+                                        failingUrl: String?
+                                    ) {
+                                        super.onReceivedError(
+                                            view,
+                                            errorCode,
+                                            description,
+                                            failingUrl
+                                        )
+                                        isLoading =
+                                            false
+                                        hasError =
+                                            true
+                                    }
                                 }
-                            }
-                            loadUrl(url)
-                            webView = this
+                            loadUrl(
+                                url
+                            )
+                            webView =
+                                this
                         }
                     },
                     modifier = Modifier.fillMaxSize()
@@ -109,17 +175,25 @@ private fun WebViewScreen(
 
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
                 )
             }
 
             if (hasError) {
                 Column(
                     modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(16.dp),
+                        .align(
+                            Alignment.Center
+                        )
+                        .padding(
+                            16.dp
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(
+                        16.dp
+                    )
                 ) {
                     Text(
                         text = "Failed to load page",
@@ -127,12 +201,16 @@ private fun WebViewScreen(
                     )
                     Button(
                         onClick = {
-                            hasError = false
-                            isLoading = true
+                            hasError =
+                                false
+                            isLoading =
+                                true
                             webView?.reload()
                         }
                     ) {
-                        Text("Retry")
+                        Text(
+                            "Retry"
+                        )
                     }
                 }
             }

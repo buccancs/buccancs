@@ -41,10 +41,14 @@ fun TopdonDeviceListItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(
+                onClick = onClick
+            ),
         colors = CardDefaults.cardColors(
             containerColor = if (isConnected) {
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                MaterialTheme.colorScheme.primaryContainer.copy(
+                    alpha = 0.3f
+                )
             } else {
                 MaterialTheme.colorScheme.surfaceVariant
             }
@@ -53,13 +57,19 @@ fun TopdonDeviceListItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(
+                    16.dp
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.weight(
+                    1f
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp
+                )
             ) {
                 Text(
                     text = deviceName,
@@ -71,12 +81,18 @@ fun TopdonDeviceListItem(
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp
+                    )
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(8.dp)
-                            .clip(CircleShape)
+                            .size(
+                                8.dp
+                            )
+                            .clip(
+                                CircleShape
+                            )
                             .background(
                                 if (isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                             )
@@ -96,7 +112,9 @@ fun TopdonDeviceListItem(
                     batteryLevel?.let { level ->
                         BatteryIndicator(
                             level = level,
-                            modifier = Modifier.padding(start = 4.dp)
+                            modifier = Modifier.padding(
+                                start = 4.dp
+                            )
                         )
                     }
                 }
@@ -105,7 +123,9 @@ fun TopdonDeviceListItem(
             Icon(
                 imageVector = connectionType.icon,
                 contentDescription = connectionType.label,
-                modifier = Modifier.size(48.dp),
+                modifier = Modifier.size(
+                    48.dp
+                ),
                 tint = if (isConnected) {
                     MaterialTheme.colorScheme.primary
                 } else {
@@ -124,11 +144,16 @@ private fun BatteryIndicator(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(
+            4.dp
+        )
     ) {
         Box(
             modifier = Modifier
-                .size(width = 20.dp, height = 12.dp)
+                .size(
+                    width = 20.dp,
+                    height = 12.dp
+                )
                 .background(
                     color = MaterialTheme.colorScheme.outline,
                     shape = MaterialTheme.shapes.extraSmall
@@ -136,9 +161,16 @@ private fun BatteryIndicator(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(fraction = (level / 100f).coerceIn(0f, 1f))
+                    .fillMaxWidth(
+                        fraction = (level / 100f).coerceIn(
+                            0f,
+                            1f
+                        )
+                    )
                     .matchParentSize()
-                    .padding(1.dp)
+                    .padding(
+                        1.dp
+                    )
                     .background(
                         color = when {
                             level > 60 -> MaterialTheme.colorScheme.primary
@@ -159,7 +191,16 @@ private fun BatteryIndicator(
     }
 }
 
-enum class DeviceConnectionType(val label: String, val icon: ImageVector) {
-    USB("USB", Icons.Default.Usb),
-    WIRED("Wired", Icons.Default.Cable)
+enum class DeviceConnectionType(
+    val label: String,
+    val icon: ImageVector
+) {
+    USB(
+        "USB",
+        Icons.Default.Usb
+    ),
+    WIRED(
+        "Wired",
+        Icons.Default.Cable
+    )
 }

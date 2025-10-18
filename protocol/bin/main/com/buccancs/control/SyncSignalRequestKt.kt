@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializesyncSignalRequest")
-public inline fun syncSignalRequest(block: com.buccancs.control.SyncSignalRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SyncSignalRequest =
-    com.buccancs.control.SyncSignalRequestKt.Dsl._create(com.buccancs.control.SyncSignalRequest.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializesyncSignalRequest"
+)
+public inline fun syncSignalRequest(
+    block: com.buccancs.control.SyncSignalRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SyncSignalRequest =
+    com.buccancs.control.SyncSignalRequestKt.Dsl._create(
+        com.buccancs.control.SyncSignalRequest.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.SyncSignalRequest`
  */
 public object SyncSignalRequestKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.SyncSignalRequest.Builder
@@ -23,13 +34,16 @@ public object SyncSignalRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SyncSignalRequest.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.SyncSignalRequest.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.SyncSignalRequest = _builder.build()
+        internal fun _build(): com.buccancs.control.SyncSignalRequest =
+            _builder.build()
 
         /**
          * `.com.buccancs.control.SessionIdentifier session = 1;`
@@ -37,7 +51,9 @@ public object SyncSignalRequestKt {
         public var session: com.buccancs.control.SessionIdentifier
             get() = _builder.getSession()
             set(value) {
-                _builder.setSession(value)
+                _builder.setSession(
+                    value
+                )
             }
 
         /**
@@ -61,7 +77,9 @@ public object SyncSignalRequestKt {
         public var signalType: kotlin.String
             get() = _builder.getSignalType()
             set(value) {
-                _builder.setSignalType(value)
+                _builder.setSignalType(
+                    value
+                )
             }
 
         /**
@@ -77,7 +95,9 @@ public object SyncSignalRequestKt {
         public var targets: com.buccancs.control.DeviceTarget
             get() = _builder.getTargets()
             set(value) {
-                _builder.setTargets(value)
+                _builder.setTargets(
+                    value
+                )
             }
 
         /**
@@ -101,7 +121,9 @@ public object SyncSignalRequestKt {
         public var scheduledEpochMs: kotlin.Long
             get() = _builder.getScheduledEpochMs()
             set(value) {
-                _builder.setScheduledEpochMs(value)
+                _builder.setScheduledEpochMs(
+                    value
+                )
             }
 
         /**
@@ -114,8 +136,13 @@ public object SyncSignalRequestKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.SyncSignalRequest.copy(block: `com.buccancs.control`.SyncSignalRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SyncSignalRequest =
-    `com.buccancs.control`.SyncSignalRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.SyncSignalRequest.copy(
+    block: `com.buccancs.control`.SyncSignalRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SyncSignalRequest =
+    `com.buccancs.control`.SyncSignalRequestKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 
 public val com.buccancs.control.SyncSignalRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?

@@ -14,13 +14,20 @@ data class ReportItemBean(
     val url: String?,
     val status: Int?
 ) : Parcelable {
-    var reportBean: ReportBean? = null
+    var reportBean: ReportBean? =
+        null
         get() {
             if (field == null) {
-                field = GsonUtils.fromJson(testInfo, ReportBean::class.java)
+                field =
+                    GsonUtils.fromJson(
+                        testInfo,
+                        ReportBean::class.java
+                    )
             }
             return field
         }
-    var isFirst: Boolean = false
-    var isTitle: Boolean = false
+    var isFirst: Boolean =
+        false
+    var isTitle: Boolean =
+        false
 }

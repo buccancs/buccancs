@@ -2,7 +2,9 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 

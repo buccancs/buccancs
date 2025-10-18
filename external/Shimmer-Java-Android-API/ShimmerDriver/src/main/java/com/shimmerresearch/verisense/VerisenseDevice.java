@@ -488,7 +488,8 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     }
                 } else {
                 }
-            } catch (Exception e1) {
+            } catch (
+                    Exception e1) {
                 consolePrintException("Error initialising algorithm module\t" + aa.getAlgorithmName(), e1.getStackTrace());
             }
         }
@@ -1009,10 +1010,12 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (VerisenseDevice) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
@@ -1092,7 +1095,8 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
             if (abstractAlgorithm instanceof GyroOnTheFlyCalModuleVerisense) {
                 try {
                     abstractAlgorithm.resetAlgorithmBuffers();
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1363,7 +1367,8 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
 
                     System.out.println("Number of ObjectClusters generated: " + dataBlockDetails.getOjcArray().length);
 
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -1539,7 +1544,8 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
     public void connect() throws ShimmerException {
         try {
             this.connect(currentStreamingCommsRoute);
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             if (currentStreamingCommsRoute.equals(COMMUNICATION_TYPE.BLUETOOTH)) {
                 setBluetoothRadioState(BT_STATE.DISCONNECTED);
             }
@@ -1580,11 +1586,13 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
                     setBluetoothRadioState(BT_STATE.CONNECTED);
                     mDeviceCallbackAdapter.isReadyForStreaming();
                 }
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
                 try {
                     disconnect(commType);
-                } catch (ShimmerException e2) {
+                } catch (
+                        ShimmerException e2) {
                     e.printStackTrace();
                 }
                 throw (e);
@@ -1946,7 +1954,8 @@ public class VerisenseDevice extends ShimmerDevice implements Serializable {
         startOperation(btState, 1);
         try {
             writeAndReadOperationalConfig();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }

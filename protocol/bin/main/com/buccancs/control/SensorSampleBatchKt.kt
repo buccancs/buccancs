@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializesensorSampleBatch")
-public inline fun sensorSampleBatch(block: com.buccancs.control.SensorSampleBatchKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleBatch =
-    com.buccancs.control.SensorSampleBatchKt.Dsl._create(com.buccancs.control.SensorSampleBatch.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializesensorSampleBatch"
+)
+public inline fun sensorSampleBatch(
+    block: com.buccancs.control.SensorSampleBatchKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SensorSampleBatch =
+    com.buccancs.control.SensorSampleBatchKt.Dsl._create(
+        com.buccancs.control.SensorSampleBatch.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.SensorSampleBatch`
  */
 public object SensorSampleBatchKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.SensorSampleBatch.Builder
@@ -23,13 +34,16 @@ public object SensorSampleBatchKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SensorSampleBatch.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.SensorSampleBatch.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.SensorSampleBatch = _builder.build()
+        internal fun _build(): com.buccancs.control.SensorSampleBatch =
+            _builder.build()
 
         /**
          * `.com.buccancs.control.SessionIdentifier session = 1;`
@@ -37,7 +51,9 @@ public object SensorSampleBatchKt {
         public var session: com.buccancs.control.SessionIdentifier
             get() = _builder.getSession()
             set(value) {
-                _builder.setSession(value)
+                _builder.setSession(
+                    value
+                )
             }
 
         /**
@@ -61,7 +77,9 @@ public object SensorSampleBatchKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -77,7 +95,9 @@ public object SensorSampleBatchKt {
         public var streamId: kotlin.String
             get() = _builder.getStreamId()
             set(value) {
-                _builder.setStreamId(value)
+                _builder.setStreamId(
+                    value
+                )
             }
 
         /**
@@ -93,7 +113,9 @@ public object SensorSampleBatchKt {
         public var sampleRateHz: kotlin.Double
             get() = _builder.getSampleRateHz()
             set(value) {
-                _builder.setSampleRateHz(value)
+                _builder.setSampleRateHz(
+                    value
+                )
             }
 
         /**
@@ -107,8 +129,11 @@ public object SensorSampleBatchKt {
          * An uninstantiable, behaviorless type to represent the field in
          * generics.
          */
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-        public class SamplesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+        @kotlin.OptIn(
+            com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+        )
+        public class SamplesProxy private constructor() :
+            com.google.protobuf.kotlin.DslProxy()
 
         /**
          * `repeated .com.buccancs.control.SensorSample samples = 5;`
@@ -124,11 +149,15 @@ public object SensorSampleBatchKt {
          * @param value The samples to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addSamples")
+        @kotlin.jvm.JvmName(
+            "addSamples"
+        )
         public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.add(
             value: com.buccancs.control.SensorSample
         ) {
-            _builder.addSamples(value)
+            _builder.addSamples(
+                value
+            )
         }
 
         /**
@@ -136,8 +165,12 @@ public object SensorSampleBatchKt {
          * @param value The samples to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignSamples")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignSamples"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.plusAssign(
             value: com.buccancs.control.SensorSample
         ) {
@@ -149,11 +182,15 @@ public object SensorSampleBatchKt {
          * @param values The samples to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addAllSamples")
+        @kotlin.jvm.JvmName(
+            "addAllSamples"
+        )
         public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.addAll(
             values: kotlin.collections.Iterable<com.buccancs.control.SensorSample>
         ) {
-            _builder.addAllSamples(values)
+            _builder.addAllSamples(
+                values
+            )
         }
 
         /**
@@ -161,12 +198,18 @@ public object SensorSampleBatchKt {
          * @param values The samples to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignAllSamples")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignAllSamples"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.plusAssign(
             values: kotlin.collections.Iterable<com.buccancs.control.SensorSample>
         ) {
-            addAll(values)
+            addAll(
+                values
+            )
         }
 
         /**
@@ -175,19 +218,26 @@ public object SensorSampleBatchKt {
          * @param value The samples to set.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("setSamples")
+        @kotlin.jvm.JvmName(
+            "setSamples"
+        )
         public operator fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.set(
             index: kotlin.Int,
             value: com.buccancs.control.SensorSample
         ) {
-            _builder.setSamples(index, value)
+            _builder.setSamples(
+                index,
+                value
+            )
         }
 
         /**
          * `repeated .com.buccancs.control.SensorSample samples = 5;`
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("clearSamples")
+        @kotlin.jvm.JvmName(
+            "clearSamples"
+        )
         public fun com.google.protobuf.kotlin.DslList<com.buccancs.control.SensorSample, SamplesProxy>.clear() {
             _builder.clearSamples()
         }
@@ -199,7 +249,9 @@ public object SensorSampleBatchKt {
         public var endOfStream: kotlin.Boolean
             get() = _builder.getEndOfStream()
             set(value) {
-                _builder.setEndOfStream(value)
+                _builder.setEndOfStream(
+                    value
+                )
             }
 
         /**
@@ -212,8 +264,13 @@ public object SensorSampleBatchKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.SensorSampleBatch.copy(block: `com.buccancs.control`.SensorSampleBatchKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleBatch =
-    `com.buccancs.control`.SensorSampleBatchKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.SensorSampleBatch.copy(
+    block: `com.buccancs.control`.SensorSampleBatchKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SensorSampleBatch =
+    `com.buccancs.control`.SensorSampleBatchKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 
 public val com.buccancs.control.SensorSampleBatchOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?

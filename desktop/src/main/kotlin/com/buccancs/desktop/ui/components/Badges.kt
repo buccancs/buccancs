@@ -44,7 +44,9 @@ fun StatusBadge(
  * Semantic status badges for common states
  */
 @Composable
-fun ConnectedBadge(modifier: Modifier = Modifier) {
+fun ConnectedBadge(
+    modifier: Modifier = Modifier
+) {
     StatusBadge(
         text = "Connected",
         modifier = modifier,
@@ -54,7 +56,9 @@ fun ConnectedBadge(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DisconnectedBadge(modifier: Modifier = Modifier) {
+fun DisconnectedBadge(
+    modifier: Modifier = Modifier
+) {
     StatusBadge(
         text = "Disconnected",
         modifier = modifier,
@@ -64,7 +68,9 @@ fun DisconnectedBadge(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun RecordingBadge(modifier: Modifier = Modifier) {
+fun RecordingBadge(
+    modifier: Modifier = Modifier
+) {
     StatusBadge(
         text = "Recording",
         modifier = modifier,
@@ -74,7 +80,9 @@ fun RecordingBadge(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun IdleBadge(modifier: Modifier = Modifier) {
+fun IdleBadge(
+    modifier: Modifier = Modifier
+) {
     StatusBadge(
         text = "Idle",
         modifier = modifier,

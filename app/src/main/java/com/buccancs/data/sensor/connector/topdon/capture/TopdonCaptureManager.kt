@@ -21,37 +21,88 @@ internal class TopdonCaptureManager(
     private val context: Context,
     private val deviceId: DeviceId
 ) {
-    private val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
-    private var recordingState: RecordingState? = null
+    private val dateFormat =
+        SimpleDateFormat(
+            "yyyyMMdd_HHmmss",
+            Locale.US
+        )
+    private var recordingState: RecordingState? =
+        null
 
     /**
      * Capture current thermal frame as photo
      */
-    suspend fun capturePhoto(frame: TopdonPreviewFrame): Result<CaptureResult> =
-        withContext(Dispatchers.IO) {
+    suspend fun capturePhoto(
+        frame: TopdonPreviewFrame
+    ): Result<CaptureResult> =
+        withContext(
+            Dispatchers.IO
+        ) {
             try {
-                val timestamp = System.currentTimeMillis()
-                val filename = "THERMAL_${dateFormat.format(Date(timestamp))}.jpg"
-                val outputDir = getOutputDirectory("photos")
-                val outputFile = File(outputDir, filename)
+                val timestamp =
+                    System.currentTimeMillis()
+                val filename =
+                    "THERMAL_${
+                        dateFormat.format(
+                            Date(
+                                timestamp
+                            )
+                        )
+                    }.jpg"
+                val outputDir =
+                    getOutputDirectory(
+                        "photos"
+                    )
+                val outputFile =
+                    File(
+                        outputDir,
+                        filename
+                    )
 
                 // Convert frame payload to bitmap
-                val bitmap = BitmapFactory.decodeByteArray(frame.payload, 0, frame.payload.size)
-                    ?: return@withContext Result.failure(Exception("Failed to decode thermal frame"))
+                val bitmap =
+                    BitmapFactory.decodeByteArray(
+                        frame.payload,
+                        0,
+                        frame.payload.size
+                    )
+                        ?: return@withContext Result.failure(
+                            Exception(
+                                "Failed to decode thermal frame"
+                            )
+                        )
 
                 // Save as JPEG with metadata
-                FileOutputStream(outputFile).use { out ->
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
+                FileOutputStream(
+                    outputFile
+                ).use { out ->
+                    bitmap.compress(
+                        Bitmap.CompressFormat.JPEG,
+                        95,
+                        out
+                    )
                 }
 
                 // Create metadata file
-                val metadataFile = File(outputDir, "$filename.json")
-                val metadata = buildCaptureMetadata(frame, timestamp)
-                metadataFile.writeText(metadata)
+                val metadataFile =
+                    File(
+                        outputDir,
+                        "$filename.json"
+                    )
+                val metadata =
+                    buildCaptureMetadata(
+                        frame,
+                        timestamp
+                    )
+                metadataFile.writeText(
+                    metadata
+                )
 
                 Result.success(
                     CaptureResult(
-                        uri = Uri.fromFile(outputFile),
+                        uri = Uri.fromFile(
+                            outputFile
+                        ),
                         file = outputFile,
                         sizeBytes = outputFile.length(),
                         timestamp = timestamp,
@@ -62,110 +113,205 @@ internal class TopdonCaptureManager(
                     )
                 )
             } catch (e: Exception) {
-                Result.failure(e)
+                Result.failure(
+                    e
+                )
             }
         }
 
     /**
      * Start thermal video recording
      */
-    suspend fun startRecording(sessionId: String): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            if (recordingState != null) {
-                return@withContext Result.failure(Exception("Recording already in progress"))
+    suspend fun startRecording(
+        sessionId: String
+    ): Result<Unit> =
+        withContext(
+            Dispatchers.IO
+        ) {
+            try {
+                if (recordingState != null) {
+                    return@withContext Result.failure(
+                        Exception(
+                            "Recording already in progress"
+                        )
+                    )
+                }
+
+                val timestamp =
+                    System.currentTimeMillis()
+                val filename =
+                    "THERMAL_VIDEO_${
+                        dateFormat.format(
+                            Date(
+                                timestamp
+                            )
+                        )
+                    }.raw"
+                val outputDir =
+                    getOutputDirectory(
+                        "videos"
+                    )
+                val outputFile =
+                    File(
+                        outputDir,
+                        filename
+                    )
+
+                recordingState =
+                    RecordingState(
+                        sessionId = sessionId,
+                        file = outputFile,
+                        startTime = timestamp,
+                        frameCount = 0,
+                        outputStream = FileOutputStream(
+                            outputFile
+                        )
+                    )
+
+                Result.success(
+                    Unit
+                )
+            } catch (e: Exception) {
+                recordingState =
+                    null
+                Result.failure(
+                    e
+                )
             }
-
-            val timestamp = System.currentTimeMillis()
-            val filename = "THERMAL_VIDEO_${dateFormat.format(Date(timestamp))}.raw"
-            val outputDir = getOutputDirectory("videos")
-            val outputFile = File(outputDir, filename)
-
-            recordingState = RecordingState(
-                sessionId = sessionId,
-                file = outputFile,
-                startTime = timestamp,
-                frameCount = 0,
-                outputStream = FileOutputStream(outputFile)
-            )
-
-            Result.success(Unit)
-        } catch (e: Exception) {
-            recordingState = null
-            Result.failure(e)
         }
-    }
 
     /**
      * Record thermal frame during video recording
      */
-    suspend fun recordFrame(frame: TopdonPreviewFrame): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            val state = recordingState
-                ?: return@withContext Result.failure(Exception("No recording in progress"))
+    suspend fun recordFrame(
+        frame: TopdonPreviewFrame
+    ): Result<Unit> =
+        withContext(
+            Dispatchers.IO
+        ) {
+            try {
+                val state =
+                    recordingState
+                        ?: return@withContext Result.failure(
+                            Exception(
+                                "No recording in progress"
+                            )
+                        )
 
-            // Write raw frame data
-            state.outputStream.write(frame.payload)
-            state.frameCount++
+                // Write raw frame data
+                state.outputStream.write(
+                    frame.payload
+                )
+                state.frameCount++
 
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+                Result.success(
+                    Unit
+                )
+            } catch (e: Exception) {
+                Result.failure(
+                    e
+                )
+            }
         }
-    }
 
     /**
      * Stop thermal video recording
      */
-    suspend fun stopRecording(): Result<RecordingResult> = withContext(Dispatchers.IO) {
-        try {
-            val state = recordingState
-                ?: return@withContext Result.failure(Exception("No recording in progress"))
+    suspend fun stopRecording(): Result<RecordingResult> =
+        withContext(
+            Dispatchers.IO
+        ) {
+            try {
+                val state =
+                    recordingState
+                        ?: return@withContext Result.failure(
+                            Exception(
+                                "No recording in progress"
+                            )
+                        )
 
-            state.outputStream.flush()
-            state.outputStream.close()
+                state.outputStream.flush()
+                state.outputStream.close()
 
-            val duration = System.currentTimeMillis() - state.startTime
-            val fps = if (duration > 0) (state.frameCount * 1000.0 / duration).toFloat() else 0f
+                val duration =
+                    System.currentTimeMillis() - state.startTime
+                val fps =
+                    if (duration > 0) (state.frameCount * 1000.0 / duration).toFloat() else 0f
 
-            // Create metadata file
-            val metadataFile = File(state.file.parentFile, "${state.file.name}.json")
-            val metadata = buildRecordingMetadata(state, duration, fps)
-            metadataFile.writeText(metadata)
+                // Create metadata file
+                val metadataFile =
+                    File(
+                        state.file.parentFile,
+                        "${state.file.name}.json"
+                    )
+                val metadata =
+                    buildRecordingMetadata(
+                        state,
+                        duration,
+                        fps
+                    )
+                metadataFile.writeText(
+                    metadata
+                )
 
-            val result = RecordingResult(
-                uri = Uri.fromFile(state.file),
-                file = state.file,
-                sizeBytes = state.file.length(),
-                durationMs = duration,
-                frameCount = state.frameCount,
-                fps = fps
-            )
+                val result =
+                    RecordingResult(
+                        uri = Uri.fromFile(
+                            state.file
+                        ),
+                        file = state.file,
+                        sizeBytes = state.file.length(),
+                        durationMs = duration,
+                        frameCount = state.frameCount,
+                        fps = fps
+                    )
 
-            recordingState = null
-            Result.success(result)
-        } catch (e: Exception) {
-            recordingState?.outputStream?.close()
-            recordingState = null
-            Result.failure(e)
+                recordingState =
+                    null
+                Result.success(
+                    result
+                )
+            } catch (e: Exception) {
+                recordingState?.outputStream?.close()
+                recordingState =
+                    null
+                Result.failure(
+                    e
+                )
+            }
         }
-    }
 
     /**
      * Check if currently recording
      */
-    fun isRecording(): Boolean = recordingState != null
+    fun isRecording(): Boolean =
+        recordingState != null
 
-    private fun getOutputDirectory(subdir: String): File {
-        val baseDir = context.getExternalFilesDir("Topdon")
-            ?: context.filesDir.resolve("Topdon")
-        val dir = File(baseDir, subdir)
+    private fun getOutputDirectory(
+        subdir: String
+    ): File {
+        val baseDir =
+            context.getExternalFilesDir(
+                "Topdon"
+            )
+                ?: context.filesDir.resolve(
+                    "Topdon"
+                )
+        val dir =
+            File(
+                baseDir,
+                subdir
+            )
         if (!dir.exists()) {
             dir.mkdirs()
         }
         return dir
     }
 
-    private fun buildCaptureMetadata(frame: TopdonPreviewFrame, timestamp: Long): String {
+    private fun buildCaptureMetadata(
+        frame: TopdonPreviewFrame,
+        timestamp: Long
+    ): String {
         return """
             {
                 "device": "${deviceId.value}",
@@ -180,7 +326,11 @@ internal class TopdonCaptureManager(
         """.trimIndent()
     }
 
-    private fun buildRecordingMetadata(state: RecordingState, duration: Long, fps: Float): String {
+    private fun buildRecordingMetadata(
+        state: RecordingState,
+        duration: Long,
+        fps: Float
+    ): String {
         return """
             {
                 "device": "${deviceId.value}",

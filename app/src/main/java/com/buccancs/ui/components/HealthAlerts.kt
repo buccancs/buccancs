@@ -18,7 +18,10 @@ import com.buccancs.ui.theme.Spacing
 import java.util.Locale
 
 @Composable
-fun HealthAlertsCard(alerts: List<HealthAlertUi>, modifier: Modifier = Modifier) {
+fun HealthAlertsCard(
+    alerts: List<HealthAlertUi>,
+    modifier: Modifier = Modifier
+) {
     if (alerts.isEmpty()) return
     SectionCard(
         modifier = modifier,
@@ -29,17 +32,29 @@ fun HealthAlertsCard(alerts: List<HealthAlertUi>, modifier: Modifier = Modifier)
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             alerts.forEach { alert ->
-                HealthAlertRow(alert)
+                HealthAlertRow(
+                    alert
+                )
             }
         }
     }
 }
 
 @Composable
-private fun HealthAlertRow(alert: HealthAlertUi) {
+private fun HealthAlertRow(
+    alert: HealthAlertUi
+) {
     val (containerColor, contentColor) = when (alert.severity) {
         AlertSeverity.Info -> MaterialTheme.colorScheme.surfaceVariant to MaterialTheme.colorScheme.onSurfaceVariant
         AlertSeverity.Warning -> MaterialTheme.colorScheme.tertiaryContainer to MaterialTheme.colorScheme.onTertiaryContainer
@@ -53,11 +68,18 @@ private fun HealthAlertRow(alert: HealthAlertUi) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.ExtraSmall
+            )
         ) {
             androidx.compose.material3.Text(
-                text = buildAlertTitle(alert.type, alert.severity),
+                text = buildAlertTitle(
+                    alert.type,
+                    alert.severity
+                ),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold
             )
@@ -69,19 +91,43 @@ private fun HealthAlertRow(alert: HealthAlertUi) {
     }
 }
 
-private fun buildAlertTitle(type: AlertType, severity: AlertSeverity): String {
-    val typeLabel = formatAlertType(type)
-    val severityLabel = formatSeverity(severity)
+private fun buildAlertTitle(
+    type: AlertType,
+    severity: AlertSeverity
+): String {
+    val typeLabel =
+        formatAlertType(
+            type
+        )
+    val severityLabel =
+        formatSeverity(
+            severity
+        )
     return "$typeLabel • $severityLabel"
 }
 
-private fun formatAlertType(type: AlertType): String = type.name
-    .lowercase(Locale.US)
-    .replace('_', ' ')
-    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.US) else it.toString() }
+private fun formatAlertType(
+    type: AlertType
+): String =
+    type.name
+        .lowercase(
+            Locale.US
+        )
+        .replace(
+            '_',
+            ' '
+        )
+        .replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.US
+            ) else it.toString()
+        }
 
-private fun formatSeverity(severity: AlertSeverity): String = when (severity) {
-    AlertSeverity.Info -> "Info"
-    AlertSeverity.Warning -> "Warning"
-    AlertSeverity.Severe -> "Severe"
-}
+private fun formatSeverity(
+    severity: AlertSeverity
+): String =
+    when (severity) {
+        AlertSeverity.Info -> "Info"
+        AlertSeverity.Warning -> "Warning"
+        AlertSeverity.Severe -> "Severe"
+    }

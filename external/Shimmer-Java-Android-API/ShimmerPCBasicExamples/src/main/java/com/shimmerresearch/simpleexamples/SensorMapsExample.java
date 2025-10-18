@@ -305,7 +305,8 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                         ((ShimmerBluetooth) device).startStreaming();
                     }
 
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
 
@@ -333,7 +334,8 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                         ((ShimmerBluetooth) device).stopStreaming();
                     }
 
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -349,7 +351,8 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
 
                     File outputfile = new File("saved.png");
                     ImageIO.write(mChart.snapShot(), "png", outputfile);
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
 
                 }
             }
@@ -395,7 +398,8 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
                     ((VerisenseProtocolByteCommunication) device.getMapOfVerisenseProtocolByteCommunication().get(COMMUNICATION_TYPE.BLUETOOTH)).readLoggedData();
 
 
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -411,7 +415,8 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
 
                     ((VerisenseProtocolByteCommunication) device.getMapOfVerisenseProtocolByteCommunication().get(COMMUNICATION_TYPE.BLUETOOTH)).eraseDataTask();
 
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -554,7 +559,8 @@ public class SensorMapsExample extends BasicProcessWithCallBack {
             }
             try {
                 plotManager.filterDataAndPlot(objc);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
 

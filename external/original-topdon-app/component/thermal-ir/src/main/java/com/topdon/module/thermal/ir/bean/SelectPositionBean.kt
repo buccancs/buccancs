@@ -12,7 +12,25 @@ data class SelectPositionBean(
     val endPosition: Point = Point(),
 ) : Parcelable {
 
-    constructor(rect: Rect) : this(3, Point(rect.left, rect.top), Point(rect.right, rect.bottom))
+    constructor(
+        rect: Rect
+    ) : this(
+        3,
+        Point(
+            rect.left,
+            rect.top
+        ),
+        Point(
+            rect.right,
+            rect.bottom
+        )
+    )
 
-    fun getRect(): Rect = Rect(startPosition.x, startPosition.y, endPosition.x, endPosition.y)
+    fun getRect(): Rect =
+        Rect(
+            startPosition.x,
+            startPosition.y,
+            endPosition.x,
+            endPosition.y
+        )
 }

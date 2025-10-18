@@ -17,28 +17,41 @@ class UploadRecoveryLogger @Inject constructor(
     private val storage: RecordingStorage,
     @StandardJson private val json: Json
 ) {
-    private val mutex = Mutex()
+    private val mutex =
+        Mutex()
 
-    suspend fun append(record: UploadRecoveryRecord) {
-        withContext(Dispatchers.IO) {
-            val payload = Payload(
-                sessionId = record.sessionId,
-                deviceId = record.deviceId.value,
-                streamType = record.streamType.name,
-                attempt = record.attempt,
-                state = record.state.name,
-                timestampEpochMs = record.timestamp.toEpochMilliseconds(),
-                bytesTransferred = record.bytesTransferred,
-                bytesTotal = record.bytesTotal,
-                networkTransport = record.network.transport,
-                networkConnected = record.network.connected,
-                networkMetered = record.network.metered,
-                errorMessage = record.errorMessage
-            )
+    suspend fun append(
+        record: UploadRecoveryRecord
+    ) {
+        withContext(
+            Dispatchers.IO
+        ) {
+            val payload =
+                Payload(
+                    sessionId = record.sessionId,
+                    deviceId = record.deviceId.value,
+                    streamType = record.streamType.name,
+                    attempt = record.attempt,
+                    state = record.state.name,
+                    timestampEpochMs = record.timestamp.toEpochMilliseconds(),
+                    bytesTransferred = record.bytesTransferred,
+                    bytesTotal = record.bytesTotal,
+                    networkTransport = record.network.transport,
+                    networkConnected = record.network.connected,
+                    networkMetered = record.network.metered,
+                    errorMessage = record.errorMessage
+                )
             mutex.withLock {
-                val file = storage.uploadRecoveryLogFile(record.sessionId)
+                val file =
+                    storage.uploadRecoveryLogFile(
+                        record.sessionId
+                    )
                 file.parentFile?.mkdirs()
-                file.appendText(json.encodeToString(payload) + "\n")
+                file.appendText(
+                    json.encodeToString(
+                        payload
+                    ) + "\n"
+                )
             }
         }
     }

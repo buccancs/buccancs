@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalTime::class)
+@file:OptIn(
+    ExperimentalTime::class
+)
 
 package com.buccancs.ui.recording
 
@@ -38,51 +40,75 @@ class RecordingViewModel @Inject constructor(
     private val exercise: MultiDeviceRecordingExercise
 ) : ViewModel() {
 
-    private val exerciseResult = MutableStateFlow<RecordingExerciseResult?>(null)
-    private val exerciseBusy = MutableStateFlow(false)
-    private val exerciseError = MutableStateFlow<String?>(null)
+    private val exerciseResult =
+        MutableStateFlow<RecordingExerciseResult?>(
+            null
+        )
+    private val exerciseBusy =
+        MutableStateFlow(
+            false
+        )
+    private val exerciseError =
+        MutableStateFlow<String?>(
+            null
+        )
 
-    private val exerciseUiState = exerciseResult
-        .map { it?.toUiModel() }
-        .stateIn(
+    private val exerciseUiState =
+        exerciseResult
+            .map { it?.toUiModel() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(
+                    5_000
+                ),
+                initialValue = null
+            )
+
+    val uiState: StateFlow<RecordingUiState> =
+        combine(
+            sessionCoordinator.sessionState,
+            sensorRepository.recordingState,
+            exerciseUiState,
+            exerciseBusy,
+            exerciseError
+        ) { sessionState, recordingState, exerciseUi, exBusy, exError ->
+            RecordingUiState(
+                sessionId = sessionState.currentSessionId,
+                lifecycle = recordingState.lifecycle,
+                anchorReference = recordingState.anchor?.referenceTimestamp,
+                sharedClockOffsetMillis = recordingState.anchor?.sharedClockOffsetMillis,
+                isBusy = sessionState.isBusy || exBusy,
+                errorMessage = sessionState.lastError
+                    ?: exError,
+                exercise = exerciseUi
+            )
+        }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = null
+            started = SharingStarted.WhileSubscribed(
+                5_000
+            ),
+            initialValue = RecordingUiState.initial()
         )
 
-    val uiState: StateFlow<RecordingUiState> = combine(
-        sessionCoordinator.sessionState,
-        sensorRepository.recordingState,
-        exerciseUiState,
-        exerciseBusy,
-        exerciseError
-    ) { sessionState, recordingState, exerciseUi, exBusy, exError ->
-        RecordingUiState(
-            sessionId = sessionState.currentSessionId,
-            lifecycle = recordingState.lifecycle,
-            anchorReference = recordingState.anchor?.referenceTimestamp,
-            sharedClockOffsetMillis = recordingState.anchor?.sharedClockOffsetMillis,
-            isBusy = sessionState.isBusy || exBusy,
-            errorMessage = sessionState.lastError ?: exError,
-            exercise = exerciseUi
-        )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = RecordingUiState.initial()
-    )
-
-    fun onSessionIdChanged(value: String) {
+    fun onSessionIdChanged(
+        value: String
+    ) {
         (sessionCoordinator as? com.buccancs.domain.usecase.SessionCoordinatorImpl)
-            ?.updateSessionId(value)
+            ?.updateSessionId(
+                value
+            )
     }
 
     fun startRecording() {
         viewModelScope.launch {
-            val id = uiState.value.sessionId.ifBlank {
-                sessionCoordinator.generateSessionId()
-            }
-            sessionCoordinator.startSession(id, requestedStart = null)
+            val id =
+                uiState.value.sessionId.ifBlank {
+                    sessionCoordinator.generateSessionId()
+                }
+            sessionCoordinator.startSession(
+                id,
+                requestedStart = null
+            )
         }
     }
 
@@ -95,23 +121,35 @@ class RecordingViewModel @Inject constructor(
     fun runExercise() {
         if (exerciseBusy.value) return
         viewModelScope.launch {
-            exerciseBusy.value = true
+            exerciseBusy.value =
+                true
             try {
-                val result = exercise.run()
-                exerciseResult.value = result
-                exerciseError.value = null
+                val result =
+                    exercise.run()
+                exerciseResult.value =
+                    result
+                exerciseError.value =
+                    null
             } catch (t: Throwable) {
                 if (t is CancellationException) throw t
-                Log.e(TAG, "Exercise failed: ${t.message}", t)
-                exerciseError.value = t.message ?: "Multi-device exercise failed."
+                Log.e(
+                    TAG,
+                    "Exercise failed: ${t.message}",
+                    t
+                )
+                exerciseError.value =
+                    t.message
+                        ?: "Multi-device exercise failed."
             } finally {
-                exerciseBusy.value = false
+                exerciseBusy.value =
+                    false
             }
         }
     }
 
     private companion object {
-        private const val TAG = "RecordingViewModel"
+        private const val TAG =
+            "RecordingViewModel"
     }
 }
 
@@ -128,15 +166,16 @@ data class RecordingUiState(
         get() = lifecycle == RecordingLifecycleState.Recording
 
     companion object {
-        fun initial(): RecordingUiState = RecordingUiState(
-            sessionId = "session-${nowInstant().epochSeconds}",
-            lifecycle = RecordingLifecycleState.Idle,
-            anchorReference = null,
-            sharedClockOffsetMillis = null,
-            isBusy = false,
-            errorMessage = null,
-            exercise = null
-        )
+        fun initial(): RecordingUiState =
+            RecordingUiState(
+                sessionId = "session-${nowInstant().epochSeconds}",
+                lifecycle = RecordingLifecycleState.Idle,
+                anchorReference = null,
+                sharedClockOffsetMillis = null,
+                isBusy = false,
+                errorMessage = null,
+                exercise = null
+            )
     }
 }
 
@@ -166,7 +205,13 @@ private fun RecordingExerciseResult.toUiModel(): RecordingExerciseUi =
     )
 
 private fun DeviceExerciseResult.toUiModel(): DeviceExerciseUi {
-    val streamLabels = streamsObserved.map { sensorStreamLabel(it) }.sorted()
+    val streamLabels =
+        streamsObserved.map {
+            sensorStreamLabel(
+                it
+            )
+        }
+            .sorted()
     return DeviceExerciseUi(
         deviceId = deviceId,
         name = displayName,
@@ -175,7 +220,9 @@ private fun DeviceExerciseResult.toUiModel(): DeviceExerciseUi {
         startObservedAt = startObservedAt?.toString(),
         stopObservedAt = stopObservedAt?.toString(),
         artifactNames = artifacts.map {
-            it.file?.name ?: it.uri.lastPathSegment ?: it.streamType.name
+            it.file?.name
+                ?: it.uri.lastPathSegment
+                ?: it.streamType.name
         }
     )
 }

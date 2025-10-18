@@ -1,33 +1,37 @@
 ext {
 
-    android = [
-            compileSdk   : 34,
-            minSdk       : 24,
-            targetSdk    : 34,
-            versionCode  : 1100,
-            versionName  : "1.10.000",
-            ndkVersion   : "21.3.6528147",
-            applicationId: "com.csl.irCamera",
-            appName      : "gradleDemo",
-            googlePlayUrl: "https://play.google.com/store/apps?hl=zh-cn",
-    ]
-    softCode = [
-            topInfrared    : "TC001_DisplaySW_Topinfrared_Adr",
-            topInfrared10  : "TC001_DisplaySW_TopinfraredAndroid10_Adr",
-            topInfraredCN  : "TC001_DisplaySW_Topinfrared_GB_Adr",
-            topInfraredCN10: "TC001_DisplaySW_TopinfraredAndroid10_GB_Adr"
-    ]
-    appKey = [
-            topInfrared    : "5B2F6F1FD80844FCB6E50BCA19222E76",
-            topInfrared10  : "AD782A05757B458391BFD695A3967EDD",
-            topInfraredCN  : "19F791D993B042E2B22D42A974DE92E8",
-            topInfraredCN10: "058F710E6D3545168F3D19010320F8C3",
-    ]
-    appSecret = [
-            topInfrared    : "A4A2EE33347A4D7885C26689515567EC",
-            topInfrared10  : "2870276D969B45C1B4A312B336274079",
-            topInfraredCN  : "9D33C48FD7CE4440B7D922FBF9B6DE2A",
-            topInfraredCN10: "F4511AAA6C694E54A3676CF2345A4A8E",
-    ]
+    android =
+            [
+                    compileSdk   : 34,
+                    minSdk       : 24,
+                    targetSdk    : 34,
+                    versionCode  : 1100,
+                    versionName  : "1.10.000",
+                    ndkVersion   : "21.3.6528147",
+                    applicationId: "com.csl.irCamera",
+                    appName      : "gradleDemo",
+                    googlePlayUrl: "https://play.google.com/store/apps?hl=zh-cn",
+            ]
+    softCode =
+            [
+                    topInfrared    : "TC001_DisplaySW_Topinfrared_Adr",
+                    topInfrared10  : "TC001_DisplaySW_TopinfraredAndroid10_Adr",
+                    topInfraredCN  : "TC001_DisplaySW_Topinfrared_GB_Adr",
+                    topInfraredCN10: "TC001_DisplaySW_TopinfraredAndroid10_GB_Adr"
+            ]
+    appKey =
+            [
+                    topInfrared    : "5B2F6F1FD80844FCB6E50BCA19222E76",
+                    topInfrared10  : "AD782A05757B458391BFD695A3967EDD",
+                    topInfraredCN  : "19F791D993B042E2B22D42A974DE92E8",
+                    topInfraredCN10: "058F710E6D3545168F3D19010320F8C3",
+            ]
+    appSecret =
+            [
+                    topInfrared    : "A4A2EE33347A4D7885C26689515567EC",
+                    topInfrared10  : "2870276D969B45C1B4A312B336274079",
+                    topInfraredCN  : "9D33C48FD7CE4440B7D922FBF9B6DE2A",
+                    topInfraredCN10: "F4511AAA6C694E54A3676CF2345A4A8E",
+            ]
 }
 

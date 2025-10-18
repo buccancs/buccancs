@@ -71,7 +71,8 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
                         lpf = new Filter(Filter.LOW_PASS, shimmerDevice.getSamplingRateShimmer(), cutoff);
                         cutoff[0] = 0.5;
                         hpf = new Filter(Filter.HIGH_PASS, shimmerDevice.getSamplingRateShimmer(), cutoff);
-                    } catch (Exception e1) {
+                    } catch (
+                            Exception e1) {
                         e1.printStackTrace();
                     }
 
@@ -87,7 +88,8 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
             if (msg == ShimmerPC.NOTIFICATION_SHIMMER_FULLY_INITIALIZED) {
                 try {
                     shimmerDevice.startStreaming();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             }
@@ -116,7 +118,8 @@ public class PPGToHRExample extends BasicProcessWithCallBack {
                 try {
                     dataArrayPPG = lpf.filterData(dataArrayPPG);
                     dataArrayPPG = hpf.filterData(dataArrayPPG);
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
 

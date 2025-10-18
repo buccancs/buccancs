@@ -35,19 +35,30 @@ import com.buccancs.ui.components.shimmer.ShimmerStreamingCard
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun ShimmerScreen(
     onNavigateBack: () -> Unit,
     viewModel: ShimmerScreenViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
-    var showDeviceSelector by remember { mutableStateOf(false) }
+    val snackbarHostState =
+        remember { SnackbarHostState() }
+    var showDeviceSelector by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
-    LaunchedEffect(uiState.errorMessage) {
+    LaunchedEffect(
+        uiState.errorMessage
+    ) {
         uiState.errorMessage?.let { message ->
-            snackbarHostState.showSnackbar(message)
+            snackbarHostState.showSnackbar(
+                message
+            )
             viewModel.clearError()
         }
     }
@@ -56,9 +67,15 @@ fun ShimmerScreen(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("Shimmer Device") },
+                title = {
+                    Text(
+                        "Shimmer Device"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
+                    IconButton(
+                        onClick = onNavigateBack
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -67,16 +84,33 @@ fun ShimmerScreen(
                 }
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        snackbarHost = {
+            SnackbarHost(
+                snackbarHostState
+            )
+        },
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(LayoutPadding.ScreenCompact)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    padding
+                )
+                .padding(
+                    LayoutPadding.ScreenCompact
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             ShimmerConnectionCard(
                 isConnected = uiState.isConnected,
@@ -119,11 +153,15 @@ fun ShimmerScreen(
                 availableDevices = emptyList(),
                 isScanning = uiState.isScanning,
                 onDeviceSelected = { device ->
-                    showDeviceSelector = false
+                    showDeviceSelector =
+                        false
                     // Device selection handled through settings
                 },
                 onScanForDevices = viewModel::scanForDevices,
-                onDismiss = { showDeviceSelector = false }
+                onDismiss = {
+                    showDeviceSelector =
+                        false
+                }
             )
         }
     }

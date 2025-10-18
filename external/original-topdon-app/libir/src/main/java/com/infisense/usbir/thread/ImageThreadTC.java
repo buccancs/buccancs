@@ -225,7 +225,8 @@ public class ImageThreadTC extends Thread {
                                 diffMat.get(0, 0, grayData);
                                 imageDst = grayData;
                                 firstTime++;
-                            } catch (Throwable e) {
+                            } catch (
+                                    Throwable e) {
                                 Log.e("静态闯入异常：", e.getMessage());
                             }
                         } else {
@@ -254,7 +255,8 @@ public class ImageThreadTC extends Thread {
                                 bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(imageDst));
                             }
                         }
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                     syncimage.valid = true;
@@ -263,7 +265,8 @@ public class ImageThreadTC extends Thread {
             }
             try {
                 SystemClock.sleep(20);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 XLog.e("Image Thread刷新异常: " + e.getMessage());
             }
         }

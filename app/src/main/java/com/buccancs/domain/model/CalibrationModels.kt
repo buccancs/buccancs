@@ -11,9 +11,15 @@ data class CalibrationPatternConfig(
     val squareSizeMeters: Double
 ) {
     init {
-        require(rows > 1) { "rows must be greater than 1" }
-        require(cols > 1) { "cols must be greater than 1" }
-        require(squareSizeMeters > 0.0) { "squareSizeMeters must be positive" }
+        require(
+            rows > 1
+        ) { "rows must be greater than 1" }
+        require(
+            cols > 1
+        ) { "cols must be greater than 1" }
+        require(
+            squareSizeMeters > 0.0
+        ) { "squareSizeMeters must be positive" }
     }
 }
 
@@ -83,6 +89,12 @@ data class CalibrationSessionState(
 )
 
 object CalibrationDefaults {
-    val Pattern = CalibrationPatternConfig(rows = 7, cols = 9, squareSizeMeters = 0.024)
-    const val RequiredPairs = 12
+    val Pattern =
+        CalibrationPatternConfig(
+            rows = 7,
+            cols = 9,
+            squareSizeMeters = 0.024
+        )
+    const val RequiredPairs =
+        12
 }

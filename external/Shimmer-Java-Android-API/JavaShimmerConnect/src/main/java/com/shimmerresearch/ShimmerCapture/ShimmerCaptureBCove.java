@@ -251,7 +251,8 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
 					 */
 
 
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -326,7 +327,8 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
                     bsfexg1ch2 = new Filter(Filter.BAND_STOP, mShimmer.getSamplingRateShimmer(), cutoff);
                     bsfexg2ch1 = new Filter(Filter.BAND_STOP, mShimmer.getSamplingRateShimmer(), cutoff);
                     bsfexg2ch2 = new Filter(Filter.BAND_STOP, mShimmer.getSamplingRateShimmer(), cutoff);
-                } catch (Exception e1) {
+                } catch (
+                        Exception e1) {
                     e1.printStackTrace();
                 }
                 if ((Integer) spinnerNumberOfBeatsToAve.getValue() <= 0) {
@@ -337,7 +339,8 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
 
                 try {
                     mShimmer.startStreaming();
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -1862,7 +1865,8 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
 
         try {
             Thread.sleep(500);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
         setupListOfEnabledSensors();
@@ -2118,7 +2122,8 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
                                     exg1Ch2Data = data;
                                 }
                             }
-                        } catch (Exception e) {
+                        } catch (
+                                Exception e) {
                             e.printStackTrace();
                         }
 
@@ -2142,7 +2147,8 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
                     try {
                         dataArrayPPG = lpf.filterData(dataArrayPPG);
                         dataArrayPPG = hpf.filterData(dataArrayPPG);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
 
@@ -2165,7 +2171,8 @@ public class ShimmerCaptureBCove extends BasicProcessWithCallBack {
                     dataArrayECG = format.mData;
                     try {
                         format.mData = dataArrayECG;
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
 

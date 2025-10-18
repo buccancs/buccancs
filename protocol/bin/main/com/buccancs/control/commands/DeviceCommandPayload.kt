@@ -13,7 +13,9 @@ sealed interface DeviceCommandPayload {
 }
 
 @Serializable
-@SerialName("sync_signal")
+@SerialName(
+    "sync_signal"
+)
 data class SyncSignalCommandPayload(
     override val commandId: String,
     override val sessionId: String,
@@ -24,7 +26,9 @@ data class SyncSignalCommandPayload(
 ) : DeviceCommandPayload
 
 @Serializable
-@SerialName("event_marker")
+@SerialName(
+    "event_marker"
+)
 data class EventMarkerCommandPayload(
     override val commandId: String,
     override val sessionId: String,
@@ -36,7 +40,9 @@ data class EventMarkerCommandPayload(
 ) : DeviceCommandPayload
 
 @Serializable
-@SerialName("start_recording")
+@SerialName(
+    "start_recording"
+)
 data class StartRecordingCommandPayload(
     override val commandId: String,
     override val sessionId: String,
@@ -47,7 +53,9 @@ data class StartRecordingCommandPayload(
 ) : DeviceCommandPayload
 
 @Serializable
-@SerialName("stop_recording")
+@SerialName(
+    "stop_recording"
+)
 data class StopRecordingCommandPayload(
     override val commandId: String,
     override val sessionId: String,
@@ -56,7 +64,9 @@ data class StopRecordingCommandPayload(
 ) : DeviceCommandPayload
 
 @Serializable
-@SerialName("stimulus")
+@SerialName(
+    "stimulus"
+)
 data class StimulusCommandPayload(
     override val commandId: String,
     override val sessionId: String,
@@ -68,9 +78,13 @@ data class StimulusCommandPayload(
 ) : DeviceCommandPayload
 
 object CommandSerialization {
-    val json: Json = Json {
-        encodeDefaults = false
-        ignoreUnknownKeys = true
-        classDiscriminator = "type"
-    }
+    val json: Json =
+        Json {
+            encodeDefaults =
+                false
+            ignoreUnknownKeys =
+                true
+            classDiscriminator =
+                "type"
+        }
 }

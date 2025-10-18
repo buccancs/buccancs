@@ -24,16 +24,35 @@ import com.topdon.tc001.ui.theme.TopdonTheme
 import com.topdon.tc001.utils.VersionUtils
 import java.util.*
 
-@Route(path = RouterConfig.VERSION)
-class VersionActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.VERSION
+)
+class VersionActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val appName = CommUtils.getAppName()
-        val version = VersionUtils.getCodeStr(this)
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        val yearRange = "2023-$year"
+        val appName =
+            CommUtils.getAppName()
+        val version =
+            VersionUtils.getCodeStr(
+                this
+            )
+        val year =
+            Calendar.getInstance()
+                .get(
+                    Calendar.YEAR
+                )
+        val yearRange =
+            "2023-$year"
 
         setContent {
             TopdonTheme {
@@ -44,9 +63,16 @@ class VersionActivity : ComponentActivity() {
                     onNavigateUp = { finish() },
                     onNavigateToPolicy = { themeType ->
                         ARouter.getInstance()
-                            .build(RouterConfig.POLICY)
-                            .withInt(PolicyActivity.KEY_THEME_TYPE, themeType)
-                            .navigation(this)
+                            .build(
+                                RouterConfig.POLICY
+                            )
+                            .withInt(
+                                PolicyActivity.KEY_THEME_TYPE,
+                                themeType
+                            )
+                            .navigation(
+                                this
+                            )
                     }
                 )
             }
@@ -54,7 +80,9 @@ class VersionActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun VersionScreen(
     appName: String,
@@ -66,9 +94,15 @@ private fun VersionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Version") },
+                title = {
+                    Text(
+                        "Version"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -81,15 +115,25 @@ private fun VersionScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp
+                )
             ) {
                 Text(
                     text = "○",
@@ -119,8 +163,12 @@ private fun VersionScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                        .padding(
+                            16.dp
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        12.dp
+                    )
                 ) {
                     Text(
                         text = "Legal Information",
@@ -129,29 +177,51 @@ private fun VersionScreen(
                     )
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(1) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                1
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("User Services Agreement")
+                        Text(
+                            "User Services Agreement"
+                        )
                     }
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(2) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                2
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Privacy Policy")
+                        Text(
+                            "Privacy Policy"
+                        )
                     }
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(3) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                3
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Third Party Components")
+                        Text(
+                            "Third Party Components"
+                        )
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(
+                modifier = Modifier.weight(
+                    1f
+                )
+            )
 
             Text(
                 text = "© $yearRange\nAll rights reserved",

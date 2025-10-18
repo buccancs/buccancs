@@ -20,28 +20,64 @@ import com.topdon.lib.core.BaseApplication
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.tc001.ui.theme.TopdonTheme
 
-@Route(path = RouterConfig.POLICY)
-class PolicyActivity : ComponentActivity() {
+@Route(
+    path = RouterConfig.POLICY
+)
+class PolicyActivity :
+    ComponentActivity() {
     companion object {
-        const val KEY_THEME_TYPE = "key_theme_type"
-        const val KEY_USE_TYPE = "key_use_type"
+        const val KEY_THEME_TYPE =
+            "key_theme_type"
+        const val KEY_USE_TYPE =
+            "key_use_type"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val themeType = intent.getIntExtra(KEY_THEME_TYPE, 1)
-        val keyUseType = intent.getIntExtra(KEY_USE_TYPE, 0)
+        val themeType =
+            intent.getIntExtra(
+                KEY_THEME_TYPE,
+                1
+            )
+        val keyUseType =
+            intent.getIntExtra(
+                KEY_USE_TYPE,
+                0
+            )
 
-        val title = when (themeType) {
-            1 -> getString(R.string.user_services_agreement)
-            2 -> getString(R.string.privacy_policy)
-            3 -> getString(R.string.third_party_components)
-            else -> getString(R.string.user_services_agreement)
-        }
+        val title =
+            when (themeType) {
+                1 -> getString(
+                    R.string.user_services_agreement
+                )
 
-        val url = getAssetUrl(themeType, keyUseType)
+                2 -> getString(
+                    R.string.privacy_policy
+                )
+
+                3 -> getString(
+                    R.string.third_party_components
+                )
+
+                else -> getString(
+                    R.string.user_services_agreement
+                )
+            }
+
+        val url =
+            getAssetUrl(
+                themeType,
+                keyUseType
+            )
 
         setContent {
             TopdonTheme {
@@ -54,7 +90,10 @@ class PolicyActivity : ComponentActivity() {
         }
     }
 
-    private fun getAssetUrl(themeType: Int, keyUseType: Int): String {
+    private fun getAssetUrl(
+        themeType: Int,
+        keyUseType: Int
+    ): String {
         if (keyUseType != 0) {
             return when (themeType) {
                 1 -> "https://plat.topdon.com/topdon-plat/out-user/baseinfo/template/getHtmlContentById?softCode=${BaseApplication.instance.getSoftWareCode()}&language=1&type=21"
@@ -87,23 +126,43 @@ class PolicyActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun PolicyScreen(
     title: String,
     url: String,
     onNavigateUp: () -> Unit
 ) {
-    var isLoading by remember { mutableStateOf(true) }
-    var hasError by remember { mutableStateOf(false) }
-    var webView by remember { mutableStateOf<WebView?>(null) }
+    var isLoading by remember {
+        mutableStateOf(
+            true
+        )
+    }
+    var hasError by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    var webView by remember {
+        mutableStateOf<WebView?>(
+            null
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(title) },
+                title = {
+                    Text(
+                        title
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -116,38 +175,66 @@ private fun PolicyScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(
+                    padding
+                )
         ) {
             AndroidView(
                 factory = { context ->
-                    WebView(context).apply {
-                        @SuppressLint("SetJavaScriptEnabled")
+                    WebView(
+                        context
+                    ).apply {
+                        @SuppressLint(
+                            "SetJavaScriptEnabled"
+                        )
                         settings.apply {
-                            javaScriptEnabled = true
-                            domStorageEnabled = true
-                            defaultTextEncodingName = "utf-8"
+                            javaScriptEnabled =
+                                true
+                            domStorageEnabled =
+                                true
+                            defaultTextEncodingName =
+                                "utf-8"
                         }
 
-                        webViewClient = object : WebViewClient() {
-                            override fun onPageFinished(view: WebView?, url: String?) {
-                                super.onPageFinished(view, url)
-                                isLoading = false
+                        webViewClient =
+                            object :
+                                WebViewClient() {
+                                override fun onPageFinished(
+                                    view: WebView?,
+                                    url: String?
+                                ) {
+                                    super.onPageFinished(
+                                        view,
+                                        url
+                                    )
+                                    isLoading =
+                                        false
+                                }
+
+                                override fun onReceivedError(
+                                    view: WebView?,
+                                    errorCode: Int,
+                                    description: String?,
+                                    failingUrl: String?
+                                ) {
+                                    super.onReceivedError(
+                                        view,
+                                        errorCode,
+                                        description,
+                                        failingUrl
+                                    )
+                                    isLoading =
+                                        false
+                                    hasError =
+                                        true
+                                }
                             }
 
-                            override fun onReceivedError(
-                                view: WebView?,
-                                errorCode: Int,
-                                description: String?,
-                                failingUrl: String?
-                            ) {
-                                super.onReceivedError(view, errorCode, description, failingUrl)
-                                isLoading = false
-                                hasError = true
-                            }
-                        }
-
-                        loadUrl(url)
-                        webView = this
+                        loadUrl(
+                            url
+                        )
+                        webView =
+                            this
                     }
                 },
                 modifier = Modifier.fillMaxSize()
@@ -155,17 +242,25 @@ private fun PolicyScreen(
 
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
                 )
             }
 
             if (hasError) {
                 Column(
                     modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(16.dp),
+                        .align(
+                            Alignment.Center
+                        )
+                        .padding(
+                            16.dp
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(
+                        16.dp
+                    )
                 ) {
                     Text(
                         text = "Failed to load policy",
@@ -173,12 +268,16 @@ private fun PolicyScreen(
                     )
                     Button(
                         onClick = {
-                            hasError = false
-                            isLoading = true
+                            hasError =
+                                false
+                            isLoading =
+                                true
                             webView?.reload()
                         }
                     ) {
-                        Text("Retry")
+                        Text(
+                            "Retry"
+                        )
                     }
                 }
             }

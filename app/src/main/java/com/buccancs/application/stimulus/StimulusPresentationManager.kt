@@ -36,35 +36,62 @@ class StimulusPresentationManager @Inject constructor(
     @ApplicationContext private val context: Context,
     @ApplicationScope private val scope: CoroutineScope
 ) {
-    private val displayManager = context.getSystemService(DisplayManager::class.java)
-    private val toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, 80)
-    private val handler = Handler(Looper.getMainLooper())
-    private val _state = MutableStateFlow(StimulusState())
-    val state: StateFlow<StimulusState> = _state.asStateFlow()
+    private val displayManager =
+        context.getSystemService(
+            DisplayManager::class.java
+        )
+    private val toneGenerator =
+        ToneGenerator(
+            AudioManager.STREAM_MUSIC,
+            80
+        )
+    private val handler =
+        Handler(
+            Looper.getMainLooper()
+        )
+    private val _state =
+        MutableStateFlow(
+            StimulusState()
+        )
+    val state: StateFlow<StimulusState> =
+        _state.asStateFlow()
 
-    private var presentation: CuePresentation? = null
-    private var presentationJob: Job? = null
+    private var presentation: CuePresentation? =
+        null
+    private var presentationJob: Job? =
+        null
 
-    private val displayListener = object : DisplayListener {
-        override fun onDisplayAdded(displayId: Int) {
-            updateDisplayAvailability()
-        }
-
-        override fun onDisplayRemoved(displayId: Int) {
-            if (presentation?.display?.displayId == displayId) {
-                dismissPresentation()
+    private val displayListener =
+        object :
+            DisplayListener {
+            override fun onDisplayAdded(
+                displayId: Int
+            ) {
+                updateDisplayAvailability()
             }
-            updateDisplayAvailability()
-        }
 
-        override fun onDisplayChanged(displayId: Int) {
-            updateDisplayAvailability()
+            override fun onDisplayRemoved(
+                displayId: Int
+            ) {
+                if (presentation?.display?.displayId == displayId) {
+                    dismissPresentation()
+                }
+                updateDisplayAvailability()
+            }
+
+            override fun onDisplayChanged(
+                displayId: Int
+            ) {
+                updateDisplayAvailability()
+            }
         }
-    }
 
     init {
         updateDisplayAvailability()
-        displayManager.registerDisplayListener(displayListener, handler)
+        displayManager.registerDisplayListener(
+            displayListener,
+            handler
+        )
     }
 
     /**
@@ -74,65 +101,116 @@ class StimulusPresentationManager @Inject constructor(
     fun shutdown() {
         scope.launch {
             presentationJob?.cancel()
-            withContext(Dispatchers.Main) {
+            withContext(
+                Dispatchers.Main
+            ) {
                 dismissPresentation()
             }
         }
         toneGenerator.release()
-        displayManager.unregisterDisplayListener(displayListener)
-        handler.removeCallbacksAndMessages(null)
+        displayManager.unregisterDisplayListener(
+            displayListener
+        )
+        handler.removeCallbacksAndMessages(
+            null
+        )
     }
 
-    fun present(payload: StimulusCommandPayload) {
-        present(StimulusCue.fromPayload(payload))
+    fun present(
+        payload: StimulusCommandPayload
+    ) {
+        present(
+            StimulusCue.fromPayload(
+                payload
+            )
+        )
     }
 
-    private fun present(cue: StimulusCue) {
+    private fun present(
+        cue: StimulusCue
+    ) {
         presentationJob?.cancel()
-        presentationJob = scope.launch {
-            val endsAt = System.currentTimeMillis() + cue.durationMillis
-            _state.update { it.copy(activeCue = cue, activeCueEndsAtEpochMs = endsAt) }
-            withContext(Dispatchers.Main) {
-                showPresentation(cue)
-                playAudio(cue)
-            }
-            delay(cue.durationMillis)
-            withContext(Dispatchers.Main) {
-                dismissPresentation()
-            }
-            _state.update {
-                it.copy(
-                    activeCue = null,
-                    activeCueEndsAtEpochMs = null,
-                    lastCue = cue
+        presentationJob =
+            scope.launch {
+                val endsAt =
+                    System.currentTimeMillis() + cue.durationMillis
+                _state.update {
+                    it.copy(
+                        activeCue = cue,
+                        activeCueEndsAtEpochMs = endsAt
+                    )
+                }
+                withContext(
+                    Dispatchers.Main
+                ) {
+                    showPresentation(
+                        cue
+                    )
+                    playAudio(
+                        cue
+                    )
+                }
+                delay(
+                    cue.durationMillis
                 )
+                withContext(
+                    Dispatchers.Main
+                ) {
+                    dismissPresentation()
+                }
+                _state.update {
+                    it.copy(
+                        activeCue = null,
+                        activeCueEndsAtEpochMs = null,
+                        lastCue = cue
+                    )
+                }
             }
-        }
     }
 
     fun triggerPreview() {
-        present(StimulusCue.preview())
+        present(
+            StimulusCue.preview()
+        )
     }
 
-    fun presentSyncCue(signalType: String) {
-        present(createSyncCue(signalType))
+    fun presentSyncCue(
+        signalType: String
+    ) {
+        present(
+            createSyncCue(
+                signalType
+            )
+        )
     }
 
-    private fun showPresentation(cue: StimulusCue) {
-        val display = choosePresentationDisplay()
+    private fun showPresentation(
+        cue: StimulusCue
+    ) {
+        val display =
+            choosePresentationDisplay()
         if (display != null) {
-            val presentation = CuePresentation(context, display, cue)
+            val presentation =
+                CuePresentation(
+                    context,
+                    display,
+                    cue
+                )
             presentation.show()
-            this.presentation = presentation
+            this.presentation =
+                presentation
         }
     }
 
     private fun dismissPresentation() {
         presentation?.dismiss()
-        presentation = null
+        presentation =
+            null
     }
 
-    private fun playAudio(cue: StimulusCue) {
+    private fun playAudio(
+        cue: StimulusCue
+    ) {
         when (cue.audio) {
             StimulusAudio.NONE -> Unit
             StimulusAudio.BEEP -> toneGenerator.startTone(
@@ -144,7 +222,9 @@ class StimulusPresentationManager @Inject constructor(
 
     private fun choosePresentationDisplay(): Display? {
         val presentationDisplays =
-            displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION)
+            displayManager.getDisplays(
+                DisplayManager.DISPLAY_CATEGORY_PRESENTATION
+            )
         if (presentationDisplays.isNotEmpty()) {
             return presentationDisplays.first()
         }
@@ -154,9 +234,16 @@ class StimulusPresentationManager @Inject constructor(
 
     private fun updateDisplayAvailability() {
         val hasExternal =
-            displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION).isNotEmpty() ||
+            displayManager.getDisplays(
+                DisplayManager.DISPLAY_CATEGORY_PRESENTATION
+            )
+                .isNotEmpty() ||
                     displayManager.displays.any { it.displayId != Display.DEFAULT_DISPLAY }
-        _state.update { it.copy(hasExternalDisplay = hasExternal) }
+        _state.update {
+            it.copy(
+                hasExternalDisplay = hasExternal
+            )
+        }
     }
 
     companion object {
@@ -164,13 +251,19 @@ class StimulusPresentationManager @Inject constructor(
             signalType: String,
             nowMs: Long = System.currentTimeMillis()
         ): StimulusCue {
-            val safeSignal = signalType.ifBlank { "flash" }
-            return StimulusCue.preview().copy(
-                id = "sync-$safeSignal-$nowMs",
-                action = "SyncSignal",
-                label = safeSignal.uppercase(Locale.UK),
-                metadata = mapOf("signalType" to safeSignal)
-            )
+            val safeSignal =
+                signalType.ifBlank { "flash" }
+            return StimulusCue.preview()
+                .copy(
+                    id = "sync-$safeSignal-$nowMs",
+                    action = "SyncSignal",
+                    label = safeSignal.uppercase(
+                        Locale.UK
+                    ),
+                    metadata = mapOf(
+                        "signalType" to safeSignal
+                    )
+                )
         }
     }
 
@@ -178,32 +271,65 @@ class StimulusPresentationManager @Inject constructor(
         outerContext: Context,
         display: Display,
         private val cue: StimulusCue
-    ) : Presentation(outerContext, display) {
-        override fun onCreate(savedInstanceState: android.os.Bundle?) {
-            super.onCreate(savedInstanceState)
-            val frame = FrameLayout(context).apply {
-                setBackgroundColor(cue.color)
-            }
-            val textView = TextView(context).apply {
-                text = cue.label
-                setTextColor(pickTextColor(cue.color))
-                textSize = 48f
-                gravity = Gravity.CENTER
-                layoutParams = FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+    ) : Presentation(
+        outerContext,
+        display
+    ) {
+        override fun onCreate(
+            savedInstanceState: android.os.Bundle?
+        ) {
+            super.onCreate(
+                savedInstanceState
+            )
+            val frame =
+                FrameLayout(
+                    context
                 ).apply {
-                    gravity = Gravity.CENTER
+                    setBackgroundColor(
+                        cue.color
+                    )
                 }
-            }
-            frame.addView(textView)
-            setContentView(frame)
+            val textView =
+                TextView(
+                    context
+                ).apply {
+                    text =
+                        cue.label
+                    setTextColor(
+                        pickTextColor(
+                            cue.color
+                        )
+                    )
+                    textSize =
+                        48f
+                    gravity =
+                        Gravity.CENTER
+                    layoutParams =
+                        FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                            .apply {
+                                gravity =
+                                    Gravity.CENTER
+                            }
+                }
+            frame.addView(
+                textView
+            )
+            setContentView(
+                frame
+            )
         }
 
         @ColorInt
-        private fun pickTextColor(@ColorInt background: Int): Int {
+        private fun pickTextColor(
+            @ColorInt background: Int
+        ): Int {
             val darkness =
-                1 - (0.299 * android.graphics.Color.red(background) + 0.587 * android.graphics.Color.green(
+                1 - (0.299 * android.graphics.Color.red(
+                    background
+                ) + 0.587 * android.graphics.Color.green(
                     background
                 ) + 0.114 * android.graphics.Color.blue(
                     background

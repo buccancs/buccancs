@@ -25,7 +25,9 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(LayoutPadding.Section),
+            .padding(
+                LayoutPadding.Section
+            ),
         verticalArrangement = Arrangement.spacedBy(
             Spacing.Small,
             alignment = Alignment.CenterVertically
@@ -35,7 +37,9 @@ fun EmptyState(
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.padding(bottom = Spacing.ExtraSmall),
+            modifier = Modifier.padding(
+                bottom = Spacing.ExtraSmall
+            ),
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(

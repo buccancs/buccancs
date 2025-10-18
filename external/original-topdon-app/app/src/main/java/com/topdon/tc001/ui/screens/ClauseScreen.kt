@@ -40,7 +40,11 @@ fun ClauseScreen(
     onTermsOfServiceClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isChecked by remember { mutableStateOf(false) }
+    var isChecked by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize()
@@ -48,17 +52,29 @@ fun ClauseScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(24.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(
+                    paddingValues
+                )
+                .padding(
+                    24.dp
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    24.dp
+                )
             ) {
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(
+                    modifier = Modifier.height(
+                        32.dp
+                    )
+                )
 
                 Text(
                     text = "Welcome",
@@ -69,34 +85,48 @@ fun ClauseScreen(
 
                 Text(
                     text = buildAnnotatedString {
-                        append("Before using this application, please read and agree to the ")
+                        append(
+                            "Before using this application, please read and agree to the "
+                        )
                         withStyle(
                             SpanStyle(
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Medium
                             )
                         ) {
-                            append("User Agreement")
+                            append(
+                                "User Agreement"
+                            )
                         }
-                        append(", ")
+                        append(
+                            ", "
+                        )
                         withStyle(
                             SpanStyle(
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Medium
                             )
                         ) {
-                            append("Privacy Policy")
+                            append(
+                                "Privacy Policy"
+                            )
                         }
-                        append(", and ")
+                        append(
+                            ", and "
+                        )
                         withStyle(
                             SpanStyle(
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Medium
                             )
                         ) {
-                            append("Terms of Service")
+                            append(
+                                "Terms of Service"
+                            )
                         }
-                        append(".")
+                        append(
+                            "."
+                        )
                     },
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
@@ -105,27 +135,35 @@ fun ClauseScreen(
 
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(
+                        8.dp
+                    )
                 ) {
                     TextButton(
                         onClick = onUserAgreementClick,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("View User Agreement")
+                        Text(
+                            "View User Agreement"
+                        )
                     }
 
                     TextButton(
                         onClick = onPrivacyPolicyClick,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("View Privacy Policy")
+                        Text(
+                            "View Privacy Policy"
+                        )
                     }
 
                     TextButton(
                         onClick = onTermsOfServiceClick,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("View Terms of Service")
+                        Text(
+                            "View Terms of Service"
+                        )
                     }
                 }
 
@@ -136,7 +174,10 @@ fun ClauseScreen(
                 ) {
                     Checkbox(
                         checked = isChecked,
-                        onCheckedChange = { isChecked = it }
+                        onCheckedChange = {
+                            isChecked =
+                                it
+                        }
                     )
                     Text(
                         text = "I have read and agree to the above terms",
@@ -148,30 +189,43 @@ fun ClauseScreen(
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 Button(
                     onClick = onAgree,
                     enabled = isChecked,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(54.dp)
+                        .height(
+                            54.dp
+                        )
                 ) {
-                    Text("Agree and Continue")
+                    Text(
+                        "Agree and Continue"
+                    )
                 }
 
                 OutlinedButton(
                     onClick = onDisagree,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(54.dp)
+                        .height(
+                            54.dp
+                        )
                 ) {
-                    Text("Disagree and Exit")
+                    Text(
+                        "Disagree and Exit"
+                    )
                 }
 
                 Text(
                     text = "Version ${android.os.Build.VERSION.RELEASE} • ${
-                        java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
+                        java.util.Calendar.getInstance()
+                            .get(
+                                java.util.Calendar.YEAR
+                            )
                     }",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

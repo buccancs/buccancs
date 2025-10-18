@@ -62,7 +62,8 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
         try {
             GrpcBLERadioByteTools grpcTool = new GrpcBLERadioByteTools("ShimmerBLEGrpc.exe", path);
             mGRPCPort = grpcTool.startServer();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
     }
@@ -71,7 +72,8 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
         try {
             GrpcBLERadioByteTools grpcTool = new GrpcBLERadioByteTools();
             mGRPCPort = grpcTool.startServer();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
     }
@@ -184,7 +186,8 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
                 throw new ShimmerException("Device is already connected");
             }
             verisenseDevice.connect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -211,7 +214,8 @@ public class BasicShimmerBluetoothManagerPc extends ShimmerBluetoothManager {
                 throw new ShimmerException("Device is already connected");
             }
             shimmer.connect("", "");
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }

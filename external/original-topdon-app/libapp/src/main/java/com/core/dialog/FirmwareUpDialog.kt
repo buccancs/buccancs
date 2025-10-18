@@ -15,7 +15,12 @@ import android.widget.TextView
  * 固件升级有新版本提示弹框.
  * Created by LCG on 2024/3/4.
  */
-class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
+class FirmwareUpDialog(
+    context: Context
+) : Dialog(
+    context,
+    R.style.InfoDialog
+),
     View.OnClickListener {
 
     /**
@@ -24,7 +29,8 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
     var titleStr: CharSequence?
         get() = rootView.tv_title.text
         set(value) {
-            rootView.tv_title.text = value
+            rootView.tv_title.text =
+                value
         }
 
     /**
@@ -33,7 +39,8 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
     var sizeStr: CharSequence?
         get() = rootView.tv_size.text
         set(value) {
-            rootView.tv_size.text = value
+            rootView.tv_size.text =
+                value
         }
 
     /**
@@ -42,7 +49,8 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
     var contentStr: CharSequence?
         get() = rootView.tv_content.text
         set(value) {
-            rootView.tv_content.text = value
+            rootView.tv_content.text =
+                value
         }
 
     /**
@@ -51,7 +59,8 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
     var isShowRestartTips: Boolean
         get() = rootView.tv_restart_tips.isVisible
         set(value) {
-            rootView.tv_restart_tips.isVisible = value
+            rootView.tv_restart_tips.isVisible =
+                value
         }
 
     /**
@@ -60,42 +69,73 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
     var isShowCancel: Boolean
         get() = rootView.tv_cancel.isVisible
         set(value) {
-            rootView.tv_cancel.isVisible = value
+            rootView.tv_cancel.isVisible =
+                value
         }
 
 
     /**
      * 取消点击事件监听.
      */
-    var onCancelClickListener: (() -> Unit)? = null
+    var onCancelClickListener: (() -> Unit)? =
+        null
 
     /**
      * 更新点击事件监听.
      */
-    var onConfirmClickListener: (() -> Unit)? = null
+    var onConfirmClickListener: (() -> Unit)? =
+        null
 
 
     private val rootView: View =
-        LayoutInflater.from(context).inflate(R.layout.dialog_firmware_up, null)
+        LayoutInflater.from(
+            context
+        )
+            .inflate(
+                R.layout.dialog_firmware_up,
+                null
+            )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(false)
-        setCanceledOnTouchOutside(false)
-        setContentView(rootView)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        setCancelable(
+            false
+        )
+        setCanceledOnTouchOutside(
+            false
+        )
+        setContentView(
+            rootView
+        )
 
         window?.let {
-            val layoutParams = it.attributes
-            layoutParams.width = (ScreenUtil.getScreenWidth(context) * 0.72).toInt()
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            it.attributes = layoutParams
+            val layoutParams =
+                it.attributes
+            layoutParams.width =
+                (ScreenUtil.getScreenWidth(
+                    context
+                ) * 0.72).toInt()
+            layoutParams.height =
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            it.attributes =
+                layoutParams
         }
 
-        rootView.tv_cancel.setOnClickListener(this)
-        rootView.tv_confirm.setOnClickListener(this)
+        rootView.tv_cancel.setOnClickListener(
+            this
+        )
+        rootView.tv_confirm.setOnClickListener(
+            this
+        )
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(
+        v: View?
+    ) {
         when (v) {
             rootView.tv_cancel -> {//取消
                 dismiss()
@@ -111,14 +151,26 @@ class FirmwareUpDialog(context: Context) : Dialog(context, R.style.InfoDialog),
 }
 
 private val View.tv_title: TextView
-    get() = findViewById(R.id.tv_title)
+    get() = findViewById(
+        R.id.tv_title
+    )
 private val View.tv_size: TextView
-    get() = findViewById(R.id.tv_size)
+    get() = findViewById(
+        R.id.tv_size
+    )
 private val View.tv_content: TextView
-    get() = findViewById(R.id.tv_content)
+    get() = findViewById(
+        R.id.tv_content
+    )
 private val View.tv_restart_tips: TextView
-    get() = findViewById(R.id.tv_restart_tips)
+    get() = findViewById(
+        R.id.tv_restart_tips
+    )
 private val View.tv_cancel: TextView
-    get() = findViewById(R.id.tv_cancel)
+    get() = findViewById(
+        R.id.tv_cancel
+    )
 private val View.tv_confirm: TextView
-    get() = findViewById(R.id.tv_confirm)
+    get() = findViewById(
+        R.id.tv_confirm
+    )

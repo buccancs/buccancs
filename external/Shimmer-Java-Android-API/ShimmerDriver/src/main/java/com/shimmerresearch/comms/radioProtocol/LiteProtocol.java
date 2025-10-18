@@ -392,7 +392,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
                 printLogDataForDebugging("Unhandled BT response: " + UtilShimmer.bytesToHexStringWithSpacesFormatted(new byte[]{(byte) responseCommand}));
             }
 
-        } catch (ShimmerException dE) {
+        } catch (
+                ShimmerException dE) {
             mUtilShimmer.consolePrintShimmerException(dE);
         }
 
@@ -513,7 +514,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
     private void threadSleep(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -585,7 +587,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
             try {
                 clearSerialBuffer();
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
 
@@ -665,7 +668,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
         try {
             byte[] inStreamResponseCommandArray = readBytes(1);
             processInstreamResponse(inStreamResponseCommandArray);
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -822,7 +826,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
             mCommsInterface.disconnect();
             threadSleep(300);
             mCommsInterface.connect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -936,14 +941,16 @@ public class LiteProtocol extends AbstractCommsProtocol {
         stopAllTimers();
 
         getListofInstructions().clear();
-        while (getListofInstructions().size() > 0) ;
+        while (getListofInstructions().size() > 0)
+            ;
         setInstructionStackLock(true);
         mOperationUnderway = true;
     }
 
     public void operationWaitForFinish() {
         setInstructionStackLock(false);
-        while (getListofInstructions().size() > 0) ;
+        while (getListofInstructions().size() > 0)
+            ;
     }
 
 
@@ -1401,7 +1408,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
 
                         processBytesAvailableAndInstreamSupported();
                     }
-                } catch (ShimmerException dE) {
+                } catch (
+                        ShimmerException dE) {
 
                     killConnection(dE);
                 }
@@ -1755,7 +1763,8 @@ public class LiteProtocol extends AbstractCommsProtocol {
                         setInstructionStackLock(false);
                         startTimerCheckForAckOrResp(ACK_TIMER_DURATION + 3);
                     }
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
 

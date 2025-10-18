@@ -190,7 +190,8 @@ public class UtilVerisenseDriver implements Serializable {
             DateTimeFormatter dateTimeformatter = DateTimeFormatter.ofPattern(format);
 
             localDate = LocalDate.parse(dateFormatted, dateTimeformatter);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             System.out.println("Exception in toLocalDate()");
             e.printStackTrace();
         }
@@ -213,7 +214,8 @@ public class UtilVerisenseDriver implements Serializable {
         try {
             Date date = dateFormat.parse(timeString);
             return date.getTime();
-        } catch (ParseException e) {
+        } catch (
+                ParseException e) {
             e.printStackTrace();
         }
         return 0;
@@ -309,13 +311,15 @@ public class UtilVerisenseDriver implements Serializable {
                 try {
                     Date date = sdfGgir.parse(dataValueString.replace("T", " "));
                     dataValues[i] = date.getTime();
-                } catch (ParseException e) {
+                } catch (
+                        ParseException e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
                     dataValues[i] = Double.parseDouble(dataValueString);
-                } catch (NumberFormatException e) {
+                } catch (
+                        NumberFormatException e) {
                     e.printStackTrace();
                 }
             }
@@ -381,7 +385,8 @@ public class UtilVerisenseDriver implements Serializable {
                         break;
                     }
                 }
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
                 return false;
             }

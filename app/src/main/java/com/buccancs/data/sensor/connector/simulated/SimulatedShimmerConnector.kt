@@ -34,44 +34,76 @@ internal class SimulatedShimmerConnector @Inject constructor(
     scope = scope,
     artifactFactory = artifactFactory,
     initialDevice = SensorDevice(
-        id = DeviceId("shimmer-001"),
+        id = DeviceId(
+            "shimmer-001"
+        ),
         displayName = "Shimmer3 GSR",
         type = SensorDeviceType.SHIMMER_GSR,
-        capabilities = setOf(SensorStreamType.GSR),
+        capabilities = setOf(
+            SensorStreamType.GSR
+        ),
         connectionStatus = ConnectionStatus.Disconnected,
         isSimulated = false,
-        attributes = mapOf("mac" to "00:00:00:00:00:01")
+        attributes = mapOf(
+            "mac" to "00:00:00:00:00:01"
+        )
     )
 ) {
-    private var emitter: SensorStreamEmitter? = null
-    private var emissionJob: Job? = null
+    private var emitter: SensorStreamEmitter? =
+        null
+    private var emissionJob: Job? =
+        null
 
-    constructor(scope: CoroutineScope) : this(
+    constructor(
+        scope: CoroutineScope
+    ) : this(
         scope = scope,
         artifactFactory = SimulatedTestSupport.artifactFactory(),
         streamClient = NoOpSensorStreamClient()
     )
 
-    override fun streamIntervalMs(): Long = 250L
-    override fun simulatedBatteryPercent(device: SensorDevice): Int? {
-        val baseline = 90 - (device.id.value.hashCode().absoluteValue % 12)
-        return baseline.coerceIn(40, 98)
+    override fun streamIntervalMs(): Long =
+        250L
+
+    override fun simulatedBatteryPercent(
+        device: SensorDevice
+    ): Int? {
+        val baseline =
+            90 - (device.id.value.hashCode().absoluteValue % 12)
+        return baseline.coerceIn(
+            40,
+            98
+        )
     }
 
-    override fun simulatedRssi(device: SensorDevice): Int? = -48
+    override fun simulatedRssi(
+        device: SensorDevice
+    ): Int? =
+        -48
+
     override fun sampleStatuses(
         timestamp: kotlin.time.Instant,
         frameCounter: Long,
         anchor: RecordingSessionAnchor
     ): List<SensorStreamStatus> {
-        val random = Random(deviceId.value.hashCode() + frameCounter.toInt())
-        val sampleRateHz = 128.0
-        val buffer = simulatedBufferedSeconds(
-            streamType = SensorStreamType.GSR,
-            baseVideo = 0.0,
-            baseSample = 0.6,
-            randomizer = { random.nextDouble(0.0, 0.15) }
-        )
+        val random =
+            Random(
+                deviceId.value.hashCode() + frameCounter.toInt()
+            )
+        val sampleRateHz =
+            128.0
+        val buffer =
+            simulatedBufferedSeconds(
+                streamType = SensorStreamType.GSR,
+                baseVideo = 0.0,
+                baseSample = 0.6,
+                randomizer = {
+                    random.nextDouble(
+                        0.0,
+                        0.15
+                    )
+                }
+            )
         return listOf(
             SensorStreamStatus(
                 deviceId = deviceId,
@@ -86,69 +118,116 @@ internal class SimulatedShimmerConnector @Inject constructor(
         )
     }
 
-    override suspend fun startStreaming(anchor: RecordingSessionAnchor): DeviceCommandResult {
-        val result = super.startStreaming(anchor)
-        if (result is DeviceCommandResult.Accepted) {
-            val emitter = streamClient.openStream(
-                sessionId = anchor.sessionId,
-                deviceId = deviceId,
-                streamId = STREAM_ID,
-                sampleRateHz = SAMPLE_RATE_HZ
+    override suspend fun startStreaming(
+        anchor: RecordingSessionAnchor
+    ): DeviceCommandResult {
+        val result =
+            super.startStreaming(
+                anchor
             )
-            this.emitter = emitter
+        if (result is DeviceCommandResult.Accepted) {
+            val emitter =
+                streamClient.openStream(
+                    sessionId = anchor.sessionId,
+                    deviceId = deviceId,
+                    streamId = STREAM_ID,
+                    sampleRateHz = SAMPLE_RATE_HZ
+                )
+            this.emitter =
+                emitter
             emissionJob?.cancel()
-            emissionJob = scope.launch(Dispatchers.Default) {
-                var sampleIndex = 0L
-                val startTimestamp = nowInstant()
-                while (isActive) {
-                    val elapsedMs = sampleIndex * SAMPLE_PERIOD_MS
-                    val timestampMs = startTimestamp.toEpochMilliseconds() + elapsedMs
-                    val conductance = generateConductance(sampleIndex)
-                    val resistance = if (conductance > 0.0) 1_000_000.0 / conductance else 0.0
-                    emitter.emit(
-                        timestampEpochMs = timestampMs,
-                        values = mapOf(
-                            "conductance_microsiemens" to conductance,
-                            "resistance_ohms" to resistance
+            emissionJob =
+                scope.launch(
+                    Dispatchers.Default
+                ) {
+                    var sampleIndex =
+                        0L
+                    val startTimestamp =
+                        nowInstant()
+                    while (isActive) {
+                        val elapsedMs =
+                            sampleIndex * SAMPLE_PERIOD_MS
+                        val timestampMs =
+                            startTimestamp.toEpochMilliseconds() + elapsedMs
+                        val conductance =
+                            generateConductance(
+                                sampleIndex
+                            )
+                        val resistance =
+                            if (conductance > 0.0) 1_000_000.0 / conductance else 0.0
+                        emitter.emit(
+                            timestampEpochMs = timestampMs,
+                            values = mapOf(
+                                "conductance_microsiemens" to conductance,
+                                "resistance_ohms" to resistance
+                            )
                         )
-                    )
-                    sampleIndex++
-                    delay(SAMPLE_PERIOD_MS)
+                        sampleIndex++
+                        delay(
+                            SAMPLE_PERIOD_MS
+                        )
+                    }
                 }
-            }
         }
         return result
     }
 
     override suspend fun stopStreaming(): DeviceCommandResult {
         emissionJob?.cancel()
-        emissionJob = null
+        emissionJob =
+            null
         runCatching { emitter?.close() }
-        emitter = null
+        emitter =
+            null
         return super.stopStreaming()
     }
 
-    private fun generateConductance(index: Long): Double {
-        val base = 5.0 + sin(index * 2.0 * PI / 256.0) * 0.2
-        val noise = Random(index.toInt()).nextDouble(-0.05, 0.05)
-        return (base + noise).coerceAtLeast(0.1)
+    private fun generateConductance(
+        index: Long
+    ): Double {
+        val base =
+            5.0 + sin(
+                index * 2.0 * PI / 256.0
+            ) * 0.2
+        val noise =
+            Random(
+                index.toInt()
+            ).nextDouble(
+                -0.05,
+                0.05
+            )
+        return (base + noise).coerceAtLeast(
+            0.1
+        )
     }
 
-    private class NoOpSensorStreamClient : SensorStreamClient {
+    private class NoOpSensorStreamClient :
+        SensorStreamClient {
         override suspend fun openStream(
             sessionId: String,
             deviceId: DeviceId,
             streamId: String,
             sampleRateHz: Double
-        ): SensorStreamEmitter = object : SensorStreamEmitter {
-            override suspend fun emit(timestampEpochMs: Long, values: Map<String, Double>) = Unit
-            override suspend fun close() = Unit
-        }
+        ): SensorStreamEmitter =
+            object :
+                SensorStreamEmitter {
+                override suspend fun emit(
+                    timestampEpochMs: Long,
+                    values: Map<String, Double>
+                ) =
+                    Unit
+
+                override suspend fun close() =
+                    Unit
+            }
     }
 
     private companion object {
-        private const val STREAM_ID = "gsr"
-        private const val SAMPLE_RATE_HZ = 128.0
-        private const val SAMPLE_PERIOD_MS = 8L
+        private const val STREAM_ID =
+            "gsr"
+        private const val SAMPLE_RATE_HZ =
+            128.0
+        private const val SAMPLE_PERIOD_MS =
+            8L
     }
 }

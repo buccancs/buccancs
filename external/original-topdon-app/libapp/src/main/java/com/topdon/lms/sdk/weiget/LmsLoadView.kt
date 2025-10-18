@@ -12,21 +12,29 @@ class LmsLoadView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(
+    context,
+    attrs,
+    defStyleAttr
+) {
 
     init {
         // Stub: minimal initialization
     }
 
     fun show() {
-        visibility = VISIBLE
+        visibility =
+            VISIBLE
     }
 
     fun hide() {
-        visibility = GONE
+        visibility =
+            GONE
     }
 
-    fun setLoadingText(text: String?) {
+    fun setLoadingText(
+        text: String?
+    ) {
         // Stub: no-op
     }
 }

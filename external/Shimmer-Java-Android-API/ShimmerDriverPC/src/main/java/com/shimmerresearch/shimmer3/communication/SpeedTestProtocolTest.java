@@ -49,7 +49,8 @@ public class SpeedTestProtocolTest {
         });
         try {
             protocol.connect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
         protocol.startSpeedTest();

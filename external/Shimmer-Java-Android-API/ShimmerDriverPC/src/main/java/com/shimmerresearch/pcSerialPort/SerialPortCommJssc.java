@@ -63,12 +63,14 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
             consolePrintLn("Port Status : " + Boolean.toString(mSerialPort.isOpened()));
             mSerialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
             eventDeviceConnected();
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             eventDeviceDisconnected();
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             eventDeviceDisconnected();
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
@@ -88,7 +90,8 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
                 mSerialPort.purgePort(2);
                 mSerialPort.closePort();
                 eventDeviceDisconnected();
-            } catch (SerialPortException e) {
+            } catch (
+                    SerialPortException e) {
                 ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING);
                 de.updateDeviceException(e.getMessage(), e.getStackTrace());
                 throw (de);
@@ -110,7 +113,8 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     public void clearSerialPortRxBuffer() throws ShimmerException {
         try {
             mSerialPort.purgePort(SerialPort.PURGE_RXCLEAR);
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTION);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
@@ -128,7 +132,10 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
             } else {  // fast speed - was causing issues with Windows but needed for OSX - Windows might be fixed now (23/03/2016)
                 jsscByteWriter.write(buf, mSerialPortTimeout);
             }
-        } catch (IOException | InterruptedException | TimeoutException e) {
+        } catch (
+                IOException |
+                InterruptedException |
+                TimeoutException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_WRITING_DATA);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
@@ -143,11 +150,13 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
                 consolePrintLn("Serial Port RX(" + rxBuf.length + ")" + UtilShimmer.bytesToHexStringWithSpacesFormatted(rxBuf));
             }
             return rxBuf;
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_READING_DATA);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
-        } catch (SerialPortTimeoutException e) {
+        } catch (
+                SerialPortTimeoutException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_TIMEOUT);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
@@ -172,7 +181,8 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
                 mSerialPort.setEventsMask(mask);
                 mSerialPort.addEventListener(mShimmerUartListener);
                 mIsSerialPortReaderStarted = true;
-            } catch (SerialPortException e) {
+            } catch (
+                    SerialPortException e) {
                 mIsSerialPortReaderStarted = false;
                 ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_READER_START);
                 de.updateDeviceException(e.getMessage(), e.getStackTrace());
@@ -184,7 +194,8 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
     public void stopSerialPortReader() throws ShimmerException {
         try {
             mSerialPort.removeEventListener();
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_READER_STOP);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
@@ -193,7 +204,8 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
         try {
             disconnect();
             mIsSerialPortReaderStarted = false;
-        } catch (ExecutionException e) {
+        } catch (
+                ExecutionException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_READER_STOP);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
@@ -239,7 +251,8 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
                 }
             }
 
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTION);
             de.updateDeviceException(e.getMessage(), e.getStackTrace());
             throw (de);
@@ -255,7 +268,8 @@ public class SerialPortCommJssc extends AbstractSerialPortHal implements SerialP
             } else {
                 return 0;
             }
-        } catch (SerialPortException ex) {
+        } catch (
+                SerialPortException ex) {
             ShimmerException de = generateException(ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTION);
             de.updateDeviceException(ex.getMessage(), ex.getStackTrace());
             throw (de);

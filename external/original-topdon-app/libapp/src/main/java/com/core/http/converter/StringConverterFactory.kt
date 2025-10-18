@@ -9,7 +9,8 @@ import retrofit2.Retrofit
 import java.lang.reflect.Type
 
 
-class StringConverterFactory : Converter.Factory() {
+class StringConverterFactory :
+    Converter.Factory() {
 
     override fun responseBodyConverter(
         type: Type?,
@@ -22,16 +23,23 @@ class StringConverterFactory : Converter.Factory() {
     }
 
     override fun requestBodyConverter(
-        type: Type?, parameterAnnotations: Array<Annotation>?,
-        methodAnnotations: Array<Annotation>?, retrofit: Retrofit?
+        type: Type?,
+        parameterAnnotations: Array<Annotation>?,
+        methodAnnotations: Array<Annotation>?,
+        retrofit: Retrofit?
     ): Converter<*, RequestBody>? {
         return if (String::class.java == type) {
-            Converter<String, RequestBody> { value -> value.toRequestBody(MEDIA_TYPE) }
+            Converter<String, RequestBody> { value ->
+                value.toRequestBody(
+                    MEDIA_TYPE
+                )
+            }
         } else null
     }
 
     companion object {
-        private val MEDIA_TYPE = "text/plain".toMediaTypeOrNull()
+        private val MEDIA_TYPE =
+            "text/plain".toMediaTypeOrNull()
 
         fun create(): StringConverterFactory {
             return StringConverterFactory()

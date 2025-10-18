@@ -3,16 +3,24 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven {
+            url 'https://maven.aliyun.com/repository/gradle-plugin'
+        }
     }
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode
+            .set(
+                    RepositoriesMode
+                            .FAIL_ON_PROJECT_REPOS
+            )
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://jitpack.io'
+        }
         maven {
             url 'https://maven.zohodl.com'
         }
@@ -25,7 +33,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TopInfrared"
+rootProject
+        .name =
+        "TopInfrared"
 // Re-enabling component modules incrementally
 // include ':app'
 // include ':component:pseudo'

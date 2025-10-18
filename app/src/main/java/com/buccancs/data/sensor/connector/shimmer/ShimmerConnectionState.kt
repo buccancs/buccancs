@@ -10,7 +10,8 @@ import kotlin.time.Instant
  */
 internal sealed class ShimmerConnectionState {
     /** Device is disconnected and idle */
-    data object Disconnected : ShimmerConnectionState()
+    data object Disconnected :
+        ShimmerConnectionState()
 
     /** Connection attempt in progress */
     data class Connecting(
@@ -37,17 +38,20 @@ internal sealed class ShimmerConnectionState {
     ) : ShimmerConnectionState()
 
     /** Helper to get device if in a connected state */
-    fun deviceOrNull(): ShimmerDevice? = when (this) {
-        is Connected -> device
-        is Streaming -> device
-        else -> null
-    }
+    fun deviceOrNull(): ShimmerDevice? =
+        when (this) {
+            is Connected -> device
+            is Streaming -> device
+            else -> null
+        }
 
     /** Helper to check if currently streaming */
-    fun isStreaming(): Boolean = this is Streaming
+    fun isStreaming(): Boolean =
+        this is Streaming
 
     /** Helper to check if connected (including streaming) */
-    fun isConnected(): Boolean = this is Connected || this is Streaming
+    fun isConnected(): Boolean =
+        this is Connected || this is Streaming
 }
 
 /**
@@ -56,7 +60,8 @@ internal sealed class ShimmerConnectionState {
  */
 internal sealed class RecordingState {
     /** No recording in progress */
-    data object Idle : RecordingState()
+    data object Idle :
+        RecordingState()
 
     /** Recording in progress */
     data class Recording(

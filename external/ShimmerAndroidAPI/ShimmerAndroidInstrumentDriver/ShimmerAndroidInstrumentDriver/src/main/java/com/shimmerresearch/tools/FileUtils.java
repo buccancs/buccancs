@@ -148,7 +148,8 @@ public class FileUtils {
                                 final Uri contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.valueOf(id));
 
                                 return getDataColumn(context, contentUri, null, null);
-                            } catch (NumberFormatException e) {
+                            } catch (
+                                    NumberFormatException e) {
                                 return uri.getPath().replaceFirst("^/document/raw:", "").replaceFirst("^raw:", "");
                             }
                         }
@@ -162,7 +163,8 @@ public class FileUtils {
                     try {
                         contentUri = ContentUris.withAppendedId(
                                 Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-                    } catch (NumberFormatException e) {
+                    } catch (
+                            NumberFormatException e) {
                         e.printStackTrace();
                     }
 
@@ -247,7 +249,8 @@ public class FileUtils {
                     if (cursor.moveToFirst()) {
                         return cursor.getString(column_index);
                     }
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -283,7 +286,8 @@ public class FileUtils {
             outputStream.close();
             Log.e(TAG, "Path " + file.getPath());
             Log.e(TAG, "Size " + file.length());
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Log.e(TAG, e.getMessage());
         }
 
@@ -330,7 +334,8 @@ public class FileUtils {
 
             inputStream.close();
             outputStream.close();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Log.e(TAG, e.getMessage());
         }
 

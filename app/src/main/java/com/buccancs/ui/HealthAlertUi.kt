@@ -10,9 +10,10 @@ data class HealthAlertUi(
     val message: String
 )
 
-fun HealthAlert.toUiModel(): HealthAlertUi = HealthAlertUi(
-    type = type,
-    severity = severity,
-    message = message
-)
+fun HealthAlert.toUiModel(): HealthAlertUi =
+    HealthAlertUi(
+        type = type,
+        severity = severity,
+        message = message
+    )
 

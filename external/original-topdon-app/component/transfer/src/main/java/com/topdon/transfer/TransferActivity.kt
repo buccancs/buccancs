@@ -28,12 +28,23 @@ import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-class TransferActivity : BaseActivity() {
+class TransferActivity :
+    BaseActivity() {
     private lateinit var transferDialog: TransferDialog
-    private val ivBack: ImageView by lazy { findViewById(R.id.iv_back) }
-    private val clSuccess: ConstraintLayout by lazy { findViewById(R.id.cl_success) }
+    private val ivBack: ImageView by lazy {
+        findViewById(
+            R.id.iv_back
+        )
+    }
+    private val clSuccess: ConstraintLayout by lazy {
+        findViewById(
+            R.id.cl_success
+        )
+    }
 
-    override fun initContentView(): Int = R.layout.activity_transfer
+    override fun initContentView(): Int =
+        R.layout.activity_transfer
+
     override fun initView() {
         ivBack.setOnClickListener {
             finish()
@@ -45,77 +56,165 @@ class TransferActivity : BaseActivity() {
     }
 
     private fun requestPermission() {
-        XXPermissions.with(this)
-            .permission(if (applicationInfo.targetSdkVersion < 33) Permission.READ_EXTERNAL_STORAGE else Permission.READ_MEDIA_IMAGES)
-            .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                    if (allGranted) {
-                        startTransfer()
-                    } else {
-                        ToastUtils.showShort(LibR.string.scan_ble_tip_authorize)
+        XXPermissions.with(
+            this
+        )
+            .permission(
+                if (applicationInfo.targetSdkVersion < 33) Permission.READ_EXTERNAL_STORAGE else Permission.READ_MEDIA_IMAGES
+            )
+            .request(
+                object :
+                    OnPermissionCallback {
+                    override fun onGranted(
+                        permissions: MutableList<String>,
+                        allGranted: Boolean
+                    ) {
+                        if (allGranted) {
+                            startTransfer()
+                        } else {
+                            ToastUtils.showShort(
+                                LibR.string.scan_ble_tip_authorize
+                            )
+                        }
                     }
-                }
 
-                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
-                    if (doNotAskAgain) {
-                        TipDialog.Builder(this@TransferActivity)
-                            .setTitleMessage(getString(LibR.string.app_tip))
-                            .setMessage(getString(LibR.string.app_album_content))
-                            .setPositiveListener(LibR.string.app_open) {
-                                AppUtils.launchAppDetailsSettings()
-                            }
-                            .setCancelListener(LibR.string.app_cancel) {
-                            }
-                            .setCanceled(true)
-                            .create().show()
+                    override fun onDenied(
+                        permissions: MutableList<String>,
+                        doNotAskAgain: Boolean
+                    ) {
+                        if (doNotAskAgain) {
+                            TipDialog.Builder(
+                                this@TransferActivity
+                            )
+                                .setTitleMessage(
+                                    getString(
+                                        LibR.string.app_tip
+                                    )
+                                )
+                                .setMessage(
+                                    getString(
+                                        LibR.string.app_album_content
+                                    )
+                                )
+                                .setPositiveListener(
+                                    LibR.string.app_open
+                                ) {
+                                    AppUtils.launchAppDetailsSettings()
+                                }
+                                .setCancelListener(
+                                    LibR.string.app_cancel
+                                ) {
+                                }
+                                .setCanceled(
+                                    true
+                                )
+                                .create()
+                                .show()
+                        }
                     }
-                }
-            })
+                })
     }
 
     private fun startTransfer() {
-        val oldGalleryList: Array<File>? = File(FileConfig.oldTc001GalleryDir).listFiles()
-        transferDialog = TransferDialog(this)
-        transferDialog.max = oldGalleryList?.size ?: 0
+        val oldGalleryList: Array<File>? =
+            File(
+                FileConfig.oldTc001GalleryDir
+            ).listFiles()
+        transferDialog =
+            TransferDialog(
+                this
+            )
+        transferDialog.max =
+            oldGalleryList?.size
+                ?: 0
         transferDialog.show()
         lifecycleScope.launch {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            window?.addFlags(
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            )
             transferIrFiles()
             transferImgFile()
             MediaScannerConnection.scanFile(
                 this@TransferActivity,
-                arrayOf(FileConfig.lineGalleryDir),
+                arrayOf(
+                    FileConfig.lineGalleryDir
+                ),
                 null,
                 null
             )
-            window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            window?.clearFlags(
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            )
             transferDialog.dismiss()
-            clSuccess.isVisible = true
+            clSuccess.isVisible =
+                true
         }
     }
 
     private suspend fun transferIrFiles() {
-        withContext(Dispatchers.IO) {
-            val irZipFile: File = UriUtils.uri2File(intent.data) ?: return@withContext
-            val zipFile = ZipFile(irZipFile)
-            val buffer = ByteArray(200 * 1024)
-            launch(Dispatchers.Main) {
+        withContext(
+            Dispatchers.IO
+        ) {
+            val irZipFile: File =
+                UriUtils.uri2File(
+                    intent.data
+                )
+                    ?: return@withContext
+            val zipFile =
+                ZipFile(
+                    irZipFile
+                )
+            val buffer =
+                ByteArray(
+                    200 * 1024
+                )
+            launch(
+                Dispatchers.Main
+            ) {
                 transferDialog.max += zipFile.size()
             }
-            val enumeration: Enumeration<out ZipEntry> = zipFile.entries()
+            val enumeration: Enumeration<out ZipEntry> =
+                zipFile.entries()
             while (enumeration.hasMoreElements()) {
                 try {
-                    val zipEntry: ZipEntry = enumeration.nextElement()
+                    val zipEntry: ZipEntry =
+                        enumeration.nextElement()
                     if (!zipEntry.isDirectory) {
-                        val targetParentFile = File(FileConfig.lineIrGalleryDir)
-                        val targetFile = File(targetParentFile, zipEntry.name)
-                        if (targetFile.canonicalPath.startsWith(targetParentFile.canonicalPath + File.separator)) {
-                            val inputStream: InputStream = zipFile.getInputStream(zipEntry)
-                            val fileOutputStream = FileOutputStream(targetFile)
-                            var readSize = inputStream.read(buffer)
+                        val targetParentFile =
+                            File(
+                                FileConfig.lineIrGalleryDir
+                            )
+                        val targetFile =
+                            File(
+                                targetParentFile,
+                                zipEntry.name
+                            )
+                        if (targetFile.canonicalPath.startsWith(
+                                targetParentFile.canonicalPath + File.separator
+                            )
+                        ) {
+                            val inputStream: InputStream =
+                                zipFile.getInputStream(
+                                    zipEntry
+                                )
+                            val fileOutputStream =
+                                FileOutputStream(
+                                    targetFile
+                                )
+                            var readSize =
+                                inputStream.read(
+                                    buffer
+                                )
                             while (readSize != -1) {
-                                fileOutputStream.write(buffer, 0, readSize)
-                                readSize = inputStream.read(buffer)
+                                fileOutputStream.write(
+                                    buffer,
+                                    0,
+                                    readSize
+                                )
+                                readSize =
+                                    inputStream.read(
+                                        buffer
+                                    )
                             }
                             inputStream.close()
                             fileOutputStream.close()
@@ -123,7 +222,9 @@ class TransferActivity : BaseActivity() {
                     }
                 } catch (_: Exception) {
                 }
-                launch(Dispatchers.Main) {
+                launch(
+                    Dispatchers.Main
+                ) {
                     transferDialog.progress += 1
                 }
             }
@@ -131,21 +232,44 @@ class TransferActivity : BaseActivity() {
     }
 
     private suspend fun transferImgFile() {
-        withContext(Dispatchers.IO) {
+        withContext(
+            Dispatchers.IO
+        ) {
             val oldGalleryList: Array<File> =
-                File(FileConfig.oldTc001GalleryDir).listFiles() ?: return@withContext
+                File(
+                    FileConfig.oldTc001GalleryDir
+                ).listFiles()
+                    ?: return@withContext
             oldGalleryList.forEach {
-                val newFile = File(FileConfig.lineGalleryDir, it.name)
+                val newFile =
+                    File(
+                        FileConfig.lineGalleryDir,
+                        it.name
+                    )
                 if (newFile.exists()) {
-                    val oldMd5 = EncryptUtils.encryptMD5File2String(it)
-                    val newMd5 = EncryptUtils.encryptMD5File2String(newFile)
+                    val oldMd5 =
+                        EncryptUtils.encryptMD5File2String(
+                            it
+                        )
+                    val newMd5 =
+                        EncryptUtils.encryptMD5File2String(
+                            newFile
+                        )
                     if (oldMd5 != newMd5) {
-                        FileUtils.copy(it, newFile)
+                        FileUtils.copy(
+                            it,
+                            newFile
+                        )
                     }
                 } else {
-                    FileUtils.copy(it, newFile)
+                    FileUtils.copy(
+                        it,
+                        newFile
+                    )
                 }
-                launch(Dispatchers.Main) {
+                launch(
+                    Dispatchers.Main
+                ) {
                     transferDialog.progress += 1
                 }
             }

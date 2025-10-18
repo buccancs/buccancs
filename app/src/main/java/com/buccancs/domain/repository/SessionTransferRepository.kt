@@ -10,5 +10,8 @@ interface SessionTransferRepository {
     val uploads: StateFlow<List<UploadStatus>>
     val recovery: StateFlow<List<UploadRecoveryRecord>>
     val backlog: StateFlow<UploadBacklogState>
-    suspend fun enqueue(sessionId: String, artifacts: List<SessionArtifact>)
+    suspend fun enqueue(
+        sessionId: String,
+        artifacts: List<SessionArtifact>
+    )
 }

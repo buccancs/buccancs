@@ -23,15 +23,21 @@ fun SectionHeader(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = Spacing.Small),
+            .padding(
+                top = Spacing.Small
+            ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+        horizontalArrangement = Arrangement.spacedBy(
+            Spacing.Small
+        )
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(start = Spacing.ExtraSmall)
+            modifier = Modifier.padding(
+                start = Spacing.ExtraSmall
+            )
         )
         Text(
             text = title,

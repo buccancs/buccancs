@@ -17,40 +17,70 @@ import com.topdon.lib.core.utils.ScreenUtil
  * 提示窗
  * create by fylder on 2018/6/15
  **/
-class TipProgressDialog : Dialog {
+class TipProgressDialog :
+    Dialog {
 
 
-    constructor(context: Context) : super(context)
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
 
     class Builder {
-        var dialog: TipProgressDialog? = null
+        var dialog: TipProgressDialog? =
+            null
 
-        private var context: Context? = null
+        private var context: Context? =
+            null
 
-        private var message: String? = null
-        private var canceleable = true
+        private var message: String? =
+            null
+        private var canceleable =
+            true
 
-        private var messageText: TextView? = null
+        private var messageText: TextView? =
+            null
 
-        constructor(context: Context) {
-            this.context = context
+        constructor(
+            context: Context
+        ) {
+            this.context =
+                context
         }
 
-        fun setMessage(message: String): Builder {
-            this.message = message
+        fun setMessage(
+            message: String
+        ): Builder {
+            this.message =
+                message
             return this
         }
 
-        fun setMessage(@StringRes message: Int): Builder {
-            this.message = context!!.getString(message)
+        fun setMessage(
+            @StringRes message: Int
+        ): Builder {
+            this.message =
+                context!!.getString(
+                    message
+                )
             return this
         }
 
-        fun setCanceleable(cancal: Boolean): Builder {
-            this.canceleable = cancal
+        fun setCanceleable(
+            cancal: Boolean
+        ): Builder {
+            this.canceleable =
+                cancal
             return this
         }
 
@@ -61,18 +91,33 @@ class TipProgressDialog : Dialog {
 
         fun create(): TipProgressDialog {
             if (dialog == null) {
-                dialog = TipProgressDialog(context!!, R.style.InfoDialog)
+                dialog =
+                    TipProgressDialog(
+                        context!!,
+                        R.style.InfoDialog
+                    )
             }
             val inflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_tip_progress, null)
-            messageText = view.dialog_tip_load_msg
+                context!!.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_tip_progress,
+                    null
+                )
+            messageText =
+                view.dialog_tip_load_msg
 
             dialog!!.addContentView(
                 view,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             val wRatio =
                 if (context!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     //竖屏
@@ -81,19 +126,32 @@ class TipProgressDialog : Dialog {
                     //横屏
                     0.35
                 }
-            lp.width = (ScreenUtil.getScreenWidth(context!!) * wRatio).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            lp.width =
+                (ScreenUtil.getScreenWidth(
+                    context!!
+                ) * wRatio).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(canceleable)
+            dialog!!.setCanceledOnTouchOutside(
+                canceleable
+            )
             //msg
             if (message != null) {
-                messageText?.visibility = View.VISIBLE
-                messageText?.setText(message, TextView.BufferType.NORMAL)
+                messageText?.visibility =
+                    View.VISIBLE
+                messageText?.setText(
+                    message,
+                    TextView.BufferType.NORMAL
+                )
             } else {
-                messageText?.visibility = View.GONE
+                messageText?.visibility =
+                    View.GONE
             }
 
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipProgressDialog
         }
     }
@@ -103,9 +161,13 @@ class TipProgressDialog : Dialog {
      * 提交回调
      */
     interface OnClickListener {
-        fun onClick(dialog: DialogInterface)
+        fun onClick(
+            dialog: DialogInterface
+        )
     }
 }
 
 private val View.dialog_tip_load_msg: TextView
-    get() = findViewById(R.id.dialog_tip_load_msg)
+    get() = findViewById(
+        R.id.dialog_tip_load_msg
+    )

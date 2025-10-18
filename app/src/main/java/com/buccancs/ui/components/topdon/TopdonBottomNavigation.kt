@@ -48,7 +48,11 @@ fun TopdonBottomNavigation(
         TopdonTab.entries.forEach { tab ->
             NavigationBarItem(
                 selected = selectedTab == tab,
-                onClick = { onTabSelected(tab) },
+                onClick = {
+                    onTabSelected(
+                        tab
+                    )
+                },
                 icon = {
                     Box {
                         Icon(
@@ -59,10 +63,18 @@ fun TopdonBottomNavigation(
                         if (tab == TopdonTab.PROFILE && showNotificationBadge) {
                             Box(
                                 modifier = Modifier
-                                    .size(8.dp)
-                                    .align(Alignment.TopEnd)
-                                    .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.error)
+                                    .size(
+                                        8.dp
+                                    )
+                                    .align(
+                                        Alignment.TopEnd
+                                    )
+                                    .clip(
+                                        CircleShape
+                                    )
+                                    .background(
+                                        MaterialTheme.colorScheme.error
+                                    )
                             )
                         }
                     }
@@ -90,8 +102,10 @@ fun TopdonCustomBottomNavigation(
 ) {
     AnimatedVisibility(
         visible = visible,
-        enter = slideInVertically(initialOffsetY = { it }),
-        exit = slideOutVertically(targetOffsetY = { it })
+        enter = slideInVertically(
+            initialOffsetY = { it }),
+        exit = slideOutVertically(
+            targetOffsetY = { it })
     ) {
         Surface(
             modifier = modifier.fillMaxWidth(),
@@ -102,7 +116,9 @@ fun TopdonCustomBottomNavigation(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
+                    .height(
+                        56.dp
+                    ),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -110,9 +126,15 @@ fun TopdonCustomBottomNavigation(
                     TopdonNavItem(
                         tab = tab,
                         selected = selectedTab == tab,
-                        onClick = { onTabSelected(tab) },
+                        onClick = {
+                            onTabSelected(
+                                tab
+                            )
+                        },
                         showBadge = tab == TopdonTab.PROFILE && showNotificationBadge,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(
+                            1f
+                        )
                     )
                 }
             }
@@ -145,16 +167,26 @@ private fun TopdonNavItem(
                     } else {
                         MaterialTheme.colorScheme.onSurfaceVariant
                     },
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(
+                        24.dp
+                    )
                 )
 
                 if (showBadge) {
                     Box(
                         modifier = Modifier
-                            .size(8.dp)
-                            .align(Alignment.TopEnd)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.error)
+                            .size(
+                                8.dp
+                            )
+                            .align(
+                                Alignment.TopEnd
+                            )
+                            .clip(
+                                CircleShape
+                            )
+                            .background(
+                                MaterialTheme.colorScheme.error
+                            )
                     )
                 }
             }
@@ -175,8 +207,20 @@ private fun TopdonNavItem(
     }
 }
 
-enum class TopdonTab(val label: String, val icon: ImageVector) {
-    GALLERY("Gallery", Icons.Default.Image),
-    CAMERA("Camera", Icons.Default.Thermostat),
-    PROFILE("Profile", Icons.Default.Person)
+enum class TopdonTab(
+    val label: String,
+    val icon: ImageVector
+) {
+    GALLERY(
+        "Gallery",
+        Icons.Default.Image
+    ),
+    CAMERA(
+        "Camera",
+        Icons.Default.Thermostat
+    ),
+    PROFILE(
+        "Profile",
+        Icons.Default.Person
+    )
 }

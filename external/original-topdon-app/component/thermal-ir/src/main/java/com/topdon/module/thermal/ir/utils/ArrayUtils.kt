@@ -6,10 +6,19 @@ object ArrayUtils {
         rotateType: Int = 0,
         selectIndexList: ArrayList<Int> = arrayListOf()
     ): Int {
-        val index = when (rotateType) {
-            1, 2, 3 -> getRotateMaxIndex(data, rotateType, selectIndexList)
-            else -> getMaxIndex(data, selectIndexList)
-        }
+        val index =
+            when (rotateType) {
+                1, 2, 3 -> getRotateMaxIndex(
+                    data,
+                    rotateType,
+                    selectIndexList
+                )
+
+                else -> getMaxIndex(
+                    data,
+                    selectIndexList
+                )
+            }
         return index
     }
 
@@ -18,18 +27,39 @@ object ArrayUtils {
         rotateType: Int = 0,
         selectIndexList: ArrayList<Int> = arrayListOf()
     ): Int {
-        val index = when (rotateType) {
-            1, 2, 3 -> getRotateMinIndex(data, rotateType, selectIndexList)
-            else -> getMinIndex(data, selectIndexList)
-        }
+        val index =
+            when (rotateType) {
+                1, 2, 3 -> getRotateMinIndex(
+                    data,
+                    rotateType,
+                    selectIndexList
+                )
+
+                else -> getMinIndex(
+                    data,
+                    selectIndexList
+                )
+            }
         return index
     }
 
-    fun matrixRotate(srcData: FloatArray, rotateType: Int = 0): FloatArray {
+    fun matrixRotate(
+        srcData: FloatArray,
+        rotateType: Int = 0
+    ): FloatArray {
         return when (rotateType) {
-            1 -> matrixRotate90(srcData)
-            2 -> matrixRotate180(srcData)
-            3 -> matrixRotate270(srcData)
+            1 -> matrixRotate90(
+                srcData
+            )
+
+            2 -> matrixRotate180(
+                srcData
+            )
+
+            3 -> matrixRotate270(
+                srcData
+            )
+
             else -> srcData
         }
     }
@@ -39,22 +69,30 @@ object ArrayUtils {
         selectIndexList: ArrayList<Int> = arrayListOf()
     ): Int {
         if (selectIndexList.size == 0) {
-            var maxIndex = 0
+            var maxIndex =
+                0
             for (i in 1 until data.size - 1) {
                 if (data[i] > data[maxIndex]) {
-                    maxIndex = i
+                    maxIndex =
+                        i
                 }
             }
             return maxIndex
         } else {
-            val selectPoint = FloatArray(selectIndexList.size)
+            val selectPoint =
+                FloatArray(
+                    selectIndexList.size
+                )
             for (i in 0 until selectIndexList.size) {
-                selectPoint[i] = data[selectIndexList[i]]
+                selectPoint[i] =
+                    data[selectIndexList[i]]
             }
-            var maxIndex = 0
+            var maxIndex =
+                0
             for (i in 1 until selectPoint.size - 1) {
                 if (selectPoint[i] > selectPoint[maxIndex]) {
-                    maxIndex = i
+                    maxIndex =
+                        i
                 }
             }
             return selectIndexList[maxIndex]
@@ -66,28 +104,36 @@ object ArrayUtils {
         selectIndexList: ArrayList<Int> = arrayListOf()
     ): Int {
         if (selectIndexList.size == 0) {
-            var minIndex = 0
+            var minIndex =
+                0
             for (i in 1 until data.size - 1) {
                 if (data[i] == 0f) {
                     continue
                 }
                 if (data[i] < data[minIndex]) {
-                    minIndex = i
+                    minIndex =
+                        i
                 }
             }
             return minIndex
         } else {
-            val selectPoint = FloatArray(selectIndexList.size)
+            val selectPoint =
+                FloatArray(
+                    selectIndexList.size
+                )
             for (i in 0 until selectIndexList.size) {
-                selectPoint[i] = data[selectIndexList[i]]
+                selectPoint[i] =
+                    data[selectIndexList[i]]
             }
-            var minIndex = 0
+            var minIndex =
+                0
             for (i in 1 until selectPoint.size - 1) {
                 if (selectPoint[i] == 0f) {
                     continue
                 }
                 if (selectPoint[i] < selectPoint[minIndex]) {
-                    minIndex = i
+                    minIndex =
+                        i
                 }
             }
             return selectIndexList[minIndex]
@@ -100,24 +146,40 @@ object ArrayUtils {
         selectIndexList: ArrayList<Int> = arrayListOf()
     ): Int {
         if (selectIndexList.size == 0) {
-            val destData = matrixRotate(data, rotateType)
-            var maxIndex = 0
+            val destData =
+                matrixRotate(
+                    data,
+                    rotateType
+                )
+            var maxIndex =
+                0
             for (i in 1 until destData.size - 1) {
                 if (destData[i] > destData[maxIndex]) {
-                    maxIndex = i
+                    maxIndex =
+                        i
                 }
             }
             return maxIndex
         } else {
-            val destData = matrixRotate(data, rotateType)
-            val selectPoint = FloatArray(selectIndexList.size)
+            val destData =
+                matrixRotate(
+                    data,
+                    rotateType
+                )
+            val selectPoint =
+                FloatArray(
+                    selectIndexList.size
+                )
             for (i in 0 until selectIndexList.size) {
-                selectPoint[i] = destData[selectIndexList[i]]
+                selectPoint[i] =
+                    destData[selectIndexList[i]]
             }
-            var maxIndex = 0
+            var maxIndex =
+                0
             for (i in 1 until selectPoint.size - 1) {
                 if (selectPoint[i] > selectPoint[maxIndex]) {
-                    maxIndex = i
+                    maxIndex =
+                        i
                 }
             }
             return selectIndexList[maxIndex]
@@ -130,103 +192,191 @@ object ArrayUtils {
         selectIndexList: ArrayList<Int> = arrayListOf()
     ): Int {
         if (selectIndexList.size == 0) {
-            val destData = matrixRotate(data, rotateType)
-            var minIndex = 0
+            val destData =
+                matrixRotate(
+                    data,
+                    rotateType
+                )
+            var minIndex =
+                0
             for (i in 1 until destData.size - 1) {
                 if (destData[i] == 0f) {
                     continue
                 }
                 if (destData[i] < destData[minIndex]) {
-                    minIndex = i
+                    minIndex =
+                        i
                 }
             }
             return minIndex
         } else {
-            val destData = matrixRotate(data, rotateType)
-            val selectPoint = FloatArray(selectIndexList.size)
+            val destData =
+                matrixRotate(
+                    data,
+                    rotateType
+                )
+            val selectPoint =
+                FloatArray(
+                    selectIndexList.size
+                )
             for (i in 0 until selectIndexList.size) {
-                selectPoint[i] = destData[selectIndexList[i]]
+                selectPoint[i] =
+                    destData[selectIndexList[i]]
             }
-            var minIndex = 0
+            var minIndex =
+                0
             for (i in 1 until selectPoint.size - 1) {
                 if (selectPoint[i] == 0f) {
                     continue
                 }
                 if (selectPoint[i] < selectPoint[minIndex]) {
-                    minIndex = i
+                    minIndex =
+                        i
                 }
             }
             return selectIndexList[minIndex]
         }
     }
 
-    private fun matrixRotate90(srcData: FloatArray): FloatArray {
-        val row = 192
-        val column = 256
-        val srcMatrix = Array(row) { FloatArray(column) }
+    private fun matrixRotate90(
+        srcData: FloatArray
+    ): FloatArray {
+        val row =
+            192
+        val column =
+            256
+        val srcMatrix =
+            Array(
+                row
+            ) {
+                FloatArray(
+                    column
+                )
+            }
         for (i in 0 until row) {
             for (j in 0 until column) {
-                srcMatrix[i][j] = srcData[i * column + j]
+                srcMatrix[i][j] =
+                    srcData[i * column + j]
             }
         }
-        val destMatrix = Array(column) { FloatArray(row) }
+        val destMatrix =
+            Array(
+                column
+            ) {
+                FloatArray(
+                    row
+                )
+            }
         for (x in 0 until column) {
             for (y in 0 until row) {
-                destMatrix[x][y] = srcMatrix[row - 1 - y][x]
+                destMatrix[x][y] =
+                    srcMatrix[row - 1 - y][x]
             }
         }
-        val data = FloatArray(srcData.size)
+        val data =
+            FloatArray(
+                srcData.size
+            )
         for (i in destMatrix.indices) {
             for (j in destMatrix[i].indices) {
-                data[destMatrix[0].size * i + j] = destMatrix[i][j]
+                data[destMatrix[0].size * i + j] =
+                    destMatrix[i][j]
             }
         }
         return data
     }
 
-    private fun matrixRotate180(srcData: FloatArray): FloatArray {
-        val row = 192
-        val column = 256
-        val srcMatrix = Array(row) { FloatArray(column) }
+    private fun matrixRotate180(
+        srcData: FloatArray
+    ): FloatArray {
+        val row =
+            192
+        val column =
+            256
+        val srcMatrix =
+            Array(
+                row
+            ) {
+                FloatArray(
+                    column
+                )
+            }
         for (i in 0 until row) {
             for (j in 0 until column) {
-                srcMatrix[i][j] = srcData[i * column + j]
+                srcMatrix[i][j] =
+                    srcData[i * column + j]
             }
         }
-        val destMatrix = Array(row) { FloatArray(column) }
+        val destMatrix =
+            Array(
+                row
+            ) {
+                FloatArray(
+                    column
+                )
+            }
         for (x in 0 until row) {
             for (y in 0 until column) {
-                destMatrix[x][y] = srcMatrix[row - 1 - x][column - 1 - y]
+                destMatrix[x][y] =
+                    srcMatrix[row - 1 - x][column - 1 - y]
             }
         }
-        val data = FloatArray(srcData.size)
+        val data =
+            FloatArray(
+                srcData.size
+            )
         for (i in destMatrix.indices) {
             for (j in destMatrix[i].indices) {
-                data[destMatrix[0].size * i + j] = destMatrix[i][j]
+                data[destMatrix[0].size * i + j] =
+                    destMatrix[i][j]
             }
         }
         return data
     }
 
-    private fun matrixRotate270(srcData: FloatArray): FloatArray {
-        val row = 192
-        val column = 256
-        val srcMatrix = Array(row) { FloatArray(column) }
+    private fun matrixRotate270(
+        srcData: FloatArray
+    ): FloatArray {
+        val row =
+            192
+        val column =
+            256
+        val srcMatrix =
+            Array(
+                row
+            ) {
+                FloatArray(
+                    column
+                )
+            }
         for (i in 0 until row) {
             for (j in 0 until column) {
-                srcMatrix[i][j] = srcData[i * column + j]
+                srcMatrix[i][j] =
+                    srcData[i * column + j]
             }
         }
-        val destMatrix = Array(column) { FloatArray(row) }
+        val destMatrix =
+            Array(
+                column
+            ) {
+                FloatArray(
+                    row
+                )
+            }
         for (x in 0 until column) {
             for (y in 0 until row) {
-                destMatrix[x][y] = srcMatrix[y][column - 1 - x]
+                destMatrix[x][y] =
+                    srcMatrix[y][column - 1 - x]
             }
         }
-        val data = FloatArray(srcData.size)
+        val data =
+            FloatArray(
+                srcData.size
+            )
         for (i in destMatrix.indices) {
             for (j in destMatrix[i].indices) {
-                data[destMatrix[0].size * i + j] = destMatrix[i][j]
+                data[destMatrix[0].size * i + j] =
+                    destMatrix[i][j]
             }
         }
         return data

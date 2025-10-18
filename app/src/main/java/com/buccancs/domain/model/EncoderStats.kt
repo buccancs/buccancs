@@ -13,17 +13,18 @@ data class EncoderStats(
     val maxEncodeLatencyMillis: Double,
     val averageEncodeLatencyMillis: Double
 ) {
-    fun asMetadata(): Map<String, String> = mapOf(
-        "segmentIndex" to segmentIndex.toString(),
-        "startedAtEpochMs" to startedAtEpochMs.toString(),
-        "endedAtEpochMs" to endedAtEpochMs.toString(),
-        "durationMillis" to durationMillis.toString(),
-        "frameCount" to frameCount.toString(),
-        "keyFrameCount" to keyFrameCount.toString(),
-        "droppedFrameCount" to droppedFrameCount.toString(),
-        "bytesWritten" to bytesWritten.toString(),
-        "averageBitrateBps" to averageBitrateBps.toString(),
-        "maxEncodeLatencyMillis" to maxEncodeLatencyMillis.toString(),
-        "averageEncodeLatencyMillis" to averageEncodeLatencyMillis.toString()
-    )
+    fun asMetadata(): Map<String, String> =
+        mapOf(
+            "segmentIndex" to segmentIndex.toString(),
+            "startedAtEpochMs" to startedAtEpochMs.toString(),
+            "endedAtEpochMs" to endedAtEpochMs.toString(),
+            "durationMillis" to durationMillis.toString(),
+            "frameCount" to frameCount.toString(),
+            "keyFrameCount" to keyFrameCount.toString(),
+            "droppedFrameCount" to droppedFrameCount.toString(),
+            "bytesWritten" to bytesWritten.toString(),
+            "averageBitrateBps" to averageBitrateBps.toString(),
+            "maxEncodeLatencyMillis" to maxEncodeLatencyMillis.toString(),
+            "averageEncodeLatencyMillis" to averageEncodeLatencyMillis.toString()
+        )
 }

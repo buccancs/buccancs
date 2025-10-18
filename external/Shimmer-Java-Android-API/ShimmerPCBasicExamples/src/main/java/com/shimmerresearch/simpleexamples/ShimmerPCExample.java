@@ -61,7 +61,8 @@ public class ShimmerPCExample {
             public void actionPerformed(ActionEvent e) {
                 try {
                     shimmer.disconnect();
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -74,7 +75,8 @@ public class ShimmerPCExample {
             public void actionPerformed(ActionEvent e) {
                 try {
                     shimmer.startStreaming();
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -148,7 +150,8 @@ public class ShimmerPCExample {
 
                 try {
                     plotManager.filterDataAndPlot(objc);
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             } else if (ind == ShimmerPC.MSG_IDENTIFIER_PACKET_RECEPTION_RATE_OVERALL) {

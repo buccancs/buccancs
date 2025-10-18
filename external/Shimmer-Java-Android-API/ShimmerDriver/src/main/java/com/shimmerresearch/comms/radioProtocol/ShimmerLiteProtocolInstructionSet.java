@@ -261,9 +261,11 @@ public final class ShimmerLiteProtocolInstructionSet {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (
+                    com.google.protobuf.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
+            } catch (
+                    java.io.IOException e) {
                 throw new com.google.protobuf.InvalidProtocolBufferException(
                         e).setUnfinishedMessage(this);
             } finally {
@@ -389,8 +391,10 @@ public final class ShimmerLiteProtocolInstructionSet {
 
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1)
+                return true;
+            if (isInitialized == 0)
+                return false;
 
             memoizedIsInitialized = 1;
             return true;
@@ -403,7 +407,8 @@ public final class ShimmerLiteProtocolInstructionSet {
 
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1)
+                return size;
 
             size = 0;
             size += unknownFields.getSerializedSize();
@@ -1421,7 +1426,8 @@ public final class ShimmerLiteProtocolInstructionSet {
                 com.shimmerresearch.comms.radioProtocol.ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (
+                        com.google.protobuf.InvalidProtocolBufferException e) {
                     parsedMessage = (com.shimmerresearch.comms.radioProtocol.ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {

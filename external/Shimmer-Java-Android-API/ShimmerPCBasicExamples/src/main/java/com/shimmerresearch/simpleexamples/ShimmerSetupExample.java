@@ -21,7 +21,8 @@ public class ShimmerSetupExample extends BasicProcessWithCallBack {
         pc.connect("COM46", "");
         try {
             pc.connect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
         setWaitForData(pc);

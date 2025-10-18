@@ -46,7 +46,8 @@ public class BitmapUtils {
         try {
             // 将原始图片按照旋转矩阵进行旋转，并得到新的图片
             returnBm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-        } catch (OutOfMemoryError e) {
+        } catch (
+                OutOfMemoryError e) {
         }
         if (returnBm == null) {
             returnBm = bm;
@@ -71,7 +72,8 @@ public class BitmapUtils {
             out.flush();
             out.close();
             return out.toByteArray();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             return null;
         }
     }
@@ -96,13 +98,15 @@ public class BitmapUtils {
             out.write(bytes);
             out.flush();
             success = true;
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         } finally {
             if (out != null) {
                 try {
                     out.close();
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -160,7 +164,8 @@ public class BitmapUtils {
      * @return bitmap
      */
     public static boolean saveFile(String file, Bitmap bmp) {
-        if (TextUtils.isEmpty(file) || bmp == null) return false;
+        if (TextUtils.isEmpty(file) || bmp == null)
+            return false;
 
         File f = new File(file);
         if (f.exists()) {
@@ -176,7 +181,8 @@ public class BitmapUtils {
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -294,9 +300,11 @@ public class BitmapUtils {
             fos.write(bytes);
             fos.write(bytes2);
             fos.close();
-        } catch (FileNotFoundException e) {
+        } catch (
+                FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }

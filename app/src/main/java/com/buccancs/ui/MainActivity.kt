@@ -16,34 +16,55 @@ import com.buccancs.ui.theme.BuccancsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity :
+    ComponentActivity() {
 
-    private val permissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        // Handle permission results if needed
-    }
+    private val permissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            // Handle permission results if needed
+        }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
         requestRequiredPermissions()
 
-        val composeView = ComposeView(this).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(this@MainActivity))
-            setTestTagsAsResourceIdCompat(true)
-        }
+        val composeView =
+            ComposeView(
+                this
+            ).apply {
+                setViewCompositionStrategy(
+                    ViewCompositionStrategy.DisposeOnLifecycleDestroyed(
+                        this@MainActivity
+                    )
+                )
+                setTestTagsAsResourceIdCompat(
+                    true
+                )
+            }
         composeView.setContent {
             BuccancsTheme {
                 AppNavHost()
             }
         }
-        setContentView(composeView)
+        setContentView(
+            composeView
+        )
     }
 
     private fun requestRequiredPermissions() {
-        val permissionsToRequest = mutableListOf<String>()
+        val permissionsToRequest =
+            mutableListOf<String>()
 
         // Bluetooth permissions (Android 12+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -52,14 +73,18 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.BLUETOOTH_SCAN
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                permissionsToRequest.add(Manifest.permission.BLUETOOTH_SCAN)
+                permissionsToRequest.add(
+                    Manifest.permission.BLUETOOTH_SCAN
+                )
             }
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.BLUETOOTH_CONNECT
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT)
+                permissionsToRequest.add(
+                    Manifest.permission.BLUETOOTH_CONNECT
+                )
             }
         }
 
@@ -69,7 +94,9 @@ class MainActivity : ComponentActivity() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            permissionsToRequest.add(Manifest.permission.ACCESS_FINE_LOCATION)
+            permissionsToRequest.add(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
         }
 
         // Camera
@@ -78,7 +105,9 @@ class MainActivity : ComponentActivity() {
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            permissionsToRequest.add(Manifest.permission.CAMERA)
+            permissionsToRequest.add(
+                Manifest.permission.CAMERA
+            )
         }
 
         // Microphone
@@ -87,7 +116,9 @@ class MainActivity : ComponentActivity() {
                 Manifest.permission.RECORD_AUDIO
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            permissionsToRequest.add(Manifest.permission.RECORD_AUDIO)
+            permissionsToRequest.add(
+                Manifest.permission.RECORD_AUDIO
+            )
         }
 
         // Notifications (Android 13+)
@@ -97,28 +128,47 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                permissionsToRequest.add(Manifest.permission.POST_NOTIFICATIONS)
+                permissionsToRequest.add(
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
             }
         }
 
         if (permissionsToRequest.isNotEmpty()) {
-            permissionLauncher.launch(permissionsToRequest.toTypedArray())
+            permissionLauncher.launch(
+                permissionsToRequest.toTypedArray()
+            )
         }
     }
 }
 
-private fun ComposeView.setTestTagsAsResourceIdCompat(enable: Boolean) {
+private fun ComposeView.setTestTagsAsResourceIdCompat(
+    enable: Boolean
+) {
     runCatching {
-        val method = ComposeView::class.java.getMethod(
-            "setTestTagsAsResourceId",
-            java.lang.Boolean.TYPE
+        val method =
+            ComposeView::class.java.getMethod(
+                "setTestTagsAsResourceId",
+                java.lang.Boolean.TYPE
+            )
+        method.invoke(
+            this,
+            enable
         )
-        method.invoke(this, enable)
     }.onSuccess {
-        Log.d(TAG, "setTestTagsAsResourceIdCompat invoked (enable=$enable)")
-    }.onFailure { throwable ->
-        Log.w(TAG, "Failed to set test tags as resource ids", throwable)
+        Log.d(
+            TAG,
+            "setTestTagsAsResourceIdCompat invoked (enable=$enable)"
+        )
     }
+        .onFailure { throwable ->
+            Log.w(
+                TAG,
+                "Failed to set test tags as resource ids",
+                throwable
+            )
+        }
 }
 
-private const val TAG = "MainActivity"
+private const val TAG =
+    "MainActivity"

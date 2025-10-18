@@ -5,7 +5,9 @@ import com.topdon.lib.core.common.SaveSettingUtil
 
 object DualParamsUtil {
 
-    fun wifiFusionTypeToParams(fusionType: Int): Int {
+    fun wifiFusionTypeToParams(
+        fusionType: Int
+    ): Int {
         return when (fusionType) {
             SaveSettingUtil.FusionTypeVLOnly -> 3
             SaveSettingUtil.FusionTypeIROnlyNoFusion -> 1
@@ -15,7 +17,9 @@ object DualParamsUtil {
         }
     }
 
-    fun fusionTypeToParams(fusionType: Int): DualCameraParams.FusionType {
+    fun fusionTypeToParams(
+        fusionType: Int
+    ): DualCameraParams.FusionType {
         return when (fusionType) {
             SaveSettingUtil.FusionTypeVLOnly -> DualCameraParams.FusionType.VLOnly
             SaveSettingUtil.FusionTypeIROnlyNoFusion -> DualCameraParams.FusionType.IROnlyNoFusion
@@ -28,7 +32,9 @@ object DualParamsUtil {
         }
     }
 
-    fun paramsToFusionType(fusionTypeP: DualCameraParams.FusionType): Int {
+    fun paramsToFusionType(
+        fusionTypeP: DualCameraParams.FusionType
+    ): Int {
         return when (fusionTypeP) {
             DualCameraParams.FusionType.VLOnly -> SaveSettingUtil.FusionTypeVLOnly
             DualCameraParams.FusionType.IROnlyNoFusion -> SaveSettingUtil.FusionTypeIROnlyNoFusion

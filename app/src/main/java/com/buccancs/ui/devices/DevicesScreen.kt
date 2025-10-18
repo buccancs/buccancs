@@ -67,19 +67,20 @@ fun DevicesRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val calibrationState by calibrationViewModel.uiState.collectAsStateWithLifecycle()
 
-    val calibrationActions = CalibrationActions(
-        onRowsChanged = calibrationViewModel::updatePatternRows,
-        onColsChanged = calibrationViewModel::updatePatternCols,
-        onSquareSizeChanged = calibrationViewModel::updateSquareSizeMm,
-        onRequiredPairsChanged = calibrationViewModel::updateRequiredPairs,
-        onApplySettings = calibrationViewModel::applyPatternSettings,
-        onStartSession = calibrationViewModel::startSession,
-        onCapturePair = calibrationViewModel::capture,
-        onComputeCalibration = calibrationViewModel::computeCalibration,
-        onLoadCachedResult = calibrationViewModel::loadCachedResult,
-        onClearSession = calibrationViewModel::clearSession,
-        onRemoveCapture = calibrationViewModel::removeCapture
-    )
+    val calibrationActions =
+        CalibrationActions(
+            onRowsChanged = calibrationViewModel::updatePatternRows,
+            onColsChanged = calibrationViewModel::updatePatternCols,
+            onSquareSizeChanged = calibrationViewModel::updateSquareSizeMm,
+            onRequiredPairsChanged = calibrationViewModel::updateRequiredPairs,
+            onApplySettings = calibrationViewModel::applyPatternSettings,
+            onStartSession = calibrationViewModel::startSession,
+            onCapturePair = calibrationViewModel::capture,
+            onComputeCalibration = calibrationViewModel::computeCalibration,
+            onLoadCachedResult = calibrationViewModel::loadCachedResult,
+            onClearSession = calibrationViewModel::clearSession,
+            onRemoveCapture = calibrationViewModel::removeCapture
+        )
 
     DevicesScreen(
         state = state,
@@ -92,7 +93,9 @@ fun DevicesRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun DevicesScreen(
     state: MainUiState,
@@ -103,30 +106,59 @@ fun DevicesScreen(
     onOpenTopdon: (DeviceId) -> Unit,
     onOpenShimmer: (DeviceId) -> Unit
 ) {
-    var selectedTab by remember { mutableIntStateOf(0) }
+    var selectedTab by remember {
+        mutableIntStateOf(
+            0
+        )
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("Devices") },
+                title = {
+                    Text(
+                        "Devices"
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors()
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(
+                    paddingValues
+                )
         ) {
-            PrimaryTabRow(selectedTabIndex = selectedTab) {
+            PrimaryTabRow(
+                selectedTabIndex = selectedTab
+            ) {
                 deviceTabs.forEachIndexed { index, tab ->
                     Tab(
                         selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        text = { Text(tab.title) },
-                        icon = { Icon(tab.icon, contentDescription = tab.title) }
+                        onClick = {
+                            selectedTab =
+                                index
+                        },
+                        text = {
+                            Text(
+                                tab.title
+                            )
+                        },
+                        icon = {
+                            Icon(
+                                tab.icon,
+                                contentDescription = tab.title
+                            )
+                        }
                     )
                 }
             }
@@ -134,21 +166,43 @@ fun DevicesScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(LayoutPadding.ScreenCompact),
-                verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                    .padding(
+                        LayoutPadding.ScreenCompact
+                    ),
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.Medium
+                )
             ) {
                 when (selectedTab) {
                     0 -> { // All Devices
-                        items(state.devices, key = { it.id.value }) { device ->
+                        items(
+                            state.devices,
+                            key = { it.id.value }) { device ->
                             DeviceCard(
                                 device = device,
-                                onConnect = { onConnectDevice(device.id) },
-                                onDisconnect = { onDisconnectDevice(device.id) },
+                                onConnect = {
+                                    onConnectDevice(
+                                        device.id
+                                    )
+                                },
+                                onDisconnect = {
+                                    onDisconnectDevice(
+                                        device.id
+                                    )
+                                },
                                 onOpenTopdon = if (device.supportsTopdon) {
-                                    { onOpenTopdon(device.id) }
+                                    {
+                                        onOpenTopdon(
+                                            device.id
+                                        )
+                                    }
                                 } else null,
                                 onOpenShimmer = if (device.shimmer != null) {
-                                    { onOpenShimmer(device.id) }
+                                    {
+                                        onOpenShimmer(
+                                            device.id
+                                        )
+                                    }
                                 } else null
                             )
                         }
@@ -165,11 +219,23 @@ fun DevicesScreen(
                             key = { it.id.value }) { device ->
                             DeviceCard(
                                 device = device,
-                                onConnect = { onConnectDevice(device.id) },
-                                onDisconnect = { onDisconnectDevice(device.id) },
+                                onConnect = {
+                                    onConnectDevice(
+                                        device.id
+                                    )
+                                },
+                                onDisconnect = {
+                                    onDisconnectDevice(
+                                        device.id
+                                    )
+                                },
                                 onOpenTopdon = null,
                                 onOpenShimmer = if (device.shimmer != null) {
-                                    { onOpenShimmer(device.id) }
+                                    {
+                                        onOpenShimmer(
+                                            device.id
+                                        )
+                                    }
                                 } else null
                             )
                         }
@@ -181,9 +247,21 @@ fun DevicesScreen(
                             key = { it.id.value }) { device ->
                             DeviceCard(
                                 device = device,
-                                onConnect = { onConnectDevice(device.id) },
-                                onDisconnect = { onDisconnectDevice(device.id) },
-                                onOpenTopdon = { onOpenTopdon(device.id) },
+                                onConnect = {
+                                    onConnectDevice(
+                                        device.id
+                                    )
+                                },
+                                onDisconnect = {
+                                    onDisconnectDevice(
+                                        device.id
+                                    )
+                                },
+                                onOpenTopdon = {
+                                    onOpenTopdon(
+                                        device.id
+                                    )
+                                },
                                 onOpenShimmer = null
                             )
                         }
@@ -220,7 +298,11 @@ private fun DeviceCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(
+                    1f
+                )
+            ) {
                 Text(
                     text = device.title,
                     style = MaterialTheme.typography.titleMedium,
@@ -250,7 +332,9 @@ private fun DeviceCard(
                         horizontal = Spacing.SmallMedium,
                         vertical = Spacing.Small
                     ),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.ExtraSmall
+                    ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -265,7 +349,9 @@ private fun DeviceCard(
                     Icon(
                         imageVector = if (device.isConnected) Icons.Default.Check else Icons.Default.Close,
                         contentDescription = null,
-                        modifier = Modifier.size(Dimensions.IconSizeSmall),
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        ),
                         tint = if (device.isConnected) {
                             MaterialTheme.colorScheme.onPrimaryContainer
                         } else {
@@ -278,38 +364,64 @@ private fun DeviceCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (!device.isConnected) {
                 FilledTonalButton(
                     onClick = onConnect,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = null,
-                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        )
                     )
-                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                    Text("Connect")
+                    Spacer(
+                        modifier = Modifier.width(
+                            Spacing.ExtraSmall
+                        )
+                    )
+                    Text(
+                        "Connect"
+                    )
                 }
             } else {
                 OutlinedButton(
                     onClick = onDisconnect,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = null,
-                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        )
                     )
-                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                    Text("Disconnect")
+                    Spacer(
+                        modifier = Modifier.width(
+                            Spacing.ExtraSmall
+                        )
+                    )
+                    Text(
+                        "Disconnect"
+                    )
                 }
             }
 
@@ -318,16 +430,28 @@ private fun DeviceCard(
                     onClick = it,
                     enabled = device.isConnected,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = null,
-                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        )
                     )
-                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                    Text("Configure")
+                    Spacer(
+                        modifier = Modifier.width(
+                            Spacing.ExtraSmall
+                        )
+                    )
+                    Text(
+                        "Configure"
+                    )
                 }
             }
 
@@ -336,27 +460,55 @@ private fun DeviceCard(
                     onClick = it,
                     enabled = device.isConnected,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = null,
-                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        )
                     )
-                    Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                    Text("Configure")
+                    Spacer(
+                        modifier = Modifier.width(
+                            Spacing.ExtraSmall
+                        )
+                    )
+                    Text(
+                        "Configure"
+                    )
                 }
             }
         }
     }
 }
 
-private data class DeviceTab(val title: String, val icon: ImageVector)
-
-private val deviceTabs = listOf(
-    DeviceTab("All", Icons.Default.Bluetooth),
-    DeviceTab("Shimmer", Icons.Default.Bluetooth),
-    DeviceTab("TOPDON", Icons.Default.Thermostat),
-    DeviceTab("Calibration", Icons.Default.Camera)
+private data class DeviceTab(
+    val title: String,
+    val icon: ImageVector
 )
+
+private val deviceTabs =
+    listOf(
+        DeviceTab(
+            "All",
+            Icons.Default.Bluetooth
+        ),
+        DeviceTab(
+            "Shimmer",
+            Icons.Default.Bluetooth
+        ),
+        DeviceTab(
+            "TOPDON",
+            Icons.Default.Thermostat
+        ),
+        DeviceTab(
+            "Calibration",
+            Icons.Default.Camera
+        )
+    )

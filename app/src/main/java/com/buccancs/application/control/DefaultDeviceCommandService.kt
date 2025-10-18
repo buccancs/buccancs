@@ -40,17 +40,31 @@ class DefaultDeviceCommandService @Inject constructor(
     private val identityProvider: DeviceIdentityProvider,
     private val stimulusPresentationManager: StimulusPresentationManager
 ) : DeviceCommandService {
-    private val _lastCommand = MutableStateFlow<DeviceCommandPayload?>(null)
-    override val lastCommand: StateFlow<DeviceCommandPayload?> = _lastCommand.asStateFlow()
-    private val _commands = MutableSharedFlow<DeviceCommandPayload>(extraBufferCapacity = 64)
-    override val commands: SharedFlow<DeviceCommandPayload> = _commands.asSharedFlow()
-    private val _syncSignals = MutableSharedFlow<SyncSignalCommandPayload>(extraBufferCapacity = 32)
-    override val syncSignals: SharedFlow<SyncSignalCommandPayload> = _syncSignals.asSharedFlow()
+    private val _lastCommand =
+        MutableStateFlow<DeviceCommandPayload?>(
+            null
+        )
+    override val lastCommand: StateFlow<DeviceCommandPayload?> =
+        _lastCommand.asStateFlow()
+    private val _commands =
+        MutableSharedFlow<DeviceCommandPayload>(
+            extraBufferCapacity = 64
+        )
+    override val commands: SharedFlow<DeviceCommandPayload> =
+        _commands.asSharedFlow()
+    private val _syncSignals =
+        MutableSharedFlow<SyncSignalCommandPayload>(
+            extraBufferCapacity = 32
+        )
+    override val syncSignals: SharedFlow<SyncSignalCommandPayload> =
+        _syncSignals.asSharedFlow()
 
     init {
         scope.launch {
             commandClient.commands.collect { payload ->
-                onCommandReceived(payload)
+                onCommandReceived(
+                    payload
+                )
             }
         }
         scope.launch {
@@ -58,105 +72,181 @@ class DefaultDeviceCommandService @Inject constructor(
         }
     }
 
-    override suspend fun acknowledge(commandId: String, success: Boolean, message: String?) {
-        commandClient.reportReceipt(commandId, success, message)
+    override suspend fun acknowledge(
+        commandId: String,
+        success: Boolean,
+        message: String?
+    ) {
+        commandClient.reportReceipt(
+            commandId,
+            success,
+            message
+        )
     }
 
     override fun issueLocalToken(
         sessionId: String,
         ttlMillis: Long
     ): DeviceCommandService.ControlToken {
-        val issued = controlServer.issueToken(sessionId, ttlMillis)
+        val issued =
+            controlServer.issueToken(
+                sessionId,
+                ttlMillis
+            )
         return DeviceCommandService.ControlToken(
             value = issued.value,
             expiresAt = issued.expiresAt
         )
     }
 
-    private suspend fun onCommandReceived(payload: DeviceCommandPayload) {
-        _lastCommand.value = payload
-        _commands.emit(payload)
+    private suspend fun onCommandReceived(
+        payload: DeviceCommandPayload
+    ) {
+        _lastCommand.value =
+            payload
+        _commands.emit(
+            payload
+        )
         when (payload) {
-            is SyncSignalCommandPayload -> handleSync(payload)
-            is EventMarkerCommandPayload -> handleEventMarker(payload)
-            is StimulusCommandPayload -> handleStimulus(payload)
-            else -> handleGeneric(payload)
+            is SyncSignalCommandPayload -> handleSync(
+                payload
+            )
+
+            is EventMarkerCommandPayload -> handleEventMarker(
+                payload
+            )
+
+            is StimulusCommandPayload -> handleStimulus(
+                payload
+            )
+
+            else -> handleGeneric(
+                payload
+            )
         }
     }
 
-    private fun handleSync(payload: SyncSignalCommandPayload) {
+    private fun handleSync(
+        payload: SyncSignalCommandPayload
+    ) {
         scope.launch {
-            delayForExecution(payload.executeEpochMs)
-            stimulusPresentationManager.presentSyncCue(payload.signalType)
+            delayForExecution(
+                payload.executeEpochMs
+            )
+            stimulusPresentationManager.presentSyncCue(
+                payload.signalType
+            )
             recordEvent(
                 DeviceEvent(
                     id = payload.commandId,
                     type = DeviceEventType.SYNC_SIGNAL,
                     label = payload.signalType,
-                    scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
+                    scheduledAt = Instant.fromEpochMilliseconds(
+                        payload.executeEpochMs
+                    ),
                     receivedAt = nowInstant()
                 )
             )
-            _syncSignals.emit(payload)
-            Log.i(TAG, "Sync command ${payload.commandId} executed")
+            _syncSignals.emit(
+                payload
+            )
+            Log.i(
+                TAG,
+                "Sync command ${payload.commandId} executed"
+            )
         }
     }
 
-    private fun handleEventMarker(payload: EventMarkerCommandPayload) {
+    private fun handleEventMarker(
+        payload: EventMarkerCommandPayload
+    ) {
         scope.launch {
-            delayForExecution(payload.executeEpochMs)
+            delayForExecution(
+                payload.executeEpochMs
+            )
             recordEvent(
                 DeviceEvent(
                     id = payload.markerId,
                     type = DeviceEventType.EVENT_MARKER,
                     label = payload.description,
-                    scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
+                    scheduledAt = Instant.fromEpochMilliseconds(
+                        payload.executeEpochMs
+                    ),
                     receivedAt = nowInstant()
                 )
             )
-            Log.i(TAG, "Event marker ${payload.markerId} acknowledged")
+            Log.i(
+                TAG,
+                "Event marker ${payload.markerId} acknowledged"
+            )
         }
     }
 
-    private fun handleStimulus(payload: StimulusCommandPayload) {
+    private fun handleStimulus(
+        payload: StimulusCommandPayload
+    ) {
         scope.launch {
-            delayForExecution(payload.executeEpochMs)
+            delayForExecution(
+                payload.executeEpochMs
+            )
             recordEvent(
                 DeviceEvent(
                     id = payload.stimulusId,
                     type = DeviceEventType.STIMULUS,
                     label = payload.action,
-                    scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
+                    scheduledAt = Instant.fromEpochMilliseconds(
+                        payload.executeEpochMs
+                    ),
                     receivedAt = nowInstant()
                 )
             )
-            stimulusPresentationManager.present(payload)
-            Log.i(TAG, "Stimulus ${payload.stimulusId} (${payload.action}) recorded")
+            stimulusPresentationManager.present(
+                payload
+            )
+            Log.i(
+                TAG,
+                "Stimulus ${payload.stimulusId} (${payload.action}) recorded"
+            )
         }
     }
 
-    private fun handleGeneric(payload: DeviceCommandPayload) {
+    private fun handleGeneric(
+        payload: DeviceCommandPayload
+    ) {
         scope.launch {
-            delayForExecution(payload.executeEpochMs)
+            delayForExecution(
+                payload.executeEpochMs
+            )
             recordEvent(
                 DeviceEvent(
                     id = payload.commandId,
                     type = DeviceEventType.COMMAND,
-                    label = payload::class.simpleName ?: "command",
-                    scheduledAt = Instant.fromEpochMilliseconds(payload.executeEpochMs),
+                    label = payload::class.simpleName
+                        ?: "command",
+                    scheduledAt = Instant.fromEpochMilliseconds(
+                        payload.executeEpochMs
+                    ),
                     receivedAt = nowInstant()
                 )
             )
-            Log.i(TAG, "Command ${payload.commandId} executed")
+            Log.i(
+                TAG,
+                "Command ${payload.commandId} executed"
+            )
         }
     }
 
     private suspend fun startLocalControlServer() {
-        val config = ControlServer.Config(
-            port = BuildConfig.CONTROL_SERVER_PORT,
-            sessionId = identityProvider.deviceId()
-        )
-        runCatching { controlServer.start(config) }
+        val config =
+            ControlServer.Config(
+                port = BuildConfig.CONTROL_SERVER_PORT,
+                sessionId = identityProvider.deviceId()
+            )
+        runCatching {
+            controlServer.start(
+                config
+            )
+        }
             .onFailure { error ->
                 Log.w(
                     TAG,
@@ -166,40 +256,68 @@ class DefaultDeviceCommandService @Inject constructor(
             }
         controlServer.events.collect { event ->
             if (event.type != ControlServer.EVENT_TYPE_COMMAND) return@collect
-            val payload = runCatching {
-                CommandSerialization.json.decodeFromString(
-                    DeviceCommandPayload.serializer(),
-                    event.detailJson
-                )
-            }.getOrElse { error ->
+            val payload =
+                runCatching {
+                    CommandSerialization.json.decodeFromString(
+                        DeviceCommandPayload.serializer(),
+                        event.detailJson
+                    )
+                }.getOrElse { error ->
+                    Log.w(
+                        TAG,
+                        "Unable to decode local command ${event.eventId}: ${error.message}",
+                        error
+                    )
+                    return@collect
+                }
+            onCommandReceived(
+                payload
+            )
+        }
+    }
+
+    private suspend fun delayForExecution(
+        executeEpochMs: Long
+    ) {
+        val offset =
+            timeSyncService.status.value.offsetMillis
+        val clampedOffset =
+            offset.coerceIn(
+                -MAX_OFFSET_ADJUSTMENT_MS,
+                MAX_OFFSET_ADJUSTMENT_MS
+            )
+        val adjustedNow =
+            System.currentTimeMillis() + clampedOffset
+        val delayMs =
+            executeEpochMs - adjustedNow
+        if (delayMs > 0) {
+            delay(
+                delayMs
+            )
+        }
+    }
+
+    private suspend fun recordEvent(
+        event: DeviceEvent
+    ) {
+        runCatching {
+            deviceEventRepository.record(
+                event
+            )
+        }
+            .onFailure { ex ->
                 Log.w(
                     TAG,
-                    "Unable to decode local command ${event.eventId}: ${error.message}",
-                    error
+                    "Unable to record event ${event.id}: ${ex.message}",
+                    ex
                 )
-                return@collect
             }
-            onCommandReceived(payload)
-        }
-    }
-
-    private suspend fun delayForExecution(executeEpochMs: Long) {
-        val offset = timeSyncService.status.value.offsetMillis
-        val clampedOffset = offset.coerceIn(-MAX_OFFSET_ADJUSTMENT_MS, MAX_OFFSET_ADJUSTMENT_MS)
-        val adjustedNow = System.currentTimeMillis() + clampedOffset
-        val delayMs = executeEpochMs - adjustedNow
-        if (delayMs > 0) {
-            delay(delayMs)
-        }
-    }
-
-    private suspend fun recordEvent(event: DeviceEvent) {
-        runCatching { deviceEventRepository.record(event) }
-            .onFailure { ex -> Log.w(TAG, "Unable to record event ${event.id}: ${ex.message}", ex) }
     }
 
     private companion object {
-        private const val TAG = "DeviceCommandService"
-        private const val MAX_OFFSET_ADJUSTMENT_MS = 60_000L
+        private const val TAG =
+            "DeviceCommandService"
+        private const val MAX_OFFSET_ADJUSTMENT_MS =
+            60_000L
     }
 }

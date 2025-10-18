@@ -120,7 +120,8 @@ public class MarkerImage implements IMarker {
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
 
-        if (mDrawable == null) return;
+        if (mDrawable == null)
+            return;
 
         MPPointF offset = getOffsetForDrawingAtPoint(posX, posY);
 

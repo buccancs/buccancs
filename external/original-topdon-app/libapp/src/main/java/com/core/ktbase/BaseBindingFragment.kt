@@ -23,13 +23,15 @@ import org.greenrobot.eventbus.ThreadMode
  *
  * Created by LCG on 2024/11/5.
  */
-abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
+abstract class BaseBindingFragment<B : ViewDataBinding> :
+    Fragment() {
 
     /**
      * 在 [onDestroyView] 要将 binding 置为 null，
      * 而将 binding 声明为可为 null 类型使用太过麻烦，使用该变量做一重包装避免该问题.
      */
-    private var _binding: B? = null
+    private var _binding: B? =
+        null
 
     /**
      * 注意：由于 Fragment 存在时间比其视图长，binding 将在 [onDestroyView] 置为 null.
@@ -48,7 +50,9 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
     /**
      * 子类实现该方法，执行 onViewCreated 之后的初始化逻辑.
      */
-    protected abstract fun initView(savedInstanceState: Bundle?)
+    protected abstract fun initView(
+        savedInstanceState: Bundle?
+    )
 
 
     override fun onCreateView(
@@ -56,26 +60,49 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, initContentLayoutId(), container, false)
-        _binding?.lifecycleOwner = viewLifecycleOwner
+        _binding =
+            DataBindingUtil.inflate(
+                inflater,
+                initContentLayoutId(),
+                container,
+                false
+            )
+        _binding?.lifecycleOwner =
+            viewLifecycleOwner
         _binding?.executePendingBindings()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        EventBus.getDefault().register(this)
-        initView(savedInstanceState)
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        EventBus.getDefault()
+            .register(
+                this
+            )
+        initView(
+            savedInstanceState
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        EventBus.getDefault().unregister(this)
-        _binding = null
+        EventBus.getDefault()
+            .unregister(
+                this
+            )
+        _binding =
+            null
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onUSBLineStateChange(event: DeviceConnectEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onUSBLineStateChange(
+        event: DeviceConnectEvent
+    ) {
         if (event.isConnect) {
             connected()
         } else {
@@ -92,20 +119,32 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onSocketConnectState(event: SocketStateEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onSocketConnectState(
+        event: SocketStateEvent
+    ) {
         if (event.isConnect) {
-            onSocketConnected(event.isTS004)
+            onSocketConnected(
+                event.isTS004
+            )
         } else {
-            onSocketDisConnected(event.isTS004)
+            onSocketDisConnected(
+                event.isTS004
+            )
         }
     }
 
-    protected open fun onSocketConnected(isTS004: Boolean) {
+    protected open fun onSocketConnected(
+        isTS004: Boolean
+    ) {
 
     }
 
-    protected open fun onSocketDisConnected(isTS004: Boolean) {
+    protected open fun onSocketDisConnected(
+        isTS004: Boolean
+    ) {
 
     }
 
@@ -113,23 +152,37 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : Fragment() {
     /**
      * 新版 LMS 风格的加载中弹框.
      */
-    private var loadingDialog: LoadingDialog? = null
+    private var loadingDialog: LoadingDialog? =
+        null
 
     /**
      * 显示加载中弹框.
      */
-    fun showLoadingDialog(@StringRes resId: Int) {
-        showLoadingDialog(getString(resId))
+    fun showLoadingDialog(
+        @StringRes resId: Int
+    ) {
+        showLoadingDialog(
+            getString(
+                resId
+            )
+        )
     }
 
     /**
      * 显示加载中弹框.
      */
-    fun showLoadingDialog(text: CharSequence?) {
+    fun showLoadingDialog(
+        text: CharSequence?
+    ) {
         if (loadingDialog == null) {
-            loadingDialog = LoadingDialog(requireContext())
+            loadingDialog =
+                LoadingDialog(
+                    requireContext()
+                )
         }
-        loadingDialog?.setTips(text)
+        loadingDialog?.setTips(
+            text
+        )
         loadingDialog?.show()
     }
 

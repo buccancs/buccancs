@@ -246,7 +246,8 @@ public class OrientationModule9DOF extends OrientationModule {
 
         try {
             initialize();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
     }

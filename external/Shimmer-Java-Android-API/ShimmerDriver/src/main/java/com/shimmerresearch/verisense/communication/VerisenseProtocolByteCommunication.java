@@ -310,7 +310,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                 throw new Exception();
             }
 
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             ex.printStackTrace();
         }
 
@@ -334,7 +335,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
         try {
             WritePayloadToBinFile(verisenseMessage);
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             return;
         }
         writeLoggedDataAck();
@@ -369,7 +371,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
             dataFilePath = rootPath.resolve(dfn).toString();
 
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
         }
     }
 
@@ -395,7 +398,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                 } else {
                     PreviouslyWrittenPayloadIndex = verisenseMessage.payloadIndex;
                 }
-            } catch (Exception ex) {
+            } catch (
+                    Exception ex) {
                 System.out.println(ex.toString());
             }
         } else {
@@ -590,7 +594,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
         Task<VerisenseMessage> verisenseMessageTask = waitForVerisenseMessage(VERISENSE_PROPERTY.FW_TEST, null, TIMEOUT_MS.ALL_TEST_TIMEOUT);
         try {
             verisenseMessageTask.waitForCompletion();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
             throw new ShimmerException(ERROR_MSG_TCS_INTERRUPTED);
         }
@@ -626,7 +631,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
             Task<VerisenseMessage> verisenseMessageTask = waitForVerisenseMessage(VERISENSE_PROPERTY.FW_TEST, null, TIMEOUT_MS.ALL_TEST_TIMEOUT);
             try {
                 verisenseMessageTask.waitForCompletion();
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
                 throw new ShimmerException(ERROR_MSG_TCS_INTERRUPTED);
             }
@@ -647,7 +653,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
             try {
                 taskVM.waitForCompletion();
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 throw (ShimmerException) taskVM.getError();
             }
         } else {
@@ -663,7 +670,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
 
             try {
                 taskVM.waitForCompletion();
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 throw (ShimmerException) taskVM.getError();
             }
         } else {
@@ -692,7 +700,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                 while (true) {
                     try {
                         Thread.sleep(waitIntervalMs);
-                    } catch (InterruptedException e) {
+                    } catch (
+                            InterruptedException e) {
                         System.out.println("Thread sleep FAIL");
                     }
 
@@ -733,7 +742,8 @@ public class VerisenseProtocolByteCommunication implements Serializable {
                     if (mState.equals(VerisenseProtocolState.SpeedTest)) {
                         try {
                             readFlashLookupTable();
-                        } catch (ShimmerException e1) {
+                        } catch (
+                                ShimmerException e1) {
                             e1.printStackTrace();
                         }
                     }

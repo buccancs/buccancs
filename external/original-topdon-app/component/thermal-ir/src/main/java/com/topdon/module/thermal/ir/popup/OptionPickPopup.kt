@@ -22,38 +22,84 @@ class OptionPickPopup(
     private val resIdArray: Array<Int>? = null
 ) : PopupWindow() {
     companion object {
-        private const val TEXT_SIZE_SP: Float = 14f
-        private const val TEXT_PADDING: Float = 7f
+        private const val TEXT_SIZE_SP: Float =
+            14f
+        private const val TEXT_PADDING: Float =
+            7f
     }
 
-    var onPickListener: ((position: Int, str: String) -> Unit)? = null
+    var onPickListener: ((position: Int, str: String) -> Unit)? =
+        null
 
     init {
-        val textView = TextView(context)
-        textView.textSize = TEXT_SIZE_SP
-        val fontMetrics = textView.paint.fontMetricsInt
-        val canSeeItem: Int = strArray.size.coerceAtMost(2)
+        val textView =
+            TextView(
+                context
+            )
+        textView.textSize =
+            TEXT_SIZE_SP
+        val fontMetrics =
+            textView.paint.fontMetricsInt
+        val canSeeItem: Int =
+            strArray.size.coerceAtMost(
+                2
+            )
         val itemHeight: Int =
-            fontMetrics.bottom - fontMetrics.top + SizeUtils.dp2px(TEXT_PADDING) * 2
-        val contentHeight = SizeUtils.dp2px(14f) + itemHeight * canSeeItem
-        val contentWidth = (contentHeight * 120f / 81f).toInt()
-        contentView = LayoutInflater.from(context).inflate(R.layout.popup_option_pick, null)
-        width = contentWidth
-        height = contentHeight
-        isOutsideTouchable = true
-        val adapter = MyAdapter()
-        adapter.onItemClickListener = {
-            dismiss()
-            onPickListener?.invoke(it, strArray[it])
-        }
-        contentView.recycler_view.adapter = adapter
-        contentView.recycler_view.layoutManager = LinearLayoutManager(context)
+            fontMetrics.bottom - fontMetrics.top + SizeUtils.dp2px(
+                TEXT_PADDING
+            ) * 2
+        val contentHeight =
+            SizeUtils.dp2px(
+                14f
+            ) + itemHeight * canSeeItem
+        val contentWidth =
+            (contentHeight * 120f / 81f).toInt()
+        contentView =
+            LayoutInflater.from(
+                context
+            )
+                .inflate(
+                    R.layout.popup_option_pick,
+                    null
+                )
+        width =
+            contentWidth
+        height =
+            contentHeight
+        isOutsideTouchable =
+            true
+        val adapter =
+            MyAdapter()
+        adapter.onItemClickListener =
+            {
+                dismiss()
+                onPickListener?.invoke(
+                    it,
+                    strArray[it]
+                )
+            }
+        contentView.recycler_view.adapter =
+            adapter
+        contentView.recycler_view.layoutManager =
+            LinearLayoutManager(
+                context
+            )
     }
 
-    fun show(anchor: View) {
-        val locationArray = IntArray(2)
-        anchor.getLocationInWindow(locationArray)
-        val x = locationArray[0] + anchor.width - width + SizeUtils.dp2px(5f)
+    fun show(
+        anchor: View
+    ) {
+        val locationArray =
+            IntArray(
+                2
+            )
+        anchor.getLocationInWindow(
+            locationArray
+        )
+        val x =
+            locationArray[0] + anchor.width - width + SizeUtils.dp2px(
+                5f
+            )
         if (context.resources.displayMetrics.heightPixels - locationArray[1] - anchor.height > height - SizeUtils.dp2px(
                 5f
             )
@@ -62,53 +108,108 @@ class OptionPickPopup(
                 anchor,
                 Gravity.NO_GRAVITY,
                 x,
-                locationArray[1] + anchor.height - SizeUtils.dp2px(5f)
+                locationArray[1] + anchor.height - SizeUtils.dp2px(
+                    5f
+                )
             )
         } else {
             showAtLocation(
                 anchor,
                 Gravity.NO_GRAVITY,
                 x,
-                (locationArray[1] - height + SizeUtils.dp2px(5f)).coerceAtLeast(0)
+                (locationArray[1] - height + SizeUtils.dp2px(
+                    5f
+                )).coerceAtLeast(
+                    0
+                )
             )
         }
     }
 
-    private inner class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-        var onItemClickListener: ((position: Int) -> Unit)? = null
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val textView = MyTextView(context)
-            textView.textSize = TEXT_SIZE_SP
-            textView.setDrawableHeightPx(SizeUtils.sp2px(18f))
-            textView.setTextColor(0xffffffff.toInt())
-            textView.setPadding(
-                SizeUtils.dp2px(14f),
-                SizeUtils.dp2px(TEXT_PADDING),
-                SizeUtils.dp2px(14f),
-                SizeUtils.dp2px(TEXT_PADDING)
+    private inner class MyAdapter :
+        RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+        var onItemClickListener: ((position: Int) -> Unit)? =
+            null
+
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): ViewHolder {
+            val textView =
+                MyTextView(
+                    context
+                )
+            textView.textSize =
+                TEXT_SIZE_SP
+            textView.setDrawableHeightPx(
+                SizeUtils.sp2px(
+                    18f
+                )
             )
-            textView.compoundDrawablePadding = SizeUtils.dp2px(10f)
+            textView.setTextColor(
+                0xffffffff.toInt()
+            )
+            textView.setPadding(
+                SizeUtils.dp2px(
+                    14f
+                ),
+                SizeUtils.dp2px(
+                    TEXT_PADDING
+                ),
+                SizeUtils.dp2px(
+                    14f
+                ),
+                SizeUtils.dp2px(
+                    TEXT_PADDING
+                )
+            )
+            textView.compoundDrawablePadding =
+                SizeUtils.dp2px(
+                    10f
+                )
             textView.layoutParams =
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-            return ViewHolder(textView)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
+            return ViewHolder(
+                textView
+            )
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.textView.text = strArray[position]
+        override fun onBindViewHolder(
+            holder: ViewHolder,
+            position: Int
+        ) {
+            holder.textView.text =
+                strArray[position]
             if (resIdArray != null && position < resIdArray.size) {
-                holder.textView.setOnlyDrawableStart(resIdArray[position])
+                holder.textView.setOnlyDrawableStart(
+                    resIdArray[position]
+                )
             } else {
-                holder.textView.setOnlyDrawableStart(0)
+                holder.textView.setOnlyDrawableStart(
+                    0
+                )
             }
         }
 
-        override fun getItemCount(): Int = strArray.size
-        inner class ViewHolder(val textView: MyTextView) : RecyclerView.ViewHolder(textView) {
+        override fun getItemCount(): Int =
+            strArray.size
+
+        inner class ViewHolder(
+            val textView: MyTextView
+        ) : RecyclerView.ViewHolder(
+            textView
+        ) {
             init {
                 textView.setOnClickListener {
-                    val position = bindingAdapterPosition
+                    val position =
+                        bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
-                        onItemClickListener?.invoke(position)
+                        onItemClickListener?.invoke(
+                            position
+                        )
                     }
                 }
             }

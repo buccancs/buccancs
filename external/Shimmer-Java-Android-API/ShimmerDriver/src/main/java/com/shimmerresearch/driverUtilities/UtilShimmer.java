@@ -171,7 +171,8 @@ public class UtilShimmer implements Serializable {
         }
 
         for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c)) return false;
+            if (!Character.isDigit(c))
+                return false;
         }
         return true;
     }
@@ -417,7 +418,8 @@ public class UtilShimmer implements Serializable {
         try {
             return compareVersions(Integer.parseInt(thisMajor), Integer.parseInt(thisMinor), Integer.parseInt(thisInternal),
                     Integer.parseInt(compMajor), Integer.parseInt(compMinor), Integer.parseInt(compInternal));
-        } catch (NumberFormatException nFE) {
+        } catch (
+                NumberFormatException nFE) {
             System.out.println("UpdateChecker - Version parsing error");
             nFE.printStackTrace();
         }
@@ -476,7 +478,8 @@ public class UtilShimmer implements Serializable {
         try {
             Date date = dateFormat.parse(timeString);
             return date.getTime();
-        } catch (ParseException e) {
+        } catch (
+                ParseException e) {
             e.printStackTrace();
         }
         return 0;
@@ -492,7 +495,8 @@ public class UtilShimmer implements Serializable {
         try {
             date = dateFormat.parse(formattedDateAndTime);
             return date.getTime();
-        } catch (ParseException e) {
+        } catch (
+                ParseException e) {
             e.printStackTrace();
         }
         return 0;
@@ -781,7 +785,8 @@ public class UtilShimmer implements Serializable {
     }
 
     public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+        if (places < 0)
+            throw new IllegalArgumentException();
 
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
@@ -1099,7 +1104,8 @@ public class UtilShimmer implements Serializable {
     public void millisecondDelay(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             consolePrintLn("Thread sleep FAIL");
         }
     }
@@ -1107,7 +1113,8 @@ public class UtilShimmer implements Serializable {
     public void nanosecondDelay(int nanos) {
         try {
             Thread.sleep(0, nanos);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             consolePrintLn("Thread sleep FAIL");
         }
     }

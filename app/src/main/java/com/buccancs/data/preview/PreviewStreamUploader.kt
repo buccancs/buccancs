@@ -21,7 +21,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface PreviewStreamEmitter {
-    suspend fun emit(frameTimestampEpochMs: Long, payload: ByteArray)
+    suspend fun emit(
+        frameTimestampEpochMs: Long,
+        payload: ByteArray
+    )
+
     suspend fun close()
 }
 
@@ -48,18 +52,30 @@ class PreviewStreamUploader @Inject constructor(
         width: Int,
         height: Int
     ): PreviewStreamEmitter {
-        val config = configRepository.config.value
-        val channel = channelFactory.channel(config)
-        val stub = PreviewServiceGrpcKt.PreviewServiceCoroutineStub(channel)
-        val emitter = StreamEmitter(
-            scope = scope,
-            stub = stub,
-            deviceId = deviceId.value,
-            cameraId = cameraId.ifBlank { "camera" },
-            mimeType = mimeType.ifBlank { DEFAULT_MIME_TYPE },
-            width = width.coerceAtLeast(1),
-            height = height.coerceAtLeast(1)
-        )
+        val config =
+            configRepository.config.value
+        val channel =
+            channelFactory.channel(
+                config
+            )
+        val stub =
+            PreviewServiceGrpcKt.PreviewServiceCoroutineStub(
+                channel
+            )
+        val emitter =
+            StreamEmitter(
+                scope = scope,
+                stub = stub,
+                deviceId = deviceId.value,
+                cameraId = cameraId.ifBlank { "camera" },
+                mimeType = mimeType.ifBlank { DEFAULT_MIME_TYPE },
+                width = width.coerceAtLeast(
+                    1
+                ),
+                height = height.coerceAtLeast(
+                    1
+                )
+            )
         emitter.start()
         return emitter
     }
@@ -73,59 +89,102 @@ class PreviewStreamUploader @Inject constructor(
         private val width: Int,
         private val height: Int
     ) : PreviewStreamEmitter {
-        private val frames = Channel<QueuedFrame>(Channel.BUFFERED)
-        private val closed = AtomicBoolean(false)
-        private val ack = CompletableDeferred<com.buccancs.control.PreviewAck>()
+        private val frames =
+            Channel<QueuedFrame>(
+                Channel.BUFFERED
+            )
+        private val closed =
+            AtomicBoolean(
+                false
+            )
+        private val ack =
+            CompletableDeferred<com.buccancs.control.PreviewAck>()
         private lateinit var job: Job
 
         fun start() {
-            job = scope.launch(Dispatchers.IO) {
-                val requestFlow = flow {
-                    for (frame in frames) {
-                        emit(
-                            previewFrame {
-                                this.deviceId = this@StreamEmitter.deviceId
-                                cameraId = this@StreamEmitter.cameraId
-                                frameTimestampEpochMs = frame.timestampEpochMs
-                                mimeType = this@StreamEmitter.mimeType
-                                encodedFrame = ByteString.copyFrom(frame.payload)
-                                width = this@StreamEmitter.width
-                                height = this@StreamEmitter.height
+            job =
+                scope.launch(
+                    Dispatchers.IO
+                ) {
+                    val requestFlow =
+                        flow {
+                            for (frame in frames) {
+                                emit(
+                                    previewFrame {
+                                        this.deviceId =
+                                            this@StreamEmitter.deviceId
+                                        cameraId =
+                                            this@StreamEmitter.cameraId
+                                        frameTimestampEpochMs =
+                                            frame.timestampEpochMs
+                                        mimeType =
+                                            this@StreamEmitter.mimeType
+                                        encodedFrame =
+                                            ByteString.copyFrom(
+                                                frame.payload
+                                            )
+                                        width =
+                                            this@StreamEmitter.width
+                                        height =
+                                            this@StreamEmitter.height
+                                    }
+                                )
                             }
+                        }
+                    try {
+                        val response =
+                            stub.streamPreview(
+                                requestFlow
+                            )
+                        ack.complete(
+                            response
                         )
+                    } catch (t: Throwable) {
+                        ack.completeExceptionally(
+                            t
+                        )
+                        throw t
                     }
                 }
-                try {
-                    val response = stub.streamPreview(requestFlow)
-                    ack.complete(response)
-                } catch (t: Throwable) {
-                    ack.completeExceptionally(t)
-                    throw t
-                }
-            }
         }
 
-        override suspend fun emit(frameTimestampEpochMs: Long, payload: ByteArray) {
+        override suspend fun emit(
+            frameTimestampEpochMs: Long,
+            payload: ByteArray
+        ) {
             if (closed.get()) {
                 return
             }
-            frames.send(QueuedFrame(frameTimestampEpochMs, payload.copyOf()))
+            frames.send(
+                QueuedFrame(
+                    frameTimestampEpochMs,
+                    payload.copyOf()
+                )
+            )
         }
 
         override suspend fun close() {
-            if (!closed.compareAndSet(false, true)) {
+            if (!closed.compareAndSet(
+                    false,
+                    true
+                )
+            ) {
                 return
             }
             frames.close()
             runCatching { job.join() }
-            @OptIn(ExperimentalCoroutinesApi::class)
-            val response = if (ack.isCompleted) {
-                runCatching { ack.getCompleted() }.getOrNull()
-            } else {
-                runCatching { ack.await() }.getOrNull()
-            }
+            @OptIn(
+                ExperimentalCoroutinesApi::class
+            )
+            val response =
+                if (ack.isCompleted) {
+                    runCatching { ack.getCompleted() }.getOrNull()
+                } else {
+                    runCatching { ack.await() }.getOrNull()
+                }
             if (response != null && !response.received) {
-                throw IOException(response.info.ifBlank { "Preview stream rejected." })
+                throw IOException(
+                    response.info.ifBlank { "Preview stream rejected." })
             }
         }
 
@@ -136,7 +195,8 @@ class PreviewStreamUploader @Inject constructor(
     }
 
     private companion object {
-        private const val DEFAULT_MIME_TYPE = "image/jpeg"
+        private const val DEFAULT_MIME_TYPE =
+            "image/jpeg"
     }
 }
 

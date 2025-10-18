@@ -23,72 +23,115 @@ class DeviceConnectionMonitor(
     private val pollIntervalMs: Long = DEFAULT_POLL_INTERVAL_MS,
     private val timeProvider: () -> Instant = { Instant.now() }
 ) {
-    private val logger = LoggerFactory.getLogger(DeviceConnectionMonitor::class.java)
-    private val started = AtomicBoolean(false)
-    private var monitorJob: Job? = null
-    private var eventJob: Job? = null
+    private val logger =
+        LoggerFactory.getLogger(
+            DeviceConnectionMonitor::class.java
+        )
+    private val started =
+        AtomicBoolean(
+            false
+        )
+    private var monitorJob: Job? =
+        null
+    private var eventJob: Job? =
+        null
+
     fun start() {
-        if (!started.compareAndSet(false, true)) {
+        if (!started.compareAndSet(
+                false,
+                true
+            )
+        ) {
             return
         }
-        monitorJob = scope.launch { monitorLoop() }
-        eventJob = scope.launch { collectEvents() }
+        monitorJob =
+            scope.launch { monitorLoop() }
+        eventJob =
+            scope.launch { collectEvents() }
     }
 
     fun stop() {
         monitorJob?.cancel()
         eventJob?.cancel()
-        monitorJob = null
-        eventJob = null
-        started.set(false)
+        monitorJob =
+            null
+        eventJob =
+            null
+        started.set(
+            false
+        )
     }
 
     private suspend fun monitorLoop() {
         while (currentCoroutineContext().isActive) {
-            val now = timeProvider()
-            deviceRepository.snapshot().forEach { info ->
-                if (!info.connected) {
-                    return@forEach
+            val now =
+                timeProvider()
+            deviceRepository.snapshot()
+                .forEach { info ->
+                    if (!info.connected) {
+                        return@forEach
+                    }
+                    val last =
+                        info.lastHeartbeat
+                            ?: return@forEach
+                    val elapsedMs =
+                        Duration.between(
+                            last,
+                            now
+                        )
+                            .toMillis()
+                    if (elapsedMs > heartbeatTimeoutMs) {
+                        logger.warn(
+                            "Marking device {} offline after {} ms without heartbeat (limit {} ms)",
+                            info.id,
+                            elapsedMs,
+                            heartbeatTimeoutMs
+                        )
+                        deviceRepository.markOffline(
+                            id = info.id,
+                            reason = DeviceConnectionEvent.DisconnectReason.HEARTBEAT_TIMEOUT
+                        )
+                    }
                 }
-                val last = info.lastHeartbeat ?: return@forEach
-                val elapsedMs = Duration.between(last, now).toMillis()
-                if (elapsedMs > heartbeatTimeoutMs) {
-                    logger.warn(
-                        "Marking device {} offline after {} ms without heartbeat (limit {} ms)",
-                        info.id,
-                        elapsedMs,
-                        heartbeatTimeoutMs
-                    )
-                    deviceRepository.markOffline(
-                        id = info.id,
-                        reason = DeviceConnectionEvent.DisconnectReason.HEARTBEAT_TIMEOUT
-                    )
-                }
-            }
-            delay(pollIntervalMs)
+            delay(
+                pollIntervalMs
+            )
         }
     }
 
     private suspend fun collectEvents() {
-        deviceRepository.events().collect { event ->
-            when (event) {
-                is DeviceConnectionEvent.Connected -> handleConnected(event)
-                is DeviceConnectionEvent.Disconnected -> handleDisconnected(event)
+        deviceRepository.events()
+            .collect { event ->
+                when (event) {
+                    is DeviceConnectionEvent.Connected -> handleConnected(
+                        event
+                    )
+
+                    is DeviceConnectionEvent.Disconnected -> handleDisconnected(
+                        event
+                    )
+                }
             }
-        }
     }
 
-    private suspend fun handleConnected(event: DeviceConnectionEvent.Connected) {
-        val session = sessionRepository.activeSession.value
-        val timestamp = event.timestamp.toEpochMilli()
+    private suspend fun handleConnected(
+        event: DeviceConnectionEvent.Connected
+    ) {
+        val session =
+            sessionRepository.activeSession.value
+        val timestamp =
+            event.timestamp.toEpochMilli()
         if (session != null) {
-            val eventId = "device-connected-${event.deviceId}-$timestamp"
+            val eventId =
+                "device-connected-${event.deviceId}-$timestamp"
             runCatching {
                 sessionRepository.registerEvent(
                     eventId = eventId,
                     label = "device-connected:${event.deviceId}",
                     timestampMs = timestamp,
-                    deviceIds = listOf(event.deviceId)
+                    deviceIds = listOf(
+                        event.deviceId
+                    )
                 )
             }.onFailure { ex ->
                 logger.debug(
@@ -105,22 +148,35 @@ class DeviceConnectionMonitor(
                 session.id
             )
         } else {
-            logger.info("Device {} connected (no active session)", event.deviceId)
+            logger.info(
+                "Device {} connected (no active session)",
+                event.deviceId
+            )
         }
     }
 
-    private suspend fun handleDisconnected(event: DeviceConnectionEvent.Disconnected) {
-        val session = sessionRepository.activeSession.value
-        val timestamp = event.timestamp.toEpochMilli()
-        val reasonToken = event.reason.name.lowercase(Locale.US)
+    private suspend fun handleDisconnected(
+        event: DeviceConnectionEvent.Disconnected
+    ) {
+        val session =
+            sessionRepository.activeSession.value
+        val timestamp =
+            event.timestamp.toEpochMilli()
+        val reasonToken =
+            event.reason.name.lowercase(
+                Locale.US
+            )
         if (session != null) {
-            val eventId = "device-disconnected-${event.deviceId}-${reasonToken}-$timestamp"
+            val eventId =
+                "device-disconnected-${event.deviceId}-${reasonToken}-$timestamp"
             runCatching {
                 sessionRepository.registerEvent(
                     eventId = eventId,
                     label = "device-disconnected:${reasonToken}:${event.deviceId}",
                     timestampMs = timestamp,
-                    deviceIds = listOf(event.deviceId)
+                    deviceIds = listOf(
+                        event.deviceId
+                    )
                 )
             }.onFailure { ex ->
                 logger.debug(
@@ -147,7 +203,9 @@ class DeviceConnectionMonitor(
     }
 
     companion object {
-        private const val DEFAULT_HEARTBEAT_TIMEOUT_MS = 5_000L
-        private const val DEFAULT_POLL_INTERVAL_MS = 1_000L
+        private const val DEFAULT_HEARTBEAT_TIMEOUT_MS =
+            5_000L
+        private const val DEFAULT_POLL_INTERVAL_MS =
+            1_000L
     }
 }

@@ -17,12 +17,14 @@ import androidx.compose.ui.unit.dp
 /**
  * Ensures minimum 48dp touch target for accessibility
  */
-fun Modifier.accessibleTouchTarget() = this.minimumInteractiveComponentSize()
+fun Modifier.accessibleTouchTarget() =
+    this.minimumInteractiveComponentSize()
 
 /**
  * Minimum size for accessibility compliance
  */
-val MinimumTouchTargetSize = 48.dp
+val MinimumTouchTargetSize =
+    48.dp
 
 /**
  * Clickable with proper accessibility and ripple effect
@@ -34,13 +36,23 @@ fun Modifier.accessibleClickable(
     enabled: Boolean = true,
     onClick: () -> Unit
 ): Modifier {
-    val interactionSource = remember { MutableInteractionSource() }
-    val ripple = rememberRipple()
+    val interactionSource =
+        remember { MutableInteractionSource() }
+    val ripple =
+        rememberRipple()
 
     return this
-        .semantics(mergeDescendants = true) {
-            label?.let { contentDescription = it }
-            role?.let { this.role = it }
+        .semantics(
+            mergeDescendants = true
+        ) {
+            label?.let {
+                contentDescription =
+                    it
+            }
+            role?.let {
+                this.role =
+                    it
+            }
         }
         .clickable(
             interactionSource = interactionSource,

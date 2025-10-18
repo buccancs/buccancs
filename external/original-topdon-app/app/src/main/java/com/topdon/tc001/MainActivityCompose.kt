@@ -40,16 +40,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-@Route(path = RouterConfig.MAIN)
-class MainActivityCompose : ComponentActivity() {
+@Route(
+    path = RouterConfig.MAIN
+)
+class MainActivityCompose :
+    ComponentActivity() {
     private val versionViewModel: VersionViewModel by viewModels()
 
-    private var devices by mutableStateOf<List<DeviceInfo>>(emptyList())
-    private var galleryImages by mutableStateOf<List<GalleryImage>>(emptyList())
-    private var isGalleryLoading by mutableStateOf(false)
+    private var devices by mutableStateOf<List<DeviceInfo>>(
+        emptyList()
+    )
+    private var galleryImages by mutableStateOf<List<GalleryImage>>(
+        emptyList()
+    )
+    private var isGalleryLoading by mutableStateOf(
+        false
+    )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
 
         logInfo()
         initializeApp()
@@ -64,7 +77,9 @@ class MainActivityCompose : ComponentActivity() {
                     userName = null,
                     userEmail = null,
                     isLoggedIn = false,
-                    currentLanguage = SharedManager.getLanguage(this),
+                    currentLanguage = SharedManager.getLanguage(
+                        this
+                    ),
                     appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                     onConnectDeviceClick = { navigateToDeviceType() },
                     onAddDeviceClick = { navigateToDeviceType() },
@@ -72,29 +87,56 @@ class MainActivityCompose : ComponentActivity() {
                         when (deviceType) {
                             DeviceType.TC001_LINE -> {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.IR_MAIN)
-                                    .withBoolean("IS_TC007", false)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.IR_MAIN
+                                    )
+                                    .withBoolean(
+                                        "IS_TC007",
+                                        false
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                             }
 
                             DeviceType.TS004 -> {
-                                if (WebSocketProxy.getInstance().isTS004Connect()) {
+                                if (WebSocketProxy.getInstance()
+                                        .isTS004Connect()
+                                ) {
                                     ARouter.getInstance()
-                                        .build(RouterConfig.IR_MONOCULAR)
-                                        .navigation(this)
+                                        .build(
+                                            RouterConfig.IR_MONOCULAR
+                                        )
+                                        .navigation(
+                                            this
+                                        )
                                 } else {
                                     ARouter.getInstance()
-                                        .build(RouterConfig.IR_DEVICE_ADD)
-                                        .withBoolean("isTS004", true)
-                                        .navigation(this)
+                                        .build(
+                                            RouterConfig.IR_DEVICE_ADD
+                                        )
+                                        .withBoolean(
+                                            "isTS004",
+                                            true
+                                        )
+                                        .navigation(
+                                            this
+                                        )
                                 }
                             }
 
                             DeviceType.TC007 -> {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.IR_MAIN)
-                                    .withBoolean("IS_TC007", true)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.IR_MAIN
+                                    )
+                                    .withBoolean(
+                                        "IS_TC007",
+                                        true
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                             }
                         }
                     },
@@ -112,13 +154,21 @@ class MainActivityCompose : ComponentActivity() {
                     },
                     onMoreSettingsClick = {
                         ARouter.getInstance()
-                            .build(RouterConfig.MORE)
-                            .navigation(this)
+                            .build(
+                                RouterConfig.MORE
+                            )
+                            .navigation(
+                                this
+                            )
                     },
                     onAboutClick = {
                         ARouter.getInstance()
-                            .build(RouterConfig.VERSION)
-                            .navigation(this)
+                            .build(
+                                RouterConfig.VERSION
+                            )
+                            .navigation(
+                                this
+                            )
                     },
                     onLogoutClick = {
                         // Handle logout
@@ -134,8 +184,13 @@ class MainActivityCompose : ComponentActivity() {
     }
 
     private fun initializeApp() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            SupHelp.getInstance().initAiUpScaler(applicationContext)
+        lifecycleScope.launch(
+            Dispatchers.IO
+        ) {
+            SupHelp.getInstance()
+                .initAiUpScaler(
+                    applicationContext
+                )
         }
 
         App.instance.initWebSocket()
@@ -153,46 +208,80 @@ class MainActivityCompose : ComponentActivity() {
     private fun autoConnectDevices() {
         if (!SharedManager.hasTcLine && !SharedManager.hasTS004 && !SharedManager.hasTC007) {
             if (DeviceTools.isConnect()) {
-                if (!WebSocketProxy.getInstance().isConnected()) {
+                if (!WebSocketProxy.getInstance()
+                        .isConnected()
+                ) {
                     ARouter.getInstance()
-                        .build(RouterConfig.IR_MAIN)
-                        .withBoolean("IS_TC007", false)
-                        .navigation(this)
+                        .build(
+                            RouterConfig.IR_MAIN
+                        )
+                        .withBoolean(
+                            "IS_TC007",
+                            false
+                        )
+                        .navigation(
+                            this
+                        )
                 }
             } else {
-                if (WebSocketProxy.getInstance().isTS004Connect()) {
+                if (WebSocketProxy.getInstance()
+                        .isTS004Connect()
+                ) {
                     ARouter.getInstance()
-                        .build(RouterConfig.IR_MONOCULAR)
-                        .navigation(this)
-                } else if (WebSocketProxy.getInstance().isTC007Connect()) {
+                        .build(
+                            RouterConfig.IR_MONOCULAR
+                        )
+                        .navigation(
+                            this
+                        )
+                } else if (WebSocketProxy.getInstance()
+                        .isTC007Connect()
+                ) {
                     ARouter.getInstance()
-                        .build(RouterConfig.IR_MAIN)
-                        .withBoolean("IS_TC007", true)
-                        .navigation(this)
+                        .build(
+                            RouterConfig.IR_MAIN
+                        )
+                        .withBoolean(
+                            "IS_TC007",
+                            true
+                        )
+                        .navigation(
+                            this
+                        )
                 }
             }
         }
 
         if (DeviceTools.isConnect()) {
-            SharedManager.hasTcLine = true
+            SharedManager.hasTcLine =
+                true
         }
-        if (WebSocketProxy.getInstance().isTS004Connect()) {
-            SharedManager.hasTS004 = true
+        if (WebSocketProxy.getInstance()
+                .isTS004Connect()
+        ) {
+            SharedManager.hasTS004 =
+                true
         }
-        if (WebSocketProxy.getInstance().isTC007Connect()) {
-            SharedManager.hasTC007 = true
+        if (WebSocketProxy.getInstance()
+                .isTC007Connect()
+        ) {
+            SharedManager.hasTC007 =
+                true
         }
     }
 
     private fun refreshDevices() {
-        val deviceList = mutableListOf<DeviceInfo>()
+        val deviceList =
+            mutableListOf<DeviceInfo>()
 
         if (SharedManager.hasTcLine) {
             deviceList.add(
                 DeviceInfo(
                     name = "TC001 (Line)",
                     type = DeviceType.TC001_LINE,
-                    isConnected = DeviceTools.isConnect(isAutoRequest = false)
+                    isConnected = DeviceTools.isConnect(
+                        isAutoRequest = false
+                    )
                 )
             )
         }
@@ -202,7 +291,8 @@ class MainActivityCompose : ComponentActivity() {
                 DeviceInfo(
                     name = "TS004",
                     type = DeviceType.TS004,
-                    isConnected = WebSocketProxy.getInstance().isTS004Connect()
+                    isConnected = WebSocketProxy.getInstance()
+                        .isTS004Connect()
                 )
             )
         }
@@ -212,23 +302,31 @@ class MainActivityCompose : ComponentActivity() {
                 DeviceInfo(
                     name = "TC007",
                     type = DeviceType.TC007,
-                    isConnected = WebSocketProxy.getInstance().isTC007Connect()
+                    isConnected = WebSocketProxy.getInstance()
+                        .isTC007Connect()
                 )
             )
         }
 
-        devices = deviceList
+        devices =
+            deviceList
     }
 
     private fun navigateToDeviceType() {
         ARouter.getInstance()
-            .build(RouterConfig.DEVICE_TYPE)
-            .navigation(this)
+            .build(
+                RouterConfig.DEVICE_TYPE
+            )
+            .navigation(
+                this
+            )
     }
 
     private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            XXPermissions.with(this)
+            XXPermissions.with(
+                this
+            )
                 .permission(
                     Permission.CAMERA,
                     Permission.READ_MEDIA_IMAGES,
@@ -236,7 +334,9 @@ class MainActivityCompose : ComponentActivity() {
                 )
                 .request { _, _ -> }
         } else {
-            XXPermissions.with(this)
+            XXPermissions.with(
+                this
+            )
                 .permission(
                     Permission.CAMERA,
                     Permission.READ_EXTERNAL_STORAGE,
@@ -248,24 +348,84 @@ class MainActivityCompose : ComponentActivity() {
 
     private fun logInfo() {
         try {
-            val str = StringBuilder()
-            str.append("Info").append("\n")
-            str.append("FLAVOR: ${BuildConfig.FLAVOR}").append("\n")
-            str.append("VERSION_CODE: ${BuildConfig.VERSION_CODE}").append("\n")
-            str.append("VERSION_NAME: ${BuildConfig.VERSION_NAME}").append("\n")
-            str.append("VERSION_DATE: ${BuildConfig.VERSION_DATE}").append("\n")
-            str.append("BRAND: ${Build.BRAND}").append("\n")
-            str.append("MODEL: ${Build.MODEL}").append("\n")
-            str.append("PRODUCT: ${Build.PRODUCT}").append("\n")
-            str.append("CPU_ABI: ${Build.CPU_ABI}").append("\n")
-            str.append("SDK_INT: ${Build.VERSION.SDK_INT}").append("\n")
-            str.append("RELEASE: ${Build.VERSION.RELEASE}").append("\n")
+            val str =
+                StringBuilder()
+            str.append(
+                "Info"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "FLAVOR: ${BuildConfig.FLAVOR}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "VERSION_CODE: ${BuildConfig.VERSION_CODE}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "VERSION_NAME: ${BuildConfig.VERSION_NAME}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "VERSION_DATE: ${BuildConfig.VERSION_DATE}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "BRAND: ${Build.BRAND}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "MODEL: ${Build.MODEL}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "PRODUCT: ${Build.PRODUCT}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "CPU_ABI: ${Build.CPU_ABI}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "SDK_INT: ${Build.VERSION.SDK_INT}"
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "RELEASE: ${Build.VERSION.RELEASE}"
+            )
+                .append(
+                    "\n"
+                )
             if (SharedManager.getHasShowClause()) {
-                XLog.i(str)
+                XLog.i(
+                    str
+                )
             }
         } catch (e: Exception) {
             if (SharedManager.getHasShowClause()) {
-                XLog.e("log error: ${e.message}")
+                XLog.e(
+                    "log error: ${e.message}"
+                )
             }
         }
     }

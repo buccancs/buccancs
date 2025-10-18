@@ -5,5 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface DeviceEventRepository {
     val events: StateFlow<List<DeviceEvent>>
-    suspend fun record(event: DeviceEvent)
+    suspend fun record(
+        event: DeviceEvent
+    )
 }

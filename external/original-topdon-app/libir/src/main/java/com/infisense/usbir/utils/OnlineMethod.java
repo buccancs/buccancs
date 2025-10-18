@@ -153,7 +153,8 @@ public class OnlineMethod {
         try {
             Bitmap bm1 = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
             return bm1;
-        } catch (OutOfMemoryError ex) {
+        } catch (
+                OutOfMemoryError ex) {
         }
         return null;
 

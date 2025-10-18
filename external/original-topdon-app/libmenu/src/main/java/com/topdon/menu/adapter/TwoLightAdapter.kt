@@ -7,9 +7,14 @@ import com.topdon.menu.R
 import com.topdon.menu.constant.MenuType
 import com.topdon.menu.constant.TwoLightType
 
-@SuppressLint("NotifyDataSetChanged")
-internal class TwoLightAdapter(private val menuType: MenuType) : BaseMenuAdapter() {
-    var onTwoLightListener: ((twoLightType: TwoLightType, isSelected: Boolean) -> Unit)? = null
+@SuppressLint(
+    "NotifyDataSetChanged"
+)
+internal class TwoLightAdapter(
+    private val menuType: MenuType
+) : BaseMenuAdapter() {
+    var onTwoLightListener: ((twoLightType: TwoLightType, isSelected: Boolean) -> Unit)? =
+        null
     var twoLightType: TwoLightType
         get() {
             for (data in dataList) {
@@ -29,16 +34,21 @@ internal class TwoLightAdapter(private val menuType: MenuType) : BaseMenuAdapter
             for (data in dataList) {
                 if (data.isSingle) {
                     if (menuType == MenuType.TC007 && value == TwoLightType.TWO_LIGHT_1) {
-                        data.isSelected = data.twoLightType == TwoLightType.TWO_LIGHT_2
+                        data.isSelected =
+                            data.twoLightType == TwoLightType.TWO_LIGHT_2
                     } else {
-                        data.isSelected = data.twoLightType == value
+                        data.isSelected =
+                            data.twoLightType == value
                     }
                 }
             }
             notifyDataSetChanged()
         }
 
-    fun setSelected(twoLightType: TwoLightType, isSelected: Boolean) {
+    fun setSelected(
+        twoLightType: TwoLightType,
+        isSelected: Boolean
+    ) {
         if (twoLightType == TwoLightType.TWO_LIGHT_1 || twoLightType == TwoLightType.TWO_LIGHT_2) {
             return
         }
@@ -50,13 +60,17 @@ internal class TwoLightAdapter(private val menuType: MenuType) : BaseMenuAdapter
         }
         for (data in dataList) {
             if (data.twoLightType == twoLightType) {
-                data.isSelected = isSelected
+                data.isSelected =
+                    isSelected
             }
         }
         notifyDataSetChanged()
     }
 
-    private val dataList: ArrayList<Data> = ArrayList(7)
+    private val dataList: ArrayList<Data> =
+        ArrayList(
+            7
+        )
 
     init {
         if (menuType == MenuType.DOUBLE_LIGHT || menuType == MenuType.TC007) {
@@ -130,28 +144,50 @@ internal class TwoLightAdapter(private val menuType: MenuType) : BaseMenuAdapter
         )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data: Data = dataList[position]
-        holder.binding.ivIcon.setImageResource(data.drawableId)
-        holder.binding.tvText.setText(data.stringId)
-        holder.binding.ivIcon.isSelected = data.isSelected
-        holder.binding.tvText.isSelected = data.isSelected
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int
+    ) {
+        val data: Data =
+            dataList[position]
+        holder.binding.ivIcon.setImageResource(
+            data.drawableId
+        )
+        holder.binding.tvText.setText(
+            data.stringId
+        )
+        holder.binding.ivIcon.isSelected =
+            data.isSelected
+        holder.binding.tvText.isSelected =
+            data.isSelected
         holder.binding.clRoot.setOnClickListener {
             if (data.isSingle) {
                 if (!data.isSelected) {
-                    twoLightType = data.twoLightType
-                    onTwoLightListener?.invoke(data.twoLightType, true)
+                    twoLightType =
+                        data.twoLightType
+                    onTwoLightListener?.invoke(
+                        data.twoLightType,
+                        true
+                    )
                 }
             } else {
-                data.isSelected = !data.isSelected
-                holder.binding.ivIcon.isSelected = data.isSelected
-                holder.binding.tvText.isSelected = data.isSelected
-                onTwoLightListener?.invoke(data.twoLightType, data.isSelected)
+                data.isSelected =
+                    !data.isSelected
+                holder.binding.ivIcon.isSelected =
+                    data.isSelected
+                holder.binding.tvText.isSelected =
+                    data.isSelected
+                onTwoLightListener?.invoke(
+                    data.twoLightType,
+                    data.isSelected
+                )
             }
         }
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int =
+        dataList.size
+
     data class Data(
         @StringRes val stringId: Int,
         @DrawableRes val drawableId: Int,

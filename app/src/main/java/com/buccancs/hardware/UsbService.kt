@@ -5,12 +5,21 @@ import android.hardware.usb.UsbManager
 
 interface UsbService {
     fun getDeviceList(): Map<String, UsbDevice>
-    fun hasPermission(device: UsbDevice): Boolean
+    fun hasPermission(
+        device: UsbDevice
+    ): Boolean
 }
 
-class AndroidUsbService(private val manager: UsbManager) : UsbService {
-    override fun getDeviceList(): Map<String, UsbDevice> = manager.deviceList
+class AndroidUsbService(
+    private val manager: UsbManager
+) : UsbService {
+    override fun getDeviceList(): Map<String, UsbDevice> =
+        manager.deviceList
 
-    override fun hasPermission(device: UsbDevice): Boolean =
-        manager.hasPermission(device)
+    override fun hasPermission(
+        device: UsbDevice
+    ): Boolean =
+        manager.hasPermission(
+            device
+        )
 }

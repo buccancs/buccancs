@@ -34,14 +34,32 @@ import java.util.*
 /**
  * 2D-编辑 水印
  */
-class TipWaterMarkDialog : Dialog {
-    constructor(context: Context) : super(context)
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+class TipWaterMarkDialog :
+    Dialog {
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    class Builder(val context: Context, private val watermarkBean: WatermarkBean) {
-        var dialog: TipWaterMarkDialog? = null
-        private var closeEvent: ((WatermarkBean) -> Unit)? = null
-        private var canceled = false
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
+
+    class Builder(
+        val context: Context,
+        private val watermarkBean: WatermarkBean
+    ) {
+        var dialog: TipWaterMarkDialog? =
+            null
+        private var closeEvent: ((WatermarkBean) -> Unit)? =
+            null
+        private var canceled =
+            false
 
         private lateinit var imgClose: ImageView
         private lateinit var mEtTitle: EditText
@@ -49,16 +67,24 @@ class TipWaterMarkDialog : Dialog {
         private lateinit var imgLocation: ImageView
         private lateinit var llWatermarkContent: LinearLayout
         private lateinit var switchDateTime: SwitchCompat
-        private var locationManager: LocationManager? = null
-        private var locationProvider: String? = null
+        private var locationManager: LocationManager? =
+            null
+        private var locationProvider: String? =
+            null
 
-        fun setCancelListener(event: ((WatermarkBean) -> Unit)? = null): Builder {
-            this.closeEvent = event
+        fun setCancelListener(
+            event: ((WatermarkBean) -> Unit)? = null
+        ): Builder {
+            this.closeEvent =
+                event
             return this
         }
 
-        fun setCanceled(canceled: Boolean): Builder {
-            this.canceled = canceled
+        fun setCanceled(
+            canceled: Boolean
+        ): Builder {
+            this.canceled =
+                canceled
             return this
         }
 
@@ -69,21 +95,41 @@ class TipWaterMarkDialog : Dialog {
 
         fun create(): TipWaterMarkDialog {
             if (dialog == null) {
-                dialog = TipWaterMarkDialog(context!!, R.style.InfoDialog)
+                dialog =
+                    TipWaterMarkDialog(
+                        context!!,
+                        R.style.InfoDialog
+                    )
             }
             val inflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_tip_watermark, null)
-            imgClose = view.img_close
-            llWatermarkContent = view.ll_watermark_content
-            mEtTitle = view.ed_title
-            mEtAddress = view.ed_address
-            imgLocation = view.img_location
-            switchDateTime = view.switch_date_time
-            updateWaterMark(false)
+                context!!.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_tip_watermark,
+                    null
+                )
+            imgClose =
+                view.img_close
+            llWatermarkContent =
+                view.ll_watermark_content
+            mEtTitle =
+                view.ed_title
+            mEtAddress =
+                view.ed_address
+            imgLocation =
+                view.img_location
+            switchDateTime =
+                view.switch_date_time
+            updateWaterMark(
+                false
+            )
 
             view.switch_watermark.setOnCheckedChangeListener { _, isChecked ->
-                updateWaterMark(isChecked)
+                updateWaterMark(
+                    isChecked
+                )
             }
             view.switch_date_time.setOnCheckedChangeListener { _, _ ->
 
@@ -102,17 +148,26 @@ class TipWaterMarkDialog : Dialog {
             imgLocation.setOnClickListener {
                 checkLocationPermission()
             }
-            view.switch_watermark.isChecked = watermarkBean.isOpen
-            view.switch_date_time.isChecked = watermarkBean.isAddTime
-            view.ed_title.setText(watermarkBean.title.ifEmpty { SharedManager.watermarkBean.title })
-            view.ed_address.setText(watermarkBean.address)
+            view.switch_watermark.isChecked =
+                watermarkBean.isOpen
+            view.switch_date_time.isChecked =
+                watermarkBean.isAddTime
+            view.ed_title.setText(
+                watermarkBean.title.ifEmpty { SharedManager.watermarkBean.title })
+            view.ed_address.setText(
+                watermarkBean.address
+            )
 
 
             dialog!!.addContentView(
                 view,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             val wRatio =
                 if (context!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     //竖屏
@@ -121,10 +176,16 @@ class TipWaterMarkDialog : Dialog {
                     //横屏
                     0.35
                 }
-            lp.width = (ScreenUtil.getScreenWidth(context) * wRatio).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            lp.width =
+                (ScreenUtil.getScreenWidth(
+                    context
+                ) * wRatio).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(canceled)
+            dialog!!.setCanceledOnTouchOutside(
+                canceled
+            )
             imgClose.setOnClickListener {
                 dismiss()
 //              closeEvent?.invoke(
@@ -136,31 +197,41 @@ class TipWaterMarkDialog : Dialog {
 //                    )
 //                )
             }
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipWaterMarkDialog
         }
 
         private fun checkLocationPermission() {
             if (!XXPermissions.isGranted(
-                    context, listOf(
+                    context,
+                    listOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     )
                 )
             ) {
                 if (BaseApplication.instance.isDomestic()) {
-                    TipDialog.Builder(context)
+                    TipDialog.Builder(
+                        context
+                    )
                         .setMessage(
                             context.getString(
                                 R.string.permission_request_location_app,
                                 CommUtils.getAppName()
                             )
                         )
-                        .setCancelListener(R.string.app_cancel)
-                        .setPositiveListener(R.string.app_confirm) {
+                        .setCancelListener(
+                            R.string.app_cancel
+                        )
+                        .setPositiveListener(
+                            R.string.app_confirm
+                        ) {
                             initLocationPermission()
                         }
-                        .create().show()
+                        .create()
+                        .show()
                 } else {
                     initLocationPermission()
                 }
@@ -171,130 +242,250 @@ class TipWaterMarkDialog : Dialog {
 
         private fun initLocationPermission() {
             //定位
-            XXPermissions.with(context)
+            XXPermissions.with(
+                context
+            )
                 .permission(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
-                ).request(object : OnPermissionCallback {
-                    override fun onGranted(permissions: MutableList<String>, all: Boolean) {
-                        if (all) {
-                            var addressText: String? = getLocation()
-                            if (addressText == null) {
-                                ToastUtils.showShort(R.string.get_Location_failed)
+                )
+                .request(
+                    object :
+                        OnPermissionCallback {
+                        override fun onGranted(
+                            permissions: MutableList<String>,
+                            all: Boolean
+                        ) {
+                            if (all) {
+                                var addressText: String? =
+                                    getLocation()
+                                if (addressText == null) {
+                                    ToastUtils.showShort(
+                                        R.string.get_Location_failed
+                                    )
+                                } else {
+                                    mEtAddress.setText(
+                                        addressText
+                                    )
+                                }
                             } else {
-                                mEtAddress.setText(addressText)
+                                ToastUtils.showShort(
+                                    R.string.scan_ble_tip_authorize
+                                )
                             }
-                        } else {
-                            ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                         }
-                    }
 
-                    override fun onDenied(permissions: MutableList<String>, never: Boolean) {
-                        if (never) {
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            if (BaseApplication.instance.isDomestic()) {
-                                ToastUtils.showShort(R.string.app_location_content)
-                                return
+                        override fun onDenied(
+                            permissions: MutableList<String>,
+                            never: Boolean
+                        ) {
+                            if (never) {
+                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                if (BaseApplication.instance.isDomestic()) {
+                                    ToastUtils.showShort(
+                                        R.string.app_location_content
+                                    )
+                                    return
+                                }
+                                TipDialog.Builder(
+                                    context
+                                )
+                                    .setTitleMessage(
+                                        context!!.getString(
+                                            R.string.app_tip
+                                        )
+                                    )
+                                    .setMessage(
+                                        context!!.getString(
+                                            R.string.app_location_content
+                                        )
+                                    )
+                                    .setPositiveListener(
+                                        R.string.app_open
+                                    ) {
+                                        XXPermissions.startPermissionActivity(
+                                            context,
+                                            permissions
+                                        );
+                                    }
+                                    .setCancelListener(
+                                        R.string.app_cancel
+                                    ) {
+                                    }
+                                    .setCanceled(
+                                        true
+                                    )
+                                    .create()
+                                    .show()
+                            } else {
+                                ToastUtils.showShort(
+                                    R.string.scan_ble_tip_authorize
+                                )
                             }
-                            TipDialog.Builder(context)
-                                .setTitleMessage(context!!.getString(R.string.app_tip))
-                                .setMessage(context!!.getString(R.string.app_location_content))
-                                .setPositiveListener(R.string.app_open) {
-                                    XXPermissions.startPermissionActivity(context, permissions);
-                                }
-                                .setCancelListener(R.string.app_cancel) {
-                                }
-                                .setCanceled(true)
-                                .create()
-                                .show()
-                        } else {
-                            ToastUtils.showShort(R.string.scan_ble_tip_authorize)
                         }
-                    }
 
-                })
+                    })
         }
 
-        private fun updateWaterMark(isCheck: Boolean) {
+        private fun updateWaterMark(
+            isCheck: Boolean
+        ) {
             if (isCheck) {
-                llWatermarkContent.alpha = 1f
-                llWatermarkContent.isEnabled = true
-                switchDateTime.isEnabled = true
-                mEtTitle.isEnabled = true
-                mEtAddress.isEnabled = true
-                imgLocation.isEnabled = true
+                llWatermarkContent.alpha =
+                    1f
+                llWatermarkContent.isEnabled =
+                    true
+                switchDateTime.isEnabled =
+                    true
+                mEtTitle.isEnabled =
+                    true
+                mEtAddress.isEnabled =
+                    true
+                imgLocation.isEnabled =
+                    true
             } else {
-                llWatermarkContent.alpha = 0.5f
-                llWatermarkContent.isEnabled = false
-                switchDateTime.isEnabled = false
-                mEtTitle.isEnabled = false
-                mEtAddress.isEnabled = false
-                imgLocation.isEnabled = false
+                llWatermarkContent.alpha =
+                    0.5f
+                llWatermarkContent.isEnabled =
+                    false
+                switchDateTime.isEnabled =
+                    false
+                mEtTitle.isEnabled =
+                    false
+                mEtAddress.isEnabled =
+                    false
+                imgLocation.isEnabled =
+                    false
             }
         }
 
-        @SuppressLint("MissingPermission")
+        @SuppressLint(
+            "MissingPermission"
+        )
         private fun getLocation(): String? {
             //1.获取位置管理器
             locationManager =
-                context!!.getSystemService(RxAppCompatActivity.LOCATION_SERVICE) as LocationManager
+                context!!.getSystemService(
+                    RxAppCompatActivity.LOCATION_SERVICE
+                ) as LocationManager
 
             //2.获取位置提供器，GPS或是NetWork
-            val providers = locationManager?.getProviders(true)
-            locationProvider = if (providers!!.contains(LocationManager.GPS_PROVIDER)) {
-                //如果是GPS
-                LocationManager.GPS_PROVIDER
-            } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
-                //如果是Network
-                LocationManager.NETWORK_PROVIDER
-            } else {
-                return null
-            }
-            var location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            val providers =
+                locationManager?.getProviders(
+                    true
+                )
+            locationProvider =
+                if (providers!!.contains(
+                        LocationManager.GPS_PROVIDER
+                    )
+                ) {
+                    //如果是GPS
+                    LocationManager.GPS_PROVIDER
+                } else if (providers.contains(
+                        LocationManager.NETWORK_PROVIDER
+                    )
+                ) {
+                    //如果是Network
+                    LocationManager.NETWORK_PROVIDER
+                } else {
+                    return null
+                }
+            var location =
+                locationManager?.getLastKnownLocation(
+                    LocationManager.GPS_PROVIDER
+                )
             if (location == null) {
-                location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                location =
+                    locationManager?.getLastKnownLocation(
+                        LocationManager.NETWORK_PROVIDER
+                    )
             }
             return if (location == null) {
                 null
             } else {
-                getAddress(location)
+                getAddress(
+                    location
+                )
             }
         }
 
         //获取地址信息:城市、街道等信息
-        private fun getAddress(location: Location?): String {
-            var result: List<Address?>? = null
+        private fun getAddress(
+            location: Location?
+        ): String {
+            var result: List<Address?>? =
+                null
             try {
                 if (location != null) {
-                    val gc = Geocoder(context!!, Locale.getDefault())
-                    result = gc.getFromLocation(
-                        location.latitude,
-                        location.longitude, 1
+                    val gc =
+                        Geocoder(
+                            context!!,
+                            Locale.getDefault()
+                        )
+                    result =
+                        gc.getFromLocation(
+                            location.latitude,
+                            location.longitude,
+                            1
+                        )
+                    Log.v(
+                        "TAG",
+                        "获取地址信息：$result"
                     )
-                    Log.v("TAG", "获取地址信息：$result")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            var str = ""
+            var str =
+                ""
             if (result != null && result.isNotEmpty()) {
-                result?.get(0)?.let {
-                    str += getNullString(it.adminArea)
-                    if (TextUtils.isEmpty(it.subLocality) && !str.contains(getNullString(it.subAdminArea))) {
-                        str += getNullString(it.subAdminArea)
+                result?.get(
+                    0
+                )
+                    ?.let {
+                        str += getNullString(
+                            it.adminArea
+                        )
+                        if (TextUtils.isEmpty(
+                                it.subLocality
+                            ) && !str.contains(
+                                getNullString(
+                                    it.subAdminArea
+                                )
+                            )
+                        ) {
+                            str += getNullString(
+                                it.subAdminArea
+                            )
+                        }
+                        if (!str.contains(
+                                getNullString(
+                                    it.locality
+                                )
+                            )
+                        ) {
+                            str += getNullString(
+                                it.locality
+                            )
+                        }
+                        if (!str.contains(
+                                getNullString(
+                                    it.subLocality
+                                )
+                            )
+                        ) {
+                            str += getNullString(
+                                it.subLocality
+                            )
+                        }
                     }
-                    if (!str.contains(getNullString(it.locality))) {
-                        str += getNullString(it.locality)
-                    }
-                    if (!str.contains(getNullString(it.subLocality))) {
-                        str += getNullString(it.subLocality)
-                    }
-                }
             }
             return str
         }
 
-        private fun getNullString(str: String?): String {
+        private fun getNullString(
+            str: String?
+        ): String {
             return if (str.isNullOrEmpty()) {
                 ""
             } else {
@@ -306,18 +497,34 @@ class TipWaterMarkDialog : Dialog {
 }
 
 private val View.img_close: ImageView
-    get() = findViewById(R.id.img_close)
+    get() = findViewById(
+        R.id.img_close
+    )
 private val View.ll_watermark_content: LinearLayout
-    get() = findViewById(R.id.ll_watermark_content)
+    get() = findViewById(
+        R.id.ll_watermark_content
+    )
 private val View.ed_title: EditText
-    get() = findViewById(R.id.ed_title)
+    get() = findViewById(
+        R.id.ed_title
+    )
 private val View.ed_address: EditText
-    get() = findViewById(R.id.ed_address)
+    get() = findViewById(
+        R.id.ed_address
+    )
 private val View.img_location: ImageView
-    get() = findViewById(R.id.img_location)
+    get() = findViewById(
+        R.id.img_location
+    )
 private val View.switch_date_time: SwitchCompat
-    get() = findViewById(R.id.switch_date_time)
+    get() = findViewById(
+        R.id.switch_date_time
+    )
 private val View.switch_watermark: SwitchCompat
-    get() = findViewById(R.id.switch_watermark)
+    get() = findViewById(
+        R.id.switch_watermark
+    )
 private val View.tv_i_know: TextView
-    get() = findViewById(R.id.tv_i_know)
+    get() = findViewById(
+        R.id.tv_i_know
+    )

@@ -306,7 +306,8 @@ public class PhoneCodePicker extends OptionPicker {
                     entity.setEnglish(jsonObject.getString("en"));
                     data.add(entity);
                 }
-            } catch (JSONException e) {
+            } catch (
+                    JSONException e) {
                 DialogLog.print(e);
             }
         }

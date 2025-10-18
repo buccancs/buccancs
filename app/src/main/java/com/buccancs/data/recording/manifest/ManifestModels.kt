@@ -5,92 +5,164 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SessionManifest(
-    @SerialName("session_id")
+    @SerialName(
+        "session_id"
+    )
     val sessionId: String,
-    @SerialName("started_at")
+    @SerialName(
+        "started_at"
+    )
     val startedAt: String,
-    @SerialName("started_at_epoch_ms")
+    @SerialName(
+        "started_at_epoch_ms"
+    )
     val startedAtEpochMs: Long,
-    @SerialName("simulation")
+    @SerialName(
+        "simulation"
+    )
     val simulation: Boolean,
-    @SerialName("orchestrator_offset_ms")
+    @SerialName(
+        "orchestrator_offset_ms"
+    )
     val orchestratorOffsetMillis: Long,
-    @SerialName("devices")
+    @SerialName(
+        "devices"
+    )
     val devices: List<DeviceManifest>,
-    @SerialName("events")
+    @SerialName(
+        "events"
+    )
     val events: List<EventEntry> = emptyList(),
-    @SerialName("artifacts")
+    @SerialName(
+        "artifacts"
+    )
     val artifacts: List<ArtifactEntry> = emptyList(),
-    @SerialName("bookmarks")
+    @SerialName(
+        "bookmarks"
+    )
     val bookmarks: List<BookmarkEntry> = emptyList(),
-    @SerialName("ended_at")
+    @SerialName(
+        "ended_at"
+    )
     val endedAt: String? = null,
-    @SerialName("ended_at_epoch_ms")
+    @SerialName(
+        "ended_at_epoch_ms"
+    )
     val endedAtEpochMs: Long? = null,
-    @SerialName("duration_ms")
+    @SerialName(
+        "duration_ms"
+    )
     val durationMillis: Long? = null,
-    @SerialName("notes")
+    @SerialName(
+        "notes"
+    )
     val notes: List<String> = emptyList()
 )
 
 @Serializable
 data class DeviceManifest(
-    @SerialName("device_id")
+    @SerialName(
+        "device_id"
+    )
     val deviceId: String,
-    @SerialName("display_name")
+    @SerialName(
+        "display_name"
+    )
     val displayName: String,
-    @SerialName("type")
+    @SerialName(
+        "type"
+    )
     val type: String,
-    @SerialName("capabilities")
+    @SerialName(
+        "capabilities"
+    )
     val capabilities: List<String>,
-    @SerialName("attributes")
+    @SerialName(
+        "attributes"
+    )
     val attributes: Map<String, String>,
-    @SerialName("simulated")
+    @SerialName(
+        "simulated"
+    )
     val simulated: Boolean
 )
 
 @Serializable
 data class ArtifactEntry(
-    @SerialName("device_id")
+    @SerialName(
+        "device_id"
+    )
     val deviceId: String,
-    @SerialName("stream_type")
+    @SerialName(
+        "stream_type"
+    )
     val streamType: String,
-    @SerialName("relative_path")
+    @SerialName(
+        "relative_path"
+    )
     val relativePath: String? = null,
-    @SerialName("content_uri")
+    @SerialName(
+        "content_uri"
+    )
     val contentUri: String? = null,
-    @SerialName("mime_type")
+    @SerialName(
+        "mime_type"
+    )
     val mimeType: String,
-    @SerialName("size_bytes")
+    @SerialName(
+        "size_bytes"
+    )
     val sizeBytes: Long,
-    @SerialName("checksum_sha256")
+    @SerialName(
+        "checksum_sha256"
+    )
     val checksumSha256: String,
-    @SerialName("metadata")
+    @SerialName(
+        "metadata"
+    )
     val metadata: Map<String, String> = emptyMap(),
-    @SerialName("captured_epoch_ms")
+    @SerialName(
+        "captured_epoch_ms"
+    )
     val capturedEpochMs: Long
 )
 
 @Serializable
 data class EventEntry(
-    @SerialName("event_id")
+    @SerialName(
+        "event_id"
+    )
     val eventId: String,
-    @SerialName("type")
+    @SerialName(
+        "type"
+    )
     val type: String,
-    @SerialName("label")
+    @SerialName(
+        "label"
+    )
     val label: String?,
-    @SerialName("scheduled_epoch_ms")
+    @SerialName(
+        "scheduled_epoch_ms"
+    )
     val scheduledEpochMs: Long?,
-    @SerialName("received_epoch_ms")
+    @SerialName(
+        "received_epoch_ms"
+    )
     val receivedEpochMs: Long?
 )
 
 @Serializable
 data class BookmarkEntry(
-    @SerialName("bookmark_id")
+    @SerialName(
+        "bookmark_id"
+    )
     val bookmarkId: String,
-    @SerialName("label")
+    @SerialName(
+        "label"
+    )
     val label: String,
-    @SerialName("timestamp_epoch_ms")
+    @SerialName(
+        "timestamp_epoch_ms"
+    )
     val timestampEpochMs: Long
 )

@@ -14,32 +14,61 @@ import kotlin.math.max
 class InMemoryTopdonSettingsRepository(
     initial: TopdonSettings = TopdonSettings()
 ) : TopdonSettingsRepository {
-    private val mutex = Mutex()
-    private val state = MutableStateFlow(initial)
-    override val settings: StateFlow<TopdonSettings> = state.asStateFlow()
+    private val mutex =
+        Mutex()
+    private val state =
+        MutableStateFlow(
+            initial
+        )
+    override val settings: StateFlow<TopdonSettings> =
+        state.asStateFlow()
 
-    override suspend fun setAutoConnect(enabled: Boolean) {
+    override suspend fun setAutoConnect(
+        enabled: Boolean
+    ) {
         mutex.withLock {
-            state.value = state.value.copy(autoConnectOnAttach = enabled)
+            state.value =
+                state.value.copy(
+                    autoConnectOnAttach = enabled
+                )
         }
     }
 
-    override suspend fun setPalette(palette: TopdonPalette) {
+    override suspend fun setPalette(
+        palette: TopdonPalette
+    ) {
         mutex.withLock {
-            state.value = state.value.copy(palette = palette)
+            state.value =
+                state.value.copy(
+                    palette = palette
+                )
         }
     }
 
-    override suspend fun setSuperSampling(superSampling: TopdonSuperSamplingFactor) {
+    override suspend fun setSuperSampling(
+        superSampling: TopdonSuperSamplingFactor
+    ) {
         mutex.withLock {
-            state.value = state.value.copy(superSampling = superSampling)
+            state.value =
+                state.value.copy(
+                    superSampling = superSampling
+                )
         }
     }
 
-    override suspend fun setPreviewFpsLimit(limit: Int) {
+    override suspend fun setPreviewFpsLimit(
+        limit: Int
+    ) {
         mutex.withLock {
-            val sanitized = max(1, limit)
-            state.value = state.value.copy(previewFpsLimit = sanitized)
+            val sanitized =
+                max(
+                    1,
+                    limit
+                )
+            state.value =
+                state.value.copy(
+                    previewFpsLimit = sanitized
+                )
         }
     }
 }

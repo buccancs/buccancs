@@ -30,36 +30,80 @@ import com.topdon.module.thermal.ir.activity.IRThermalPlusActivity
 
 // Stubbed: import kotlinx.android.synthetic.main.fragment_thermal_ir.*
 
-class IRThermalFragment : BaseFragment(), View.OnClickListener {
-    private var isTC007 = false
-    override fun initContentView() = R.layout.fragment_thermal_ir
+class IRThermalFragment :
+    BaseFragment(),
+    View.OnClickListener {
+    private var isTC007 =
+        false
+
+    override fun initContentView() =
+        R.layout.fragment_thermal_ir
+
     override fun initView() {
-        isTC007 = arguments?.getBoolean(ExtraKeyConfig.IS_TC007, false) ?: false
-        title_view.setTitleText(if (isTC007) "TC007" else getString(R.string.tc_has_line_device))
-        cl_open_thermal.setOnClickListener(this)
-        tv_main_enter.setOnClickListener(this)
-        cl_07_connect_tips.setOnClickListener(this)
-        tv_07_connect.setOnClickListener(this)
-        tv_main_enter.isVisible = !isTC007
-        cl_07_connect_tips.isVisible = isTC007
-        tv_07_connect.isVisible = isTC007
+        isTC007 =
+            arguments?.getBoolean(
+                ExtraKeyConfig.IS_TC007,
+                false
+            )
+                ?: false
+        title_view.setTitleText(
+            if (isTC007) "TC007" else getString(
+                R.string.tc_has_line_device
+            )
+        )
+        cl_open_thermal.setOnClickListener(
+            this
+        )
+        tv_main_enter.setOnClickListener(
+            this
+        )
+        cl_07_connect_tips.setOnClickListener(
+            this
+        )
+        tv_07_connect.setOnClickListener(
+            this
+        )
+        tv_main_enter.isVisible =
+            !isTC007
+        cl_07_connect_tips.isVisible =
+            isTC007
+        tv_07_connect.isVisible =
+            isTC007
         if (isTC007) {
-            animation_view.setAnimation("TC007AnimationJSON.json")
-            cl_not_connect.isVisible = !WebSocketProxy.getInstance().isTC007Connect()
-            cl_connect.isVisible = WebSocketProxy.getInstance().isTC007Connect()
+            animation_view.setAnimation(
+                "TC007AnimationJSON.json"
+            )
+            cl_not_connect.isVisible =
+                !WebSocketProxy.getInstance()
+                    .isTC007Connect()
+            cl_connect.isVisible =
+                WebSocketProxy.getInstance()
+                    .isTC007Connect()
         } else {
-            animation_view.setAnimation("TDAnimationJSON.json")
+            animation_view.setAnimation(
+                "TDAnimationJSON.json"
+            )
             checkConnect()
         }
-        viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onResume(owner: LifecycleOwner) {
-                if (WebSocketProxy.getInstance().isConnected()) {
-                    NetWorkUtils.switchNetwork(true)
-                } else {
-                    NetWorkUtils.connectivityManager.bindProcessToNetwork(null)
+        viewLifecycleOwner.lifecycle.addObserver(
+            object :
+                DefaultLifecycleObserver {
+                override fun onResume(
+                    owner: LifecycleOwner
+                ) {
+                    if (WebSocketProxy.getInstance()
+                            .isConnected()
+                    ) {
+                        NetWorkUtils.switchNetwork(
+                            true
+                        )
+                    } else {
+                        NetWorkUtils.connectivityManager.bindProcessToNetwork(
+                            null
+                        )
+                    }
                 }
-            }
-        })
+            })
     }
 
     override fun initData() {
@@ -73,36 +117,52 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun connected() {
-        SharedManager.hasTcLine = true
+        SharedManager.hasTcLine =
+            true
         if (!isTC007) {
-            cl_connect.isVisible = true
-            cl_not_connect.isVisible = false
+            cl_connect.isVisible =
+                true
+            cl_not_connect.isVisible =
+                false
         }
     }
 
     override fun disConnected() {
         if (!isTC007) {
-            cl_connect.isVisible = false
-            cl_not_connect.isVisible = true
+            cl_connect.isVisible =
+                false
+            cl_not_connect.isVisible =
+                true
         }
     }
 
-    override fun onSocketConnected(isTS004: Boolean) {
+    override fun onSocketConnected(
+        isTS004: Boolean
+    ) {
         if (isTC007 && !isTS004) {
-            cl_connect.isVisible = true
-            cl_not_connect.isVisible = false
+            cl_connect.isVisible =
+                true
+            cl_not_connect.isVisible =
+                false
         }
     }
 
-    override fun onSocketDisConnected(isTS004: Boolean) {
+    override fun onSocketDisConnected(
+        isTS004: Boolean
+    ) {
         if (isTC007 && !isTS004) {
-            cl_connect.isVisible = false
-            cl_not_connect.isVisible = true
+            cl_connect.isVisible =
+                false
+            cl_not_connect.isVisible =
+                true
         }
     }
 
     private fun checkConnect() {
-        if (DeviceTools.isConnect(isAutoRequest = false)) {
+        if (DeviceTools.isConnect(
+                isAutoRequest = false
+            )
+        ) {
             connected()
         } else {
             disConnected()
@@ -112,31 +172,52 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(
+        v: View?
+    ) {
         when (v) {
             cl_open_thermal -> {
                 if (isTC007) {
-                    ARouter.getInstance().build(RouterConfig.IR_THERMAL_07)
-                        .navigation(requireContext())
+                    ARouter.getInstance()
+                        .build(
+                            RouterConfig.IR_THERMAL_07
+                        )
+                        .navigation(
+                            requireContext()
+                        )
                 } else {
                     if (DeviceTools.isTC001PlusConnect()) {
                         startActivityForResult(
                             Intent(
                                 requireContext(),
                                 IRThermalPlusActivity::class.java
-                            ), 101
+                            ),
+                            101
                         )
                     } else if (DeviceTools.isTC001LiteConnect()) {
-                        ARouter.getInstance().build(RouterConfig.IR_TCLITE)
-                            .navigation(activity, 101)
+                        ARouter.getInstance()
+                            .build(
+                                RouterConfig.IR_TCLITE
+                            )
+                            .navigation(
+                                activity,
+                                101
+                            )
                     } else if (DeviceTools.isHikConnect()) {
-                        ARouter.getInstance().build(RouterConfig.IR_HIK_MAIN).navigation(activity)
+                        ARouter.getInstance()
+                            .build(
+                                RouterConfig.IR_HIK_MAIN
+                            )
+                            .navigation(
+                                activity
+                            )
                     } else {
                         startActivityForResult(
                             Intent(
                                 requireContext(),
                                 IRThermalNightActivity::class.java
-                            ), 101
+                            ),
+                            101
                         )
                     }
                 }
@@ -146,69 +227,115 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                 if (!DeviceTools.isConnect()) {
                     if (DeviceTools.findUsbDevice() == null) {
                         activity?.let {
-                            TipDialog.Builder(it)
-                                .setMessage(R.string.device_connect_tip)
-                                .setPositiveListener(R.string.app_confirm)
-                                .create().show()
+                            TipDialog.Builder(
+                                it
+                            )
+                                .setMessage(
+                                    R.string.device_connect_tip
+                                )
+                                .setPositiveListener(
+                                    R.string.app_confirm
+                                )
+                                .create()
+                                .show()
                         }
                     } else {
-                        XXPermissions.with(this)
+                        XXPermissions.with(
+                            this
+                        )
                             .permission(
                                 listOf(
                                     Permission.CAMERA
                                 )
                             )
-                            .request(object : OnPermissionCallback {
-                                override fun onGranted(
-                                    permissions: MutableList<String>,
-                                    allGranted: Boolean
-                                ) {
-                                    if (allGranted) {
-                                        showConnectTip()
-                                    }
-                                }
-
-                                override fun onDenied(
-                                    permissions: MutableList<String>,
-                                    doNotAskAgain: Boolean
-                                ) {
-                                    if (doNotAskAgain) {
-                                        context?.let {
-                                            TipDialog.Builder(it)
-                                                .setTitleMessage(getString(R.string.app_tip))
-                                                .setMessage(getString(R.string.app_camera_content))
-                                                .setPositiveListener(R.string.app_open) {
-                                                    AppUtils.launchAppDetailsSettings()
-                                                }
-                                                .setCancelListener(R.string.app_cancel) {
-                                                }
-                                                .setCanceled(true)
-                                                .create().show()
+                            .request(
+                                object :
+                                    OnPermissionCallback {
+                                    override fun onGranted(
+                                        permissions: MutableList<String>,
+                                        allGranted: Boolean
+                                    ) {
+                                        if (allGranted) {
+                                            showConnectTip()
                                         }
                                     }
-                                }
-                            })
+
+                                    override fun onDenied(
+                                        permissions: MutableList<String>,
+                                        doNotAskAgain: Boolean
+                                    ) {
+                                        if (doNotAskAgain) {
+                                            context?.let {
+                                                TipDialog.Builder(
+                                                    it
+                                                )
+                                                    .setTitleMessage(
+                                                        getString(
+                                                            R.string.app_tip
+                                                        )
+                                                    )
+                                                    .setMessage(
+                                                        getString(
+                                                            R.string.app_camera_content
+                                                        )
+                                                    )
+                                                    .setPositiveListener(
+                                                        R.string.app_open
+                                                    ) {
+                                                        AppUtils.launchAppDetailsSettings()
+                                                    }
+                                                    .setCancelListener(
+                                                        R.string.app_cancel
+                                                    ) {
+                                                    }
+                                                    .setCanceled(
+                                                        true
+                                                    )
+                                                    .create()
+                                                    .show()
+                                            }
+                                        }
+                                    }
+                                })
                     }
                 }
             }
 
             cl_07_connect_tips -> {
-                ARouter.getInstance().build(RouterConfig.IR_CONNECT_TIPS)
-                    .withBoolean(ExtraKeyConfig.IS_TC007, true)
-                    .navigation(requireContext())
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.IR_CONNECT_TIPS
+                    )
+                    .withBoolean(
+                        ExtraKeyConfig.IS_TC007,
+                        true
+                    )
+                    .navigation(
+                        requireContext()
+                    )
             }
 
             tv_07_connect -> {
                 ARouter.getInstance()
-                    .build(RouterConfig.IR_DEVICE_ADD)
-                    .withBoolean("isTS004", false)
-                    .navigation(requireContext())
+                    .build(
+                        RouterConfig.IR_DEVICE_ADD
+                    )
+                    .withBoolean(
+                        "isTS004",
+                        false
+                    )
+                    .navigation(
+                        requireContext()
+                    )
             }
         }
     }
 
-    private var tipConnectDialog: TipDialog? = null
-    private var isCancelUpdateVersion = false
+    private var tipConnectDialog: TipDialog? =
+        null
+    private var isCancelUpdateVersion =
+        false
+
     private fun showConnectTip() {
         if (requireContext().applicationInfo.targetSdkVersion >= Build.VERSION_CODES.P &&
             Build.VERSION.SDK_INT == Build.VERSION_CODES.Q
@@ -219,18 +346,39 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
             if (tipConnectDialog != null && tipConnectDialog!!.isShowing) {
                 return
             }
-            tipConnectDialog = TipDialog.Builder(requireContext())
-                .setMessage(getString(R.string.tip_target_sdk))
-                .setPositiveListener(R.string.app_confirm) {
-                    val url = "https://www.topdon.com/pages/pro-down?fuzzy=TS001"
-                    val intent = Intent()
-                    intent.action = "android.intent.action.VIEW"
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }.setCancelListener(R.string.app_cancel, {
-                    isCancelUpdateVersion = true
-                })
-                .create()
+            tipConnectDialog =
+                TipDialog.Builder(
+                    requireContext()
+                )
+                    .setMessage(
+                        getString(
+                            R.string.tip_target_sdk
+                        )
+                    )
+                    .setPositiveListener(
+                        R.string.app_confirm
+                    ) {
+                        val url =
+                            "https://www.topdon.com/pages/pro-down?fuzzy=TS001"
+                        val intent =
+                            Intent()
+                        intent.action =
+                            "android.intent.action.VIEW"
+                        intent.data =
+                            Uri.parse(
+                                url
+                            )
+                        startActivity(
+                            intent
+                        )
+                    }
+                    .setCancelListener(
+                        R.string.app_cancel,
+                        {
+                            isCancelUpdateVersion =
+                                true
+                        })
+                    .create()
             tipConnectDialog?.show()
         }
     }
@@ -250,33 +398,55 @@ class IRThermalFragment : BaseFragment(), View.OnClickListener {
                     Permission.WRITE_EXTERNAL_STORAGE
                 )
             } else {
-                listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+                listOf(
+                    Permission.READ_EXTERNAL_STORAGE,
+                    Permission.WRITE_EXTERNAL_STORAGE
+                )
             }
-        if (!XXPermissions.isGranted(requireContext(), permissionList)) {
+        if (!XXPermissions.isGranted(
+                requireContext(),
+                permissionList
+            )
+        ) {
             if (BaseApplication.instance.isDomestic()) {
                 context?.let {
-                    TipDialog.Builder(it)
+                    TipDialog.Builder(
+                        it
+                    )
                         .setMessage(
                             getString(
                                 R.string.permission_request_storage_app,
                                 CommUtils.getAppName()
                             )
                         )
-                        .setCancelListener(R.string.app_cancel)
-                        .setPositiveListener(R.string.app_confirm) {
-                            initStoragePermission(permissionList)
+                        .setCancelListener(
+                            R.string.app_cancel
+                        )
+                        .setPositiveListener(
+                            R.string.app_confirm
+                        ) {
+                            initStoragePermission(
+                                permissionList
+                            )
                         }
-                        .create().show()
+                        .create()
+                        .show()
                 }
             } else {
-                initStoragePermission(permissionList)
+                initStoragePermission(
+                    permissionList
+                )
             }
         } else {
-            initStoragePermission(permissionList)
+            initStoragePermission(
+                permissionList
+            )
         }
     }
 
-    private fun initStoragePermission(permissionList: List<String>) {
+    private fun initStoragePermission(
+        permissionList: List<String>
+    ) {
     }
 
 }

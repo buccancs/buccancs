@@ -169,7 +169,8 @@ public class MainActivity extends Activity {
                                     bw.flush();
                                     bw.close();
                                     firstTimeWrite = true;
-                                } catch (IOException e) {
+                                } catch (
+                                        IOException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -242,7 +243,8 @@ public class MainActivity extends Activity {
                 btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
 
 
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
 
@@ -267,7 +269,8 @@ public class MainActivity extends Activity {
             shimmer.enableArraysDataStructure(true);
             try {
                 btManager.startStreaming(bluetoothAdd);
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
         } else {
@@ -280,7 +283,8 @@ public class MainActivity extends Activity {
             try {
                 ShimmerBluetooth shimmer = (ShimmerBluetooth) btManager.getShimmer(bluetoothAdd);
                 btManager.stopStreaming(bluetoothAdd);
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
         } else {
@@ -339,7 +343,8 @@ public class MainActivity extends Activity {
         alertDialog.show();
         try {
             looper.loop();
-        } catch (RuntimeException e) {
+        } catch (
+                RuntimeException e) {
         }
     }
 
@@ -367,13 +372,15 @@ public class MainActivity extends Activity {
                         }
                     }
                     count++;
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }
             try {
                 bw.write("\n");
-            } catch (IOException e2) {
+            } catch (
+                    IOException e2) {
                 e2.printStackTrace();
             }
             firstTimeWrite = false;
@@ -391,13 +398,15 @@ public class MainActivity extends Activity {
                     }
                 }
                 count++;
-            } catch (IOException e3) {
+            } catch (
+                    IOException e3) {
                 e3.printStackTrace();
             }
         }
         try {
             bw.write("\n");
-        } catch (IOException e2) {
+        } catch (
+                IOException e2) {
             e2.printStackTrace();
         }
     }
@@ -414,7 +423,8 @@ public class MainActivity extends Activity {
                 btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
 
 
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -434,7 +444,8 @@ public class MainActivity extends Activity {
             try {
                 OutputStream outputStream = MainActivity.this.getContentResolver().openOutputStream(newFile.getUri());
                 bw = new BufferedWriter(new OutputStreamWriter(outputStream));
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 System.out.println();
             }
         } else {

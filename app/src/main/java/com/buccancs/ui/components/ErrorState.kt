@@ -27,7 +27,9 @@ fun ErrorState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(LayoutPadding.Section),
+            .padding(
+                LayoutPadding.Section
+            ),
         verticalArrangement = Arrangement.spacedBy(
             Spacing.Small,
             alignment = Alignment.CenterVertically
@@ -38,7 +40,9 @@ fun ErrorState(
             imageVector = Icons.Default.Error,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.error,
-            modifier = Modifier.padding(bottom = Spacing.ExtraSmall)
+            modifier = Modifier.padding(
+                bottom = Spacing.ExtraSmall
+            )
         )
         Text(
             text = title,
@@ -51,11 +55,17 @@ fun ErrorState(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = Spacing.Small)
+            modifier = Modifier.padding(
+                bottom = Spacing.Small
+            )
         )
         onRetry?.let {
-            Button(onClick = it) {
-                Text("Retry")
+            Button(
+                onClick = it
+            ) {
+                Text(
+                    "Retry"
+                )
             }
         }
     }

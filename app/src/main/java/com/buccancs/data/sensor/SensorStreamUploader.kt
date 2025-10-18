@@ -23,7 +23,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface SensorStreamEmitter {
-    suspend fun emit(timestampEpochMs: Long, values: Map<String, Double>)
+    suspend fun emit(
+        timestampEpochMs: Long,
+        values: Map<String, Double>
+    )
+
     suspend fun close()
 }
 
@@ -48,19 +52,33 @@ class SensorStreamUploader @Inject constructor(
         streamId: String,
         sampleRateHz: Double
     ): SensorStreamEmitter {
-        require(sessionId.isNotBlank()) { "sessionId cannot be blank" }
-        require(deviceId.value.isNotBlank()) { "deviceId cannot be blank" }
-        val config = configRepository.config.value
-        val channel = channelFactory.channel(config)
-        val stub = SensorStreamServiceGrpcKt.SensorStreamServiceCoroutineStub(channel)
-        val emitter = StreamEmitterImpl(
-            scope = scope,
-            stub = stub,
-            sessionId = sessionId,
-            deviceId = deviceId.value,
-            streamId = streamId.ifBlank { "sensor" },
-            sampleRateHz = sampleRateHz.coerceAtLeast(0.0)
-        )
+        require(
+            sessionId.isNotBlank()
+        ) { "sessionId cannot be blank" }
+        require(
+            deviceId.value.isNotBlank()
+        ) { "deviceId cannot be blank" }
+        val config =
+            configRepository.config.value
+        val channel =
+            channelFactory.channel(
+                config
+            )
+        val stub =
+            SensorStreamServiceGrpcKt.SensorStreamServiceCoroutineStub(
+                channel
+            )
+        val emitter =
+            StreamEmitterImpl(
+                scope = scope,
+                stub = stub,
+                sessionId = sessionId,
+                deviceId = deviceId.value,
+                streamId = streamId.ifBlank { "sensor" },
+                sampleRateHz = sampleRateHz.coerceAtLeast(
+                    0.0
+                )
+            )
         emitter.start()
         return emitter
     }
@@ -73,53 +91,108 @@ class SensorStreamUploader @Inject constructor(
         private val streamId: String,
         private val sampleRateHz: Double
     ) : SensorStreamEmitter {
-        private val samples = Channel<QueuedSample>(Channel.BUFFERED)
-        private val closed = AtomicBoolean(false)
-        private val ack = CompletableDeferred<SensorStreamAck>()
+        private val samples =
+            Channel<QueuedSample>(
+                Channel.BUFFERED
+            )
+        private val closed =
+            AtomicBoolean(
+                false
+            )
+        private val ack =
+            CompletableDeferred<SensorStreamAck>()
         private lateinit var senderJob: Job
         fun start() {
-            senderJob = scope.launch(Dispatchers.IO) {
-                val session = sessionIdentifier { id = sessionId }
-                val requestFlow = flow {
-                    val buffer = mutableListOf<QueuedSample>()
-                    try {
-                        for (sample in samples) {
-                            buffer += sample
-                            if (buffer.size >= BATCH_CAPACITY) {
-                                emit(buildBatch(buffer, session, endOfStream = false))
-                                buffer.clear()
+            senderJob =
+                scope.launch(
+                    Dispatchers.IO
+                ) {
+                    val session =
+                        sessionIdentifier {
+                            id =
+                                sessionId
+                        }
+                    val requestFlow =
+                        flow {
+                            val buffer =
+                                mutableListOf<QueuedSample>()
+                            try {
+                                for (sample in samples) {
+                                    buffer += sample
+                                    if (buffer.size >= BATCH_CAPACITY) {
+                                        emit(
+                                            buildBatch(
+                                                buffer,
+                                                session,
+                                                endOfStream = false
+                                            )
+                                        )
+                                        buffer.clear()
+                                    }
+                                }
+                            } finally {
+                                if (buffer.isNotEmpty()) {
+                                    emit(
+                                        buildBatch(
+                                            buffer,
+                                            session,
+                                            endOfStream = true
+                                        )
+                                    )
+                                } else {
+                                    emit(
+                                        buildBatch(
+                                            emptyList(),
+                                            session,
+                                            endOfStream = true
+                                        )
+                                    )
+                                }
                             }
                         }
-                    } finally {
-                        if (buffer.isNotEmpty()) {
-                            emit(buildBatch(buffer, session, endOfStream = true))
-                        } else {
-                            emit(buildBatch(emptyList(), session, endOfStream = true))
-                        }
+                    try {
+                        val response =
+                            stub.stream(
+                                requestFlow
+                            )
+                        ack.complete(
+                            response
+                        )
+                    } catch (t: Throwable) {
+                        ack.completeExceptionally(
+                            t
+                        )
+                        throw t
                     }
                 }
-                try {
-                    val response = stub.stream(requestFlow)
-                    ack.complete(response)
-                } catch (t: Throwable) {
-                    ack.completeExceptionally(t)
-                    throw t
-                }
-            }
         }
 
-        override suspend fun emit(timestampEpochMs: Long, values: Map<String, Double>) {
+        override suspend fun emit(
+            timestampEpochMs: Long,
+            values: Map<String, Double>
+        ) {
             if (closed.get()) return
-            samples.send(QueuedSample(timestampEpochMs, values))
+            samples.send(
+                QueuedSample(
+                    timestampEpochMs,
+                    values
+                )
+            )
         }
 
         override suspend fun close() {
-            if (!closed.compareAndSet(false, true)) return
+            if (!closed.compareAndSet(
+                    false,
+                    true
+                )
+            ) return
             samples.close()
             runCatching { senderJob.join() }
-            val response = ack.await()
+            val response =
+                ack.await()
             if (!response.success) {
-                throw IOException(response.errorMessage.ifBlank { "Sensor stream rejected" })
+                throw IOException(
+                    response.errorMessage.ifBlank { "Sensor stream rejected" })
             }
         }
 
@@ -127,26 +200,35 @@ class SensorStreamUploader @Inject constructor(
             queued: List<QueuedSample>,
             session: com.buccancs.control.SessionIdentifier,
             endOfStream: Boolean
-        ) = sensorSampleBatch {
-            this.session = session
-            deviceId = this@StreamEmitterImpl.deviceId
-            streamId = this@StreamEmitterImpl.streamId
-            sampleRateHz = this@StreamEmitterImpl.sampleRateHz
-            this.endOfStream = endOfStream
-            if (queued.isNotEmpty()) {
-                queued.forEach { sample ->
-                    samples += sensorSample {
-                        timestampEpochMs = sample.timestamp
-                        sample.values.forEach { (key, value) ->
-                            values += sensorSampleValue {
-                                this.key = key
-                                this.value = value
+        ) =
+            sensorSampleBatch {
+                this.session =
+                    session
+                deviceId =
+                    this@StreamEmitterImpl.deviceId
+                streamId =
+                    this@StreamEmitterImpl.streamId
+                sampleRateHz =
+                    this@StreamEmitterImpl.sampleRateHz
+                this.endOfStream =
+                    endOfStream
+                if (queued.isNotEmpty()) {
+                    queued.forEach { sample ->
+                        samples += sensorSample {
+                            timestampEpochMs =
+                                sample.timestamp
+                            sample.values.forEach { (key, value) ->
+                                values += sensorSampleValue {
+                                    this.key =
+                                        key
+                                    this.value =
+                                        value
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
         private data class QueuedSample(
             val timestamp: Long,
@@ -154,7 +236,8 @@ class SensorStreamUploader @Inject constructor(
         )
 
         companion object {
-            private const val BATCH_CAPACITY = 64
+            private const val BATCH_CAPACITY =
+                64
         }
     }
 }

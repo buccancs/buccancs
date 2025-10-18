@@ -46,20 +46,54 @@ import com.buccancs.desktop.ui.theme.Spacing
  */
 @Composable
 fun SettingsScreen() {
-    var serverPort by remember { mutableStateOf("50051") }
-    var dataPath by remember { mutableStateOf("~/.buccancs/sessions") }
-    var darkTheme by remember { mutableStateOf(true) }
-    var autoDiscovery by remember { mutableStateOf(true) }
-    var logLevel by remember { mutableStateOf("INFO") }
-    var retentionDays by remember { mutableStateOf("30") }
-    var maxStorageGB by remember { mutableStateOf("50") }
+    var serverPort by remember {
+        mutableStateOf(
+            "50051"
+        )
+    }
+    var dataPath by remember {
+        mutableStateOf(
+            "~/.buccancs/sessions"
+        )
+    }
+    var darkTheme by remember {
+        mutableStateOf(
+            true
+        )
+    }
+    var autoDiscovery by remember {
+        mutableStateOf(
+            true
+        )
+    }
+    var logLevel by remember {
+        mutableStateOf(
+            "INFO"
+        )
+    }
+    var retentionDays by remember {
+        mutableStateOf(
+            "30"
+        )
+    }
+    var maxStorageGB by remember {
+        mutableStateOf(
+            "50"
+        )
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(Spacing.Large),
-        verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            .verticalScroll(
+                rememberScrollState()
+            )
+            .padding(
+                Spacing.Large
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        )
     ) {
         ScreenHeader(
             title = "Settings",
@@ -73,10 +107,22 @@ fun SettingsScreen() {
         ) {
             OutlinedTextField(
                 value = serverPort,
-                onValueChange = { serverPort = it },
-                label = { Text("gRPC Port") },
+                onValueChange = {
+                    serverPort =
+                        it
+                },
+                label = {
+                    Text(
+                        "gRPC Port"
+                    )
+                },
                 modifier = Modifier.fillMaxWidth(),
-                leadingIcon = { Icon(Icons.Default.NetworkCheck, "Port") },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.NetworkCheck,
+                        "Port"
+                    )
+                },
                 singleLine = true
             )
 
@@ -86,7 +132,10 @@ fun SettingsScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text("Auto-discovery (mDNS)", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        "Auto-discovery (mDNS)",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                     Text(
                         "Automatically discover Android agents",
                         style = MaterialTheme.typography.bodySmall,
@@ -95,7 +144,10 @@ fun SettingsScreen() {
                 }
                 Switch(
                     checked = autoDiscovery,
-                    onCheckedChange = { autoDiscovery = it }
+                    onCheckedChange = {
+                        autoDiscovery =
+                            it
+                    }
                 )
             }
         }
@@ -107,13 +159,29 @@ fun SettingsScreen() {
         ) {
             OutlinedTextField(
                 value = dataPath,
-                onValueChange = { dataPath = it },
-                label = { Text("Data Directory") },
+                onValueChange = {
+                    dataPath =
+                        it
+                },
+                label = {
+                    Text(
+                        "Data Directory"
+                    )
+                },
                 modifier = Modifier.fillMaxWidth(),
-                leadingIcon = { Icon(Icons.Default.Folder, "Path") },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Folder,
+                        "Path"
+                    )
+                },
                 trailingIcon = {
-                    IconButton(onClick = { /* Browse */ }) {
-                        Icon(Icons.Default.FolderOpen, "Browse")
+                    IconButton(
+                        onClick = { /* Browse */ }) {
+                        Icon(
+                            Icons.Default.FolderOpen,
+                            "Browse"
+                        )
                     }
                 },
                 singleLine = true
@@ -121,23 +189,53 @@ fun SettingsScreen() {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.Medium
+                )
             ) {
                 OutlinedTextField(
                     value = retentionDays,
-                    onValueChange = { retentionDays = it },
-                    label = { Text("Retention (days)") },
-                    modifier = Modifier.weight(1f),
-                    leadingIcon = { Icon(Icons.Default.CalendarToday, "Days") },
+                    onValueChange = {
+                        retentionDays =
+                            it
+                    },
+                    label = {
+                        Text(
+                            "Retention (days)"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.CalendarToday,
+                            "Days"
+                        )
+                    },
                     singleLine = true
                 )
 
                 OutlinedTextField(
                     value = maxStorageGB,
-                    onValueChange = { maxStorageGB = it },
-                    label = { Text("Max Storage (GB)") },
-                    modifier = Modifier.weight(1f),
-                    leadingIcon = { Icon(Icons.Default.Storage, "Storage") },
+                    onValueChange = {
+                        maxStorageGB =
+                            it
+                    },
+                    label = {
+                        Text(
+                            "Max Storage (GB)"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.Storage,
+                            "Storage"
+                        )
+                    },
                     singleLine = true
                 )
             }
@@ -154,7 +252,10 @@ fun SettingsScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text("Dark Theme", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        "Dark Theme",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                     Text(
                         "Use dark colour scheme",
                         style = MaterialTheme.typography.bodySmall,
@@ -163,7 +264,10 @@ fun SettingsScreen() {
                 }
                 Switch(
                     checked = darkTheme,
-                    onCheckedChange = { darkTheme = it }
+                    onCheckedChange = {
+                        darkTheme =
+                            it
+                    }
                 )
             }
         }
@@ -173,37 +277,72 @@ fun SettingsScreen() {
             title = "Logging",
             subtitle = "Debug and diagnostic settings"
         ) {
-            var expanded by remember { mutableStateOf(false) }
+            var expanded by remember {
+                mutableStateOf(
+                    false
+                )
+            }
 
             ExposedDropdownMenuBox(
                 expanded = expanded,
-                onExpandedChange = { expanded = it }
+                onExpandedChange = {
+                    expanded =
+                        it
+                }
             ) {
                 OutlinedTextField(
                     value = logLevel,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Log Level") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
+                    label = {
+                        Text(
+                            "Log Level"
+                        )
+                    },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .menuAnchor(
                             ExposedDropdownMenuAnchorType.PrimaryNotEditable,
                             enabled = true
                         ),
-                    leadingIcon = { Icon(Icons.Default.BugReport, "Log") }
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.BugReport,
+                            "Log"
+                        )
+                    }
                 )
 
                 ExposedDropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = {
+                        expanded =
+                            false
+                    }
                 ) {
-                    listOf("TRACE", "DEBUG", "INFO", "WARN", "ERROR").forEach { level ->
+                    listOf(
+                        "TRACE",
+                        "DEBUG",
+                        "INFO",
+                        "WARN",
+                        "ERROR"
+                    ).forEach { level ->
                         DropdownMenuItem(
-                            text = { Text(level) },
+                            text = {
+                                Text(
+                                    level
+                                )
+                            },
                             onClick = {
-                                logLevel = level
-                                expanded = false
+                                logLevel =
+                                    level
+                                expanded =
+                                    false
                             }
                         )
                     }
@@ -214,18 +353,24 @@ fun SettingsScreen() {
         // Actions
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             PrimaryButton(
                 text = "Save Changes",
                 onClick = { /* Save */ },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
 
             SecondaryButton(
                 text = "Reset to Defaults",
                 onClick = { /* Reset */ },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
         }
     }

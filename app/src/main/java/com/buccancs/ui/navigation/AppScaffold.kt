@@ -32,36 +32,66 @@ fun AppScaffold(
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
-                AppBottomNavigation(navController)
+                AppBottomNavigation(
+                    navController
+                )
             }
         },
         containerColor = MaterialTheme.colorScheme.background,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { paddingValues ->
-        content(Modifier.padding(paddingValues))
+        content(
+            Modifier.padding(
+                paddingValues
+            )
+        )
     }
 }
 
 @Composable
-private fun AppBottomNavigation(navController: NavHostController) {
+private fun AppBottomNavigation(
+    navController: NavHostController
+) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
+    val currentDestination =
+        navBackStackEntry?.destination
 
     NavigationBar(
         windowInsets = WindowInsets.navigationBars
     ) {
         bottomNavItems.forEach { item ->
             NavigationBarItem(
-                icon = { Icon(item.icon, contentDescription = item.label) },
-                label = { Text(item.label) },
+                icon = {
+                    Icon(
+                        item.icon,
+                        contentDescription = item.label
+                    )
+                },
+                label = {
+                    Text(
+                        item.label
+                    )
+                },
                 selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true,
                 onClick = {
-                    navController.navigate(item.screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                    navController.navigate(
+                        item.screen.route
+                    ) {
+                        popUpTo(
+                            navController.graph.findStartDestination().id
+                        ) {
+                            saveState =
+                                true
                         }
-                        launchSingleTop = true
-                        restoreState = true
+                        launchSingleTop =
+                            true
+                        restoreState =
+                            true
                     }
                 }
             )
@@ -75,9 +105,26 @@ private data class BottomNavItemData(
     val icon: ImageVector
 )
 
-private val bottomNavItems = listOf(
-    BottomNavItemData(Screen.LiveSession, "Live", Icons.Default.PlayCircle),
-    BottomNavItemData(Screen.Devices, "Devices", Icons.Default.Devices),
-    BottomNavItemData(Screen.Library, "Sessions", Icons.Default.Folder),
-    BottomNavItemData(Screen.Settings, "Settings", Icons.Default.Settings)
-)
+private val bottomNavItems =
+    listOf(
+        BottomNavItemData(
+            Screen.LiveSession,
+            "Live",
+            Icons.Default.PlayCircle
+        ),
+        BottomNavItemData(
+            Screen.Devices,
+            "Devices",
+            Icons.Default.Devices
+        ),
+        BottomNavItemData(
+            Screen.Library,
+            "Sessions",
+            Icons.Default.Folder
+        ),
+        BottomNavItemData(
+            Screen.Settings,
+            "Settings",
+            Icons.Default.Settings
+        )
+    )

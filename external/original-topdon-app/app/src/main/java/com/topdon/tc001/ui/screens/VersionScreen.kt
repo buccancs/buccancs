@@ -36,7 +36,9 @@ data class VersionInfo(
     val androidVersion: String
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun VersionScreen(
     versionInfo: VersionInfo,
@@ -47,9 +49,15 @@ fun VersionScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Version Information") },
+                title = {
+                    Text(
+                        "Version Information"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -65,10 +73,18 @@ fun VersionScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(
+                    paddingValues
+                )
+                .padding(
+                    16.dp
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -79,8 +95,12 @@ fun VersionScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                        .padding(
+                            16.dp
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        12.dp
+                    )
                 ) {
                     Text(
                         text = "Application",
@@ -89,10 +109,22 @@ fun VersionScreen(
                         color = MaterialTheme.colorScheme.primary
                     )
 
-                    InfoRow("Name", versionInfo.appName)
-                    InfoRow("Version", "${versionInfo.versionName} (${versionInfo.versionCode})")
-                    InfoRow("Build Date", versionInfo.buildDate)
-                    InfoRow("Flavor", versionInfo.flavor)
+                    InfoRow(
+                        "Name",
+                        versionInfo.appName
+                    )
+                    InfoRow(
+                        "Version",
+                        "${versionInfo.versionName} (${versionInfo.versionCode})"
+                    )
+                    InfoRow(
+                        "Build Date",
+                        versionInfo.buildDate
+                    )
+                    InfoRow(
+                        "Flavor",
+                        versionInfo.flavor
+                    )
                 }
             }
 
@@ -105,8 +137,12 @@ fun VersionScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                        .padding(
+                            16.dp
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        12.dp
+                    )
                 ) {
                     Text(
                         text = "Device",
@@ -115,9 +151,18 @@ fun VersionScreen(
                         color = MaterialTheme.colorScheme.primary
                     )
 
-                    InfoRow("Model", versionInfo.deviceModel)
-                    InfoRow("Android Version", versionInfo.androidVersion)
-                    InfoRow("SDK Version", versionInfo.sdkVersion.toString())
+                    InfoRow(
+                        "Model",
+                        versionInfo.deviceModel
+                    )
+                    InfoRow(
+                        "Android Version",
+                        versionInfo.androidVersion
+                    )
+                    InfoRow(
+                        "SDK Version",
+                        versionInfo.sdkVersion.toString()
+                    )
                 }
             }
         }

@@ -58,20 +58,34 @@ private fun SectionCard(
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Card(modifier = modifier.fillMaxWidth(), colors = colors) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = colors
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                12.dp
+            )
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(title, style = MaterialTheme.typography.titleMedium)
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(
+                        4.dp
+                    )
+                ) {
+                    Text(
+                        title,
+                        style = MaterialTheme.typography.titleMedium
+                    )
                     subtitle?.let {
                         Text(
                             text = it,
@@ -81,7 +95,9 @@ private fun SectionCard(
                     }
                 }
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp
+                    ),
                     verticalAlignment = Alignment.CenterVertically,
                     content = actions
                 )
@@ -92,21 +108,35 @@ private fun SectionCard(
 }
 
 @Composable
-fun DesktopApp(viewModel: AppViewModel) {
+fun DesktopApp(
+    viewModel: AppViewModel
+) {
     val state by viewModel.uiState.collectAsState()
-    val formatter = rememberFormatter()
+    val formatter =
+        rememberFormatter()
     val sessionTitle =
-        state.session?.let { "Session ${it.id} (${it.status})" } ?: "No active session"
-    val sessionActive = state.session?.status == SessionStatus.ACTIVE.name
+        state.session?.let { "Session ${it.id} (${it.status})" }
+            ?: "No active session"
+    val sessionActive =
+        state.session?.status == SessionStatus.ACTIVE.name
     MaterialTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Surface(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .padding(
+                        16.dp
+                    ),
+                verticalArrangement = Arrangement.spacedBy(
+                    16.dp
+                )
             ) {
-                Text(sessionTitle, style = MaterialTheme.typography.headlineSmall)
+                Text(
+                    sessionTitle,
+                    style = MaterialTheme.typography.headlineSmall
+                )
                 ControlPanel(
                     control = state.control,
                     sessionActive = sessionActive,
@@ -132,19 +162,43 @@ fun DesktopApp(viewModel: AppViewModel) {
                 state.session?.let {
                     SessionSummaryCard(
                         summary = it,
-                        metricsUpdatedAt = it.metrics.updatedAt?.let(formatter::format),
+                        metricsUpdatedAt = it.metrics.updatedAt?.let(
+                            formatter::format
+                        ),
                         canErase = it.status == SessionStatus.COMPLETED.name,
                         formatter = formatter,
-                        onEraseSession = { viewModel.eraseSession(it.id) }
+                        onEraseSession = {
+                            viewModel.eraseSession(
+                                it.id
+                            )
+                        }
                     )
                 }
-                DeviceSection(devices = state.devices, formatter = formatter)
-                RetentionSection(retention = state.retention)
-                TransferSection(transfers = state.transfers)
-                EventTimelineSection(events = state.events, formatter = formatter)
-                PreviewSection(previews = state.previews, formatter = formatter)
-                ArchiveSection(archives = state.historicalSessions, formatter = formatter)
-                AlertsSection(alerts = state.alerts)
+                DeviceSection(
+                    devices = state.devices,
+                    formatter = formatter
+                )
+                RetentionSection(
+                    retention = state.retention
+                )
+                TransferSection(
+                    transfers = state.transfers
+                )
+                EventTimelineSection(
+                    events = state.events,
+                    formatter = formatter
+                )
+                PreviewSection(
+                    previews = state.previews,
+                    formatter = formatter
+                )
+                ArchiveSection(
+                    archives = state.historicalSessions,
+                    formatter = formatter
+                )
+                AlertsSection(
+                    alerts = state.alerts
+                )
             }
         }
     }
@@ -173,72 +227,145 @@ private fun ControlPanel(
     onSubjectEraseChange: (String) -> Unit,
     onSubjectErase: () -> Unit
 ) {
-    val offsetsSummary = remember(control.clockOffsetsPreview) {
-        control.clockOffsetsPreview.entries.joinToString { (deviceId, offset) ->
-            "$deviceId=${"%.2f".format(offset)}"
+    val offsetsSummary =
+        remember(
+            control.clockOffsetsPreview
+        ) {
+            control.clockOffsetsPreview.entries.joinToString { (deviceId, offset) ->
+                "$deviceId=${
+                    "%.2f".format(
+                        offset
+                    )
+                }"
+            }
         }
-    }
-    val offsetsLabel = if (offsetsSummary.isBlank()) {
-        "Clock offsets: n/a"
-    } else {
-        "Clock offsets: $offsetsSummary"
-    }
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        SectionCard(title = "Session Control") {
+    val offsetsLabel =
+        if (offsetsSummary.isBlank()) {
+            "Clock offsets: n/a"
+        } else {
+            "Clock offsets: $offsetsSummary"
+        }
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            12.dp
+        )
+    ) {
+        SectionCard(
+            title = "Session Control"
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 OutlinedTextField(
                     value = control.operatorId,
                     onValueChange = onOperatorChange,
-                    label = { Text("Operator ID") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Operator ID"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
                 OutlinedTextField(
                     value = control.subjectIds,
                     onValueChange = onSubjectChange,
-                    label = { Text("Subject IDs (comma separated)") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Subject IDs (comma separated)"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Button(onClick = onStartSession, enabled = !sessionActive) { Text("Start Session") }
-                Button(onClick = onStopSession, enabled = sessionActive) { Text("Stop Session") }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
+            ) {
+                Button(
+                    onClick = onStartSession,
+                    enabled = !sessionActive
+                ) {
+                    Text(
+                        "Start Session"
+                    )
+                }
+                Button(
+                    onClick = onStopSession,
+                    enabled = sessionActive
+                ) {
+                    Text(
+                        "Stop Session"
+                    )
+                }
             }
         }
         SectionCard(
             title = "Synchronization Signal",
             subtitle = offsetsLabel,
             actions = {
-                Button(onClick = onSendSync, enabled = sessionActive) { Text("Send Sync") }
+                Button(
+                    onClick = onSendSync,
+                    enabled = sessionActive
+                ) {
+                    Text(
+                        "Send Sync"
+                    )
+                }
             }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 OutlinedTextField(
                     value = control.syncSignalType,
                     onValueChange = onSyncTypeChange,
-                    label = { Text("Signal Type") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Signal Type"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
                 OutlinedTextField(
                     value = control.syncDelayMs,
                     onValueChange = onSyncDelayChange,
-                    label = { Text("Delay (ms)") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Delay (ms)"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
                 OutlinedTextField(
                     value = control.syncTargets,
                     onValueChange = onSyncTargetsChange,
-                    label = { Text("Target device IDs") },
-                    modifier = Modifier.weight(1.5f),
+                    label = {
+                        Text(
+                            "Target device IDs"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1.5f
+                    ),
                     singleLine = true
                 )
             }
@@ -246,31 +373,58 @@ private fun ControlPanel(
         SectionCard(
             title = "Event Markers",
             actions = {
-                Button(onClick = onAddEvent, enabled = sessionActive) { Text("Add Event") }
+                Button(
+                    onClick = onAddEvent,
+                    enabled = sessionActive
+                ) {
+                    Text(
+                        "Add Event"
+                    )
+                }
             }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 OutlinedTextField(
                     value = control.eventMarkerId,
                     onValueChange = onEventIdChange,
-                    label = { Text("Event ID") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Event ID"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
                 OutlinedTextField(
                     value = control.eventDescription,
                     onValueChange = onEventDescriptionChange,
-                    label = { Text("Description") },
-                    modifier = Modifier.weight(1.5f)
+                    label = {
+                        Text(
+                            "Description"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1.5f
+                    )
                 )
                 OutlinedTextField(
                     value = control.eventTargets,
                     onValueChange = onEventTargetsChange,
-                    label = { Text("Targets") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Targets"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
             }
@@ -278,49 +432,92 @@ private fun ControlPanel(
         SectionCard(
             title = "Stimulus Controls",
             actions = {
-                Button(onClick = onTriggerStimulus, enabled = sessionActive) { Text("Trigger") }
+                Button(
+                    onClick = onTriggerStimulus,
+                    enabled = sessionActive
+                ) {
+                    Text(
+                        "Trigger"
+                    )
+                }
             }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 OutlinedTextField(
                     value = control.stimulusId,
                     onValueChange = onStimulusIdChange,
-                    label = { Text("Stimulus ID") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Stimulus ID"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
                 OutlinedTextField(
                     value = control.stimulusAction,
                     onValueChange = onStimulusActionChange,
-                    label = { Text("Action") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Action"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
                 OutlinedTextField(
                     value = control.stimulusTargets,
                     onValueChange = onStimulusTargetsChange,
-                    label = { Text("Targets") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Targets"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
             }
         }
-        SectionCard(title = "Data Hygiene") {
+        SectionCard(
+            title = "Data Hygiene"
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 OutlinedTextField(
                     value = control.subjectEraseId,
                     onValueChange = onSubjectEraseChange,
-                    label = { Text("Subject ID") },
-                    modifier = Modifier.weight(1f),
+                    label = {
+                        Text(
+                            "Subject ID"
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    ),
                     singleLine = true
                 )
-                Button(onClick = onSubjectErase) { Text("Erase Subject") }
+                Button(
+                    onClick = onSubjectErase
+                ) {
+                    Text(
+                        "Erase Subject"
+                    )
+                }
             }
         }
     }
@@ -335,19 +532,63 @@ private fun SessionSummaryCard(
     formatter: DateTimeFormatter,
     onEraseSession: () -> Unit
 ) {
-    val subtitle = "Status: ${summary.status}"
-    SectionCard(title = "Session ${summary.id}", subtitle = subtitle) {
-        Text("Created: ${formatter.format(summary.createdAt)}")
-        summary.startedAt?.let { Text("Started: ${formatter.format(it)}") }
-        Text("Elapsed: ${durationToReadable(summary.elapsedMillis)}")
-        summary.durationMs?.let { Text("Duration: ${durationToReadable(it)}") }
-        Text("Transferred: ${bytesToReadable(summary.totalBytes)}")
+    val subtitle =
+        "Status: ${summary.status}"
+    SectionCard(
+        title = "Session ${summary.id}",
+        subtitle = subtitle
+    ) {
+        Text(
+            "Created: ${
+                formatter.format(
+                    summary.createdAt
+                )
+            }"
+        )
+        summary.startedAt?.let {
+            Text(
+                "Started: ${
+                    formatter.format(
+                        it
+                    )
+                }"
+            )
+        }
+        Text(
+            "Elapsed: ${
+                durationToReadable(
+                    summary.elapsedMillis
+                )
+            }"
+        )
+        summary.durationMs?.let {
+            Text(
+                "Duration: ${
+                    durationToReadable(
+                        it
+                    )
+                }"
+            )
+        }
+        Text(
+            "Transferred: ${
+                bytesToReadable(
+                    summary.totalBytes
+                )
+            }"
+        )
         if (summary.subjectIds.isNotEmpty()) {
-            Text("Subjects: ${summary.subjectIds.joinToString()}")
+            Text(
+                "Subjects: ${summary.subjectIds.joinToString()}"
+            )
         }
         HorizontalDivider()
-        Text("Live Metrics", style = MaterialTheme.typography.titleSmall)
-        val metrics = summary.metrics
+        Text(
+            "Live Metrics",
+            style = MaterialTheme.typography.titleSmall
+        )
+        val metrics =
+            summary.metrics
         if (listOf(
                 metrics.gsrSamples,
                 metrics.videoFrames,
@@ -357,20 +598,51 @@ private fun SessionSummaryCard(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    16.dp
+                )
             ) {
-                MetricItem("GSR Samples", metrics.gsrSamples, Modifier.weight(1f))
-                MetricItem("Video Frames", metrics.videoFrames, Modifier.weight(1f))
+                MetricItem(
+                    "GSR Samples",
+                    metrics.gsrSamples,
+                    Modifier.weight(
+                        1f
+                    )
+                )
+                MetricItem(
+                    "Video Frames",
+                    metrics.videoFrames,
+                    Modifier.weight(
+                        1f
+                    )
+                )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    16.dp
+                )
             ) {
-                MetricItem("Thermal Frames", metrics.thermalFrames, Modifier.weight(1f))
-                MetricItem("Audio Samples", metrics.audioSamples, Modifier.weight(1f))
+                MetricItem(
+                    "Thermal Frames",
+                    metrics.thermalFrames,
+                    Modifier.weight(
+                        1f
+                    )
+                )
+                MetricItem(
+                    "Audio Samples",
+                    metrics.audioSamples,
+                    Modifier.weight(
+                        1f
+                    )
+                )
             }
         } else {
-            Text("No samples received yet", style = MaterialTheme.typography.bodySmall)
+            Text(
+                "No samples received yet",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
         metricsUpdatedAt?.let {
             Text(
@@ -378,10 +650,24 @@ private fun SessionSummaryCard(
                 style = MaterialTheme.typography.bodySmall
             )
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = onEraseSession, enabled = canErase) { Text("Erase Session") }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp
+            )
+        ) {
+            Button(
+                onClick = onEraseSession,
+                enabled = canErase
+            ) {
+                Text(
+                    "Erase Session"
+                )
+            }
             if (!canErase) {
-                Text("Stop session before erasing.", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Stop session before erasing.",
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
     }
@@ -389,14 +675,25 @@ private fun SessionSummaryCard(
 
 
 @Composable
-private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier) {
+private fun MetricItem(
+    label: String,
+    value: Long,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(2.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            2.dp
+        )
     ) {
-        Text(label, style = MaterialTheme.typography.labelSmall)
         Text(
-            text = formatCount(value),
+            label,
+            style = MaterialTheme.typography.labelSmall
+        )
+        Text(
+            text = formatCount(
+                value
+            ),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -404,41 +701,60 @@ private fun MetricItem(label: String, value: Long, modifier: Modifier = Modifier
 }
 
 @Composable
-private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeFormatter) {
-    val summary = if (devices.isEmpty()) {
-        "No devices registered"
-    } else {
-        val connected = devices.count { it.connected }
-        "Connected: $connected / ${devices.size}"
-    }
-    SectionCard(title = "Devices", subtitle = summary) {
+private fun DeviceSection(
+    devices: List<DeviceListItem>,
+    formatter: DateTimeFormatter
+) {
+    val summary =
         if (devices.isEmpty()) {
-            Text("No devices connected")
+            "No devices registered"
+        } else {
+            val connected =
+                devices.count { it.connected }
+            "Connected: $connected / ${devices.size}"
+        }
+    SectionCard(
+        title = "Devices",
+        subtitle = summary
+    ) {
+        if (devices.isEmpty()) {
+            Text(
+                "No devices connected"
+            )
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp
+                )
             ) {
-                items(devices) { device ->
-                    val colors = when {
-                        !device.connected -> CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.onErrorContainer
-                        )
+                items(
+                    devices
+                ) { device ->
+                    val colors =
+                        when {
+                            !device.connected -> CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                contentColor = MaterialTheme.colorScheme.onErrorContainer
+                            )
 
-                        device.recording -> CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
+                            device.recording -> CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
 
-                        else -> CardDefaults.cardColors()
-                    }
+                            else -> CardDefaults.cardColors()
+                        }
                     SectionCard(
                         title = "${device.id} - ${device.model}",
                         subtitle = device.platform,
                         colors = colors
                     ) {
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(
+                                8.dp
+                            )
+                        ) {
                             StatusBadge(
                                 text = if (device.connected) "Connected" else "Disconnected",
                                 background = if (device.connected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.errorContainer,
@@ -450,11 +766,47 @@ private fun DeviceSection(devices: List<DeviceListItem>, formatter: DateTimeForm
                                 content = if (device.recording) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
-                        device.sessionId?.let { Text("Session: $it") }
-                        device.batteryPercent?.let { Text("Battery: ${"%.1f".format(it)}%") }
-                        device.previewLatencyMs?.let { Text("Preview latency: ${"%.1f".format(it)} ms") }
-                        device.clockOffsetMs?.let { Text("Clock offset: ${"%.2f".format(it)} ms") }
-                        device.lastHeartbeat?.let { Text("Heartbeat: ${formatter.format(it)}") }
+                        device.sessionId?.let {
+                            Text(
+                                "Session: $it"
+                            )
+                        }
+                        device.batteryPercent?.let {
+                            Text(
+                                "Battery: ${
+                                    "%.1f".format(
+                                        it
+                                    )
+                                }%"
+                            )
+                        }
+                        device.previewLatencyMs?.let {
+                            Text(
+                                "Preview latency: ${
+                                    "%.1f".format(
+                                        it
+                                    )
+                                } ms"
+                            )
+                        }
+                        device.clockOffsetMs?.let {
+                            Text(
+                                "Clock offset: ${
+                                    "%.2f".format(
+                                        it
+                                    )
+                                } ms"
+                            )
+                        }
+                        device.lastHeartbeat?.let {
+                            Text(
+                                "Heartbeat: ${
+                                    formatter.format(
+                                        it
+                                    )
+                                }"
+                            )
+                        }
                     }
                 }
             }
@@ -480,46 +832,85 @@ private fun StatusBadge(
     ) {
         Text(
             text = text,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+            modifier = Modifier.padding(
+                horizontal = 8.dp,
+                vertical = 2.dp
+            ),
             style = MaterialTheme.typography.labelSmall
         )
     }
 }
 
 @Composable
-private fun RetentionSection(retention: RetentionState) {
-    val subtitle = "Total stored: ${bytesToReadable(retention.totalBytes)}"
-    SectionCard(title = "Retention", subtitle = subtitle) {
+private fun RetentionSection(
+    retention: RetentionState
+) {
+    val subtitle =
+        "Total stored: ${
+            bytesToReadable(
+                retention.totalBytes
+            )
+        }"
+    SectionCard(
+        title = "Retention",
+        subtitle = subtitle
+    ) {
         if (retention.perSessionBytes.isEmpty() && retention.perDeviceBytes.isEmpty()) {
-            Text("No retention data available")
+            Text(
+                "No retention data available"
+            )
         } else {
             if (retention.perSessionBytes.isNotEmpty()) {
-                Text("Per session:", style = MaterialTheme.typography.titleSmall)
+                Text(
+                    "Per session:",
+                    style = MaterialTheme.typography.titleSmall
+                )
                 retention.perSessionBytes.forEach { (sessionId, bytes) ->
                     Text(
-                        "$sessionId -> ${bytesToReadable(bytes)}",
+                        "$sessionId -> ${
+                            bytesToReadable(
+                                bytes
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
             if (retention.perDeviceBytes.isNotEmpty()) {
                 HorizontalDivider()
-                Text("Per device:", style = MaterialTheme.typography.titleSmall)
+                Text(
+                    "Per device:",
+                    style = MaterialTheme.typography.titleSmall
+                )
                 retention.perDeviceBytes.forEach { (deviceId, bytes) ->
                     Text(
-                        "$deviceId -> ${bytesToReadable(bytes)}",
+                        "$deviceId -> ${
+                            bytesToReadable(
+                                bytes
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
             if (retention.perSessionDeviceBytes.isNotEmpty()) {
                 HorizontalDivider()
-                Text("Per session/device:", style = MaterialTheme.typography.titleSmall)
+                Text(
+                    "Per session/device:",
+                    style = MaterialTheme.typography.titleSmall
+                )
                 retention.perSessionDeviceBytes.forEach { (sessionId, devices) ->
-                    Text("Session $sessionId", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Session $sessionId",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                     devices.forEach { (deviceId, bytes) ->
                         Text(
-                            "    $deviceId -> ${bytesToReadable(bytes)}",
+                            "    $deviceId -> ${
+                                bytesToReadable(
+                                    bytes
+                                )
+                            }",
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -533,32 +924,62 @@ private fun RetentionSection(retention: RetentionState) {
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.error
             )
-            retention.breaches.forEach { Text(it, color = MaterialTheme.colorScheme.error) }
+            retention.breaches.forEach {
+                Text(
+                    it,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
         }
     }
 }
 
 
 @Composable
-private fun TransferSection(transfers: List<TransferStatusItem>) {
-    SectionCard(title = "Data Transfers") {
+private fun TransferSection(
+    transfers: List<TransferStatusItem>
+) {
+    SectionCard(
+        title = "Data Transfers"
+    ) {
         if (transfers.isEmpty()) {
-            Text("No transfers recorded")
+            Text(
+                "No transfers recorded"
+            )
         } else {
             transfers.forEach { transfer ->
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("Session ${transfer.sessionId} - Device ${transfer.deviceId}")
-                    Text("File: ${transfer.fileName} (${transfer.streamType ?: "unknown"})")
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(
+                        4.dp
+                    )
+                ) {
+                    Text(
+                        "Session ${transfer.sessionId} - Device ${transfer.deviceId}"
+                    )
+                    Text(
+                        "File: ${transfer.fileName} (${transfer.streamType ?: "unknown"})"
+                    )
                     val progress =
-                        "${bytesToReadable(transfer.bytesTransferred)} / ${bytesToReadable(transfer.bytesTotal)}"
-                    Text("State: ${transfer.state} (attempt ${transfer.attempt}) - $progress")
-                    transfer.errorMessage?.takeIf { it.isNotBlank() }?.let { error ->
-                        Text(
-                            "Error: $error",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
+                        "${
+                            bytesToReadable(
+                                transfer.bytesTransferred
+                            )
+                        } / ${
+                            bytesToReadable(
+                                transfer.bytesTotal
+                            )
+                        }"
+                    Text(
+                        "State: ${transfer.state} (attempt ${transfer.attempt}) - $progress"
+                    )
+                    transfer.errorMessage?.takeIf { it.isNotBlank() }
+                        ?.let { error ->
+                            Text(
+                                "Error: $error",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
                 }
                 HorizontalDivider()
             }
@@ -568,16 +989,33 @@ private fun TransferSection(transfers: List<TransferStatusItem>) {
 
 
 @Composable
-private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: DateTimeFormatter) {
-    SectionCard(title = "Event Timeline") {
+private fun EventTimelineSection(
+    events: List<EventTimelineItem>,
+    formatter: DateTimeFormatter
+) {
+    SectionCard(
+        title = "Event Timeline"
+    ) {
         if (events.isEmpty()) {
-            Text("No events logged")
+            Text(
+                "No events logged"
+            )
         } else {
             events.forEach { event ->
-                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    Text("Event ${event.eventId} - ${event.label}")
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(
+                        2.dp
+                    )
+                ) {
                     Text(
-                        "Time: ${formatter.format(event.timestamp)}",
+                        "Event ${event.eventId} - ${event.label}"
+                    )
+                    Text(
+                        "Time: ${
+                            formatter.format(
+                                event.timestamp
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                     if (event.deviceIds.isNotEmpty()) {
@@ -595,17 +1033,41 @@ private fun EventTimelineSection(events: List<EventTimelineItem>, formatter: Dat
 
 
 @Composable
-private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTimeFormatter) {
-    SectionCard(title = "Live Preview") {
+private fun PreviewSection(
+    previews: List<PreviewStreamState>,
+    formatter: DateTimeFormatter
+) {
+    SectionCard(
+        title = "Live Preview"
+    ) {
         if (previews.isEmpty()) {
-            Text("No preview frames received yet")
+            Text(
+                "No preview frames received yet"
+            )
         } else {
             previews.forEach { preview ->
-                val bitmap = remember(preview.payload) { decodeImage(preview.payload) }
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("${preview.deviceId} - ${preview.cameraId} (${preview.mimeType}) ${preview.width}x${preview.height}")
+                val bitmap =
+                    remember(
+                        preview.payload
+                    ) {
+                        decodeImage(
+                            preview.payload
+                        )
+                    }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(
+                        4.dp
+                    )
+                ) {
                     Text(
-                        text = "Latency ${"%.1f".format(preview.latencyMs)} ms - Received ${
+                        "${preview.deviceId} - ${preview.cameraId} (${preview.mimeType}) ${preview.width}x${preview.height}"
+                    )
+                    Text(
+                        text = "Latency ${
+                            "%.1f".format(
+                                preview.latencyMs
+                            )
+                        } ms - Received ${
                             formatter.format(
                                 preview.receivedAt
                             )
@@ -618,13 +1080,16 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
                             contentDescription = "Preview ${preview.deviceId}-${preview.cameraId}",
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(160.dp),
+                                .height(
+                                    160.dp
+                                ),
                             contentScale = ContentScale.Crop
                         )
-                    } ?: Text(
-                        "Preview unavailable (unsupported format)",
-                        style = MaterialTheme.typography.bodySmall
-                    )
+                    }
+                        ?: Text(
+                            "Preview unavailable (unsupported format)",
+                            style = MaterialTheme.typography.bodySmall
+                        )
                 }
                 HorizontalDivider()
             }
@@ -634,36 +1099,68 @@ private fun PreviewSection(previews: List<PreviewStreamState>, formatter: DateTi
 
 
 @Composable
-private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTimeFormatter) {
+private fun ArchiveSection(
+    archives: List<SessionArchiveItem>,
+    formatter: DateTimeFormatter
+) {
     if (archives.isEmpty()) return
-    SectionCard(title = "Archived Sessions", subtitle = "Count: ${archives.size}") {
+    SectionCard(
+        title = "Archived Sessions",
+        subtitle = "Count: ${archives.size}"
+    ) {
         archives.forEach { archive ->
-            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text("Session ${archive.id} - ${archive.status}")
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    2.dp
+                )
+            ) {
                 Text(
-                    "Created: ${formatter.format(archive.createdAt)}",
+                    "Session ${archive.id} - ${archive.status}"
+                )
+                Text(
+                    "Created: ${
+                        formatter.format(
+                            archive.createdAt
+                        )
+                    }",
                     style = MaterialTheme.typography.bodySmall
                 )
                 archive.startedAt?.let {
                     Text(
-                        "Started: ${formatter.format(it)}",
+                        "Started: ${
+                            formatter.format(
+                                it
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
                 archive.stoppedAt?.let {
                     Text(
-                        "Stopped: ${formatter.format(it)}",
+                        "Stopped: ${
+                            formatter.format(
+                                it
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
                 archive.durationMs?.let {
                     Text(
-                        "Duration: ${durationToReadable(it)}",
+                        "Duration: ${
+                            durationToReadable(
+                                it
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
                 Text(
-                    "Total bytes: ${bytesToReadable(archive.totalBytes)}",
+                    "Total bytes: ${
+                        bytesToReadable(
+                            archive.totalBytes
+                        )
+                    }",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
@@ -682,7 +1179,9 @@ private fun ArchiveSection(archives: List<SessionArchiveItem>, formatter: DateTi
 
 
 @Composable
-private fun AlertsSection(alerts: List<String>) {
+private fun AlertsSection(
+    alerts: List<String>
+) {
     if (alerts.isEmpty()) return
     SectionCard(
         title = "Alerts",
@@ -691,7 +1190,11 @@ private fun AlertsSection(alerts: List<String>) {
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
     ) {
-        alerts.forEach { alert -> Text(alert) }
+        alerts.forEach { alert ->
+            Text(
+                alert
+            )
+        }
     }
 }
 
@@ -699,29 +1202,84 @@ private fun AlertsSection(alerts: List<String>) {
 @Composable
 private fun rememberFormatter(): DateTimeFormatter =
     remember {
-        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            .withZone(ZoneId.systemDefault())
+        DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd HH:mm:ss"
+        )
+            .withZone(
+                ZoneId.systemDefault()
+            )
     }
 
-private fun bytesToReadable(bytes: Long): String {
+private fun bytesToReadable(
+    bytes: Long
+): String {
     if (bytes <= 0) return "0 B"
-    val units = arrayOf("B", "KB", "MB", "GB", "TB")
-    val exponent = (ln(bytes.toDouble()) / ln(1024.0)).toInt().coerceAtMost(units.lastIndex)
-    val value = bytes / 1024.0.pow(exponent.toDouble())
-    return String.format(Locale.US, "%.2f %s", value, units[exponent])
+    val units =
+        arrayOf(
+            "B",
+            "KB",
+            "MB",
+            "GB",
+            "TB"
+        )
+    val exponent =
+        (ln(bytes.toDouble()) / ln(
+            1024.0
+        )).toInt()
+            .coerceAtMost(
+                units.lastIndex
+            )
+    val value =
+        bytes / 1024.0.pow(
+            exponent.toDouble()
+        )
+    return String.format(
+        Locale.US,
+        "%.2f %s",
+        value,
+        units[exponent]
+    )
 }
 
-private fun durationToReadable(durationMs: Long): String {
+private fun durationToReadable(
+    durationMs: Long
+): String {
     if (durationMs <= 0) return "00:00:00.000"
-    val hours = durationMs / 3_600_000
-    val minutes = (durationMs % 3_600_000) / 60_000
-    val seconds = (durationMs % 60_000) / 1_000
-    val millis = durationMs % 1_000
-    return String.format(Locale.US, "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis)
+    val hours =
+        durationMs / 3_600_000
+    val minutes =
+        (durationMs % 3_600_000) / 60_000
+    val seconds =
+        (durationMs % 60_000) / 1_000
+    val millis =
+        durationMs % 1_000
+    return String.format(
+        Locale.US,
+        "%02d:%02d:%02d.%03d",
+        hours,
+        minutes,
+        seconds,
+        millis
+    )
 }
 
-private fun formatCount(value: Long): String = String.format(Locale.US, "%,d", value)
-private fun decodeImage(bytes: ByteArray): ImageBitmap? {
+private fun formatCount(
+    value: Long
+): String =
+    String.format(
+        Locale.US,
+        "%,d",
+        value
+    )
+
+private fun decodeImage(
+    bytes: ByteArray
+): ImageBitmap? {
     if (bytes.isEmpty()) return null
-    return runCatching { Image.makeFromEncoded(bytes).toComposeImageBitmap() }.getOrNull()
+    return runCatching {
+        Image.makeFromEncoded(
+            bytes
+        )
+            .toComposeImageBitmap()
+    }.getOrNull()
 }

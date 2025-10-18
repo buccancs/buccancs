@@ -276,6 +276,18 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    protected void onStart() {
+        Log.w(TAG, "onStart");
+        super.onStart();
+        if (!isrun) {
+            startUSB(false);
+            startISP();
+            binding.cameraView.start();
+            isrun = true;
+        }
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -304,18 +316,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
     };
 
     @Override
-    protected void onStart() {
-        Log.w(TAG, "onStart");
-        super.onStart();
-        if (!isrun) {
-            startUSB(false);
-            startISP();
-            binding.cameraView.start();
-            isrun = true;
-        }
-    }
-
-    @Override
     protected void onStop() {
         Log.w(TAG, "onStop");
         super.onStop();
@@ -335,7 +335,8 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         super.onDestroy();
         try {
             imageThread.join();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             Log.e(TAG, "imageThread.join(): catch an interrupted exception");
         }
     }

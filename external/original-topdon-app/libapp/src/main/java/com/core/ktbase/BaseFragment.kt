@@ -19,9 +19,11 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * create by fylder on 2018/7/13
  **/
-abstract class BaseFragment : RxFragment() {
+abstract class BaseFragment :
+    RxFragment() {
 
-    val TAG = BaseFragment::class.java.simpleName
+    val TAG =
+        BaseFragment::class.java.simpleName
 
     abstract fun initContentView(): Int
 
@@ -34,18 +36,35 @@ abstract class BaseFragment : RxFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(initContentView(), container, false)
+        return inflater.inflate(
+            initContentView(),
+            container,
+            false
+        )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        EventBus.getDefault().register(this)
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
+        EventBus.getDefault()
+            .register(
+                this
+            )
         initView()
     }
 
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
+    override fun onHiddenChanged(
+        hidden: Boolean
+    ) {
+        super.onHiddenChanged(
+            hidden
+        )
         if (hidden) {
             // 不在最前端显示 相当于调用了onPause();
 
@@ -57,34 +76,52 @@ abstract class BaseFragment : RxFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        EventBus.getDefault().unregister(this)
+        EventBus.getDefault()
+            .unregister(
+                this
+            )
     }
 
 
     /**
      * 新版 LMS 风格的加载中弹框.
      */
-    private var loadingDialog: LoadingDialog? = null
+    private var loadingDialog: LoadingDialog? =
+        null
 
     /**
      * 显示 LMS 风格的加载中弹框.
      */
-    fun showLoadingDialog(@StringRes resId: Int = 0) {
+    fun showLoadingDialog(
+        @StringRes resId: Int = 0
+    ) {
         if (loadingDialog == null) {
-            loadingDialog = LoadingDialog(requireContext())
+            loadingDialog =
+                LoadingDialog(
+                    requireContext()
+                )
         }
-        loadingDialog?.setTips(if (resId == 0) R.string.tip_loading else resId)
+        loadingDialog?.setTips(
+            if (resId == 0) R.string.tip_loading else resId
+        )
         loadingDialog?.show()
     }
 
     /**
      * 显示 LMS 风格的加载中弹框.
      */
-    fun showLoadingDialog(text: CharSequence) {
+    fun showLoadingDialog(
+        text: CharSequence
+    ) {
         if (loadingDialog == null) {
-            loadingDialog = LoadingDialog(requireContext())
+            loadingDialog =
+                LoadingDialog(
+                    requireContext()
+                )
         }
-        loadingDialog?.setTips(text)
+        loadingDialog?.setTips(
+            text
+        )
         loadingDialog?.show()
     }
 
@@ -96,8 +133,12 @@ abstract class BaseFragment : RxFragment() {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun getConnectState(event: DeviceConnectEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun getConnectState(
+        event: DeviceConnectEvent
+    ) {
         if (event.isConnect) {
             connected()
         } else {
@@ -114,20 +155,32 @@ abstract class BaseFragment : RxFragment() {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onSocketConnectState(event: SocketStateEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onSocketConnectState(
+        event: SocketStateEvent
+    ) {
         if (event.isConnect) {
-            onSocketConnected(event.isTS004)
+            onSocketConnected(
+                event.isTS004
+            )
         } else {
-            onSocketDisConnected(event.isTS004)
+            onSocketDisConnected(
+                event.isTS004
+            )
         }
     }
 
-    protected open fun onSocketConnected(isTS004: Boolean) {
+    protected open fun onSocketConnected(
+        isTS004: Boolean
+    ) {
 
     }
 
-    protected open fun onSocketDisConnected(isTS004: Boolean) {
+    protected open fun onSocketDisConnected(
+        isTS004: Boolean
+    ) {
 
     }
 }

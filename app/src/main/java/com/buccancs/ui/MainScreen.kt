@@ -62,19 +62,20 @@ fun MainRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val calibrationState by calibrationViewModel.uiState.collectAsStateWithLifecycle()
-    val calibrationActions = CalibrationActions(
-        onRowsChanged = calibrationViewModel::updatePatternRows,
-        onColsChanged = calibrationViewModel::updatePatternCols,
-        onSquareSizeChanged = calibrationViewModel::updateSquareSizeMm,
-        onRequiredPairsChanged = calibrationViewModel::updateRequiredPairs,
-        onApplySettings = calibrationViewModel::applyPatternSettings,
-        onStartSession = calibrationViewModel::startSession,
-        onCapturePair = calibrationViewModel::capture,
-        onComputeCalibration = calibrationViewModel::computeCalibration,
-        onLoadCachedResult = calibrationViewModel::loadCachedResult,
-        onClearSession = calibrationViewModel::clearSession,
-        onRemoveCapture = calibrationViewModel::removeCapture
-    )
+    val calibrationActions =
+        CalibrationActions(
+            onRowsChanged = calibrationViewModel::updatePatternRows,
+            onColsChanged = calibrationViewModel::updatePatternCols,
+            onSquareSizeChanged = calibrationViewModel::updateSquareSizeMm,
+            onRequiredPairsChanged = calibrationViewModel::updateRequiredPairs,
+            onApplySettings = calibrationViewModel::applyPatternSettings,
+            onStartSession = calibrationViewModel::startSession,
+            onCapturePair = calibrationViewModel::capture,
+            onComputeCalibration = calibrationViewModel::computeCalibration,
+            onLoadCachedResult = calibrationViewModel::loadCachedResult,
+            onClearSession = calibrationViewModel::clearSession,
+            onRemoveCapture = calibrationViewModel::removeCapture
+        )
     MainScreen(
         state = state,
         onSessionIdChanged = viewModel::onSessionIdChanged,
@@ -97,7 +98,9 @@ fun MainRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun MainScreen(
     state: MainUiState,
@@ -131,19 +134,32 @@ fun MainScreen(
                         )
                     },
                     actions = {
-                        TimeSyncStatusView(state.timeSyncStatus)
+                        TimeSyncStatusView(
+                            state.timeSyncStatus
+                        )
                     },
                     colors = TopAppBarDefaults.topAppBarColors()
                 )
             },
-            contentWindowInsets = WindowInsets(0, 0, 0, 0)
+            contentWindowInsets = WindowInsets(
+                0,
+                0,
+                0,
+                0
+            )
         ) { padding ->
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
-                    .padding(LayoutPadding.Screen),
-                verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                    .padding(
+                        padding
+                    )
+                    .padding(
+                        LayoutPadding.Screen
+                    ),
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.Medium
+                )
             ) {
                 item {
                     NavigationLinks(
@@ -174,26 +190,46 @@ fun MainScreen(
                 }
                 if (state.errorMessage != null) {
                     item {
-                        ErrorBanner(message = state.errorMessage)
+                        ErrorBanner(
+                            message = state.errorMessage
+                        )
                     }
                 }
                 if (state.healthAlerts.isNotEmpty()) {
                     item {
-                        HealthAlertsCard(state.healthAlerts)
+                        HealthAlertsCard(
+                            state.healthAlerts
+                        )
                     }
                 }
                 if (state.deviceEvents.isNotEmpty()) {
                     item {
-                        DeviceEventLogCard(state.deviceEvents)
+                        DeviceEventLogCard(
+                            state.deviceEvents
+                        )
                     }
                 }
-                items(state.devices, key = { it.id.value }) { device ->
+                items(
+                    state.devices,
+                    key = { it.id.value }) { device ->
                     DeviceCard(
                         device = device,
-                        onConnect = { onConnectDevice(device.id) },
-                        onDisconnect = { onDisconnectDevice(device.id) },
+                        onConnect = {
+                            onConnectDevice(
+                                device.id
+                            )
+                        },
+                        onDisconnect = {
+                            onDisconnectDevice(
+                                device.id
+                            )
+                        },
                         onOpenTopdon = if (device.supportsTopdon) {
-                            { onOpenTopdon(device.id) }
+                            {
+                                onOpenTopdon(
+                                    device.id
+                                )
+                            }
                         } else {
                             null
                         }
@@ -205,7 +241,11 @@ fun MainScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.6f))
+                    .background(
+                        MaterialTheme.colorScheme.surface.copy(
+                            alpha = 0.6f
+                        )
+                    )
             )
         }
     }
@@ -219,30 +259,50 @@ private fun NavigationLinks(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
+        horizontalArrangement = Arrangement.spacedBy(
+            Spacing.SmallMedium
+        )
     ) {
         AnimatedButton(
             onClick = onOpenLiveSession,
             modifier = Modifier
-                .weight(1f)
-                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                .testTag("nav-live-session"),
+                .weight(
+                    1f
+                )
+                .defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                )
+                .testTag(
+                    "nav-live-session"
+                ),
             text = "Live Session"
         )
         AnimatedTonalButton(
             onClick = onOpenLibrary,
             modifier = Modifier
-                .weight(1f)
-                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                .testTag("nav-library"),
+                .weight(
+                    1f
+                )
+                .defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                )
+                .testTag(
+                    "nav-library"
+                ),
             text = "Sessions"
         )
         AnimatedOutlinedButton(
             onClick = onOpenSettings,
             modifier = Modifier
-                .weight(1f)
-                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                .testTag("nav-settings"),
+                .weight(
+                    1f
+                )
+                .defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                )
+                .testTag(
+                    "nav-settings"
+                ),
             text = "Settings"
         )
     }
@@ -278,41 +338,57 @@ private fun SessionCard(
         OutlinedTextField(
             value = state.sessionIdInput,
             onValueChange = onSessionIdChanged,
-            label = { Text(text = "Session ID") },
+            label = {
+                Text(
+                    text = "Session ID"
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             AnimatedButton(
                 onClick = onStartRecording,
                 enabled = !state.isRecording && !state.isBusy,
-                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
+                modifier = Modifier.defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                ),
                 text = "Start"
             )
             AnimatedOutlinedButton(
                 onClick = onStopRecording,
                 enabled = state.isRecording && !state.isBusy,
-                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
+                modifier = Modifier.defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                ),
                 text = "Stop"
             )
             TextButton(
                 onClick = onToggleSimulation,
-                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                modifier = Modifier.defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                )
             ) {
                 Text(
                     text = if (state.simulationEnabled) "Disable Simulation" else "Enable Simulation"
                 )
             }
         }
-        val anchorText = state.anchorReference?.toString() ?: "n/a"
+        val anchorText =
+            state.anchorReference?.toString()
+                ?: "n/a"
         Text(
             text = "Recording state: ${state.recordingLifecycle.name} (anchor: $anchorText)",
             style = MaterialTheme.typography.bodyMedium
         )
-        val offsetText = state.sharedClockOffsetMillis?.let { "$it ms" } ?: "-"
+        val offsetText =
+            state.sharedClockOffsetMillis?.let { "$it ms" }
+                ?: "-"
         Text(
             text = "Shared clock offset: $offsetText",
             style = MaterialTheme.typography.bodySmall
@@ -328,7 +404,11 @@ private fun SessionCard(
             text = "Orchestrator status: ${state.orchestratorConnectionStatus}",
             style = MaterialTheme.typography.bodySmall
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
         Text(
             text = "Orchestrator Connection",
             style = MaterialTheme.typography.titleSmall,
@@ -337,14 +417,22 @@ private fun SessionCard(
         OutlinedTextField(
             value = state.orchestratorHostInput,
             onValueChange = onOrchestratorHostChanged,
-            label = { Text("Host") },
+            label = {
+                Text(
+                    "Host"
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
         OutlinedTextField(
             value = state.orchestratorPortInput,
             onValueChange = onOrchestratorPortChanged,
-            label = { Text("Port") },
+            label = {
+                Text(
+                    "Port"
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -353,17 +441,23 @@ private fun SessionCard(
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             Switch(
                 checked = state.orchestratorUseTls,
                 onCheckedChange = onOrchestratorUseTlsChanged
             )
-            Text(text = if (state.orchestratorUseTls) "TLS enabled" else "TLS disabled")
+            Text(
+                text = if (state.orchestratorUseTls) "TLS enabled" else "TLS disabled"
+            )
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             AnimatedButton(
                 onClick = {
@@ -371,7 +465,9 @@ private fun SessionCard(
                     onApplyConfig()
                 },
                 enabled = state.orchestratorConfigDirty,
-                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
+                modifier = Modifier.defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                ),
                 text = "Save connection"
             )
             state.configMessage?.let { message ->
@@ -386,7 +482,9 @@ private fun SessionCard(
 }
 
 @Composable
-private fun ErrorBanner(message: String) {
+private fun ErrorBanner(
+    message: String
+) {
     SectionCard(
         colors = CardDefaults.elevatedCardColors(
             containerColor = MaterialTheme.colorScheme.errorContainer,
@@ -402,7 +500,9 @@ private fun ErrorBanner(message: String) {
 }
 
 @Composable
-private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
+private fun DeviceEventLogCard(
+    events: List<DeviceEventUiModel>
+) {
     SectionCard(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.elevatedCardColors(
@@ -411,7 +511,10 @@ private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
         ),
         spacing = Spacing.Small
     ) {
-        Text("Recent Commands", style = MaterialTheme.typography.titleMedium)
+        Text(
+            "Recent Commands",
+            style = MaterialTheme.typography.titleMedium
+        )
         if (events.isEmpty()) {
             Text(
                 text = "No recent events",
@@ -420,7 +523,11 @@ private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
             )
         } else {
             events.forEachIndexed { index, event ->
-                Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.ExtraSmall
+                    )
+                ) {
                     Text(
                         text = "${event.label} (${event.type})",
                         style = MaterialTheme.typography.bodyMedium
@@ -437,7 +544,11 @@ private fun DeviceEventLogCard(events: List<DeviceEventUiModel>) {
                     )
                 }
                 if (index != events.lastIndex) {
-                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.ExtraSmall))
+                    HorizontalDivider(
+                        modifier = Modifier.padding(
+                            vertical = Spacing.ExtraSmall
+                        )
+                    )
                 }
             }
         }
@@ -454,7 +565,9 @@ private fun DeviceCard(
     SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("device-card-${device.id.value}"),
+            .testTag(
+                "device-card-${device.id.value}"
+            ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = Spacing.Micro,
             pressedElevation = Spacing.ExtraSmall
@@ -475,23 +588,48 @@ private fun DeviceCard(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        val capabilityLine = device.capabilityLabels.joinToString(", ").ifEmpty { "n/a" }
+        val capabilityLine =
+            device.capabilityLabels.joinToString(
+                ", "
+            )
+                .ifEmpty { "n/a" }
         Text(
             text = "Capabilities: $capabilityLine",
             style = MaterialTheme.typography.bodySmall
         )
-        val statusLine = buildString {
-            append("Status: ${device.connectionStatus}")
-            if (device.isSimulated) {
-                append(" (simulated)")
+        val statusLine =
+            buildString {
+                append(
+                    "Status: ${device.connectionStatus}"
+                )
+                if (device.isSimulated) {
+                    append(
+                        " (simulated)"
+                    )
+                }
             }
-        }
-        Text(text = statusLine, style = MaterialTheme.typography.bodyMedium)
-        val batteryText = device.batteryPercent?.let { "$it%" } ?: "n/a"
-        Text(text = "Battery: $batteryText", style = MaterialTheme.typography.bodySmall)
+        Text(
+            text = statusLine,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        val batteryText =
+            device.batteryPercent?.let { "$it%" }
+                ?: "n/a"
+        Text(
+            text = "Battery: $batteryText",
+            style = MaterialTheme.typography.bodySmall
+        )
         if (device.streams.isNotEmpty()) {
-            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.ExtraSmall))
-            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+            HorizontalDivider(
+                modifier = Modifier.padding(
+                    vertical = Spacing.ExtraSmall
+                )
+            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.ExtraSmall
+                )
+            ) {
                 device.streams.forEach { stream ->
                     Text(
                         text = "${stream.typeLabel} | ${stream.detail}",
@@ -506,29 +644,41 @@ private fun DeviceCard(
             }
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AnimatedButton(
                 onClick = onConnect,
                 enabled = !device.isConnected,
-                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
+                modifier = Modifier.defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                ),
                 text = "Connect"
             )
             AnimatedOutlinedButton(
                 onClick = onDisconnect,
                 enabled = device.isConnected,
-                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
+                modifier = Modifier.defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                ),
                 text = "Disconnect"
             )
             if (onOpenTopdon != null) {
                 TextButton(
                     onClick = onOpenTopdon,
                     modifier = Modifier
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                        .testTag("device-open-console-${device.id.value}")
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
+                        .testTag(
+                            "device-open-console-${device.id.value}"
+                        )
                 ) {
-                    Text("Open Console")
+                    Text(
+                        "Open Console"
+                    )
                 }
             }
         }
@@ -536,38 +686,63 @@ private fun DeviceCard(
 }
 
 @Composable
-private fun TimeSyncStatusView(status: TimeSyncStatus) {
-    val offsetText = if (status.offsetMillis == Long.MAX_VALUE) {
-        "n/a"
-    } else {
-        String.format(Locale.US, "%d ms", status.offsetMillis)
-    }
-    val rttText = if (status.roundTripMillis == Long.MAX_VALUE) {
-        "n/a"
-    } else {
-        String.format(Locale.US, "%d ms", status.roundTripMillis)
-    }
-    val filteredRttText = if (status.filteredRoundTripMillis.isFinite()) {
-        String.format(Locale.US, "%.1f ms", status.filteredRoundTripMillis)
-    } else {
-        "n/a"
-    }
-    val driftText = if (status.driftEstimateMillisPerMinute.isFinite()) {
-        String.format(Locale.US, "%.2f ms/min", status.driftEstimateMillisPerMinute)
-    } else {
-        "n/a"
-    }
-    val qualityLabel = when (status.quality) {
-        TimeSyncQuality.GOOD -> "Good"
-        TimeSyncQuality.FAIR -> "Fair"
-        TimeSyncQuality.POOR -> "Poor"
-        TimeSyncQuality.UNKNOWN -> "Unknown"
-    }
+private fun TimeSyncStatusView(
+    status: TimeSyncStatus
+) {
+    val offsetText =
+        if (status.offsetMillis == Long.MAX_VALUE) {
+            "n/a"
+        } else {
+            String.format(
+                Locale.US,
+                "%d ms",
+                status.offsetMillis
+            )
+        }
+    val rttText =
+        if (status.roundTripMillis == Long.MAX_VALUE) {
+            "n/a"
+        } else {
+            String.format(
+                Locale.US,
+                "%d ms",
+                status.roundTripMillis
+            )
+        }
+    val filteredRttText =
+        if (status.filteredRoundTripMillis.isFinite()) {
+            String.format(
+                Locale.US,
+                "%.1f ms",
+                status.filteredRoundTripMillis
+            )
+        } else {
+            "n/a"
+        }
+    val driftText =
+        if (status.driftEstimateMillisPerMinute.isFinite()) {
+            String.format(
+                Locale.US,
+                "%.2f ms/min",
+                status.driftEstimateMillisPerMinute
+            )
+        } else {
+            "n/a"
+        }
+    val qualityLabel =
+        when (status.quality) {
+            TimeSyncQuality.GOOD -> "Good"
+            TimeSyncQuality.FAIR -> "Fair"
+            TimeSyncQuality.POOR -> "Poor"
+            TimeSyncQuality.UNKNOWN -> "Unknown"
+        }
     val text =
         "Offset $offsetText | RTT $rttText (filtered $filteredRttText) | Drift $driftText | $qualityLabel"
     Text(
         text = text,
         style = MaterialTheme.typography.bodySmall,
-        modifier = Modifier.padding(end = Spacing.SmallMedium)
+        modifier = Modifier.padding(
+            end = Spacing.SmallMedium
+        )
     )
 }

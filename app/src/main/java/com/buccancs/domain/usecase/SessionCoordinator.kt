@@ -17,7 +17,11 @@ import kotlin.time.Instant
  */
 interface SessionCoordinator {
     val sessionState: StateFlow<SessionState>
-    suspend fun startSession(sessionId: String, requestedStart: Instant?): Result<Unit>
+    suspend fun startSession(
+        sessionId: String,
+        requestedStart: Instant?
+    ): Result<Unit>
+
     suspend fun stopSession(): Result<Unit>
     fun generateSessionId(): String
 }
@@ -35,76 +39,126 @@ class SessionCoordinatorImpl @Inject constructor(
     private val sensorRepository: SensorRepository
 ) : SessionCoordinator {
 
-    private val _sessionState = MutableStateFlow(
-        SessionState(
-            currentSessionId = generateSessionId(),
-            isBusy = false,
-            lastError = null
-        )
-    )
-    override val sessionState: StateFlow<SessionState> = _sessionState.asStateFlow()
-
-    override suspend fun startSession(sessionId: String, requestedStart: Instant?): Result<Unit> {
-        if (_sessionState.value.isBusy) {
-            return Result.failure(IllegalStateException("Session coordinator is busy"))
-        }
-
-        _sessionState.value = _sessionState.value.copy(isBusy = true, lastError = null)
-
-        return try {
-            val effectiveSessionId = sessionId.ifBlank { generateSessionId() }
-            recordingService.startOrResume(effectiveSessionId, requestedStart)
-
-            _sessionState.value = _sessionState.value.copy(
-                currentSessionId = effectiveSessionId,
+    private val _sessionState =
+        MutableStateFlow(
+            SessionState(
+                currentSessionId = generateSessionId(),
                 isBusy = false,
                 lastError = null
             )
-            Result.success(Unit)
-        } catch (t: Throwable) {
-            val errorMessage = t.message ?: "Failed to start recording"
-            _sessionState.value = _sessionState.value.copy(
-                isBusy = false,
-                lastError = errorMessage
+        )
+    override val sessionState: StateFlow<SessionState> =
+        _sessionState.asStateFlow()
+
+    override suspend fun startSession(
+        sessionId: String,
+        requestedStart: Instant?
+    ): Result<Unit> {
+        if (_sessionState.value.isBusy) {
+            return Result.failure(
+                IllegalStateException(
+                    "Session coordinator is busy"
+                )
             )
-            Result.failure(t)
+        }
+
+        _sessionState.value =
+            _sessionState.value.copy(
+                isBusy = true,
+                lastError = null
+            )
+
+        return try {
+            val effectiveSessionId =
+                sessionId.ifBlank { generateSessionId() }
+            recordingService.startOrResume(
+                effectiveSessionId,
+                requestedStart
+            )
+
+            _sessionState.value =
+                _sessionState.value.copy(
+                    currentSessionId = effectiveSessionId,
+                    isBusy = false,
+                    lastError = null
+                )
+            Result.success(
+                Unit
+            )
+        } catch (t: Throwable) {
+            val errorMessage =
+                t.message
+                    ?: "Failed to start recording"
+            _sessionState.value =
+                _sessionState.value.copy(
+                    isBusy = false,
+                    lastError = errorMessage
+                )
+            Result.failure(
+                t
+            )
         }
     }
 
     override suspend fun stopSession(): Result<Unit> {
         if (_sessionState.value.isBusy) {
-            return Result.failure(IllegalStateException("Session coordinator is busy"))
+            return Result.failure(
+                IllegalStateException(
+                    "Session coordinator is busy"
+                )
+            )
         }
 
-        _sessionState.value = _sessionState.value.copy(isBusy = true, lastError = null)
+        _sessionState.value =
+            _sessionState.value.copy(
+                isBusy = true,
+                lastError = null
+            )
 
         return try {
             recordingService.stop()
-            _sessionState.value = _sessionState.value.copy(
-                isBusy = false,
-                lastError = null
+            _sessionState.value =
+                _sessionState.value.copy(
+                    isBusy = false,
+                    lastError = null
+                )
+            Result.success(
+                Unit
             )
-            Result.success(Unit)
         } catch (t: Throwable) {
-            val errorMessage = t.message ?: "Failed to stop recording"
-            _sessionState.value = _sessionState.value.copy(
-                isBusy = false,
-                lastError = errorMessage
+            val errorMessage =
+                t.message
+                    ?: "Failed to stop recording"
+            _sessionState.value =
+                _sessionState.value.copy(
+                    isBusy = false,
+                    lastError = errorMessage
+                )
+            Result.failure(
+                t
             )
-            Result.failure(t)
         }
     }
 
     override fun generateSessionId(): String {
-        val now = nowInstant()
+        val now =
+            nowInstant()
         return "session-${now.epochSeconds}"
     }
 
-    fun updateSessionId(sessionId: String) {
-        _sessionState.value = _sessionState.value.copy(currentSessionId = sessionId)
+    fun updateSessionId(
+        sessionId: String
+    ) {
+        _sessionState.value =
+            _sessionState.value.copy(
+                currentSessionId = sessionId
+            )
     }
 
     fun clearError() {
-        _sessionState.value = _sessionState.value.copy(lastError = null)
+        _sessionState.value =
+            _sessionState.value.copy(
+                lastError = null
+            )
     }
 }

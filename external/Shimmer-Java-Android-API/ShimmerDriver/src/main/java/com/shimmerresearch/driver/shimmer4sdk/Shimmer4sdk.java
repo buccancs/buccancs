@@ -390,10 +390,12 @@ public class Shimmer4sdk extends ShimmerDevice {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (Shimmer4sdk) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
@@ -424,7 +426,8 @@ public class Shimmer4sdk extends ShimmerDevice {
                 public void disconnected() {
                     try {
                         disconnect();
-                    } catch (ShimmerException e) {
+                    } catch (
+                            ShimmerException e) {
                         e.printStackTrace();
                     }
                 }

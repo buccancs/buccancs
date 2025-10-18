@@ -18,44 +18,81 @@ import com.topdon.lib.core.utils.ScreenUtil
 /**
  * 发射率的提示弹窗
  */
-class TipEmissivityDialog : Dialog {
+class TipEmissivityDialog :
+    Dialog {
 
-    constructor(context: Context) : super(context)
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
-    var onDismissListener: ((check: Boolean) -> Unit)? = null
+    var onDismissListener: ((check: Boolean) -> Unit)? =
+        null
 
     class Builder {
-        private var isTC007: Boolean = false
-        private var text: String = ""
-        private var radiation: Float = 0f
-        private var distance: Float = 0f
-        private var environment: Float = 0f
-        var dialog: TipEmissivityDialog? = null
-        private var context: Context? = null
-        private var title: String? = null
-        private var message: String? = null
-        private var closeEvent: ((check: Boolean) -> Unit)? = null
-        private var canceled = false
-        private var hasCheck = false
+        private var isTC007: Boolean =
+            false
+        private var text: String =
+            ""
+        private var radiation: Float =
+            0f
+        private var distance: Float =
+            0f
+        private var environment: Float =
+            0f
+        var dialog: TipEmissivityDialog? =
+            null
+        private var context: Context? =
+            null
+        private var title: String? =
+            null
+        private var message: String? =
+            null
+        private var closeEvent: ((check: Boolean) -> Unit)? =
+            null
+        private var canceled =
+            false
+        private var hasCheck =
+            false
 
         private lateinit var titleText: TextView
         private lateinit var messageText: TextView
         private lateinit var checkBox: CheckBox
         private lateinit var imgClose: ImageView
 
-        constructor(context: Context) {
-            this.context = context
+        constructor(
+            context: Context
+        ) {
+            this.context =
+                context
         }
 
-        fun setMessage(message: Int): Builder {
-            this.message = context!!.getString(message)
+        fun setMessage(
+            message: Int
+        ): Builder {
+            this.message =
+                context!!.getString(
+                    message
+                )
             return this
         }
 
-        fun setTitle(title: Int): Builder {
-            this.title = context!!.getString(title)
+        fun setTitle(
+            title: Int
+        ): Builder {
+            this.title =
+                context!!.getString(
+                    title
+                )
             return this
         }
 
@@ -66,22 +103,33 @@ class TipEmissivityDialog : Dialog {
             text: String,
             isTC007: Boolean = false
         ): Builder {
-            this.environment = environment
-            this.distance = distance
-            this.radiation = radiation
-            this.text = text
-            this.isTC007 = isTC007
+            this.environment =
+                environment
+            this.distance =
+                distance
+            this.radiation =
+                radiation
+            this.text =
+                text
+            this.isTC007 =
+                isTC007
             return this
         }
 
 
-        fun setCancelListener(event: ((check: Boolean) -> Unit)? = null): Builder {
-            this.closeEvent = event
+        fun setCancelListener(
+            event: ((check: Boolean) -> Unit)? = null
+        ): Builder {
+            this.closeEvent =
+                event
             return this
         }
 
-        fun setCanceled(canceled: Boolean): Builder {
-            this.canceled = canceled
+        fun setCanceled(
+            canceled: Boolean
+        ): Builder {
+            this.canceled =
+                canceled
             return this
         }
 
@@ -91,57 +139,111 @@ class TipEmissivityDialog : Dialog {
 
         fun create(): TipEmissivityDialog {
             if (dialog == null) {
-                dialog = TipEmissivityDialog(context!!, R.style.InfoDialog)
+                dialog =
+                    TipEmissivityDialog(
+                        context!!,
+                        R.style.InfoDialog
+                    )
             }
 
             val inflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_tip_emissivity, null)
+                context!!.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_tip_emissivity,
+                    null
+                )
 
 
             view.tv_environment_title.text =
-                context!!.getString(R.string.thermal_config_environment) + ":"
+                context!!.getString(
+                    R.string.thermal_config_environment
+                ) + ":"
             view.tv_distance_title.text =
-                context!!.getString(R.string.thermal_config_distance) + ":"
+                context!!.getString(
+                    R.string.thermal_config_distance
+                ) + ":"
 
             view.dialog_tip_success_btn.setOnClickListener {
-                dialog?.onDismissListener?.invoke(hasCheck)
+                dialog?.onDismissListener?.invoke(
+                    hasCheck
+                )
                 dismiss()
             }
             view.dialog_tip_cancel_btn.setOnClickListener {
-                dialog?.onDismissListener?.invoke(hasCheck)
-                ARouter.getInstance().build(RouterConfig.IR_SETTING)
-                    .withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
-                    .navigation(context)
+                dialog?.onDismissListener?.invoke(
+                    hasCheck
+                )
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.IR_SETTING
+                    )
+                    .withBoolean(
+                        ExtraKeyConfig.IS_TC007,
+                        isTC007
+                    )
+                    .navigation(
+                        context
+                    )
                 dismiss()
             }
-            val tvEmissivity = view.tv_emissivity
-            val tvEmissivityMaterials = view.tv_emissivity_materials
-            val tvEnvironmentValue = view.tv_environment_value
-            val tvDistanceValue = view.tv_distance_value
+            val tvEmissivity =
+                view.tv_emissivity
+            val tvEmissivityMaterials =
+                view.tv_emissivity_materials
+            val tvEnvironmentValue =
+                view.tv_environment_value
+            val tvDistanceValue =
+                view.tv_distance_value
 
             if (text.isNotEmpty()) {
-                tvEmissivityMaterials.text = text
-                tvEmissivityMaterials.visibility = View.VISIBLE
+                tvEmissivityMaterials.text =
+                    text
+                tvEmissivityMaterials.visibility =
+                    View.VISIBLE
             } else {
-                tvEmissivityMaterials.visibility = View.GONE
+                tvEmissivityMaterials.visibility =
+                    View.GONE
             }
-            tvEmissivity.text = "${context?.getString(R.string.thermal_config_radiation)}: ${
-                NumberTools.to02(radiation)
-            }"
-            tvEnvironmentValue.text = UnitTools.showC(environment)
-            tvDistanceValue.text = "${
-                NumberTools.to02(distance)
-            }m"
-            titleText = view.tv_title
-            messageText = view.dialog_tip_msg_text
-            checkBox = view.dialog_tip_check
-            imgClose = view.img_close
+            tvEmissivity.text =
+                "${
+                    context?.getString(
+                        R.string.thermal_config_radiation
+                    )
+                }: ${
+                    NumberTools.to02(
+                        radiation
+                    )
+                }"
+            tvEnvironmentValue.text =
+                UnitTools.showC(
+                    environment
+                )
+            tvDistanceValue.text =
+                "${
+                    NumberTools.to02(
+                        distance
+                    )
+                }m"
+            titleText =
+                view.tv_title
+            messageText =
+                view.dialog_tip_msg_text
+            checkBox =
+                view.dialog_tip_check
+            imgClose =
+                view.img_close
             dialog!!.addContentView(
                 view,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             val wRatio =
                 if (context!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     //竖屏
@@ -150,22 +252,36 @@ class TipEmissivityDialog : Dialog {
                     //横屏
                     0.35
                 }
-            lp.width = (ScreenUtil.getScreenWidth(context!!) * wRatio).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            lp.width =
+                (ScreenUtil.getScreenWidth(
+                    context!!
+                ) * wRatio).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(canceled)
-            checkBox.isChecked = false
-            hasCheck = false
+            dialog!!.setCanceledOnTouchOutside(
+                canceled
+            )
+            checkBox.isChecked =
+                false
+            hasCheck =
+                false
             checkBox.setOnCheckedChangeListener { _, isChecked ->
-                hasCheck = isChecked
+                hasCheck =
+                    isChecked
             }
             imgClose.setOnClickListener {
                 dismiss()
-                closeEvent?.invoke(hasCheck)
+                closeEvent?.invoke(
+                    hasCheck
+                )
             }
             //title
             if (title != null) {
-                titleText.setText(title, TextView.BufferType.NORMAL)
+                titleText.setText(
+                    title,
+                    TextView.BufferType.NORMAL
+                )
             }
             //msg
 //            if (message != null) {
@@ -174,33 +290,59 @@ class TipEmissivityDialog : Dialog {
 //            } else {
 //                messageText.visibility = View.GONE
 //            }
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipEmissivityDialog
         }
     }
 }
 
 private val View.tv_environment_title: TextView
-    get() = findViewById(R.id.tv_environment_title)
+    get() = findViewById(
+        R.id.tv_environment_title
+    )
 private val View.tv_distance_title: TextView
-    get() = findViewById(R.id.tv_distance_title)
+    get() = findViewById(
+        R.id.tv_distance_title
+    )
 private val View.dialog_tip_success_btn: TextView
-    get() = findViewById(R.id.dialog_tip_success_btn)
+    get() = findViewById(
+        R.id.dialog_tip_success_btn
+    )
 private val View.dialog_tip_cancel_btn: TextView
-    get() = findViewById(R.id.dialog_tip_cancel_btn)
+    get() = findViewById(
+        R.id.dialog_tip_cancel_btn
+    )
 private val View.tv_emissivity: TextView
-    get() = findViewById(R.id.tv_emissivity)
+    get() = findViewById(
+        R.id.tv_emissivity
+    )
 private val View.tv_emissivity_materials: TextView
-    get() = findViewById(R.id.tv_emissivity_materials)
+    get() = findViewById(
+        R.id.tv_emissivity_materials
+    )
 private val View.tv_environment_value: TextView
-    get() = findViewById(R.id.tv_environment_value)
+    get() = findViewById(
+        R.id.tv_environment_value
+    )
 private val View.tv_distance_value: TextView
-    get() = findViewById(R.id.tv_distance_value)
+    get() = findViewById(
+        R.id.tv_distance_value
+    )
 private val View.tv_title: TextView
-    get() = findViewById(R.id.tv_title)
+    get() = findViewById(
+        R.id.tv_title
+    )
 private val View.dialog_tip_msg_text: TextView
-    get() = findViewById(R.id.dialog_tip_msg_text)
+    get() = findViewById(
+        R.id.dialog_tip_msg_text
+    )
 private val View.dialog_tip_check: CheckBox
-    get() = findViewById(R.id.dialog_tip_check)
+    get() = findViewById(
+        R.id.dialog_tip_check
+    )
 private val View.img_close: ImageView
-    get() = findViewById(R.id.img_close)
+    get() = findViewById(
+        R.id.img_close
+    )

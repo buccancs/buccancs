@@ -80,7 +80,8 @@ public class OpencvTools {
         Imgproc.cvtColor(downscaledMat, bgrMat, Imgproc.COLOR_RGBA2BGR);
         try {
             SupHelp.getInstance().runImage(bgrMat, resultMat);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             throw new RuntimeException(e);
         }
         Mat resulArgbMat = new Mat();
@@ -181,7 +182,8 @@ public class OpencvTools {
         Imgproc.cvtColor(argbMat, bgrMat, Imgproc.COLOR_RGBA2BGR);
         try {
             SupHelp.getInstance().runImage(bgrMat, resultMat);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             throw new RuntimeException(e);
         }
         Mat resulArgbMat = new Mat();

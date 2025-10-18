@@ -51,98 +51,142 @@ class LiveSessionViewModel @Inject constructor(
     spaceMonitor: SpaceMonitor,
     private val systemHealthMonitor: SystemHealthMonitor
 ) : ViewModel() {
-    private val simulation = sensorRepository.simulationEnabled
-    private val _userMessage = MutableStateFlow<String?>(null)
-    private val streamAndDevices = combine(
-        sensorRepository.streamStatuses,
-        sensorRepository.devices
-    ) { streams, devices -> streams to devices }
-
-    private val syncState = combine(
-        timeSyncService.status,
-        timeSyncService.history
-    ) { status, history -> status to history }
-
-    private val uploadState = combine(
-        transferRepository.uploads,
-        transferRepository.recovery,
-        transferRepository.backlog,
-        deviceEventRepository.events
-    ) { uploads, recovery, backlog, events ->
-        UploadSnapshot(uploads, recovery, backlog, events)
-    }
-
-    private val spaceState = combine(
-        spaceMonitor.state,
-        simulation
-    ) { space, simulationEnabled -> space to simulationEnabled }
-
-    private val baseSnapshot = combine(
-        sensorRepository.recordingState,
-        streamAndDevices,
-        syncState,
-        uploadState,
-        spaceState,
-        sensorRepository.throttleLevel
-    ) { values ->
-        val recording = values[0] as RecordingState
-
-        @Suppress("UNCHECKED_CAST")
-        val streamDevice = values[1] as Pair<List<SensorStreamStatus>, List<SensorDevice>>
-
-        @Suppress("UNCHECKED_CAST")
-        val syncPair = values[2] as Pair<TimeSyncStatus, List<TimeSyncObservation>>
-        val uploadSnapshot = values[3] as UploadSnapshot
-
-        @Suppress("UNCHECKED_CAST")
-        val spacePair = values[4] as Pair<SpaceState, Boolean>
-        val throttleLevel = values[5] as PerformanceThrottleLevel
-
-        val (streams, devices) = streamDevice
-        val (sync, history) = syncPair
-        val uploads = uploadSnapshot.uploads
-        val recovery = uploadSnapshot.recovery
-        val backlog = uploadSnapshot.backlog
-        val events = uploadSnapshot.events
-        val (space, simulationEnabled) = spacePair
-        SessionSnapshot(
-            recording = recording,
-            streams = streams,
-            devices = devices,
-            syncStatus = sync,
-            syncHistory = history,
-            uploads = uploads,
-            recoveries = recovery,
-            backlog = backlog,
-            events = events,
-            storage = space,
-            simulationEnabled = simulationEnabled,
-            throttleLevel = throttleLevel
+    private val simulation =
+        sensorRepository.simulationEnabled
+    private val _userMessage =
+        MutableStateFlow<String?>(
+            null
         )
-    }
+    private val streamAndDevices =
+        combine(
+            sensorRepository.streamStatuses,
+            sensorRepository.devices
+        ) { streams, devices -> streams to devices }
 
-    private val combinedState = combine(
-        baseSnapshot,
-        stimulusPresentationManager.state,
-        bookmarkRepository.bookmarks,
-        _userMessage,
-        systemHealthMonitor.snapshot
-    ) { snapshot, stimulus, bookmarks, message, health ->
-        snapshot.toUiState(
-            stimulus = stimulus,
-            bookmarks = bookmarks.takeLast(MAX_BOOKMARKS),
-            userMessage = message,
-            healthAlerts = health.alerts.map { it.toUiModel() }
-        )
-    }
+    private val syncState =
+        combine(
+            timeSyncService.status,
+            timeSyncService.history
+        ) { status, history -> status to history }
 
-    fun recordBookmark(label: String = "Bookmark") {
-        val sanitized = label.trim().ifBlank { "Bookmark" }
+    private val uploadState =
+        combine(
+            transferRepository.uploads,
+            transferRepository.recovery,
+            transferRepository.backlog,
+            deviceEventRepository.events
+        ) { uploads, recovery, backlog, events ->
+            UploadSnapshot(
+                uploads,
+                recovery,
+                backlog,
+                events
+            )
+        }
+
+    private val spaceState =
+        combine(
+            spaceMonitor.state,
+            simulation
+        ) { space, simulationEnabled -> space to simulationEnabled }
+
+    private val baseSnapshot =
+        combine(
+            sensorRepository.recordingState,
+            streamAndDevices,
+            syncState,
+            uploadState,
+            spaceState,
+            sensorRepository.throttleLevel
+        ) { values ->
+            val recording =
+                values[0] as RecordingState
+
+            @Suppress(
+                "UNCHECKED_CAST"
+            )
+            val streamDevice =
+                values[1] as Pair<List<SensorStreamStatus>, List<SensorDevice>>
+
+            @Suppress(
+                "UNCHECKED_CAST"
+            )
+            val syncPair =
+                values[2] as Pair<TimeSyncStatus, List<TimeSyncObservation>>
+            val uploadSnapshot =
+                values[3] as UploadSnapshot
+
+            @Suppress(
+                "UNCHECKED_CAST"
+            )
+            val spacePair =
+                values[4] as Pair<SpaceState, Boolean>
+            val throttleLevel =
+                values[5] as PerformanceThrottleLevel
+
+            val (streams, devices) = streamDevice
+            val (sync, history) = syncPair
+            val uploads =
+                uploadSnapshot.uploads
+            val recovery =
+                uploadSnapshot.recovery
+            val backlog =
+                uploadSnapshot.backlog
+            val events =
+                uploadSnapshot.events
+            val (space, simulationEnabled) = spacePair
+            SessionSnapshot(
+                recording = recording,
+                streams = streams,
+                devices = devices,
+                syncStatus = sync,
+                syncHistory = history,
+                uploads = uploads,
+                recoveries = recovery,
+                backlog = backlog,
+                events = events,
+                storage = space,
+                simulationEnabled = simulationEnabled,
+                throttleLevel = throttleLevel
+            )
+        }
+
+    private val combinedState =
+        combine(
+            baseSnapshot,
+            stimulusPresentationManager.state,
+            bookmarkRepository.bookmarks,
+            _userMessage,
+            systemHealthMonitor.snapshot
+        ) { snapshot, stimulus, bookmarks, message, health ->
+            snapshot.toUiState(
+                stimulus = stimulus,
+                bookmarks = bookmarks.takeLast(
+                    MAX_BOOKMARKS
+                ),
+                userMessage = message,
+                healthAlerts = health.alerts.map { it.toUiModel() }
+            )
+        }
+
+    fun recordBookmark(
+        label: String = "Bookmark"
+    ) {
+        val sanitized =
+            label.trim()
+                .ifBlank { "Bookmark" }
         viewModelScope.launch {
-            bookmarkRepository.add(sanitized, nowInstant())
-            _userMessage.value = "Bookmark added"
-            delay(3000)
-            _userMessage.value = null
+            bookmarkRepository.add(
+                sanitized,
+                nowInstant()
+            )
+            _userMessage.value =
+                "Bookmark added"
+            delay(
+                3000
+            )
+            _userMessage.value =
+                null
         }
     }
 
@@ -152,11 +196,14 @@ class LiveSessionViewModel @Inject constructor(
         }
     }
 
-    val uiState: StateFlow<LiveSessionUiState> = combinedState.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = LiveSessionUiState.initial()
-    )
+    val uiState: StateFlow<LiveSessionUiState> =
+        combinedState.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                5_000
+            ),
+            initialValue = LiveSessionUiState.initial()
+        )
 }
 
 data class LiveSessionUiState(
@@ -178,46 +225,49 @@ data class LiveSessionUiState(
     val userMessage: String? = null
 ) {
     companion object {
-        fun initial(): LiveSessionUiState = LiveSessionUiState(
-            recording = RecordingState(
-                lifecycle = RecordingLifecycleState.Idle,
-                anchor = null,
-                updatedAt = Instant.DISTANT_PAST
-            ),
-            streams = emptyList(),
-            devices = emptyList(),
-            syncStatus = TimeSyncStatus(
-                offsetMillis = 0,
-                roundTripMillis = Long.MAX_VALUE,
-                lastSync = Instant.DISTANT_PAST,
-                driftEstimateMillisPerMinute = 0.0,
-                filteredRoundTripMillis = Double.POSITIVE_INFINITY,
-                quality = TimeSyncQuality.UNKNOWN,
-                sampleCount = 0,
-                regressionSlopeMillisPerMinute = 0.0
-            ),
-            syncHistory = emptyList(),
-            uploads = emptyList(),
-            recoveries = emptyList(),
-            backlog = UploadBacklogState(
-                level = UploadBacklogLevel.NORMAL,
-                queuedCount = 0,
-                queuedBytes = 0,
-                message = null
-            ),
-            events = emptyList(),
-            bookmarks = emptyList(),
-            storage = SpaceState.EMPTY,
-            simulationEnabled = false,
-            stimulus = StimulusState(),
-            throttleLevel = PerformanceThrottleLevel.NORMAL,
-            healthAlerts = emptyList()
-        )
+        fun initial(): LiveSessionUiState =
+            LiveSessionUiState(
+                recording = RecordingState(
+                    lifecycle = RecordingLifecycleState.Idle,
+                    anchor = null,
+                    updatedAt = Instant.DISTANT_PAST
+                ),
+                streams = emptyList(),
+                devices = emptyList(),
+                syncStatus = TimeSyncStatus(
+                    offsetMillis = 0,
+                    roundTripMillis = Long.MAX_VALUE,
+                    lastSync = Instant.DISTANT_PAST,
+                    driftEstimateMillisPerMinute = 0.0,
+                    filteredRoundTripMillis = Double.POSITIVE_INFINITY,
+                    quality = TimeSyncQuality.UNKNOWN,
+                    sampleCount = 0,
+                    regressionSlopeMillisPerMinute = 0.0
+                ),
+                syncHistory = emptyList(),
+                uploads = emptyList(),
+                recoveries = emptyList(),
+                backlog = UploadBacklogState(
+                    level = UploadBacklogLevel.NORMAL,
+                    queuedCount = 0,
+                    queuedBytes = 0,
+                    message = null
+                ),
+                events = emptyList(),
+                bookmarks = emptyList(),
+                storage = SpaceState.EMPTY,
+                simulationEnabled = false,
+                stimulus = StimulusState(),
+                throttleLevel = PerformanceThrottleLevel.NORMAL,
+                healthAlerts = emptyList()
+            )
     }
 }
 
-private const val MAX_EVENTS = 24
-private const val MAX_BOOKMARKS = 64
+private const val MAX_EVENTS =
+    24
+private const val MAX_BOOKMARKS =
+    64
 
 private data class SessionSnapshot(
     val recording: RecordingState,
@@ -249,7 +299,9 @@ private fun SessionSnapshot.toUiState(
         uploads = uploads,
         recoveries = recoveries,
         backlog = backlog,
-        events = events.takeLast(MAX_EVENTS),
+        events = events.takeLast(
+            MAX_EVENTS
+        ),
         bookmarks = bookmarks,
         storage = storage,
         simulationEnabled = simulationEnabled,

@@ -47,23 +47,42 @@ fun TopdonMeasurementModeSelector(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
-            .padding(TopdonSpacing.Small),
-        horizontalArrangement = Arrangement.spacedBy(TopdonSpacing.Small)
+            .background(
+                MaterialTheme.colorScheme.surface,
+                RoundedCornerShape(
+                    8.dp
+                )
+            )
+            .padding(
+                TopdonSpacing.Small
+            ),
+        horizontalArrangement = Arrangement.spacedBy(
+            TopdonSpacing.Small
+        )
     ) {
         MeasurementMode.entries.forEach { mode ->
             Surface(
                 modifier = Modifier
-                    .weight(1f)
-                    .clickable { onModeSelected(mode) },
-                shape = RoundedCornerShape(6.dp),
+                    .weight(
+                        1f
+                    )
+                    .clickable {
+                        onModeSelected(
+                            mode
+                        )
+                    },
+                shape = RoundedCornerShape(
+                    6.dp
+                ),
                 color = if (selectedMode == mode) MaterialTheme.colorScheme.primary else Color.Transparent
             ) {
                 Text(
                     text = mode.label,
                     style = MaterialTheme.typography.bodySmall,
                     color = if (selectedMode == mode) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(
+                        vertical = 8.dp
+                    ),
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
             }
@@ -71,11 +90,21 @@ fun TopdonMeasurementModeSelector(
     }
 }
 
-enum class MeasurementMode(val label: String) {
-    SPOT("Spot"),
-    AREA("Area"),
-    LINE("Line"),
-    MAX_MIN("Max/Min")
+enum class MeasurementMode(
+    val label: String
+) {
+    SPOT(
+        "Spot"
+    ),
+    AREA(
+        "Area"
+    ),
+    LINE(
+        "Line"
+    ),
+    MAX_MIN(
+        "Max/Min"
+    )
 }
 
 /**
@@ -91,7 +120,9 @@ fun TopdonPaletteSelector(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(TopdonSpacing.Small)
+        verticalArrangement = Arrangement.spacedBy(
+            TopdonSpacing.Small
+        )
     ) {
         Text(
             text = "Colour Palette",
@@ -100,13 +131,19 @@ fun TopdonPaletteSelector(
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(TopdonSpacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                TopdonSpacing.Small
+            )
         ) {
             palettes.forEach { palette ->
                 PaletteOption(
                     palette = palette,
                     isSelected = palette == selectedPalette,
-                    onClick = { onPaletteSelected(palette) }
+                    onClick = {
+                        onPaletteSelected(
+                            palette
+                        )
+                    }
                 )
             }
         }
@@ -122,8 +159,14 @@ private fun PaletteOption(
 ) {
     Box(
         modifier = modifier
-            .size(48.dp)
-            .clip(RoundedCornerShape(8.dp))
+            .size(
+                48.dp
+            )
+            .clip(
+                RoundedCornerShape(
+                    8.dp
+                )
+            )
             .background(
                 brush = androidx.compose.ui.graphics.Brush.horizontalGradient(
                     colors = palette.gradientColors
@@ -132,9 +175,13 @@ private fun PaletteOption(
             .border(
                 width = if (isSelected) Dimensions.BorderDefault else Dimensions.ElevationNone,
                 color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(
+                    8.dp
+                )
             )
-            .clickable(onClick = onClick)
+            .clickable(
+                onClick = onClick
+            )
     )
 }
 
@@ -159,38 +206,73 @@ fun TopdonTemperatureCrosshair(
     ) {
         Box(
             modifier = Modifier
-                .size(40.dp)
-                .border(Dimensions.BorderDefault, MaterialTheme.colorScheme.primary, CircleShape),
+                .size(
+                    40.dp
+                )
+                .border(
+                    Dimensions.BorderDefault,
+                    MaterialTheme.colorScheme.primary,
+                    CircleShape
+                ),
             contentAlignment = Alignment.Center
         ) {
             Box(
                 modifier = Modifier
-                    .size(2.dp)
-                    .background(MaterialTheme.colorScheme.primary)
+                    .size(
+                        2.dp
+                    )
+                    .background(
+                        MaterialTheme.colorScheme.primary
+                    )
             )
         }
 
         Surface(
             modifier = Modifier
-                .offset(x = 45.dp, y = (-8).dp)
-                .align(Alignment.CenterEnd),
-            shape = RoundedCornerShape(4.dp),
-            color = MaterialTheme.colorScheme.background.copy(alpha = 0.9f)
+                .offset(
+                    x = 45.dp,
+                    y = (-8).dp
+                )
+                .align(
+                    Alignment.CenterEnd
+                ),
+            shape = RoundedCornerShape(
+                4.dp
+            ),
+            color = MaterialTheme.colorScheme.background.copy(
+                alpha = 0.9f
+            )
         ) {
             Text(
-                text = formatTemperature(temperature, useFahrenheit),
+                text = formatTemperature(
+                    temperature,
+                    useFahrenheit
+                ),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                modifier = Modifier.padding(
+                    horizontal = 8.dp,
+                    vertical = 4.dp
+                )
             )
         }
     }
 }
 
-private fun formatTemperature(celsius: Float, useFahrenheit: Boolean): String {
-    val temp = if (useFahrenheit) (celsius * 9f / 5f) + 32f else celsius
-    val unit = if (useFahrenheit) "°F" else "°C"
-    return String.format(Locale.US, "%.1f%s", temp, unit)
+private fun formatTemperature(
+    celsius: Float,
+    useFahrenheit: Boolean
+): String {
+    val temp =
+        if (useFahrenheit) (celsius * 9f / 5f) + 32f else celsius
+    val unit =
+        if (useFahrenheit) "°F" else "°C"
+    return String.format(
+        Locale.US,
+        "%.1f%s",
+        temp,
+        unit
+    )
 }
 
 /**
@@ -208,10 +290,16 @@ fun TopdonTemperatureRange(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                MaterialTheme.colorScheme.background.copy(alpha = 0.8f),
-                RoundedCornerShape(8.dp)
+                MaterialTheme.colorScheme.background.copy(
+                    alpha = 0.8f
+                ),
+                RoundedCornerShape(
+                    8.dp
+                )
             )
-            .padding(TopdonSpacing.Medium),
+            .padding(
+                TopdonSpacing.Medium
+            ),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         TemperatureIndicator(
@@ -238,7 +326,9 @@ private fun TemperatureIndicator(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(TopdonSpacing.ExtraSmall)
+        verticalArrangement = Arrangement.spacedBy(
+            TopdonSpacing.ExtraSmall
+        )
     ) {
         Text(
             text = label,
@@ -246,35 +336,59 @@ private fun TemperatureIndicator(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = formatTemperature(temperature, useFahrenheit),
+            text = formatTemperature(
+                temperature,
+                useFahrenheit
+            ),
             style = MaterialTheme.typography.titleMedium,
             color = color
         )
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonCameraControlsPreview() {
     TopdonTheme {
-        var selectedMode by remember { mutableStateOf(MeasurementMode.SPOT) }
-        var selectedPalette by remember { mutableStateOf(samplePalettes[0]) }
+        var selectedMode by remember {
+            mutableStateOf(
+                MeasurementMode.SPOT
+            )
+        }
+        var selectedPalette by remember {
+            mutableStateOf(
+                samplePalettes[0]
+            )
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             TopdonMeasurementModeSelector(
                 selectedMode = selectedMode,
-                onModeSelected = { selectedMode = it }
+                onModeSelected = {
+                    selectedMode =
+                        it
+                }
             )
 
             TopdonPaletteSelector(
                 palettes = samplePalettes,
                 selectedPalette = selectedPalette,
-                onPaletteSelected = { selectedPalette = it }
+                onPaletteSelected = {
+                    selectedPalette =
+                        it
+                }
             )
 
             TopdonTemperatureRange(
@@ -285,14 +399,54 @@ private fun TopdonCameraControlsPreview() {
     }
 }
 
-private val samplePalettes = listOf(
-    ThermalPalette(
-        "Iron",
-        listOf(Color(0xFF000033), Color(0xFFFF0000), Color(0xFFFFFF00), Color(0xFFFFFFFF))
-    ),
-    ThermalPalette(
-        "Rainbow",
-        listOf(Color(0xFF0000FF), Color(0xFF00FF00), Color(0xFFFFFF00), Color(0xFFFF0000))
-    ),
-    ThermalPalette("Gray", listOf(Color(0xFF000000), Color(0xFF808080), Color(0xFFFFFFFF)))
-)
+private val samplePalettes =
+    listOf(
+        ThermalPalette(
+            "Iron",
+            listOf(
+                Color(
+                    0xFF000033
+                ),
+                Color(
+                    0xFFFF0000
+                ),
+                Color(
+                    0xFFFFFF00
+                ),
+                Color(
+                    0xFFFFFFFF
+                )
+            )
+        ),
+        ThermalPalette(
+            "Rainbow",
+            listOf(
+                Color(
+                    0xFF0000FF
+                ),
+                Color(
+                    0xFF00FF00
+                ),
+                Color(
+                    0xFFFFFF00
+                ),
+                Color(
+                    0xFFFF0000
+                )
+            )
+        ),
+        ThermalPalette(
+            "Gray",
+            listOf(
+                Color(
+                    0xFF000000
+                ),
+                Color(
+                    0xFF808080
+                ),
+                Color(
+                    0xFFFFFFFF
+                )
+            )
+        )
+    )

@@ -8,28 +8,57 @@ import com.topdon.lib.core.db.entity.ThermalEntity
 import com.topdon.lib.core.ktbase.BaseViewModel
 import kotlinx.coroutines.*
 
-class IRMonitorViewModel : BaseViewModel() {
-    val recordListLD = MutableLiveData<List<ThermalDao.Record>>()
+class IRMonitorViewModel :
+    BaseViewModel() {
+    val recordListLD =
+        MutableLiveData<List<ThermalDao.Record>>()
+
     fun queryRecordList() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(
+            Dispatchers.IO
+        ) {
             val recordList: List<ThermalDao.Record> =
-                AppDatabase.getInstance().thermalDao().queryRecordList()
-            recordListLD.postValue(recordList)
+                AppDatabase.getInstance()
+                    .thermalDao()
+                    .queryRecordList()
+            recordListLD.postValue(
+                recordList
+            )
         }
     }
 
-    val detailListLD = MutableLiveData<List<ThermalEntity>>()
-    fun queryDetail(startTime: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
+    val detailListLD =
+        MutableLiveData<List<ThermalEntity>>()
+
+    fun queryDetail(
+        startTime: Long
+    ) {
+        viewModelScope.launch(
+            Dispatchers.IO
+        ) {
             val detailList: List<ThermalEntity> =
-                AppDatabase.getInstance().thermalDao().queryDetail(startTime)
-            detailListLD.postValue(detailList)
+                AppDatabase.getInstance()
+                    .thermalDao()
+                    .queryDetail(
+                        startTime
+                    )
+            detailListLD.postValue(
+                detailList
+            )
         }
     }
 
-    fun delDetail(startTime: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            AppDatabase.getInstance().thermalDao().delDetail(startTime)
+    fun delDetail(
+        startTime: Long
+    ) {
+        viewModelScope.launch(
+            Dispatchers.IO
+        ) {
+            AppDatabase.getInstance()
+                .thermalDao()
+                .delDetail(
+                    startTime
+                )
         }
     }
 }

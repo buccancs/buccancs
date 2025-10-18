@@ -60,7 +60,8 @@ public class MyMarkerView extends MarkerView {
                     timeText.setVisibility(View.GONE);
                 }
             }
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             XLog.e("MarkerView error: " + ex.getMessage());
         }
         super.refreshContent(e, highlight);

@@ -59,7 +59,9 @@ fun SessionDetailRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun SessionDetailScreen(
     state: SessionDetailUiState,
@@ -69,9 +71,15 @@ fun SessionDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Session ${state.sessionId}") },
+                title = {
+                    Text(
+                        text = "Session ${state.sessionId}"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -83,20 +91,33 @@ fun SessionDetailScreen(
                 )
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         when {
             state.isLoading -> {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(padding),
+                        .padding(
+                            padding
+                        ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     CircularProgressIndicator()
-                    Spacer(modifier = Modifier.height(Spacing.SmallMedium))
-                    Text(text = "Loading session...")
+                    Spacer(
+                        modifier = Modifier.height(
+                            Spacing.SmallMedium
+                        )
+                    )
+                    Text(
+                        text = "Loading session..."
+                    )
                 }
             }
 
@@ -104,13 +125,17 @@ fun SessionDetailScreen(
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(padding),
+                        .padding(
+                            padding
+                        ),
                     color = MaterialTheme.colorScheme.surface
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(Spacing.ExtraLarge),
+                            .padding(
+                                Spacing.ExtraLarge
+                            ),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -118,25 +143,41 @@ fun SessionDetailScreen(
                             imageVector = Icons.Default.Error,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.size(Dimensions.IconSizeLarge)
+                            modifier = Modifier.size(
+                                Dimensions.IconSizeLarge
+                            )
                         )
-                        Spacer(modifier = Modifier.height(Spacing.Medium))
+                        Spacer(
+                            modifier = Modifier.height(
+                                Spacing.Medium
+                            )
+                        )
                         Text(
                             text = "Unable to load session",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.error
                         )
-                        Spacer(modifier = Modifier.height(Spacing.Small))
+                        Spacer(
+                            modifier = Modifier.height(
+                                Spacing.Small
+                            )
+                        )
                         Text(
                             text = state.errorMessage,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        Spacer(modifier = Modifier.height(Spacing.ExtraLarge))
+                        Spacer(
+                            modifier = Modifier.height(
+                                Spacing.ExtraLarge
+                            )
+                        )
                         AnimatedTonalButton(
                             onClick = onRefresh,
-                            modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum),
+                            modifier = Modifier.defaultMinSize(
+                                minHeight = Dimensions.TouchTargetMinimum
+                            ),
                             text = "Retry"
                         )
                     }
@@ -147,43 +188,66 @@ fun SessionDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(padding),
+                        .padding(
+                            padding
+                        ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "Manifest unavailable.")
+                    Text(
+                        text = "Manifest unavailable."
+                    )
                 }
             }
 
             else -> {
-                val manifest = state.manifest
+                val manifest =
+                    state.manifest
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .testTag("session-detail-list")
-                        .padding(padding)
-                        .padding(LayoutPadding.Screen),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                        .testTag(
+                            "session-detail-list"
+                        )
+                        .padding(
+                            padding
+                        )
+                        .padding(
+                            LayoutPadding.Screen
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.Medium
+                    )
                 ) {
                     item {
-                        SummaryCard(state = state)
+                        SummaryCard(
+                            state = state
+                        )
                     }
                     item {
-                        DeviceList(devices = manifest.devices)
+                        DeviceList(
+                            devices = manifest.devices
+                        )
                     }
                     if (manifest.artifacts.isNotEmpty()) {
                         item {
-                            ArtifactList(artifacts = manifest.artifacts)
+                            ArtifactList(
+                                artifacts = manifest.artifacts
+                            )
                         }
                     }
                     if (manifest.events.isNotEmpty()) {
                         item {
-                            EventList(events = manifest.events)
+                            EventList(
+                                events = manifest.events
+                            )
                         }
                     }
                     if (manifest.bookmarks.isNotEmpty()) {
                         item {
-                            BookmarkList(bookmarks = manifest.bookmarks)
+                            BookmarkList(
+                                bookmarks = manifest.bookmarks
+                            )
                         }
                     }
                 }
@@ -193,12 +257,18 @@ fun SessionDetailScreen(
 }
 
 @Composable
-private fun SummaryCard(state: SessionDetailUiState) {
-    val manifest = state.manifest ?: return
+private fun SummaryCard(
+    state: SessionDetailUiState
+) {
+    val manifest =
+        state.manifest
+            ?: return
     SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-summary"),
+            .testTag(
+                "session-summary"
+            ),
         spacing = Spacing.Small
     ) {
         Text(
@@ -206,7 +276,11 @@ private fun SummaryCard(state: SessionDetailUiState) {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
 
         Surface(
             modifier = Modifier.fillMaxWidth(),
@@ -218,7 +292,9 @@ private fun SummaryCard(state: SessionDetailUiState) {
                     horizontal = Spacing.SmallMedium,
                     vertical = Spacing.Small
                 ),
-                verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.ExtraSmall
+                )
             ) {
                 InfoRow(
                     "Started",
@@ -235,7 +311,9 @@ private fun SummaryCard(state: SessionDetailUiState) {
                 manifest.durationMillis?.let { duration ->
                     InfoRow(
                         "Duration",
-                        formatDuration(duration),
+                        formatDuration(
+                            duration
+                        ),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
@@ -244,22 +322,32 @@ private fun SummaryCard(state: SessionDetailUiState) {
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             StatChip(
                 label = "Artifacts",
                 value = manifest.artifacts.size.toString(),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
             StatChip(
                 label = "Size",
-                value = formatBytes(state.totalBytes),
-                modifier = Modifier.weight(1f)
+                value = formatBytes(
+                    state.totalBytes
+                ),
+                modifier = Modifier.weight(
+                    1f
+                )
             )
             StatChip(
                 label = "Bookmarks",
                 value = manifest.bookmarks.size.toString(),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
         }
 
@@ -308,7 +396,11 @@ private fun InfoRow(
 }
 
 @Composable
-private fun StatChip(label: String, value: String, modifier: Modifier = Modifier) {
+private fun StatChip(
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier,
         color = MaterialTheme.colorScheme.secondaryContainer,
@@ -337,11 +429,15 @@ private fun StatChip(label: String, value: String, modifier: Modifier = Modifier
 }
 
 @Composable
-private fun DeviceList(devices: List<DeviceManifest>) {
+private fun DeviceList(
+    devices: List<DeviceManifest>
+) {
     SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-devices"),
+            .testTag(
+                "session-devices"
+            ),
         spacing = Spacing.Small
     ) {
         Text(
@@ -349,8 +445,16 @@ private fun DeviceList(devices: List<DeviceManifest>) {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             devices.forEach { device ->
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
@@ -362,7 +466,9 @@ private fun DeviceList(devices: List<DeviceManifest>) {
                             horizontal = Spacing.SmallMedium,
                             vertical = Spacing.Small
                         ),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.ExtraSmall
+                        )
                     ) {
                         Text(
                             text = device.deviceId,
@@ -408,11 +514,15 @@ private fun DeviceList(devices: List<DeviceManifest>) {
 }
 
 @Composable
-private fun ArtifactList(artifacts: List<ArtifactEntry>) {
+private fun ArtifactList(
+    artifacts: List<ArtifactEntry>
+) {
     SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-artifacts"),
+            .testTag(
+                "session-artifacts"
+            ),
         spacing = Spacing.Small
     ) {
         Text(
@@ -420,8 +530,16 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             artifacts.forEach { artifact ->
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
@@ -433,7 +551,9 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
                             horizontal = Spacing.SmallMedium,
                             vertical = Spacing.Small
                         ),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.ExtraSmall
+                        )
                     ) {
                         Text(
                             text = "${artifact.streamType} - ${artifact.fileName()}",
@@ -446,7 +566,11 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Text(
-                            text = "Size: ${formatBytes(artifact.sizeBytes)}",
+                            text = "Size: ${
+                                formatBytes(
+                                    artifact.sizeBytes
+                                )
+                            }",
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Text(
@@ -467,11 +591,15 @@ private fun ArtifactList(artifacts: List<ArtifactEntry>) {
 }
 
 @Composable
-private fun EventList(events: List<EventEntry>) {
+private fun EventList(
+    events: List<EventEntry>
+) {
     SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-events"),
+            .testTag(
+                "session-events"
+            ),
         spacing = Spacing.Small
     ) {
         Text(
@@ -479,8 +607,16 @@ private fun EventList(events: List<EventEntry>) {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             events.forEach { event ->
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
@@ -492,7 +628,9 @@ private fun EventList(events: List<EventEntry>) {
                             horizontal = Spacing.SmallMedium,
                             vertical = Spacing.Small
                         ),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.ExtraSmall
+                        )
                     ) {
                         Text(
                             text = "${event.type} - ${event.eventId}",
@@ -527,11 +665,15 @@ private fun EventList(events: List<EventEntry>) {
 }
 
 @Composable
-private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
+private fun BookmarkList(
+    bookmarks: List<BookmarkEntry>
+) {
     SectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("session-bookmarks"),
+            .testTag(
+                "session-bookmarks"
+            ),
         spacing = Spacing.Small
     ) {
         Text(
@@ -539,8 +681,16 @@ private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             bookmarks.forEach { bookmark ->
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
@@ -552,7 +702,9 @@ private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
                             horizontal = Spacing.SmallMedium,
                             vertical = Spacing.Small
                         ),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.ExtraSmall
+                        )
                     ) {
                         Text(
                             text = bookmark.label.ifBlank { "Bookmark" },
@@ -572,21 +724,61 @@ private fun BookmarkList(bookmarks: List<BookmarkEntry>) {
 }
 
 private fun ArtifactEntry.fileName(): String =
-    relativePath?.substringAfterLast('/') ?: contentUri?.substringAfterLast('/')
-    ?: streamType.lowercase()
+    relativePath?.substringAfterLast(
+        '/'
+    )
+        ?: contentUri?.substringAfterLast(
+            '/'
+        )
+        ?: streamType.lowercase()
 
-private fun formatBytes(bytes: Long): String {
+private fun formatBytes(
+    bytes: Long
+): String {
     if (bytes <= 0) return "0 B"
-    val units = arrayOf("B", "KB", "MB", "GB", "TB")
-    val digitGroups = (Math.log10(bytes.toDouble()) / Math.log10(1024.0)).toInt()
-    val value = bytes / Math.pow(1024.0, digitGroups.toDouble())
-    return String.format(Locale.US, "%.1f %s", value, units[digitGroups])
+    val units =
+        arrayOf(
+            "B",
+            "KB",
+            "MB",
+            "GB",
+            "TB"
+        )
+    val digitGroups =
+        (Math.log10(
+            bytes.toDouble()
+        ) / Math.log10(
+            1024.0
+        )).toInt()
+    val value =
+        bytes / Math.pow(
+            1024.0,
+            digitGroups.toDouble()
+        )
+    return String.format(
+        Locale.US,
+        "%.1f %s",
+        value,
+        units[digitGroups]
+    )
 }
 
-private fun formatDuration(millis: Long): String {
-    val seconds = millis / 1000
-    val hours = seconds / 3600
-    val minutes = (seconds % 3600) / 60
-    val remaining = seconds % 60
-    return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, remaining)
+private fun formatDuration(
+    millis: Long
+): String {
+    val seconds =
+        millis / 1000
+    val hours =
+        seconds / 3600
+    val minutes =
+        (seconds % 3600) / 60
+    val remaining =
+        seconds % 60
+    return String.format(
+        Locale.US,
+        "%02d:%02d:%02d",
+        hours,
+        minutes,
+        remaining
+    )
 }

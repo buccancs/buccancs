@@ -78,7 +78,8 @@ public class Legend extends ComponentBase {
                 maxFormSize = formSize;
 
             String label = entry.label;
-            if (label == null) continue;
+            if (label == null)
+                continue;
 
             float length = (float) Utils.calcTextWidth(p, label);
 
@@ -95,7 +96,8 @@ public class Legend extends ComponentBase {
 
         for (LegendEntry entry : mEntries) {
             String label = entry.label;
-            if (label == null) continue;
+            if (label == null)
+                continue;
 
             float length = (float) Utils.calcTextHeight(p, label);
 

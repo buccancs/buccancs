@@ -20,11 +20,14 @@ class BacklogPerformanceController @Inject constructor(
     init {
         scope.launch {
             sessionTransferRepository.backlog.collectLatest { state ->
-                val level = when (state.level) {
-                    UploadBacklogLevel.NORMAL -> PerformanceThrottleLevel.NORMAL
-                    UploadBacklogLevel.WARNING, UploadBacklogLevel.CRITICAL -> PerformanceThrottleLevel.CONSERVE
-                }
-                sensorRepository.applyPerformanceThrottle(level)
+                val level =
+                    when (state.level) {
+                        UploadBacklogLevel.NORMAL -> PerformanceThrottleLevel.NORMAL
+                        UploadBacklogLevel.WARNING, UploadBacklogLevel.CRITICAL -> PerformanceThrottleLevel.CONSERVE
+                    }
+                sensorRepository.applyPerformanceThrottle(
+                    level
+                )
             }
         }
     }

@@ -38,7 +38,8 @@ public class CameraJpegView extends TextureView {
                         if (syncimage.valid == false) {
                             try {
                                 syncimage.viewLock.wait();
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 cameraThread.interrupt();
                                 Log.e(TAG, "lock.wait(): catch an interrupted exception");
                             }
@@ -67,7 +68,8 @@ public class CameraJpegView extends TextureView {
                     }
                     try {
                         cameraThread.sleep(1);
-                    } catch (InterruptedException e) {
+                    } catch (
+                            InterruptedException e) {
                         Log.d(TAG, "sleep crash");
                         e.printStackTrace();
                         cameraThread.interrupt();
@@ -96,7 +98,8 @@ public class CameraJpegView extends TextureView {
         cameraThread.interrupt();
         try {
             cameraThread.join();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }

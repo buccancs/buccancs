@@ -30,7 +30,8 @@ import java.io.File
  *
  * Created by LCG on 2024/10/14.
  */
-abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
+abstract class BaseBindingActivity<B : ViewDataBinding> :
+    AppCompatActivity() {
 
     protected lateinit var binding: B
 
@@ -40,32 +41,55 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
     @LayoutRes
     protected abstract fun initContentLayoutId(): Int
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, initContentLayoutId())
-        binding.lifecycleOwner = this
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        binding =
+            DataBindingUtil.setContentView(
+                this,
+                initContentLayoutId()
+            )
+        binding.lifecycleOwner =
+            this
         binding.executePendingBindings()
 
-        EventBus.getDefault().register(this)
+        EventBus.getDefault()
+            .register(
+                this
+            )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        EventBus.getDefault().unregister(this)
+        EventBus.getDefault()
+            .unregister(
+                this
+            )
     }
 
-    override fun attachBaseContext(newBase: Context?) {
+    override fun attachBaseContext(
+        newBase: Context?
+    ) {
         super.attachBaseContext(
             AppLanguageUtils.attachBaseContext(
                 newBase,
-                SharedManager.getLanguage(newBase!!)
+                SharedManager.getLanguage(
+                    newBase!!
+                )
             )
         )
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onUSBLineStateChange(event: DeviceConnectEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onUSBLineStateChange(
+        event: DeviceConnectEvent
+    ) {
         if (event.isConnect) {
             connected()
         } else {
@@ -82,20 +106,32 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onSocketConnectState(event: SocketStateEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onSocketConnectState(
+        event: SocketStateEvent
+    ) {
         if (event.isConnect) {
-            onSocketConnected(event.isTS004)
+            onSocketConnected(
+                event.isTS004
+            )
         } else {
-            onSocketDisConnected(event.isTS004)
+            onSocketDisConnected(
+                event.isTS004
+            )
         }
     }
 
-    protected open fun onSocketConnected(isTS004: Boolean) {
+    protected open fun onSocketConnected(
+        isTS004: Boolean
+    ) {
 
     }
 
-    protected open fun onSocketDisConnected(isTS004: Boolean) {
+    protected open fun onSocketDisConnected(
+        isTS004: Boolean
+    ) {
 
     }
 
@@ -103,23 +139,37 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
     /**
      * 新版 LMS 风格的加载中弹框.
      */
-    private var loadingDialog: LoadingDialog? = null
+    private var loadingDialog: LoadingDialog? =
+        null
 
     /**
      * 显示加载中弹框.
      */
-    fun showLoadingDialog(@StringRes resId: Int = R.string.tip_loading) {
-        showLoadingDialog(getString(resId))
+    fun showLoadingDialog(
+        @StringRes resId: Int = R.string.tip_loading
+    ) {
+        showLoadingDialog(
+            getString(
+                resId
+            )
+        )
     }
 
     /**
      * 显示加载中弹框.
      */
-    fun showLoadingDialog(text: CharSequence?) {
+    fun showLoadingDialog(
+        text: CharSequence?
+    ) {
         if (loadingDialog == null) {
-            loadingDialog = LoadingDialog(this)
+            loadingDialog =
+                LoadingDialog(
+                    this
+                )
         }
-        loadingDialog?.setTips(text)
+        loadingDialog?.setTips(
+            text
+        )
         loadingDialog?.show()
     }
 
@@ -131,17 +181,34 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : AppCompatActivity() {
     }
 
 
-    protected class TakePhotoResult : ActivityResultContract<File, File?>() {
+    protected class TakePhotoResult :
+        ActivityResultContract<File, File?>() {
         private lateinit var file: File
 
-        override fun createIntent(context: Context, input: File): Intent {
-            file = input
+        override fun createIntent(
+            context: Context,
+            input: File
+        ): Intent {
+            file =
+                input
             val uri =
-                FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-            return Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.fileprovider",
+                    file
+                )
+            return Intent(
+                MediaStore.ACTION_IMAGE_CAPTURE
+            ).putExtra(
+                MediaStore.EXTRA_OUTPUT,
+                uri
+            )
         }
 
-        override fun parseResult(resultCode: Int, intent: Intent?): File? =
+        override fun parseResult(
+            resultCode: Int,
+            intent: Intent?
+        ): File? =
             if (resultCode == RESULT_OK) file else null
     }
 }

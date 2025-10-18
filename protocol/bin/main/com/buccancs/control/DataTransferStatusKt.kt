@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializedataTransferStatus")
-public inline fun dataTransferStatus(block: com.buccancs.control.DataTransferStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferStatus =
-    com.buccancs.control.DataTransferStatusKt.Dsl._create(com.buccancs.control.DataTransferStatus.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializedataTransferStatus"
+)
+public inline fun dataTransferStatus(
+    block: com.buccancs.control.DataTransferStatusKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DataTransferStatus =
+    com.buccancs.control.DataTransferStatusKt.Dsl._create(
+        com.buccancs.control.DataTransferStatus.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.DataTransferStatus`
  */
 public object DataTransferStatusKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.DataTransferStatus.Builder
@@ -23,13 +34,16 @@ public object DataTransferStatusKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DataTransferStatus.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.DataTransferStatus.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.DataTransferStatus = _builder.build()
+        internal fun _build(): com.buccancs.control.DataTransferStatus =
+            _builder.build()
 
         /**
          * `string file_name = 1;`
@@ -37,7 +51,9 @@ public object DataTransferStatusKt {
         public var fileName: kotlin.String
             get() = _builder.getFileName()
             set(value) {
-                _builder.setFileName(value)
+                _builder.setFileName(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object DataTransferStatusKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object DataTransferStatusKt {
         public var success: kotlin.Boolean
             get() = _builder.getSuccess()
             set(value) {
-                _builder.setSuccess(value)
+                _builder.setSuccess(
+                    value
+                )
             }
 
         /**
@@ -85,7 +105,9 @@ public object DataTransferStatusKt {
         public var errorMessage: kotlin.String
             get() = _builder.getErrorMessage()
             set(value) {
-                _builder.setErrorMessage(value)
+                _builder.setErrorMessage(
+                    value
+                )
             }
 
         /**
@@ -101,7 +123,9 @@ public object DataTransferStatusKt {
         public var streamType: kotlin.String
             get() = _builder.getStreamType()
             set(value) {
-                _builder.setStreamType(value)
+                _builder.setStreamType(
+                    value
+                )
             }
 
         /**
@@ -114,7 +138,12 @@ public object DataTransferStatusKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.DataTransferStatus.copy(block: `com.buccancs.control`.DataTransferStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferStatus =
-    `com.buccancs.control`.DataTransferStatusKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.DataTransferStatus.copy(
+    block: `com.buccancs.control`.DataTransferStatusKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DataTransferStatus =
+    `com.buccancs.control`.DataTransferStatusKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

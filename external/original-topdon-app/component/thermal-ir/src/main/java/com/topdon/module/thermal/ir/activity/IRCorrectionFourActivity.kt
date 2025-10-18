@@ -16,95 +16,180 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 
-@Route(path = RouterConfig.IR_CORRECTION_FOUR)
-class IRCorrectionFourActivity : BaseActivity() {
-    val time = 60
-    override fun initContentView(): Int = R.layout.activity_ir_correction_four
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+@Route(
+    path = RouterConfig.IR_CORRECTION_FOUR
+)
+class IRCorrectionFourActivity :
+    BaseActivity() {
+    val time =
+        60
+
+    override fun initContentView(): Int =
+        R.layout.activity_ir_correction_four
+
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
         title_view.setLeftClickListener {
-            TipDialog.Builder(this)
-                .setTitleMessage(getString(R.string.app_tip))
-                .setMessage(R.string.tips_cancel_correction)
-                .setPositiveListener(R.string.app_yes) {
-                    EventBus.getDefault().post(CorrectionFinishEvent())
+            TipDialog.Builder(
+                this
+            )
+                .setTitleMessage(
+                    getString(
+                        R.string.app_tip
+                    )
+                )
+                .setMessage(
+                    R.string.tips_cancel_correction
+                )
+                .setPositiveListener(
+                    R.string.app_yes
+                ) {
+                    EventBus.getDefault()
+                        .post(
+                            CorrectionFinishEvent()
+                        )
                     finish()
-                }.setCancelListener(R.string.app_no) {
                 }
-                .create().show()
+                .setCancelListener(
+                    R.string.app_no
+                ) {
+                }
+                .create()
+                .show()
         }
 
-        val irFragment = if (savedInstanceState == null) {
-            IRCorrectionFragment()
-        } else {
-            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as IRCorrectionFragment
-        }
+        val irFragment =
+            if (savedInstanceState == null) {
+                IRCorrectionFragment()
+            } else {
+                supportFragmentManager.findFragmentById(
+                    R.id.fragment_container_view
+                ) as IRCorrectionFragment
+            }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.fragment_container_view, irFragment)
+                .setReorderingAllowed(
+                    true
+                )
+                .add(
+                    R.id.fragment_container_view,
+                    irFragment
+                )
                 .commit()
         }
 
-        time_down_view.postDelayed({
-            if (time_down_view.downTimeWatcher == null) {
-                time_down_view.setOnTimeDownListener(object : TimeDownView.DownTimeWatcher {
-                    override fun onTime(num: Int) {
-                        if (num == 50) {
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                irFragment.autoStart()
-                            }
-                        }
-                    }
-
-                    override fun onLastTime(num: Int) {
-                    }
-
-                    override fun onLastTimeFinish(num: Int) {
-                        try {
-                            if (!this@IRCorrectionFourActivity.isFinishing) {
-                                TipDialog.Builder(this@IRCorrectionFourActivity)
-                                    .setMessage(R.string.correction_complete)
-                                    .setPositiveListener(R.string.app_confirm) {
-                                        EventBus.getDefault().post(CorrectionFinishEvent())
-                                        finish()
+        time_down_view.postDelayed(
+            {
+                if (time_down_view.downTimeWatcher == null) {
+                    time_down_view.setOnTimeDownListener(
+                        object :
+                            TimeDownView.DownTimeWatcher {
+                            override fun onTime(
+                                num: Int
+                            ) {
+                                if (num == 50) {
+                                    lifecycleScope.launch(
+                                        Dispatchers.IO
+                                    ) {
+                                        irFragment.autoStart()
                                     }
-                                    .create().show()
+                                }
                             }
-                        } catch (e: Exception) {
-                        }
-                    }
-                })
-            }
-            time_down_view.downSecond(time, false)
-        }, 2000)
+
+                            override fun onLastTime(
+                                num: Int
+                            ) {
+                            }
+
+                            override fun onLastTimeFinish(
+                                num: Int
+                            ) {
+                                try {
+                                    if (!this@IRCorrectionFourActivity.isFinishing) {
+                                        TipDialog.Builder(
+                                            this@IRCorrectionFourActivity
+                                        )
+                                            .setMessage(
+                                                R.string.correction_complete
+                                            )
+                                            .setPositiveListener(
+                                                R.string.app_confirm
+                                            ) {
+                                                EventBus.getDefault()
+                                                    .post(
+                                                        CorrectionFinishEvent()
+                                                    )
+                                                finish()
+                                            }
+                                            .create()
+                                            .show()
+                                    }
+                                } catch (e: Exception) {
+                                }
+                            }
+                        })
+                }
+                time_down_view.downSecond(
+                    time,
+                    false
+                )
+            },
+            2000
+        )
     }
 
     override fun initView() {
     }
 
     override fun onBackPressed() {
-        TipDialog.Builder(this)
-            .setTitleMessage(getString(R.string.app_tip))
-            .setMessage(R.string.tips_cancel_correction)
-            .setPositiveListener(R.string.app_yes) {
-                EventBus.getDefault().post(CorrectionFinishEvent())
+        TipDialog.Builder(
+            this
+        )
+            .setTitleMessage(
+                getString(
+                    R.string.app_tip
+                )
+            )
+            .setMessage(
+                R.string.tips_cancel_correction
+            )
+            .setPositiveListener(
+                R.string.app_yes
+            ) {
+                EventBus.getDefault()
+                    .post(
+                        CorrectionFinishEvent()
+                    )
                 super.onBackPressed()
-            }.setCancelListener(R.string.app_no) {
             }
-            .create().show()
+            .setCancelListener(
+                R.string.app_no
+            ) {
+            }
+            .create()
+            .show()
     }
 
     override fun disConnected() {
         super.disConnected()
         time_down_view.cancel()
-        EventBus.getDefault().post(CorrectionFinishEvent())
+        EventBus.getDefault()
+            .post(
+                CorrectionFinishEvent()
+            )
         finish()
     }
 
     override fun onStop() {
         super.onStop()
-        EventBus.getDefault().post(CorrectionFinishEvent())
+        EventBus.getDefault()
+            .post(
+                CorrectionFinishEvent()
+            )
         finish()
     }
 

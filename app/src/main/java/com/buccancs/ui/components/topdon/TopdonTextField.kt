@@ -46,15 +46,29 @@ fun TopdonTextField(
     singleLine: Boolean = true,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         TextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             readOnly = readOnly,
-            label = label?.let { { Text(it) } },
-            placeholder = placeholder?.let { { Text(it) } },
+            label = label?.let {
+                {
+                    Text(
+                        it
+                    )
+                }
+            },
+            placeholder = placeholder?.let {
+                {
+                    Text(
+                        it
+                    )
+                }
+            },
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             isError = isError,
@@ -62,7 +76,9 @@ fun TopdonTextField(
             keyboardActions = keyboardActions,
             singleLine = singleLine,
             maxLines = maxLines,
-            shape = RoundedCornerShape(CornerRadius.Small),
+            shape = RoundedCornerShape(
+                CornerRadius.Small
+            ),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -85,7 +101,10 @@ fun TopdonTextField(
                 text = errorMessage,
                 color = TopdonColors.SelectRed,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = Spacing.Large, top = Spacing.ExtraSmall)
+                modifier = Modifier.padding(
+                    start = Spacing.Large,
+                    top = Spacing.ExtraSmall
+                )
             )
         }
     }
@@ -112,15 +131,29 @@ fun TopdonOutlinedTextField(
     singleLine: Boolean = true,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             readOnly = readOnly,
-            label = label?.let { { Text(it) } },
-            placeholder = placeholder?.let { { Text(it) } },
+            label = label?.let {
+                {
+                    Text(
+                        it
+                    )
+                }
+            },
+            placeholder = placeholder?.let {
+                {
+                    Text(
+                        it
+                    )
+                }
+            },
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             isError = isError,
@@ -128,7 +161,9 @@ fun TopdonOutlinedTextField(
             keyboardActions = keyboardActions,
             singleLine = singleLine,
             maxLines = maxLines,
-            shape = RoundedCornerShape(CornerRadius.Small),
+            shape = RoundedCornerShape(
+                CornerRadius.Small
+            ),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
@@ -148,21 +183,38 @@ fun TopdonOutlinedTextField(
                 text = errorMessage,
                 color = TopdonColors.SelectRed,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = Spacing.Large, top = Spacing.ExtraSmall)
+                modifier = Modifier.padding(
+                    start = Spacing.Large,
+                    top = Spacing.ExtraSmall
+                )
             )
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonTextFieldPreview() {
     TopdonTheme {
-        var text by remember { mutableStateOf("") }
-        Column(modifier = Modifier.padding(Spacing.Large)) {
+        var text by remember {
+            mutableStateOf(
+                ""
+            )
+        }
+        Column(
+            modifier = Modifier.padding(
+                Spacing.Large
+            )
+        ) {
             TopdonTextField(
                 value = text,
-                onValueChange = { text = it },
+                onValueChange = {
+                    text =
+                        it
+                },
                 label = "Device Name",
                 placeholder = "Enter device name"
             )
@@ -170,28 +222,51 @@ private fun TopdonTextFieldPreview() {
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonOutlinedTextFieldPreview() {
     TopdonTheme {
-        var text by remember { mutableStateOf("") }
-        Column(modifier = Modifier.padding(Spacing.Large)) {
+        var text by remember {
+            mutableStateOf(
+                ""
+            )
+        }
+        Column(
+            modifier = Modifier.padding(
+                Spacing.Large
+            )
+        ) {
             TopdonOutlinedTextField(
                 value = text,
-                onValueChange = { text = it },
+                onValueChange = {
+                    text =
+                        it
+                },
                 label = "Temperature",
                 placeholder = "25.0",
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal
+                )
             )
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonTextFieldErrorPreview() {
     TopdonTheme {
-        Column(modifier = Modifier.padding(Spacing.Large)) {
+        Column(
+            modifier = Modifier.padding(
+                Spacing.Large
+            )
+        ) {
             TopdonOutlinedTextField(
                 value = "Invalid",
                 onValueChange = {},

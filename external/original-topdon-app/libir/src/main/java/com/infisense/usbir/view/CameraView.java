@@ -62,7 +62,8 @@ public class CameraView extends TextureView {
                         if (syncimage.valid == false) {
                             try {
                                 syncimage.viewLock.wait();
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 cameraThread.interrupt();
                                 Log.e(TAG, "lock.wait(): catch an interrupted exception");
                             }
@@ -152,7 +153,8 @@ public class CameraView extends TextureView {
                     getWidth() / 2f + cross_len, getHeight() / 2f, paint);
             canvas.drawLine(getWidth() / 2f, getHeight() / 2f - cross_len,
                     getWidth() / 2f, getHeight() / 2f + cross_len, paint);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Log.e(TAG, "点异常:" + e.getMessage());
         }
     }
@@ -163,7 +165,8 @@ public class CameraView extends TextureView {
                 cameraThread.interrupt();
                 cameraThread.join();
             }
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }

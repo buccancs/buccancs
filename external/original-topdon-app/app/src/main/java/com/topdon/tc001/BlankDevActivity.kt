@@ -9,20 +9,45 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.module.thermal.ir.activity.IRMainActivity
 import com.topdon.tc001.app.App
 
-class BlankDevActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class BlankDevActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
 
         if (SharedManager.getHasShowClause()) {
-            if (!App.instance.activityNameList.contains(IRMainActivity::class.simpleName)) {
-                ARouter.getInstance().build(RouterConfig.MAIN).navigation(this)
+            if (!App.instance.activityNameList.contains(
+                    IRMainActivity::class.simpleName
+                )
+            ) {
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.MAIN
+                    )
+                    .navigation(
+                        this
+                    )
                 if (!SharedManager.isConnectAutoOpen) {
-                    ARouter.getInstance().build(RouterConfig.IR_MAIN).navigation(this)
+                    ARouter.getInstance()
+                        .build(
+                            RouterConfig.IR_MAIN
+                        )
+                        .navigation(
+                            this
+                        )
                 }
             }
             finish()
         } else {
-            startActivity(Intent(this, SplashActivity::class.java))
+            startActivity(
+                Intent(
+                    this,
+                    SplashActivity::class.java
+                )
+            )
             finish()
         }
     }

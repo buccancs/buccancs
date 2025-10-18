@@ -25,7 +25,8 @@ public class ActivityUtil {
             Uri uri = Uri.parse(url);
             intent.setData(uri);
             mContext.startActivity(intent);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
     }

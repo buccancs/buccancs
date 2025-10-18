@@ -4,8 +4,16 @@ import java.io.File
 
 internal object SimulatedTestSupport {
     fun artifactFactory(): SimulatedArtifactFactory {
-        val root = File(System.getProperty("java.io.tmpdir"), "buccancs-sim-artifacts")
+        val root =
+            File(
+                System.getProperty(
+                    "java.io.tmpdir"
+                ),
+                "buccancs-sim-artifacts"
+            )
         root.mkdirs()
-        return SimulatedArtifactFactory.fromRoot(root)
+        return SimulatedArtifactFactory.fromRoot(
+            root
+        )
     }
 }

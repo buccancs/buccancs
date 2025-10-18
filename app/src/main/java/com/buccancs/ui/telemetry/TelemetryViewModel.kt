@@ -44,67 +44,103 @@ class TelemetryViewModel @Inject constructor(
     private val streamUiMapper: StreamUiMapper
 ) : ViewModel() {
 
-    private val showSyncFlash = MutableStateFlow(false)
-    private var syncFlashJob: Job? = null
-
-    val uiState: StateFlow<TelemetryUiState> = combine(
-        sensorRepository.streamStatuses,
-        timeSyncService.status,
-        deviceEventRepository.events,
-        commandService.lastCommand,
-        showSyncFlash
-    ) { streams, syncStatus, events, lastCommand, flash ->
-        TelemetryUiState(
-            streamStatuses = streams.map { streamUiMapper.toUiModel(it) },
-            timeSyncStatus = syncStatus,
-            orchestratorConnectionStatus = deriveConnectionLabel(syncStatus),
-            deviceEvents = events
-                .sortedByDescending { it.receivedAt }
-                .take(EVENT_LOG_LIMIT)
-                .map { it.toUiModel() },
-            lastCommandMessage = lastCommand?.let { describeCommand(it) },
-            showSyncFlash = flash
+    private val showSyncFlash =
+        MutableStateFlow(
+            false
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = TelemetryUiState.initial()
-    )
+    private var syncFlashJob: Job? =
+        null
+
+    val uiState: StateFlow<TelemetryUiState> =
+        combine(
+            sensorRepository.streamStatuses,
+            timeSyncService.status,
+            deviceEventRepository.events,
+            commandService.lastCommand,
+            showSyncFlash
+        ) { streams, syncStatus, events, lastCommand, flash ->
+            TelemetryUiState(
+                streamStatuses = streams.map {
+                    streamUiMapper.toUiModel(
+                        it
+                    )
+                },
+                timeSyncStatus = syncStatus,
+                orchestratorConnectionStatus = deriveConnectionLabel(
+                    syncStatus
+                ),
+                deviceEvents = events
+                    .sortedByDescending { it.receivedAt }
+                    .take(
+                        EVENT_LOG_LIMIT
+                    )
+                    .map { it.toUiModel() },
+                lastCommandMessage = lastCommand?.let {
+                    describeCommand(
+                        it
+                    )
+                },
+                showSyncFlash = flash
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                5_000
+            ),
+            initialValue = TelemetryUiState.initial()
+        )
 
     init {
         // Monitor sync signals for flash effect
         viewModelScope.launch {
             commandService.syncSignals.collect {
                 syncFlashJob?.cancel()
-                showSyncFlash.value = true
-                syncFlashJob = viewModelScope.launch {
-                    delay(SYNC_FLASH_DURATION_MS)
-                    showSyncFlash.value = false
-                }
+                showSyncFlash.value =
+                    true
+                syncFlashJob =
+                    viewModelScope.launch {
+                        delay(
+                            SYNC_FLASH_DURATION_MS
+                        )
+                        showSyncFlash.value =
+                            false
+                    }
             }
         }
     }
 
-    private fun deriveConnectionLabel(status: TimeSyncStatus): String {
+    private fun deriveConnectionLabel(
+        status: TimeSyncStatus
+    ): String {
         val ageSeconds =
             ((nowInstant().toEpochMilliseconds() - status.lastSync.toEpochMilliseconds()) / 1000)
-                .coerceAtLeast(0)
-        val freshness = when {
-            ageSeconds <= 5 -> "fresh"
-            ageSeconds <= 20 -> "stale ${ageSeconds}s"
-            else -> "offline ${ageSeconds}s"
-        }
-        val quality = when (status.quality) {
-            TimeSyncQuality.GOOD -> "good"
-            TimeSyncQuality.FAIR -> "fair"
-            TimeSyncQuality.POOR -> "poor"
-            TimeSyncQuality.UNKNOWN -> "unknown"
-        }
+                .coerceAtLeast(
+                    0
+                )
+        val freshness =
+            when {
+                ageSeconds <= 5 -> "fresh"
+                ageSeconds <= 20 -> "stale ${ageSeconds}s"
+                else -> "offline ${ageSeconds}s"
+            }
+        val quality =
+            when (status.quality) {
+                TimeSyncQuality.GOOD -> "good"
+                TimeSyncQuality.FAIR -> "fair"
+                TimeSyncQuality.POOR -> "poor"
+                TimeSyncQuality.UNKNOWN -> "unknown"
+            }
         return "Sync $quality - $freshness"
     }
 
-    private fun describeCommand(payload: DeviceCommandPayload): String {
-        val whenText = Instant.fromEpochMilliseconds(payload.executeEpochMs).toString()
+    private fun describeCommand(
+        payload: DeviceCommandPayload
+    ): String {
+        val whenText =
+            Instant.fromEpochMilliseconds(
+                payload.executeEpochMs
+            )
+                .toString()
         return when (payload) {
             is SyncSignalCommandPayload -> "Sync ${payload.signalType} @ $whenText"
             is EventMarkerCommandPayload -> "Event ${payload.markerId} @ $whenText"
@@ -114,17 +150,20 @@ class TelemetryViewModel @Inject constructor(
         }
     }
 
-    private fun DeviceEvent.toUiModel(): DeviceEventUiModel = DeviceEventUiModel(
-        id = id,
-        label = label,
-        type = type.name,
-        scheduledAt = scheduledAt.toString(),
-        receivedAt = receivedAt.toString()
-    )
+    private fun DeviceEvent.toUiModel(): DeviceEventUiModel =
+        DeviceEventUiModel(
+            id = id,
+            label = label,
+            type = type.name,
+            scheduledAt = scheduledAt.toString(),
+            receivedAt = receivedAt.toString()
+        )
 
     private companion object {
-        private const val SYNC_FLASH_DURATION_MS = 400L
-        private const val EVENT_LOG_LIMIT = 10
+        private const val SYNC_FLASH_DURATION_MS =
+            400L
+        private const val EVENT_LOG_LIMIT =
+            10
     }
 }
 
@@ -137,23 +176,24 @@ data class TelemetryUiState(
     val showSyncFlash: Boolean
 ) {
     companion object {
-        fun initial(): TelemetryUiState = TelemetryUiState(
-            streamStatuses = emptyList(),
-            timeSyncStatus = TimeSyncStatus(
-                offsetMillis = 0,
-                roundTripMillis = Long.MAX_VALUE,
-                lastSync = nowInstant(),
-                driftEstimateMillisPerMinute = 0.0,
-                filteredRoundTripMillis = Double.POSITIVE_INFINITY,
-                quality = TimeSyncQuality.UNKNOWN,
-                sampleCount = 0,
-                regressionSlopeMillisPerMinute = 0.0
-            ),
-            orchestratorConnectionStatus = "Unknown",
-            deviceEvents = emptyList(),
-            lastCommandMessage = null,
-            showSyncFlash = false
-        )
+        fun initial(): TelemetryUiState =
+            TelemetryUiState(
+                streamStatuses = emptyList(),
+                timeSyncStatus = TimeSyncStatus(
+                    offsetMillis = 0,
+                    roundTripMillis = Long.MAX_VALUE,
+                    lastSync = nowInstant(),
+                    driftEstimateMillisPerMinute = 0.0,
+                    filteredRoundTripMillis = Double.POSITIVE_INFINITY,
+                    quality = TimeSyncQuality.UNKNOWN,
+                    sampleCount = 0,
+                    regressionSlopeMillisPerMinute = 0.0
+                ),
+                orchestratorConnectionStatus = "Unknown",
+                deviceEvents = emptyList(),
+                lastCommandMessage = null,
+                showSyncFlash = false
+            )
     }
 }
 

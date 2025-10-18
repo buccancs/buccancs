@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializeregistrationAck")
-public inline fun registrationAck(block: com.buccancs.control.RegistrationAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.RegistrationAck =
-    com.buccancs.control.RegistrationAckKt.Dsl._create(com.buccancs.control.RegistrationAck.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializeregistrationAck"
+)
+public inline fun registrationAck(
+    block: com.buccancs.control.RegistrationAckKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.RegistrationAck =
+    com.buccancs.control.RegistrationAckKt.Dsl._create(
+        com.buccancs.control.RegistrationAck.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.RegistrationAck`
  */
 public object RegistrationAckKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.RegistrationAck.Builder
@@ -23,13 +34,16 @@ public object RegistrationAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.RegistrationAck.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.RegistrationAck.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.RegistrationAck = _builder.build()
+        internal fun _build(): com.buccancs.control.RegistrationAck =
+            _builder.build()
 
         /**
          * `bool accepted = 1;`
@@ -37,7 +51,9 @@ public object RegistrationAckKt {
         public var accepted: kotlin.Boolean
             get() = _builder.getAccepted()
             set(value) {
-                _builder.setAccepted(value)
+                _builder.setAccepted(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object RegistrationAckKt {
         public var sessionId: kotlin.String
             get() = _builder.getSessionId()
             set(value) {
-                _builder.setSessionId(value)
+                _builder.setSessionId(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object RegistrationAckKt {
         public var reason: kotlin.String
             get() = _builder.getReason()
             set(value) {
-                _builder.setReason(value)
+                _builder.setReason(
+                    value
+                )
             }
 
         /**
@@ -82,7 +102,12 @@ public object RegistrationAckKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.RegistrationAck.copy(block: `com.buccancs.control`.RegistrationAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.RegistrationAck =
-    `com.buccancs.control`.RegistrationAckKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.RegistrationAck.copy(
+    block: `com.buccancs.control`.RegistrationAckKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.RegistrationAck =
+    `com.buccancs.control`.RegistrationAckKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

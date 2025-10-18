@@ -49,7 +49,9 @@ interface TopdonThermalClient {
     /**
      * Apply runtime settings such as palette, emissivity, and gain.
      */
-    suspend fun applySettings(settings: TopdonHardwareSettings)
+    suspend fun applySettings(
+        settings: TopdonHardwareSettings
+    )
 
     /**
      * Start emitting preview frames without persisting them.
@@ -64,7 +66,9 @@ interface TopdonThermalClient {
     /**
      * Begin streaming thermal frames to persistent storage.
      */
-    suspend fun startStreaming(request: TopdonStreamRequest)
+    suspend fun startStreaming(
+        request: TopdonStreamRequest
+    )
 
     /**
      * Stop streaming and finalize artifacts.
@@ -73,7 +77,9 @@ interface TopdonThermalClient {
 }
 
 sealed interface TopdonStatus {
-    data object Idle : TopdonStatus
+    data object Idle :
+        TopdonStatus
+
     data class Attached(
         val vendorId: Int,
         val productId: Int,
@@ -95,7 +101,10 @@ sealed interface TopdonStatus {
         val sinceEpochMs: Long,
     ) : TopdonStatus
 
-    data class Error(val message: String, val recoverable: Boolean) : TopdonStatus
+    data class Error(
+        val message: String,
+        val recoverable: Boolean
+    ) : TopdonStatus
 }
 
 data class TopdonPreviewFrame(
@@ -147,7 +156,12 @@ data class TopdonTemperatureMetrics(
     val avgCelsius: Double,
 ) {
     companion object {
-        val Unknown = TopdonTemperatureMetrics(Double.NaN, Double.NaN, Double.NaN)
+        val Unknown =
+            TopdonTemperatureMetrics(
+                Double.NaN,
+                Double.NaN,
+                Double.NaN
+            )
     }
 }
 

@@ -394,7 +394,8 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
                 mMarker.refreshContent(e, highlight);
 
                 mMarker.draw(canvas, pos[0], pos[1]);
-            } catch (Exception exception) {
+            } catch (
+                    Exception exception) {
                 Log.e("测试", exception.getMessage());
             }
         }
@@ -752,7 +753,8 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             b.compress(CompressFormat.PNG, 40, stream);
 
             stream.close();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -806,7 +808,8 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             out.flush();
             out.close();
 
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
 
             return false;

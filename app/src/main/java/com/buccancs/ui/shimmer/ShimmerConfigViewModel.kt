@@ -20,44 +20,87 @@ class ShimmerConfigViewModel @Inject constructor(
     private val hardwareConfiguration: HardwareConfigurationUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ShimmerConfigUiState.initial())
-    val uiState: StateFlow<ShimmerConfigUiState> = _uiState.asStateFlow()
+    private val _uiState =
+        MutableStateFlow(
+            ShimmerConfigUiState.initial()
+        )
+    val uiState: StateFlow<ShimmerConfigUiState> =
+        _uiState.asStateFlow()
 
-    fun selectShimmerDevice(id: DeviceId, mac: String?) {
+    fun selectShimmerDevice(
+        id: DeviceId,
+        mac: String?
+    ) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
-            val result = hardwareConfiguration.configureShimmerMacAddress(id, mac)
-            _uiState.value = _uiState.value.copy(
-                isLoading = false,
-                errorMessage = result.exceptionOrNull()?.message
-            )
+            _uiState.value =
+                _uiState.value.copy(
+                    isLoading = true,
+                    errorMessage = null
+                )
+            val result =
+                hardwareConfiguration.configureShimmerMacAddress(
+                    id,
+                    mac
+                )
+            _uiState.value =
+                _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = result.exceptionOrNull()?.message
+                )
         }
     }
 
-    fun updateShimmerRange(id: DeviceId, rangeIndex: Int) {
+    fun updateShimmerRange(
+        id: DeviceId,
+        rangeIndex: Int
+    ) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
-            val result = hardwareConfiguration.configureShimmerGsrRange(id, rangeIndex)
-            _uiState.value = _uiState.value.copy(
-                isLoading = false,
-                errorMessage = result.exceptionOrNull()?.message
-            )
+            _uiState.value =
+                _uiState.value.copy(
+                    isLoading = true,
+                    errorMessage = null
+                )
+            val result =
+                hardwareConfiguration.configureShimmerGsrRange(
+                    id,
+                    rangeIndex
+                )
+            _uiState.value =
+                _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = result.exceptionOrNull()?.message
+                )
         }
     }
 
-    fun updateShimmerSampleRate(id: DeviceId, sampleRate: Double) {
+    fun updateShimmerSampleRate(
+        id: DeviceId,
+        sampleRate: Double
+    ) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
-            val result = hardwareConfiguration.configureShimmerSampleRate(id, sampleRate)
-            _uiState.value = _uiState.value.copy(
-                isLoading = false,
-                errorMessage = result.exceptionOrNull()?.message
-            )
+            _uiState.value =
+                _uiState.value.copy(
+                    isLoading = true,
+                    errorMessage = null
+                )
+            val result =
+                hardwareConfiguration.configureShimmerSampleRate(
+                    id,
+                    sampleRate
+                )
+            _uiState.value =
+                _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = result.exceptionOrNull()?.message
+                )
         }
     }
 
     fun clearError() {
-        _uiState.value = _uiState.value.copy(errorMessage = null)
+        _uiState.value =
+            _uiState.value.copy(
+                errorMessage = null
+            )
     }
 }
 
@@ -66,9 +109,10 @@ data class ShimmerConfigUiState(
     val errorMessage: String?
 ) {
     companion object {
-        fun initial(): ShimmerConfigUiState = ShimmerConfigUiState(
-            isLoading = false,
-            errorMessage = null
-        )
+        fun initial(): ShimmerConfigUiState =
+            ShimmerConfigUiState(
+                isLoading = false,
+                errorMessage = null
+            )
     }
 }

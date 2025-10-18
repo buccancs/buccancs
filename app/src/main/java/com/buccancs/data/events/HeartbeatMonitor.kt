@@ -17,43 +17,61 @@ import kotlin.time.Instant
 class HeartbeatMonitor @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope
 ) {
-    private val lastBeatEpochMs = AtomicLong(0L)
-    private val _status = MutableStateFlow(
-        HeartbeatStatus(
-            state = HeartbeatState.WARN,
-            lastBeat = null,
-            ageMillis = Long.MAX_VALUE
+    private val lastBeatEpochMs =
+        AtomicLong(
+            0L
         )
-    )
-    val status: StateFlow<HeartbeatStatus> = _status.asStateFlow()
+    private val _status =
+        MutableStateFlow(
+            HeartbeatStatus(
+                state = HeartbeatState.WARN,
+                lastBeat = null,
+                ageMillis = Long.MAX_VALUE
+            )
+        )
+    val status: StateFlow<HeartbeatStatus> =
+        _status.asStateFlow()
 
     init {
         scope.launch {
             while (true) {
                 updateStatus()
-                delay(CHECK_INTERVAL_MS)
+                delay(
+                    CHECK_INTERVAL_MS
+                )
             }
         }
     }
 
-    fun record(timestamp: Instant = nowInstant()) {
-        lastBeatEpochMs.set(timestamp.toEpochMilliseconds())
+    fun record(
+        timestamp: Instant = nowInstant()
+    ) {
+        lastBeatEpochMs.set(
+            timestamp.toEpochMilliseconds()
+        )
     }
 
     private fun updateStatus() {
-        val nowMs = nowInstant().toEpochMilliseconds()
-        val beatMs = lastBeatEpochMs.get()
-        val age = if (beatMs == 0L) Long.MAX_VALUE else nowMs - beatMs
-        val state = if (age <= WARN_THRESHOLD_MS) {
-            HeartbeatState.SAFE
-        } else {
-            HeartbeatState.WARN
-        }
-        _status.value = HeartbeatStatus(
-            state = state,
-            lastBeat = if (beatMs == 0L) null else Instant.fromEpochMilliseconds(beatMs),
-            ageMillis = age
-        )
+        val nowMs =
+            nowInstant().toEpochMilliseconds()
+        val beatMs =
+            lastBeatEpochMs.get()
+        val age =
+            if (beatMs == 0L) Long.MAX_VALUE else nowMs - beatMs
+        val state =
+            if (age <= WARN_THRESHOLD_MS) {
+                HeartbeatState.SAFE
+            } else {
+                HeartbeatState.WARN
+            }
+        _status.value =
+            HeartbeatStatus(
+                state = state,
+                lastBeat = if (beatMs == 0L) null else Instant.fromEpochMilliseconds(
+                    beatMs
+                ),
+                ageMillis = age
+            )
         if (age >= AUTO_STOP_THRESHOLD_MS) {
             onAutoStop()
         }
@@ -75,9 +93,12 @@ class HeartbeatMonitor @Inject constructor(
     }
 
     companion object {
-        private const val CHECK_INTERVAL_MS = 1_000L
-        private const val WARN_THRESHOLD_MS = 5_000L
-        private const val AUTO_STOP_THRESHOLD_MS = 12_000L
+        private const val CHECK_INTERVAL_MS =
+            1_000L
+        private const val WARN_THRESHOLD_MS =
+            5_000L
+        private const val AUTO_STOP_THRESHOLD_MS =
+            12_000L
     }
 }
 

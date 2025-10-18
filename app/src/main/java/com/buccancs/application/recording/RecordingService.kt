@@ -6,7 +6,11 @@ import com.buccancs.domain.model.SessionArtifact
 import kotlin.time.Instant
 
 interface RecordingService {
-    suspend fun startOrResume(sessionId: String, requestedStart: Instant? = null): RecordingState
+    suspend fun startOrResume(
+        sessionId: String,
+        requestedStart: Instant? = null
+    ): RecordingState
+
     suspend fun stop(): RecordingState
     suspend fun stopWithSummary(): RecordingStopSummary
 }

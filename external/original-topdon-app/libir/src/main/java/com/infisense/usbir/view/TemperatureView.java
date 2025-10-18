@@ -137,7 +137,8 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TemperatureView);
         try {
             drawCount = ta.getInteger(R.styleable.TemperatureView_temperature_count, 3);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
         } finally {
             ta.recycle();
         }
@@ -170,7 +171,8 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                             tempArray = llTempData;
                             irtemp.setTempData(llTempData);
                         }
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         Log.d(TAG, "remapTempData != NULL" + e.getMessage());
                         continue;
                     }
@@ -178,9 +180,11 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                     try {
                         synchronized (syncimage.dataLock) {
                             irtemp.setTempData(temperature);
-                            if (syncimage.type == 1) irtemp.setScale(16);
+                            if (syncimage.type == 1)
+                                irtemp.setScale(16);
                         }
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         Log.d(TAG, "syncimage != NULL" + e.getMessage());
                     }
                     tempArray = temperature;
@@ -327,11 +331,13 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                             surfaceViewCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                             surfaceViewCanvas.drawBitmap(regionAndValueBitmap, new Rect(0, 0, viewWidth, viewHeight), new Rect(0, 0, viewWidth, viewHeight), null);
                             getHolder().unlockCanvasAndPost(surfaceViewCanvas);
-                        } catch (Exception e) {
+                        } catch (
+                                Exception e) {
                             Log.e(TAG, "temperatureThread:" + e.getMessage());
                         }
                     }
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     Log.e(TAG, "temperatureError:" + e.getMessage());
                 }
                 SystemClock.sleep(1000);
@@ -561,7 +567,8 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                 temperatureThread.join();
                 temperatureThread = null;
             }
-        } catch (InterruptedException ignored) {
+        } catch (
+                InterruptedException ignored) {
 
         }
     }

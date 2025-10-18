@@ -11,9 +11,16 @@ interface DeviceCommandService {
     val commands: SharedFlow<DeviceCommandPayload>
     val syncSignals: SharedFlow<SyncSignalCommandPayload>
 
-    suspend fun acknowledge(commandId: String, success: Boolean, message: String?)
+    suspend fun acknowledge(
+        commandId: String,
+        success: Boolean,
+        message: String?
+    )
 
-    fun issueLocalToken(sessionId: String, ttlMillis: Long = DEFAULT_TOKEN_TTL_MS): ControlToken
+    fun issueLocalToken(
+        sessionId: String,
+        ttlMillis: Long = DEFAULT_TOKEN_TTL_MS
+    ): ControlToken
 
     data class ControlToken(
         val value: String,
@@ -21,6 +28,7 @@ interface DeviceCommandService {
     )
 
     companion object {
-        const val DEFAULT_TOKEN_TTL_MS: Long = 60_000L
+        const val DEFAULT_TOKEN_TTL_MS: Long =
+            60_000L
     }
 }

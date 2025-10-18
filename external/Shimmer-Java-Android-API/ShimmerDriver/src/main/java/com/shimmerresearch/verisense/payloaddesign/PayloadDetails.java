@@ -31,7 +31,8 @@ public class PayloadDetails {
         byte[] payloadHeader = new byte[BYTE_COUNT.PAYLOAD_INDEX + BYTE_COUNT.PAYLOAD_LENGTH + BYTE_COUNT.PAYLOAD_CONFIG_CORE];
         try {
             readBytesFromStream(inputStream, payloadHeader);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             if (!isZipFile || byteIndex == 0) {
                 throw (e);
             } else {

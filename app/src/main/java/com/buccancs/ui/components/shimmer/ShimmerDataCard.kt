@@ -33,7 +33,14 @@ fun ShimmerDataCard(
         )
 
         if (timestamp != null) {
-            DataRow(label = "Timestamp", value = String.format(Locale.US, "%.2f ms", timestamp))
+            DataRow(
+                label = "Timestamp",
+                value = String.format(
+                    Locale.US,
+                    "%.2f ms",
+                    timestamp
+                )
+            )
         }
 
         if (accelX != null || accelY != null || accelZ != null) {
@@ -44,13 +51,34 @@ fun ShimmerDataCard(
             )
 
             if (accelX != null) {
-                DataRow(label = "X-Axis", value = String.format(Locale.US, "%.3f", accelX))
+                DataRow(
+                    label = "X-Axis",
+                    value = String.format(
+                        Locale.US,
+                        "%.3f",
+                        accelX
+                    )
+                )
             }
             if (accelY != null) {
-                DataRow(label = "Y-Axis", value = String.format(Locale.US, "%.3f", accelY))
+                DataRow(
+                    label = "Y-Axis",
+                    value = String.format(
+                        Locale.US,
+                        "%.3f",
+                        accelY
+                    )
+                )
             }
             if (accelZ != null) {
-                DataRow(label = "Z-Axis", value = String.format(Locale.US, "%.3f", accelZ))
+                DataRow(
+                    label = "Z-Axis",
+                    value = String.format(
+                        Locale.US,
+                        "%.3f",
+                        accelZ
+                    )
+                )
             }
         }
 
@@ -60,7 +88,14 @@ fun ShimmerDataCard(
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            DataRow(label = "GSR", value = String.format(Locale.US, "%.2f kOhm", gsrData))
+            DataRow(
+                label = "GSR",
+                value = String.format(
+                    Locale.US,
+                    "%.2f kOhm",
+                    gsrData
+                )
+            )
         }
 
         if (timestamp == null && accelX == null && accelY == null && accelZ == null && gsrData == null) {
@@ -74,7 +109,10 @@ fun ShimmerDataCard(
 }
 
 @Composable
-private fun DataRow(label: String, value: String) {
+private fun DataRow(
+    label: String,
+    value: String
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -92,13 +130,17 @@ private fun DataRow(label: String, value: String) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true
+)
 @Composable
 private fun ShimmerDataCardPreview() {
     MaterialTheme {
         Column(
             modifier = Modifier,
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             ShimmerDataCard(
                 timestamp = null,

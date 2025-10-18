@@ -41,7 +41,8 @@ public class ShimmerGRPCExample {
         try {
             mPort = grpcTool.startServer();
 
-        } catch (Exception e2) {
+        } catch (
+                Exception e2) {
             e2.printStackTrace();
         }
         JFrame frame = new JFrame();
@@ -66,7 +67,8 @@ public class ShimmerGRPCExample {
             public void actionPerformed(ActionEvent e) {
                 try {
                     shimmer.disconnect();
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -79,7 +81,8 @@ public class ShimmerGRPCExample {
             public void actionPerformed(ActionEvent e) {
                 try {
                     shimmer.startStreaming();
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -153,7 +156,8 @@ public class ShimmerGRPCExample {
 
                 try {
                     plotManager.filterDataAndPlot(objc);
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             } else if (ind == ShimmerPC.MSG_IDENTIFIER_PACKET_RECEPTION_RATE_OVERALL) {

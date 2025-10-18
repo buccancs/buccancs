@@ -536,7 +536,8 @@ public class LSL {
 
         public StreamOutlet(StreamInfo info) throws IOException {
             obj = inst.lsl_create_outlet(info.handle(), 0, 360);
-            if (obj == null) throw new IOException("Unable to open LSL outlet.");
+            if (obj == null)
+                throw new IOException("Unable to open LSL outlet.");
         }
 
 
@@ -757,22 +758,26 @@ public class LSL {
 
         public StreamInlet(StreamInfo info, int max_buflen, int max_chunklen, boolean recover) throws IOException {
             obj = inst.lsl_create_inlet(info.handle(), max_buflen, max_chunklen, recover ? 1 : 0);
-            if (obj == null) throw new IOException("Unable to open LSL inlet.");
+            if (obj == null)
+                throw new IOException("Unable to open LSL inlet.");
         }
 
         public StreamInlet(StreamInfo info, int max_buflen, int max_chunklen) throws IOException {
             obj = inst.lsl_create_inlet(info.handle(), max_buflen, max_chunklen, 1);
-            if (obj == null) throw new IOException("Unable to open LSL inlet.");
+            if (obj == null)
+                throw new IOException("Unable to open LSL inlet.");
         }
 
         public StreamInlet(StreamInfo info, int max_buflen) throws IOException {
             obj = inst.lsl_create_inlet(info.handle(), max_buflen, 0, 1);
-            if (obj == null) throw new IOException("Unable to open LSL inlet.");
+            if (obj == null)
+                throw new IOException("Unable to open LSL inlet.");
         }
 
         public StreamInlet(StreamInfo info) throws IOException {
             obj = inst.lsl_create_inlet(info.handle(), 360, 0, 1);
-            if (obj == null) throw new IOException("Unable to open LSL inlet.");
+            if (obj == null)
+                throw new IOException("Unable to open LSL inlet.");
         }
 
         public void close() {

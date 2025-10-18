@@ -17,20 +17,36 @@ class BacklogTelemetryLogger @Inject constructor(
     @StandardJson private val json: Json
 ) {
 
-    suspend fun append(state: UploadBacklogState) {
+    suspend fun append(
+        state: UploadBacklogState
+    ) {
         if (state.level == UploadBacklogLevel.NORMAL) return
-        val entries = buildEntries(state)
+        val entries =
+            buildEntries(
+                state
+            )
         if (entries.isEmpty()) return
-        withContext(Dispatchers.IO) {
+        withContext(
+            Dispatchers.IO
+        ) {
             entries.forEach { entry ->
-                val file = storage.backlogTelemetryFile(entry.sessionId)
+                val file =
+                    storage.backlogTelemetryFile(
+                        entry.sessionId
+                    )
                 file.parentFile?.mkdirs()
-                file.appendText(json.encodeToString(entry) + "\n")
+                file.appendText(
+                    json.encodeToString(
+                        entry
+                    ) + "\n"
+                )
             }
         }
     }
 
-    private fun buildEntries(state: UploadBacklogState): List<Entry> {
+    private fun buildEntries(
+        state: UploadBacklogState
+    ): List<Entry> {
         if (state.perSessionQueued.isEmpty()) {
             return emptyList()
         }
@@ -39,7 +55,8 @@ class BacklogTelemetryLogger @Inject constructor(
                 sessionId = sessionId,
                 level = state.level.name,
                 queuedCount = count,
-                queuedBytes = state.perSessionBytes[sessionId] ?: 0L,
+                queuedBytes = state.perSessionBytes[sessionId]
+                    ?: 0L,
                 message = state.message
             )
         }

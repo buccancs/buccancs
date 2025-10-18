@@ -308,7 +308,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             try {
                 mChart.removeAllTraces();
                 mChart.removeAll();
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -438,7 +439,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             IAxis<IAxisScalePolicy> yAxisLeft = (IAxis<IAxisScalePolicy>) mChart.getAxisY();
             yAxisLeft.setAxisScalePolicy(new AxisScalePolicyManualTicks());
             yAxisLeft.setMajorTickSpacing(tickSpacing);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
     }
@@ -448,7 +450,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
             IAxis<IAxisScalePolicy> yAxisLeft = (IAxis<IAxisScalePolicy>) mChart.getAxisY();
             yAxisLeft.setAxisScalePolicy(new AxisScalePolicyManualTicks());
             yAxisLeft.setMinorTickSpacing(tickSpacing);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
     }
@@ -829,7 +832,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                     try {
                         axisToUse.setRangePolicy(rangePolicy);
                         return;
-                    } catch (IllegalArgumentException e) {
+                    } catch (
+                            IllegalArgumentException e) {
                     }
                 }
 
@@ -879,7 +883,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                     trace.addTracePainter(iTP);
                 }
 
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -1143,7 +1148,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 if (axisX != null) {
                     axisX.setPaintGrid(mIsGridOn);
                 }
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
             try {
@@ -1151,7 +1157,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                 if (axisY != null) {
                     axisY.setPaintGrid(mIsGridOn);
                 }
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -1553,7 +1560,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                             double yData = f.mData;
                             try {
                                 yData = checkAndCorrectData(ojc.getShimmerName(), props[1], traceName, f.mData);
-                            } catch (Exception e) {
+                            } catch (
+                                    Exception e) {
                                 indexOfTrace++;
                                 continue;
                             }
@@ -1579,7 +1587,8 @@ public class BasicPlotManagerPC extends AbstractPlotManager {
                         double yData = f.mData;
                         try {
                             yData = checkAndCorrectData(shimmerName, props[1], traceName, f.mData);
-                        } catch (Exception e) {
+                        } catch (
+                                Exception e) {
                             indexOfTrace++;
                             continue;
                         }

@@ -7,39 +7,68 @@ plugins {
 
 kapt {
     arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
+        arg(
+                "AROUTER_MODULE_NAME",
+                project
+                        .getName()
+        )
     }
 }
 
 android {
     namespace "com.topdon.module.thermal.ir"
-    compileSdk rootProject.ext.android.compileSdk
+    compileSdk
+            rootProject
+                    .ext
+                    .android
+                    .compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.android.minSdk
-        targetSdk rootProject.ext.android.targetSdk
+        minSdk rootProject
+                .ext
+                .android
+                .minSdk
+        targetSdk
+                rootProject
+                        .ext
+                        .android
+                        .targetSdk
 
-        buildConfigField "String", "VERSION_NAME", "\"$rootProject.ext.android.versionName\""
+        buildConfigField "String",
+                "VERSION_NAME",
+                "\"$rootProject.ext.android.versionName\""
 
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles
+                    getDefaultProguardFile(
+                            'proguard-android-optimize.txt'
+                    ),
+                            'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility
+                JavaVersion
+                        .VERSION_21
+        targetCompatibility
+                JavaVersion
+                        .VERSION_21
     }
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget =
+                '21'
     }
     buildFeatures {
-        buildConfig = true
-        dataBinding = true
-        compose = true
+        buildConfig =
+                true
+        dataBinding =
+                true
+        compose =
+                true
     }
 
     flavorDimensions 'app'
@@ -66,29 +95,52 @@ android {
 }
 
 dependencies {
-    implementation(name: 'opengl_1.3.2_standard', ext: 'aar')
-    implementation(name: 'library_1.0', ext: 'aar')
+    implementation(
+            name: 'opengl_1.3.2_standard',
+            ext: 'aar'
+    )
+    implementation(
+            name: 'library_1.0',
+            ext: 'aar'
+    )
 
-    implementation project(':libapp')
-    implementation project(':libcom')
-    implementation project(':libir')
-    implementation project(':libmenu')
-    implementation project(':libui')
-    implementation project(':component:pseudo')
+    implementation
+            project(':libapp')
+    implementation
+            project(':libcom')
+    implementation
+            project(':libir')
+    implementation
+            project(':libmenu')
+    implementation
+            project(':libui')
+    implementation
+            project(':component:pseudo')
 
-    kapt libs.arouter.compiler
-    api libs.lottie
+    kapt libs
+            .arouter
+            .compiler
+    api libs
+            .lottie
     api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'
 
-    api libs.compass.sense
-    api libs.compass.core
+    api libs
+            .compass
+            .sense
+    api libs
+            .compass
+            .core
     implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.1.4"
     implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-exo_player2:v8.1.4"
     implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv64:v8.1.4"
 
     // Compose BOM
-    def composeBom = platform('androidx.compose:compose-bom:2024.09.03')
-    implementation composeBom
+    def composeBom =
+            platform(
+                    'androidx.compose:compose-bom:2024.09.03'
+            )
+    implementation
+            composeBom
 
     // Material 3
     implementation 'androidx.compose.material3:material3'

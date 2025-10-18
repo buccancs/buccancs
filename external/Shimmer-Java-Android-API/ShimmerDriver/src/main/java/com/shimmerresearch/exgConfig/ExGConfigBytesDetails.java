@@ -137,7 +137,9 @@ public class ExGConfigBytesDetails implements Serializable {
                 try {
                     ExGConfigOption val = (ExGConfigOption) field.get(null);
                     fields.add(val);
-                } catch (IllegalArgumentException | IllegalAccessException e) {
+                } catch (
+                        IllegalArgumentException |
+                        IllegalAccessException e) {
                 }
             }
         }

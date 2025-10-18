@@ -21,7 +21,9 @@ fun LoadingState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(LayoutPadding.Section),
+            .padding(
+                LayoutPadding.Section
+            ),
         verticalArrangement = Arrangement.spacedBy(
             Spacing.Small,
             alignment = Alignment.CenterVertically

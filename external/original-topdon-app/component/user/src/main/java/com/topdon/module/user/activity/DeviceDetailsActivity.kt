@@ -15,12 +15,24 @@ import com.topdon.module.user.R
 // // Stubbed: import kotlinx.android.synthetic.main.activity_device_details.*
 import kotlinx.coroutines.launch
 
-@Route(path = RouterConfig.DEVICE_INFORMATION)
-class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
-    private var isTC007 = false
-    override fun initContentView() = R.layout.activity_device_details
+@Route(
+    path = RouterConfig.DEVICE_INFORMATION
+)
+class DeviceDetailsActivity :
+    BaseActivity(),
+    View.OnClickListener {
+    private var isTC007 =
+        false
+
+    override fun initContentView() =
+        R.layout.activity_device_details
+
     override fun initView() {
-        isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
+        isTC007 =
+            intent.getBooleanExtra(
+                ExtraKeyConfig.IS_TC007,
+                false
+            )
         // Stubbed: cl_layout_copy.setOnClickListener(this)
     }
 
@@ -51,14 +63,25 @@ class DeviceDetailsActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(
+        v: View?
+    ) {
         when (v) {
             cl_layout_copy -> {
                 val text =
                     "${tv_sn.text}:${tv_sn_value.text}  ${tv_device_model.text}:${tv_device_model_value.text}"
-                val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
-                val mClipData = ClipData.newPlainText("text", text)
-                cm!!.setPrimaryClip(mClipData)
+                val cm =
+                    getSystemService(
+                        CLIPBOARD_SERVICE
+                    ) as ClipboardManager?
+                val mClipData =
+                    ClipData.newPlainText(
+                        "text",
+                        text
+                    )
+                cm!!.setPrimaryClip(
+                    mClipData
+                )
             }
         }
     }

@@ -20,19 +20,43 @@ import com.topdon.tc001.ui.theme.TopdonTheme
 import java.io.File
 import java.io.FileOutputStream
 
-@Route(path = RouterConfig.PDF)
-class PdfActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.PDF
+)
+class PdfActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val isTS001 = intent.getBooleanExtra("isTS001", false)
-        val pdfFileName = if (isTS001) "TC001.pdf" else "TS004.pdf"
+        val isTS001 =
+            intent.getBooleanExtra(
+                "isTS001",
+                false
+            )
+        val pdfFileName =
+            if (isTS001) "TC001.pdf" else "TS004.pdf"
 
         // Copy PDF files to external storage if not exists
-        val pdfFile = File(getExternalFilesDir("pdf")!!, pdfFileName)
+        val pdfFile =
+            File(
+                getExternalFilesDir(
+                    "pdf"
+                )!!,
+                pdfFileName
+            )
         if (!pdfFile.exists()) {
-            copyAssetToFile(pdfFileName, pdfFile)
+            copyAssetToFile(
+                pdfFileName,
+                pdfFile
+            )
         }
 
         setContent {
@@ -48,49 +72,91 @@ class PdfActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
     }
 
     override fun onPause() {
         super.onPause()
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.clearFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
     }
 
-    private fun copyAssetToFile(assetName: String, targetFile: File) {
+    private fun copyAssetToFile(
+        assetName: String,
+        targetFile: File
+    ) {
         try {
-            assets.open(assetName).use { input ->
-                FileOutputStream(targetFile).use { output ->
-                    val buffer = ByteArray(1024)
-                    var length: Int
-                    while (input.read(buffer).also { length = it } > 0) {
-                        output.write(buffer, 0, length)
+            assets.open(
+                assetName
+            )
+                .use { input ->
+                    FileOutputStream(
+                        targetFile
+                    ).use { output ->
+                        val buffer =
+                            ByteArray(
+                                1024
+                            )
+                        var length: Int
+                        while (input.read(
+                                buffer
+                            )
+                                .also {
+                                    length =
+                                        it
+                                } > 0
+                        ) {
+                            output.write(
+                                buffer,
+                                0,
+                                length
+                            )
+                        }
+                        output.flush()
                     }
-                    output.flush()
                 }
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun PdfScreen(
     pdfFile: File,
     title: String,
     onNavigateUp: () -> Unit
 ) {
-    var isLoading by remember { mutableStateOf(true) }
-    var pageCount by remember { mutableStateOf(0) }
-    var currentPage by remember { mutableStateOf(0) }
+    var isLoading by remember {
+        mutableStateOf(
+            true
+        )
+    }
+    var pageCount by remember {
+        mutableStateOf(
+            0
+        )
+    }
+    var currentPage by remember {
+        mutableStateOf(
+            0
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Column {
-                        Text(title)
+                        Text(
+                            title
+                        )
                         if (pageCount > 0) {
                             Text(
                                 text = "Page ${currentPage + 1} of $pageCount",
@@ -100,7 +166,9 @@ private fun PdfScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -113,25 +181,49 @@ private fun PdfScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(
+                    padding
+                )
         ) {
             AndroidView(
                 factory = { context ->
-                    PDFView(context, null).apply {
-                        fromFile(pdfFile)
-                            .enableSwipe(true)
-                            .swipeHorizontal(false)
-                            .enableDoubletap(true)
-                            .defaultPage(0)
-                            .enableAnnotationRendering(false)
-                            .enableAntialiasing(true)
-                            .spacing(0)
+                    PDFView(
+                        context,
+                        null
+                    ).apply {
+                        fromFile(
+                            pdfFile
+                        )
+                            .enableSwipe(
+                                true
+                            )
+                            .swipeHorizontal(
+                                false
+                            )
+                            .enableDoubletap(
+                                true
+                            )
+                            .defaultPage(
+                                0
+                            )
+                            .enableAnnotationRendering(
+                                false
+                            )
+                            .enableAntialiasing(
+                                true
+                            )
+                            .spacing(
+                                0
+                            )
                             .onLoad { pages ->
-                                isLoading = false
-                                pageCount = pages
+                                isLoading =
+                                    false
+                                pageCount =
+                                    pages
                             }
                             .onPageChange { page, _ ->
-                                currentPage = page
+                                currentPage =
+                                    page
                             }
                             .load()
                     }
@@ -141,7 +233,9 @@ private fun PdfScreen(
 
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
                 )
             }
         }

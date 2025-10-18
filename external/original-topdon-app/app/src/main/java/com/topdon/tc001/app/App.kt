@@ -31,7 +31,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class App : BaseApplication() {
+class App :
+    BaseApplication() {
     init {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ ->
             MaterialHeader(
@@ -39,7 +40,9 @@ class App : BaseApplication() {
             )
         }
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ ->
-            LoadingFooter(context)
+            LoadingFooter(
+                context
+            )
         }
     }
 
@@ -54,65 +57,124 @@ class App : BaseApplication() {
         }
     }
 
-    override fun getSoftWareCode(): String = BuildConfig.SOFT_CODE
-    override fun isDomestic(): Boolean = BuildConfig.ENV_TYPE == 1
-    val activityNameList: MutableList<String> = mutableListOf()
+    override fun getSoftWareCode(): String =
+        BuildConfig.SOFT_CODE
+
+    override fun isDomestic(): Boolean =
+        BuildConfig.ENV_TYPE == 1
+
+    val activityNameList: MutableList<String> =
+        mutableListOf()
+
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        SPUtils.getInstance(this).put(Config.KEY_PRIVACY_AGREEMENT, true)
+        instance =
+            this
+        SPUtils.getInstance(
+            this
+        )
+            .put(
+                Config.KEY_PRIVACY_AGREEMENT,
+                true
+            )
         if (SharedManager.getHasShowClause() || !isDomestic()) {
             delayInit()
         }
         RxJavaPlugins.setErrorHandler {
             if (SharedManager.getHasShowClause()) {
-                XLog.w("未知异常： ${it.message}")
+                XLog.w(
+                    "未知异常： ${it.message}"
+                )
             }
         }
         if (!isDomestic()) {
             if (!BuildConfig.DEBUG) {
-                UrlConstant.setBaseUrl("${HttpConfig.HOST}/", false)
+                UrlConstant.setBaseUrl(
+                    "${HttpConfig.HOST}/",
+                    false
+                )
             } else {
                 if (SharedManager.getHasShowClause()) {
-                    XLog.w("lms host: ${UrlConstant.BASE_URL}")
+                    XLog.w(
+                        "lms host: ${UrlConstant.BASE_URL}"
+                    )
                 }
             }
-            SharedManager.setBaseHost(UrlConstant.BASE_URL)
+            SharedManager.setBaseHost(
+                UrlConstant.BASE_URL
+            )
         }
         if (BuildConfig.DEBUG) {
             //FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false); // Firebase removed
         }
-        CoroutineScope(Dispatchers.IO).launch {
-            tau_data_H = CommonUtil.getAssetData(mContext, IrConst.TAU_HIGH_GAIN_ASSET_PATH)
-            tau_data_L = CommonUtil.getAssetData(mContext, IrConst.TAU_LOW_GAIN_ASSET_PATH)
+        CoroutineScope(
+            Dispatchers.IO
+        ).launch {
+            tau_data_H =
+                CommonUtil.getAssetData(
+                    mContext,
+                    IrConst.TAU_HIGH_GAIN_ASSET_PATH
+                )
+            tau_data_L =
+                CommonUtil.getAssetData(
+                    mContext,
+                    IrConst.TAU_LOW_GAIN_ASSET_PATH
+                )
         }
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
-            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                if (!activityNameList.contains(activity.javaClass.getSimpleName())) {
-                    activityNameList.add(activity.javaClass.getSimpleName())
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(
+            true
+        )
+        registerActivityLifecycleCallbacks(
+            object :
+                Application.ActivityLifecycleCallbacks {
+                override fun onActivityCreated(
+                    activity: Activity,
+                    savedInstanceState: Bundle?
+                ) {
+                    if (!activityNameList.contains(
+                            activity.javaClass.getSimpleName()
+                        )
+                    ) {
+                        activityNameList.add(
+                            activity.javaClass.getSimpleName()
+                        )
+                    }
                 }
-            }
 
-            override fun onActivityStarted(activity: Activity) {
-            }
+                override fun onActivityStarted(
+                    activity: Activity
+                ) {
+                }
 
-            override fun onActivityResumed(activity: Activity) {
-            }
+                override fun onActivityResumed(
+                    activity: Activity
+                ) {
+                }
 
-            override fun onActivityPaused(activity: Activity) {
-            }
+                override fun onActivityPaused(
+                    activity: Activity
+                ) {
+                }
 
-            override fun onActivityStopped(activity: Activity) {
-            }
+                override fun onActivityStopped(
+                    activity: Activity
+                ) {
+                }
 
-            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-            }
+                override fun onActivitySaveInstanceState(
+                    activity: Activity,
+                    outState: Bundle
+                ) {
+                }
 
-            override fun onActivityDestroyed(activity: Activity) {
-                activityNameList.remove(activity.javaClass.getSimpleName())
-            }
-        })
+                override fun onActivityDestroyed(
+                    activity: Activity
+                ) {
+                    activityNameList.remove(
+                        activity.javaClass.getSimpleName()
+                    )
+                }
+            })
         initZoho()
     }
 
@@ -122,13 +184,23 @@ class App : BaseApplication() {
             "IjGWlJ%2FAnwvKPO0yHSMeLDRbq9%2Bcumf0TA6lWzHNybOq7Ew5UI7135B1F4y60Vwh",
             "CvYpd1tLP6hT1aJmYxGdvW8UtM0LUMt6bBvazW%2FbsCBFODZM54UgnVzDVtVbh%2F3hcFU7q4JlCZCw7vElzm8MeN5MdZjWoFSAKHNNgYfT33vNaBPm8ASTII05T57%2F3WxK",
             null,
-            object : InitListener {
+            object :
+                InitListener {
                 override fun onInitSuccess() {
-                    XLog.e("bcf", "ZohoSalesIQ成功")
+                    XLog.e(
+                        "bcf",
+                        "ZohoSalesIQ成功"
+                    )
                 }
 
-                override fun onInitError(errorCode: Int, errorMessage: String?) {
-                    XLog.e("bcf", "ZohoSalesIQ失敗")
+                override fun onInitError(
+                    errorCode: Int,
+                    errorMessage: String?
+                ) {
+                    XLog.e(
+                        "bcf",
+                        "ZohoSalesIQ失敗"
+                    )
                 }
             })
     }

@@ -43,76 +43,122 @@ fun BuccancsNavigationRail(
             Icon(
                 imageVector = Icons.Default.Settings,
                 contentDescription = "Buccancs",
-                modifier = Modifier.padding(Spacing.Medium),
+                modifier = Modifier.padding(
+                    Spacing.Medium
+                ),
                 tint = MaterialTheme.colorScheme.primary
             )
         }
     ) {
-        Spacer(Modifier.height(Spacing.Medium))
+        Spacer(
+            Modifier.height(
+                Spacing.Medium
+            )
+        )
 
         NavigationItem(
             icon = Icons.Default.Dashboard,
             label = "Dashboard",
             selected = currentScreen == Screen.Dashboard,
-            onClick = { onNavigate(Screen.Dashboard) }
+            onClick = {
+                onNavigate(
+                    Screen.Dashboard
+                )
+            }
         )
 
         NavigationItem(
             icon = Icons.Default.Sensors,
             label = "Sensors",
             selected = currentScreen == Screen.SensorStatus,
-            onClick = { onNavigate(Screen.SensorStatus) }
+            onClick = {
+                onNavigate(
+                    Screen.SensorStatus
+                )
+            }
         )
 
         NavigationItem(
             icon = Icons.Default.Sync,
             label = "Sync",
             selected = currentScreen == Screen.Synchronisation,
-            onClick = { onNavigate(Screen.Synchronisation) }
+            onClick = {
+                onNavigate(
+                    Screen.Synchronisation
+                )
+            }
         )
 
         NavigationItem(
             icon = Icons.Default.Tune,
             label = "Calibration",
             selected = currentScreen == Screen.Calibration,
-            onClick = { onNavigate(Screen.Calibration) }
+            onClick = {
+                onNavigate(
+                    Screen.Calibration
+                )
+            }
         )
 
         NavigationItem(
             icon = Icons.Default.Videocam,
             label = "Preview",
             selected = currentScreen == Screen.Preview,
-            onClick = { onNavigate(Screen.Preview) }
+            onClick = {
+                onNavigate(
+                    Screen.Preview
+                )
+            }
         )
 
         NavigationItem(
             icon = Icons.Default.PlayArrow,
             label = "Playback",
             selected = currentScreen == Screen.VideoPlayback,
-            onClick = { onNavigate(Screen.VideoPlayback) }
+            onClick = {
+                onNavigate(
+                    Screen.VideoPlayback
+                )
+            }
         )
 
         NavigationItem(
             icon = Icons.Default.Folder,
             label = "Files",
             selected = currentScreen == Screen.FileExplorer,
-            onClick = { onNavigate(Screen.FileExplorer) }
+            onClick = {
+                onNavigate(
+                    Screen.FileExplorer
+                )
+            }
         )
 
         NavigationItem(
             icon = Icons.Default.Person,
             label = "Users",
             selected = currentScreen == Screen.Users,
-            onClick = { onNavigate(Screen.Users) }
+            onClick = {
+                onNavigate(
+                    Screen.Users
+                )
+            }
         )
 
-        Spacer(Modifier.weight(1f))
+        Spacer(
+            Modifier.weight(
+                1f
+            )
+        )
 
         NavigationItem(
             icon = Icons.Default.Settings,
             label = "Settings",
             selected = currentScreen == Screen.Settings,
-            onClick = { onNavigate(Screen.Settings) }
+            onClick = {
+                onNavigate(
+                    Screen.Settings
+                )
+            }
         )
     }
 }
@@ -125,8 +171,18 @@ private fun NavigationItem(
     onClick: () -> Unit
 ) {
     NavigationRailItem(
-        icon = { Icon(icon, contentDescription = label) },
-        label = { Text(label, style = MaterialTheme.typography.labelSmall) },
+        icon = {
+            Icon(
+                icon,
+                contentDescription = label
+            )
+        },
+        label = {
+            Text(
+                label,
+                style = MaterialTheme.typography.labelSmall
+            )
+        },
         selected = selected,
         onClick = onClick,
         colors = NavigationRailItemDefaults.colors(

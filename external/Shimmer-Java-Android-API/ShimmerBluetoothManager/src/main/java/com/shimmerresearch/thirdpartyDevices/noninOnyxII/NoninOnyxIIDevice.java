@@ -68,7 +68,8 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
             if (mSerialPortComm != null) {
                 mSerialPortComm.connect();
             }
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             consolePrintLn("Failed to BT connect");
             consolePrintLn(e.getErrStringFormatted());
         }
@@ -80,7 +81,8 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
             if (mSerialPortComm != null) {
                 mSerialPortComm.disconnect();
             }
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             consolePrintLn("Failed to BT disconnect");
             e.printStackTrace();
         }
@@ -104,7 +106,8 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
                 } else {
                 }
             }
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             consolePrintLn("Failed to start streaming");
             e.printStackTrace();
         }
@@ -126,7 +129,8 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
                 dataHandler(objectCluster);
             }
 
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             consolePrintLn("Failed to read serial port bytes");
             e.printStackTrace();
         }
@@ -143,10 +147,12 @@ public class NoninOnyxIIDevice extends ShimmerDevice implements SerialPortListen
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (NoninOnyxIIDevice) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }

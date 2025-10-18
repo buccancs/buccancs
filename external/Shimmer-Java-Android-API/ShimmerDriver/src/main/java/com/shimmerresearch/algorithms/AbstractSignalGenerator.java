@@ -62,7 +62,8 @@ public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
         private void threadSleep() {
             try {
                 Thread.sleep(sleepDurationInMilli, sleepDurationInNano);
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
             }
         }

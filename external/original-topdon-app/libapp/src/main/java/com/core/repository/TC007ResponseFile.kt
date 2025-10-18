@@ -21,7 +21,8 @@ data class TC007Response<T>(
     /**
      * 判断请求是否成功.
      */
-    fun isSuccess(): Boolean = Code == 200
+    fun isSuccess(): Boolean =
+        Code == 200
 }
 
 
@@ -58,13 +59,15 @@ data class BatteryInfo(
     val Status: String?,
     val Remaining: String?,
 ) {
-    fun isCharging(): Boolean = Status == "Charging"
+    fun isCharging(): Boolean =
+        Status == "Charging"
 
-    fun getBattery(): Int? = try {
-        Remaining?.toInt()
-    } catch (_: NumberFormatException) {
-        null
-    }
+    fun getBattery(): Int? =
+        try {
+            Remaining?.toInt()
+        } catch (_: NumberFormatException) {
+            null
+        }
 }
 
 
@@ -125,11 +128,23 @@ data class TempFrameParam(
 //    constructor(isEnable: Boolean): this(FrameParam(isEnable), FrameParam(isEnable), FrameParam(isEnable))
 }
 
-internal data class PointParam(val X: Int, val Y: Int) {
-    constructor(point: Point?) : this(point?.x ?: 0, point?.y ?: 0)
+internal data class PointParam(
+    val X: Int,
+    val Y: Int
+) {
+    constructor(
+        point: Point?
+    ) : this(
+        point?.x
+            ?: 0,
+        point?.y
+            ?: 0
+    )
 }
 
-internal data class TargetParam(val Enable: Boolean)
+internal data class TargetParam(
+    val Enable: Boolean
+)
 
 internal data class TempPointParam(
     val Enable: Boolean,
@@ -138,12 +153,22 @@ internal data class TempPointParam(
     val Point: PointParam,
     val Target: TargetParam,
 ) {
-    constructor(id: Int, point: Point?) : this(
+    constructor(
+        id: Int,
+        point: Point?
+    ) : this(
         Enable = point != null,
         ID = id,
         Name = "P$id",
-        Point = PointParam(point?.x ?: 0, point?.y ?: 0),
-        Target = TargetParam(true),
+        Point = PointParam(
+            point?.x
+                ?: 0,
+            point?.y
+                ?: 0
+        ),
+        Target = TargetParam(
+            true
+        ),
     )
 }
 
@@ -154,15 +179,31 @@ internal data class TempLineParam(
     val Line: LineParam,
     val Target: TargetParam,
 ) {
-    constructor(id: Int, start: Point?, end: Point?) : this(
+    constructor(
+        id: Int,
+        start: Point?,
+        end: Point?
+    ) : this(
         Enable = start != null && end != null,
         ID = id,
         Name = "L$id",
-        Line = LineParam(PointParam(start), PointParam(end)),
-        Target = TargetParam(true),
+        Line = LineParam(
+            PointParam(
+                start
+            ),
+            PointParam(
+                end
+            )
+        ),
+        Target = TargetParam(
+            true
+        ),
     )
 
-    data class LineParam(val Point0: PointParam, val Point1: PointParam)
+    data class LineParam(
+        val Point0: PointParam,
+        val Point1: PointParam
+    )
 }
 
 internal data class TempRectParam(
@@ -172,12 +213,19 @@ internal data class TempRectParam(
     val Rectangle: RectParam,
     val Target: TargetParam,
 ) {
-    constructor(id: Int, rect: Rect?) : this(
+    constructor(
+        id: Int,
+        rect: Rect?
+    ) : this(
         Enable = rect != null,
         ID = id,
         Name = "L$id",
-        Rectangle = RectParam(rect),
-        Target = TargetParam(true),
+        Rectangle = RectParam(
+            rect
+        ),
+        Target = TargetParam(
+            true
+        ),
     )
 
     data class RectParam(
@@ -186,11 +234,33 @@ internal data class TempRectParam(
         val Point2: PointParam,
         val Point3: PointParam
     ) {
-        constructor(rect: Rect?) : this(
-            Point0 = PointParam(rect?.left ?: 0, rect?.top ?: 0),
-            Point1 = PointParam(rect?.right ?: 0, rect?.top ?: 0),
-            Point2 = PointParam(rect?.left ?: 0, rect?.bottom ?: 0),
-            Point3 = PointParam(rect?.right ?: 0, rect?.bottom ?: 0),
+        constructor(
+            rect: Rect?
+        ) : this(
+            Point0 = PointParam(
+                rect?.left
+                    ?: 0,
+                rect?.top
+                    ?: 0
+            ),
+            Point1 = PointParam(
+                rect?.right
+                    ?: 0,
+                rect?.top
+                    ?: 0
+            ),
+            Point2 = PointParam(
+                rect?.left
+                    ?: 0,
+                rect?.bottom
+                    ?: 0
+            ),
+            Point3 = PointParam(
+                rect?.right
+                    ?: 0,
+                rect?.bottom
+                    ?: 0
+            ),
         )
     }
 }

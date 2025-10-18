@@ -3,7 +3,10 @@ package com.buccancs.domain.model
 import kotlin.time.Instant
 
 @JvmInline
-value class DeviceId(val value: String)
+value class DeviceId(
+    val value: String
+)
+
 enum class SensorDeviceType {
     SHIMMER_GSR,
     ANDROID_RGB_CAMERA,
@@ -23,8 +26,12 @@ enum class SensorStreamType {
 }
 
 sealed interface ConnectionStatus {
-    data object Disconnected : ConnectionStatus
-    data object Connecting : ConnectionStatus
+    data object Disconnected :
+        ConnectionStatus
+
+    data object Connecting :
+        ConnectionStatus
+
     data class Connected(
         val since: Instant,
         val batteryPercent: Int? = null,

@@ -1,4 +1,12 @@
-include ':ShimmerAndroidInstrumentDriver', ':bluetoothManagerExample', ':shimmerServiceExample', ':shimmerLegacyExample', ':shimmerBasicExample', ':verisenseBLEBasicExample', ':efficientDataArrayExample'
-include ':shimmer3DOrientationExample', ':shimmerConnectionTest'
-include ':multiverisenseblebasicexample', ':shimmer3BLEBasicExample'
+include ':ShimmerAndroidInstrumentDriver',
+        ':bluetoothManagerExample',
+        ':shimmerServiceExample',
+        ':shimmerLegacyExample',
+        ':shimmerBasicExample',
+        ':verisenseBLEBasicExample',
+        ':efficientDataArrayExample'
+include ':shimmer3DOrientationExample',
+        ':shimmerConnectionTest'
+include ':multiverisenseblebasicexample',
+        ':shimmer3BLEBasicExample'
 include ':shimmerspeedtest'

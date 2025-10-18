@@ -69,7 +69,9 @@ enum class EditTool {
     CROP
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun ImageEditScreen(
     image: ImageBitmap,
@@ -77,19 +79,43 @@ fun ImageEditScreen(
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedTool by remember { mutableStateOf<EditTool?>(null) }
-    var drawColor by remember { mutableStateOf(Color.Red) }
-    var strokeWidth by remember { mutableFloatStateOf(5f) }
-    val paths = remember { mutableStateListOf<DrawPath>() }
-    val currentPath = remember { mutableStateOf<Path?>(null) }
+    var selectedTool by remember {
+        mutableStateOf<EditTool?>(
+            null
+        )
+    }
+    var drawColor by remember {
+        mutableStateOf(
+            Color.Red
+        )
+    }
+    var strokeWidth by remember {
+        mutableFloatStateOf(
+            5f
+        )
+    }
+    val paths =
+        remember { mutableStateListOf<DrawPath>() }
+    val currentPath =
+        remember {
+            mutableStateOf<Path?>(
+                null
+            )
+        }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Edit Image") },
+                title = {
+                    Text(
+                        "Edit Image"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onCancel) {
+                    IconButton(
+                        onClick = onCancel
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Cancel"
@@ -97,7 +123,9 @@ fun ImageEditScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onSave) {
+                    IconButton(
+                        onClick = onSave
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Check,
                             contentDescription = "Save"
@@ -116,20 +144,28 @@ fun ImageEditScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
+                        .padding(
+                            horizontal = 8.dp
+                        ),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     EditToolButton(
                         tool = EditTool.DRAW,
                         selected = selectedTool == EditTool.DRAW,
-                        onClick = { selectedTool = EditTool.DRAW },
+                        onClick = {
+                            selectedTool =
+                                EditTool.DRAW
+                        },
                         icon = Icons.Default.Draw,
                         label = "Draw"
                     )
                     EditToolButton(
                         tool = EditTool.TEXT,
                         selected = selectedTool == EditTool.TEXT,
-                        onClick = { selectedTool = EditTool.TEXT },
+                        onClick = {
+                            selectedTool =
+                                EditTool.TEXT
+                        },
                         icon = Icons.Default.Edit,
                         label = "Text"
                     )
@@ -140,11 +176,15 @@ fun ImageEditScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(
+                    paddingValues
+                )
         ) {
             Box(
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(
+                        1f
+                    )
                     .fillMaxWidth()
             ) {
                 Image(
@@ -158,12 +198,18 @@ fun ImageEditScreen(
                     Canvas(
                         modifier = Modifier
                             .fillMaxSize()
-                            .pointerInput(Unit) {
+                            .pointerInput(
+                                Unit
+                            ) {
                                 detectDragGestures(
                                     onDragStart = { offset ->
-                                        currentPath.value = Path().apply {
-                                            moveTo(offset.x, offset.y)
-                                        }
+                                        currentPath.value =
+                                            Path().apply {
+                                                moveTo(
+                                                    offset.x,
+                                                    offset.y
+                                                )
+                                            }
                                     },
                                     onDrag = { change, _ ->
                                         currentPath.value?.lineTo(
@@ -181,7 +227,8 @@ fun ImageEditScreen(
                                                 )
                                             )
                                         }
-                                        currentPath.value = null
+                                        currentPath.value =
+                                            null
                                     }
                                 )
                             }
@@ -217,8 +264,14 @@ fun ImageEditScreen(
                 DrawingToolbar(
                     currentColor = drawColor,
                     currentStrokeWidth = strokeWidth,
-                    onColorChange = { drawColor = it },
-                    onStrokeWidthChange = { strokeWidth = it },
+                    onColorChange = {
+                        drawColor =
+                            it
+                    },
+                    onStrokeWidthChange = {
+                        strokeWidth =
+                            it
+                    },
                     onUndo = { if (paths.isNotEmpty()) paths.removeLast() },
                     onClear = { paths.clear() }
                 )
@@ -242,7 +295,9 @@ private fun EditToolButton(
     ) {
         FilledTonalIconButton(
             onClick = onClick,
-            modifier = Modifier.size(56.dp)
+            modifier = Modifier.size(
+                56.dp
+            )
         ) {
             Icon(
                 imageVector = icon,
@@ -271,9 +326,15 @@ private fun DrawingToolbar(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .background(
+                MaterialTheme.colorScheme.surfaceVariant
+            )
+            .padding(
+                16.dp
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            12.dp
+        )
     ) {
         Text(
             text = "Drawing Tools",
@@ -283,62 +344,119 @@ private fun DrawingToolbar(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Stroke:", style = MaterialTheme.typography.bodySmall)
+            Text(
+                "Stroke:",
+                style = MaterialTheme.typography.bodySmall
+            )
             Slider(
                 value = currentStrokeWidth,
                 onValueChange = onStrokeWidthChange,
                 valueRange = 1f..20f,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
-            Text("${currentStrokeWidth.toInt()}px", style = MaterialTheme.typography.bodySmall)
+            Text(
+                "${currentStrokeWidth.toInt()}px",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
 
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            val colors = listOf(
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Black, Color.White, Color.Magenta, Color.Cyan
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp
             )
-            items(colors) { color ->
+        ) {
+            val colors =
+                listOf(
+                    Color.Red,
+                    Color.Blue,
+                    Color.Green,
+                    Color.Yellow,
+                    Color.Black,
+                    Color.White,
+                    Color.Magenta,
+                    Color.Cyan
+                )
+            items(
+                colors
+            ) { color ->
                 ColorButton(
                     color = color,
                     selected = currentColor == color,
-                    onClick = { onColorChange(color) }
+                    onClick = {
+                        onColorChange(
+                            color
+                        )
+                    }
                 )
             }
         }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp
+            )
         ) {
             FilledTonalIconButton(
                 onClick = onUndo,
-                modifier = Modifier.weight(1f).height(48.dp)
+                modifier = Modifier.weight(
+                    1f
+                )
+                    .height(
+                        48.dp
+                    )
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        4.dp
+                    ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(Icons.Default.Close, "Undo", modifier = Modifier.size(18.dp))
-                    Text("Undo")
+                    Icon(
+                        Icons.Default.Close,
+                        "Undo",
+                        modifier = Modifier.size(
+                            18.dp
+                        )
+                    )
+                    Text(
+                        "Undo"
+                    )
                 }
             }
             FilledTonalIconButton(
                 onClick = onClear,
-                modifier = Modifier.weight(1f).height(48.dp)
+                modifier = Modifier.weight(
+                    1f
+                )
+                    .height(
+                        48.dp
+                    )
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        4.dp
+                    ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(Icons.Default.Close, "Clear", modifier = Modifier.size(18.dp))
-                    Text("Clear")
+                    Icon(
+                        Icons.Default.Close,
+                        "Clear",
+                        modifier = Modifier.size(
+                            18.dp
+                        )
+                    )
+                    Text(
+                        "Clear"
+                    )
                 }
             }
         }
@@ -354,7 +472,9 @@ private fun ColorButton(
 ) {
     Surface(
         onClick = onClick,
-        modifier = modifier.size(40.dp),
+        modifier = modifier.size(
+            40.dp
+        ),
         shape = MaterialTheme.shapes.small,
         color = color,
         border = if (selected) {

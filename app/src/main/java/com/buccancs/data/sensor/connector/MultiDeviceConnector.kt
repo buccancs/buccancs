@@ -12,15 +12,34 @@ interface MultiDeviceConnector {
     val devices: StateFlow<Map<DeviceId, SensorDevice>>
     val streamStatuses: StateFlow<Map<DeviceId, List<SensorStreamStatus>>>
     suspend fun refreshInventory()
-    suspend fun applySimulation(enabled: Boolean)
-    suspend fun connect(deviceId: DeviceId): DeviceCommandResult
-    suspend fun disconnect(deviceId: DeviceId): DeviceCommandResult
-    suspend fun configure(deviceId: DeviceId, options: Map<String, String>): DeviceCommandResult
+    suspend fun applySimulation(
+        enabled: Boolean
+    )
+
+    suspend fun connect(
+        deviceId: DeviceId
+    ): DeviceCommandResult
+
+    suspend fun disconnect(
+        deviceId: DeviceId
+    ): DeviceCommandResult
+
+    suspend fun configure(
+        deviceId: DeviceId,
+        options: Map<String, String>
+    ): DeviceCommandResult
+
     suspend fun startStreaming(
         deviceId: DeviceId,
         anchor: RecordingSessionAnchor
     ): DeviceCommandResult
 
-    suspend fun stopStreaming(deviceId: DeviceId): DeviceCommandResult
-    suspend fun collectArtifacts(deviceId: DeviceId, sessionId: String): List<SessionArtifact>
+    suspend fun stopStreaming(
+        deviceId: DeviceId
+    ): DeviceCommandResult
+
+    suspend fun collectArtifacts(
+        deviceId: DeviceId,
+        sessionId: String
+    ): List<SessionArtifact>
 }

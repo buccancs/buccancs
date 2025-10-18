@@ -35,8 +35,12 @@ fun SensorStatusScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Spacing.Large),
-        verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            .padding(
+                Spacing.Large
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        )
     ) {
         ScreenHeader(
             title = "Sensor Status",
@@ -44,7 +48,9 @@ fun SensorStatusScreen() {
         )
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             // GSR Sensors
             item {
@@ -59,7 +65,13 @@ fun SensorStatusScreen() {
                             "128 Hz",
                             "2,457,891 samples"
                         ),
-                        SensorInfo("Device-002", "Shimmer3 GSR+", false, "—", "—")
+                        SensorInfo(
+                            "Device-002",
+                            "Shimmer3 GSR+",
+                            false,
+                            "—",
+                            "—"
+                        )
                     )
                 )
             }
@@ -70,8 +82,20 @@ fun SensorStatusScreen() {
                     title = "Thermal Cameras (Topdon TC001)",
                     icon = Icons.Default.Thermostat,
                     sensors = listOf(
-                        SensorInfo("Device-001", "TC001 256x192", true, "25 FPS", "45,678 frames"),
-                        SensorInfo("Device-002", "TC001 256x192", true, "25 FPS", "45,650 frames")
+                        SensorInfo(
+                            "Device-001",
+                            "TC001 256x192",
+                            true,
+                            "25 FPS",
+                            "45,678 frames"
+                        ),
+                        SensorInfo(
+                            "Device-002",
+                            "TC001 256x192",
+                            true,
+                            "25 FPS",
+                            "45,650 frames"
+                        )
                     )
                 )
             }
@@ -89,7 +113,13 @@ fun SensorStatusScreen() {
                             "30 FPS",
                             "54,321 frames"
                         ),
-                        SensorInfo("Device-002", "1920x1080@30fps", true, "30 FPS", "54,298 frames")
+                        SensorInfo(
+                            "Device-002",
+                            "1920x1080@30fps",
+                            true,
+                            "30 FPS",
+                            "54,298 frames"
+                        )
                     )
                 )
             }
@@ -107,7 +137,13 @@ fun SensorStatusScreen() {
                             "48 kHz",
                             "8,654,321 samples"
                         ),
-                        SensorInfo("Device-002", "48 kHz Mono", true, "48 kHz", "8,653,987 samples")
+                        SensorInfo(
+                            "Device-002",
+                            "48 kHz Mono",
+                            true,
+                            "48 kHz",
+                            "8,653,987 samples"
+                        )
                     )
                 )
             }
@@ -125,9 +161,15 @@ private fun SensorCategoryCard(
         title = title,
         subtitle = "${sensors.count { it.active }} / ${sensors.size} active"
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             sensors.forEach { sensor ->
-                SensorRow(sensor)
+                SensorRow(
+                    sensor
+                )
                 if (sensor != sensors.last()) {
                     HorizontalDivider()
                 }
@@ -137,14 +179,23 @@ private fun SensorCategoryCard(
 }
 
 @Composable
-private fun SensorRow(sensor: SensorInfo) {
+private fun SensorRow(
+    sensor: SensorInfo
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(sensor.deviceId, style = MaterialTheme.typography.titleSmall)
+        Column(
+            modifier = Modifier.weight(
+                1f
+            )
+        ) {
+            Text(
+                sensor.deviceId,
+                style = MaterialTheme.typography.titleSmall
+            )
             Text(
                 sensor.model,
                 style = MaterialTheme.typography.bodySmall,
@@ -152,7 +203,9 @@ private fun SensorRow(sensor: SensorInfo) {
             )
         }
 
-        Column(horizontalAlignment = Alignment.End) {
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
             if (sensor.active) {
                 ConnectedBadge()
                 Text(

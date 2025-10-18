@@ -126,7 +126,8 @@ public class FirstFragment extends Fragment {
                             try {
                                 protocol.disconnect();
                                 shimmer.disconnect();
-                            } catch (ShimmerException e) {
+                            } catch (
+                                    ShimmerException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -189,7 +190,8 @@ public class FirstFragment extends Fragment {
                 try {
 
                     protocol.connect();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             }

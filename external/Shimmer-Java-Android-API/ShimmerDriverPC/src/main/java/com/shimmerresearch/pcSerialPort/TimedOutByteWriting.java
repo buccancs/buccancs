@@ -55,7 +55,8 @@ class TimedOutByteWriting {
             if (!result.timedout && !result.writeDone) {
                 try {
                     condition.await();
-                } catch (InterruptedException e) {
+                } catch (
+                        InterruptedException e) {
                     writeThread.cancel(true);
                     timeoutThread.cancel(true);
                     throw e;
@@ -124,7 +125,8 @@ class TimedOutByteWriting {
                     byteWriter.write(bytes);
                 }
                 exception = null;
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 exception = e;
             }
             lock.lock();
@@ -150,7 +152,8 @@ class TimedOutByteWriting {
             try {
                 TimeUnit.MILLISECONDS.sleep(timeout);
                 interrupted = false;
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 interrupted = true;
             }
 

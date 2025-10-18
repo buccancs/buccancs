@@ -11,23 +11,48 @@ object HttpUtils {
      * @param iResponseCallback 回调函数
      * @ void
      */
-    fun setPseudoColor(mode: Int, iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.addBodyParameter("enable", false)
-        params.addBodyParameter("mode", mode)
-        params.uri = TS004URL.SET_PSEUDO_COLOR
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun setPseudoColor(
+        mode: Int,
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.addBodyParameter(
+            "enable",
+            false
+        )
+        params.addBodyParameter(
+            "mode",
+            mode
+        )
+        params.uri =
+            TS004URL.SET_PSEUDO_COLOR
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 获取伪彩样式
      */
-    fun getPseudoColor(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_PSEUDO_COLOR
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getPseudoColor(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_PSEUDO_COLOR
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
@@ -36,22 +61,44 @@ object HttpUtils {
      * @param iResponseCallback 回调函数
      * @ void
      */
-    fun setBrightness(brightness: Int, iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.addBodyParameter("brightness", brightness)
-        params.uri = TS004URL.SET_PANEL_PARAM
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun setBrightness(
+        brightness: Int,
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.addBodyParameter(
+            "brightness",
+            brightness
+        )
+        params.uri =
+            TS004URL.SET_PANEL_PARAM
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 获取屏幕亮度
      */
-    fun getBrightness(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_PANEL_PARAM
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getBrightness(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_PANEL_PARAM
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
@@ -59,22 +106,44 @@ object HttpUtils {
      * @param iResponseCallback 回调函数
      * @ void
      */
-    fun setPip(enable: Boolean, iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.addBodyParameter("enable", enable)
-        params.uri = TS004URL.SET_PIP
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun setPip(
+        enable: Boolean,
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.addBodyParameter(
+            "enable",
+            enable
+        )
+        params.uri =
+            TS004URL.SET_PIP
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 获取画中画
      */
-    fun getPip(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_PIP
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getPip(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_PIP
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
@@ -83,23 +152,48 @@ object HttpUtils {
      * @param iResponseCallback 回调函数
      * @ void
      */
-    fun setZoom(factor: Int, iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.addBodyParameter("enable", true)
-        params.addBodyParameter("factor", factor)
-        params.uri = TS004URL.SET_ZOOM
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun setZoom(
+        factor: Int,
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.addBodyParameter(
+            "enable",
+            true
+        )
+        params.addBodyParameter(
+            "factor",
+            factor
+        )
+        params.uri =
+            TS004URL.SET_ZOOM
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 获取放大倍数
      */
-    fun getZoom(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_ZOOM
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getZoom(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_ZOOM
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
@@ -107,11 +201,20 @@ object HttpUtils {
      * @param iResponseCallback 回调函数
      * @void
      */
-    fun setCamera(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.SET_SNAPSHOT
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun setCamera(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.SET_SNAPSHOT
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
@@ -120,12 +223,25 @@ object HttpUtils {
      * @param iResponseCallback 回调函数
      * @void
      */
-    fun setVideo(enable: Boolean, iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.addBodyParameter("enable", enable)
-        params.uri = TS004URL.GET_VRECORD
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun setVideo(
+        enable: Boolean,
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.addBodyParameter(
+            "enable",
+            enable
+        )
+        params.uri =
+            TS004URL.GET_VRECORD
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
@@ -133,50 +249,95 @@ object HttpUtils {
      * @param iResponseCallback 回调函数
      * @void
      */
-    fun getVideoStatus(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_RECORD_STATUS
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getVideoStatus(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_RECORD_STATUS
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 获取版本信息
      */
-    fun getVersion(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_VERSION
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getVersion(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_VERSION
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 获取设备信息
      */
-    fun getDeviceDetails(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_DEVICE_DETAILS
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getDeviceDetails(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_DEVICE_DETAILS
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 获取存储分区信息
      */
-    fun getFreeSpace(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_FREE_SPACE
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getFreeSpace(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_FREE_SPACE
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 
     /**
      * 恢复出厂设置
      */
-    fun getResetAll(iResponseCallback: Callback.CommonCallback<String>?) {
-        val params = RequestParams()
-        params.uri = TS004URL.GET_RESET_ALL
-        params.isAsJsonContent = true
-        x.http().post(params, iResponseCallback!!)
+    fun getResetAll(
+        iResponseCallback: Callback.CommonCallback<String>?
+    ) {
+        val params =
+            RequestParams()
+        params.uri =
+            TS004URL.GET_RESET_ALL
+        params.isAsJsonContent =
+            true
+        x.http()
+            .post(
+                params,
+                iResponseCallback!!
+            )
     }
 }

@@ -140,7 +140,8 @@ public class LoggingPC {
             writer.newLine();
 
 
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             System.out.println("Shimmer" + "Error with bufferedwriter");
         }
@@ -263,7 +264,8 @@ public class LoggingPC {
             writer.newLine();
 
 
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             System.out.println("Shimmer" + "Error with bufferedwriter");
         }
@@ -273,7 +275,8 @@ public class LoggingPC {
         if (writer != null) {
             try {
                 writer.close();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         }

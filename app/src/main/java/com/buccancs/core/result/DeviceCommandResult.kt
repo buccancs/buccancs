@@ -8,7 +8,14 @@ package com.buccancs.core.result
  * - `Failed` wraps an unexpected throwable that prevented execution.
  */
 sealed interface DeviceCommandResult {
-    data object Accepted : DeviceCommandResult
-    data class Rejected(val reason: String) : DeviceCommandResult
-    data class Failed(val error: Throwable?) : DeviceCommandResult
+    data object Accepted :
+        DeviceCommandResult
+
+    data class Rejected(
+        val reason: String
+    ) : DeviceCommandResult
+
+    data class Failed(
+        val error: Throwable?
+    ) : DeviceCommandResult
 }

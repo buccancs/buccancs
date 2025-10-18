@@ -36,41 +36,58 @@ class DeviceInventoryViewModel @Inject constructor(
     private val deviceUiMapper: DeviceUiMapper
 ) : ViewModel() {
 
-    private val inventoryState = combine(
-        hardwareConfigRepository.config,
-        sensorRepository.devices,
-        topdonDeviceRepository.activeDeviceId
-    ) { config, devices, activeTopdon ->
-        config.toInventoryUiModel(devices, activeTopdon)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = InventoryUiModel.empty()
-    )
-
-    val uiState: StateFlow<DeviceInventoryUiState> = combine(
-        deviceManagement.simulationEnabled,
-        deviceManagement.devices,
-        sensorRepository.streamStatuses,
-        shimmerSettingsRepository.settings,
-        inventoryState
-    ) { simulation, devices, streams, shimmerSettings, inventory ->
-        val sortedDevices = devices
-            .sortedWith(compareByDescending<SensorDevice> { it.connectionStatus is ConnectionStatus.Connected }
-                .thenBy { it.id.value })
-            .map { deviceUiMapper.toUiModel(it, streams, shimmerSettings) }
-
-        DeviceInventoryUiState(
-            simulationEnabled = simulation,
-            devices = sortedDevices,
-            inventory = inventory,
-            errorMessage = null
+    private val inventoryState =
+        combine(
+            hardwareConfigRepository.config,
+            sensorRepository.devices,
+            topdonDeviceRepository.activeDeviceId
+        ) { config, devices, activeTopdon ->
+            config.toInventoryUiModel(
+                devices,
+                activeTopdon
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                5_000
+            ),
+            initialValue = InventoryUiModel.empty()
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = DeviceInventoryUiState.initial()
-    )
+
+    val uiState: StateFlow<DeviceInventoryUiState> =
+        combine(
+            deviceManagement.simulationEnabled,
+            deviceManagement.devices,
+            sensorRepository.streamStatuses,
+            shimmerSettingsRepository.settings,
+            inventoryState
+        ) { simulation, devices, streams, shimmerSettings, inventory ->
+            val sortedDevices =
+                devices
+                    .sortedWith(
+                        compareByDescending<SensorDevice> { it.connectionStatus is ConnectionStatus.Connected }
+                            .thenBy { it.id.value })
+                    .map {
+                        deviceUiMapper.toUiModel(
+                            it,
+                            streams,
+                            shimmerSettings
+                        )
+                    }
+
+            DeviceInventoryUiState(
+                simulationEnabled = simulation,
+                devices = sortedDevices,
+                inventory = inventory,
+                errorMessage = null
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                5_000
+            ),
+            initialValue = DeviceInventoryUiState.initial()
+        )
 
     fun toggleSimulation() {
         viewModelScope.launch {
@@ -78,15 +95,23 @@ class DeviceInventoryViewModel @Inject constructor(
         }
     }
 
-    fun connectDevice(id: DeviceId) {
+    fun connectDevice(
+        id: DeviceId
+    ) {
         viewModelScope.launch {
-            deviceManagement.connectDevice(id)
+            deviceManagement.connectDevice(
+                id
+            )
         }
     }
 
-    fun disconnectDevice(id: DeviceId) {
+    fun disconnectDevice(
+        id: DeviceId
+    ) {
         viewModelScope.launch {
-            deviceManagement.disconnectDevice(id)
+            deviceManagement.disconnectDevice(
+                id
+            )
         }
     }
 
@@ -104,11 +129,12 @@ data class DeviceInventoryUiState(
     val errorMessage: String?
 ) {
     companion object {
-        fun initial(): DeviceInventoryUiState = DeviceInventoryUiState(
-            simulationEnabled = false,
-            devices = emptyList(),
-            inventory = InventoryUiModel.empty(),
-            errorMessage = null
-        )
+        fun initial(): DeviceInventoryUiState =
+            DeviceInventoryUiState(
+                simulationEnabled = false,
+                devices = emptyList(),
+                inventory = InventoryUiModel.empty(),
+                errorMessage = null
+            )
     }
 }

@@ -24,10 +24,18 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.tools.DeviceTools
 import com.topdon.tc001.ui.theme.TopdonTheme
 
-class DeviceTypeActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+class DeviceTypeActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
         setContent {
             TopdonTheme {
@@ -37,23 +45,44 @@ class DeviceTypeActivity : ComponentActivity() {
                         when (deviceType) {
                             IRDeviceType.TS004 -> {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.IR_DEVICE_ADD)
-                                    .withBoolean("isTS004", true)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.IR_DEVICE_ADD
+                                    )
+                                    .withBoolean(
+                                        "isTS004",
+                                        true
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                             }
 
                             IRDeviceType.TC007 -> {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.IR_DEVICE_ADD)
-                                    .withBoolean("isTS004", false)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.IR_DEVICE_ADD
+                                    )
+                                    .withBoolean(
+                                        "isTS004",
+                                        false
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                             }
 
                             else -> {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.IR_MAIN)
-                                    .withBoolean(ExtraKeyConfig.IS_TC007, false)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.IR_MAIN
+                                    )
+                                    .withBoolean(
+                                        ExtraKeyConfig.IS_TC007,
+                                        false
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                                 if (DeviceTools.isConnect()) {
                                     finish()
                                 }
@@ -65,17 +94,40 @@ class DeviceTypeActivity : ComponentActivity() {
         }
     }
 
-    enum class IRDeviceType(val deviceName: String, val isLine: Boolean) {
-        TC001("TC001", true),
-        TC001_PLUS("TC001 Plus", true),
-        TC002C_DUO("TC002C Duo", true),
-        TC007("TC007", false),
-        TS001("TS001", true),
-        TS004("TS004", false)
+    enum class IRDeviceType(
+        val deviceName: String,
+        val isLine: Boolean
+    ) {
+        TC001(
+            "TC001",
+            true
+        ),
+        TC001_PLUS(
+            "TC001 Plus",
+            true
+        ),
+        TC002C_DUO(
+            "TC002C Duo",
+            true
+        ),
+        TC007(
+            "TC007",
+            false
+        ),
+        TS001(
+            "TS001",
+            true
+        ),
+        TS004(
+            "TS004",
+            false
+        )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun DeviceTypeScreen(
     onNavigateUp: () -> Unit,
@@ -84,9 +136,15 @@ private fun DeviceTypeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Select Device Type") },
+                title = {
+                    Text(
+                        "Select Device Type"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -99,10 +157,18 @@ private fun DeviceTypeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                24.dp
+            )
         ) {
             DeviceSection(
                 title = "USB Connection",
@@ -137,7 +203,9 @@ private fun DeviceSection(
     onDeviceSelected: (DeviceTypeActivity.IRDeviceType) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            12.dp
+        )
     ) {
         Text(
             text = title,
@@ -148,14 +216,22 @@ private fun DeviceSection(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(
+                12.dp
+            )
         ) {
             devices.forEach { (deviceType, iconRes) ->
                 DeviceCard(
                     deviceType = deviceType,
                     iconRes = iconRes,
-                    onSelected = { onDeviceSelected(deviceType) },
-                    modifier = Modifier.weight(1f)
+                    onSelected = {
+                        onDeviceSelected(
+                            deviceType
+                        )
+                    },
+                    modifier = Modifier.weight(
+                        1f
+                    )
                 )
             }
         }
@@ -163,14 +239,22 @@ private fun DeviceSection(
         if (secondRow.isNotEmpty()) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 secondRow.forEach { (deviceType, iconRes) ->
                     DeviceCard(
                         deviceType = deviceType,
                         iconRes = iconRes,
-                        onSelected = { onDeviceSelected(deviceType) },
-                        modifier = Modifier.weight(1f)
+                        onSelected = {
+                            onDeviceSelected(
+                                deviceType
+                            )
+                        },
+                        modifier = Modifier.weight(
+                            1f
+                        )
                     )
                 }
             }
@@ -187,23 +271,35 @@ private fun DeviceCard(
 ) {
     Card(
         modifier = modifier
-            .clickable(onClick = onSelected),
+            .clickable(
+                onClick = onSelected
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(
+                    16.dp
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(
+                12.dp
+            )
         ) {
             Image(
-                painter = painterResource(id = iconRes),
+                painter = painterResource(
+                    id = iconRes
+                ),
                 contentDescription = deviceType.deviceName,
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(
+                    80.dp
+                )
             )
 
             Text(

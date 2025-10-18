@@ -423,7 +423,8 @@ public class IRUVC {
                         Log.i(TAG, "startPreview complete 中间出图 restart");
                         try {
                             Thread.sleep(1500);
-                        } catch (InterruptedException e) {
+                        } catch (
+                                InterruptedException e) {
                             e.printStackTrace();
                         }
                         if (ircmd.startY16ModePreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,
@@ -453,7 +454,8 @@ public class IRUVC {
                             Log.i(TAG, "startPreview complete 红外+TNR");
                             try {
                                 Thread.sleep(1500);
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 e.printStackTrace();
                             }
                             if (ircmd.startY16ModePreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,
@@ -478,7 +480,8 @@ public class IRUVC {
                             Log.i(TAG, "startPreview complete 单TNR");
                             try {
                                 Thread.sleep(1500);
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 e.printStackTrace();
                             }
                             if (ircmd.startY16ModePreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,

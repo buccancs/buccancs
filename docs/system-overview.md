@@ -1,100 +1,613 @@
 # System Overview
 
-BuccanCS coordinates synchronised, multi-modal physiological data capture for research into
-contactless galvanic skin
-response (GSR) prediction. The platform combines Android agents, a desktop orchestrator, and shared
-protocol layers to
-collect artefacts, preserve timing fidelity, and provide auditable session records.
+BuccanCS
+coordinates
+synchronised,
+multi-modal
+physiological
+data
+capture
+for
+research
+into
+contactless
+galvanic
+skin
+response (
+GSR)
+prediction.
+The
+platform
+combines
+Android
+agents,
+a
+desktop
+orchestrator,
+and
+shared
+protocol
+layers
+to
+collect
+artefacts,
+preserve
+timing
+fidelity,
+and
+provide
+auditable
+session
+records.
 
 ## Mission
 
-- Capture GSR, thermal infrared frames, RGB video, audio, and contextual metadata in lockstep across
-  multiple Android
-  devices.
-- Provide laboratory-grade session management, manifesting, telemetry, and recovery so researchers
-  can audit every run.
-- Underpin the associated thesis and future studies that explore contactless GSR estimation.
+-
+Capture
+GSR,
+thermal
+infrared
+frames,
+RGB
+video,
+audio,
+and
+contextual
+metadata
+in
+lockstep
+across
+multiple
+Android
+devices.
+-
+Provide
+laboratory-grade
+session
+management,
+manifesting,
+telemetry,
+and
+recovery
+so
+researchers
+can
+audit
+every
+run.
+-
+Underpin
+the
+associated
+thesis
+and
+future
+studies
+that
+explore
+contactless
+GSR
+estimation.
 
 ## Platform Topology
 
-- **Android agent (`app/`)** – Jetpack Compose client using MVVM, Hilt, and structured concurrency.
-  It controls Shimmer3
-  GSR sensors, Topdon TC001 thermal cameras, and on-device RGB/audio capture while offering
-  simulation toggles for bench
-  testing.
-- **Desktop orchestrator (`desktop/`)** – Compose Desktop application that discovers agents via
-  mDNS, issues gRPC
-  commands, manages recording sessions, aggregates uploads, and surfaces health dashboards.
-- **Shared protocol (`protocol/`)** – Protobuf definitions and generated artefacts that keep Android
-  and desktop
-  modules aligned.
-- **Supporting tooling (`shimmer/`, `sdk/`, `external/`)** – Vendor SDK shims, JNI bindings, and
-  utilities used to
-  integrate hardware and scripted validation workflows.
+-
+*
+*Android
+agent (
+`app/`)
+** –
+Jetpack
+Compose
+client
+using
+MVVM,
+Hilt,
+and
+structured
+concurrency.
+It
+controls
+Shimmer3
+GSR
+sensors,
+Topdon
+TC001
+thermal
+cameras,
+and
+on-device
+RGB/audio
+capture
+while
+offering
+simulation
+toggles
+for
+bench
+testing.
+-
+*
+*Desktop
+orchestrator (
+`desktop/`)
+** –
+Compose
+Desktop
+application
+that
+discovers
+agents
+via
+mDNS,
+issues
+gRPC
+commands,
+manages
+recording
+sessions,
+aggregates
+uploads,
+and
+surfaces
+health
+dashboards.
+-
+*
+*Shared
+protocol (
+`protocol/`)
+** –
+Protobuf
+definitions
+and
+generated
+artefacts
+that
+keep
+Android
+and
+desktop
+modules
+aligned.
+-
+*
+*Supporting
+tooling (
+`shimmer/`,
+`sdk/`,
+`external/`)
+** –
+Vendor
+SDK
+shims,
+JNI
+bindings,
+and
+utilities
+used
+to
+integrate
+hardware
+and
+scripted
+validation
+workflows.
 
 ## Data Flow (Happy Path)
 
-1. Desktop opens a recording session, provisioning a timestamped directory and manifest.
-2. Android agents synchronise clocks against the desktop service and begin capturing the enabled
-   modalities in parallel.
-3. Low-bandwidth telemetry (for example, GSR samples) streams over gRPC, whilst high-volume
-   artefacts (RGB MP4, thermal
-   PNG sequences, audio) are buffered locally.
-4. When the session stops, agents finalise local manifests and enqueue uploads; WorkManager drains
-   artefacts with retry
-   and recovery logging.
-5. Desktop reconciliation verifies manifests, artefacts, and timing before marking the session
-   complete.
+1.
+Desktop
+opens
+a
+recording
+session,
+provisioning
+a
+timestamped
+directory
+and
+manifest.
+2.
+Android
+agents
+synchronise
+clocks
+against
+the
+desktop
+service
+and
+begin
+capturing
+the
+enabled
+modalities
+in
+parallel.
+3.
+Low-bandwidth
+telemetry (
+for
+example,
+GSR
+samples)
+streams
+over
+gRPC,
+whilst
+high-volume
+artefacts (
+RGB
+MP4,
+thermal
+PNG
+sequences,
+audio)
+are
+buffered
+locally.
+4.
+When
+the
+session
+stops,
+agents
+finalise
+local
+manifests
+and
+enqueue
+uploads;
+WorkManager
+drains
+artefacts
+with
+retry
+and
+recovery
+logging.
+5.
+Desktop
+reconciliation
+verifies
+manifests,
+artefacts,
+and
+timing
+before
+marking
+the
+session
+complete.
 
 ## Hardware Integration Snapshot
 
-- **What ships today**
-    - Bluetooth discovery and pairing for bonded Shimmer3 devices is live, with real MAC addresses
-      surfaced in the agent.
-    - USB enumeration for the Topdon TC001 works, and the preview pipeline renders frames in the
-      Compose UI.
-    - Simulation clients mirror GSR, thermal, RGB, and audio flows so the orchestration stack can be
-      exercised without
-      physical kit.
-- **Still outstanding**
-    - Streaming real Shimmer3 data requires wiring `RealShimmerHardwareClient` to the vendor
-      `ShimmerAndroidAPI`. The stub
-      currently emits synthetic waveforms so the rest of the stack remains operable.
-    - Thermal capture needs the remaining Topdon streaming work to forward preview frames into the
-      recording pipeline and
-      apply palette/calibration metadata.
-    - Hardware lifecycle management needs a polish pass to tighten reconnection, configuration, and
-      error recovery.
-- **Workarounds**
-    - The Android agent exposes a simulation toggle so sessions can run end-to-end without devices.
-    - Hardware validation drills in `docs/testing.md` describe how to stage blended
-      simulation/physical runs while the
-      integrations firm up.
+-
+*
+*What
+ships
+today
+**
+    -
+    Bluetooth
+    discovery
+    and
+    pairing
+    for
+    bonded
+    Shimmer3
+    devices
+    is
+    live,
+    with
+    real
+    MAC
+    addresses
+    surfaced
+    in
+    the
+    agent.
+    -
+    USB
+    enumeration
+    for
+    the
+    Topdon
+    TC001
+    works,
+    and
+    the
+    preview
+    pipeline
+    renders
+    frames
+    in
+    the
+    Compose
+    UI.
+    -
+    Simulation
+    clients
+    mirror
+    GSR,
+    thermal,
+    RGB,
+    and
+    audio
+    flows
+    so
+    the
+    orchestration
+    stack
+    can
+    be
+    exercised
+    without
+    physical
+    kit.
+-
+*
+*Still
+outstanding
+**
+    -
+    Streaming
+    real
+    Shimmer3
+    data
+    requires
+    wiring
+    `RealShimmerHardwareClient`
+    to
+    the
+    vendor
+    `ShimmerAndroidAPI`.
+    The
+    stub
+    currently
+    emits
+    synthetic
+    waveforms
+    so
+    the
+    rest
+    of
+    the
+    stack
+    remains
+    operable.
+    -
+    Thermal
+    capture
+    needs
+    the
+    remaining
+    Topdon
+    streaming
+    work
+    to
+    forward
+    preview
+    frames
+    into
+    the
+    recording
+    pipeline
+    and
+    apply
+    palette/calibration
+    metadata.
+    -
+    Hardware
+    lifecycle
+    management
+    needs
+    a
+    polish
+    pass
+    to
+    tighten
+    reconnection,
+    configuration,
+    and
+    error
+    recovery.
+-
+*
+*Workarounds
+**
+    -
+    The
+    Android
+    agent
+    exposes
+    a
+    simulation
+    toggle
+    so
+    sessions
+    can
+    run
+    end-to-end
+    without
+    devices.
+    -
+    Hardware
+    validation
+    drills
+    in
+    `docs/testing.md`
+    describe
+    how
+    to
+    stage
+    blended
+    simulation/physical
+    runs
+    while
+    the
+    integrations
+    firm
+    up.
 
 ## Operational Capabilities
 
-- Multi-device coordination with single-button start/stop, per-agent health panes, and structured
-  heartbeats.
-- NTP-style time synchronisation with round-trip sampling that targets <10 ms drift between devices.
-- Session manifests describing device inventory, artefact locations, operator bookmarks, and storage
-  usage.
-- Upload backlog monitoring, retry with exponential back-off, and recovery logs (
-  `upload_recovery.jsonl`).
-- Performance telemetry covering CPU, memory, thermal load, and storage headroom per agent.
-- Automation hooks for Copilot/Codex/Gemini sessions alongside manual stress and recovery scripts.
+-
+Multi-device
+coordination
+with
+single-button
+start/stop,
+per-agent
+health
+panes,
+and
+structured
+heartbeats.
+-
+NTP-style
+time
+synchronisation
+with
+round-trip
+sampling
+that
+targets <
+10
+ms
+drift
+between
+devices.
+-
+Session
+manifests
+describing
+device
+inventory,
+artefact
+locations,
+operator
+bookmarks,
+and
+storage
+usage.
+-
+Upload
+backlog
+monitoring,
+retry
+with
+exponential
+back-off,
+and
+recovery
+logs (
+`upload_recovery.jsonl`).
+-
+Performance
+telemetry
+covering
+CPU,
+memory,
+thermal
+load,
+and
+storage
+headroom
+per
+agent.
+-
+Automation
+hooks
+for
+Copilot/Codex/Gemini
+sessions
+alongside
+manual
+stress
+and
+recovery
+scripts.
 
 ## Current Focus Areas
 
-- Finalise physical hardware streaming and validation across multiple Android agents and the desktop
-  orchestrator.
-- Restore paused automated test suites once infrastructure blockers (for example, Android SDK
-  licence acceptance) are
-  cleared.
-- Polish the Topdon Compose experience (palette presets, gallery review) to reach feature parity
-  with the legacy UI.
+-
+Finalise
+physical
+hardware
+streaming
+and
+validation
+across
+multiple
+Android
+agents
+and
+the
+desktop
+orchestrator.
+-
+Restore
+paused
+automated
+test
+suites
+once
+infrastructure
+blockers (
+for
+example,
+Android
+SDK
+licence
+acceptance)
+are
+cleared.
+-
+Polish
+the
+Topdon
+Compose
+experience (
+palette
+presets,
+gallery
+review)
+to
+reach
+feature
+parity
+with
+the
+legacy
+UI.
 
 ## Research Assets
 
-Academic write-ups live under `docs/latex/` and remain the definitive source for thesis chapters,
-literature surveys,
-and requirement traceability. For requirement status at a glance, see `docs/requirements.md`.
+Academic
+write-ups
+live
+under
+`docs/latex/`
+and
+remain
+the
+definitive
+source
+for
+thesis
+chapters,
+literature
+surveys,
+and
+requirement
+traceability.
+For
+requirement
+status
+at
+a
+glance,
+see
+`docs/requirements.md`.

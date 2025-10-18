@@ -92,7 +92,8 @@ public class TempCompensation {
         int result = 0;
         try {
             result = ircamEngine.advFileRead(sdFilePath, localFilePath, iFileHandleCallback);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             Log.d(TAG, sdFilePath + "  advFileRead fail !");
         }
@@ -162,7 +163,8 @@ public class TempCompensation {
                             handler.sendEmptyMessageDelayed(HANDLER_KEY_AFTER, 6000);
                         }
                     }
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     Log.d(TAG, "温度补偿异常=" + e.getMessage());
                 }
             }

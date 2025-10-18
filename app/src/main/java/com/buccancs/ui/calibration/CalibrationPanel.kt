@@ -34,20 +34,28 @@ fun CalibrationPanel(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.SmallMedium
+            )
         ) {
             Text(
                 text = "Stereo Calibration Wizard",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
-            WizardStepIndicator(current = state.wizardStep)
+            WizardStepIndicator(
+                current = state.wizardStep
+            )
             Text(
                 text = state.guidanceMessage,
                 style = MaterialTheme.typography.bodySmall,
@@ -55,7 +63,9 @@ fun CalibrationPanel(
             )
             if (state.actionHints.isNotEmpty()) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.ExtraSmall
+                    )
                 ) {
                     state.actionHints.forEach { hint ->
                         Text(
@@ -91,7 +101,11 @@ fun CalibrationPanel(
             }
             state.latestMetrics?.let { metrics ->
                 Text(
-                    text = "Last metrics @ ${metrics.generatedAt} — RMS ${"%.3f".format(metrics.meanReprojectionError)} px · max ${
+                    text = "Last metrics @ ${metrics.generatedAt} — RMS ${
+                        "%.3f".format(
+                            metrics.meanReprojectionError
+                        )
+                    } px · max ${
                         "%.3f".format(
                             metrics.maxReprojectionError
                         )
@@ -102,7 +116,10 @@ fun CalibrationPanel(
             HorizontalDivider()
             when (state.wizardStep) {
                 CalibrationWizardStep.Configure -> {
-                    PatternSettingsSection(state, actions)
+                    PatternSettingsSection(
+                        state,
+                        actions
+                    )
                     StepControls(
                         primaryLabel = "Start Session",
                         primaryEnabled = !state.active && !state.isProcessing,
@@ -114,13 +131,27 @@ fun CalibrationPanel(
                 }
 
                 CalibrationWizardStep.Capture -> {
-                    PatternSettingsSection(state, actions, compact = true)
-                    CaptureControls(state, actions)
+                    PatternSettingsSection(
+                        state,
+                        actions,
+                        compact = true
+                    )
+                    CaptureControls(
+                        state,
+                        actions
+                    )
                 }
 
                 CalibrationWizardStep.Validate -> {
-                    PatternSettingsSection(state, actions, compact = true)
-                    CaptureControls(state, actions)
+                    PatternSettingsSection(
+                        state,
+                        actions,
+                        compact = true
+                    )
+                    CaptureControls(
+                        state,
+                        actions
+                    )
                     StepControls(
                         primaryLabel = if (state.isProcessing) "Computing..." else "Compute Calibration",
                         primaryEnabled = state.capturedCount >= state.requiredPairs && !state.isProcessing,
@@ -132,7 +163,11 @@ fun CalibrationPanel(
                 }
 
                 CalibrationWizardStep.Review -> {
-                    PatternSettingsSection(state, actions, compact = true)
+                    PatternSettingsSection(
+                        state,
+                        actions,
+                        compact = true
+                    )
                     StepControls(
                         primaryLabel = "Re-run Capture",
                         primaryEnabled = !state.isProcessing,
@@ -158,7 +193,10 @@ fun CalibrationPanel(
                 )
             }
             if (state.captures.isNotEmpty()) {
-                CapturedList(state, actions)
+                CapturedList(
+                    state,
+                    actions
+                )
             }
             state.lastResult?.let { result ->
                 HorizontalDivider()
@@ -167,14 +205,25 @@ fun CalibrationPanel(
                     style = MaterialTheme.typography.titleSmall
                 )
                 Text(
-                    text = "Pairs used: ${result.usedPairs} · RMS ${"%.4f".format(result.meanReprojectionError)} px",
+                    text = "Pairs used: ${result.usedPairs} · RMS ${
+                        "%.4f".format(
+                            result.meanReprojectionError
+                        )
+                    } px",
                     style = MaterialTheme.typography.bodySmall
                 )
                 if (result.perViewErrors.isNotEmpty()) {
-                    val maxError = result.perViewErrors.maxOrNull() ?: 0.0
-                    val median = result.perViewErrors.sorted()[result.perViewErrors.size / 2]
+                    val maxError =
+                        result.perViewErrors.maxOrNull()
+                            ?: 0.0
+                    val median =
+                        result.perViewErrors.sorted()[result.perViewErrors.size / 2]
                     Text(
-                        text = "Per-view error median ${"%.4f".format(median)} px · max ${
+                        text = "Per-view error median ${
+                            "%.4f".format(
+                                median
+                            )
+                        } px · max ${
                             "%.4f".format(
                                 maxError
                             )
@@ -182,9 +231,15 @@ fun CalibrationPanel(
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                val translationNorm = sqrt(result.extrinsic.translation.sumOf { it * it })
+                val translationNorm =
+                    sqrt(
+                        result.extrinsic.translation.sumOf { it * it })
                 Text(
-                    text = "Translation norm: ${"%.3f".format(translationNorm)} m",
+                    text = "Translation norm: ${
+                        "%.3f".format(
+                            translationNorm
+                        )
+                    } m",
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -199,59 +254,93 @@ private fun PatternSettingsSection(
     compact: Boolean = false
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.SmallMedium
+        )
     ) {
         Text(
             text = "Pattern Settings",
             style = MaterialTheme.typography.titleSmall
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.SmallMedium
+            )
         ) {
             OutlinedTextField(
                 value = state.patternRowsInput,
                 onValueChange = actions.onRowsChanged,
-                label = { Text("Rows") },
+                label = {
+                    Text(
+                        "Rows"
+                    )
+                },
                 singleLine = true,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(
+                    1f
+                ),
                 enabled = !state.isProcessing && !compact
             )
             OutlinedTextField(
                 value = state.patternColsInput,
                 onValueChange = actions.onColsChanged,
-                label = { Text("Columns") },
+                label = {
+                    Text(
+                        "Columns"
+                    )
+                },
                 singleLine = true,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(
+                    1f
+                ),
                 enabled = !state.isProcessing && !compact
             )
             OutlinedTextField(
                 value = state.squareSizeMmInput,
                 onValueChange = actions.onSquareSizeChanged,
-                label = { Text("Square (mm)") },
+                label = {
+                    Text(
+                        "Square (mm)"
+                    )
+                },
                 singleLine = true,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(
+                    1f
+                ),
                 enabled = !state.isProcessing && !compact
             )
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.SmallMedium
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
                 value = state.requiredPairsInput,
                 onValueChange = actions.onRequiredPairsChanged,
-                label = { Text("Required pairs") },
+                label = {
+                    Text(
+                        "Required pairs"
+                    )
+                },
                 singleLine = true,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(
+                    1f
+                ),
                 enabled = !state.isProcessing && !compact
             )
             if (!compact) {
                 Button(
                     onClick = actions.onApplySettings,
                     enabled = !state.isProcessing,
-                    modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                    modifier = Modifier.defaultMinSize(
+                        minHeight = Dimensions.TouchTargetMinimum
+                    )
                 ) {
-                    Text("Apply")
+                    Text(
+                        "Apply"
+                    )
                 }
             }
         }
@@ -259,24 +348,42 @@ private fun PatternSettingsSection(
 }
 
 @Composable
-private fun CaptureControls(state: CalibrationUiState, actions: CalibrationActions) {
+private fun CaptureControls(
+    state: CalibrationUiState,
+    actions: CalibrationActions
+) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.SmallMedium
+        )
     ) {
-        Text(text = "Capture Guidance", style = MaterialTheme.typography.titleSmall)
-        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)) {
+        Text(
+            text = "Capture Guidance",
+            style = MaterialTheme.typography.titleSmall
+        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.SmallMedium
+            )
+        ) {
             Button(
                 onClick = actions.onCapturePair,
                 enabled = state.active && !state.isProcessing,
-                modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                modifier = Modifier.defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                )
             ) {
-                Text("Capture Pair")
+                Text(
+                    "Capture Pair"
+                )
             }
             OutlinedButton(
                 onClick = actions.onClearSession,
                 enabled = !state.isProcessing
             ) {
-                Text("Clear Captures")
+                Text(
+                    "Clear Captures"
+                )
             }
         }
     }
@@ -291,36 +398,55 @@ private fun StepControls(
     secondaryEnabled: Boolean,
     onSecondary: () -> Unit
 ) {
-    Row(horizontalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            Spacing.SmallMedium
+        )
+    ) {
         Button(
             onClick = onPrimary,
             enabled = primaryEnabled,
-            modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+            modifier = Modifier.defaultMinSize(
+                minHeight = Dimensions.TouchTargetMinimum
+            )
         ) {
-            Text(primaryLabel)
+            Text(
+                primaryLabel
+            )
         }
         OutlinedButton(
             onClick = onSecondary,
             enabled = secondaryEnabled,
-            modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+            modifier = Modifier.defaultMinSize(
+                minHeight = Dimensions.TouchTargetMinimum
+            )
         ) {
-            Text(secondaryLabel)
+            Text(
+                secondaryLabel
+            )
         }
     }
 }
 
 @Composable
-private fun CapturedList(state: CalibrationUiState, actions: CalibrationActions) {
+private fun CapturedList(
+    state: CalibrationUiState,
+    actions: CalibrationActions
+) {
     HorizontalDivider()
     Text(
         text = "Captured Frames",
         style = MaterialTheme.typography.titleSmall
     )
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.ExtraSmall
+        ),
         modifier = Modifier.fillMaxWidth()
     ) {
-        items(state.captures, key = { it.id }) { capture ->
+        items(
+            state.captures,
+            key = { it.id }) { capture ->
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth(),
@@ -331,11 +457,19 @@ private fun CapturedList(state: CalibrationUiState, actions: CalibrationActions)
                     style = MaterialTheme.typography.bodySmall
                 )
                 TextButton(
-                    onClick = { actions.onRemoveCapture(capture.id) },
+                    onClick = {
+                        actions.onRemoveCapture(
+                            capture.id
+                        )
+                    },
                     enabled = !state.isProcessing,
-                    modifier = Modifier.defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                    modifier = Modifier.defaultMinSize(
+                        minHeight = Dimensions.TouchTargetMinimum
+                    )
                 ) {
-                    Text("Remove")
+                    Text(
+                        "Remove"
+                    )
                 }
             }
         }
@@ -343,13 +477,19 @@ private fun CapturedList(state: CalibrationUiState, actions: CalibrationActions)
 }
 
 @Composable
-private fun WizardStepIndicator(current: CalibrationWizardStep) {
-    val steps = CalibrationWizardStep.values()
+private fun WizardStepIndicator(
+    current: CalibrationWizardStep
+) {
+    val steps =
+        CalibrationWizardStep.values()
     Row(
-        horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+        horizontalArrangement = Arrangement.spacedBy(
+            Spacing.Small
+        )
     ) {
         steps.forEachIndexed { index, step ->
-            val selected = step == current
+            val selected =
+                step == current
             Surface(
                 shape = MaterialTheme.shapes.small,
                 color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,

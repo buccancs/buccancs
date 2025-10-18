@@ -21,50 +21,105 @@ import kotlin.concurrent.withLock
 class EncryptionKeyProvider(
     private val keyFile: Path
 ) {
-    private val logger = LoggerFactory.getLogger(EncryptionKeyProvider::class.java)
-    private val lock = ReentrantLock()
-    private val secretKeyAccess: SecretKeyAccess = InsecureSecretKeyAccess.get()
+    private val logger =
+        LoggerFactory.getLogger(
+            EncryptionKeyProvider::class.java
+        )
+    private val lock =
+        ReentrantLock()
+    private val secretKeyAccess: SecretKeyAccess =
+        InsecureSecretKeyAccess.get()
 
     @Volatile
-    private var cachedHandle: KeysetHandle? = null
+    private var cachedHandle: KeysetHandle? =
+        null
 
     init {
         AeadConfig.register()
     }
 
-    fun keyset(): KeysetHandle = cachedHandle ?: loadOrCreate().also { cachedHandle = it }
-    private fun loadOrCreate(): KeysetHandle = lock.withLock {
-        cachedHandle?.let { return it }
-        return try {
-            if (Files.exists(keyFile)) {
-                readKeysetFromDisk()
-            } else {
-                keyFile.parent?.let(Files::createDirectories)
-                val handle = KeysetHandle.generateNew(AesGcmKeyManager.aes256GcmTemplate())
-                writeKeysetToDisk(handle)
-                handle
+    fun keyset(): KeysetHandle =
+        cachedHandle
+            ?: loadOrCreate().also {
+                cachedHandle =
+                    it
             }
-        } catch (ex: IOException) {
-            logger.error("Failed to load encryption key, falling back to new key.", ex)
-            val handle = KeysetHandle.generateNew(AesGcmKeyManager.aes256GcmTemplate())
-            writeKeysetToDisk(handle)
-            handle
-        } catch (ex: GeneralSecurityException) {
-            logger.error("Security error while loading encryption key.", ex)
-            throw ex
+
+    private fun loadOrCreate(): KeysetHandle =
+        lock.withLock {
+            cachedHandle?.let { return it }
+            return try {
+                if (Files.exists(
+                        keyFile
+                    )
+                ) {
+                    readKeysetFromDisk()
+                } else {
+                    keyFile.parent?.let(
+                        Files::createDirectories
+                    )
+                    val handle =
+                        KeysetHandle.generateNew(
+                            AesGcmKeyManager.aes256GcmTemplate()
+                        )
+                    writeKeysetToDisk(
+                        handle
+                    )
+                    handle
+                }
+            } catch (ex: IOException) {
+                logger.error(
+                    "Failed to load encryption key, falling back to new key.",
+                    ex
+                )
+                val handle =
+                    KeysetHandle.generateNew(
+                        AesGcmKeyManager.aes256GcmTemplate()
+                    )
+                writeKeysetToDisk(
+                    handle
+                )
+                handle
+            } catch (ex: GeneralSecurityException) {
+                logger.error(
+                    "Security error while loading encryption key.",
+                    ex
+                )
+                throw ex
+            }
         }
-    }
 
-    @Throws(IOException::class, GeneralSecurityException::class)
+    @Throws(
+        IOException::class,
+        GeneralSecurityException::class
+    )
     private fun readKeysetFromDisk(): KeysetHandle {
-        val serialized = Files.readString(keyFile, StandardCharsets.UTF_8)
-        return TinkJsonProtoKeysetFormat.parseKeyset(serialized, secretKeyAccess)
+        val serialized =
+            Files.readString(
+                keyFile,
+                StandardCharsets.UTF_8
+            )
+        return TinkJsonProtoKeysetFormat.parseKeyset(
+            serialized,
+            secretKeyAccess
+        )
     }
 
-    @Throws(IOException::class, GeneralSecurityException::class)
-    private fun writeKeysetToDisk(handle: KeysetHandle) {
-        keyFile.parent?.let(Files::createDirectories)
-        val serialized = TinkJsonProtoKeysetFormat.serializeKeyset(handle, secretKeyAccess)
+    @Throws(
+        IOException::class,
+        GeneralSecurityException::class
+    )
+    private fun writeKeysetToDisk(
+        handle: KeysetHandle
+    ) {
+        keyFile.parent?.let(
+            Files::createDirectories
+        )
+        val serialized =
+            TinkJsonProtoKeysetFormat.serializeKeyset(
+                handle,
+                secretKeyAccess
+            )
         Files.writeString(
             keyFile,
             serialized,
@@ -79,10 +134,29 @@ class EncryptionKeyProvider(
 class EncryptionManager(
     keyProvider: EncryptionKeyProvider
 ) {
-    private val aead: Aead = keyProvider
-        .keyset()
-        .getPrimitive(RegistryConfiguration.get(), Aead::class.java)
+    private val aead: Aead =
+        keyProvider
+            .keyset()
+            .getPrimitive(
+                RegistryConfiguration.get(),
+                Aead::class.java
+            )
 
-    fun encrypt(plain: ByteArray, context: ByteArray): ByteArray = aead.encrypt(plain, context)
-    fun decrypt(cipher: ByteArray, context: ByteArray): ByteArray = aead.decrypt(cipher, context)
+    fun encrypt(
+        plain: ByteArray,
+        context: ByteArray
+    ): ByteArray =
+        aead.encrypt(
+            plain,
+            context
+        )
+
+    fun decrypt(
+        cipher: ByteArray,
+        context: ByteArray
+    ): ByteArray =
+        aead.decrypt(
+            cipher,
+            context
+        )
 }

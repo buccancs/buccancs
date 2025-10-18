@@ -21,23 +21,40 @@ data class AlarmBean(
     var ringtoneType: Int = 0,
 ) {
     companion object {
-        const val TYPE_ALARM_MARK_STROKE = 1
-        const val TYPE_ALARM_MARK_MATRIX = 2
+        const val TYPE_ALARM_MARK_STROKE =
+            1
+        const val TYPE_ALARM_MARK_MATRIX =
+            2
 
-        fun loadFromArray(data: ByteArray): AlarmBean {
-            val buffer = ByteBuffer.wrap(data)
-            val isHighOpen = buffer.get() == 1.toByte()
-            val isLowOpen = buffer.get() == 1.toByte()
-            val highTemp = buffer.float
-            val lowTemp = buffer.float
+        fun loadFromArray(
+            data: ByteArray
+        ): AlarmBean {
+            val buffer =
+                ByteBuffer.wrap(
+                    data
+                )
+            val isHighOpen =
+                buffer.get() == 1.toByte()
+            val isLowOpen =
+                buffer.get() == 1.toByte()
+            val highTemp =
+                buffer.float
+            val lowTemp =
+                buffer.float
 
-            val isMarkOpen = buffer.get() == 1.toByte()
-            val highColor = buffer.int
-            val lowColor = buffer.int
-            val markType = buffer.int
+            val isMarkOpen =
+                buffer.get() == 1.toByte()
+            val highColor =
+                buffer.int
+            val lowColor =
+                buffer.int
+            val markType =
+                buffer.int
 
-            val isRingtoneOpen = buffer.get() == 1.toByte()
-            val ringtoneType = buffer.int
+            val isRingtoneOpen =
+                buffer.get() == 1.toByte()
+            val ringtoneType =
+                buffer.int
 
             return AlarmBean(
                 isHighOpen = isHighOpen,
@@ -57,21 +74,45 @@ data class AlarmBean(
     }
 
 
-    fun toByteArray(): ByteArray = ByteBuffer.allocate(28)
-        .put(if (isHighOpen) 1 else 0)
-        .put(if (isLowOpen) 1 else 0)
-        .putFloat(highTemp)
-        .putFloat(lowTemp)
-        .put(if (isMarkOpen) 1 else 0)
-        .putInt(highColor)
-        .putInt(lowColor)
-        .putInt(markType)
-        .put(if (isRingtoneOpen) 1 else 0)
-        .putInt(ringtoneType)
-        .array()
+    fun toByteArray(): ByteArray =
+        ByteBuffer.allocate(
+            28
+        )
+            .put(
+                if (isHighOpen) 1 else 0
+            )
+            .put(
+                if (isLowOpen) 1 else 0
+            )
+            .putFloat(
+                highTemp
+            )
+            .putFloat(
+                lowTemp
+            )
+            .put(
+                if (isMarkOpen) 1 else 0
+            )
+            .putInt(
+                highColor
+            )
+            .putInt(
+                lowColor
+            )
+            .putInt(
+                markType
+            )
+            .put(
+                if (isRingtoneOpen) 1 else 0
+            )
+            .putInt(
+                ringtoneType
+            )
+            .array()
 
     /**
      * 判断温度报警是否开启
      */
-    fun isOpen(): Boolean = isHighOpen || isLowOpen
+    fun isOpen(): Boolean =
+        isHighOpen || isLowOpen
 }

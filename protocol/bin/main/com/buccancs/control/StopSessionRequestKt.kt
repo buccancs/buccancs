@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializestopSessionRequest")
-public inline fun stopSessionRequest(block: com.buccancs.control.StopSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StopSessionRequest =
-    com.buccancs.control.StopSessionRequestKt.Dsl._create(com.buccancs.control.StopSessionRequest.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializestopSessionRequest"
+)
+public inline fun stopSessionRequest(
+    block: com.buccancs.control.StopSessionRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.StopSessionRequest =
+    com.buccancs.control.StopSessionRequestKt.Dsl._create(
+        com.buccancs.control.StopSessionRequest.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.StopSessionRequest`
  */
 public object StopSessionRequestKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.StopSessionRequest.Builder
@@ -23,13 +34,16 @@ public object StopSessionRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.StopSessionRequest.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.StopSessionRequest.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.StopSessionRequest = _builder.build()
+        internal fun _build(): com.buccancs.control.StopSessionRequest =
+            _builder.build()
 
         /**
          * `.com.buccancs.control.SessionIdentifier session = 1;`
@@ -37,7 +51,9 @@ public object StopSessionRequestKt {
         public var session: com.buccancs.control.SessionIdentifier
             get() = _builder.getSession()
             set(value) {
-                _builder.setSession(value)
+                _builder.setSession(
+                    value
+                )
             }
 
         /**
@@ -61,7 +77,9 @@ public object StopSessionRequestKt {
         public var scheduledEpochMs: kotlin.Long
             get() = _builder.getScheduledEpochMs()
             set(value) {
-                _builder.setScheduledEpochMs(value)
+                _builder.setScheduledEpochMs(
+                    value
+                )
             }
 
         /**
@@ -77,7 +95,9 @@ public object StopSessionRequestKt {
         public var finalize: kotlin.Boolean
             get() = _builder.getFinalize()
             set(value) {
-                _builder.setFinalize(value)
+                _builder.setFinalize(
+                    value
+                )
             }
 
         /**
@@ -90,8 +110,13 @@ public object StopSessionRequestKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.StopSessionRequest.copy(block: `com.buccancs.control`.StopSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StopSessionRequest =
-    `com.buccancs.control`.StopSessionRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.StopSessionRequest.copy(
+    block: `com.buccancs.control`.StopSessionRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.StopSessionRequest =
+    `com.buccancs.control`.StopSessionRequestKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 
 public val com.buccancs.control.StopSessionRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?

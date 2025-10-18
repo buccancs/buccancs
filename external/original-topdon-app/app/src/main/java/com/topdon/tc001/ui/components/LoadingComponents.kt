@@ -33,15 +33,21 @@ fun LoadingScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(
+                MaterialTheme.colorScheme.background
+            ),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             CircularProgressIndicator(
-                modifier = Modifier.size(48.dp),
+                modifier = Modifier.size(
+                    48.dp
+                ),
                 color = MaterialTheme.colorScheme.primary,
                 strokeWidth = 4.dp
             )
@@ -58,12 +64,18 @@ fun LoadingScreen(
 fun ShimmerLoading(
     modifier: Modifier = Modifier
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "shimmer")
+    val infiniteTransition =
+        rememberInfiniteTransition(
+            label = "shimmer"
+        )
     val alpha by infiniteTransition.animateFloat(
         initialValue = 0.2f,
         targetValue = 0.8f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
+            animation = tween(
+                1000,
+                easing = LinearEasing
+            ),
             repeatMode = RepeatMode.Reverse
         ),
         label = "shimmer_alpha"
@@ -71,9 +83,15 @@ fun ShimmerLoading(
 
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(
+                RoundedCornerShape(
+                    4.dp
+                )
+            )
             .background(
-                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = alpha)
+                MaterialTheme.colorScheme.surfaceVariant.copy(
+                    alpha = alpha
+                )
             )
     )
 }
@@ -84,22 +102,34 @@ fun SkeletonCard(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            8.dp
+        )
     ) {
         ShimmerLoading(
             modifier = Modifier
-                .height(200.dp)
+                .height(
+                    200.dp
+                )
                 .fillMaxSize()
         )
         ShimmerLoading(
             modifier = Modifier
-                .height(20.dp)
-                .width(150.dp)
+                .height(
+                    20.dp
+                )
+                .width(
+                    150.dp
+                )
         )
         ShimmerLoading(
             modifier = Modifier
-                .height(16.dp)
-                .width(100.dp)
+                .height(
+                    16.dp
+                )
+                .width(
+                    100.dp
+                )
         )
     }
 }

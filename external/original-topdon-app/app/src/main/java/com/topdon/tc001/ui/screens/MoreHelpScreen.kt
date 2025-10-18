@@ -41,7 +41,9 @@ data class HelpTopic(
     val content: String
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun MoreHelpScreen(
     helpTopics: List<HelpTopic>,
@@ -52,9 +54,15 @@ fun MoreHelpScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Help & Support") },
+                title = {
+                    Text(
+                        "Help & Support"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -70,12 +78,22 @@ fun MoreHelpScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(
+                    paddingValues
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                12.dp
+            )
         ) {
-            items(helpTopics, key = { it.id }) { topic ->
-                ExpandableHelpItem(topic = topic)
+            items(
+                helpTopics,
+                key = { it.id }) { topic ->
+                ExpandableHelpItem(
+                    topic = topic
+                )
             }
         }
     }
@@ -86,7 +104,11 @@ private fun ExpandableHelpItem(
     topic: HelpTopic,
     modifier: Modifier = Modifier
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
+    var isExpanded by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -97,8 +119,13 @@ private fun ExpandableHelpItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { isExpanded = !isExpanded }
-                .padding(16.dp)
+                .clickable {
+                    isExpanded =
+                        !isExpanded
+                }
+                .padding(
+                    16.dp
+                )
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -110,7 +137,9 @@ private fun ExpandableHelpItem(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(
+                        1f
+                    )
                 )
 
                 Icon(
@@ -120,10 +149,14 @@ private fun ExpandableHelpItem(
                 )
             }
 
-            AnimatedVisibility(visible = isExpanded) {
+            AnimatedVisibility(
+                visible = isExpanded
+            ) {
                 Column {
                     HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 12.dp)
+                        modifier = Modifier.padding(
+                            vertical = 12.dp
+                        )
                     )
 
                     Text(

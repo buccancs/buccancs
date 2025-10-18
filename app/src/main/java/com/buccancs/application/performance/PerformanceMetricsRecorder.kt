@@ -32,18 +32,30 @@ class PerformanceMetricsRecorder @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     @StandardJson private val json: Json
 ) {
-    private val mutex = Mutex()
-    private val fileMutex = Mutex()
-    private var job: Job? = null
-    private var activeSessionId: String? = null
+    private val mutex =
+        Mutex()
+    private val fileMutex =
+        Mutex()
+    private var job: Job? =
+        null
+    private var activeSessionId: String? =
+        null
 
-    suspend fun start(sessionId: String) {
+    suspend fun start(
+        sessionId: String
+    ) {
         mutex.withLock {
             stopLocked()
-            activeSessionId = sessionId
-            job = scope.launch(Dispatchers.Default) {
-                collectSamples(sessionId)
-            }
+            activeSessionId =
+                sessionId
+            job =
+                scope.launch(
+                    Dispatchers.Default
+                ) {
+                    collectSamples(
+                        sessionId
+                    )
+                }
         }
     }
 
@@ -52,70 +64,121 @@ class PerformanceMetricsRecorder @Inject constructor(
     }
 
     private suspend fun stopLocked() {
-        val current = job
-        job = null
-        activeSessionId = null
+        val current =
+            job
+        job =
+            null
+        activeSessionId =
+            null
         current?.cancelAndJoin()
     }
 
-    private suspend fun collectSamples(sessionId: String) {
-        var lastCpuMillis = Process.getElapsedCpuTime()
-        var lastWallMillis = SystemClock.elapsedRealtime()
-        val cores = max(Runtime.getRuntime().availableProcessors(), 1)
-        while (currentCoroutineContext().isActive) {
-            delay(SAMPLE_INTERVAL_MS)
-            val nowCpuMillis = Process.getElapsedCpuTime()
-            val nowWallMillis = SystemClock.elapsedRealtime()
-            val cpuDelta = nowCpuMillis - lastCpuMillis
-            val wallDelta = nowWallMillis - lastWallMillis
-            val cpuPercent = if (wallDelta > 0L) {
-                ((cpuDelta.toDouble() / (wallDelta.toDouble() * cores)) * 100.0).coerceIn(
-                    0.0,
-                    100.0
-                )
-            } else {
-                0.0
-            }
-            lastCpuMillis = nowCpuMillis
-            lastWallMillis = nowWallMillis
-
-            val memoryInfo = Debug.MemoryInfo()
-            Debug.getMemoryInfo(memoryInfo)
-            val pssMb = memoryInfo.totalPss / 1024.0
-            val javaHeapMb =
-                (Runtime.getRuntime().totalMemory() - Runtime.getRuntime()
-                    .freeMemory()) / (1024.0 * 1024.0)
-            val tempC: Double? = null
-
-            val sessionDir = storage.sessionDirectory(sessionId)
-            val availableStorageMb = sessionDir.usableSpace / (1024.0 * 1024.0)
-
-            val timestamp = Instant.fromEpochMilliseconds(System.currentTimeMillis())
-            val payload = PerformanceSample(
-                sessionId = sessionId,
-                timestampEpochMs = timestamp.toEpochMilliseconds(),
-                cpuPercent = cpuPercent,
-                processCpuMillis = nowCpuMillis,
-                memoryPssMb = pssMb,
-                javaHeapMb = javaHeapMb,
-                availableStorageMb = availableStorageMb,
-                batteryTempC = tempC
+    private suspend fun collectSamples(
+        sessionId: String
+    ) {
+        var lastCpuMillis =
+            Process.getElapsedCpuTime()
+        var lastWallMillis =
+            SystemClock.elapsedRealtime()
+        val cores =
+            max(
+                Runtime.getRuntime()
+                    .availableProcessors(),
+                1
             )
-            writeSample(sessionId, payload)
+        while (currentCoroutineContext().isActive) {
+            delay(
+                SAMPLE_INTERVAL_MS
+            )
+            val nowCpuMillis =
+                Process.getElapsedCpuTime()
+            val nowWallMillis =
+                SystemClock.elapsedRealtime()
+            val cpuDelta =
+                nowCpuMillis - lastCpuMillis
+            val wallDelta =
+                nowWallMillis - lastWallMillis
+            val cpuPercent =
+                if (wallDelta > 0L) {
+                    ((cpuDelta.toDouble() / (wallDelta.toDouble() * cores)) * 100.0).coerceIn(
+                        0.0,
+                        100.0
+                    )
+                } else {
+                    0.0
+                }
+            lastCpuMillis =
+                nowCpuMillis
+            lastWallMillis =
+                nowWallMillis
+
+            val memoryInfo =
+                Debug.MemoryInfo()
+            Debug.getMemoryInfo(
+                memoryInfo
+            )
+            val pssMb =
+                memoryInfo.totalPss / 1024.0
+            val javaHeapMb =
+                (Runtime.getRuntime()
+                    .totalMemory() - Runtime.getRuntime()
+                    .freeMemory()) / (1024.0 * 1024.0)
+            val tempC: Double? =
+                null
+
+            val sessionDir =
+                storage.sessionDirectory(
+                    sessionId
+                )
+            val availableStorageMb =
+                sessionDir.usableSpace / (1024.0 * 1024.0)
+
+            val timestamp =
+                Instant.fromEpochMilliseconds(
+                    System.currentTimeMillis()
+                )
+            val payload =
+                PerformanceSample(
+                    sessionId = sessionId,
+                    timestampEpochMs = timestamp.toEpochMilliseconds(),
+                    cpuPercent = cpuPercent,
+                    processCpuMillis = nowCpuMillis,
+                    memoryPssMb = pssMb,
+                    javaHeapMb = javaHeapMb,
+                    availableStorageMb = availableStorageMb,
+                    batteryTempC = tempC
+                )
+            writeSample(
+                sessionId,
+                payload
+            )
         }
     }
 
-    private suspend fun writeSample(sessionId: String, payload: PerformanceSample) {
-        withContext(Dispatchers.IO) {
+    private suspend fun writeSample(
+        sessionId: String,
+        payload: PerformanceSample
+    ) {
+        withContext(
+            Dispatchers.IO
+        ) {
             fileMutex.withLock {
-                val file = storage.performanceMetricsFile(sessionId)
+                val file =
+                    storage.performanceMetricsFile(
+                        sessionId
+                    )
                 file.parentFile?.mkdirs()
-                file.appendText(json.encodeToString(payload) + "\n")
+                file.appendText(
+                    json.encodeToString(
+                        payload
+                    ) + "\n"
+                )
             }
         }
     }
 
     companion object {
-        private const val SAMPLE_INTERVAL_MS = 2_000L
+        private const val SAMPLE_INTERVAL_MS =
+            2_000L
     }
 }

@@ -31,8 +31,10 @@ internal class ShimmerDataWriter private constructor(
     private val digest: MessageDigest,
     private val digestStream: DigestOutputStream
 ) {
-    private val mutex = Mutex()
-    private val logTag = "ShimmerDataWriter"
+    private val mutex =
+        Mutex()
+    private val logTag =
+        "ShimmerDataWriter"
 
     /**
      * Write a GSR sample to the file.
@@ -42,24 +44,58 @@ internal class ShimmerDataWriter private constructor(
         conductance: Double?,
         resistance: Double?
     ) {
-        val conductanceStr = conductance?.let { String.format(Locale.US, "%.6f", it) } ?: ""
-        val resistanceStr = resistance?.let { String.format(Locale.US, "%.2f", it) } ?: ""
-        val line = buildString {
-            append(timestampEpochMs)
-            append(',')
-            append(conductanceStr)
-            append(',')
-            append(resistanceStr)
-        }
+        val conductanceStr =
+            conductance?.let {
+                String.format(
+                    Locale.US,
+                    "%.6f",
+                    it
+                )
+            }
+                ?: ""
+        val resistanceStr =
+            resistance?.let {
+                String.format(
+                    Locale.US,
+                    "%.2f",
+                    it
+                )
+            }
+                ?: ""
+        val line =
+            buildString {
+                append(
+                    timestampEpochMs
+                )
+                append(
+                    ','
+                )
+                append(
+                    conductanceStr
+                )
+                append(
+                    ','
+                )
+                append(
+                    resistanceStr
+                )
+            }
 
-        withContext(Dispatchers.IO) {
+        withContext(
+            Dispatchers.IO
+        ) {
             mutex.withLock {
                 runCatching {
-                    writer.write(line)
+                    writer.write(
+                        line
+                    )
                     writer.newLine()
                     writer.flush()
                 }.onFailure { ex ->
-                    Log.w(logTag, "Failed to write GSR sample: ${ex.message}")
+                    Log.w(
+                        logTag,
+                        "Failed to write GSR sample: ${ex.message}"
+                    )
                 }
             }
         }
@@ -69,32 +105,42 @@ internal class ShimmerDataWriter private constructor(
      * Finalise the recording and return the artifact.
      * This method closes all resources and computes the final checksum.
      */
-    suspend fun finalise(): SessionArtifact = withContext(Dispatchers.IO) {
-        mutex.withLock {
-            runCatching { writer.flush() }
-            runCatching { writer.close() }
+    suspend fun finalise(): SessionArtifact =
+        withContext(
+            Dispatchers.IO
+        ) {
+            mutex.withLock {
+                runCatching { writer.flush() }
+                runCatching { writer.close() }
+            }
+            runCatching { digestStream.close() }
+
+            val checksum =
+                digest.digest()
+
+            SessionArtifact(
+                deviceId = deviceId,
+                streamType = SensorStreamType.GSR,
+                uri = Uri.fromFile(
+                    file
+                ),
+                file = file,
+                mimeType = "text/csv",
+                sizeBytes = file.length(),
+                checksumSha256 = checksum
+            )
         }
-        runCatching { digestStream.close() }
-
-        val checksum = digest.digest()
-
-        SessionArtifact(
-            deviceId = deviceId,
-            streamType = SensorStreamType.GSR,
-            uri = Uri.fromFile(file),
-            file = file,
-            mimeType = "text/csv",
-            sizeBytes = file.length(),
-            checksumSha256 = checksum
-        )
-    }
 
     /**
      * Abort the recording and optionally delete the file.
      * This method closes all resources without computing the checksum.
      */
-    suspend fun abort(deleteFile: Boolean = true) {
-        withContext(Dispatchers.IO) {
+    suspend fun abort(
+        deleteFile: Boolean = true
+    ) {
+        withContext(
+            Dispatchers.IO
+        ) {
             mutex.withLock {
                 runCatching { writer.flush() }
                 runCatching { writer.close() }
@@ -115,34 +161,53 @@ internal class ShimmerDataWriter private constructor(
             sessionId: String,
             deviceId: DeviceId,
             recordingStorage: RecordingStorage
-        ): ShimmerDataWriter = withContext(Dispatchers.IO) {
-            val file = recordingStorage.createArtifactFile(
-                sessionId = sessionId,
-                deviceId = deviceId.value,
-                streamType = "gsr",
-                timestampEpochMs = System.currentTimeMillis(),
-                extension = "csv"
-            )
+        ): ShimmerDataWriter =
+            withContext(
+                Dispatchers.IO
+            ) {
+                val file =
+                    recordingStorage.createArtifactFile(
+                        sessionId = sessionId,
+                        deviceId = deviceId.value,
+                        streamType = "gsr",
+                        timestampEpochMs = System.currentTimeMillis(),
+                        extension = "csv"
+                    )
 
-            val digest = MessageDigest.getInstance("SHA-256")
-            val stream = DigestOutputStream(FileOutputStream(file), digest)
-            val writer = BufferedWriter(
-                OutputStreamWriter(stream, StandardCharsets.UTF_8)
-            )
+                val digest =
+                    MessageDigest.getInstance(
+                        "SHA-256"
+                    )
+                val stream =
+                    DigestOutputStream(
+                        FileOutputStream(
+                            file
+                        ),
+                        digest
+                    )
+                val writer =
+                    BufferedWriter(
+                        OutputStreamWriter(
+                            stream,
+                            StandardCharsets.UTF_8
+                        )
+                    )
 
-            // Write CSV header
-            writer.write("timestamp_ms,conductance_microsiemens,resistance_ohms")
-            writer.newLine()
-            writer.flush()
+                // Write CSV header
+                writer.write(
+                    "timestamp_ms,conductance_microsiemens,resistance_ohms"
+                )
+                writer.newLine()
+                writer.flush()
 
-            ShimmerDataWriter(
-                sessionId = sessionId,
-                deviceId = deviceId,
-                file = file,
-                writer = writer,
-                digest = digest,
-                digestStream = stream
-            )
-        }
+                ShimmerDataWriter(
+                    sessionId = sessionId,
+                    deviceId = deviceId,
+                    file = file,
+                    writer = writer,
+                    digest = digest,
+                    digestStream = stream
+                )
+            }
     }
 }

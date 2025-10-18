@@ -6,19 +6,35 @@ plugins {
 
 kapt {
     arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
+        arg(
+                "AROUTER_MODULE_NAME",
+                project
+                        .getName()
+        )
     }
-    correctErrorTypes = true
+    correctErrorTypes =
+            true
 }
 
 
 android {
     namespace "com.topdon.libcom"
-    compileSdk rootProject.ext.android.compileSdk
+    compileSdk
+            rootProject
+                    .ext
+                    .android
+                    .compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.android.minSdk
-        targetSdk rootProject.ext.android.targetSdk
+        minSdk rootProject
+                .ext
+                .android
+                .minSdk
+        targetSdk
+                rootProject
+                        .ext
+                        .android
+                        .targetSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -27,24 +43,36 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles
+                    getDefaultProguardFile(
+                            'proguard-android-optimize.txt'
+                    ),
+                            'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility
+                JavaVersion
+                        .VERSION_21
+        targetCompatibility
+                JavaVersion
+                        .VERSION_21
     }
     buildFeatures {
-        buildConfig = true
+        buildConfig =
+                true
     }
 
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget =
+                '21'
     }
 
     lint {
-        abortOnError = false
-        checkReleaseBuilds = false
+        abortOnError =
+                false
+        checkReleaseBuilds =
+                false
     }
 
     flavorDimensions 'app'
@@ -71,14 +99,25 @@ android {
 }
 dependencies {
     // Re-enabled - libapp now builds successfully
-    implementation project(':libapp')
-    implementation project(':libui')
+    implementation
+            project(':libapp')
+    implementation
+            project(':libui')
 
-    kapt libs.arouter.compiler
-    api libs.colorpickerview
-    implementation libs.brvah
-    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
-    implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.1.0'
+    kapt libs
+            .arouter
+            .compiler
+    api libs
+            .colorpickerview
+    implementation
+            libs
+                    .brvah
+    implementation group: 'org.apache.poi',
+            name: 'poi-ooxml',
+            version: '3.17'
+    implementation group: 'org.apache.xmlbeans',
+            name: 'xmlbeans',
+            version: '3.1.0'
     implementation 'javax.xml.stream:stax-api:1.0'
     implementation 'com.fasterxml:aalto-xml:1.2.2'
 

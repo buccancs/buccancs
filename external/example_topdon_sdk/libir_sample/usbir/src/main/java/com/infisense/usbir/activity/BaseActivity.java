@@ -20,7 +20,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             try {
                 WaterMark.getInstance().show(this, getPackageManager().getPackageInfo(
                         getPackageName(), 0).versionName);
-            } catch (PackageManager.NameNotFoundException e) {
+            } catch (
+                    PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
         }

@@ -20,18 +20,24 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles
+                    getDefaultProguardFile(
+                            'proguard-android.txt'
+                    ),
+                            'proguard-rules.txt'
         }
     }
 
     sourceSets {
         main {
-            res.srcDirs = [
-                    'src/main/res/layouts/fragments',
-                    'src/main/res/layouts/general',
-                    'src/main/res/layouts',
-                    'src/main/res'
-            ]
+            res
+                    .srcDirs =
+                    [
+                            'src/main/res/layouts/fragments',
+                            'src/main/res/layouts/general',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
         }
     }
 
@@ -44,8 +50,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility
+                JavaVersion
+                        .VERSION_11
+        targetCompatibility
+                JavaVersion
+                        .VERSION_11
     }
 }
 
@@ -55,8 +65,12 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'com.github.Jasonchenlijian:FastBle:2.4.0'
-    implementation files('libs/ShimmerBiophysicalProcessingLibrary_Rev_0_11.jar')
-    implementation files('libs/AndroidBluetoothLibrary.jar')
+    implementation
+            files('libs/ShimmerBiophysicalProcessingLibrary_Rev_0_11.jar')
+    implementation
+            files('libs/AndroidBluetoothLibrary.jar')
 
-    api files('libs/androidplot-core-0.5.0-release.jar')
+    api files(
+            'libs/androidplot-core-0.5.0-release.jar'
+    )
 }

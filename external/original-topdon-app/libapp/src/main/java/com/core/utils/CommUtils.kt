@@ -14,17 +14,27 @@ import com.topdon.lib.core.R
 object CommUtils {
 
     fun getAppName(): String {
-        var msg = ""
-        var appInfo: ApplicationInfo? = null
-        appInfo = Utils.getApp().packageManager
-            .getApplicationInfo(
-                Utils.getApp().packageName,
-                PackageManager.GET_META_DATA
-            )
+        var msg =
+            ""
+        var appInfo: ApplicationInfo? =
+            null
+        appInfo =
+            Utils.getApp().packageManager
+                .getApplicationInfo(
+                    Utils.getApp().packageName,
+                    PackageManager.GET_META_DATA
+                )
         try {
-            msg = appInfo.metaData.getString("app_name")?.toString() ?: ""
+            msg =
+                appInfo.metaData.getString(
+                    "app_name"
+                )
+                    ?.toString()
+                    ?: ""
         } catch (e: Exception) {
-            XLog.w("获取app名称异常： ${e.message}")
+            XLog.w(
+                "获取app名称异常： ${e.message}"
+            )
         }
         return msg
 

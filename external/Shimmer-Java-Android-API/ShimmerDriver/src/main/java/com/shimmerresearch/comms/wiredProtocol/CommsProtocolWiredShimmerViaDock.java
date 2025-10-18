@@ -212,7 +212,8 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
                     if (result.contains(TEST_ENDING)) {
                         tcs.setResult(true);
                     }
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                     tcs.setResult(false);
                 }
@@ -234,7 +235,8 @@ public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired
         boolean completed = false;
         try {
             completed = tcs.getTask().waitForCompletion(TIMEOUT_IN_SHIMMER_TEST, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
             mTestStreaming = false;
             return false;

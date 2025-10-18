@@ -621,7 +621,8 @@ public class ShimmerDialogConfigurations {
                         if (!shimmerService.mPlotManager.checkIfPropertyExist(listOfChannelsFinal.get(index))) {
                             try {
                                 shimmerService.mPlotManager.addSignal(listOfChannelsFinal.get(index), dynamicPlot);
-                            } catch (Exception e) {
+                            } catch (
+                                    Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
@@ -665,7 +666,8 @@ public class ShimmerDialogConfigurations {
                         if (!shimmerService.mPlotManager.checkIfPropertyExist(listofChannels.get(index))) {
                             try {
                                 shimmerService.mPlotManager.addSignal(listofChannels.get(index), dynamicPlot);
-                            } catch (Exception e) {
+                            } catch (
+                                    Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
@@ -688,7 +690,8 @@ public class ShimmerDialogConfigurations {
                 if (!shimmerService.mPlotManager.checkIfPropertyExist(listOfChannelsFinal.get(index))) {
                     try {
                         shimmerService.mPlotManager.addSignal(listOfChannelsFinal.get(index), dynamicPlot);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -810,7 +813,8 @@ public class ShimmerDialogConfigurations {
                 if (text != null && !text.isEmpty()) {
                     try {
                         samplingRate = Double.parseDouble(text);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 }

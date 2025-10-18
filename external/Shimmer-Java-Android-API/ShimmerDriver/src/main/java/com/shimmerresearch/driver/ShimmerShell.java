@@ -39,7 +39,8 @@ public class ShimmerShell extends ShimmerDevice {
     public void connect() {
         try {
             super.connect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -54,10 +55,12 @@ public class ShimmerShell extends ShimmerDevice {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (ShimmerShell) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }

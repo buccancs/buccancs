@@ -237,7 +237,8 @@ public class CameraPreviewManager {
                             }
                         });
                     }
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     XLog.e(TAG, "Lite图像处理异常" + e.getMessage());
                 }
             }
@@ -606,7 +607,8 @@ public class CameraPreviewManager {
             if (mSurface != null) {
                 mSurfaceNativeWindow.onDrawFrame(mSurface, mIrRotateData, mFinalImageWidth, mFinalImageHeight);
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             XLog.e(TAG + ":lite的图像渲染异常：" + e.getMessage());
         }
     }

@@ -15,7 +15,8 @@ import java.nio.charset.StandardCharsets
  * Prevents data corruption during crashes by using temp files and atomic rename operations.
  */
 object AtomicFileWriter {
-    private const val TAG = "AtomicFileWriter"
+    private const val TAG =
+        "AtomicFileWriter"
 
     /**
      * Atomically write content to a file using temp file and atomic rename with storage validation.
@@ -31,80 +32,144 @@ object AtomicFileWriter {
         content: String,
         charset: Charset = StandardCharsets.UTF_8,
         checkSpace: Boolean = true
-    ): WriteResult<Unit> = withContext(Dispatchers.IO) {
-        val contentBytes = content.toByteArray(charset)
+    ): WriteResult<Unit> =
+        withContext(
+            Dispatchers.IO
+        ) {
+            val contentBytes =
+                content.toByteArray(
+                    charset
+                )
 
-        if (checkSpace) {
-            when (val spaceCheck =
-                StorageValidator.checkSpace(targetFile, contentBytes.size.toLong())) {
-                is StorageCheckResult.Insufficient -> {
-                    Log.e(
-                        TAG,
-                        "Insufficient space: need ${StorageValidator.formatBytes(spaceCheck.required)}, " +
-                                "have ${StorageValidator.formatBytes(spaceCheck.available)}"
-                    )
-                    return@withContext WriteResult.Failure.InsufficientSpace(
-                        spaceCheck.required,
-                        spaceCheck.available
-                    )
-                }
+            if (checkSpace) {
+                when (val spaceCheck =
+                    StorageValidator.checkSpace(
+                        targetFile,
+                        contentBytes.size.toLong()
+                    )) {
+                    is StorageCheckResult.Insufficient -> {
+                        Log.e(
+                            TAG,
+                            "Insufficient space: need ${
+                                StorageValidator.formatBytes(
+                                    spaceCheck.required
+                                )
+                            }, " +
+                                    "have ${
+                                        StorageValidator.formatBytes(
+                                            spaceCheck.available
+                                        )
+                                    }"
+                        )
+                        return@withContext WriteResult.Failure.InsufficientSpace(
+                            spaceCheck.required,
+                            spaceCheck.available
+                        )
+                    }
 
-                is StorageCheckResult.Error -> {
-                    Log.e(TAG, "Error checking space: ${spaceCheck.message}", spaceCheck.cause)
-                    return@withContext WriteResult.Failure.WriteError(
-                        spaceCheck.message,
-                        spaceCheck.cause
-                    )
-                }
+                    is StorageCheckResult.Error -> {
+                        Log.e(
+                            TAG,
+                            "Error checking space: ${spaceCheck.message}",
+                            spaceCheck.cause
+                        )
+                        return@withContext WriteResult.Failure.WriteError(
+                            spaceCheck.message,
+                            spaceCheck.cause
+                        )
+                    }
 
-                StorageCheckResult.Sufficient -> {
-                    // Continue
+                    StorageCheckResult.Sufficient -> {
+                        // Continue
+                    }
                 }
             }
-        }
 
-        val tempFile = File(targetFile.parentFile, "${targetFile.name}.tmp")
-        val backupFile = File(targetFile.parentFile, "${targetFile.name}.bak")
+            val tempFile =
+                File(
+                    targetFile.parentFile,
+                    "${targetFile.name}.tmp"
+                )
+            val backupFile =
+                File(
+                    targetFile.parentFile,
+                    "${targetFile.name}.bak"
+                )
 
-        try {
-            targetFile.parentFile?.mkdirs()
+            try {
+                targetFile.parentFile?.mkdirs()
 
-            tempFile.writeText(content, charset)
+                tempFile.writeText(
+                    content,
+                    charset
+                )
 
-            tempFile.outputStream().use { stream ->
-                stream.fd.sync()
-            }
+                tempFile.outputStream()
+                    .use { stream ->
+                        stream.fd.sync()
+                    }
 
-            if (targetFile.exists()) {
-                if (backupFile.exists()) backupFile.delete()
-                if (!targetFile.renameTo(backupFile)) {
-                    targetFile.copyTo(backupFile, overwrite = true)
+                if (targetFile.exists()) {
+                    if (backupFile.exists()) backupFile.delete()
+                    if (!targetFile.renameTo(
+                            backupFile
+                        )
+                    ) {
+                        targetFile.copyTo(
+                            backupFile,
+                            overwrite = true
+                        )
+                    }
                 }
-            }
 
-            if (!tempFile.renameTo(targetFile)) {
-                tempFile.copyTo(targetFile, overwrite = true)
+                if (!tempFile.renameTo(
+                        targetFile
+                    )
+                ) {
+                    tempFile.copyTo(
+                        targetFile,
+                        overwrite = true
+                    )
+                    tempFile.delete()
+                }
+
+                WriteResult.Success(
+                    Unit
+                )
+
+            } catch (e: Exception) {
+                Log.e(
+                    TAG,
+                    "Failed to write file atomically: ${targetFile.name}",
+                    e
+                )
+
+                if (backupFile.exists() && !targetFile.exists()) {
+                    try {
+                        backupFile.copyTo(
+                            targetFile,
+                            overwrite = true
+                        )
+                        Log.i(
+                            TAG,
+                            "Restored ${targetFile.name} from backup"
+                        )
+                    } catch (restoreError: Exception) {
+                        Log.e(
+                            TAG,
+                            "Failed to restore from backup",
+                            restoreError
+                        )
+                    }
+                }
+
                 tempFile.delete()
+                WriteResult.Failure.WriteError(
+                    "Atomic write failed: ${e.message}",
+                    e
+                )
             }
-
-            WriteResult.Success(Unit)
-
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to write file atomically: ${targetFile.name}", e)
-
-            if (backupFile.exists() && !targetFile.exists()) {
-                try {
-                    backupFile.copyTo(targetFile, overwrite = true)
-                    Log.i(TAG, "Restored ${targetFile.name} from backup")
-                } catch (restoreError: Exception) {
-                    Log.e(TAG, "Failed to restore from backup", restoreError)
-                }
-            }
-
-            tempFile.delete()
-            WriteResult.Failure.WriteError("Atomic write failed: ${e.message}", e)
         }
-    }
 
     /**
      * Atomically write content to a file using temp file and atomic rename.
@@ -113,12 +178,26 @@ object AtomicFileWriter {
      * @param content The content to write
      * @throws Exception if write fails
      */
-    suspend fun writeAtomic(targetFile: File, content: String) {
-        when (val result = writeAtomicSafe(targetFile, content, checkSpace = false)) {
+    suspend fun writeAtomic(
+        targetFile: File,
+        content: String
+    ) {
+        when (val result =
+            writeAtomicSafe(
+                targetFile,
+                content,
+                checkSpace = false
+            )) {
             is WriteResult.Success -> return
-            is WriteResult.Failure.WriteError -> throw Exception(result.message, result.cause)
+            is WriteResult.Failure.WriteError -> throw Exception(
+                result.message,
+                result.cause
+            )
+
             is WriteResult.Failure.InsufficientSpace ->
-                throw Exception("Insufficient space: need ${result.required}, have ${result.available}")
+                throw Exception(
+                    "Insufficient space: need ${result.required}, have ${result.available}"
+                )
         }
     }
 
@@ -128,21 +207,42 @@ object AtomicFileWriter {
      * @param targetFile The file to recover
      * @return true if recovered successfully, false if no backup available
      */
-    suspend fun recoverFromBackup(targetFile: File): Boolean {
-        return withContext(Dispatchers.IO) {
-            val backupFile = File(targetFile.parentFile, "${targetFile.name}.bak")
+    suspend fun recoverFromBackup(
+        targetFile: File
+    ): Boolean {
+        return withContext(
+            Dispatchers.IO
+        ) {
+            val backupFile =
+                File(
+                    targetFile.parentFile,
+                    "${targetFile.name}.bak"
+                )
 
             if (backupFile.exists()) {
                 try {
-                    backupFile.copyTo(targetFile, overwrite = true)
-                    Log.i(TAG, "Recovered ${targetFile.name} from backup")
+                    backupFile.copyTo(
+                        targetFile,
+                        overwrite = true
+                    )
+                    Log.i(
+                        TAG,
+                        "Recovered ${targetFile.name} from backup"
+                    )
                     true
                 } catch (e: Exception) {
-                    Log.e(TAG, "Failed to recover from backup: ${targetFile.name}", e)
+                    Log.e(
+                        TAG,
+                        "Failed to recover from backup: ${targetFile.name}",
+                        e
+                    )
                     false
                 }
             } else {
-                Log.w(TAG, "No backup available for ${targetFile.name}")
+                Log.w(
+                    TAG,
+                    "No backup available for ${targetFile.name}"
+                )
                 false
             }
         }
@@ -151,18 +251,36 @@ object AtomicFileWriter {
     /**
      * Check if a backup exists for a file.
      */
-    fun hasBackup(targetFile: File): Boolean {
-        val backupFile = File(targetFile.parentFile, "${targetFile.name}.bak")
+    fun hasBackup(
+        targetFile: File
+    ): Boolean {
+        val backupFile =
+            File(
+                targetFile.parentFile,
+                "${targetFile.name}.bak"
+            )
         return backupFile.exists()
     }
 
     /**
      * Clean up temp and backup files.
      */
-    suspend fun cleanupTemporaryFiles(targetFile: File) {
-        withContext(Dispatchers.IO) {
-            val tempFile = File(targetFile.parentFile, "${targetFile.name}.tmp")
-            val backupFile = File(targetFile.parentFile, "${targetFile.name}.bak")
+    suspend fun cleanupTemporaryFiles(
+        targetFile: File
+    ) {
+        withContext(
+            Dispatchers.IO
+        ) {
+            val tempFile =
+                File(
+                    targetFile.parentFile,
+                    "${targetFile.name}.tmp"
+                )
+            val backupFile =
+                File(
+                    targetFile.parentFile,
+                    "${targetFile.name}.bak"
+                )
 
             tempFile.delete()
             backupFile.delete()

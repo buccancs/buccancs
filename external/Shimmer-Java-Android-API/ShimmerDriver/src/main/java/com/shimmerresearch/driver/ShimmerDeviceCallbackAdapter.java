@@ -72,7 +72,8 @@ public class ShimmerDeviceCallbackAdapter implements Serializable {
         if (mShimmerDevice.isAutoStartStreaming()) {
             try {
                 mShimmerDevice.startStreaming();
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
         }

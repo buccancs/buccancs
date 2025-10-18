@@ -15,56 +15,133 @@ import java.io.IOException
 import java.nio.ByteBuffer
 
 class FrameTool {
-    val imageWidth = 256
-    val imageHeight = 192
-    private val scrImageLen = imageWidth * imageHeight * 2
-    private val srcTemperatureLen = imageWidth * imageHeight * 2
-    private val imageBytes = ByteArray(scrImageLen)
-    val temperatureBytes = ByteArray(srcTemperatureLen)
-    private val imageRes = LibIRProcess.ImageRes_t()
-    private var struct: FrameStruct = FrameStruct()
-    private var maxLimit = -273f
-    private var minLimit = -273f
-    private var irImageHelp = IRImageHelp()
-    private val supImageData = ByteArray(imageWidth * imageHeight * 4 * 4)
-    private var dstArgbBytes: ByteArray? = null
+    val imageWidth =
+        256
+    val imageHeight =
+        192
+    private val scrImageLen =
+        imageWidth * imageHeight * 2
+    private val srcTemperatureLen =
+        imageWidth * imageHeight * 2
+    private val imageBytes =
+        ByteArray(
+            scrImageLen
+        )
+    val temperatureBytes =
+        ByteArray(
+            srcTemperatureLen
+        )
+    private val imageRes =
+        LibIRProcess.ImageRes_t()
+    private var struct: FrameStruct =
+        FrameStruct()
+    private var maxLimit =
+        -273f
+    private var minLimit =
+        -273f
+    private var irImageHelp =
+        IRImageHelp()
+    private val supImageData =
+        ByteArray(
+            imageWidth * imageHeight * 4 * 4
+        )
+    private var dstArgbBytes: ByteArray? =
+        null
 
-    fun read(bytes: ByteArray) {
+    fun read(
+        bytes: ByteArray
+    ) {
         try {
-            val frame = ByteArray(bytes.size)
-            System.arraycopy(bytes, 0, frame, 0, frame.size)
-            println("bs len: ${frame.size}")
-            System.arraycopy(frame, 0, imageBytes, 0, scrImageLen)
-            System.arraycopy(frame, scrImageLen, temperatureBytes, 0, srcTemperatureLen)
-            println("imageBytes len: ${imageBytes.size}")
-            println("temperatureBytes len: ${temperatureBytes.size}")
+            val frame =
+                ByteArray(
+                    bytes.size
+                )
+            System.arraycopy(
+                bytes,
+                0,
+                frame,
+                0,
+                frame.size
+            )
+            println(
+                "bs len: ${frame.size}"
+            )
+            System.arraycopy(
+                frame,
+                0,
+                imageBytes,
+                0,
+                scrImageLen
+            )
+            System.arraycopy(
+                frame,
+                scrImageLen,
+                temperatureBytes,
+                0,
+                srcTemperatureLen
+            )
+            println(
+                "imageBytes len: ${imageBytes.size}"
+            )
+            println(
+                "temperatureBytes len: ${temperatureBytes.size}"
+            )
         } catch (e: Exception) {
             e.printStackTrace()
-            XLog.e("读取一帧原始数据失败: ${e.message}")
+            XLog.e(
+                "读取一帧原始数据失败: ${e.message}"
+            )
         }
     }
 
-    fun initStruct(struct: FrameStruct) {
-        this.struct = struct
-        imageRes.width = imageWidth.toChar()
-        imageRes.height = imageHeight.toChar()
+    fun initStruct(
+        struct: FrameStruct
+    ) {
+        this.struct =
+            struct
+        imageRes.width =
+            imageWidth.toChar()
+        imageRes.height =
+            imageHeight.toChar()
     }
 
     fun initRotate(): ImageParams {
-        var rotate = ImageParams.ROTATE_0
+        var rotate =
+            ImageParams.ROTATE_0
         when (struct.rotate) {
-            0 -> rotate = ImageParams.ROTATE_0
-            90 -> rotate = ImageParams.ROTATE_270
-            180 -> rotate = ImageParams.ROTATE_180
-            270 -> rotate = ImageParams.ROTATE_90
+            0 -> rotate =
+                ImageParams.ROTATE_0
+
+            90 -> rotate =
+                ImageParams.ROTATE_270
+
+            180 -> rotate =
+                ImageParams.ROTATE_180
+
+            270 -> rotate =
+                ImageParams.ROTATE_90
         }
         return rotate
     }
 
-    fun getTempBytes(rotate: ImageParams = ImageParams.ROTATE_0): ByteArray {
-        val tempBytes = ByteArray(srcTemperatureLen)
-        val dstTempBytes = ByteArray(srcTemperatureLen)
-        System.arraycopy(temperatureBytes, 0, tempBytes, 0, srcTemperatureLen)
+    fun getTempBytes(
+        rotate: ImageParams = ImageParams.ROTATE_0
+    ): ByteArray {
+        val tempBytes =
+            ByteArray(
+                srcTemperatureLen
+            )
+        val dstTempBytes =
+            ByteArray(
+                srcTemperatureLen
+            )
+        System.arraycopy(
+            temperatureBytes,
+            0,
+            tempBytes,
+            0,
+            srcTemperatureLen
+        )
         when (rotate) {
             ImageParams.ROTATE_270 -> LibIRProcess.rotateLeft90(
                 tempBytes,
@@ -87,18 +164,41 @@ class FrameTool {
                 dstTempBytes
             )
 
-            else -> System.arraycopy(temperatureBytes, 0, dstTempBytes, 0, srcTemperatureLen)
+            else -> System.arraycopy(
+                temperatureBytes,
+                0,
+                dstTempBytes,
+                0,
+                srcTemperatureLen
+            )
         }
         return dstTempBytes
     }
 
-    fun getRotate90Temp(temperatureBytes: ByteArray): ByteArray {
-        val tempBytes = ByteArray(temperatureBytes.size)
-        val dstTempBytes = ByteArray(temperatureBytes.size)
-        System.arraycopy(temperatureBytes, 0, tempBytes, 0, temperatureBytes.size)
-        val imgRes = LibIRProcess.ImageRes_t()
-        imgRes.height = 192.toChar()
-        imgRes.width = 256.toChar()
+    fun getRotate90Temp(
+        temperatureBytes: ByteArray
+    ): ByteArray {
+        val tempBytes =
+            ByteArray(
+                temperatureBytes.size
+            )
+        val dstTempBytes =
+            ByteArray(
+                temperatureBytes.size
+            )
+        System.arraycopy(
+            temperatureBytes,
+            0,
+            tempBytes,
+            0,
+            temperatureBytes.size
+        )
+        val imgRes =
+            LibIRProcess.ImageRes_t()
+        imgRes.height =
+            192.toChar()
+        imgRes.width =
+            256.toChar()
         LibIRProcess.rotateRight90(
             tempBytes,
             imgRes,
@@ -114,19 +214,45 @@ class FrameTool {
         min: Float = 273f,
         rotate: ImageParams = ImageParams.ROTATE_0,
         customPseudoBean: CustomPseudoBean,
-        maxTemperature: Float, minTemperature: Float,
+        maxTemperature: Float,
+        minTemperature: Float,
         isAmplify: Boolean,
     ): Bitmap? {
-        maxLimit = max
-        minLimit = min
-        val imageBytesTemp = ByteArray(imageBytes.size)
-        System.arraycopy(imageBytes, 0, imageBytesTemp, 0, imageBytesTemp.size)
-        val pixNum = imageWidth * imageHeight
-        val argbLen = pixNum * 4
-        var argbBytes = ByteArray(argbLen)
-        dstArgbBytes = ByteArray(argbLen)
-        val maxRGB = IntArray(3)
-        val minRGB = IntArray(3)
+        maxLimit =
+            max
+        minLimit =
+            min
+        val imageBytesTemp =
+            ByteArray(
+                imageBytes.size
+            )
+        System.arraycopy(
+            imageBytes,
+            0,
+            imageBytesTemp,
+            0,
+            imageBytesTemp.size
+        )
+        val pixNum =
+            imageWidth * imageHeight
+        val argbLen =
+            pixNum * 4
+        var argbBytes =
+            ByteArray(
+                argbLen
+            )
+        dstArgbBytes =
+            ByteArray(
+                argbLen
+            )
+        val maxRGB =
+            IntArray(
+                3
+            )
+        val minRGB =
+            IntArray(
+                3
+            )
         if (customPseudoBean.isUseCustomPseudo) {
             LibIRProcess.convertYuyvMapToARGBPseudocolor(
                 imageBytesTemp,
@@ -134,54 +260,83 @@ class FrameTool {
                 CommonParams.PseudoColorType.PSEUDO_1,
                 argbBytes
             )
-            val colorList: IntArray? = customPseudoBean.getColorList(struct.isTC007())
-            val places: FloatArray? = customPseudoBean.getPlaceList()
+            val colorList: IntArray? =
+                customPseudoBean.getColorList(
+                    struct.isTC007()
+                )
+            val places: FloatArray? =
+                customPseudoBean.getPlaceList()
             if (colorList != null) {
-                val customMaxTemp = customPseudoBean.maxTemp
-                val customMinTemp = customPseudoBean.minTemp
-                val maxColor: Int = colorList.last()
-                val minColor: Int = colorList.first()
-                maxRGB[0] = maxColor shr 16 and 0xFF
-                maxRGB[1] = maxColor shr 8 and 0xFF
-                maxRGB[2] = maxColor and 0xFF
-                minRGB[0] = minColor shr 16 and 0xFF
-                minRGB[1] = minColor shr 8 and 0xFF
-                minRGB[2] = minColor and 0xFF
-                var j = 0
-                val argbBytesLength = imageWidth * imageHeight * 4
-                var index = 0
+                val customMaxTemp =
+                    customPseudoBean.maxTemp
+                val customMinTemp =
+                    customPseudoBean.minTemp
+                val maxColor: Int =
+                    colorList.last()
+                val minColor: Int =
+                    colorList.first()
+                maxRGB[0] =
+                    maxColor shr 16 and 0xFF
+                maxRGB[1] =
+                    maxColor shr 8 and 0xFF
+                maxRGB[2] =
+                    maxColor and 0xFF
+                minRGB[0] =
+                    minColor shr 16 and 0xFF
+                minRGB[1] =
+                    minColor shr 8 and 0xFF
+                minRGB[2] =
+                    minColor and 0xFF
+                var j =
+                    0
+                val argbBytesLength =
+                    imageWidth * imageHeight * 4
+                var index =
+                    0
                 while (index < argbBytesLength) {
                     var temperature0: Float =
                         ((temperatureBytes[j].toInt() and 0xff) + (temperatureBytes[j + 1]
                             .toInt() and 0xff) * 256).toFloat()
-                    temperature0 = (temperature0 / 64 - 273.15).toFloat()
+                    temperature0 =
+                        (temperature0 / 64 - 273.15).toFloat()
                     if (temperature0 in customMinTemp..customMaxTemp) {
-                        val rgb = OpencvTools.getOneColorByTempUnif(
-                            customMaxTemp,
-                            customMinTemp,
-                            temperature0,
-                            colorList,
-                            places
-                        )
+                        val rgb =
+                            OpencvTools.getOneColorByTempUnif(
+                                customMaxTemp,
+                                customMinTemp,
+                                temperature0,
+                                colorList,
+                                places
+                            )
                         if (rgb != null) {
-                            argbBytes[index] = rgb[0].toByte()
-                            argbBytes[index + 1] = rgb[1].toByte()
-                            argbBytes[index + 2] = rgb[2].toByte()
+                            argbBytes[index] =
+                                rgb[0].toByte()
+                            argbBytes[index + 1] =
+                                rgb[1].toByte()
+                            argbBytes[index + 2] =
+                                rgb[2].toByte()
                         }
                     } else if (temperature0 > customMaxTemp) {
                         if (!customPseudoBean.isUseGray) {
-                            argbBytes[index] = maxRGB[0].toByte()
-                            argbBytes[index + 1] = maxRGB[1].toByte()
-                            argbBytes[index + 2] = maxRGB[2].toByte()
+                            argbBytes[index] =
+                                maxRGB[0].toByte()
+                            argbBytes[index + 1] =
+                                maxRGB[1].toByte()
+                            argbBytes[index + 2] =
+                                maxRGB[2].toByte()
                         }
                     } else if (temperature0 < customMinTemp) {
                         if (!customPseudoBean.isUseGray) {
-                            argbBytes[index] = minRGB[0].toByte()
-                            argbBytes[index + 1] = minRGB[1].toByte()
-                            argbBytes[index + 2] = minRGB[2].toByte()
+                            argbBytes[index] =
+                                minRGB[0].toByte()
+                            argbBytes[index + 1] =
+                                minRGB[1].toByte()
+                            argbBytes[index + 2] =
+                                minRGB[2].toByte()
                         }
                     }
-                    argbBytes[index + 3] = 255.toByte()
+                    argbBytes[index + 3] =
+                        255.toByte()
                     index += 4
                     j += 2
                 }
@@ -194,74 +349,136 @@ class FrameTool {
                 argbBytes
             )
             if (!(maxLimit == -273f && minLimit == -273f) && !(maxTemperature == maxLimit && minLimit == minTemperature)) {
-                ImageTools.dualReadFrame(argbBytes, temperatureBytes, maxLimit, minLimit)
+                ImageTools.dualReadFrame(
+                    argbBytes,
+                    temperatureBytes,
+                    maxLimit,
+                    minLimit
+                )
             }
         }
         if ((struct.alarmBean.isHighOpen && struct.alarmBean.highTemp != Float.MAX_VALUE) ||
             (struct.alarmBean.isLowOpen && struct.alarmBean.lowTemp != Float.MIN_VALUE)
         ) {
             try {
-                argbBytes = irImageHelp.contourDetection(
-                    struct.alarmBean,
-                    argbBytes, temperatureBytes,
-                    imageWidth,
-                    imageHeight,
-                )!!
+                argbBytes =
+                    irImageHelp.contourDetection(
+                        struct.alarmBean,
+                        argbBytes,
+                        temperatureBytes,
+                        imageWidth,
+                        imageHeight,
+                    )!!
             } catch (e: IOException) {
             }
         }
-        argbBytesRotate(argbBytes, dstArgbBytes!!, rotate)
-        val dstImageRes = getDstImageRes(rotate)
-        var scrBitmap: Bitmap? = null
+        argbBytesRotate(
+            argbBytes,
+            dstArgbBytes!!,
+            rotate
+        )
+        val dstImageRes =
+            getDstImageRes(
+                rotate
+            )
+        var scrBitmap: Bitmap? =
+            null
         if (isAmplify) {
-            SupHelp.getInstance().initA4KCPP()
+            SupHelp.getInstance()
+                .initA4KCPP()
             if (SupHelp.getInstance().loadOpenclSuccess) {
                 OpencvTools.supImage(
-                    dstArgbBytes, dstImageRes.height.code,
-                    dstImageRes.width.code, supImageData
-                )
-                scrBitmap = Bitmap.createBitmap(
-                    dstImageRes.width.code * 2,
-                    dstImageRes.height.code * 2, Bitmap.Config.ARGB_8888
-                )
-                scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(supImageData, 0, argbLen * 4))
-            } else {
-                scrBitmap = Bitmap.createBitmap(
+                    dstArgbBytes,
+                    dstImageRes.height.code,
                     dstImageRes.width.code,
-                    dstImageRes.height.code, Bitmap.Config.ARGB_8888
+                    supImageData
                 )
-                scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(dstArgbBytes, 0, argbLen))
+                scrBitmap =
+                    Bitmap.createBitmap(
+                        dstImageRes.width.code * 2,
+                        dstImageRes.height.code * 2,
+                        Bitmap.Config.ARGB_8888
+                    )
+                scrBitmap.copyPixelsFromBuffer(
+                    ByteBuffer.wrap(
+                        supImageData,
+                        0,
+                        argbLen * 4
+                    )
+                )
+            } else {
+                scrBitmap =
+                    Bitmap.createBitmap(
+                        dstImageRes.width.code,
+                        dstImageRes.height.code,
+                        Bitmap.Config.ARGB_8888
+                    )
+                scrBitmap.copyPixelsFromBuffer(
+                    ByteBuffer.wrap(
+                        dstArgbBytes,
+                        0,
+                        argbLen
+                    )
+                )
             }
         } else {
-            scrBitmap = Bitmap.createBitmap(
-                dstImageRes.width.code,
-                dstImageRes.height.code, Bitmap.Config.ARGB_8888
+            scrBitmap =
+                Bitmap.createBitmap(
+                    dstImageRes.width.code,
+                    dstImageRes.height.code,
+                    Bitmap.Config.ARGB_8888
+                )
+            scrBitmap.copyPixelsFromBuffer(
+                ByteBuffer.wrap(
+                    dstArgbBytes,
+                    0,
+                    argbLen
+                )
             )
-            scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(dstArgbBytes, 0, argbLen))
         }
         return scrBitmap
     }
 
-    fun getBaseBitmap(rotate: ImageParams): Bitmap {
-        val dstImageRes = getDstImageRes(rotate)
-        val scrBitmap = Bitmap.createBitmap(
-            dstImageRes.width.code,
-            dstImageRes.height.code, Bitmap.Config.ARGB_8888
-        )
+    fun getBaseBitmap(
+        rotate: ImageParams
+    ): Bitmap {
+        val dstImageRes =
+            getDstImageRes(
+                rotate
+            )
+        val scrBitmap =
+            Bitmap.createBitmap(
+                dstImageRes.width.code,
+                dstImageRes.height.code,
+                Bitmap.Config.ARGB_8888
+            )
         dstArgbBytes?.let {
-            scrBitmap.copyPixelsFromBuffer(ByteBuffer.wrap(it, 0, it.size))
+            scrBitmap.copyPixelsFromBuffer(
+                ByteBuffer.wrap(
+                    it,
+                    0,
+                    it.size
+                )
+            )
         }
         return scrBitmap
     }
 
-    private fun getDstImageRes(rotate: ImageParams): LibIRProcess.ImageRes_t {
-        val dstImageRes = LibIRProcess.ImageRes_t()
+    private fun getDstImageRes(
+        rotate: ImageParams
+    ): LibIRProcess.ImageRes_t {
+        val dstImageRes =
+            LibIRProcess.ImageRes_t()
         if (rotate == ImageParams.ROTATE_270 || rotate == ImageParams.ROTATE_90) {
-            dstImageRes.width = imageRes.height
-            dstImageRes.height = imageRes.width
+            dstImageRes.width =
+                imageRes.height
+            dstImageRes.height =
+                imageRes.width
         } else {
-            dstImageRes.width = imageRes.width
-            dstImageRes.height = imageRes.height
+            dstImageRes.width =
+                imageRes.width
+            dstImageRes.height =
+                imageRes.height
         }
         return dstImageRes
     }
@@ -293,14 +510,33 @@ class FrameTool {
                 dstArgbBytes
             )
 
-            else -> System.arraycopy(argbBytes, 0, dstArgbBytes, 0, argbBytes.size)
+            else -> System.arraycopy(
+                argbBytes,
+                0,
+                dstArgbBytes,
+                0,
+                argbBytes.size
+            )
         }
     }
 
     fun getSrcTemp(): LibIRTemp.TemperatureSampleResult {
-        val irTemp = LibIRTemp(imageWidth, imageHeight)
-        irTemp.setTempData(temperatureBytes)
-        return irTemp.getTemperatureOfRect(Rect(0, 0, imageWidth, imageHeight))
+        val irTemp =
+            LibIRTemp(
+                imageWidth,
+                imageHeight
+            )
+        irTemp.setTempData(
+            temperatureBytes
+        )
+        return irTemp.getTemperatureOfRect(
+            Rect(
+                0,
+                0,
+                imageWidth,
+                imageHeight
+            )
+        )
     }
 
 }

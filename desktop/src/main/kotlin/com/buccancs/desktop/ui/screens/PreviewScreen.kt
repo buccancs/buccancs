@@ -47,9 +47,21 @@ import com.buccancs.desktop.ui.theme.Spacing
  */
 @Composable
 fun PreviewScreen() {
-    var gridLayout by remember { mutableStateOf(GridLayout.Grid2x2) }
-    var showThermal by remember { mutableStateOf(true) }
-    var showRgb by remember { mutableStateOf(true) }
+    var gridLayout by remember {
+        mutableStateOf(
+            GridLayout.Grid2x2
+        )
+    }
+    var showThermal by remember {
+        mutableStateOf(
+            true
+        )
+    }
+    var showRgb by remember {
+        mutableStateOf(
+            true
+        )
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -63,7 +75,9 @@ fun PreviewScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(Spacing.Medium),
+                    .padding(
+                        Spacing.Medium
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -74,18 +88,29 @@ fun PreviewScreen() {
                 )
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    )
                 ) {
                     FilterChip(
                         selected = showThermal,
-                        onClick = { showThermal = !showThermal },
-                        label = { Text("Thermal") },
+                        onClick = {
+                            showThermal =
+                                !showThermal
+                        },
+                        label = {
+                            Text(
+                                "Thermal"
+                            )
+                        },
                         leadingIcon = if (showThermal) {
                             {
                                 Icon(
                                     Icons.Default.Check,
                                     "Selected",
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(
+                                        18.dp
+                                    )
                                 )
                             }
                         } else null
@@ -93,52 +118,81 @@ fun PreviewScreen() {
 
                     FilterChip(
                         selected = showRgb,
-                        onClick = { showRgb = !showRgb },
-                        label = { Text("RGB") },
+                        onClick = {
+                            showRgb =
+                                !showRgb
+                        },
+                        label = {
+                            Text(
+                                "RGB"
+                            )
+                        },
                         leadingIcon = if (showRgb) {
                             {
                                 Icon(
                                     Icons.Default.Check,
                                     "Selected",
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(
+                                        18.dp
+                                    )
                                 )
                             }
                         } else null
                     )
 
-                    IconButton(onClick = { /* Fullscreen */ }) {
-                        Icon(Icons.Default.Fullscreen, "Fullscreen")
+                    IconButton(
+                        onClick = { /* Fullscreen */ }) {
+                        Icon(
+                            Icons.Default.Fullscreen,
+                            "Fullscreen"
+                        )
                     }
 
-                    IconButton(onClick = {
-                        gridLayout = when (gridLayout) {
-                            GridLayout.Single -> GridLayout.Grid2x2
-                            GridLayout.Grid2x2 -> GridLayout.Grid3x3
-                            GridLayout.Grid3x3 -> GridLayout.Single
-                        }
-                    }) {
-                        Icon(Icons.Default.GridView, "Layout")
+                    IconButton(
+                        onClick = {
+                            gridLayout =
+                                when (gridLayout) {
+                                    GridLayout.Single -> GridLayout.Grid2x2
+                                    GridLayout.Grid2x2 -> GridLayout.Grid3x3
+                                    GridLayout.Grid3x3 -> GridLayout.Single
+                                }
+                        }) {
+                        Icon(
+                            Icons.Default.GridView,
+                            "Layout"
+                        )
                     }
                 }
             }
         }
 
         // Preview grid
-        val columns = when (gridLayout) {
-            GridLayout.Single -> 1
-            GridLayout.Grid2x2 -> 2
-            GridLayout.Grid3x3 -> 3
-        }
+        val columns =
+            when (gridLayout) {
+                GridLayout.Single -> 1
+                GridLayout.Grid2x2 -> 2
+                GridLayout.Grid3x3 -> 3
+            }
 
         LazyVerticalGrid(
-            columns = GridCells.Fixed(columns),
+            columns = GridCells.Fixed(
+                columns
+            ),
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(Spacing.Medium),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            contentPadding = PaddingValues(
+                Spacing.Medium
+            ),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             if (showRgb) {
-                items(2) { index ->
+                items(
+                    2
+                ) { index ->
                     PreviewCard(
                         title = "Device-00${index + 1} RGB",
                         resolution = "1920x1080",
@@ -150,7 +204,9 @@ fun PreviewScreen() {
             }
 
             if (showThermal) {
-                items(2) { index ->
+                items(
+                    2
+                ) { index ->
                     PreviewCard(
                         title = "Device-00${index + 1} Thermal",
                         resolution = "256x192",
@@ -175,7 +231,9 @@ private fun PreviewCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(16f / 9f),
+            .aspectRatio(
+                16f / 9f
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
@@ -187,20 +245,32 @@ private fun PreviewCard(
                     .fillMaxSize()
                     .background(
                         if (type == PreviewType.Thermal)
-                            Color(0xFF1A1A2E)
+                            Color(
+                                0xFF1A1A2E
+                            )
                         else
-                            Color(0xFF0F1419)
+                            Color(
+                                0xFF0F1419
+                            )
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Icon(
                         if (type == PreviewType.Thermal) Icons.Default.Thermostat else Icons.Default.Videocam,
                         contentDescription = null,
-                        modifier = Modifier.size(48.dp),
+                        modifier = Modifier.size(
+                            48.dp
+                        ),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Spacer(Modifier.height(Spacing.Small))
+                    Spacer(
+                        Modifier.height(
+                            Spacing.Small
+                        )
+                    )
                     Text(
                         "Preview stream",
                         style = MaterialTheme.typography.bodySmall,
@@ -213,25 +283,40 @@ private fun PreviewCard(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(Spacing.Small)
+                    .padding(
+                        Spacing.Small
+                    )
             ) {
                 Surface(
                     shape = MaterialTheme.shapes.small,
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
+                    color = MaterialTheme.colorScheme.surface.copy(
+                        alpha = 0.9f
+                    )
                 ) {
-                    Column(modifier = Modifier.padding(Spacing.Small)) {
+                    Column(
+                        modifier = Modifier.padding(
+                            Spacing.Small
+                        )
+                    ) {
                         Text(
                             title,
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
-                        Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(
+                                Spacing.Small
+                            )
+                        ) {
                             Text(
                                 "$resolution @ ${fps}fps",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
-                            Text("•", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(
+                                "•",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                             Text(
                                 "${latency}ms",
                                 style = MaterialTheme.typography.bodySmall,
@@ -245,19 +330,30 @@ private fun PreviewCard(
             // Recording indicator
             Surface(
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(Spacing.Small),
+                    .align(
+                        Alignment.TopEnd
+                    )
+                    .padding(
+                        Spacing.Small
+                    ),
                 shape = MaterialTheme.shapes.small,
                 color = MaterialTheme.colorScheme.errorContainer
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = Spacing.Small, vertical = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.Small,
+                        vertical = 4.dp
+                    ),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        4.dp
+                    ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(8.dp)
+                            .size(
+                                8.dp
+                            )
                             .background(
                                 MaterialTheme.colorScheme.error,
                                 MaterialTheme.shapes.extraSmall

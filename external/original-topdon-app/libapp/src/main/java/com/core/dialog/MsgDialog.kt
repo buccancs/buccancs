@@ -19,47 +19,83 @@ import com.topdon.lib.core.utils.ScreenUtil
  * 消息提示窗
  * create by fylder on 2018/6/15
  **/
-class MsgDialog : Dialog {
+class MsgDialog :
+    Dialog {
 
-    constructor(context: Context) : super(context)
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
 
     class Builder {
-        var dialog: MsgDialog? = null
+        var dialog: MsgDialog? =
+            null
 
-        private var context: Context? = null
+        private var context: Context? =
+            null
 
-        private var imgRes: Int = 0
-        private var message: String? = null
-        private var positiveClickListener: OnClickListener? = null
+        private var imgRes: Int =
+            0
+        private var message: String? =
+            null
+        private var positiveClickListener: OnClickListener? =
+            null
 
-        private var tipImg: ImageView? = null
-        private var messageText: TextView? = null
-        private var closeImg: ImageView? = null
+        private var tipImg: ImageView? =
+            null
+        private var messageText: TextView? =
+            null
+        private var closeImg: ImageView? =
+            null
 
-        constructor(context: Context) {
-            this.context = context
+        constructor(
+            context: Context
+        ) {
+            this.context =
+                context
         }
 
-        fun setImg(@DrawableRes res: Int): Builder {
-            this.imgRes = res
+        fun setImg(
+            @DrawableRes res: Int
+        ): Builder {
+            this.imgRes =
+                res
             return this
         }
 
-        fun setMessage(message: String): Builder {
-            this.message = message
+        fun setMessage(
+            message: String
+        ): Builder {
+            this.message =
+                message
             return this
         }
 
-        fun setMessage(@StringRes message: Int): Builder {
-            this.message = context!!.getString(message)
+        fun setMessage(
+            @StringRes message: Int
+        ): Builder {
+            this.message =
+                context!!.getString(
+                    message
+                )
             return this
         }
 
-        fun setCloseListener(listener: OnClickListener): Builder {
-            this.positiveClickListener = listener
+        fun setCloseListener(
+            listener: OnClickListener
+        ): Builder {
+            this.positiveClickListener =
+                listener
             return this
         }
 
@@ -70,18 +106,36 @@ class MsgDialog : Dialog {
 
         fun create(): MsgDialog {
             if (dialog == null) {
-                dialog = MsgDialog(context!!, R.style.InfoDialog)
+                dialog =
+                    MsgDialog(
+                        context!!,
+                        R.style.InfoDialog
+                    )
             }
             val inflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_msg, null)
-            tipImg = view.dialog_msg_img
-            messageText = view.dialog_msg_text
-            closeImg = view.dialog_msg_close
+                context!!.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_msg,
+                    null
+                )
+            tipImg =
+                view.dialog_msg_img
+            messageText =
+                view.dialog_msg_text
+            closeImg =
+                view.dialog_msg_close
             dialog!!.addContentView(
-                view, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                view,
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             val wRatio =
                 if (context!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     //竖屏
@@ -90,32 +144,51 @@ class MsgDialog : Dialog {
                     //横屏
                     0.3
                 }
-            lp.width = (ScreenUtil.getScreenWidth(context!!) * wRatio).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            lp.width =
+                (ScreenUtil.getScreenWidth(
+                    context!!
+                ) * wRatio).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(false)
+            dialog!!.setCanceledOnTouchOutside(
+                false
+            )
             closeImg!!.setOnClickListener {
                 dismiss()
                 if (positiveClickListener != null) {
-                    positiveClickListener!!.onClick(dialog!!)
+                    positiveClickListener!!.onClick(
+                        dialog!!
+                    )
                 }
             }
             //img
             if (imgRes != 0) {
-                tipImg?.visibility = View.VISIBLE
-                tipImg?.setImageResource(imgRes)
+                tipImg?.visibility =
+                    View.VISIBLE
+                tipImg?.setImageResource(
+                    imgRes
+                )
             } else {
-                tipImg?.visibility = View.GONE
+                tipImg?.visibility =
+                    View.GONE
             }
             //msg
             if (message != null) {
-                messageText?.visibility = View.VISIBLE
-                messageText?.setText(message, TextView.BufferType.NORMAL)
+                messageText?.visibility =
+                    View.VISIBLE
+                messageText?.setText(
+                    message,
+                    TextView.BufferType.NORMAL
+                )
             } else {
-                messageText?.visibility = View.GONE
+                messageText?.visibility =
+                    View.GONE
             }
 
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as MsgDialog
         }
     }
@@ -125,13 +198,21 @@ class MsgDialog : Dialog {
      * 提交回调
      */
     interface OnClickListener {
-        fun onClick(dialog: DialogInterface)
+        fun onClick(
+            dialog: DialogInterface
+        )
     }
 }
 
 private val View.dialog_msg_img: ImageView
-    get() = findViewById(R.id.dialog_msg_img)
+    get() = findViewById(
+        R.id.dialog_msg_img
+    )
 private val View.dialog_msg_text: TextView
-    get() = findViewById(R.id.dialog_msg_text)
+    get() = findViewById(
+        R.id.dialog_msg_text
+    )
 private val View.dialog_msg_close: ImageView
-    get() = findViewById(R.id.dialog_msg_close)
+    get() = findViewById(
+        R.id.dialog_msg_close
+    )

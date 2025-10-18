@@ -44,11 +44,15 @@ fun TopdonCard(
 ) {
     Card(
         modifier = if (onClick != null) {
-            modifier.clickable(onClick = onClick)
+            modifier.clickable(
+                onClick = onClick
+            )
         } else {
             modifier
         },
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(
+            12.dp
+        ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
@@ -67,11 +71,15 @@ fun TopdonElevatedCard(
 ) {
     ElevatedCard(
         modifier = if (onClick != null) {
-            modifier.clickable(onClick = onClick)
+            modifier.clickable(
+                onClick = onClick
+            )
         } else {
             modifier
         },
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(
+            12.dp
+        ),
         colors = CardDefaults.elevatedCardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
@@ -93,17 +101,24 @@ fun TopdonOutlinedCard(
 ) {
     OutlinedCard(
         modifier = if (onClick != null) {
-            modifier.clickable(onClick = onClick)
+            modifier.clickable(
+                onClick = onClick
+            )
         } else {
             modifier
         },
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(
+            12.dp
+        ),
         colors = CardDefaults.outlinedCardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        border = CardDefaults.outlinedCardBorder().copy(
-            brush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.outline)
-        ),
+        border = CardDefaults.outlinedCardBorder()
+            .copy(
+                brush = androidx.compose.ui.graphics.SolidColor(
+                    MaterialTheme.colorScheme.outline
+                )
+            ),
         content = { content() }
     )
 }
@@ -128,28 +143,42 @@ fun TopdonDeviceCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(TopdonSpacing.Large),
-            horizontalArrangement = Arrangement.spacedBy(TopdonSpacing.Medium),
+                .padding(
+                    TopdonSpacing.Large
+                ),
+            horizontalArrangement = Arrangement.spacedBy(
+                TopdonSpacing.Medium
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (icon != null) {
                 Surface(
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(
+                        8.dp
+                    ),
                     color = MaterialTheme.colorScheme.surfaceVariant,
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(
+                        48.dp
+                    )
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        modifier = Modifier.padding(12.dp),
+                        modifier = Modifier.padding(
+                            12.dp
+                        ),
                         tint = if (isConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
 
             Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(TopdonSpacing.ExtraSmall)
+                modifier = Modifier.weight(
+                    1f
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    TopdonSpacing.ExtraSmall
+                )
             ) {
                 Text(
                     text = deviceName,
@@ -167,14 +196,19 @@ fun TopdonDeviceCard(
             }
 
             Surface(
-                shape = RoundedCornerShape(4.dp),
+                shape = RoundedCornerShape(
+                    4.dp
+                ),
                 color = if (isConnected) TopdonColors.GreenPoint else MaterialTheme.colorScheme.outlineVariant
             ) {
                 Text(
                     text = if (isConnected) "Connected" else "Disconnected",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    modifier = Modifier.padding(
+                        horizontal = 8.dp,
+                        vertical = 4.dp
+                    )
                 )
             }
         }
@@ -200,8 +234,12 @@ fun TopdonGalleryCard(
         Column {
             thumbnailContent()
             Column(
-                modifier = Modifier.padding(TopdonSpacing.Small),
-                verticalArrangement = Arrangement.spacedBy(TopdonSpacing.ExtraSmall)
+                modifier = Modifier.padding(
+                    TopdonSpacing.Small
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    TopdonSpacing.ExtraSmall
+                )
             ) {
                 Text(
                     text = title,
@@ -236,14 +274,20 @@ fun TopdonSettingsItem(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(
+                onClick = onClick
+            ),
         color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(TopdonSpacing.Large),
-            horizontalArrangement = Arrangement.spacedBy(TopdonSpacing.Medium),
+                .padding(
+                    TopdonSpacing.Large
+                ),
+            horizontalArrangement = Arrangement.spacedBy(
+                TopdonSpacing.Medium
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (leadingIcon != null) {
@@ -251,13 +295,19 @@ fun TopdonSettingsItem(
                     imageVector = leadingIcon,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(
+                        24.dp
+                    )
                 )
             }
 
             Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(TopdonSpacing.ExtraSmall)
+                modifier = Modifier.weight(
+                    1f
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    TopdonSpacing.ExtraSmall
+                )
             ) {
                 Text(
                     text = title,
@@ -278,13 +328,20 @@ fun TopdonSettingsItem(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonDeviceCardPreview() {
     TopdonTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(
+                16.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                8.dp
+            )
         ) {
             TopdonDeviceCard(
                 deviceName = "TC001 #12345",
@@ -304,7 +361,10 @@ private fun TopdonDeviceCardPreview() {
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonSettingsItemPreview() {
     TopdonTheme {

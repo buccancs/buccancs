@@ -8,33 +8,50 @@ import com.topdon.menu.constant.MenuType
 import com.topdon.menu.constant.SettingType
 import com.topdon.lib.core.R as CoreR
 
-@SuppressLint("NotifyDataSetChanged")
+@SuppressLint(
+    "NotifyDataSetChanged"
+)
 internal class SettingAdapter(
     menuType: MenuType = MenuType.SINGLE_LIGHT,
     isObserver: Boolean = false
 ) :
     BaseMenuAdapter() {
-    var onSettingListener: ((settingType: SettingType, isSelected: Boolean) -> Unit)? = null
+    var onSettingListener: ((settingType: SettingType, isSelected: Boolean) -> Unit)? =
+        null
 
-    var rotateAngle: Int = 270
+    var rotateAngle: Int =
+        270
         set(value) {
             if (field != value) {
-                field = value
-                setSelected(SettingType.ROTATE, value != 270)
+                field =
+                    value
+                setSelected(
+                    SettingType.ROTATE,
+                    value != 270
+                )
             }
         }
 
-    fun setSelected(settingType: SettingType, isSelected: Boolean) {
+    fun setSelected(
+        settingType: SettingType,
+        isSelected: Boolean
+    ) {
         for (i in dataList.indices) {
             if (dataList[i].settingType == settingType) {
-                dataList[i].isSelected = isSelected
-                notifyItemChanged(i)
+                dataList[i].isSelected =
+                    isSelected
+                notifyItemChanged(
+                    i
+                )
                 break
             }
         }
     }
 
-    private val dataList: ArrayList<Data> = ArrayList(7)
+    private val dataList: ArrayList<Data> =
+        ArrayList(
+            7
+        )
 
     init {
         if (isObserver) {
@@ -149,27 +166,53 @@ internal class SettingAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data: Data = dataList[position]
-        holder.binding.ivIcon.setImageResource(data.drawableId)
-        holder.binding.tvText.setText(data.stringId)
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int
+    ) {
+        val data: Data =
+            dataList[position]
+        holder.binding.ivIcon.setImageResource(
+            data.drawableId
+        )
+        holder.binding.tvText.setText(
+            data.stringId
+        )
         if (data.settingType == SettingType.ROTATE) {
             when (rotateAngle) {
-                0 -> holder.binding.ivIcon.setImageLevel(270)
-                90 -> holder.binding.ivIcon.setImageLevel(180)
-                180 -> holder.binding.ivIcon.setImageLevel(90)
-                270 -> holder.binding.ivIcon.setImageLevel(0)
+                0 -> holder.binding.ivIcon.setImageLevel(
+                    270
+                )
+
+                90 -> holder.binding.ivIcon.setImageLevel(
+                    180
+                )
+
+                180 -> holder.binding.ivIcon.setImageLevel(
+                    90
+                )
+
+                270 -> holder.binding.ivIcon.setImageLevel(
+                    0
+                )
             }
         } else {
-            holder.binding.ivIcon.isSelected = data.isSelected
+            holder.binding.ivIcon.isSelected =
+                data.isSelected
         }
-        holder.binding.tvText.isSelected = data.isSelected
+        holder.binding.tvText.isSelected =
+            data.isSelected
         holder.binding.clRoot.setOnClickListener {
-            onSettingListener?.invoke(data.settingType, data.isSelected)
+            onSettingListener?.invoke(
+                data.settingType,
+                data.isSelected
+            )
         }
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int =
+        dataList.size
+
     data class Data(
         @StringRes val stringId: Int,
         @DrawableRes val drawableId: Int,

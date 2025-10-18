@@ -37,14 +37,19 @@ fun ShimmerSensorConfigCard(
         sensors.forEach { sensor ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.Small
+                ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
                     checked = sensor.isEnabled,
                     onCheckedChange = { isChecked ->
                         if (enabled) {
-                            onSensorToggle(sensor.id, isChecked)
+                            onSensorToggle(
+                                sensor.id,
+                                isChecked
+                            )
                         }
                     },
                     enabled = enabled
@@ -52,7 +57,9 @@ fun ShimmerSensorConfigCard(
                 Text(
                     text = sensor.name,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(
+                        1f
+                    )
                 )
             }
         }

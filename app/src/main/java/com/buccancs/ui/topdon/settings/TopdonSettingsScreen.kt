@@ -43,7 +43,9 @@ import com.buccancs.ui.components.topdon.SuperSamplingDialog
 import com.buccancs.ui.theme.Spacing
 import com.buccancs.ui.topdon.TopdonViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopdonSettingsRoute(
     onNavigateUp: () -> Unit,
@@ -51,9 +53,21 @@ fun TopdonSettingsRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var showPaletteDialog by remember { mutableStateOf(false) }
-    var showSuperSamplingDialog by remember { mutableStateOf(false) }
-    var showFpsDialog by remember { mutableStateOf(false) }
+    var showPaletteDialog by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    var showSuperSamplingDialog by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    var showFpsDialog by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
     TopdonSettingsScreen(
         onNavigateUp = onNavigateUp,
@@ -61,16 +75,28 @@ fun TopdonSettingsRoute(
         superSampling = state.settings.superSampling,
         autoConnect = state.settings.autoConnectOnAttach,
         previewFps = state.settings.previewFpsLimit,
-        onPaletteClick = { showPaletteDialog = true },
-        onSuperSamplingClick = { showSuperSamplingDialog = true },
-        onFpsClick = { showFpsDialog = true },
+        onPaletteClick = {
+            showPaletteDialog =
+                true
+        },
+        onSuperSamplingClick = {
+            showSuperSamplingDialog =
+                true
+        },
+        onFpsClick = {
+            showFpsDialog =
+                true
+        },
         onAutoConnectChange = viewModel::setAutoConnect
     )
 
     if (showPaletteDialog) {
         PaletteSelectionDialog(
             currentPalette = state.settings.palette,
-            onDismiss = { showPaletteDialog = false },
+            onDismiss = {
+                showPaletteDialog =
+                    false
+            },
             onConfirm = viewModel::selectPalette
         )
     }
@@ -78,7 +104,10 @@ fun TopdonSettingsRoute(
     if (showSuperSamplingDialog) {
         SuperSamplingDialog(
             currentFactor = state.settings.superSampling,
-            onDismiss = { showSuperSamplingDialog = false },
+            onDismiss = {
+                showSuperSamplingDialog =
+                    false
+            },
             onConfirm = viewModel::selectSuperSampling
         )
     }
@@ -86,13 +115,18 @@ fun TopdonSettingsRoute(
     if (showFpsDialog) {
         FpsLimitDialog(
             currentFps = state.settings.previewFpsLimit,
-            onDismiss = { showFpsDialog = false },
+            onDismiss = {
+                showFpsDialog =
+                    false
+            },
             onConfirm = viewModel::updatePreviewFps
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun TopdonSettingsScreen(
     onNavigateUp: () -> Unit,
@@ -117,7 +151,9 @@ private fun TopdonSettingsScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Navigate back"
@@ -126,20 +162,36 @@ private fun TopdonSettingsScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
-            SettingsSection(title = "Display") {
+            SettingsSection(
+                title = "Display"
+            ) {
                 SettingsItem(
                     title = "Colour Palette",
-                    subtitle = palette.name.lowercase().replaceFirstChar { it.uppercase() },
+                    subtitle = palette.name.lowercase()
+                        .replaceFirstChar { it.uppercase() },
                     onClick = onPaletteClick
                 )
 
@@ -164,7 +216,9 @@ private fun TopdonSettingsScreen(
                 )
             }
 
-            SettingsSection(title = "Connection") {
+            SettingsSection(
+                title = "Connection"
+            ) {
                 SettingsToggleItem(
                     title = "Auto-Connect",
                     subtitle = "Automatically connect when device is attached",
@@ -173,7 +227,9 @@ private fun TopdonSettingsScreen(
                 )
             }
 
-            SettingsSection(title = "Storage") {
+            SettingsSection(
+                title = "Storage"
+            ) {
                 SettingsItem(
                     title = "Save Location",
                     subtitle = "Pictures/BuccanCS/Thermal",
@@ -189,7 +245,9 @@ private fun TopdonSettingsScreen(
                 )
             }
 
-            SettingsSection(title = "Temperature") {
+            SettingsSection(
+                title = "Temperature"
+            ) {
                 SettingsItem(
                     title = "Unit",
                     subtitle = "Celsius (°C)",
@@ -213,7 +271,9 @@ private fun TopdonSettingsScreen(
                 )
             }
 
-            SettingsSection(title = "About") {
+            SettingsSection(
+                title = "About"
+            ) {
                 SettingsItem(
                     title = "Device Information",
                     subtitle = "View device details and firmware",
@@ -238,14 +298,19 @@ private fun SettingsSection(
     content: @Composable () -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(0.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            0.dp
+        )
     ) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+                vertical = 8.dp
+            )
         )
 
         Card(
@@ -266,13 +331,19 @@ private fun SettingsItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(Spacing.Medium),
+            .clickable(
+                onClick = onClick
+            )
+            .padding(
+                Spacing.Medium
+            ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(
+                1f
+            )
         ) {
             Text(
                 text = title,
@@ -304,12 +375,16 @@ private fun SettingsToggleItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(Spacing.Medium),
+            .padding(
+                Spacing.Medium
+            ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(
+                1f
+            )
         ) {
             Text(
                 text = title,

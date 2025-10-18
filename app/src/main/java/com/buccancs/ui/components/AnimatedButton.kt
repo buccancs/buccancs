@@ -37,12 +37,18 @@ fun AnimatedButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-            .scale(scale),
+            .defaultMinSize(
+                minHeight = Dimensions.TouchTargetMinimum
+            )
+            .scale(
+                scale
+            ),
         enabled = enabled,
         interactionSource = interactionSource
     ) {
-        Text(text)
+        Text(
+            text
+        )
     }
 }
 
@@ -67,12 +73,18 @@ fun AnimatedOutlinedButton(
     OutlinedButton(
         onClick = onClick,
         modifier = modifier
-            .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-            .scale(scale),
+            .defaultMinSize(
+                minHeight = Dimensions.TouchTargetMinimum
+            )
+            .scale(
+                scale
+            ),
         enabled = enabled,
         interactionSource = interactionSource
     ) {
-        Text(text)
+        Text(
+            text
+        )
     }
 }
 
@@ -97,11 +109,17 @@ fun AnimatedTonalButton(
     FilledTonalButton(
         onClick = onClick,
         modifier = modifier
-            .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-            .scale(scale),
+            .defaultMinSize(
+                minHeight = Dimensions.TouchTargetMinimum
+            )
+            .scale(
+                scale
+            ),
         enabled = enabled,
         interactionSource = interactionSource
     ) {
-        Text(text)
+        Text(
+            text
+        )
     }
 }

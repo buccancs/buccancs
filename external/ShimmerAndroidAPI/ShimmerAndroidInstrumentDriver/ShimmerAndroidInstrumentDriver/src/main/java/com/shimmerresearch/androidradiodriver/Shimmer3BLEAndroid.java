@@ -135,7 +135,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
 
                 try {
                     boolean result = mTaskMTU.getTask().waitForCompletion(3, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
+                } catch (
+                        InterruptedException e) {
                     e.printStackTrace();
                 }
 
@@ -183,7 +184,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
             if (!result) {
                 System.out.println("Connect fail");
             }
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -235,7 +237,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
                         public void onCharacteristicChanged(byte[] data) {
                             try {
                                 mBuffer.write(data);
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -275,7 +278,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     protected void stop() {
         try {
             disconnect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -326,7 +330,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     protected void connectionLost() {
         try {
             disconnect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
         setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
@@ -392,7 +397,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     protected byte[] readBytes(int numberofBytes) {
         try {
             return mBuffer.read(numberofBytes);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -402,7 +408,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
     protected byte readByte() {
         try {
             return mBuffer.read();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
         return -1;
@@ -424,10 +431,12 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
             ObjectInputStream ois = new ObjectInputStream(bais);
             Object readdd = ois.readObject();
             return (ShimmerDevice) readdd;
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
@@ -478,7 +487,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
             if (mIOThread != null) {
                 mIOThread.stop = true;
 
-                while (mIOThread != null && mIOThread.isAlive()) ;
+                while (mIOThread != null && mIOThread.isAlive())
+                    ;
 
                 mIOThread = null;
 
@@ -491,7 +501,8 @@ public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable
             mIsInitialised = false;
 
             setBluetoothRadioState(BT_STATE.DISCONNECTED);
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             consolePrintException(ex.getMessage(), ex.getStackTrace());
             setBluetoothRadioState(BT_STATE.DISCONNECTED);
         }

@@ -11,13 +11,19 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(
+    SingletonComponent::class
+)
 abstract class StreamModule {
     @Binds
     @Singleton
-    abstract fun bindSensorStreamClient(impl: SensorStreamUploader): SensorStreamClient
+    abstract fun bindSensorStreamClient(
+        impl: SensorStreamUploader
+    ): SensorStreamClient
 
     @Binds
     @Singleton
-    abstract fun bindPreviewStreamClient(impl: PreviewStreamUploader): PreviewStreamClient
+    abstract fun bindPreviewStreamClient(
+        impl: PreviewStreamUploader
+    ): PreviewStreamClient
 }

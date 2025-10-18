@@ -44,7 +44,8 @@ public class ConnectedShimmersListFragment extends ListFragment {
         super.onAttach(activity);
         try {
             mCallBack = (OnShimmerDeviceSelectedListener) activity;
-        } catch (ClassCastException e) {
+        } catch (
+                ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnShimmerDeviceSelectedListener");
         }
     }
@@ -87,7 +88,8 @@ public class ConnectedShimmersListFragment extends ListFragment {
 
                         try {
                             mCallBack.onShimmerDeviceSelected(macList[position], nameList[position], selectedDevicePos == -1 ? false : true);
-                        } catch (ClassCastException cce) {
+                        } catch (
+                                ClassCastException cce) {
 
                         }
                     }

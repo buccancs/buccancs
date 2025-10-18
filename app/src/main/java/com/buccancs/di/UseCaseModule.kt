@@ -19,7 +19,9 @@ import javax.inject.Singleton
  * Use cases encapsulate business logic and reduce ViewModel complexity.
  */
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(
+    SingletonComponent::class
+)
 abstract class UseCaseModule {
 
     @Binds

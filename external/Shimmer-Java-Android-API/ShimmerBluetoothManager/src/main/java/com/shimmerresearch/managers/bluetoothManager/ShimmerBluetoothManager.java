@@ -138,7 +138,8 @@ public abstract class ShimmerBluetoothManager {
     public void disconnectShimmer(ShimmerDevice shimmerDevice) {
         try {
             shimmerDevice.disconnect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             printMessage(e.getErrStringFormatted());
         }
     }
@@ -156,7 +157,8 @@ public abstract class ShimmerBluetoothManager {
             ShimmerDevice shimmerDevice = iterator.next();
             try {
                 startStreaming(shimmerDevice);
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
             threadSleep(SLEEP_BETWEEN_GROUP_ACTIONS_MS);
@@ -175,7 +177,8 @@ public abstract class ShimmerBluetoothManager {
             ShimmerDevice shimmerDevice = iterator.next();
             try {
                 stopStreaming(shimmerDevice);
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
             threadSleep(SLEEP_BETWEEN_GROUP_ACTIONS_MS);
@@ -315,7 +318,8 @@ public abstract class ShimmerBluetoothManager {
                 try {
                     originalShimmerDevice.configureFromClone(cloneShimmer);
                     originalShimmerDevice.operationStart(BT_STATE.CONFIGURING);
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             } else {
@@ -641,7 +645,8 @@ public abstract class ShimmerBluetoothManager {
     private void threadSleep(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -706,7 +711,8 @@ public abstract class ShimmerBluetoothManager {
             if (shimmerRadioInitializer != null) {
                 try {
                     shimmerRadioInitializer.getSerialCommPort().disconnect();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             }
@@ -718,7 +724,8 @@ public abstract class ShimmerBluetoothManager {
             if (directConnectUnknownShimmer) {
                 try {
                     connectUnknownShimmer();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     System.err.println(e.getErrStringFormatted());
                     return;
                 }
@@ -767,7 +774,8 @@ public abstract class ShimmerBluetoothManager {
                             connectUnknownShimmer();
                         }
                     }
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     sendFeedbackOnConnectionException(e);
                     printMessage(e.getErrStringFormatted());
                     return;
@@ -867,11 +875,13 @@ public abstract class ShimmerBluetoothManager {
 
 
                 }
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
                 try {
                     shimmerRadioInitializer.getSerialCommPort().disconnect();
-                } catch (Exception ex) {
+                } catch (
+                        Exception ex) {
                     ex.printStackTrace();
                 }
             }

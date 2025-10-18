@@ -6,7 +6,9 @@ data class ShimmerSettings(
     val sampleRateHz: Double = DEFAULT_SAMPLE_RATE_HZ
 ) {
     companion object {
-        const val DEFAULT_GSR_RANGE = 4
-        const val DEFAULT_SAMPLE_RATE_HZ = 128.0
+        const val DEFAULT_GSR_RANGE =
+            4
+        const val DEFAULT_SAMPLE_RATE_HZ =
+            128.0
     }
 }

@@ -41,38 +41,60 @@ fun PaletteSelectionDialog(
     onDismiss: () -> Unit,
     onConfirm: (TopdonPalette) -> Unit
 ) {
-    var selectedPalette by remember { mutableStateOf(currentPalette) }
+    var selectedPalette by remember {
+        mutableStateOf(
+            currentPalette
+        )
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Colour Palette") },
+        title = {
+            Text(
+                "Select Colour Palette"
+            )
+        },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp
+                )
             ) {
-                TopdonPalette.values().forEach { palette ->
-                    PaletteOption(
-                        palette = palette,
-                        selected = palette == selectedPalette,
-                        onClick = { selectedPalette = palette }
-                    )
-                }
+                TopdonPalette.values()
+                    .forEach { palette ->
+                        PaletteOption(
+                            palette = palette,
+                            selected = palette == selectedPalette,
+                            onClick = {
+                                selectedPalette =
+                                    palette
+                            }
+                        )
+                    }
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirm(selectedPalette)
+                    onConfirm(
+                        selectedPalette
+                    )
                     onDismiss()
                 }
             ) {
-                Text("Apply")
+                Text(
+                    "Apply"
+                )
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text(
+                    "Cancel"
+                )
             }
         }
     )
@@ -87,19 +109,30 @@ private fun PaletteOption(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(vertical = 12.dp),
+            .clickable(
+                onClick = onClick
+            )
+            .padding(
+                vertical = 12.dp
+            ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(
+            16.dp
+        )
     ) {
         RadioButton(
             selected = selected,
             onClick = onClick
         )
 
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier.weight(
+                1f
+            )
+        ) {
             Text(
-                text = palette.name.lowercase().replaceFirstChar { it.uppercase() },
+                text = palette.name.lowercase()
+                    .replaceFirstChar { it.uppercase() },
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
@@ -113,53 +146,100 @@ private fun PaletteOption(
             )
         }
 
-        PalettePreview(palette)
+        PalettePreview(
+            palette
+        )
     }
 }
 
 @Composable
-private fun PalettePreview(palette: TopdonPalette) {
+private fun PalettePreview(
+    palette: TopdonPalette
+) {
     Row(
         modifier = Modifier
-            .width(80.dp)
-            .height(24.dp)
+            .width(
+                80.dp
+            )
+            .height(
+                24.dp
+            )
             .background(
                 color = MaterialTheme.colorScheme.surfaceVariant,
-                shape = RoundedCornerShape(4.dp)
+                shape = RoundedCornerShape(
+                    4.dp
+                )
             )
     ) {
-        val colours = when (palette) {
-            TopdonPalette.GRAYSCALE -> listOf(
-                Color(0xFF000000),
-                Color(0xFF404040),
-                Color(0xFF808080),
-                Color(0xFFC0C0C0),
-                Color(0xFFFFFFFF)
-            )
+        val colours =
+            when (palette) {
+                TopdonPalette.GRAYSCALE -> listOf(
+                    Color(
+                        0xFF000000
+                    ),
+                    Color(
+                        0xFF404040
+                    ),
+                    Color(
+                        0xFF808080
+                    ),
+                    Color(
+                        0xFFC0C0C0
+                    ),
+                    Color(
+                        0xFFFFFFFF
+                    )
+                )
 
-            TopdonPalette.IRONBOW -> listOf(
-                Color(0xFF000000),
-                Color(0xFF800080),
-                Color(0xFFFF0000),
-                Color(0xFFFFFF00),
-                Color(0xFFFFFFFF)
-            )
+                TopdonPalette.IRONBOW -> listOf(
+                    Color(
+                        0xFF000000
+                    ),
+                    Color(
+                        0xFF800080
+                    ),
+                    Color(
+                        0xFFFF0000
+                    ),
+                    Color(
+                        0xFFFFFF00
+                    ),
+                    Color(
+                        0xFFFFFFFF
+                    )
+                )
 
-            TopdonPalette.RAINBOW -> listOf(
-                Color(0xFF0000FF),
-                Color(0xFF00FFFF),
-                Color(0xFF00FF00),
-                Color(0xFFFFFF00),
-                Color(0xFFFF0000)
-            )
-        }
+                TopdonPalette.RAINBOW -> listOf(
+                    Color(
+                        0xFF0000FF
+                    ),
+                    Color(
+                        0xFF00FFFF
+                    ),
+                    Color(
+                        0xFF00FF00
+                    ),
+                    Color(
+                        0xFFFFFF00
+                    ),
+                    Color(
+                        0xFFFF0000
+                    )
+                )
+            }
 
         colours.forEach { colour ->
             Box(
                 modifier = Modifier
-                    .weight(1f)
-                    .height(24.dp)
-                    .background(colour)
+                    .weight(
+                        1f
+                    )
+                    .height(
+                        24.dp
+                    )
+                    .background(
+                        colour
+                    )
             )
         }
     }
@@ -171,15 +251,25 @@ fun SuperSamplingDialog(
     onDismiss: () -> Unit,
     onConfirm: (TopdonSuperSamplingFactor) -> Unit
 ) {
-    var selectedFactor by remember { mutableStateOf(currentFactor) }
+    var selectedFactor by remember {
+        mutableStateOf(
+            currentFactor
+        )
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Super Sampling Quality") },
+        title = {
+            Text(
+                "Super Sampling Quality"
+            )
+        },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp
+                )
             ) {
                 Text(
                     text = "Higher quality increases processing time",
@@ -187,30 +277,46 @@ fun SuperSamplingDialog(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                TopdonSuperSamplingFactor.values().forEach { factor ->
-                    SuperSamplingOption(
-                        factor = factor,
-                        selected = factor == selectedFactor,
-                        onClick = { selectedFactor = factor }
+                Spacer(
+                    modifier = Modifier.height(
+                        8.dp
                     )
-                }
+                )
+
+                TopdonSuperSamplingFactor.values()
+                    .forEach { factor ->
+                        SuperSamplingOption(
+                            factor = factor,
+                            selected = factor == selectedFactor,
+                            onClick = {
+                                selectedFactor =
+                                    factor
+                            }
+                        )
+                    }
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirm(selectedFactor)
+                    onConfirm(
+                        selectedFactor
+                    )
                     onDismiss()
                 }
             ) {
-                Text("Apply")
+                Text(
+                    "Apply"
+                )
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text(
+                    "Cancel"
+                )
             }
         }
     )
@@ -225,17 +331,27 @@ private fun SuperSamplingOption(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(vertical = 12.dp),
+            .clickable(
+                onClick = onClick
+            )
+            .padding(
+                vertical = 12.dp
+            ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(
+            16.dp
+        )
     ) {
         RadioButton(
             selected = selected,
             onClick = onClick
         )
 
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier.weight(
+                1f
+            )
+        ) {
             Text(
                 text = "${factor.multiplier}x",
                 style = MaterialTheme.typography.bodyLarge
@@ -256,7 +372,9 @@ private fun SuperSamplingOption(
                 imageVector = Icons.Default.Check,
                 contentDescription = "Selected",
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(
+                    24.dp
+                )
             )
         }
     }
@@ -268,15 +386,25 @@ fun FpsLimitDialog(
     onDismiss: () -> Unit,
     onConfirm: (Int) -> Unit
 ) {
-    var selectedFps by remember { mutableFloatStateOf(currentFps.toFloat()) }
+    var selectedFps by remember {
+        mutableFloatStateOf(
+            currentFps.toFloat()
+        )
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Preview Frame Rate") },
+        title = {
+            Text(
+                "Preview Frame Rate"
+            )
+        },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    16.dp
+                )
             ) {
                 Text(
                     text = "Limit preview frame rate to reduce power consumption",
@@ -287,12 +415,17 @@ fun FpsLimitDialog(
                 Text(
                     text = "${selectedFps.toInt()} FPS",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(
+                        Alignment.CenterHorizontally
+                    )
                 )
 
                 Slider(
                     value = selectedFps,
-                    onValueChange = { selectedFps = it },
+                    onValueChange = {
+                        selectedFps =
+                            it
+                    },
                     valueRange = 1f..30f,
                     steps = 28,
                     modifier = Modifier.fillMaxWidth()
@@ -318,16 +451,24 @@ fun FpsLimitDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirm(selectedFps.toInt())
+                    onConfirm(
+                        selectedFps.toInt()
+                    )
                     onDismiss()
                 }
             ) {
-                Text("Apply")
+                Text(
+                    "Apply"
+                )
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text(
+                    "Cancel"
+                )
             }
         }
     )

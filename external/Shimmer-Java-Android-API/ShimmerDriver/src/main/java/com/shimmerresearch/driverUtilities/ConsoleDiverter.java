@@ -53,7 +53,8 @@ public class ConsoleDiverter {
                     for (int i = numLogFilesToKeep - 1; i < currentLogfiles.length; i++) {
                         try {
                             Files.delete(currentLogfiles[i].toPath());
-                        } catch (IOException iOE) {
+                        } catch (
+                                IOException iOE) {
                             iOE.printStackTrace();
                         }
                     }
@@ -72,7 +73,8 @@ public class ConsoleDiverter {
 
                 setPrintStreamToConsoleAndFile();
 
-            } catch (FileNotFoundException e) {
+            } catch (
+                    FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -85,7 +87,8 @@ public class ConsoleDiverter {
         if (fout != null) {
             try {
                 fout.close();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         }

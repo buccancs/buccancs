@@ -359,7 +359,8 @@ public class IRUVCTC {
 
     private boolean isIRpid(int devpid) {
         for (int x : pids) {
-            if (x == devpid) return true;
+            if (x == devpid)
+                return true;
         }
         return false;
     }
@@ -406,7 +407,8 @@ public class IRUVCTC {
                         Log.i(TAG, "startPreview complete 中间出图 restart");
                         try {
                             Thread.sleep(1500);
-                        } catch (InterruptedException e) {
+                        } catch (
+                                InterruptedException e) {
                             e.printStackTrace();
                         }
                         if (ircmd.startY16ModePreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,
@@ -436,7 +438,8 @@ public class IRUVCTC {
                             Log.i(TAG, "startPreview complete 红外+TNR");
                             try {
                                 Thread.sleep(1500);
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 e.printStackTrace();
                             }
                             if (ircmd.startY16ModePreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,
@@ -461,7 +464,8 @@ public class IRUVCTC {
                             Log.i(TAG, "startPreview complete 单TNR");
                             try {
                                 Thread.sleep(1500);
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 e.printStackTrace();
                             }
                             if (ircmd.startY16ModePreview(CommonParams.PreviewPathChannel.PREVIEW_PATH0,

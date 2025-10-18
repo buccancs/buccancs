@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="isReleaseVersion">TRUE</bool>
+    <bool name="isReleaseVersion">
+        TRUE
+    </bool>
     <string name="debugVersionInfo" translatable="false">_FC</string>
 </resources>

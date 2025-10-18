@@ -11,17 +11,32 @@ object SupRUtils {
         return true
     }
 
-    fun showOpenSupRTipsDialog(activity: Activity) {
+    fun showOpenSupRTipsDialog(
+        activity: Activity
+    ) {
     }
 
-    fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+    fun bitmapToByteArray(
+        bitmap: Bitmap
+    ): ByteArray {
+        val byteArrayOutputStream =
+            ByteArrayOutputStream()
+        bitmap.compress(
+            Bitmap.CompressFormat.JPEG,
+            100,
+            byteArrayOutputStream
+        )
         return byteArrayOutputStream.toByteArray()
     }
 
-    fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    fun byteArrayToBitmap(
+        byteArray: ByteArray
+    ): Bitmap {
+        return BitmapFactory.decodeByteArray(
+            byteArray,
+            0,
+            byteArray.size
+        )
     }
 
 }

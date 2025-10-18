@@ -131,7 +131,8 @@ public class ShimmerService extends Service {
 
         try {
             btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Log.e(TAG, "ERROR! " + e);
             Toast.makeText(this, "Error! Could not create Bluetooth Manager!", Toast.LENGTH_LONG).show();
         }
@@ -180,7 +181,8 @@ public class ShimmerService extends Service {
             mPPGtoHR = new PPGtoHRAlgorithm(sR, mNumberOfBeatsToAvg, true);
             try {
                 mFilter = new Filter(Filter.LOW_PASS, sR, mLPFc);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -193,13 +195,15 @@ public class ShimmerService extends Service {
             mECGtoHR = new ECGtoHRAdaptive(sR);
             try {
                 mLPFilterECG = new Filter(Filter.LOW_PASS, sR, mLPFcECG);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
 
             try {
                 mHPFilterECG = new Filter(Filter.HIGH_PASS, sR, mHPFcECG);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -276,7 +280,8 @@ public class ShimmerService extends Service {
 
                     try {
                         ppgdata = mFilter.filterData(ppgdata);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
 
@@ -301,7 +306,8 @@ public class ShimmerService extends Service {
                     try {
                         ecgdata = mLPFilterECG.filterData(ecgdata);
                         ecgdata = mHPFilterECG.filterData(ecgdata);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
 
@@ -330,7 +336,8 @@ public class ShimmerService extends Service {
 
             try {
                 mPlotManager.filterDataAndPlot((ObjectCluster) msg.obj);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
 
@@ -504,7 +511,8 @@ public class ShimmerService extends Service {
                     mPPGtoHR = new PPGtoHRAlgorithm(samplingRate, mNumberOfBeatsToAvg, true);
                     try {
                         mFilter = new Filter(Filter.LOW_PASS, samplingRate, mLPFc);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -513,13 +521,15 @@ public class ShimmerService extends Service {
                     mECGtoHR = new ECGtoHRAdaptive(samplingRate);
                     try {
                         mLPFilterECG = new Filter(Filter.LOW_PASS, samplingRate, mLPFcECG);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
 
                     try {
                         mHPFilterECG = new Filter(Filter.HIGH_PASS, samplingRate, mHPFcECG);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -600,7 +610,8 @@ public class ShimmerService extends Service {
                     mPPGtoHR = new PPGtoHRAlgorithm(samplingRate, mNumberOfBeatsToAvg, true);
                     try {
                         mFilter = new Filter(Filter.LOW_PASS, samplingRate, mLPFc);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -609,13 +620,15 @@ public class ShimmerService extends Service {
                     mECGtoHR = new ECGtoHRAdaptive(samplingRate);
                     try {
                         mLPFilterECG = new Filter(Filter.LOW_PASS, samplingRate, mLPFcECG);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
 
                     try {
                         mHPFilterECG = new Filter(Filter.HIGH_PASS, samplingRate, mHPFcECG);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -864,7 +877,8 @@ public class ShimmerService extends Service {
 
             try {
                 MediaScannerConnection.scanFile(this, new String[]{mLogShimmer.get(bluetoothAddress).getAbsoluteName()}, null, null);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 System.out.println(e);
             }
             mLogShimmer.remove(bluetoothAddress);
@@ -985,7 +999,8 @@ public class ShimmerService extends Service {
 
         try {
             btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Log.e(TAG, "ERROR! " + e);
             Toast.makeText(this, "Error! Could not create Bluetooth Manager!", Toast.LENGTH_LONG).show();
         }

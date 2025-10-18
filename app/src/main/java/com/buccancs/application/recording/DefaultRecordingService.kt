@@ -34,22 +34,31 @@ class DefaultRecordingService @Inject constructor(
         sessionId: String,
         requestedStart: Instant?
     ): RecordingState {
-        return withContext(appScope.coroutineContext) {
-            val syncStatus = timeSyncService.forceSync()
+        return withContext(
+            appScope.coroutineContext
+        ) {
+            val syncStatus =
+                timeSyncService.forceSync()
             bookmarkRepository.clear()
-            val anchor = RecordingSessionAnchor(
-                sessionId = sessionId,
-                referenceTimestamp = requestedStart ?: nowInstant(),
-                sharedClockOffsetMillis = syncStatus.offsetMillis
-            )
+            val anchor =
+                RecordingSessionAnchor(
+                    sessionId = sessionId,
+                    referenceTimestamp = requestedStart
+                        ?: nowInstant(),
+                    sharedClockOffsetMillis = syncStatus.offsetMillis
+                )
             manifestWriter.beginSession(
                 anchor = anchor,
                 devices = sensorRepository.devices.value,
                 simulation = sensorRepository.simulationEnabled.value
             )
             try {
-                performanceMetricsRecorder.start(anchor.sessionId)
-                sensorRepository.startStreaming(anchor)
+                performanceMetricsRecorder.start(
+                    anchor.sessionId
+                )
+                sensorRepository.startStreaming(
+                    anchor
+                )
             } catch (error: Throwable) {
                 performanceMetricsRecorder.stop()
                 throw error
@@ -58,26 +67,41 @@ class DefaultRecordingService @Inject constructor(
         }
     }
 
-    override suspend fun stop(): RecordingState = stopWithSummary().state
+    override suspend fun stop(): RecordingState =
+        stopWithSummary().state
 
     override suspend fun stopWithSummary(): RecordingStopSummary {
-        val anchor = try {
-            sensorRepository.stopStreaming()
-        } finally {
-            performanceMetricsRecorder.stop()
-        }
-        val artifacts = if (anchor != null) {
-            runCatching { sensorRepository.collectSessionArtifacts(anchor.sessionId) }
-                .getOrElse { emptyList() }
-        } else {
-            emptyList()
-        }
+        val anchor =
+            try {
+                sensorRepository.stopStreaming()
+            } finally {
+                performanceMetricsRecorder.stop()
+            }
+        val artifacts =
+            if (anchor != null) {
+                runCatching {
+                    sensorRepository.collectSessionArtifacts(
+                        anchor.sessionId
+                    )
+                }
+                    .getOrElse { emptyList() }
+            } else {
+                emptyList()
+            }
         if (anchor != null && artifacts.isNotEmpty()) {
-            manifestWriter.appendArtifacts(anchor.sessionId, artifacts)
-            transferRepository.enqueue(anchor.sessionId, artifacts)
+            manifestWriter.appendArtifacts(
+                anchor.sessionId,
+                artifacts
+            )
+            transferRepository.enqueue(
+                anchor.sessionId,
+                artifacts
+            )
         }
         if (anchor != null) {
-            performanceMetricsAnalyzer.summarise(anchor.sessionId)
+            performanceMetricsAnalyzer.summarise(
+                anchor.sessionId
+            )
             manifestWriter.finaliseSession(
                 sessionId = anchor.sessionId,
                 endedAt = nowInstant(),
@@ -85,7 +109,8 @@ class DefaultRecordingService @Inject constructor(
                 artifacts = artifacts
             )
         }
-        val state = sensorRepository.recordingState.value
+        val state =
+            sensorRepository.recordingState.value
         return RecordingStopSummary(
             state = state,
             anchor = anchor,

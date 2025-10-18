@@ -21,7 +21,9 @@ fun InfoRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = Spacing.ExtraSmall),
+            .padding(
+                vertical = Spacing.ExtraSmall
+            ),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(

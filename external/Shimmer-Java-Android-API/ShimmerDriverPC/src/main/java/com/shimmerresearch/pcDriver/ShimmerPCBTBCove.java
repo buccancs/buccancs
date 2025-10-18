@@ -141,7 +141,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
                 mPThread.start();
                 initialize();
                 setBluetoothRadioState(BT_STATE.CONNECTED);
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 System.err.print(e.toString());
                 System.out.println("Connection Lost");
             }
@@ -156,7 +157,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
             if (mIN.available() != 0) {
                 return true;
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             System.out.println("Connection Lost");
         }
@@ -167,7 +169,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     public int availableBytes() {
         try {
             return mIN.available();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             System.out.println("Connection Lost");
             connectionLost();
             e.printStackTrace();
@@ -180,7 +183,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
     public void writeBytes(byte[] data) {
         try {
             mOUT.write(data);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             System.out.println("Connection Lost");
             connectionLost();
             e.printStackTrace();
@@ -193,7 +197,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
         try {
             mIN.readFully(b, 0, numberofBytes);
             return (b);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             System.out.println("Connection Lost");
             e.printStackTrace();
         }
@@ -289,7 +294,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
             conn.close();
             conn = null;
             setBluetoothRadioState(BT_STATE.DISCONNECTED);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             setBluetoothRadioState(BT_STATE.DISCONNECTED);
             System.out.println("Connection Lost");
             e.printStackTrace();
@@ -317,7 +323,8 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
             conn.close();
             conn = null;
             setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             setBluetoothRadioState(BT_STATE.CONNECTION_LOST);
             System.out.println("Connection Lost");
             e.printStackTrace();
@@ -432,10 +439,12 @@ public class ShimmerPCBTBCove extends ShimmerBluetooth implements Serializable {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (ShimmerPCBTBCove) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }

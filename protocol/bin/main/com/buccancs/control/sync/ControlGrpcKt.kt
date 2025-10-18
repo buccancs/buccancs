@@ -27,7 +27,8 @@ import kotlin.coroutines.EmptyCoroutineContext
  * com.buccancs.control.sync.LocalControl.
  */
 public object LocalControlGrpcKt {
-    public const val SERVICE_NAME: String = LocalControlGrpc.SERVICE_NAME
+    public const val SERVICE_NAME: String =
+        LocalControlGrpc.SERVICE_NAME
 
     @JvmStatic
     public val serviceDescriptor: ServiceDescriptor
@@ -45,13 +46,24 @@ public object LocalControlGrpcKt {
      * A stub for issuing RPCs to a(n) com.buccancs.control.sync.LocalControl service as suspending
      * coroutines.
      */
-    @StubFor(LocalControlGrpc::class)
+    @StubFor(
+        LocalControlGrpc::class
+    )
     public class LocalControlCoroutineStub @JvmOverloads constructor(
         channel: Channel,
         callOptions: CallOptions = DEFAULT,
-    ) : AbstractCoroutineStub<LocalControlCoroutineStub>(channel, callOptions) {
-        override fun build(channel: Channel, callOptions: CallOptions): LocalControlCoroutineStub =
-            LocalControlCoroutineStub(channel, callOptions)
+    ) : AbstractCoroutineStub<LocalControlCoroutineStub>(
+        channel,
+        callOptions
+    ) {
+        override fun build(
+            channel: Channel,
+            callOptions: CallOptions
+        ): LocalControlCoroutineStub =
+            LocalControlCoroutineStub(
+                channel,
+                callOptions
+            )
 
         /**
          * Executes this RPC and returns the response message, suspending until the RPC completes
@@ -66,14 +78,18 @@ public object LocalControlGrpcKt {
          *
          * @return The single response from the server.
          */
-        public suspend fun pushCommand(request: CommandEnvelope, headers: Metadata = Metadata()):
-                CommandAck = unaryRpc(
-            channel,
-            LocalControlGrpc.getPushCommandMethod(),
-            request,
-            callOptions,
-            headers
-        )
+        public suspend fun pushCommand(
+            request: CommandEnvelope,
+            headers: Metadata = Metadata()
+        ):
+                CommandAck =
+            unaryRpc(
+                channel,
+                LocalControlGrpc.getPushCommandMethod(),
+                request,
+                callOptions,
+                headers
+            )
 
         /**
          * Returns a [Flow] that, when collected, executes this RPC and emits responses from the
@@ -88,14 +104,18 @@ public object LocalControlGrpcKt {
          *
          * @return A flow that, when collected, emits the responses from the server.
          */
-        public fun streamEvents(request: EventSubscription, headers: Metadata = Metadata()):
-                Flow<ControlEvent> = serverStreamingRpc(
-            channel,
-            LocalControlGrpc.getStreamEventsMethod(),
-            request,
-            callOptions,
-            headers
-        )
+        public fun streamEvents(
+            request: EventSubscription,
+            headers: Metadata = Metadata()
+        ):
+                Flow<ControlEvent> =
+            serverStreamingRpc(
+                channel,
+                LocalControlGrpc.getStreamEventsMethod(),
+                request,
+                callOptions,
+                headers
+            )
     }
 
     /**
@@ -104,7 +124,9 @@ public object LocalControlGrpcKt {
      */
     public abstract class LocalControlCoroutineImplBase(
         coroutineContext: CoroutineContext = EmptyCoroutineContext,
-    ) : AbstractCoroutineServerImpl(coroutineContext) {
+    ) : AbstractCoroutineServerImpl(
+        coroutineContext
+    ) {
         /**
          * Returns the response to an RPC for com.buccancs.control.sync.LocalControl.PushCommand.
          *
@@ -116,8 +138,14 @@ public object LocalControlGrpcKt {
          *
          * @param request The request from the client.
          */
-        public open suspend fun pushCommand(request: CommandEnvelope): CommandAck =
-            throw StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.sync.LocalControl.PushCommand is unimplemented"))
+        public open suspend fun pushCommand(
+            request: CommandEnvelope
+        ): CommandAck =
+            throw StatusException(
+                UNIMPLEMENTED.withDescription(
+                    "Method com.buccancs.control.sync.LocalControl.PushCommand is unimplemented"
+                )
+            )
 
         /**
          * Returns a [Flow] of responses to an RPC for
@@ -132,23 +160,33 @@ public object LocalControlGrpcKt {
          *
          * @param request The request from the client.
          */
-        public open fun streamEvents(request: EventSubscription): Flow<ControlEvent> =
-            throw StatusException(UNIMPLEMENTED.withDescription("Method com.buccancs.control.sync.LocalControl.StreamEvents is unimplemented"))
-
-        final override fun bindService(): ServerServiceDefinition = builder(getServiceDescriptor())
-            .addMethod(
-                unaryServerMethodDefinition(
-                    context = this.context,
-                    descriptor = LocalControlGrpc.getPushCommandMethod(),
-                    implementation = ::pushCommand
+        public open fun streamEvents(
+            request: EventSubscription
+        ): Flow<ControlEvent> =
+            throw StatusException(
+                UNIMPLEMENTED.withDescription(
+                    "Method com.buccancs.control.sync.LocalControl.StreamEvents is unimplemented"
                 )
             )
-            .addMethod(
-                serverStreamingServerMethodDefinition(
-                    context = this.context,
-                    descriptor = LocalControlGrpc.getStreamEventsMethod(),
-                    implementation = ::streamEvents
+
+        final override fun bindService(): ServerServiceDefinition =
+            builder(
+                getServiceDescriptor()
+            )
+                .addMethod(
+                    unaryServerMethodDefinition(
+                        context = this.context,
+                        descriptor = LocalControlGrpc.getPushCommandMethod(),
+                        implementation = ::pushCommand
+                    )
                 )
-            ).build()
+                .addMethod(
+                    serverStreamingServerMethodDefinition(
+                        context = this.context,
+                        descriptor = LocalControlGrpc.getStreamEventsMethod(),
+                        implementation = ::streamEvents
+                    )
+                )
+                .build()
     }
 }

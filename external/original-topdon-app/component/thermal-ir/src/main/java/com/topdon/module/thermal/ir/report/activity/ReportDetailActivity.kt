@@ -21,37 +21,71 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-@Route(path = RouterConfig.REPORT_DETAIL)
-class ReportDetailActivity : BaseActivity() {
-    private var reportBean: ReportBean? = null
-    private var pdfFilePath: String? = null
+@Route(
+    path = RouterConfig.REPORT_DETAIL
+)
+class ReportDetailActivity :
+    BaseActivity() {
+    private var reportBean: ReportBean? =
+        null
+    private var pdfFilePath: String? =
+        null
 
-    override fun initContentView() = R.layout.activity_report_detail
+    override fun initContentView() =
+        R.layout.activity_report_detail
+
     override fun initView() {
-        reportBean = intent.getParcelableExtra(ExtraKeyConfig.REPORT_BEAN)
-        title_view.setTitleText(R.string.album_edit_report)
-        title_view.setLeftDrawable(R.drawable.svg_arrow_left_e8)
-        title_view.setRightDrawable(R.drawable.ic_share_black_svg)
+        reportBean =
+            intent.getParcelableExtra(
+                ExtraKeyConfig.REPORT_BEAN
+            )
+        title_view.setTitleText(
+            R.string.album_edit_report
+        )
+        title_view.setLeftDrawable(
+            R.drawable.svg_arrow_left_e8
+        )
+        title_view.setRightDrawable(
+            R.drawable.ic_share_black_svg
+        )
         title_view.setLeftClickListener {
             finish()
         }
         title_view.setRightClickListener {
             saveWithPDF()
         }
-        report_info_view.refreshInfo(reportBean?.report_info)
-        report_info_view.refreshCondition(reportBean?.detection_condition)
+        report_info_view.refreshInfo(
+            reportBean?.report_info
+        )
+        report_info_view.refreshCondition(
+            reportBean?.detection_condition
+        )
         if (reportBean?.report_info?.is_report_watermark == 1) {
-            watermark_view.watermarkText = reportBean?.report_info?.report_watermark
+            watermark_view.watermarkText =
+                reportBean?.report_info?.report_watermark
         }
-        val irList = reportBean?.infrared_data
+        val irList =
+            reportBean?.infrared_data
         if (irList != null) {
             for (i in irList.indices) {
-                val reportShowView = ReportIRShowView(this)
-                reportShowView.refreshData(i == 0, i == irList.size - 1, irList[i])
+                val reportShowView =
+                    ReportIRShowView(
+                        this
+                    )
+                reportShowView.refreshData(
+                    i == 0,
+                    i == irList.size - 1,
+                    irList[i]
+                )
                 lifecycleScope.launch {
                     val drawable =
-                        GlideLoader.getDrawable(this@ReportDetailActivity, irList[i].picture_url)
-                    reportShowView.setImageDrawable(drawable)
+                        GlideLoader.getDrawable(
+                            this@ReportDetailActivity,
+                            irList[i].picture_url
+                        )
+                    reportShowView.setImageDrawable(
+                        drawable
+                    )
                 }
                 ll_content.addView(
                     reportShowView,
@@ -66,13 +100,23 @@ class ReportDetailActivity : BaseActivity() {
     }
 
     private fun saveWithPDF() {
-        if (TextUtils.isEmpty(pdfFilePath)) {
+        if (TextUtils.isEmpty(
+                pdfFilePath
+            )
+        ) {
             showCameraLoading()
-            lifecycleScope.launch(Dispatchers.IO) {
-                val name = reportBean?.report_info?.report_number
+            lifecycleScope.launch(
+                Dispatchers.IO
+            ) {
+                val name =
+                    reportBean?.report_info?.report_number
                 if (name != null) {
-                    if (File(FileConfig.getPdfDir() + "/$name.pdf").exists() &&
-                        !TextUtils.isEmpty(pdfFilePath)
+                    if (File(
+                            FileConfig.getPdfDir() + "/$name.pdf"
+                        ).exists() &&
+                        !TextUtils.isEmpty(
+                            pdfFilePath
+                        )
                     ) {
                         lifecycleScope.launch {
                             dismissCameraLoading()
@@ -81,10 +125,15 @@ class ReportDetailActivity : BaseActivity() {
                         return@launch
                     }
                 }
-                pdfFilePath = PDFHelp.savePdfFileByListView(
-                    name ?: System.currentTimeMillis().toString(),
-                    scroll_view, getPrintViewList(), watermark_view
-                )
+                pdfFilePath =
+                    PDFHelp.savePdfFileByListView(
+                        name
+                            ?: System.currentTimeMillis()
+                                .toString(),
+                        scroll_view,
+                        getPrintViewList(),
+                        watermark_view
+                    )
                 lifecycleScope.launch {
                     dismissCameraLoading()
                     actionShare()
@@ -96,22 +145,49 @@ class ReportDetailActivity : BaseActivity() {
     }
 
     private fun actionShare() {
-        val uri = FileTools.getUri(File(pdfFilePath!!))
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        shareIntent.type = "application/pdf"
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
+        val uri =
+            FileTools.getUri(
+                File(
+                    pdfFilePath!!
+                )
+            )
+        val shareIntent =
+            Intent()
+        shareIntent.action =
+            Intent.ACTION_SEND
+        shareIntent.putExtra(
+            Intent.EXTRA_STREAM,
+            uri
+        )
+        shareIntent.type =
+            "application/pdf"
+        startActivity(
+            Intent.createChooser(
+                shareIntent,
+                getString(
+                    R.string.battery_share
+                )
+            )
+        )
     }
 
     private fun getPrintViewList(): ArrayList<View> {
-        val result = ArrayList<View>()
-        result.add(report_info_view)
-        val childCount = ll_content.childCount
+        val result =
+            ArrayList<View>()
+        result.add(
+            report_info_view
+        )
+        val childCount =
+            ll_content.childCount
         for (i in 0 until childCount) {
-            val childView = ll_content.getChildAt(i)
+            val childView =
+                ll_content.getChildAt(
+                    i
+                )
             if (childView is ReportIRShowView) {
-                result.addAll(childView.getPrintViewList())
+                result.addAll(
+                    childView.getPrintViewList()
+                )
             }
         }
         return result

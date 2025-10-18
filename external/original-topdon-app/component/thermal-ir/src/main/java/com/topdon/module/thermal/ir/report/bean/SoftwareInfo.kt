@@ -12,11 +12,18 @@ data class SoftwareInfo(
     val app_language: String,
     val sdk_version: String,
 ) : Parcelable {
-    val software_code = BaseApplication.instance.getSoftWareCode()
-    val system_language = AppLanguageUtils.getSystemLanguage()
-    val app_version = BuildConfig.VERSION_NAME
-    val hardware_version = ""
-    val app_sn = ""
-    val mobile_phone_model = Build.BRAND
-    val system_version = Build.VERSION.RELEASE
+    val software_code =
+        BaseApplication.instance.getSoftWareCode()
+    val system_language =
+        AppLanguageUtils.getSystemLanguage()
+    val app_version =
+        BuildConfig.VERSION_NAME
+    val hardware_version =
+        ""
+    val app_sn =
+        ""
+    val mobile_phone_model =
+        Build.BRAND
+    val system_version =
+        Build.VERSION.RELEASE
 }

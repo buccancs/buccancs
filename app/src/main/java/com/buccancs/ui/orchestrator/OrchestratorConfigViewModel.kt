@@ -22,79 +22,117 @@ class OrchestratorConfigViewModel @Inject constructor(
     private val orchestratorConfigRepository: OrchestratorConfigRepository
 ) : ViewModel() {
 
-    private val hostInput = MutableStateFlow("")
-    private val portInput = MutableStateFlow("")
-    private val useTlsInput = MutableStateFlow(false)
-    private val configMessage = MutableStateFlow<String?>(null)
-
-    val uiState: StateFlow<OrchestratorConfigUiState> = combine(
-        hostInput,
-        portInput,
-        useTlsInput,
-        orchestratorConfigRepository.config,
-        configMessage
-    ) { host, portText, useTls, persistedConfig, message ->
-        val parsedPort = portText.toIntOrNull()
-        val configDirty = persistedConfig?.let {
-            host != it.host ||
-                    parsedPort != it.port ||
-                    useTls != it.useTls
-        } ?: (host.isNotBlank() || portText.isNotBlank())
-
-        OrchestratorConfigUiState(
-            hostInput = host,
-            portInput = portText,
-            useTls = useTls,
-            currentConfig = persistedConfig,
-            isDirty = configDirty,
-            message = message
+    private val hostInput =
+        MutableStateFlow(
+            ""
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = OrchestratorConfigUiState.initial()
-    )
+    private val portInput =
+        MutableStateFlow(
+            ""
+        )
+    private val useTlsInput =
+        MutableStateFlow(
+            false
+        )
+    private val configMessage =
+        MutableStateFlow<String?>(
+            null
+        )
+
+    val uiState: StateFlow<OrchestratorConfigUiState> =
+        combine(
+            hostInput,
+            portInput,
+            useTlsInput,
+            orchestratorConfigRepository.config,
+            configMessage
+        ) { host, portText, useTls, persistedConfig, message ->
+            val parsedPort =
+                portText.toIntOrNull()
+            val configDirty =
+                persistedConfig?.let {
+                    host != it.host ||
+                            parsedPort != it.port ||
+                            useTls != it.useTls
+                }
+                    ?: (host.isNotBlank() || portText.isNotBlank())
+
+            OrchestratorConfigUiState(
+                hostInput = host,
+                portInput = portText,
+                useTls = useTls,
+                currentConfig = persistedConfig,
+                isDirty = configDirty,
+                message = message
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                5_000
+            ),
+            initialValue = OrchestratorConfigUiState.initial()
+        )
 
     init {
         // Sync inputs with persisted config
         viewModelScope.launch {
             orchestratorConfigRepository.config.collect { config ->
                 if (!inputsDirty()) {
-                    hostInput.value = config.host
-                    portInput.value = config.port.toString()
-                    useTlsInput.value = config.useTls
+                    hostInput.value =
+                        config.host
+                    portInput.value =
+                        config.port.toString()
+                    useTlsInput.value =
+                        config.useTls
                 }
             }
         }
     }
 
-    fun onHostChanged(value: String) {
-        hostInput.value = value.trim()
-        configMessage.value = null
+    fun onHostChanged(
+        value: String
+    ) {
+        hostInput.value =
+            value.trim()
+        configMessage.value =
+            null
     }
 
-    fun onPortChanged(value: String) {
-        portInput.value = value.trim()
-        configMessage.value = null
+    fun onPortChanged(
+        value: String
+    ) {
+        portInput.value =
+            value.trim()
+        configMessage.value =
+            null
     }
 
-    fun onUseTlsChanged(enabled: Boolean) {
-        useTlsInput.value = enabled
-        configMessage.value = null
+    fun onUseTlsChanged(
+        enabled: Boolean
+    ) {
+        useTlsInput.value =
+            enabled
+        configMessage.value =
+            null
     }
 
     fun applyConfig() {
         viewModelScope.launch {
-            val host = hostInput.value.trim()
-            val portValue = portInput.value.trim()
-            val port = portValue.toIntOrNull()
+            val host =
+                hostInput.value.trim()
+            val portValue =
+                portInput.value.trim()
+            val port =
+                portValue.toIntOrNull()
 
             if (host.isEmpty()) {
-                configMessage.value = "Host cannot be blank"
+                configMessage.value =
+                    "Host cannot be blank"
                 return@launch
             }
             if (port == null || port !in 1..65535) {
-                configMessage.value = "Port must be between 1 and 65535"
+                configMessage.value =
+                    "Port must be between 1 and 65535"
                 return@launch
             }
 
@@ -107,20 +145,28 @@ class OrchestratorConfigViewModel @Inject constructor(
                     )
                 )
             }.onSuccess {
-                configMessage.value = "Configuration saved"
-            }.onFailure { ex ->
-                configMessage.value = ex.message ?: "Unable to save configuration"
+                configMessage.value =
+                    "Configuration saved"
             }
+                .onFailure { ex ->
+                    configMessage.value =
+                        ex.message
+                            ?: "Unable to save configuration"
+                }
         }
     }
 
     fun clearMessage() {
-        configMessage.value = null
+        configMessage.value =
+            null
     }
 
     private fun inputsDirty(): Boolean {
-        val config = uiState.value.currentConfig ?: return false
-        val port = portInput.value.toIntOrNull()
+        val config =
+            uiState.value.currentConfig
+                ?: return false
+        val port =
+            portInput.value.toIntOrNull()
         return hostInput.value != config.host ||
                 port == null ||
                 port != config.port ||
@@ -137,13 +183,14 @@ data class OrchestratorConfigUiState(
     val message: String?
 ) {
     companion object {
-        fun initial(): OrchestratorConfigUiState = OrchestratorConfigUiState(
-            hostInput = "",
-            portInput = "",
-            useTls = false,
-            currentConfig = null,
-            isDirty = false,
-            message = null
-        )
+        fun initial(): OrchestratorConfigUiState =
+            OrchestratorConfigUiState(
+                hostInput = "",
+                portInput = "",
+                useTls = false,
+                currentConfig = null,
+                isDirty = false,
+                message = null
+            )
     }
 }

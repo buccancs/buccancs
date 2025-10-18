@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializestartSessionRequest")
-public inline fun startSessionRequest(block: com.buccancs.control.StartSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StartSessionRequest =
-    com.buccancs.control.StartSessionRequestKt.Dsl._create(com.buccancs.control.StartSessionRequest.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializestartSessionRequest"
+)
+public inline fun startSessionRequest(
+    block: com.buccancs.control.StartSessionRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.StartSessionRequest =
+    com.buccancs.control.StartSessionRequestKt.Dsl._create(
+        com.buccancs.control.StartSessionRequest.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.StartSessionRequest`
  */
 public object StartSessionRequestKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.StartSessionRequest.Builder
@@ -23,13 +34,16 @@ public object StartSessionRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.StartSessionRequest.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.StartSessionRequest.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.StartSessionRequest = _builder.build()
+        internal fun _build(): com.buccancs.control.StartSessionRequest =
+            _builder.build()
 
         /**
          * `.com.buccancs.control.SessionIdentifier session = 1;`
@@ -37,7 +51,9 @@ public object StartSessionRequestKt {
         public var session: com.buccancs.control.SessionIdentifier
             get() = _builder.getSession()
             set(value) {
-                _builder.setSession(value)
+                _builder.setSession(
+                    value
+                )
             }
 
         /**
@@ -61,7 +77,9 @@ public object StartSessionRequestKt {
         public var scheduledEpochMs: kotlin.Long
             get() = _builder.getScheduledEpochMs()
             set(value) {
-                _builder.setScheduledEpochMs(value)
+                _builder.setScheduledEpochMs(
+                    value
+                )
             }
 
         /**
@@ -77,7 +95,9 @@ public object StartSessionRequestKt {
         public var operatorId: kotlin.String
             get() = _builder.getOperatorId()
             set(value) {
-                _builder.setOperatorId(value)
+                _builder.setOperatorId(
+                    value
+                )
             }
 
         /**
@@ -91,8 +111,11 @@ public object StartSessionRequestKt {
          * An uninstantiable, behaviorless type to represent the field in
          * generics.
          */
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-        public class SubjectIdsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+        @kotlin.OptIn(
+            com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+        )
+        public class SubjectIdsProxy private constructor() :
+            com.google.protobuf.kotlin.DslProxy()
 
         /**
          * `repeated string subject_ids = 4;`
@@ -109,9 +132,15 @@ public object StartSessionRequestKt {
          * @param value The subjectIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addSubjectIds")
-        public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.add(value: kotlin.String) {
-            _builder.addSubjectIds(value)
+        @kotlin.jvm.JvmName(
+            "addSubjectIds"
+        )
+        public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.add(
+            value: kotlin.String
+        ) {
+            _builder.addSubjectIds(
+                value
+            )
         }
 
         /**
@@ -119,8 +148,12 @@ public object StartSessionRequestKt {
          * @param value The subjectIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignSubjectIds")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignSubjectIds"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(
             value: kotlin.String
         ) {
@@ -132,9 +165,15 @@ public object StartSessionRequestKt {
          * @param values The subjectIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addAllSubjectIds")
-        public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
-            _builder.addAllSubjectIds(values)
+        @kotlin.jvm.JvmName(
+            "addAllSubjectIds"
+        )
+        public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.addAll(
+            values: kotlin.collections.Iterable<kotlin.String>
+        ) {
+            _builder.addAllSubjectIds(
+                values
+            )
         }
 
         /**
@@ -142,12 +181,18 @@ public object StartSessionRequestKt {
          * @param values The subjectIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignAllSubjectIds")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignAllSubjectIds"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.plusAssign(
             values: kotlin.collections.Iterable<kotlin.String>
         ) {
-            addAll(values)
+            addAll(
+                values
+            )
         }
 
         /**
@@ -156,19 +201,26 @@ public object StartSessionRequestKt {
          * @param value The subjectIds to set.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("setSubjectIds")
+        @kotlin.jvm.JvmName(
+            "setSubjectIds"
+        )
         public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.set(
             index: kotlin.Int,
             value: kotlin.String
         ) {
-            _builder.setSubjectIds(index, value)
+            _builder.setSubjectIds(
+                index,
+                value
+            )
         }
 
         /**
          * `repeated string subject_ids = 4;`
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("clearSubjectIds")
+        @kotlin.jvm.JvmName(
+            "clearSubjectIds"
+        )
         public fun com.google.protobuf.kotlin.DslList<kotlin.String, SubjectIdsProxy>.clear() {
             _builder.clearSubjectIds()
         }
@@ -176,8 +228,13 @@ public object StartSessionRequestKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.StartSessionRequest.copy(block: `com.buccancs.control`.StartSessionRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StartSessionRequest =
-    `com.buccancs.control`.StartSessionRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.StartSessionRequest.copy(
+    block: `com.buccancs.control`.StartSessionRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.StartSessionRequest =
+    `com.buccancs.control`.StartSessionRequestKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 
 public val com.buccancs.control.StartSessionRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?

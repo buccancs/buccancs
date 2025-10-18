@@ -17,89 +17,92 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * - Support for light and dark themes
  */
 
-private val LightColorScheme = lightColorScheme(
-    primary = LightColorTokens.Primary,
-    onPrimary = LightColorTokens.OnPrimary,
-    primaryContainer = LightColorTokens.PrimaryContainer,
-    onPrimaryContainer = LightColorTokens.OnPrimaryContainer,
+private val LightColorScheme =
+    lightColorScheme(
+        primary = LightColorTokens.Primary,
+        onPrimary = LightColorTokens.OnPrimary,
+        primaryContainer = LightColorTokens.PrimaryContainer,
+        onPrimaryContainer = LightColorTokens.OnPrimaryContainer,
 
-    secondary = LightColorTokens.Secondary,
-    onSecondary = LightColorTokens.OnSecondary,
-    secondaryContainer = LightColorTokens.SecondaryContainer,
-    onSecondaryContainer = LightColorTokens.OnSecondaryContainer,
+        secondary = LightColorTokens.Secondary,
+        onSecondary = LightColorTokens.OnSecondary,
+        secondaryContainer = LightColorTokens.SecondaryContainer,
+        onSecondaryContainer = LightColorTokens.OnSecondaryContainer,
 
-    tertiary = LightColorTokens.Tertiary,
-    onTertiary = LightColorTokens.OnTertiary,
-    tertiaryContainer = LightColorTokens.TertiaryContainer,
-    onTertiaryContainer = LightColorTokens.OnTertiaryContainer,
+        tertiary = LightColorTokens.Tertiary,
+        onTertiary = LightColorTokens.OnTertiary,
+        tertiaryContainer = LightColorTokens.TertiaryContainer,
+        onTertiaryContainer = LightColorTokens.OnTertiaryContainer,
 
-    error = LightColorTokens.Error,
-    onError = LightColorTokens.OnError,
-    errorContainer = LightColorTokens.ErrorContainer,
-    onErrorContainer = LightColorTokens.OnErrorContainer,
+        error = LightColorTokens.Error,
+        onError = LightColorTokens.OnError,
+        errorContainer = LightColorTokens.ErrorContainer,
+        onErrorContainer = LightColorTokens.OnErrorContainer,
 
-    background = LightColorTokens.Background,
-    onBackground = LightColorTokens.OnBackground,
+        background = LightColorTokens.Background,
+        onBackground = LightColorTokens.OnBackground,
 
-    surface = LightColorTokens.Surface,
-    onSurface = LightColorTokens.OnSurface,
-    surfaceVariant = LightColorTokens.SurfaceVariant,
-    onSurfaceVariant = LightColorTokens.OnSurfaceVariant,
+        surface = LightColorTokens.Surface,
+        onSurface = LightColorTokens.OnSurface,
+        surfaceVariant = LightColorTokens.SurfaceVariant,
+        onSurfaceVariant = LightColorTokens.OnSurfaceVariant,
 
-    outline = LightColorTokens.Outline,
-    outlineVariant = LightColorTokens.OutlineVariant,
+        outline = LightColorTokens.Outline,
+        outlineVariant = LightColorTokens.OutlineVariant,
 
-    scrim = LightColorTokens.Scrim,
+        scrim = LightColorTokens.Scrim,
 
-    inverseSurface = LightColorTokens.InverseSurface,
-    inverseOnSurface = LightColorTokens.InverseOnSurface,
-    inversePrimary = LightColorTokens.InversePrimary
-)
+        inverseSurface = LightColorTokens.InverseSurface,
+        inverseOnSurface = LightColorTokens.InverseOnSurface,
+        inversePrimary = LightColorTokens.InversePrimary
+    )
 
-private val DarkColorScheme = darkColorScheme(
-    primary = DarkColorTokens.Primary,
-    onPrimary = DarkColorTokens.OnPrimary,
-    primaryContainer = DarkColorTokens.PrimaryContainer,
-    onPrimaryContainer = DarkColorTokens.OnPrimaryContainer,
+private val DarkColorScheme =
+    darkColorScheme(
+        primary = DarkColorTokens.Primary,
+        onPrimary = DarkColorTokens.OnPrimary,
+        primaryContainer = DarkColorTokens.PrimaryContainer,
+        onPrimaryContainer = DarkColorTokens.OnPrimaryContainer,
 
-    secondary = DarkColorTokens.Secondary,
-    onSecondary = DarkColorTokens.OnSecondary,
-    secondaryContainer = DarkColorTokens.SecondaryContainer,
-    onSecondaryContainer = DarkColorTokens.OnSecondaryContainer,
+        secondary = DarkColorTokens.Secondary,
+        onSecondary = DarkColorTokens.OnSecondary,
+        secondaryContainer = DarkColorTokens.SecondaryContainer,
+        onSecondaryContainer = DarkColorTokens.OnSecondaryContainer,
 
-    tertiary = DarkColorTokens.Tertiary,
-    onTertiary = DarkColorTokens.OnTertiary,
-    tertiaryContainer = DarkColorTokens.TertiaryContainer,
-    onTertiaryContainer = DarkColorTokens.OnTertiaryContainer,
+        tertiary = DarkColorTokens.Tertiary,
+        onTertiary = DarkColorTokens.OnTertiary,
+        tertiaryContainer = DarkColorTokens.TertiaryContainer,
+        onTertiaryContainer = DarkColorTokens.OnTertiaryContainer,
 
-    error = DarkColorTokens.Error,
-    onError = DarkColorTokens.OnError,
-    errorContainer = DarkColorTokens.ErrorContainer,
-    onErrorContainer = DarkColorTokens.OnErrorContainer,
+        error = DarkColorTokens.Error,
+        onError = DarkColorTokens.OnError,
+        errorContainer = DarkColorTokens.ErrorContainer,
+        onErrorContainer = DarkColorTokens.OnErrorContainer,
 
-    background = DarkColorTokens.Background,
-    onBackground = DarkColorTokens.OnBackground,
+        background = DarkColorTokens.Background,
+        onBackground = DarkColorTokens.OnBackground,
 
-    surface = DarkColorTokens.Surface,
-    onSurface = DarkColorTokens.OnSurface,
-    surfaceVariant = DarkColorTokens.SurfaceVariant,
-    onSurfaceVariant = DarkColorTokens.OnSurfaceVariant,
+        surface = DarkColorTokens.Surface,
+        onSurface = DarkColorTokens.OnSurface,
+        surfaceVariant = DarkColorTokens.SurfaceVariant,
+        onSurfaceVariant = DarkColorTokens.OnSurfaceVariant,
 
-    outline = DarkColorTokens.Outline,
-    outlineVariant = DarkColorTokens.OutlineVariant,
+        outline = DarkColorTokens.Outline,
+        outlineVariant = DarkColorTokens.OutlineVariant,
 
-    scrim = DarkColorTokens.Scrim,
+        scrim = DarkColorTokens.Scrim,
 
-    inverseSurface = DarkColorTokens.InverseSurface,
-    inverseOnSurface = DarkColorTokens.InverseOnSurface,
-    inversePrimary = DarkColorTokens.InversePrimary
-)
+        inverseSurface = DarkColorTokens.InverseSurface,
+        inverseOnSurface = DarkColorTokens.InverseOnSurface,
+        inversePrimary = DarkColorTokens.InversePrimary
+    )
 
 /**
  * Composition local for semantic colors (success, warning, info)
  * These extend beyond Material 3's base color scheme
  */
-val LocalSemanticColors = staticCompositionLocalOf { SemanticColors }
+val LocalSemanticColors =
+    staticCompositionLocalOf { SemanticColors }
 
 /**
  * Main theme composable for Buccancs Desktop
@@ -112,9 +115,12 @@ fun BuccancsTheme(
     darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val colorScheme =
+        if (darkTheme) DarkColorScheme else LightColorScheme
 
-    CompositionLocalProvider(LocalSemanticColors provides SemanticColors) {
+    CompositionLocalProvider(
+        LocalSemanticColors provides SemanticColors
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = BuccancsTypography,

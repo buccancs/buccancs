@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializecommandReceipt")
-public inline fun commandReceipt(block: com.buccancs.control.CommandReceiptKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandReceipt =
-    com.buccancs.control.CommandReceiptKt.Dsl._create(com.buccancs.control.CommandReceipt.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializecommandReceipt"
+)
+public inline fun commandReceipt(
+    block: com.buccancs.control.CommandReceiptKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandReceipt =
+    com.buccancs.control.CommandReceiptKt.Dsl._create(
+        com.buccancs.control.CommandReceipt.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.CommandReceipt`
  */
 public object CommandReceiptKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.CommandReceipt.Builder
@@ -23,13 +34,16 @@ public object CommandReceiptKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandReceipt.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.CommandReceipt.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.CommandReceipt = _builder.build()
+        internal fun _build(): com.buccancs.control.CommandReceipt =
+            _builder.build()
 
         /**
          * `string command_id = 1;`
@@ -37,7 +51,9 @@ public object CommandReceiptKt {
         public var commandId: kotlin.String
             get() = _builder.getCommandId()
             set(value) {
-                _builder.setCommandId(value)
+                _builder.setCommandId(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object CommandReceiptKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object CommandReceiptKt {
         public var success: kotlin.Boolean
             get() = _builder.getSuccess()
             set(value) {
-                _builder.setSuccess(value)
+                _builder.setSuccess(
+                    value
+                )
             }
 
         /**
@@ -85,7 +105,9 @@ public object CommandReceiptKt {
         public var message: kotlin.String
             get() = _builder.getMessage()
             set(value) {
-                _builder.setMessage(value)
+                _builder.setMessage(
+                    value
+                )
             }
 
         /**
@@ -98,6 +120,12 @@ public object CommandReceiptKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.CommandReceipt.copy(block: `com.buccancs.control`.CommandReceiptKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandReceipt =
-    `com.buccancs.control`.CommandReceiptKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.buccancs.control.CommandReceipt.copy(
+    block: `com.buccancs.control`.CommandReceiptKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandReceipt =
+    `com.buccancs.control`.CommandReceiptKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
+        ._build()
 

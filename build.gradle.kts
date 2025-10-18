@@ -1,98 +1,168 @@
 import org.gradle.accessors.dm.LibrariesForLibs
 import java.util.Locale
 
-val releaseRenderscriptOptimLevel by extra("")
-val libs = the<LibrariesForLibs>()
+val releaseRenderscriptOptimLevel by extra(
+    ""
+)
+val libs =
+    the<LibrariesForLibs>()
 
 plugins {
-    alias(libs.plugins.androidApplication) apply false
-    alias(libs.plugins.kotlinAndroid) apply false
-    alias(libs.plugins.kotlinJvm) apply false
-    alias(libs.plugins.kotlinCompose) apply false
-    alias(libs.plugins.composeMultiplatform) apply false
-    alias(libs.plugins.hilt) apply false
-    alias(libs.plugins.protobuf) apply false
-    alias(libs.plugins.kotlinSerialization) apply false
-    alias(libs.plugins.kotlinKapt) apply false
+    alias(
+        libs.plugins.androidApplication
+    ) apply false
+    alias(
+        libs.plugins.kotlinAndroid
+    ) apply false
+    alias(
+        libs.plugins.kotlinJvm
+    ) apply false
+    alias(
+        libs.plugins.kotlinCompose
+    ) apply false
+    alias(
+        libs.plugins.composeMultiplatform
+    ) apply false
+    alias(
+        libs.plugins.hilt
+    ) apply false
+    alias(
+        libs.plugins.protobuf
+    ) apply false
+    alias(
+        libs.plugins.kotlinSerialization
+    ) apply false
+    alias(
+        libs.plugins.kotlinKapt
+    ) apply false
 }
 
 // Test execution flag - enable via: ./gradlew test -Ptests.enabled=true
-val testsEnabled = project.findProperty("tests.enabled")?.toString()?.toBoolean() ?: false
+val testsEnabled =
+    project.findProperty(
+        "tests.enabled"
+    )
+        ?.toString()
+        ?.toBoolean()
+        ?: false
 
 // Make testsEnabled available to subprojects
-extra.set("testsEnabled", testsEnabled)
+extra.set(
+    "testsEnabled",
+    testsEnabled
+)
 
 if (testsEnabled) {
-    logger.lifecycle("Tests are ENABLED via -Ptests.enabled=true")
+    logger.lifecycle(
+        "Tests are ENABLED via -Ptests.enabled=true"
+    )
 } else {
-    logger.lifecycle("Tests are DISABLED (use -Ptests.enabled=true to enable)")
+    logger.lifecycle(
+        "Tests are DISABLED (use -Ptests.enabled=true to enable)"
+    )
 }
 
 
 private data class ExternalProjectBuild(
     val taskName: String,
     val projectDir: String,
-    val tasksToRun: List<String> = listOf("build"),
+    val tasksToRun: List<String> = listOf(
+        "build"
+    ),
     val wrapperScriptName: String = "gradlew",
     val maxSupportedJavaMajor: Int? = null
 )
 
-private val externalBuilds = listOf(
-    // Temporarily disabled due to Gradle version conflict
-    ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
-    ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample"),
+private val externalBuilds =
+    listOf(
+        // Temporarily disabled due to Gradle version conflict
+        ExternalProjectBuild(
+            "buildOriginalTopdonApp",
+            "external/original-topdon-app"
+        ),
+        ExternalProjectBuild(
+            "buildTopdonLibirSample",
+            "external/example_topdon_sdk/libir_sample"
+        ),
 
-    // Shimmer SDK builds - now updated to Java 21
-    ExternalProjectBuild(
-        "buildShimmerBluetoothManager",
-        "external/Shimmer-Java-Android-API/ShimmerBluetoothManager",
-        maxSupportedJavaMajor = 24
-    ),
-    ExternalProjectBuild(
-        "buildShimmerDriver",
-        "external/Shimmer-Java-Android-API/ShimmerDriver",
-        maxSupportedJavaMajor = 24
-    ),
-    ExternalProjectBuild(
-        "buildShimmerDriverPC",
-        "external/Shimmer-Java-Android-API/ShimmerDriverPC",
-        maxSupportedJavaMajor = 24
-    ),
-    ExternalProjectBuild(
-        "buildShimmerTCP",
-        "external/Shimmer-Java-Android-API/ShimmerTCP",
-        maxSupportedJavaMajor = 24
-    ),
-    ExternalProjectBuild(
-        "buildShimmerPCBasicExamples",
-        "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples",
-        maxSupportedJavaMajor = 24
-    ),
-    ExternalProjectBuild(
-        "buildShimmerLSL",
-        "external/Shimmer-Java-Android-API/ShimmerLSL",
-        maxSupportedJavaMajor = 24
-    ),
-    ExternalProjectBuild(
-        "buildJavaShimmerConnect",
-        "external/Shimmer-Java-Android-API/JavaShimmerConnect",
-        maxSupportedJavaMajor = 24
-    ),
-)
+        // Shimmer SDK builds - now updated to Java 21
+        ExternalProjectBuild(
+            "buildShimmerBluetoothManager",
+            "external/Shimmer-Java-Android-API/ShimmerBluetoothManager",
+            maxSupportedJavaMajor = 24
+        ),
+        ExternalProjectBuild(
+            "buildShimmerDriver",
+            "external/Shimmer-Java-Android-API/ShimmerDriver",
+            maxSupportedJavaMajor = 24
+        ),
+        ExternalProjectBuild(
+            "buildShimmerDriverPC",
+            "external/Shimmer-Java-Android-API/ShimmerDriverPC",
+            maxSupportedJavaMajor = 24
+        ),
+        ExternalProjectBuild(
+            "buildShimmerTCP",
+            "external/Shimmer-Java-Android-API/ShimmerTCP",
+            maxSupportedJavaMajor = 24
+        ),
+        ExternalProjectBuild(
+            "buildShimmerPCBasicExamples",
+            "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples",
+            maxSupportedJavaMajor = 24
+        ),
+        ExternalProjectBuild(
+            "buildShimmerLSL",
+            "external/Shimmer-Java-Android-API/ShimmerLSL",
+            maxSupportedJavaMajor = 24
+        ),
+        ExternalProjectBuild(
+            "buildJavaShimmerConnect",
+            "external/Shimmer-Java-Android-API/JavaShimmerConnect",
+            maxSupportedJavaMajor = 24
+        ),
+    )
 
 private val usingWindowsWrapperExtension =
-    System.getProperty("os.name").startsWith("Windows", ignoreCase = true)
+    System.getProperty(
+        "os.name"
+    )
+        .startsWith(
+            "Windows",
+            ignoreCase = true
+        )
 
-private fun readJavaMajorVersion(javaHome: File): Int? {
-    val releaseFile = File(javaHome, "release")
+private fun readJavaMajorVersion(
+    javaHome: File
+): Int? {
+    val releaseFile =
+        File(
+            javaHome,
+            "release"
+        )
     if (!releaseFile.exists()) {
         return null
     }
-    val declaration = releaseFile.useLines { lines ->
-        lines.firstOrNull { it.startsWith("JAVA_VERSION=") }
-    } ?: return null
-    val rawVersion = declaration.substringAfter('"').substringBefore('"')
-    val components = rawVersion.split('.')
+    val declaration =
+        releaseFile.useLines { lines ->
+            lines.firstOrNull {
+                it.startsWith(
+                    "JAVA_VERSION="
+                )
+            }
+        }
+            ?: return null
+    val rawVersion =
+        declaration.substringAfter(
+            '"'
+        )
+            .substringBefore(
+                '"'
+            )
+    val components =
+        rawVersion.split(
+            '.'
+        )
     return when {
         components.isEmpty() -> null
         components[0] == "1" && components.size > 1 -> components[1].toIntOrNull()
@@ -100,96 +170,181 @@ private fun readJavaMajorVersion(javaHome: File): Int? {
     }
 }
 
-private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
+private fun findExternalJavaHome(
+    project: Project,
+    maxJavaMajor: Int?
+): File? {
     val propertyValue =
-        project.providers.gradleProperty("externalJavaHome").orNull?.takeIf { it.isNotBlank() }
-    val envValue = System.getenv("EXTERNAL_JAVA_HOME")?.takeIf { it.isNotBlank() }
-    val osName = System.getProperty("os.name").lowercase(Locale.US)
-    val defaultCandidates = buildList {
-        if (osName.contains("windows")) {
-            add("C:\\Program Files\\Java\\jdk-24")
-            add("C:\\Program Files\\Java\\jdk-21")
-            add("C:\\Program Files\\Java\\jdk-17")
-        } else {
-            add("/usr/lib/jvm/java-21-openjdk")
-            add("/usr/lib/jvm/java-21")
-            add("/usr/lib/jvm/java-17-openjdk")
-            add("/usr/lib/jvm/java-17")
-            add("/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home")
-            add("/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home")
+        project.providers.gradleProperty(
+            "externalJavaHome"
+        ).orNull?.takeIf { it.isNotBlank() }
+    val envValue =
+        System.getenv(
+            "EXTERNAL_JAVA_HOME"
+        )
+            ?.takeIf { it.isNotBlank() }
+    val osName =
+        System.getProperty(
+            "os.name"
+        )
+            .lowercase(
+                Locale.US
+            )
+    val defaultCandidates =
+        buildList {
+            if (osName.contains(
+                    "windows"
+                )
+            ) {
+                add("C:\\Program Files\\Java\\jdk-24")
+                add("C:\\Program Files\\Java\\jdk-21")
+                add("C:\\Program Files\\Java\\jdk-17")
+            } else {
+                add("/usr/lib/jvm/java-21-openjdk")
+                add("/usr/lib/jvm/java-21")
+                add("/usr/lib/jvm/java-17-openjdk")
+                add("/usr/lib/jvm/java-17")
+                add("/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home")
+                add("/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home")
+            }
         }
-    }
     val combinedCandidates =
-        listOfNotNull(propertyValue, envValue, System.getenv("JAVA_HOME")) + defaultCandidates
+        listOfNotNull(
+            propertyValue,
+            envValue,
+            System.getenv(
+                "JAVA_HOME"
+            )
+        ) + defaultCandidates
     return combinedCandidates
-        .map { project.file(it) }
+        .map {
+            project.file(
+                it
+            )
+        }
         .firstOrNull { candidate ->
             candidate.exists() && (maxJavaMajor == null ||
-                    readJavaMajorVersion(candidate)?.let { it <= maxJavaMajor } == true)
+                    readJavaMajorVersion(
+                        candidate
+                    )?.let { it <= maxJavaMajor } == true)
         }
 }
 
-private val externalBuildTasks = externalBuilds.mapNotNull { external ->
-    val wrapperFileName = if (usingWindowsWrapperExtension) {
-        "${external.wrapperScriptName}.bat"
-    } else {
-        external.wrapperScriptName
-    }
-    val wrapperFile = file("${external.projectDir}/$wrapperFileName")
-    if (!wrapperFile.exists()) {
-        logger.lifecycle(
-            "Skipping external build task ${external.taskName} because wrapper was not found at $wrapperFileName in ${external.projectDir}"
-        )
-        null
-    } else {
-        tasks.register<Exec>(external.taskName) {
-            group = "external build"
-            description = "Builds the external project located at ${external.projectDir}."
-            workingDir = file(external.projectDir)
-            commandLine(
-                listOf(wrapperFile.absolutePath) + external.tasksToRun + listOf(
-                    "-x",
-                    "test"
-                )
+private val externalBuildTasks =
+    externalBuilds.mapNotNull { external ->
+        val wrapperFileName =
+            if (usingWindowsWrapperExtension) {
+                "${external.wrapperScriptName}.bat"
+            } else {
+                external.wrapperScriptName
+            }
+        val wrapperFile =
+            file(
+                "${external.projectDir}/$wrapperFileName"
             )
-            val javaHomeOverride = findExternalJavaHome(project, external.maxSupportedJavaMajor)
-            if (javaHomeOverride != null) {
-                environment("JAVA_HOME", javaHomeOverride.absolutePath)
-                val existingPath = System.getenv("PATH") ?: ""
-                val updatedPath =
-                    javaHomeOverride.resolve("bin").absolutePath + File.pathSeparator + existingPath
-                environment("PATH", updatedPath)
-            } else if (external.maxSupportedJavaMajor != null) {
-                logger.lifecycle(
-                    "Skipping external build task ${external.taskName} because no compatible Java runtime (<= ${external.maxSupportedJavaMajor}) was found."
+        if (!wrapperFile.exists()) {
+            logger.lifecycle(
+                "Skipping external build task ${external.taskName} because wrapper was not found at $wrapperFileName in ${external.projectDir}"
+            )
+            null
+        } else {
+            tasks.register<Exec>(
+                external.taskName
+            ) {
+                group =
+                    "external build"
+                description =
+                    "Builds the external project located at ${external.projectDir}."
+                workingDir =
+                    file(
+                        external.projectDir
+                    )
+                commandLine(
+                    listOf(
+                        wrapperFile.absolutePath
+                    ) + external.tasksToRun + listOf(
+                        "-x",
+                        "test"
+                    )
                 )
-                enabled = false
+                val javaHomeOverride =
+                    findExternalJavaHome(
+                        project,
+                        external.maxSupportedJavaMajor
+                    )
+                if (javaHomeOverride != null) {
+                    environment(
+                        "JAVA_HOME",
+                        javaHomeOverride.absolutePath
+                    )
+                    val existingPath =
+                        System.getenv(
+                            "PATH"
+                        )
+                            ?: ""
+                    val updatedPath =
+                        javaHomeOverride.resolve(
+                            "bin"
+                        ).absolutePath + File.pathSeparator + existingPath
+                    environment(
+                        "PATH",
+                        updatedPath
+                    )
+                } else if (external.maxSupportedJavaMajor != null) {
+                    logger.lifecycle(
+                        "Skipping external build task ${external.taskName} because no compatible Java runtime (<= ${external.maxSupportedJavaMajor}) was found."
+                    )
+                    enabled =
+                        false
+                }
             }
         }
     }
-}
 
-val externalBuildAggregate = tasks.register("externalBuild") {
-    group = "external build"
-    description = "Builds all curated external projects without building the internal modules."
-    dependsOn(externalBuildTasks)
-}
+val externalBuildAggregate =
+    tasks.register(
+        "externalBuild"
+    ) {
+        group =
+            "external build"
+        description =
+            "Builds all curated external projects without building the internal modules."
+        dependsOn(
+            externalBuildTasks
+        )
+    }
 
 subprojects {
-    tasks.withType<Test>().configureEach {
-        enabled = rootProject.extra.properties["testsEnabled"] as? Boolean ?: false
-    }
+    tasks.withType<Test>()
+        .configureEach {
+            enabled =
+                rootProject.extra.properties["testsEnabled"] as? Boolean
+                    ?: false
+        }
 }
 
-tasks.register("build") {
-    group = "build"
-    description = "Aggregate build for all subprojects and curated external projects."
-    dependsOn(subprojects.map { "${it.path}:build" })
-    dependsOn(externalBuildAggregate)
+tasks.register(
+    "build"
+) {
+    group =
+        "build"
+    description =
+        "Aggregate build for all subprojects and curated external projects."
+    dependsOn(
+        subprojects.map { "${it.path}:build" })
+    dependsOn(
+        externalBuildAggregate
+    )
 }
 
-tasks.register("all") {
-    group = "verification"
-    description = "Aggregate target so the mandated `gradle build all` command succeeds."
-    dependsOn("build")
+tasks.register(
+    "all"
+) {
+    group =
+        "verification"
+    description =
+        "Aggregate target so the mandated `gradle build all` command succeeds."
+    dependsOn(
+        "build"
+    )
 }

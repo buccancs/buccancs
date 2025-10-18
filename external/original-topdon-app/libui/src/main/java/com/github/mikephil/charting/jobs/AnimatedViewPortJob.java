@@ -70,7 +70,8 @@ public abstract class AnimatedViewPortJob extends ViewPortJob implements ValueAn
     public void onAnimationEnd(Animator animation) {
         try {
             recycleSelf();
-        } catch (IllegalArgumentException e) {
+        } catch (
+                IllegalArgumentException e) {
         }
     }
 
@@ -78,7 +79,8 @@ public abstract class AnimatedViewPortJob extends ViewPortJob implements ValueAn
     public void onAnimationCancel(Animator animation) {
         try {
             recycleSelf();
-        } catch (IllegalArgumentException e) {
+        } catch (
+                IllegalArgumentException e) {
         }
     }
 

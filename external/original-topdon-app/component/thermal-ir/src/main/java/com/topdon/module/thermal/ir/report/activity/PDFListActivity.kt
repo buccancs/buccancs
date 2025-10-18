@@ -25,26 +25,48 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-@Route(path = RouterConfig.REPORT_LIST)
-class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
-    private var isTC007 = false
-    var page = 1
-    override fun providerVMClass() = PdfViewModel::class.java
-    var reportAdapter = PDFAdapter(R.layout.item_pdf)
+@Route(
+    path = RouterConfig.REPORT_LIST
+)
+class PDFListActivity :
+    BaseViewModelActivity<PdfViewModel>() {
+    private var isTC007 =
+        false
+    var page =
+        1
+
+    override fun providerVMClass() =
+        PdfViewModel::class.java
+
+    var reportAdapter =
+        PDFAdapter(
+            R.layout.item_pdf
+        )
+
     override fun initContentView(): Int {
         return R.layout.activity_pdf_list
     }
 
     override fun initView() {
-        isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-        viewModel.listData.observe(this) {
+        isTC007 =
+            intent.getBooleanExtra(
+                ExtraKeyConfig.IS_TC007,
+                false
+            )
+        viewModel.listData.observe(
+            this
+        ) {
             dismissLoadingDialog()
             if (!reportAdapter.hasEmptyView()) {
-                reportAdapter.setEmptyView(R.layout.layout_empty)
+                reportAdapter.setEmptyView(
+                    R.layout.layout_empty
+                )
             }
             if (it == null) {
                 if (page == 1) {
-                    fragment_pdf_recycler_lay.finishRefresh(false)
+                    fragment_pdf_recycler_lay.finishRefresh(
+                        false
+                    )
                 } else {
                     reportAdapter.loadMoreModule.loadMoreComplete()
                 }
@@ -56,11 +78,19 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                             !data.data?.records.isNullOrEmpty()
                         fragment_pdf_recycler_lay.finishRefresh()
                     } else {
-                        fragment_pdf_recycler_lay.finishRefresh(false)
+                        fragment_pdf_recycler_lay.finishRefresh(
+                            false
+                        )
                     }
-                    reportAdapter.setNewInstance(data.data?.records)
+                    reportAdapter.setNewInstance(
+                        data.data?.records
+                    )
                 } else {
-                    data.data?.records?.let { it1 -> reportAdapter.addData(it1) }
+                    data.data?.records?.let { it1 ->
+                        reportAdapter.addData(
+                            it1
+                        )
+                    }
                     if (data.code == LMS.SUCCESS) {
                         if (data.data?.records.isNullOrEmpty()) {
                             reportAdapter.loadMoreModule.loadMoreEnd()
@@ -73,10 +103,16 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
                 }
             }
         }
-        if (WebSocketProxy.getInstance().isConnected()) {
-            NetWorkUtils.switchNetwork(false)
+        if (WebSocketProxy.getInstance()
+                .isConnected()
+        ) {
+            NetWorkUtils.switchNetwork(
+                false
+            )
         } else {
-            NetWorkUtils.connectivityManager.bindProcessToNetwork(null)
+            NetWorkUtils.connectivityManager.bindProcessToNetwork(
+                null
+            )
         }
         initRecycler()
     }
@@ -85,97 +121,176 @@ class PDFListActivity : BaseViewModelActivity<PdfViewModel>() {
     }
 
     private fun initRecycler() {
-        fragment_pdf_recycler.layoutManager = LinearLayoutManager(this)
+        fragment_pdf_recycler.layoutManager =
+            LinearLayoutManager(
+                this
+            )
         fragment_pdf_recycler_lay.setOnRefreshListener {
-            page = 1
-            viewModel.getReportData(isTC007, page)
+            page =
+                1
+            viewModel.getReportData(
+                isTC007,
+                page
+            )
         }
-        fragment_pdf_recycler_lay.setEnableLoadMore(false)
-        reportAdapter.loadMoreModule.loadMoreView = CommLoadMoreView()
+        fragment_pdf_recycler_lay.setEnableLoadMore(
+            false
+        )
+        reportAdapter.loadMoreModule.loadMoreView =
+            CommLoadMoreView()
         fragment_pdf_recycler_lay.autoRefresh()
         reportAdapter.loadMoreModule.setOnLoadMoreListener {
-            viewModel.getReportData(isTC007, ++page)
+            viewModel.getReportData(
+                isTC007,
+                ++page
+            )
         }
-        reportAdapter.jumpDetailListener = { item, position ->
-            ARouter.getInstance().build(RouterConfig.REPORT_DETAIL)
-                .withParcelable(
-                    ExtraKeyConfig.REPORT_BEAN,
-                    reportAdapter.data[position]?.reportContent
-                )
-                .navigation(this)
-        }
-        reportAdapter.isUseEmpty = true
-        reportAdapter.delListener = { item, position ->
-            val reportBean = item.reportContent
-            TipDialog.Builder(this)
-                .setMessage(
-                    getString(
-                        R.string.tip_config_delete,
-                        reportBean?.report_info?.report_name ?: ""
+        reportAdapter.jumpDetailListener =
+            { item, position ->
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.REPORT_DETAIL
                     )
+                    .withParcelable(
+                        ExtraKeyConfig.REPORT_BEAN,
+                        reportAdapter.data[position]?.reportContent
+                    )
+                    .navigation(
+                        this
+                    )
+            }
+        reportAdapter.isUseEmpty =
+            true
+        reportAdapter.delListener =
+            { item, position ->
+                val reportBean =
+                    item.reportContent
+                TipDialog.Builder(
+                    this
                 )
-                .setPositiveListener(R.string.app_confirm) {
-                    lifecycleScope.launch {
-                        showLoadingDialog()
-                        withContext(Dispatchers.IO) {
-                            val url =
-                                UrlConstant.BASE_URL + "api/v1/outProduce/testReport/delTestReport"
-                            val params = RequestParams()
-                            params.addBodyParameter(
-                                "modelId",
-                                if (isTC007) 1783 else 950
-                            )
-                            params.addBodyParameter("testReportIds", arrayOf(item.testReportId))
-                            params.addBodyParameter("status", 1)
-                            params.addBodyParameter(
-                                "languageId",
-                                LanguageUtil.getLanguageId(Utils.getApp())
-                            )
-                            params.addBodyParameter("reportType", 2)
-                            HttpProxy.instant.post(url, params, object :
-                                IResponseCallback {
-                                override fun onResponse(response: String?) {
-                                    val reportNumber =
-                                        item.reportContent?.report_info?.report_number ?: ""
-                                    val file = File(FileConfig.getPdfDir() + "/$reportNumber.pdf")
-                                    if (file.exists()) {
-                                        file.delete()
-                                    }
-                                    Log.w("删除成功", response.toString())
-                                }
-
-                                override fun onFail(exception: Exception?) {
-                                }
-
-                                override fun onFail(failMsg: String?, errorCode: String) {
-                                    super.onFail(failMsg, errorCode)
-                                    try {
-                                        StringUtils.getResString(
-                                            LMS.mContext,
-                                            if (TextUtils.isEmpty(errorCode)) -500 else errorCode.toInt()
-                                        ).let {
+                    .setMessage(
+                        getString(
+                            R.string.tip_config_delete,
+                            reportBean?.report_info?.report_name
+                                ?: ""
+                        )
+                    )
+                    .setPositiveListener(
+                        R.string.app_confirm
+                    ) {
+                        lifecycleScope.launch {
+                            showLoadingDialog()
+                            withContext(
+                                Dispatchers.IO
+                            ) {
+                                val url =
+                                    UrlConstant.BASE_URL + "api/v1/outProduce/testReport/delTestReport"
+                                val params =
+                                    RequestParams()
+                                params.addBodyParameter(
+                                    "modelId",
+                                    if (isTC007) 1783 else 950
+                                )
+                                params.addBodyParameter(
+                                    "testReportIds",
+                                    arrayOf(
+                                        item.testReportId
+                                    )
+                                )
+                                params.addBodyParameter(
+                                    "status",
+                                    1
+                                )
+                                params.addBodyParameter(
+                                    "languageId",
+                                    LanguageUtil.getLanguageId(
+                                        Utils.getApp()
+                                    )
+                                )
+                                params.addBodyParameter(
+                                    "reportType",
+                                    2
+                                )
+                                HttpProxy.instant.post(
+                                    url,
+                                    params,
+                                    object :
+                                        IResponseCallback {
+                                        override fun onResponse(
+                                            response: String?
+                                        ) {
+                                            val reportNumber =
+                                                item.reportContent?.report_info?.report_number
+                                                    ?: ""
+                                            val file =
+                                                File(
+                                                    FileConfig.getPdfDir() + "/$reportNumber.pdf"
+                                                )
+                                            if (file.exists()) {
+                                                file.delete()
+                                            }
+                                            Log.w(
+                                                "删除成功",
+                                                response.toString()
+                                            )
                                         }
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                    }
-                                }
-                            })
-                        }
-                        dismissLoadingDialog()
-                        if (item.isShowTitleTime) {
-                            reportAdapter.remove(item)
-                            reportAdapter.setNewInstance(reportAdapter.data)
-                            reportAdapter.notifyDataSetChanged()
-                        } else {
-                            reportAdapter.data.removeAt(position)
-                            reportAdapter.notifyItemRemoved(position)
+
+                                        override fun onFail(
+                                            exception: Exception?
+                                        ) {
+                                        }
+
+                                        override fun onFail(
+                                            failMsg: String?,
+                                            errorCode: String
+                                        ) {
+                                            super.onFail(
+                                                failMsg,
+                                                errorCode
+                                            )
+                                            try {
+                                                StringUtils.getResString(
+                                                    LMS.mContext,
+                                                    if (TextUtils.isEmpty(
+                                                            errorCode
+                                                        )
+                                                    ) -500 else errorCode.toInt()
+                                                )
+                                                    .let {
+                                                    }
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                            }
+                                        }
+                                    })
+                            }
+                            dismissLoadingDialog()
+                            if (item.isShowTitleTime) {
+                                reportAdapter.remove(
+                                    item
+                                )
+                                reportAdapter.setNewInstance(
+                                    reportAdapter.data
+                                )
+                                reportAdapter.notifyDataSetChanged()
+                            } else {
+                                reportAdapter.data.removeAt(
+                                    position
+                                )
+                                reportAdapter.notifyItemRemoved(
+                                    position
+                                )
+                            }
                         }
                     }
-                }
-                .setCancelListener(R.string.app_cancel) {
-                }
-                .create().show()
-        }
-        fragment_pdf_recycler.adapter = reportAdapter
+                    .setCancelListener(
+                        R.string.app_cancel
+                    ) {
+                    }
+                    .create()
+                    .show()
+            }
+        fragment_pdf_recycler.adapter =
+            reportAdapter
     }
 }

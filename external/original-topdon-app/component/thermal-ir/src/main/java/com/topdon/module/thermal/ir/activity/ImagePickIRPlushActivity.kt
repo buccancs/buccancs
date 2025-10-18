@@ -9,19 +9,32 @@ import com.topdon.module.thermal.ir.R
 import com.topdon.module.thermal.ir.fragment.IRCorrectionFragment
 import com.topdon.module.thermal.ir.fragment.IRPlushFragment
 
-@Route(path = RouterConfig.IR_IMG_PICK_PLUS)
-class ImagePickIRPlushActivity : BasePickImgActivity() {
-    var irFragment: IRPlushFragment? = null
+@Route(
+    path = RouterConfig.IR_IMG_PICK_PLUS
+)
+class ImagePickIRPlushActivity :
+    BasePickImgActivity() {
+    var irFragment: IRPlushFragment? =
+        null
+
     override fun initView() {
-        irFragment = if (savedInstanceState == null) {
-            IRPlushFragment()
-        } else {
-            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as IRPlushFragment
-        }
+        irFragment =
+            if (savedInstanceState == null) {
+                IRPlushFragment()
+            } else {
+                supportFragmentManager.findFragmentById(
+                    R.id.fragment_container_view
+                ) as IRPlushFragment
+            }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.fragment_container_view, irFragment!!)
+                .setReorderingAllowed(
+                    true
+                )
+                .add(
+                    R.id.fragment_container_view,
+                    irFragment!!
+                )
                 .commit()
         }
     }

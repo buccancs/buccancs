@@ -134,7 +134,8 @@ public class UtilChart2D {
                 if (axisX != null) {
                     axisX.setPaintGrid(mIsGridOn);
                 }
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
             try {
@@ -142,7 +143,8 @@ public class UtilChart2D {
                 if (axisY != null) {
                     axisY.setPaintGrid(mIsGridOn);
                 }
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }

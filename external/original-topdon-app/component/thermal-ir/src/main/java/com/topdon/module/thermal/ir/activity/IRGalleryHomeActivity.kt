@@ -16,41 +16,73 @@ import com.topdon.lib.core.repository.GalleryRepository.DirType
 import com.topdon.module.thermal.ir.fragment.IRGalleryTabFragment
 import com.topdon.module.thermal.ir.viewmodel.IRGalleryTabViewModel
 
-@Route(path = RouterConfig.IR_GALLERY_HOME)
-class IRGalleryHomeActivity : ComponentActivity() {
+@Route(
+    path = RouterConfig.IR_GALLERY_HOME
+)
+class IRGalleryHomeActivity :
+    ComponentActivity() {
     private val viewModel: IRGalleryTabViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val dirType = intent.getIntExtra(ExtraKeyConfig.DIR_TYPE, 0)
+        val dirType =
+            intent.getIntExtra(
+                ExtraKeyConfig.DIR_TYPE,
+                0
+            )
 
         setContent {
-            val isEditMode by viewModel.isEditModeLD.observeAsState(false)
+            val isEditMode by viewModel.isEditModeLD.observeAsState(
+                false
+            )
 
-            BackHandler(enabled = isEditMode) {
-                viewModel.isEditModeLD.value = false
+            BackHandler(
+                enabled = isEditMode
+            ) {
+                viewModel.isEditModeLD.value =
+                    false
             }
 
             // Use fragment container view for now to preserve functionality
             // TODO: Convert IRGalleryTabFragment to Compose
             AndroidView(
                 factory = { context ->
-                    val fragmentView = layoutInflater.inflate(
-                        com.topdon.module.thermal.ir.R.layout.activity_ir_gallery_home,
-                        null,
-                        false
-                    )
+                    val fragmentView =
+                        layoutInflater.inflate(
+                            com.topdon.module.thermal.ir.R.layout.activity_ir_gallery_home,
+                            null,
+                            false
+                        )
 
                     if (savedInstanceState == null) {
-                        val bundle = Bundle().apply {
-                            putBoolean(ExtraKeyConfig.CAN_SWITCH_DIR, false)
-                            putBoolean(ExtraKeyConfig.HAS_BACK_ICON, true)
-                            putInt(ExtraKeyConfig.DIR_TYPE, dirType)
-                        }
+                        val bundle =
+                            Bundle().apply {
+                                putBoolean(
+                                    ExtraKeyConfig.CAN_SWITCH_DIR,
+                                    false
+                                )
+                                putBoolean(
+                                    ExtraKeyConfig.HAS_BACK_ICON,
+                                    true
+                                )
+                                putInt(
+                                    ExtraKeyConfig.DIR_TYPE,
+                                    dirType
+                                )
+                            }
                         supportFragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
+                            .setReorderingAllowed(
+                                true
+                            )
                             .add(
                                 com.topdon.module.thermal.ir.R.id.fragment_container_view,
                                 IRGalleryTabFragment::class.java,

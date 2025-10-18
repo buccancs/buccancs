@@ -45,7 +45,8 @@ public class BluetootManagerTest extends BasicProcessWithCallBack {
                 System.out.println("State Connected");
                 try {
                     shimmer.startStreaming();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             }

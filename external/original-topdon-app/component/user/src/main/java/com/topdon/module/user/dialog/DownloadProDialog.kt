@@ -11,42 +11,98 @@ import com.topdon.module.user.R
 // Stubbed: import kotlinx.android.synthetic.main.dialog_download_pro.view.*
 import java.text.DecimalFormat
 
-class DownloadProDialog(context: Context) : Dialog(context, R.style.InfoDialog) {
+class DownloadProDialog(
+    context: Context
+) : Dialog(
+    context,
+    R.style.InfoDialog
+) {
     private val rootView: View =
-        LayoutInflater.from(context).inflate(R.layout.dialog_download_pro, null)
+        LayoutInflater.from(
+            context
+        )
+            .inflate(
+                R.layout.dialog_download_pro,
+                null
+            )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(false)
-        setCanceledOnTouchOutside(false)
-        setContentView(rootView)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        setCancelable(
+            false
+        )
+        setCanceledOnTouchOutside(
+            false
+        )
+        setContentView(
+            rootView
+        )
         window?.let {
-            val layoutParams = it.attributes
-            layoutParams.width = (ScreenUtil.getScreenWidth(context) * 0.72).toInt()
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            it.attributes = layoutParams
+            val layoutParams =
+                it.attributes
+            layoutParams.width =
+                (ScreenUtil.getScreenWidth(
+                    context
+                ) * 0.72).toInt()
+            layoutParams.height =
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            it.attributes =
+                layoutParams
         }
     }
 
-    fun refreshProgress(current: Long, total: Long) {
-        val progress = (current * 100f / total).toInt()
+    fun refreshProgress(
+        current: Long,
+        total: Long
+    ) {
+        val progress =
+            (current * 100f / total).toInt()
         rootView.tv_size.text =
-            "${context.getString(R.string.detail_len)}: ${getFileSizeStr(current)}/${
+            "${
+                context.getString(
+                    R.string.detail_len
+                )
+            }: ${
+                getFileSizeStr(
+                    current
+                )
+            }/${
                 getFileSizeStr(
                     total
                 )
             }"
-        rootView.progress_bar.progress = progress
-        rootView.tv_progress.text = "${progress}%"
+        rootView.progress_bar.progress =
+            progress
+        rootView.tv_progress.text =
+            "${progress}%"
     }
 
-    private fun getFileSizeStr(size: Long): String = if (size < 1024) {
-        "${size}B"
-    } else if (size < 1024 * 1024) {
-        DecimalFormat("#.0").format(size.toDouble() / 1024) + "KB"
-    } else if (size < 1024 * 1024 * 1024) {
-        DecimalFormat("#.0").format(size.toDouble() / 1024 / 1024) + "MB"
-    } else {
-        DecimalFormat("#.0").format(size.toDouble() / 1024 / 1024 / 1024) + "GB"
-    }
+    private fun getFileSizeStr(
+        size: Long
+    ): String =
+        if (size < 1024) {
+            "${size}B"
+        } else if (size < 1024 * 1024) {
+            DecimalFormat(
+                "#.0"
+            ).format(
+                size.toDouble() / 1024
+            ) + "KB"
+        } else if (size < 1024 * 1024 * 1024) {
+            DecimalFormat(
+                "#.0"
+            ).format(
+                size.toDouble() / 1024 / 1024
+            ) + "MB"
+        } else {
+            DecimalFormat(
+                "#.0"
+            ).format(
+                size.toDouble() / 1024 / 1024 / 1024
+            ) + "GB"
+        }
 }

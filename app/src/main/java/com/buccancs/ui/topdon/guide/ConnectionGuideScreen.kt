@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.Spacing
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun ConnectionGuideRoute(
     onNavigateUp: () -> Unit,
@@ -45,7 +47,9 @@ fun ConnectionGuideRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun ConnectionGuideScreen(
     onNavigateUp: () -> Unit,
@@ -63,7 +67,9 @@ private fun ConnectionGuideScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Navigate back"
@@ -72,18 +78,35 @@ private fun ConnectionGuideScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .background(MaterialTheme.colorScheme.background)
-                .verticalScroll(rememberScrollState())
-                .padding(Spacing.Large),
+                .padding(
+                    padding
+                )
+                .background(
+                    MaterialTheme.colorScheme.background
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    Spacing.Large
+                ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(Spacing.ExtraLarge))
+            Spacer(
+                modifier = Modifier.height(
+                    Spacing.ExtraLarge
+                )
+            )
 
             Text(
                 text = "How to Connect Your Device",
@@ -92,16 +115,26 @@ private fun ConnectionGuideScreen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(Spacing.Small))
+            Spacer(
+                modifier = Modifier.height(
+                    Spacing.Small
+                )
+            )
 
             Text(
                 text = "Follow these steps to connect your thermal camera",
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White.copy(alpha = 0.8f),
+                color = Color.White.copy(
+                    alpha = 0.8f
+                ),
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    48.dp
+                )
+            )
 
             ConnectionStep(
                 number = 1,
@@ -109,7 +142,11 @@ private fun ConnectionGuideScreen(
                 description = "Plug the USB cable into your thermal camera device"
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    24.dp
+                )
+            )
 
             ConnectionStep(
                 number = 2,
@@ -117,7 +154,11 @@ private fun ConnectionGuideScreen(
                 description = "Connect the other end of the USB cable to your phone using the USB-C adapter"
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    24.dp
+                )
+            )
 
             ConnectionStep(
                 number = 3,
@@ -125,14 +166,22 @@ private fun ConnectionGuideScreen(
                 description = "When prompted, allow USB access to the thermal camera"
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    48.dp
+                )
+            )
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(
+                        200.dp
+                    )
                     .background(
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
+                        color = MaterialTheme.colorScheme.surfaceVariant.copy(
+                            alpha = 0.3f
+                        ),
                         shape = MaterialTheme.shapes.medium
                     ),
                 contentAlignment = Alignment.Center
@@ -140,18 +189,28 @@ private fun ConnectionGuideScreen(
                 Icon(
                     imageVector = Icons.Default.Usb,
                     contentDescription = "USB Connection",
-                    modifier = Modifier.padding(Spacing.Section),
-                    tint = Color.White.copy(alpha = 0.5f)
+                    modifier = Modifier.padding(
+                        Spacing.Section
+                    ),
+                    tint = Color.White.copy(
+                        alpha = 0.5f
+                    )
                 )
             }
 
-            Spacer(modifier = Modifier.height(Spacing.Section))
+            Spacer(
+                modifier = Modifier.height(
+                    Spacing.Section
+                )
+            )
 
             Button(
                 onClick = onConnectDevice,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                    .defaultMinSize(
+                        minHeight = Dimensions.TouchTargetMinimum
+                    )
             ) {
                 Text(
                     text = "Connect Device",
@@ -178,7 +237,11 @@ private fun ConnectionStep(
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(Spacing.Small))
+        Spacer(
+            modifier = Modifier.height(
+                Spacing.Small
+            )
+        )
 
         Text(
             text = title,
@@ -186,13 +249,21 @@ private fun ConnectionStep(
             color = Color.White
         )
 
-        Spacer(modifier = Modifier.height(Spacing.ExtraSmall))
+        Spacer(
+            modifier = Modifier.height(
+                Spacing.ExtraSmall
+            )
+        )
 
         Text(
             text = description,
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.White.copy(alpha = 0.8f),
-            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight.times(1.2f)
+            color = Color.White.copy(
+                alpha = 0.8f
+            ),
+            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight.times(
+                1.2f
+            )
         )
     }
 }

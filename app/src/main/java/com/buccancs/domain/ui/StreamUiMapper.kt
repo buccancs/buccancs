@@ -15,33 +15,50 @@ import kotlin.math.roundToInt
 @Singleton
 class StreamUiMapper @Inject constructor() {
 
-    fun toUiModel(status: SensorStreamStatus): StreamUiModel {
-        val rate = when {
-            status.sampleRateHz != null -> "${status.sampleRateHz.roundToInt()} Hz"
-            status.frameRateFps != null -> "${status.frameRateFps.roundToInt()} FPS"
-            else -> "n/a"
-        }
-        val bufferText = status.bufferedDurationSeconds?.let {
-            String.format(Locale.US, "%.1f", it)
-        } ?: "-"
-        val detail = "Buffered $bufferText s @ $rate"
-        val lastSample = status.lastSampleTimestamp?.toString() ?: "-"
+    fun toUiModel(
+        status: SensorStreamStatus
+    ): StreamUiModel {
+        val rate =
+            when {
+                status.sampleRateHz != null -> "${status.sampleRateHz.roundToInt()} Hz"
+                status.frameRateFps != null -> "${status.frameRateFps.roundToInt()} FPS"
+                else -> "n/a"
+            }
+        val bufferText =
+            status.bufferedDurationSeconds?.let {
+                String.format(
+                    Locale.US,
+                    "%.1f",
+                    it
+                )
+            }
+                ?: "-"
+        val detail =
+            "Buffered $bufferText s @ $rate"
+        val lastSample =
+            status.lastSampleTimestamp?.toString()
+                ?: "-"
 
         return StreamUiModel(
             deviceId = status.deviceId,
-            typeLabel = sensorStreamLabel(status.streamType),
+            typeLabel = sensorStreamLabel(
+                status.streamType
+            ),
             detail = detail,
             lastSampleTimestamp = lastSample,
             isSimulated = status.isSimulated
         )
     }
 
-    private fun sensorStreamLabel(type: SensorStreamType): String = when (type) {
-        SensorStreamType.GSR -> "GSR"
-        SensorStreamType.RGB_VIDEO -> "RGB Video"
-        SensorStreamType.RAW_DNG -> "RAW (DNG)"
-        SensorStreamType.THERMAL_VIDEO -> "Thermal Video"
-        SensorStreamType.AUDIO -> "Audio"
-        SensorStreamType.PREVIEW -> "Preview"
-    }
+    private fun sensorStreamLabel(
+        type: SensorStreamType
+    ): String =
+        when (type) {
+            SensorStreamType.GSR -> "GSR"
+            SensorStreamType.RGB_VIDEO -> "RGB Video"
+            SensorStreamType.RAW_DNG -> "RAW (DNG)"
+            SensorStreamType.THERMAL_VIDEO -> "Thermal Video"
+            SensorStreamType.AUDIO -> "Audio"
+            SensorStreamType.PREVIEW -> "Preview"
+        }
 }

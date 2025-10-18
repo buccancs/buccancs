@@ -64,7 +64,9 @@ fun SessionLibraryRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun SessionLibraryScreen(
     state: SessionLibraryUiState,
@@ -72,24 +74,41 @@ fun SessionLibraryScreen(
     onSessionSelected: (String) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    var searchQuery by remember { mutableStateOf("") }
-    val filteredSessions = remember(state.sessions, searchQuery) {
-        if (searchQuery.isBlank()) {
-            state.sessions
-        } else {
-            state.sessions.filter { session ->
-                session.sessionId.contains(searchQuery, ignoreCase = true)
+    var searchQuery by remember {
+        mutableStateOf(
+            ""
+        )
+    }
+    val filteredSessions =
+        remember(
+            state.sessions,
+            searchQuery
+        ) {
+            if (searchQuery.isBlank()) {
+                state.sessions
+            } else {
+                state.sessions.filter { session ->
+                    session.sessionId.contains(
+                        searchQuery,
+                        ignoreCase = true
+                    )
+                }
             }
         }
-    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = "Session Library") },
+                title = {
+                    Text(
+                        text = "Session Library"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -97,7 +116,9 @@ fun SessionLibraryScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onRefresh) {
+                    IconButton(
+                        onClick = onRefresh
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
                             contentDescription = "Refresh"
@@ -107,11 +128,18 @@ fun SessionLibraryScreen(
                 colors = TopAppBarDefaults.topAppBarColors()
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         when {
             state.isLoading -> {
-                LoadingState(message = "Loading sessions")
+                LoadingState(
+                    message = "Loading sessions"
+                )
             }
 
             state.errorMessage != null -> {
@@ -134,24 +162,37 @@ fun SessionLibraryScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(padding)
-                        .padding(LayoutPadding.Screen),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                        .padding(
+                            padding
+                        )
+                        .padding(
+                            LayoutPadding.Screen
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.Medium
+                    )
                 ) {
                     item {
                         SessionSearchBar(
                             query = searchQuery,
-                            onQueryChange = { searchQuery = it },
+                            onQueryChange = {
+                                searchQuery =
+                                    it
+                            },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
 
                     if (filteredSessions.isEmpty()) {
                         item {
-                            NoResultsState(query = searchQuery)
+                            NoResultsState(
+                                query = searchQuery
+                            )
                         }
                     } else {
-                        items(filteredSessions, key = { it.sessionId }) { summary ->
+                        items(
+                            filteredSessions,
+                            key = { it.sessionId }) { summary ->
                             AnimatedVisibility(
                                 visible = true,
                                 enter = MotionTransitions.fadeEnter(),
@@ -159,7 +200,11 @@ fun SessionLibraryScreen(
                             ) {
                                 SessionCard(
                                     summary = summary,
-                                    onClick = { onSessionSelected(summary.sessionId) },
+                                    onClick = {
+                                        onSessionSelected(
+                                            summary.sessionId
+                                        )
+                                    },
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
@@ -186,17 +231,23 @@ private fun SessionSearchBar(
 }
 
 @Composable
-private fun NoResultsState(query: String) {
+private fun NoResultsState(
+    query: String
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Spacing.Large),
+            .padding(
+                Spacing.Large
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
             imageVector = Icons.Default.Search,
             contentDescription = null,
-            modifier = Modifier.padding(bottom = Spacing.Medium),
+            modifier = Modifier.padding(
+                bottom = Spacing.Medium
+            ),
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
@@ -216,8 +267,12 @@ private fun SessionCard(
     SectionCard(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .testTag("session-row-${summary.sessionId}"),
+            .clickable(
+                onClick = onClick
+            )
+            .testTag(
+                "session-row-${summary.sessionId}"
+            ),
         spacing = Spacing.Small
     ) {
         Row(
@@ -229,7 +284,9 @@ private fun SessionCard(
                 text = summary.sessionId,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
             if (summary.simulation) {
                 Surface(
@@ -241,14 +298,18 @@ private fun SessionCard(
                             horizontal = Spacing.SmallMedium,
                             vertical = Spacing.ExtraSmall
                         ),
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            Spacing.ExtraSmall
+                        ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             imageVector = Icons.Default.Science,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                            modifier = Modifier.size(Dimensions.IconSizeSmall)
+                            modifier = Modifier.size(
+                                Dimensions.IconSizeSmall
+                            )
                         )
                         Text(
                             text = "Simulation",
@@ -262,7 +323,9 @@ private fun SessionCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             SessionInfoChip(
                 icon = Icons.Default.CalendarToday,
@@ -272,7 +335,9 @@ private fun SessionCard(
             SessionInfoChip(
                 icon = Icons.Default.Storage,
                 label = "Size",
-                value = formatBytes(summary.totalBytes)
+                value = formatBytes(
+                    summary.totalBytes
+                )
             )
         }
 
@@ -286,7 +351,9 @@ private fun SessionCard(
                     horizontal = Spacing.SmallMedium,
                     vertical = Spacing.Small
                 ),
-                verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.ExtraSmall
+                )
             ) {
                 Text(
                     text = "Started: ${summary.startedAt}",
@@ -326,14 +393,18 @@ private fun SessionInfoChip(
                 horizontal = Spacing.SmallMedium,
                 vertical = Spacing.Small
             ),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.ExtraSmall
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = label,
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.size(Dimensions.IconSizeSmall)
+                modifier = Modifier.size(
+                    Dimensions.IconSizeSmall
+                )
             )
             Column {
                 Text(
@@ -352,10 +423,33 @@ private fun SessionInfoChip(
     }
 }
 
-private fun formatBytes(bytes: Long): String {
+private fun formatBytes(
+    bytes: Long
+): String {
     if (bytes <= 0) return "0 B"
-    val units = arrayOf("B", "KB", "MB", "GB", "TB")
-    val digitGroups = (Math.log10(bytes.toDouble()) / Math.log10(1024.0)).toInt()
-    val value = bytes / Math.pow(1024.0, digitGroups.toDouble())
-    return String.format(Locale.US, "%.1f %s", value, units[digitGroups])
+    val units =
+        arrayOf(
+            "B",
+            "KB",
+            "MB",
+            "GB",
+            "TB"
+        )
+    val digitGroups =
+        (Math.log10(
+            bytes.toDouble()
+        ) / Math.log10(
+            1024.0
+        )).toInt()
+    val value =
+        bytes / Math.pow(
+            1024.0,
+            digitGroups.toDouble()
+        )
+    return String.format(
+        Locale.US,
+        "%.1f %s",
+        value,
+        units[digitGroups]
+    )
 }

@@ -20,18 +20,27 @@ class SessionDetailViewModel @Inject constructor(
     private val storage: RecordingStorage,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val json = Json { ignoreUnknownKeys = true; prettyPrint = true }
-    private val sessionId: String = savedStateHandle[SESSION_ID_KEY] ?: ""
-    private val _state = MutableStateFlow(
-        SessionDetailUiState(
-            isLoading = true,
-            sessionId = sessionId,
-            manifest = null,
-            totalBytes = 0,
-            errorMessage = null
+    private val json =
+        Json {
+            ignoreUnknownKeys =
+                true; prettyPrint =
+            true
+        }
+    private val sessionId: String =
+        savedStateHandle[SESSION_ID_KEY]
+            ?: ""
+    private val _state =
+        MutableStateFlow(
+            SessionDetailUiState(
+                isLoading = true,
+                sessionId = sessionId,
+                manifest = null,
+                totalBytes = 0,
+                errorMessage = null
+            )
         )
-    )
-    val state: StateFlow<SessionDetailUiState> = _state.asStateFlow()
+    val state: StateFlow<SessionDetailUiState> =
+        _state.asStateFlow()
 
     init {
         refresh()
@@ -39,41 +48,66 @@ class SessionDetailViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, errorMessage = null)
-            val result = runCatching { loadManifest() }
-            _state.value = result.fold(
-                onSuccess = { manifest ->
-                    val sessionDir = storage.sessionDirectory(sessionId)
-                    val bytes = storage.directorySize(sessionDir)
-                    SessionDetailUiState(
-                        isLoading = false,
-                        sessionId = sessionId,
-                        manifest = manifest,
-                        totalBytes = bytes,
-                        errorMessage = null
-                    )
-                },
-                onFailure = { error ->
-                    SessionDetailUiState(
-                        isLoading = false,
-                        sessionId = sessionId,
-                        manifest = null,
-                        totalBytes = 0,
-                        errorMessage = error.message ?: "Unable to load manifest"
-                    )
-                }
-            )
+            _state.value =
+                _state.value.copy(
+                    isLoading = true,
+                    errorMessage = null
+                )
+            val result =
+                runCatching { loadManifest() }
+            _state.value =
+                result.fold(
+                    onSuccess = { manifest ->
+                        val sessionDir =
+                            storage.sessionDirectory(
+                                sessionId
+                            )
+                        val bytes =
+                            storage.directorySize(
+                                sessionDir
+                            )
+                        SessionDetailUiState(
+                            isLoading = false,
+                            sessionId = sessionId,
+                            manifest = manifest,
+                            totalBytes = bytes,
+                            errorMessage = null
+                        )
+                    },
+                    onFailure = { error ->
+                        SessionDetailUiState(
+                            isLoading = false,
+                            sessionId = sessionId,
+                            manifest = null,
+                            totalBytes = 0,
+                            errorMessage = error.message
+                                ?: "Unable to load manifest"
+                        )
+                    }
+                )
         }
     }
 
-    private suspend fun loadManifest(): SessionManifest = withContext(Dispatchers.IO) {
-        val manifestFile = storage.manifestFile(sessionId)
-        require(manifestFile.exists()) { "Missing manifest for session $sessionId" }
-        json.decodeFromString(SessionManifest.serializer(), manifestFile.readText())
-    }
+    private suspend fun loadManifest(): SessionManifest =
+        withContext(
+            Dispatchers.IO
+        ) {
+            val manifestFile =
+                storage.manifestFile(
+                    sessionId
+                )
+            require(
+                manifestFile.exists()
+            ) { "Missing manifest for session $sessionId" }
+            json.decodeFromString(
+                SessionManifest.serializer(),
+                manifestFile.readText()
+            )
+        }
 
     companion object {
-        const val SESSION_ID_KEY = "sessionId"
+        const val SESSION_ID_KEY =
+            "sessionId"
     }
 }
 
@@ -85,6 +119,7 @@ data class SessionDetailUiState(
     val errorMessage: String?
 ) {
     val artifactCount: Int
-        get() = manifest?.artifacts?.size ?: 0
+        get() = manifest?.artifacts?.size
+            ?: 0
 }
 

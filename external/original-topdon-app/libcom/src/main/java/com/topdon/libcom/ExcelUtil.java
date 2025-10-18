@@ -101,7 +101,8 @@ public class ExcelUtil {
                     return null;
                 }
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             return null;
         }
     }
@@ -200,7 +201,8 @@ public class ExcelUtil {
                     return null;
                 }
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             Log.e("ExpressExcle", "exportExcel", e);
             return null;
         }

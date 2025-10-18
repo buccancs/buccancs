@@ -16,8 +16,12 @@ data class ReportInfoBean(
     val report_watermark: String?,
     val is_report_watermark: Int,
 ) : Parcelable {
-    val is_report_name: Int = 1
-    val report_type: Int = 1
-    val report_version: String = "V1.00"
-    val report_number: String = "${CommUtils.getAppName()}${System.currentTimeMillis()}"
+    val is_report_name: Int =
+        1
+    val report_type: Int =
+        1
+    val report_version: String =
+        "V1.00"
+    val report_number: String =
+        "${CommUtils.getAppName()}${System.currentTimeMillis()}"
 }

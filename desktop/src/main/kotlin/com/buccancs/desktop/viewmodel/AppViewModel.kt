@@ -50,128 +50,215 @@ class AppViewModel(
     private val previewRepository: PreviewRepository,
     private val commandRepository: CommandRepository,
     private val subjectErasureManager: SubjectErasureManager,
-    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-) {
-    private val logger = LoggerFactory.getLogger(AppViewModel::class.java)
-    private val alerts = MutableStateFlow<List<String>>(emptyList())
-    private val controlState = MutableStateFlow(ControlPanelState())
-    private val transferState = MutableStateFlow<List<FileTransferProgress>>(emptyList())
-    private val transferCompletionNotified = mutableSetOf<String>()
-    private val transferFailureNotified = mutableSetOf<String>()
-    private val knownEventIds = mutableSetOf<String>()
-    private var eventAlertsPrimed = false
-    private val _uiState = MutableStateFlow(
-        AppUiState(
-            session = null,
-            devices = emptyList(),
-            retention = RetentionState(emptyMap(), emptyMap(), emptyMap(), 0, emptyList()),
-            previews = emptyList(),
-            transfers = emptyList(),
-            alerts = emptyList(),
-            control = ControlPanelState(),
-            events = emptyList(),
-            historicalSessions = emptyList()
-        )
+    private val scope: CoroutineScope = CoroutineScope(
+        SupervisorJob() + Dispatchers.Default
     )
-    val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
-    private val clock = tickerFlow()
-    private val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        .withZone(ZoneId.systemDefault())
+) {
+    private val logger =
+        LoggerFactory.getLogger(
+            AppViewModel::class.java
+        )
+    private val alerts =
+        MutableStateFlow<List<String>>(
+            emptyList()
+        )
+    private val controlState =
+        MutableStateFlow(
+            ControlPanelState()
+        )
+    private val transferState =
+        MutableStateFlow<List<FileTransferProgress>>(
+            emptyList()
+        )
+    private val transferCompletionNotified =
+        mutableSetOf<String>()
+    private val transferFailureNotified =
+        mutableSetOf<String>()
+    private val knownEventIds =
+        mutableSetOf<String>()
+    private var eventAlertsPrimed =
+        false
+    private val _uiState =
+        MutableStateFlow(
+            AppUiState(
+                session = null,
+                devices = emptyList(),
+                retention = RetentionState(
+                    emptyMap(),
+                    emptyMap(),
+                    emptyMap(),
+                    0,
+                    emptyList()
+                ),
+                previews = emptyList(),
+                transfers = emptyList(),
+                alerts = emptyList(),
+                control = ControlPanelState(),
+                events = emptyList(),
+                historicalSessions = emptyList()
+            )
+        )
+    val uiState: StateFlow<AppUiState> =
+        _uiState.asStateFlow()
+    private val clock =
+        tickerFlow()
+    private val timestampFormatter =
+        DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd HH:mm:ss"
+        )
+            .withZone(
+                ZoneId.systemDefault()
+            )
 
     init {
         scope.launch {
-            sessionRepository.transferUpdates().collect { progress ->
-                handleTransferNotifications(progress)
-                transferState.value = progress
+            sessionRepository.transferUpdates()
+                .collect { progress ->
+                    handleTransferNotifications(
+                        progress
+                    )
+                    transferState.value =
+                        progress
+                }
+        }
+        val baseSnapshotFlow =
+            combine(
+                sessionRepository.activeSession,
+                deviceRepository.observe(),
+                retentionManager.state(),
+                previewRepository.observe(),
+                sessionRepository.activeEvents()
+            ) { session, devices, retention, previews, events ->
+                BaseSnapshot(
+                    session = session,
+                    devices = devices,
+                    retention = retention,
+                    previews = previews,
+                    events = events
+                )
             }
-        }
-        val baseSnapshotFlow = combine(
-            sessionRepository.activeSession,
-            deviceRepository.observe(),
-            retentionManager.state(),
-            previewRepository.observe(),
-            sessionRepository.activeEvents()
-        ) { session, devices, retention, previews, events ->
-            BaseSnapshot(
-                session = session,
-                devices = devices,
-                retention = retention,
-                previews = previews,
-                events = events
-            )
-        }
 
-        val uiInputFlow = combine(
-            baseSnapshotFlow,
-            sessionRepository.storedSessions(),
-            transferState,
-            alerts,
-            controlState
-        ) { base, archives, transfers, alertList, control ->
-            UiInputs(
-                base = base,
-                archives = archives,
-                transfers = transfers,
-                alerts = alertList,
-                control = control
-            )
-        }
+        val uiInputFlow =
+            combine(
+                baseSnapshotFlow,
+                sessionRepository.storedSessions(),
+                transferState,
+                alerts,
+                controlState
+            ) { base, archives, transfers, alertList, control ->
+                UiInputs(
+                    base = base,
+                    archives = archives,
+                    transfers = transfers,
+                    alerts = alertList,
+                    control = control
+                )
+            }
         scope.launch {
-            combine(uiInputFlow, clock) { snapshot, now ->
-                buildUiState(snapshot, now)
+            combine(
+                uiInputFlow,
+                clock
+            ) { snapshot, now ->
+                buildUiState(
+                    snapshot,
+                    now
+                )
             }.collect { state ->
-                _uiState.value = state
+                _uiState.value =
+                    state
             }
         }
         scope.launch {
-            deviceRepository.events().collect { event ->
-                when (event) {
-                    is DeviceConnectionEvent.Connected ->
-                        appendAlert("Device ${event.deviceId} connected")
+            deviceRepository.events()
+                .collect { event ->
+                    when (event) {
+                        is DeviceConnectionEvent.Connected ->
+                            appendAlert(
+                                "Device ${event.deviceId} connected"
+                            )
 
-                    is DeviceConnectionEvent.Disconnected -> {
-                        val reason = event.reason.name.lowercase(Locale.US).replace('_', '-')
-                        appendAlert("Device ${event.deviceId} disconnected ($reason)")
+                        is DeviceConnectionEvent.Disconnected -> {
+                            val reason =
+                                event.reason.name.lowercase(
+                                    Locale.US
+                                )
+                                    .replace(
+                                        '_',
+                                        '-'
+                                    )
+                            appendAlert(
+                                "Device ${event.deviceId} disconnected ($reason)"
+                            )
+                        }
                     }
                 }
-            }
         }
         scope.launch {
-            sessionRepository.activeEvents().collect { events ->
-                if (!eventAlertsPrimed) {
-                    knownEventIds.clear()
-                    knownEventIds.addAll(events.map { it.eventId })
-                    eventAlertsPrimed = true
-                } else {
-                    events.filter { !knownEventIds.contains(it.eventId) }
-                        .forEach(::handleSessionEventAlert)
-                    knownEventIds.clear()
-                    knownEventIds.addAll(events.map { it.eventId })
+            sessionRepository.activeEvents()
+                .collect { events ->
+                    if (!eventAlertsPrimed) {
+                        knownEventIds.clear()
+                        knownEventIds.addAll(
+                            events.map { it.eventId })
+                        eventAlertsPrimed =
+                            true
+                    } else {
+                        events.filter {
+                            !knownEventIds.contains(
+                                it.eventId
+                            )
+                        }
+                            .forEach(
+                                ::handleSessionEventAlert
+                            )
+                        knownEventIds.clear()
+                        knownEventIds.addAll(
+                            events.map { it.eventId })
+                    }
                 }
-            }
         }
     }
 
     fun startSession() {
         scope.launch {
             try {
-                val control = controlState.value
-                val subjectIds = parseCsv(control.subjectIds)
-                val session = sessionRepository.startSession(
-                    operatorId = control.operatorId.takeIf { it.isNotBlank() },
-                    subjectIds = subjectIds
+                val control =
+                    controlState.value
+                val subjectIds =
+                    parseCsv(
+                        control.subjectIds
+                    )
+                val session =
+                    sessionRepository.startSession(
+                        operatorId = control.operatorId.takeIf { it.isNotBlank() },
+                        subjectIds = subjectIds
+                    )
+                deviceRepository.assignSession(
+                    session.id
                 )
-                deviceRepository.assignSession(session.id)
-                val anchorEpochMs = session.startedAt?.toEpochMilli() ?: System.currentTimeMillis()
+                val anchorEpochMs =
+                    session.startedAt?.toEpochMilli()
+                        ?: System.currentTimeMillis()
                 commandRepository.enqueueStartRecording(
                     sessionId = session.id,
                     anchorEpochMs = anchorEpochMs,
                     scheduledEpochMs = null
                 )
-                appendAlert("Session started at ${timestampFormatter.format(Instant.now())}")
+                appendAlert(
+                    "Session started at ${
+                        timestampFormatter.format(
+                            Instant.now()
+                        )
+                    }"
+                )
             } catch (ex: Exception) {
-                logger.error("Unable to start session", ex)
-                appendAlert("Unable to start session: ${ex.message}")
+                logger.error(
+                    "Unable to start session",
+                    ex
+                )
+                appendAlert(
+                    "Unable to start session: ${ex.message}"
+                )
             }
         }
     }
@@ -179,32 +266,59 @@ class AppViewModel(
     fun stopSession() {
         scope.launch {
             try {
-                val activeSession = sessionRepository.activeSession.value
-                val stopEpochMs = System.currentTimeMillis()
+                val activeSession =
+                    sessionRepository.activeSession.value
+                val stopEpochMs =
+                    System.currentTimeMillis()
                 sessionRepository.stopSession()
-                deviceRepository.assignSession(null)
+                deviceRepository.assignSession(
+                    null
+                )
                 if (activeSession != null) {
                     commandRepository.enqueueStopRecording(
                         sessionId = activeSession.id,
                         stopEpochMs = stopEpochMs
                     )
                 }
-                appendAlert("Session stopped at ${timestampFormatter.format(Instant.now())}")
+                appendAlert(
+                    "Session stopped at ${
+                        timestampFormatter.format(
+                            Instant.now()
+                        )
+                    }"
+                )
             } catch (ex: Exception) {
-                logger.error("Unable to stop session", ex)
-                appendAlert("Unable to stop session: ${ex.message}")
+                logger.error(
+                    "Unable to stop session",
+                    ex
+                )
+                appendAlert(
+                    "Unable to stop session: ${ex.message}"
+                )
             }
         }
     }
 
-    fun eraseSession(sessionId: String) {
+    fun eraseSession(
+        sessionId: String
+    ) {
         scope.launch {
             try {
-                subjectErasureManager.eraseSession(sessionId)
-                appendAlert("Session $sessionId erased")
+                subjectErasureManager.eraseSession(
+                    sessionId
+                )
+                appendAlert(
+                    "Session $sessionId erased"
+                )
             } catch (ex: Exception) {
-                logger.error("Unable to erase session {}", sessionId, ex)
-                appendAlert("Unable to erase session $sessionId: ${ex.message}")
+                logger.error(
+                    "Unable to erase session {}",
+                    sessionId,
+                    ex
+                )
+                appendAlert(
+                    "Unable to erase session $sessionId: ${ex.message}"
+                )
             }
         }
     }
@@ -212,34 +326,68 @@ class AppViewModel(
     fun eraseSubject() {
         scope.launch {
             try {
-                val subjectId = controlState.value.subjectEraseId.trim()
+                val subjectId =
+                    controlState.value.subjectEraseId.trim()
                 if (subjectId.isEmpty()) {
-                    appendAlert("Subject identifier is required for erasure")
+                    appendAlert(
+                        "Subject identifier is required for erasure"
+                    )
                     return@launch
                 }
-                val result = subjectErasureManager.eraseSubject(subjectId)
-                appendAlert("Erased ${result.erasedSessions.size} sessions for subject $subjectId")
-                updateControl { it.copy(subjectEraseId = "") }
+                val result =
+                    subjectErasureManager.eraseSubject(
+                        subjectId
+                    )
+                appendAlert(
+                    "Erased ${result.erasedSessions.size} sessions for subject $subjectId"
+                )
+                updateControl {
+                    it.copy(
+                        subjectEraseId = ""
+                    )
+                }
             } catch (ex: Exception) {
-                logger.error("Unable to erase subject {}", controlState.value.subjectEraseId, ex)
-                appendAlert("Unable to erase subject ${controlState.value.subjectEraseId}: ${ex.message}")
+                logger.error(
+                    "Unable to erase subject {}",
+                    controlState.value.subjectEraseId,
+                    ex
+                )
+                appendAlert(
+                    "Unable to erase subject ${controlState.value.subjectEraseId}: ${ex.message}"
+                )
             }
         }
     }
 
     fun triggerSyncSignal() {
         scope.launch {
-            val session = sessionRepository.activeSession.value
+            val session =
+                sessionRepository.activeSession.value
             if (session == null || session.status != SessionStatus.ACTIVE) {
-                appendAlert("Cannot send sync signal without an active session")
+                appendAlert(
+                    "Cannot send sync signal without an active session"
+                )
                 return@launch
             }
-            val control = controlState.value
-            val delayMs = control.syncDelayMs.trim().toLongOrNull()?.coerceAtLeast(0) ?: 0
-            val executeAt = System.currentTimeMillis() + delayMs
-            val signalType = control.syncSignalType.ifBlank { "flash" }
-            val targetResolution = resolveTargetsForCommand(control.syncTargets)
-            val markerId = "sync-$signalType-$executeAt"
+            val control =
+                controlState.value
+            val delayMs =
+                control.syncDelayMs.trim()
+                    .toLongOrNull()
+                    ?.coerceAtLeast(
+                        0
+                    )
+                    ?: 0
+            val executeAt =
+                System.currentTimeMillis() + delayMs
+            val signalType =
+                control.syncSignalType.ifBlank { "flash" }
+            val targetResolution =
+                resolveTargetsForCommand(
+                    control.syncTargets
+                )
+            val markerId =
+                "sync-$signalType-$executeAt"
             try {
                 sessionRepository.registerEvent(
                     eventId = markerId,
@@ -254,26 +402,43 @@ class AppViewModel(
                     targets = targetResolution.commandTargets,
                     initiator = control.operatorId.ifBlank { "desktop-ui" }
                 )
-                appendAlert("Sync $signalType queued (${delayMs} ms delay)")
+                appendAlert(
+                    "Sync $signalType queued (${delayMs} ms delay)"
+                )
             } catch (ex: Exception) {
-                logger.error("Unable to queue sync signal", ex)
-                appendAlert("Unable to queue sync signal: ${ex.message}")
+                logger.error(
+                    "Unable to queue sync signal",
+                    ex
+                )
+                appendAlert(
+                    "Unable to queue sync signal: ${ex.message}"
+                )
             }
         }
     }
 
     fun addEventMarker() {
         scope.launch {
-            val session = sessionRepository.activeSession.value
+            val session =
+                sessionRepository.activeSession.value
             if (session == null || session.status != SessionStatus.ACTIVE) {
-                appendAlert("Cannot add event without an active session")
+                appendAlert(
+                    "Cannot add event without an active session"
+                )
                 return@launch
             }
-            val control = controlState.value
-            val timestamp = System.currentTimeMillis()
-            val markerId = control.eventMarkerId.ifBlank { "event-$timestamp" }
-            val label = control.eventDescription.ifBlank { "manual-marker" }
-            val targetResolution = resolveTargetsForCommand(control.eventTargets)
+            val control =
+                controlState.value
+            val timestamp =
+                System.currentTimeMillis()
+            val markerId =
+                control.eventMarkerId.ifBlank { "event-$timestamp" }
+            val label =
+                control.eventDescription.ifBlank { "manual-marker" }
+            val targetResolution =
+                resolveTargetsForCommand(
+                    control.eventTargets
+                )
             try {
                 sessionRepository.registerEvent(
                     eventId = markerId,
@@ -288,27 +453,49 @@ class AppViewModel(
                     timestampEpochMs = timestamp,
                     targets = targetResolution.commandTargets
                 )
-                appendAlert("Event $markerId recorded")
-                updateControl { it.copy(eventMarkerId = "", eventDescription = "") }
+                appendAlert(
+                    "Event $markerId recorded"
+                )
+                updateControl {
+                    it.copy(
+                        eventMarkerId = "",
+                        eventDescription = ""
+                    )
+                }
             } catch (ex: Exception) {
-                logger.error("Unable to record event marker", ex)
-                appendAlert("Unable to record event marker: ${ex.message}")
+                logger.error(
+                    "Unable to record event marker",
+                    ex
+                )
+                appendAlert(
+                    "Unable to record event marker: ${ex.message}"
+                )
             }
         }
     }
 
     fun triggerStimulus() {
         scope.launch {
-            val session = sessionRepository.activeSession.value
+            val session =
+                sessionRepository.activeSession.value
             if (session == null || session.status != SessionStatus.ACTIVE) {
-                appendAlert("Cannot trigger stimulus without an active session")
+                appendAlert(
+                    "Cannot trigger stimulus without an active session"
+                )
                 return@launch
             }
-            val control = controlState.value
-            val stimulusId = control.stimulusId.ifBlank { "stimulus-${System.currentTimeMillis()}" }
-            val action = control.stimulusAction.ifBlank { "play" }
-            val targetResolution = resolveTargetsForCommand(control.stimulusTargets)
-            val timestamp = System.currentTimeMillis()
+            val control =
+                controlState.value
+            val stimulusId =
+                control.stimulusId.ifBlank { "stimulus-${System.currentTimeMillis()}" }
+            val action =
+                control.stimulusAction.ifBlank { "play" }
+            val targetResolution =
+                resolveTargetsForCommand(
+                    control.stimulusTargets
+                )
+            val timestamp =
+                System.currentTimeMillis()
             runCatching {
                 sessionRepository.registerEvent(
                     eventId = "stimulus-$stimulusId",
@@ -325,105 +512,311 @@ class AppViewModel(
                     targets = targetResolution.commandTargets
                 )
             }.onSuccess {
-                appendAlert("Stimulus $stimulusId triggered")
-                updateControl { it.copy(stimulusId = "", stimulusAction = "") }
-            }.onFailure { ex ->
-                logger.error("Unable to trigger stimulus {}", stimulusId, ex)
-                appendAlert("Unable to trigger stimulus: ${ex.message}")
+                appendAlert(
+                    "Stimulus $stimulusId triggered"
+                )
+                updateControl {
+                    it.copy(
+                        stimulusId = "",
+                        stimulusAction = ""
+                    )
+                }
             }
+                .onFailure { ex ->
+                    logger.error(
+                        "Unable to trigger stimulus {}",
+                        stimulusId,
+                        ex
+                    )
+                    appendAlert(
+                        "Unable to trigger stimulus: ${ex.message}"
+                    )
+                }
         }
     }
 
-    fun updateOperatorId(value: String) = updateControl { it.copy(operatorId = value) }
-    fun updateSubjectIds(value: String) = updateControl { it.copy(subjectIds = value) }
-    fun updateSyncSignalType(value: String) = updateControl { it.copy(syncSignalType = value) }
-    fun updateSyncDelayMs(value: String) = updateControl { it.copy(syncDelayMs = value) }
-    fun updateSyncTargets(value: String) = updateControl { it.copy(syncTargets = value) }
-    fun updateEventMarkerId(value: String) = updateControl { it.copy(eventMarkerId = value) }
-    fun updateEventDescription(value: String) = updateControl { it.copy(eventDescription = value) }
-    fun updateEventTargets(value: String) = updateControl { it.copy(eventTargets = value) }
-    fun updateStimulusId(value: String) = updateControl { it.copy(stimulusId = value) }
-    fun updateStimulusAction(value: String) = updateControl { it.copy(stimulusAction = value) }
-    fun updateStimulusTargets(value: String) = updateControl { it.copy(stimulusTargets = value) }
-    fun updateSubjectEraseId(value: String) = updateControl { it.copy(subjectEraseId = value) }
-    fun clearAlert(message: String) {
-        alerts.value = alerts.value.filterNot { it == message }
+    fun updateOperatorId(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                operatorId = value
+            )
+        }
+
+    fun updateSubjectIds(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                subjectIds = value
+            )
+        }
+
+    fun updateSyncSignalType(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                syncSignalType = value
+            )
+        }
+
+    fun updateSyncDelayMs(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                syncDelayMs = value
+            )
+        }
+
+    fun updateSyncTargets(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                syncTargets = value
+            )
+        }
+
+    fun updateEventMarkerId(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                eventMarkerId = value
+            )
+        }
+
+    fun updateEventDescription(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                eventDescription = value
+            )
+        }
+
+    fun updateEventTargets(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                eventTargets = value
+            )
+        }
+
+    fun updateStimulusId(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                stimulusId = value
+            )
+        }
+
+    fun updateStimulusAction(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                stimulusAction = value
+            )
+        }
+
+    fun updateStimulusTargets(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                stimulusTargets = value
+            )
+        }
+
+    fun updateSubjectEraseId(
+        value: String
+    ) =
+        updateControl {
+            it.copy(
+                subjectEraseId = value
+            )
+        }
+
+    fun clearAlert(
+        message: String
+    ) {
+        alerts.value =
+            alerts.value.filterNot { it == message }
     }
 
-    private fun handleTransferNotifications(progress: List<FileTransferProgress>) {
-        val grouped = progress.groupBy { it.sessionId }
+    private fun handleTransferNotifications(
+        progress: List<FileTransferProgress>
+    ) {
+        val grouped =
+            progress.groupBy { it.sessionId }
         grouped.forEach { (sessionId, items) ->
             if (items.any { it.state != FileTransferState.COMPLETED }) {
-                transferCompletionNotified.remove(sessionId)
+                transferCompletionNotified.remove(
+                    sessionId
+                )
             }
             val allCompleted =
                 items.isNotEmpty() && items.all { it.state == FileTransferState.COMPLETED }
-            if (allCompleted && transferCompletionNotified.add(sessionId)) {
-                appendAlert("All uploads received for session $sessionId")
+            if (allCompleted && transferCompletionNotified.add(
+                    sessionId
+                )
+            ) {
+                appendAlert(
+                    "All uploads received for session $sessionId"
+                )
             }
-            items.filter { it.state == FileTransferState.FAILED }.forEach { item ->
-                val key = "${item.sessionId}|${item.deviceId}|${item.fileName}|${item.attempt}"
-                if (transferFailureNotified.add(key)) {
-                    appendAlert("Upload failed for ${item.deviceId}/${item.fileName}: ${item.lastError ?: "unknown error"}")
-                }
-            }
-        }
-    }
-
-    private fun appendAlert(message: String) {
-        alerts.value = (alerts.value + message).takeLast(10)
-    }
-
-    private fun handleSessionEventAlert(event: EventLog) {
-        val label = event.label
-        val deviceId = event.deviceIds.firstOrNull()
-            ?: label.substringAfter(':', missingDelimiterValue = "device")
-        when {
-            label.startsWith("device-replay-queued:") ->
-                appendAlert("Device $deviceId queued for command replay")
-
-            label.startsWith("device-replay:") ->
-                appendAlert("Replayed commands to device $deviceId")
-
-            label.startsWith("frame-drop:") -> {
-                val parts = label.split(":")
-                val kindToken = parts.getOrNull(1)?.uppercase(Locale.US) ?: "FRAME"
-                val totalDrops = parts.getOrNull(3)
-                val message = buildString {
-                    append(kindToken)
-                    append(" frame drops on device ")
-                    append(deviceId)
-                    totalDrops?.let {
-                        append(" (total ")
-                        append(it)
-                        append(")")
+            items.filter { it.state == FileTransferState.FAILED }
+                .forEach { item ->
+                    val key =
+                        "${item.sessionId}|${item.deviceId}|${item.fileName}|${item.attempt}"
+                    if (transferFailureNotified.add(
+                            key
+                        )
+                    ) {
+                        appendAlert(
+                            "Upload failed for ${item.deviceId}/${item.fileName}: ${item.lastError ?: "unknown error"}"
+                        )
                     }
                 }
-                appendAlert(message)
+        }
+    }
+
+    private fun appendAlert(
+        message: String
+    ) {
+        alerts.value =
+            (alerts.value + message).takeLast(
+                10
+            )
+    }
+
+    private fun handleSessionEventAlert(
+        event: EventLog
+    ) {
+        val label =
+            event.label
+        val deviceId =
+            event.deviceIds.firstOrNull()
+                ?: label.substringAfter(
+                    ':',
+                    missingDelimiterValue = "device"
+                )
+        when {
+            label.startsWith(
+                "device-replay-queued:"
+            ) ->
+                appendAlert(
+                    "Device $deviceId queued for command replay"
+                )
+
+            label.startsWith(
+                "device-replay:"
+            ) ->
+                appendAlert(
+                    "Replayed commands to device $deviceId"
+                )
+
+            label.startsWith(
+                "frame-drop:"
+            ) -> {
+                val parts =
+                    label.split(
+                        ":"
+                    )
+                val kindToken =
+                    parts.getOrNull(
+                        1
+                    )
+                        ?.uppercase(
+                            Locale.US
+                        )
+                        ?: "FRAME"
+                val totalDrops =
+                    parts.getOrNull(
+                        3
+                    )
+                val message =
+                    buildString {
+                        append(
+                            kindToken
+                        )
+                        append(
+                            " frame drops on device "
+                        )
+                        append(
+                            deviceId
+                        )
+                        totalDrops?.let {
+                            append(
+                                " (total "
+                            )
+                            append(
+                                it
+                            )
+                            append(
+                                ")"
+                            )
+                        }
+                    }
+                appendAlert(
+                    message
+                )
             }
         }
     }
 
-    private fun updateControl(transform: (ControlPanelState) -> ControlPanelState) {
-        controlState.value = transform(controlState.value)
+    private fun updateControl(
+        transform: (ControlPanelState) -> ControlPanelState
+    ) {
+        controlState.value =
+            transform(
+                controlState.value
+            )
     }
 
-    private fun resolveTargetsForCommand(raw: String): TargetResolution {
-        val explicit = parseCsv(raw).toSet()
-        val connected = deviceRepository.snapshot()
-            .filter { it.connected }
-            .map { it.id }
-        val commandTargets = if (explicit.isEmpty()) emptySet<String>() else explicit
-        val eventDeviceIds = if (commandTargets.isEmpty()) {
-            connected
-        } else {
-            connected.filter { commandTargets.contains(it) }
-        }
-        return TargetResolution(commandTargets, eventDeviceIds)
+    private fun resolveTargetsForCommand(
+        raw: String
+    ): TargetResolution {
+        val explicit =
+            parseCsv(
+                raw
+            ).toSet()
+        val connected =
+            deviceRepository.snapshot()
+                .filter { it.connected }
+                .map { it.id }
+        val commandTargets =
+            if (explicit.isEmpty()) emptySet<String>() else explicit
+        val eventDeviceIds =
+            if (commandTargets.isEmpty()) {
+                connected
+            } else {
+                connected.filter {
+                    commandTargets.contains(
+                        it
+                    )
+                }
+            }
+        return TargetResolution(
+            commandTargets,
+            eventDeviceIds
+        )
     }
 
-    private fun parseCsv(raw: String): List<String> =
-        raw.split(",", ";", " ")
+    private fun parseCsv(
+        raw: String
+    ): List<String> =
+        raw.split(
+            ",",
+            ";",
+            " "
+        )
             .map { it.trim() }
             .filter { it.isNotEmpty() }
             .distinct()
@@ -444,137 +837,179 @@ class AppViewModel(
         val control: ControlPanelState
     )
 
-    private fun buildUiState(inputs: UiInputs, now: Instant): AppUiState {
-        val base = inputs.base
-        val clockOffsets = base.devices.mapNotNull { info ->
-            val offset = info.clockOffsetMs ?: return@mapNotNull null
-            info.id to offset
-        }.toMap()
+    private fun buildUiState(
+        inputs: UiInputs,
+        now: Instant
+    ): AppUiState {
+        val base =
+            inputs.base
+        val clockOffsets =
+            base.devices.mapNotNull { info ->
+                val offset =
+                    info.clockOffsetMs
+                        ?: return@mapNotNull null
+                info.id to offset
+            }
+                .toMap()
 
-        val controlWithMetrics = if (clockOffsets == inputs.control.clockOffsetsPreview) {
-            inputs.control
-        } else {
-            inputs.control.copy(clockOffsetsPreview = clockOffsets)
-        }
+        val controlWithMetrics =
+            if (clockOffsets == inputs.control.clockOffsetsPreview) {
+                inputs.control
+            } else {
+                inputs.control.copy(
+                    clockOffsetsPreview = clockOffsets
+                )
+            }
 
-        val offlineWarnings = base.devices
-            .filter { !it.connected }
-            .map { info -> "Device ${info.id} disconnected" }
+        val offlineWarnings =
+            base.devices
+                .filter { !it.connected }
+                .map { info -> "Device ${info.id} disconnected" }
 
-        val sessionSummary = base.session?.let { session ->
-            val startInstant = session.startedAt ?: session.createdAt
-            val elapsedMillis =
-                if (session.status == SessionStatus.COMPLETED && session.totalDurationMs != null) {
-                    session.totalDurationMs
-                } else {
-                    Duration.between(startInstant, now).toMillis().coerceAtLeast(0)
+        val sessionSummary =
+            base.session?.let { session ->
+                val startInstant =
+                    session.startedAt
+                        ?: session.createdAt
+                val elapsedMillis =
+                    if (session.status == SessionStatus.COMPLETED && session.totalDurationMs != null) {
+                        session.totalDurationMs
+                    } else {
+                        Duration.between(
+                            startInstant,
+                            now
+                        )
+                            .toMillis()
+                            .coerceAtLeast(
+                                0
+                            )
+                    }
+                val metricsState =
+                    SessionMetricsState(
+                        gsrSamples = session.metrics.gsrSamples,
+                        gsrSampleDrops = session.metrics.gsrSampleDrops,
+                        gsrOutOfRangeSamples = session.metrics.gsrOutOfRangeSamples,
+                        gsrAverageHz = session.metrics.gsrAverageHz,
+                        gsrMaxGapMs = session.metrics.gsrMaxGapMs,
+                        gsrMinValue = session.metrics.gsrMinValue,
+                        gsrMaxValue = session.metrics.gsrMaxValue,
+                        videoFrames = session.metrics.videoFrames,
+                        thermalFrames = session.metrics.thermalFrames,
+                        audioSamples = session.metrics.audioSamples,
+                        videoFrameDrops = session.metrics.videoFrameDrops,
+                        thermalFrameDrops = session.metrics.thermalFrameDrops,
+                        videoAverageFps = session.metrics.videoAverageFps,
+                        thermalAverageFps = session.metrics.thermalAverageFps,
+                        videoMaxGapMs = session.metrics.videoMaxGapMs,
+                        thermalMaxGapMs = session.metrics.thermalMaxGapMs,
+                        updatedAt = session.metrics.updatedAt
+                    )
+                SessionSummary(
+                    id = session.id,
+                    status = session.status.name,
+                    startedAt = startInstant,
+                    createdAt = session.createdAt,
+                    totalBytes = base.retention.perSessionBytes[session.id]
+                        ?: 0,
+                    durationMs = session.totalDurationMs,
+                    subjectIds = session.subjectIds,
+                    elapsedMillis = elapsedMillis,
+                    metrics = metricsState
+                )
+            }
+
+        val retentionState =
+            RetentionState(
+                perSessionBytes = base.retention.perSessionBytes,
+                perDeviceBytes = base.retention.perDeviceBytes,
+                perSessionDeviceBytes = base.retention.perSessionDeviceBytes,
+                totalBytes = base.retention.totalBytes,
+                breaches = base.retention.actions.map {
+                    formatRetentionAlert(
+                        it
+                    )
                 }
-            val metricsState = SessionMetricsState(
-                gsrSamples = session.metrics.gsrSamples,
-                gsrSampleDrops = session.metrics.gsrSampleDrops,
-                gsrOutOfRangeSamples = session.metrics.gsrOutOfRangeSamples,
-                gsrAverageHz = session.metrics.gsrAverageHz,
-                gsrMaxGapMs = session.metrics.gsrMaxGapMs,
-                gsrMinValue = session.metrics.gsrMinValue,
-                gsrMaxValue = session.metrics.gsrMaxValue,
-                videoFrames = session.metrics.videoFrames,
-                thermalFrames = session.metrics.thermalFrames,
-                audioSamples = session.metrics.audioSamples,
-                videoFrameDrops = session.metrics.videoFrameDrops,
-                thermalFrameDrops = session.metrics.thermalFrameDrops,
-                videoAverageFps = session.metrics.videoAverageFps,
-                thermalAverageFps = session.metrics.thermalAverageFps,
-                videoMaxGapMs = session.metrics.videoMaxGapMs,
-                thermalMaxGapMs = session.metrics.thermalMaxGapMs,
-                updatedAt = session.metrics.updatedAt
             )
-            SessionSummary(
-                id = session.id,
-                status = session.status.name,
-                startedAt = startInstant,
-                createdAt = session.createdAt,
-                totalBytes = base.retention.perSessionBytes[session.id] ?: 0,
-                durationMs = session.totalDurationMs,
-                subjectIds = session.subjectIds,
-                elapsedMillis = elapsedMillis,
-                metrics = metricsState
-            )
-        }
 
-        val retentionState = RetentionState(
-            perSessionBytes = base.retention.perSessionBytes,
-            perDeviceBytes = base.retention.perDeviceBytes,
-            perSessionDeviceBytes = base.retention.perSessionDeviceBytes,
-            totalBytes = base.retention.totalBytes,
-            breaches = base.retention.actions.map { formatRetentionAlert(it) }
-        )
+        val previewStates =
+            base.previews.values
+                .sortedByDescending { it.receivedAt }
+                .map { frame ->
+                    PreviewStreamState(
+                        deviceId = frame.deviceId,
+                        cameraId = frame.cameraId,
+                        mimeType = frame.mimeType,
+                        width = frame.width,
+                        height = frame.height,
+                        latencyMs = frame.latencyMs,
+                        receivedAt = frame.receivedAt,
+                        payload = frame.payload
+                    )
+                }
 
-        val previewStates = base.previews.values
-            .sortedByDescending { it.receivedAt }
-            .map { frame ->
-                PreviewStreamState(
-                    deviceId = frame.deviceId,
-                    cameraId = frame.cameraId,
-                    mimeType = frame.mimeType,
-                    width = frame.width,
-                    height = frame.height,
-                    latencyMs = frame.latencyMs,
-                    receivedAt = frame.receivedAt,
-                    payload = frame.payload
+        val transferStates =
+            inputs.transfers.map { transfer ->
+                TransferStatusItem(
+                    sessionId = transfer.sessionId,
+                    deviceId = transfer.deviceId,
+                    fileName = transfer.fileName,
+                    streamType = transfer.streamType,
+                    state = transfer.state.name,
+                    attempt = transfer.attempt,
+                    bytesTransferred = transfer.receivedBytes,
+                    bytesTotal = transfer.expectedBytes,
+                    errorMessage = transfer.lastError
                 )
             }
 
-        val transferStates = inputs.transfers.map { transfer ->
-            TransferStatusItem(
-                sessionId = transfer.sessionId,
-                deviceId = transfer.deviceId,
-                fileName = transfer.fileName,
-                streamType = transfer.streamType,
-                state = transfer.state.name,
-                attempt = transfer.attempt,
-                bytesTransferred = transfer.receivedBytes,
-                bytesTotal = transfer.expectedBytes,
-                errorMessage = transfer.lastError
-            )
-        }
-
-        val eventItems = base.events
-            .sortedBy { it.timestampEpochMs }
-            .takeLast(200)
-            .map { event ->
-                EventTimelineItem(
-                    eventId = event.eventId,
-                    label = event.label,
-                    timestamp = Instant.ofEpochMilli(event.timestampEpochMs),
-                    deviceIds = event.deviceIds
+        val eventItems =
+            base.events
+                .sortedBy { it.timestampEpochMs }
+                .takeLast(
+                    200
                 )
-            }
+                .map { event ->
+                    EventTimelineItem(
+                        eventId = event.eventId,
+                        label = event.label,
+                        timestamp = Instant.ofEpochMilli(
+                            event.timestampEpochMs
+                        ),
+                        deviceIds = event.deviceIds
+                    )
+                }
 
-        val archiveItems = inputs.archives
-            .sortedByDescending { it.createdAt }
-            .map { archive ->
-                SessionArchiveItem(
-                    id = archive.id,
-                    status = archive.status.name,
-                    createdAt = archive.createdAt,
-                    startedAt = archive.startedAt,
-                    stoppedAt = archive.stoppedAt,
-                    totalBytes = archive.totalBytes,
-                    durationMs = archive.durationMs,
-                    subjects = archive.subjects,
-                    eventCount = archive.eventCount,
-                    deviceCount = archive.deviceCount
-                )
-            }
+        val archiveItems =
+            inputs.archives
+                .sortedByDescending { it.createdAt }
+                .map { archive ->
+                    SessionArchiveItem(
+                        id = archive.id,
+                        status = archive.status.name,
+                        createdAt = archive.createdAt,
+                        startedAt = archive.startedAt,
+                        stoppedAt = archive.stoppedAt,
+                        totalBytes = archive.totalBytes,
+                        durationMs = archive.durationMs,
+                        subjects = archive.subjects,
+                        eventCount = archive.eventCount,
+                        deviceCount = archive.deviceCount
+                    )
+                }
 
         val alertMessages =
-            (inputs.alerts + offlineWarnings + base.retention.actions.map { formatRetentionAlert(it) })
+            (inputs.alerts + offlineWarnings + base.retention.actions.map {
+                formatRetentionAlert(
+                    it
+                )
+            })
                 .distinct()
 
         return AppUiState(
             session = sessionSummary,
             devices = base.devices
-                .sortedWith(compareByDescending<DeviceInfo> { it.connected }.thenBy { it.id })
+                .sortedWith(
+                    compareByDescending<DeviceInfo> { it.connected }.thenBy { it.id })
                 .map { device ->
                     DeviceListItem(
                         id = device.id,
@@ -599,44 +1034,89 @@ class AppViewModel(
         )
     }
 
-    private fun formatRetentionAlert(action: DataRetentionManager.QuotaAction): String =
+    private fun formatRetentionAlert(
+        action: DataRetentionManager.QuotaAction
+    ): String =
         when (action) {
             is DataRetentionManager.QuotaAction.DeviceCapExceeded ->
-                "Device ${action.deviceId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
+                "Device ${action.deviceId} exceeded quota (${
+                    bytesToReadable(
+                        action.usageBytes
+                    )
+                } > ${
                     bytesToReadable(
                         action.limitBytes
                     )
                 })"
 
             is DataRetentionManager.QuotaAction.GlobalCapExceeded ->
-                "Global quota exceeded (${bytesToReadable(action.usageBytes)} > ${
+                "Global quota exceeded (${
+                    bytesToReadable(
+                        action.usageBytes
+                    )
+                } > ${
                     bytesToReadable(
                         action.limitBytes
                     )
                 })"
 
             is DataRetentionManager.QuotaAction.SessionCapExceeded ->
-                "Session ${action.sessionId} exceeded quota (${bytesToReadable(action.usageBytes)} > ${
+                "Session ${action.sessionId} exceeded quota (${
+                    bytesToReadable(
+                        action.usageBytes
+                    )
+                } > ${
                     bytesToReadable(
                         action.limitBytes
                     )
                 })"
         }
 
-    private fun tickerFlow(periodMillis: Long = 1_000L) = flow {
-        while (true) {
-            emit(Instant.now())
-            delay(periodMillis)
+    private fun tickerFlow(
+        periodMillis: Long = 1_000L
+    ) =
+        flow {
+            while (true) {
+                emit(
+                    Instant.now()
+                )
+                delay(
+                    periodMillis
+                )
+            }
         }
-    }
 
-    private fun bytesToReadable(bytes: Long): String {
+    private fun bytesToReadable(
+        bytes: Long
+    ): String {
         if (bytes <= 0) return "0 B"
-        val units = arrayOf("B", "KB", "MB", "GB", "TB")
+        val units =
+            arrayOf(
+                "B",
+                "KB",
+                "MB",
+                "GB",
+                "TB"
+            )
         val exp =
-            (Math.log(bytes.toDouble()) / Math.log(1024.0)).toInt().coerceAtMost(units.lastIndex)
-        val value = bytes / Math.pow(1024.0, exp.toDouble())
-        return String.format("%.2f %s", value, units[exp])
+            (Math.log(
+                bytes.toDouble()
+            ) / Math.log(
+                1024.0
+            )).toInt()
+                .coerceAtMost(
+                    units.lastIndex
+                )
+        val value =
+            bytes / Math.pow(
+                1024.0,
+                exp.toDouble()
+            )
+        return String.format(
+            "%.2f %s",
+            value,
+            units[exp]
+        )
     }
 
     private data class TargetResolution(

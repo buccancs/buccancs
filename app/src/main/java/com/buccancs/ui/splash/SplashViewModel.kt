@@ -22,22 +22,31 @@ data class SplashUiState(
 )
 
 @HiltViewModel
-class SplashViewModel @Inject constructor() : ViewModel() {
+class SplashViewModel @Inject constructor() :
+    ViewModel() {
 
-    private val _uiState = MutableStateFlow(SplashUiState())
-    val uiState: StateFlow<SplashUiState> = _uiState.asStateFlow()
+    private val _uiState =
+        MutableStateFlow(
+            SplashUiState()
+        )
+    val uiState: StateFlow<SplashUiState> =
+        _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            delay(1000)
-            val hasAcceptedClause = checkClauseAcceptance()
-            _uiState.value = _uiState.value.copy(
-                navigationTarget = if (hasAcceptedClause) {
-                    NavigationTarget.MAIN
-                } else {
-                    NavigationTarget.CLAUSE
-                }
+            delay(
+                1000
             )
+            val hasAcceptedClause =
+                checkClauseAcceptance()
+            _uiState.value =
+                _uiState.value.copy(
+                    navigationTarget = if (hasAcceptedClause) {
+                        NavigationTarget.MAIN
+                    } else {
+                        NavigationTarget.CLAUSE
+                    }
+                )
         }
     }
 

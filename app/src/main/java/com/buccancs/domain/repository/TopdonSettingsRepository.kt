@@ -7,8 +7,19 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface TopdonSettingsRepository {
     val settings: StateFlow<TopdonSettings>
-    suspend fun setAutoConnect(enabled: Boolean)
-    suspend fun setPalette(palette: TopdonPalette)
-    suspend fun setSuperSampling(superSampling: TopdonSuperSamplingFactor)
-    suspend fun setPreviewFpsLimit(limit: Int)
+    suspend fun setAutoConnect(
+        enabled: Boolean
+    )
+
+    suspend fun setPalette(
+        palette: TopdonPalette
+    )
+
+    suspend fun setSuperSampling(
+        superSampling: TopdonSuperSamplingFactor
+    )
+
+    suspend fun setPreviewFpsLimit(
+        limit: Int
+    )
 }

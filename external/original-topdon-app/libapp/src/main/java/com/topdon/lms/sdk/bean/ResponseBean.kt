@@ -13,17 +13,28 @@ data class ResponseBean<T>(
     var success: Boolean = false
 ) {
     companion object {
-        fun convertCommonBean(json: String?, defaultValue: CommonBean<*>?): CommonBean<*> {
+        fun convertCommonBean(
+            json: String?,
+            defaultValue: CommonBean<*>?
+        ): CommonBean<*> {
             return try {
                 if (json.isNullOrEmpty()) {
-                    defaultValue ?: CommonBean<String>()
+                    defaultValue
+                        ?: CommonBean<String>()
                 } else {
-                    val typeOfT = object : TypeToken<CommonBean<String>>() {}.type
-                    Gson().fromJson<CommonBean<String>>(json, typeOfT) ?: defaultValue
-                    ?: CommonBean<String>()
+                    val typeOfT =
+                        object :
+                            TypeToken<CommonBean<String>>() {}.type
+                    Gson().fromJson<CommonBean<String>>(
+                        json,
+                        typeOfT
+                    )
+                        ?: defaultValue
+                        ?: CommonBean<String>()
                 }
             } catch (e: Exception) {
-                defaultValue ?: CommonBean<String>()
+                defaultValue
+                    ?: CommonBean<String>()
             }
         }
     }

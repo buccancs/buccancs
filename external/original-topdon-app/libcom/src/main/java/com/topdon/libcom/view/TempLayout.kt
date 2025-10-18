@@ -11,96 +11,179 @@ import android.view.View
 import android.widget.LinearLayout
 import com.topdon.libcom.R
 
-class TempLayout : LinearLayout {
+class TempLayout :
+    LinearLayout {
     companion object {
-        val TYPE_HOT = 1
-        val TYPE_LT = 2
-        val TYPE_A = 3
+        val TYPE_HOT =
+            1
+        val TYPE_LT =
+            2
+        val TYPE_A =
+            3
     }
 
-    private var alphaAnimator: ObjectAnimator? = null
-    var rootV: View? = null
-    var bg: View? = null
-    var isHot: Boolean = true
-    var type = -1
+    private var alphaAnimator: ObjectAnimator? =
+        null
+    var rootV: View? =
+        null
+    var bg: View? =
+        null
+    var isHot: Boolean =
+        true
+    var type =
+        -1
 
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(
+        context: Context
+    ) : this(
+        context,
+        null
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?
+    ) : super(
+        context,
+        attrs
+    ) {
         initView()
     }
 
-    var animatorAlpha = 1f
+    var animatorAlpha =
+        1f
+
     private fun initView() {
-        rootV = LayoutInflater.from(context).inflate(R.layout.layout_temp_bg, this)
-        bg = rootV?.findViewById(R.id.bg)
-        alphaAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
-        alphaAnimator?.duration = 500
+        rootV =
+            LayoutInflater.from(
+                context
+            )
+                .inflate(
+                    R.layout.layout_temp_bg,
+                    this
+                )
+        bg =
+            rootV?.findViewById(
+                R.id.bg
+            )
+        alphaAnimator =
+            ObjectAnimator.ofFloat(
+                this,
+                "alpha",
+                0f,
+                1f
+            )
+        alphaAnimator?.duration =
+            500
         alphaAnimator?.interpolator =
             BreatheInterpolator()
         alphaAnimator?.addUpdateListener {
-            animatorAlpha = it.getAnimatedValue("alpha") as Float
+            animatorAlpha =
+                it.getAnimatedValue(
+                    "alpha"
+                ) as Float
         }
-        alphaAnimator?.repeatCount = ValueAnimator.INFINITE
+        alphaAnimator?.repeatCount =
+            ValueAnimator.INFINITE
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+    constructor(
+        context: Context,
+        attrs: AttributeSet,
+        defStyleAttr: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr
     )
 
-    fun startAnimation(type: Int) {
-        this.visibility = View.VISIBLE
+    fun startAnimation(
+        type: Int
+    ) {
+        this.visibility =
+            View.VISIBLE
         if (this.type != type) {
             alphaAnimator?.cancel()
             alphaAnimator?.removeAllListeners()
             when (type) {
                 TYPE_HOT -> {
-                    isHot = true
-                    alphaAnimator?.repeatCount = ValueAnimator.INFINITE
-                    bg?.setBackgroundResource(R.drawable.ic_ir_read_bg)
+                    isHot =
+                        true
+                    alphaAnimator?.repeatCount =
+                        ValueAnimator.INFINITE
+                    bg?.setBackgroundResource(
+                        R.drawable.ic_ir_read_bg
+                    )
                 }
 
                 TYPE_A -> {
-                    alphaAnimator?.repeatCount = 0
-                    alphaAnimator?.addListener(animatorListener)
+                    alphaAnimator?.repeatCount =
+                        0
+                    alphaAnimator?.addListener(
+                        animatorListener
+                    )
                 }
 
                 else -> {
-                    alphaAnimator?.repeatCount = ValueAnimator.INFINITE
-                    isHot = false
-                    bg?.setBackgroundResource(R.drawable.ic_ir_blue_bg)
+                    alphaAnimator?.repeatCount =
+                        ValueAnimator.INFINITE
+                    isHot =
+                        false
+                    bg?.setBackgroundResource(
+                        R.drawable.ic_ir_blue_bg
+                    )
                 }
             }
             alphaAnimator?.start()
-            this.type = type
+            this.type =
+                type
         }
     }
 
-    var animatorListener: Animator.AnimatorListener = object : Animator.AnimatorListener {
-        override fun onAnimationStart(animation: Animator) {
-        }
+    var animatorListener: Animator.AnimatorListener =
+        object :
+            Animator.AnimatorListener {
+            override fun onAnimationStart(
+                animation: Animator
+            ) {
+            }
 
-        override fun onAnimationEnd(animation: Animator) {
-            if (this@TempLayout.visibility == View.VISIBLE) {
-                isHot = !isHot
-                if (isHot) {
-                    bg?.setBackgroundResource(R.drawable.ic_ir_read_bg)
-                } else {
-                    bg?.setBackgroundResource(R.drawable.ic_ir_blue_bg)
+            override fun onAnimationEnd(
+                animation: Animator
+            ) {
+                if (this@TempLayout.visibility == View.VISIBLE) {
+                    isHot =
+                        !isHot
+                    if (isHot) {
+                        bg?.setBackgroundResource(
+                            R.drawable.ic_ir_read_bg
+                        )
+                    } else {
+                        bg?.setBackgroundResource(
+                            R.drawable.ic_ir_blue_bg
+                        )
+                    }
+                    alphaAnimator?.start()
                 }
-                alphaAnimator?.start()
+            }
+
+            override fun onAnimationCancel(
+                animation: Animator
+            ) {
+            }
+
+            override fun onAnimationRepeat(
+                animation: Animator
+            ) {
             }
         }
 
-        override fun onAnimationCancel(animation: Animator) {}
-        override fun onAnimationRepeat(animation: Animator) {}
-    }
-
     fun stopAnimation() {
-        this.type = -1
+        this.type =
+            -1
         alphaAnimator?.removeAllListeners()
-        this.visibility = View.GONE
+        this.visibility =
+            View.GONE
         alphaAnimator?.cancel()
     }
 

@@ -2,20 +2,31 @@
 // source: sync/control.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control.sync
 
-@kotlin.jvm.JvmName("-initializeeventSubscription")
-public inline fun eventSubscription(block: com.buccancs.control.sync.EventSubscriptionKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.EventSubscription =
-    com.buccancs.control.sync.EventSubscriptionKt.Dsl._create(com.buccancs.control.sync.EventSubscription.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializeeventSubscription"
+)
+public inline fun eventSubscription(
+    block: com.buccancs.control.sync.EventSubscriptionKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.sync.EventSubscription =
+    com.buccancs.control.sync.EventSubscriptionKt.Dsl._create(
+        com.buccancs.control.sync.EventSubscription.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.sync.EventSubscription`
  */
 public object EventSubscriptionKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.sync.EventSubscription.Builder
@@ -23,13 +34,16 @@ public object EventSubscriptionKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.sync.EventSubscription.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.sync.EventSubscription.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.sync.EventSubscription = _builder.build()
+        internal fun _build(): com.buccancs.control.sync.EventSubscription =
+            _builder.build()
 
         /**
          * `string session_id = 1;`
@@ -37,7 +51,9 @@ public object EventSubscriptionKt {
         public var sessionId: kotlin.String
             get() = _builder.getSessionId()
             set(value) {
-                _builder.setSessionId(value)
+                _builder.setSessionId(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object EventSubscriptionKt {
         public var token: kotlin.String
             get() = _builder.getToken()
             set(value) {
-                _builder.setToken(value)
+                _builder.setToken(
+                    value
+                )
             }
 
         /**
@@ -66,7 +84,12 @@ public object EventSubscriptionKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.sync.EventSubscription.copy(block: `com.buccancs.control.sync`.EventSubscriptionKt.Dsl.() -> kotlin.Unit): com.buccancs.control.sync.EventSubscription =
-    `com.buccancs.control.sync`.EventSubscriptionKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.sync.EventSubscription.copy(
+    block: `com.buccancs.control.sync`.EventSubscriptionKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.sync.EventSubscription =
+    `com.buccancs.control.sync`.EventSubscriptionKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

@@ -269,7 +269,8 @@ public abstract class AbstractSensor implements Serializable {
         return false;
     }
 
-    @Deprecated //?? not sure whether it's be to do this here or in ShimmerDevice
+    @Deprecated
+    //?? not sure whether it's be to do this here or in ShimmerDevice
     public void updateStateFromEnabledSensorsVars(COMMUNICATION_TYPE commType, long enabledSensors, long derivedSensors) {
         for (SensorDetails sensorDetails : mSensorMap.values()) {
 

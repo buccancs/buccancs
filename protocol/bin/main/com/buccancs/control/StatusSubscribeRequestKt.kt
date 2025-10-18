@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializestatusSubscribeRequest")
-public inline fun statusSubscribeRequest(block: com.buccancs.control.StatusSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StatusSubscribeRequest =
-    com.buccancs.control.StatusSubscribeRequestKt.Dsl._create(com.buccancs.control.StatusSubscribeRequest.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializestatusSubscribeRequest"
+)
+public inline fun statusSubscribeRequest(
+    block: com.buccancs.control.StatusSubscribeRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.StatusSubscribeRequest =
+    com.buccancs.control.StatusSubscribeRequestKt.Dsl._create(
+        com.buccancs.control.StatusSubscribeRequest.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.StatusSubscribeRequest`
  */
 public object StatusSubscribeRequestKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.StatusSubscribeRequest.Builder
@@ -23,13 +34,16 @@ public object StatusSubscribeRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.StatusSubscribeRequest.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.StatusSubscribeRequest.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.StatusSubscribeRequest = _builder.build()
+        internal fun _build(): com.buccancs.control.StatusSubscribeRequest =
+            _builder.build()
 
         /**
          * `.com.buccancs.control.SessionIdentifier session = 1;`
@@ -37,7 +51,9 @@ public object StatusSubscribeRequestKt {
         public var session: com.buccancs.control.SessionIdentifier
             get() = _builder.getSession()
             set(value) {
-                _builder.setSession(value)
+                _builder.setSession(
+                    value
+                )
             }
 
         /**
@@ -58,8 +74,13 @@ public object StatusSubscribeRequestKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.StatusSubscribeRequest.copy(block: `com.buccancs.control`.StatusSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.StatusSubscribeRequest =
-    `com.buccancs.control`.StatusSubscribeRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.StatusSubscribeRequest.copy(
+    block: `com.buccancs.control`.StatusSubscribeRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.StatusSubscribeRequest =
+    `com.buccancs.control`.StatusSubscribeRequestKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 
 public val com.buccancs.control.StatusSubscribeRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?

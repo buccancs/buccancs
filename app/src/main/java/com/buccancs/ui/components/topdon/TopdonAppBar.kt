@@ -24,7 +24,9 @@ import com.buccancs.ui.theme.topdon.TopdonTheme
 /**
  * Topdon-styled top app bar with left-aligned title
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopdonTopAppBar(
     title: String,
@@ -56,7 +58,9 @@ fun TopdonTopAppBar(
 /**
  * Topdon-styled centre-aligned top app bar
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopdonCenterAlignedTopAppBar(
     title: String,
@@ -135,7 +139,8 @@ private fun TopdonTopAppBarPreview() {
         TopdonTopAppBar(
             title = "Thermal Camera",
             navigationIcon = {
-                TopdonBackButton(onClick = {})
+                TopdonBackButton(
+                    onClick = {})
             },
             actions = {
                 TopdonAppBarIconButton(
@@ -160,7 +165,8 @@ private fun TopdonCenterAlignedTopAppBarPreview() {
         TopdonCenterAlignedTopAppBar(
             title = "TC001",
             navigationIcon = {
-                TopdonBackButton(onClick = {})
+                TopdonBackButton(
+                    onClick = {})
             },
             actions = {
                 TopdonAppBarIconButton(

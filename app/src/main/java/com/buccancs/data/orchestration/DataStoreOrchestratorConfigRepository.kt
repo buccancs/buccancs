@@ -30,45 +30,77 @@ class DataStoreOrchestratorConfigRepository @Inject constructor(
     @ApplicationContext context: Context,
     @ApplicationScope scope: CoroutineScope
 ) : OrchestratorConfigRepository {
-    private val dataStore = PreferenceDataStoreFactory.create(
-        corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
-        scope = scope + Dispatchers.IO,
-        produceFile = { context.preferencesDataStoreFile(STORE_NAME) }
-    )
-    private val defaults = OrchestratorConfig(
-        host = BuildConfig.ORCHESTRATOR_HOST,
-        port = BuildConfig.ORCHESTRATOR_PORT,
-        useTls = BuildConfig.ORCHESTRATOR_USE_TLS
-    )
-    private val hostKey = stringPreferencesKey("host")
-    private val portKey = intPreferencesKey("port")
-    private val tlsKey = booleanPreferencesKey("use_tls")
-    override val config: StateFlow<OrchestratorConfig> = dataStore.data
-        .catch { ex ->
-            if (ex is java.io.IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw ex
+    private val dataStore =
+        PreferenceDataStoreFactory.create(
+            corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
+            scope = scope + Dispatchers.IO,
+            produceFile = {
+                context.preferencesDataStoreFile(
+                    STORE_NAME
+                )
             }
-        }
-        .map { prefs -> prefs.toConfig() }
-        .stateIn(scope, kotlinx.coroutines.flow.SharingStarted.Eagerly, defaults)
+        )
+    private val defaults =
+        OrchestratorConfig(
+            host = BuildConfig.ORCHESTRATOR_HOST,
+            port = BuildConfig.ORCHESTRATOR_PORT,
+            useTls = BuildConfig.ORCHESTRATOR_USE_TLS
+        )
+    private val hostKey =
+        stringPreferencesKey(
+            "host"
+        )
+    private val portKey =
+        intPreferencesKey(
+            "port"
+        )
+    private val tlsKey =
+        booleanPreferencesKey(
+            "use_tls"
+        )
+    override val config: StateFlow<OrchestratorConfig> =
+        dataStore.data
+            .catch { ex ->
+                if (ex is java.io.IOException) {
+                    emit(
+                        emptyPreferences()
+                    )
+                } else {
+                    throw ex
+                }
+            }
+            .map { prefs -> prefs.toConfig() }
+            .stateIn(
+                scope,
+                kotlinx.coroutines.flow.SharingStarted.Eagerly,
+                defaults
+            )
 
-    override suspend fun update(config: OrchestratorConfig) {
+    override suspend fun update(
+        config: OrchestratorConfig
+    ) {
         dataStore.edit { prefs ->
-            prefs[hostKey] = config.host
-            prefs[portKey] = config.port
-            prefs[tlsKey] = config.useTls
+            prefs[hostKey] =
+                config.host
+            prefs[portKey] =
+                config.port
+            prefs[tlsKey] =
+                config.useTls
         }
     }
 
-    private fun Preferences.toConfig(): OrchestratorConfig = OrchestratorConfig(
-        host = this[hostKey] ?: defaults.host,
-        port = this[portKey] ?: defaults.port,
-        useTls = this[tlsKey] ?: defaults.useTls
-    )
+    private fun Preferences.toConfig(): OrchestratorConfig =
+        OrchestratorConfig(
+            host = this[hostKey]
+                ?: defaults.host,
+            port = this[portKey]
+                ?: defaults.port,
+            useTls = this[tlsKey]
+                ?: defaults.useTls
+        )
 
     private companion object {
-        const val STORE_NAME = "orchestrator_config"
+        const val STORE_NAME =
+            "orchestrator_config"
     }
 }

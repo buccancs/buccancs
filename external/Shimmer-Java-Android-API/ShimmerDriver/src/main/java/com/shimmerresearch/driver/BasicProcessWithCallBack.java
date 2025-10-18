@@ -35,7 +35,8 @@ public abstract class BasicProcessWithCallBack {
     public void queueMethod(ShimmerMsg smsg) {
         try {
             mQueue.put(smsg);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -43,7 +44,8 @@ public abstract class BasicProcessWithCallBack {
     public void queueMethod(int i, Object ojc) {
         try {
             mQueue.put(new ShimmerMsg(i, ojc));
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -87,7 +89,8 @@ public abstract class BasicProcessWithCallBack {
             ShimmerMsg smsg = new ShimmerMsg(0, new EndThread());
             try {
                 mQueue.put(smsg);
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -349,7 +352,8 @@ public abstract class BasicProcessWithCallBack {
                     } else {
                         processMsgFromCallback(shimmerMSG);
                     }
-                } catch (InterruptedException e) {
+                } catch (
+                        InterruptedException e) {
                     System.out.print("QUE BLOCKED");
                     e.printStackTrace();
                 }
@@ -378,7 +382,8 @@ public abstract class BasicProcessWithCallBack {
         public void callBackMethod(ShimmerMsg s) {
             try {
                 mQueue.put(s);
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -387,7 +392,8 @@ public abstract class BasicProcessWithCallBack {
         public void callBackMethod(int i, Object ojc) {
             try {
                 mQueue.put(new ShimmerMsg(i, ojc));
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
             }
         }

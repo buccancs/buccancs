@@ -225,7 +225,8 @@ final public class ObjectCluster implements Cloneable, Serializable {
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(this);
             return baos.toByteArray();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -568,10 +569,12 @@ final public class ObjectCluster implements Cloneable, Serializable {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (ObjectCluster) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }

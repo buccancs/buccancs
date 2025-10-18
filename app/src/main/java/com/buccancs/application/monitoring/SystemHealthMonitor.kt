@@ -26,21 +26,36 @@ class SystemHealthMonitor @Inject constructor(
     private val timeSyncService: TimeSyncService,
     private val transferRepository: SessionTransferRepository
 ) {
-    private val _snapshot = MutableStateFlow(HealthSnapshot(emptyList()))
-    val snapshot: StateFlow<HealthSnapshot> = _snapshot.asStateFlow()
-    private var monitorJob: Job? = null
+    private val _snapshot =
+        MutableStateFlow(
+            HealthSnapshot(
+                emptyList()
+            )
+        )
+    val snapshot: StateFlow<HealthSnapshot> =
+        _snapshot.asStateFlow()
+    private var monitorJob: Job? =
+        null
 
     fun start() {
         if (monitorJob != null) return
-        monitorJob = scope.launch {
-            combine(
-                timeSyncService.status,
-                transferRepository.backlog,
-                transferRepository.recovery
-            ) { status, backlog, recovery ->
-                evaluateHealth(status, backlog, recovery)
-            }.collect { snapshot -> _snapshot.value = snapshot }
-        }
+        monitorJob =
+            scope.launch {
+                combine(
+                    timeSyncService.status,
+                    transferRepository.backlog,
+                    transferRepository.recovery
+                ) { status, backlog, recovery ->
+                    evaluateHealth(
+                        status,
+                        backlog,
+                        recovery
+                    )
+                }.collect { snapshot ->
+                    _snapshot.value =
+                        snapshot
+                }
+            }
     }
 
     internal fun evaluateHealth(
@@ -48,9 +63,11 @@ class SystemHealthMonitor @Inject constructor(
         backlog: UploadBacklogState,
         recovery: List<UploadRecoveryRecord>
     ): HealthSnapshot {
-        val alerts = mutableListOf<HealthAlert>()
+        val alerts =
+            mutableListOf<HealthAlert>()
 
-        val offsetMagnitude = abs(status.offsetMillis)
+        val offsetMagnitude =
+            abs(status.offsetMillis)
         if (status.quality == TimeSyncQuality.POOR ||
             offsetMagnitude > OFFSET_THRESHOLD_MS ||
             status.roundTripMillis > ROUND_TRIP_THRESHOLD_MS
@@ -59,10 +76,18 @@ class SystemHealthMonitor @Inject constructor(
                 type = AlertType.TimeSync,
                 severity = AlertSeverity.Warning,
                 message = buildString {
-                    append("Time synchronisation degraded: ")
-                    append("offset=${status.offsetMillis} ms, ")
-                    append("roundTrip=${status.roundTripMillis} ms, ")
-                    append("quality=${status.quality}")
+                    append(
+                        "Time synchronisation degraded: "
+                    )
+                    append(
+                        "offset=${status.offsetMillis} ms, "
+                    )
+                    append(
+                        "roundTrip=${status.roundTripMillis} ms, "
+                    )
+                    append(
+                        "quality=${status.quality}"
+                    )
                 }
             )
         }
@@ -75,11 +100,13 @@ class SystemHealthMonitor @Inject constructor(
                     UploadBacklogLevel.CRITICAL -> AlertSeverity.Severe
                     UploadBacklogLevel.NORMAL -> AlertSeverity.Info
                 },
-                message = backlog.message ?: "Upload backlog level is ${backlog.level}"
+                message = backlog.message
+                    ?: "Upload backlog level is ${backlog.level}"
             )
         }
 
-        val failedRecoveries = recovery.count { it.state == UploadState.FAILED }
+        val failedRecoveries =
+            recovery.count { it.state == UploadState.FAILED }
         if (failedRecoveries > 0) {
             alerts += HealthAlert(
                 type = AlertType.UploadRecovery,
@@ -88,12 +115,16 @@ class SystemHealthMonitor @Inject constructor(
             )
         }
 
-        return HealthSnapshot(alerts = alerts)
+        return HealthSnapshot(
+            alerts = alerts
+        )
     }
 
     companion object {
-        private const val OFFSET_THRESHOLD_MS = 5L
-        private const val ROUND_TRIP_THRESHOLD_MS = 50L
+        private const val OFFSET_THRESHOLD_MS =
+            5L
+        private const val ROUND_TRIP_THRESHOLD_MS =
+            50L
     }
 }
 

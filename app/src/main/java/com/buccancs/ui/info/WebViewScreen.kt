@@ -37,8 +37,12 @@ fun WebViewRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(url) {
-        viewModel.loadUrl(url)
+    LaunchedEffect(
+        url
+    ) {
+        viewModel.loadUrl(
+            url
+        )
     }
 
     WebViewScreen(
@@ -49,7 +53,9 @@ fun WebViewRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun WebViewScreen(
     title: String,
@@ -57,15 +63,25 @@ private fun WebViewScreen(
     isLoading: Boolean,
     onNavigateUp: () -> Unit
 ) {
-    var webViewLoading by remember { mutableStateOf(true) }
+    var webViewLoading by remember {
+        mutableStateOf(
+            true
+        )
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text(title) },
+                title = {
+                    Text(
+                        title
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -74,28 +90,50 @@ private fun WebViewScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(
+                    padding
+                )
         ) {
             if (url.isNotEmpty()) {
                 AndroidView(
                     factory = { context ->
-                        WebView(context).apply {
-                            webViewClient = object : WebViewClient() {
-                                override fun onPageFinished(view: WebView?, url: String?) {
-                                    super.onPageFinished(view, url)
-                                    webViewLoading = false
+                        WebView(
+                            context
+                        ).apply {
+                            webViewClient =
+                                object :
+                                    WebViewClient() {
+                                    override fun onPageFinished(
+                                        view: WebView?,
+                                        url: String?
+                                    ) {
+                                        super.onPageFinished(
+                                            view,
+                                            url
+                                        )
+                                        webViewLoading =
+                                            false
+                                    }
                                 }
-                            }
                             settings.apply {
-                                javaScriptEnabled = true
-                                domStorageEnabled = true
+                                javaScriptEnabled =
+                                    true
+                                domStorageEnabled =
+                                    true
                             }
-                            loadUrl(url)
+                            loadUrl(
+                                url
+                            )
                         }
                     },
                     modifier = Modifier.fillMaxSize()
@@ -104,7 +142,9 @@ private fun WebViewScreen(
 
             if (isLoading || webViewLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
                 )
             }
         }

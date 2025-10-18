@@ -268,14 +268,16 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                                             "nuc_table_high[" + i + "]=" + nuc_table_high[i] + " nuc_table_low[" + i +
                                                     "]=" + nuc_table_low[i]);
                                 }
-                            } catch (IOException e) {
+                            } catch (
+                                    IOException e) {
                                 e.printStackTrace();
                             } finally {
                                 try {
                                     if (is != null) {
                                         is.close();
                                     }
-                                } catch (IOException e) {
+                                } catch (
+                                        IOException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -494,7 +496,8 @@ public class PopupOthers implements View.OnClickListener, CompoundButton.OnCheck
                 String path = FileUtil.getSaveFilePath(mContext);
                 try {
                     FileUtil.makeDirectory(path);
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
                 FileUtil.writeTxtToFile(pseudoDataByte, path, COLOR_DATA);

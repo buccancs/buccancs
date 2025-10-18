@@ -15,7 +15,8 @@ public class InputStreamShimmer {
         byte[] readBytes = new byte[length];
         try {
             IS.read(readBytes);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
         return readBytes;

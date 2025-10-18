@@ -181,7 +181,8 @@ public abstract class OrientationModule extends AbstractAlgorithm {
 
         try {
             initialize();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
     }

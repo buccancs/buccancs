@@ -198,7 +198,8 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
 
                 try {
                     verisenseDevice.connect();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             }
@@ -372,7 +373,8 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
             } else if (sVO.isShimmerGen2()) {
                 return initializeShimmer2r(serialPort, shimmer);
             }
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             ex.printStackTrace();
             return null;
         }
@@ -439,7 +441,8 @@ public class ShimmerBluetoothManagerAndroid extends ShimmerBluetoothManager {
 
             try {
                 shimmer4.connect();
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 e.printStackTrace();
             }
 

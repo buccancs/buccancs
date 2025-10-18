@@ -77,7 +77,8 @@ public class EasyWifi {
             build = new WifiNetworkSpecifier.Builder().setSsid(str).setWpa3Passphrase(str2).build();
         }
         this.connectivityManager.requestNetwork(new NetworkRequest.Builder().addTransportType(1).addCapability(13).addCapability(14).setNetworkSpecifier(build).build(), new ConnectivityManager.NetworkCallback() { // from class: com.ir.networklib.EasyWifi.1
-            @Override // android.net.ConnectivityManager.NetworkCallback
+            @Override
+            // android.net.ConnectivityManager.NetworkCallback
             public void onAvailable(Network network) {
                 super.onAvailable(network);
                 if (EasyWifi.this.wifiConnectCallback != null) {
@@ -85,7 +86,8 @@ public class EasyWifi {
                 }
             }
 
-            @Override // android.net.ConnectivityManager.NetworkCallback
+            @Override
+            // android.net.ConnectivityManager.NetworkCallback
             public void onUnavailable() {
                 super.onUnavailable();
                 if (EasyWifi.this.wifiConnectCallback != null) {
@@ -160,12 +162,14 @@ public class EasyWifi {
             builder.addTransportType(0);
         }
         getConnectivityManager().requestNetwork(builder.build(), new ConnectivityManager.NetworkCallback() { // from class: com.ir.networklib.EasyWifi.2
-            @Override // android.net.ConnectivityManager.NetworkCallback
+            @Override
+            // android.net.ConnectivityManager.NetworkCallback
             public void onAvailable(Network network) {
                 try {
                     Log.d(EasyWifi.this.TAG, "设置网络类型时onAvailable: ");
                     EasyWifi.this.getConnectivityManager().bindProcessToNetwork(network);
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }

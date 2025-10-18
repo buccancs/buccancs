@@ -29,11 +29,15 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(
+    SingletonComponent::class
+)
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindSensorRepository(impl: DefaultSensorRepository): SensorRepository
+    abstract fun bindSensorRepository(
+        impl: DefaultSensorRepository
+    ): SensorRepository
 
     @Binds
     @Singleton

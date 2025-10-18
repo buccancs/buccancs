@@ -92,33 +92,63 @@ import java.util.*
  * This hybrid approach maintains all thermal imaging functionality while
  * demonstrating Compose migration pattern for complex legacy views.
  */
-@Route(path = RouterConfig.IR_GALLERY_EDIT)
-class IRGalleryEditActivity : ComponentActivity(), View.OnClickListener, ITsTempListener {
+@Route(
+    path = RouterConfig.IR_GALLERY_EDIT
+)
+class IRGalleryEditActivity :
+    ComponentActivity(),
+    View.OnClickListener,
+    ITsTempListener {
 
-    private var isShowC: Boolean = false
-    private var isTC007 = false
-    private val imageWidth = 256
-    private val imageHeight = 192
+    private var isShowC: Boolean =
+        false
+    private var isTC007 =
+        false
+    private val imageWidth =
+        256
+    private val imageHeight =
+        192
     private val viewModel: IRGalleryEditViewModel by viewModels()
-    private var filePath = ""
-    private var mFrame = ByteArray(192 * 256 * 4)
+    private var filePath =
+        ""
+    private var mFrame =
+        ByteArray(
+            192 * 256 * 4
+        )
     private val frameTool by lazy { FrameTool() }
-    private var pseudocodeMode = 3
-    private var leftValue = 0f
-    private var rightValue = 10000f
-    private var max = 10000f
-    private var min = 0f
-    private var rotate = ImageParams.ROTATE_270
-    private var struct: FrameStruct = FrameStruct()
-    private var ts_data_H: ByteArray? = null
-    private var ts_data_L: ByteArray? = null
+    private var pseudocodeMode =
+        3
+    private var leftValue =
+        0f
+    private var rightValue =
+        10000f
+    private var max =
+        10000f
+    private var min =
+        0f
+    private var rotate =
+        ImageParams.ROTATE_270
+    private var struct: FrameStruct =
+        FrameStruct()
+    private var ts_data_H: ByteArray? =
+        null
+    private var ts_data_L: ByteArray? =
+        null
 
     // Legacy view reference for AndroidView integration
-    private var legacyView: View? = null
+    private var legacyView: View? =
+        null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
         // Initialize legacy components
         initLegacyComponents()
@@ -128,7 +158,11 @@ class IRGalleryEditActivity : ComponentActivity(), View.OnClickListener, ITsTemp
                 IRGalleryEditScreen(
                     onNavigateUp = { finish() },
                     onSave = { saveImage() },
-                    legacyViewFactory = { createLegacyView(it) }
+                    legacyViewFactory = {
+                        createLegacyView(
+                            it
+                        )
+                    }
                 )
             }
         }
@@ -136,80 +170,147 @@ class IRGalleryEditActivity : ComponentActivity(), View.OnClickListener, ITsTemp
 
     private fun initLegacyComponents() {
         // Initialize thermal processing components
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this)
+        if (!EventBus.getDefault()
+                .isRegistered(
+                    this
+                )
+        ) {
+            EventBus.getDefault()
+                .register(
+                    this
+                )
         }
 
-        isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-        filePath = intent.getStringExtra(ExtraKeyConfig.FILE_PATH) ?: ""
+        isTC007 =
+            intent.getBooleanExtra(
+                ExtraKeyConfig.IS_TC007,
+                false
+            )
+        filePath =
+            intent.getStringExtra(
+                ExtraKeyConfig.FILE_PATH
+            )
+                ?: ""
 
         // Initialize thermal data
         if (!isTC007) {
-            ts_data_H = CommonUtil.getAssetData(this, "ts/TS001_H.bin")
-            ts_data_L = CommonUtil.getAssetData(this, "ts/TS001_L.bin")
+            ts_data_H =
+                CommonUtil.getAssetData(
+                    this,
+                    "ts/TS001_H.bin"
+                )
+            ts_data_L =
+                CommonUtil.getAssetData(
+                    this,
+                    "ts/TS001_L.bin"
+                )
         }
     }
 
-    private fun createLegacyView(context: android.content.Context): View {
+    private fun createLegacyView(
+        context: android.content.Context
+    ): View {
         // Inflate and cache the legacy view
         if (legacyView == null) {
-            legacyView = LayoutInflater.from(context)
-                .inflate(R.layout.activity_ir_gallery_edit, null, false)
-            setupLegacyView(legacyView!!)
+            legacyView =
+                LayoutInflater.from(
+                    context
+                )
+                    .inflate(
+                        R.layout.activity_ir_gallery_edit,
+                        null,
+                        false
+                    )
+            setupLegacyView(
+                legacyView!!
+            )
         }
         return legacyView!!
     }
 
-    private fun setupLegacyView(view: View) {
+    private fun setupLegacyView(
+        view: View
+    ) {
         // Initialize legacy view components here
         // This maintains all the thermal imaging functionality
     }
 
     private fun saveImage() {
         // Implement save logic from original activity
-        ToastTools.show("Image saved")
+        ToastTools.show(
+            "Image saved"
+        )
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(
+        v: View?
+    ) {
         // Handle clicks from legacy view
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this)
+        if (EventBus.getDefault()
+                .isRegistered(
+                    this
+                )
+        ) {
+            EventBus.getDefault()
+                .unregister(
+                    this
+                )
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onGalleryAddEvent(event: GalleryAddEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onGalleryAddEvent(
+        event: GalleryAddEvent
+    ) {
         // Handle gallery events
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onImageGalleryEvent(event: ImageGalleryEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onImageGalleryEvent(
+        event: ImageGalleryEvent
+    ) {
         // Handle image gallery events
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onReportCreateEvent(event: ReportCreateEvent) {
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onReportCreateEvent(
+        event: ReportCreateEvent
+    ) {
         // Handle report creation
     }
 
-    override fun centerTemp(temp: String?) {
+    override fun centerTemp(
+        temp: String?
+    ) {
         // ITsTempListener implementation
     }
 
-    override fun highTemp(temp: String?) {
+    override fun highTemp(
+        temp: String?
+    ) {
         // ITsTempListener implementation  
     }
 
-    override fun lowTemp(temp: String?) {
+    override fun lowTemp(
+        temp: String?
+    ) {
         // ITsTempListener implementation
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun IRGalleryEditScreen(
     onNavigateUp: () -> Unit,
@@ -219,9 +320,15 @@ private fun IRGalleryEditScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Edit Thermal Image") },
+                title = {
+                    Text(
+                        "Edit Thermal Image"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -229,7 +336,9 @@ private fun IRGalleryEditScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onSave) {
+                    IconButton(
+                        onClick = onSave
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Save,
                             contentDescription = "Save"
@@ -239,7 +348,11 @@ private fun IRGalleryEditScreen(
             )
         }
     ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
+        Box(
+            modifier = Modifier.padding(
+                padding
+            )
+        ) {
             // Wrap legacy view in AndroidView for full thermal editing functionality
             AndroidView(
                 factory = legacyViewFactory,

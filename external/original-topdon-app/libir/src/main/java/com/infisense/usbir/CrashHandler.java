@@ -56,12 +56,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         } else {
             try {
                 Thread.sleep(3 * 1000);
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
             }
             try {
                 upLoadErrorFileToServer(logFile);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
 
@@ -91,7 +93,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             pw = new PrintWriter(logFile);
             logFile = collectInfoToSDCard(pw, ex);
             pw.close();
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
 
@@ -121,7 +124,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 pw.print(field.getName() + " : ");
                 pw.println(field.get(null).toString());
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Log.i(TAG, "an error occured when collect crash info" + e);
         }
 

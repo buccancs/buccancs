@@ -306,7 +306,8 @@ public class Shimmer extends ShimmerBluetooth {
         if (mContext != null) {
             try {
                 mContext.unregisterReceiver(mReceiver);
-            } catch (Exception ex) {
+            } catch (
+                    Exception ex) {
                 System.out.println(ex);
             }
         }
@@ -319,7 +320,8 @@ public class Shimmer extends ShimmerBluetooth {
             if (android.os.Build.VERSION.SDK_INT >= 18) {
                 BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(BLUETOOTH_SERVICE);
                 bluetoothAdapter = bluetoothManager.getAdapter();
-            } else bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            } else
+                bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
             IntentFilter filter = new IntentFilter(bluetoothAdapter.ACTION_STATE_CHANGED);
             filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
@@ -366,7 +368,8 @@ public class Shimmer extends ShimmerBluetooth {
                 mConnectedThread = null;
             }
 
-            if (address == null) return;
+            if (address == null)
+                return;
             Log.d("ConnectionStatus", "Get Local Device  " + address);
 
             localDevice = LocalDevice.getInstance();
@@ -410,21 +413,7 @@ public class Shimmer extends ShimmerBluetooth {
         sendMsgToHandlerList(Shimmer.MESSAGE_DEVICE_NAME);
 
         initialize();
-    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                String macAdd = device.getAddress();
-                if (macAdd.equals(mMyBluetoothAddress)) {
-                    connectionLost();
-                }
-            }
-        }
-    };
+    }
 
     public void stop() {
         if (mTimerReadStatus != null) {
@@ -463,7 +452,21 @@ public class Shimmer extends ShimmerBluetooth {
             mConnectedThread = null;
         }
 
-    }
+    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                String macAdd = device.getAddress();
+                if (macAdd.equals(mMyBluetoothAddress)) {
+                    connectionLost();
+                }
+            }
+        }
+    };
 
     @Override
     protected void clearSingleDataPacketFromBuffers(byte[] bufferTemp, int packetSize) {
@@ -476,14 +479,16 @@ public class Shimmer extends ShimmerBluetooth {
         this.mByteArrayOutputStream.reset();
         try {
             this.mByteArrayOutputStream.write(keepBuffer);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             throw new RuntimeException(e);
         }
         if (this.mEnablePCTimeStamps) {
             for (int i = 0; i < packetSize; ++i) {
                 try {
                     this.mListofPCTimeStamps.remove(0);
-                } catch (Exception var5) {
+                } catch (
+                        Exception var5) {
                     this.consolePrintException(var5.getMessage(), var5.getStackTrace());
                 }
             }
@@ -673,7 +678,8 @@ public class Shimmer extends ShimmerBluetooth {
                 if (byteBuffer.length > 0) {
                     mByteArrayOutputStream.write(byteBuffer);
                 }
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 throw new RuntimeException(e);
             }
             if (mEnablePCTimeStamps) {
@@ -764,16 +770,6 @@ public class Shimmer extends ShimmerBluetooth {
         isReadyForStreaming();
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     @Override
     protected void isReadyForStreaming() {
         Bundle bundle = new Bundle();
@@ -799,12 +795,23 @@ public class Shimmer extends ShimmerBluetooth {
         if (mAutoStartStreaming) {
             try {
                 startStreaming();
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 connectionLost();
                 e.printStackTrace();
             }
         }
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     protected void isNowStreaming() {
         Bundle bundle = new Bundle();
@@ -854,7 +861,8 @@ public class Shimmer extends ShimmerBluetooth {
             } else {
                 return false;
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             connectionLost();
             e.printStackTrace();
             return false;
@@ -865,7 +873,8 @@ public class Shimmer extends ShimmerBluetooth {
     protected int availableBytes() {
         try {
             return mInStream.available();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             connectionLost();
             e.printStackTrace();
             return 0;
@@ -885,7 +894,8 @@ public class Shimmer extends ShimmerBluetooth {
         try {
             mInStream.readFully(b, 0, numberofBytes);
             return (b);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             connectionLost();
             System.out.println("Connection Lost");
             e.printStackTrace();
@@ -901,7 +911,8 @@ public class Shimmer extends ShimmerBluetooth {
         try {
             mInStream.readFully(tb, 0, 1);
             return tb[0];
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             connectionLost();
             e.printStackTrace();
             return 0;
@@ -1047,6 +1058,12 @@ public class Shimmer extends ShimmerBluetooth {
         logAndStreamStatusChanged();
     }
 
+    @Override
+    protected void batteryStatusChanged() {
+
+
+    }
+
 	/*
 	public byte[] readBytes(int numberofBytes){
 		  byte[] b = new byte[numberofBytes];  
@@ -1070,12 +1087,6 @@ public class Shimmer extends ShimmerBluetooth {
 	}*/
 
     @Override
-    protected void batteryStatusChanged() {
-
-
-    }
-
-    @Override
 
     public ShimmerDevice deepClone() {
 
@@ -1087,10 +1098,12 @@ public class Shimmer extends ShimmerBluetooth {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (Shimmer) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
@@ -1218,7 +1231,8 @@ public class Shimmer extends ShimmerBluetooth {
             Log.d(mClassName, "Start of Default ConnectThread");
             try {
                 tmp = device.createRfcommSocketToServiceRecord(mSPP_UUID); // If your device fails to pair try: device.createInsecureRfcommSocketToServiceRecord(mSPP_UUID)
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 connectionLost();
 
             }
@@ -1233,11 +1247,13 @@ public class Shimmer extends ShimmerBluetooth {
 
             try {
                 mmSocket.connect();
-            } catch (IOException connectException) {
+            } catch (
+                    IOException connectException) {
                 connectionFailed();
                 try {
                     mmSocket.close();
-                } catch (IOException closeException) {
+                } catch (
+                        IOException closeException) {
                 }
                 return;
             }
@@ -1250,7 +1266,8 @@ public class Shimmer extends ShimmerBluetooth {
         public void cancel() {
             try {
                 mmSocket.close();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
             }
         }
     }
@@ -1277,7 +1294,8 @@ public class Shimmer extends ShimmerBluetooth {
                     isPaired = mDevice.ensurePaired();
 
 
-                } catch (RuntimeException re) {
+                } catch (
+                        RuntimeException re) {
                     re.printStackTrace();
                 }
 
@@ -1295,7 +1313,8 @@ public class Shimmer extends ShimmerBluetooth {
                     Log.d(mClassName, "is paired!");
                     try {
                         mSocket = mDevice.openSocket(SPP_UUID);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         Log.d(mClassName, "Connection via SDP unsuccessful, try to connect via port directly");
                         mSocket = mDevice.openSocket(1);
                         Log.d(mClassName, "I am here");
@@ -1307,7 +1326,8 @@ public class Shimmer extends ShimmerBluetooth {
                         manageConnectedSocket(mSocket);
                     }
                 }
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 Log.d(mClassName, "Connection Failed");
                 connectionFailed();
                 e.printStackTrace();
@@ -1315,7 +1335,8 @@ public class Shimmer extends ShimmerBluetooth {
                     try {
                         mSocket.close();
                         Log.d(mClassName, "Arduinothreadclose");
-                    } catch (IOException e1) {
+                    } catch (
+                            IOException e1) {
                     }
 
                 return;
@@ -1325,8 +1346,10 @@ public class Shimmer extends ShimmerBluetooth {
         @SuppressWarnings("unused")
         public void cancel() {
             try {
-                if (mSocket != null) mSocket.close();
-            } catch (IOException e) {
+                if (mSocket != null)
+                    mSocket.close();
+            } catch (
+                    IOException e) {
                 Log.e("Shimmer", "cannot close socket to " + mDevice.getAddress());
             }
         }
@@ -1365,7 +1388,8 @@ public class Shimmer extends ShimmerBluetooth {
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 connectionLost();
             }
 
@@ -1381,7 +1405,8 @@ public class Shimmer extends ShimmerBluetooth {
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 Log.d(mClassName, "Connected Thread Error");
                 connectionLost();
             }
@@ -1397,7 +1422,8 @@ public class Shimmer extends ShimmerBluetooth {
                 mmOutStream.write(buffer);
                 Log.d(mClassName, "Command transmitted: " + mMyBluetoothAddress + "; Command Issued: " + mCurrentCommand);
 
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 Log.d(mClassName, "Command NOT transmitted: " + mMyBluetoothAddress + "; Command Issued: " + mCurrentCommand);
             }
         }
@@ -1406,13 +1432,15 @@ public class Shimmer extends ShimmerBluetooth {
             if (mInStream != null) {
                 try {
                     mInStream.close();
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                 }
             }
             if (mmOutStream != null) {
                 try {
                     mmOutStream.close();
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                 }
             }
             if (mmSocket != null) {
@@ -1422,7 +1450,8 @@ public class Shimmer extends ShimmerBluetooth {
                     } else {
                         mSocket.close();
                     }
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                 }
             }
         }

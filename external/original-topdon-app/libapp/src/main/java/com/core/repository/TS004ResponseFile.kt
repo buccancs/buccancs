@@ -20,7 +20,8 @@ data class TS004Response<T>(
     /**
      * 判断请求是否成功.
      */
-    fun isSuccess(): Boolean = status == 0
+    fun isSuccess(): Boolean =
+        status == 0
 }
 
 /**
@@ -161,7 +162,8 @@ data class FreeSpaceBean(
     val image_size: Long,
     val video_size: Long,
 ) {
-    fun hasUseSize(): Long = system + image_size + video_size
+    fun hasUseSize(): Long =
+        system + image_size + video_size
 }
 
 /**

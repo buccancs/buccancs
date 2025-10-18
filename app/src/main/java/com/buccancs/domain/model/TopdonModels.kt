@@ -3,8 +3,14 @@ package com.buccancs.domain.model
 import java.time.LocalDateTime
 import kotlin.time.Instant
 
-val TOPDON_TC001_DEVICE_ID: DeviceId = DeviceId("topdon-tc001")
-val SHIMMER_PRIMARY_DEVICE_ID: DeviceId = DeviceId("shimmer-primary")
+val TOPDON_TC001_DEVICE_ID: DeviceId =
+    DeviceId(
+        "topdon-tc001"
+    )
+val SHIMMER_PRIMARY_DEVICE_ID: DeviceId =
+    DeviceId(
+        "shimmer-primary"
+    )
 
 enum class TopdonPalette {
     GRAYSCALE,
@@ -12,14 +18,19 @@ enum class TopdonPalette {
     RAINBOW
 }
 
-enum class TopdonSuperSamplingFactor(val multiplier: Int) {
+enum class TopdonSuperSamplingFactor(
+    val multiplier: Int
+) {
     X1(1),
     X2(2),
     X4(4);
 
     companion object {
-        fun fromMultiplier(value: Int): TopdonSuperSamplingFactor =
-            values().firstOrNull { it.multiplier == value } ?: X1
+        fun fromMultiplier(
+            value: Int
+        ): TopdonSuperSamplingFactor =
+            values().firstOrNull { it.multiplier == value }
+                ?: X1
     }
 }
 
@@ -30,7 +41,8 @@ data class TopdonSettings(
     val previewFpsLimit: Int = DEFAULT_PREVIEW_FPS_LIMIT
 ) {
     companion object {
-        const val DEFAULT_PREVIEW_FPS_LIMIT = 12
+        const val DEFAULT_PREVIEW_FPS_LIMIT =
+            12
     }
 }
 
@@ -85,15 +97,25 @@ sealed class ThermalMediaItem {
     abstract val timestamp: LocalDateTime
     abstract val thumbnailPath: String?
 
-    data class Image(val image: ThermalImage) : ThermalMediaItem() {
-        override val id: String = image.id
-        override val timestamp: LocalDateTime = image.timestamp
-        override val thumbnailPath: String? = image.thumbnailPath
+    data class Image(
+        val image: ThermalImage
+    ) : ThermalMediaItem() {
+        override val id: String =
+            image.id
+        override val timestamp: LocalDateTime =
+            image.timestamp
+        override val thumbnailPath: String? =
+            image.thumbnailPath
     }
 
-    data class Video(val video: ThermalVideo) : ThermalMediaItem() {
-        override val id: String = video.id
-        override val timestamp: LocalDateTime = video.timestamp
-        override val thumbnailPath: String? = video.thumbnailPath
+    data class Video(
+        val video: ThermalVideo
+    ) : ThermalMediaItem() {
+        override val id: String =
+            video.id
+        override val timestamp: LocalDateTime =
+            video.timestamp
+        override val thumbnailPath: String? =
+            video.thumbnailPath
     }
 }

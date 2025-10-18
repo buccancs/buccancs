@@ -16,31 +16,44 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(
+    SingletonComponent::class
+)
 object HardwareModule {
     @Provides
     @Singleton
-    fun provideBluetoothAdapter(): BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+    fun provideBluetoothAdapter(): BluetoothAdapter? =
+        BluetoothAdapter.getDefaultAdapter()
 
     @Provides
     @Singleton
-    fun provideCameraManager(@ApplicationContext context: Context): CameraManager =
-        context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    fun provideCameraManager(
+        @ApplicationContext context: Context
+    ): CameraManager =
+        context.getSystemService(
+            Context.CAMERA_SERVICE
+        ) as CameraManager
 
     @Provides
     @Singleton
-    fun provideUsbManager(@ApplicationContext context: Context): UsbManager =
-        context.getSystemService(Context.USB_SERVICE) as UsbManager
+    fun provideUsbManager(
+        @ApplicationContext context: Context
+    ): UsbManager =
+        context.getSystemService(
+            Context.USB_SERVICE
+        ) as UsbManager
 
     @Provides
     @Singleton
     fun provideShimmerHardwareClient(
         impl: DefaultShimmerHardwareClient,
-    ): ShimmerHardwareClient = impl
+    ): ShimmerHardwareClient =
+        impl
 
     @Provides
     @Singleton
     fun provideTopdonThermalClient(
         impl: DefaultTopdonThermalClient,
-    ): TopdonThermalClient = impl
+    ): TopdonThermalClient =
+        impl
 }

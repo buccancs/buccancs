@@ -31,63 +31,121 @@ import org.greenrobot.eventbus.EventBus
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import java.io.File
 
-@Route(path = RouterConfig.IR_VIDEO_GSY)
-class IRVideoGSYActivity : BaseActivity() {
-    private var isRemote = false
+@Route(
+    path = RouterConfig.IR_VIDEO_GSY
+)
+class IRVideoGSYActivity :
+    BaseActivity() {
+    private var isRemote =
+        false
     private lateinit var data: GalleryBean
-    override fun initContentView() = R.layout.activity_ir_video_gsy
+    override fun initContentView() =
+        R.layout.activity_ir_video_gsy
+
     override fun initView() {
-        BarUtils.setNavBarColor(this, ContextCompat.getColor(this, R.color.black))
-        isRemote = intent.getBooleanExtra("isRemote", false)
-        data = intent.getParcelableExtra("data") ?: throw NullPointerException("传递 data")
-        cl_bottom.isVisible = isRemote
+        BarUtils.setNavBarColor(
+            this,
+            ContextCompat.getColor(
+                this,
+                R.color.black
+            )
+        )
+        isRemote =
+            intent.getBooleanExtra(
+                "isRemote",
+                false
+            )
+        data =
+            intent.getParcelableExtra(
+                "data"
+            )
+                ?: throw NullPointerException(
+                    "传递 data"
+                )
+        cl_bottom.isVisible =
+            isRemote
         if (!isRemote) {
-            title_view.setRightDrawable(R.drawable.ic_toolbar_info_svg)
-            title_view.setRight2Drawable(R.drawable.ic_toolbar_share_svg)
-            title_view.setRight3Drawable(R.drawable.ic_toolbar_delete_svg)
+            title_view.setRightDrawable(
+                R.drawable.ic_toolbar_info_svg
+            )
+            title_view.setRight2Drawable(
+                R.drawable.ic_toolbar_share_svg
+            )
+            title_view.setRight3Drawable(
+                R.drawable.ic_toolbar_delete_svg
+            )
             title_view.setRightClickListener { actionInfo() }
             title_view.setRight2ClickListener { actionShare() }
             title_view.setRight3ClickListener { showDeleteDialog() }
         }
         cl_download.setOnClickListener {
-            actionDownload(false)
+            actionDownload(
+                false
+            )
         }
         cl_share.setOnClickListener {
             if (data.hasDownload) {
                 actionShare()
             } else {
-                actionDownload(true)
+                actionDownload(
+                    true
+                )
             }
         }
         cl_delete.setOnClickListener {
             showDeleteDialog()
         }
-        iv_download.isSelected = data.hasDownload
-        iv_download.setImageResource(if (isRemote) R.drawable.selector_download else R.drawable.ic_toolbar_info_svg)
-        previewVideo(isRemote, data.path)
+        iv_download.isSelected =
+            data.hasDownload
+        iv_download.setImageResource(
+            if (isRemote) R.drawable.selector_download else R.drawable.ic_toolbar_info_svg
+        )
+        previewVideo(
+            isRemote,
+            data.path
+        )
     }
 
     override fun initData() {
     }
 
-    private fun previewVideo(isRemote: Boolean, path: String) {
-        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
-        val url = if (isRemote) {
-            path
-        } else {
-            path.replace("//", "/")
-            "file://$path"
-        }
+    private fun previewVideo(
+        isRemote: Boolean,
+        path: String
+    ) {
+        PlayerFactory.setPlayManager(
+            Exo2PlayerManager::class.java
+        )
+        val url =
+            if (isRemote) {
+                path
+            } else {
+                path.replace(
+                    "//",
+                    "/"
+                )
+                "file://$path"
+            }
         GSYVideoOptionBuilder()
-            .setUrl(url)
-            .build(gsy_play)
-        gsy_play.isNeedShowWifiTip = false
-        gsy_play.titleTextView.visibility = View.GONE
-        gsy_play.backButton.visibility = View.GONE
-        gsy_play.fullscreenButton.visibility = View.GONE
+            .setUrl(
+                url
+            )
+            .build(
+                gsy_play
+            )
+        gsy_play.isNeedShowWifiTip =
+            false
+        gsy_play.titleTextView.visibility =
+            View.GONE
+        gsy_play.backButton.visibility =
+            View.GONE
+        gsy_play.fullscreenButton.visibility =
+            View.GONE
     }
 
-    private fun actionDownload(isToShare: Boolean) {
+    private fun actionDownload(
+        isToShare: Boolean
+    ) {
         if (data.hasDownload) {
             if (isToShare) {
                 actionShare()
@@ -95,100 +153,239 @@ class IRVideoGSYActivity : BaseActivity() {
             return
         }
         lifecycleScope.launch {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            )
             showCameraLoading()
             val isSuccess =
-                TS004Repository.download(data.path, File(FileConfig.ts004GalleryDir, data.name))
+                TS004Repository.download(
+                    data.path,
+                    File(
+                        FileConfig.ts004GalleryDir,
+                        data.name
+                    )
+                )
             MediaScannerConnection.scanFile(
                 this@IRVideoGSYActivity,
-                arrayOf(FileConfig.ts004GalleryDir),
+                arrayOf(
+                    FileConfig.ts004GalleryDir
+                ),
                 null,
                 null
             )
             dismissCameraLoading()
             if (isSuccess) {
-                ToastTools.showShort(R.string.tip_save_success)
-                EventBus.getDefault().post(GalleryDownloadEvent(data.name))
-                data.hasDownload = true
-                iv_download.isSelected = true
+                ToastTools.showShort(
+                    R.string.tip_save_success
+                )
+                EventBus.getDefault()
+                    .post(
+                        GalleryDownloadEvent(
+                            data.name
+                        )
+                    )
+                data.hasDownload =
+                    true
+                iv_download.isSelected =
+                    true
                 if (isToShare) {
                     actionShare()
                 }
             } else {
-                ToastTools.showShort(R.string.liveData_save_error)
+                ToastTools.showShort(
+                    R.string.liveData_save_error
+                )
             }
-            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            window.clearFlags(
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            )
         }
     }
 
     private fun actionInfo() {
-        val sizeStr = FileTools.getFileSize(data.path)
-        val str = StringBuilder()
-        str.append(getString(R.string.detail_date)).append("\n")
-        str.append(TimeTool.showDateType(data.timeMillis)).append("\n\n")
-        str.append(getString(R.string.detail_info)).append("\n")
-        str.append("${getString(R.string.detail_len)}: ").append(sizeStr).append("\n")
-        str.append("${getString(R.string.detail_path)}: ").append(data.path).append("\n")
-        TipDialog.Builder(this)
-            .setMessage(str.toString())
-            .setCanceled(true)
-            .create().show()
+        val sizeStr =
+            FileTools.getFileSize(
+                data.path
+            )
+        val str =
+            StringBuilder()
+        str.append(
+            getString(
+                R.string.detail_date
+            )
+        )
+            .append(
+                "\n"
+            )
+        str.append(
+            TimeTool.showDateType(
+                data.timeMillis
+            )
+        )
+            .append(
+                "\n\n"
+            )
+        str.append(
+            getString(
+                R.string.detail_info
+            )
+        )
+            .append(
+                "\n"
+            )
+        str.append(
+            "${
+                getString(
+                    R.string.detail_len
+                )
+            }: "
+        )
+            .append(
+                sizeStr
+            )
+            .append(
+                "\n"
+            )
+        str.append(
+            "${
+                getString(
+                    R.string.detail_path
+                )
+            }: "
+        )
+            .append(
+                data.path
+            )
+            .append(
+                "\n"
+            )
+        TipDialog.Builder(
+            this
+        )
+            .setMessage(
+                str.toString()
+            )
+            .setCanceled(
+                true
+            )
+            .create()
+            .show()
     }
 
     private fun actionShare() {
-        val uri = FileTools.getUri(File(data.path))
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        shareIntent.type = "video/*"
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
+        val uri =
+            FileTools.getUri(
+                File(
+                    data.path
+                )
+            )
+        val shareIntent =
+            Intent()
+        shareIntent.action =
+            Intent.ACTION_SEND
+        shareIntent.putExtra(
+            Intent.EXTRA_STREAM,
+            uri
+        )
+        shareIntent.type =
+            "video/*"
+        startActivity(
+            Intent.createChooser(
+                shareIntent,
+                getString(
+                    R.string.battery_share
+                )
+            )
+        )
     }
 
     private fun showDeleteDialog() {
-        ConfirmSelectDialog(this).run {
-            setTitleRes(R.string.tip_delete)
-            setMessageRes(R.string.also_del_from_phone_album)
-            setShowMessage(isRemote && data.hasDownload)
-            onConfirmClickListener = {
-                deleteFile(it)
-            }
+        ConfirmSelectDialog(
+            this
+        ).run {
+            setTitleRes(
+                R.string.tip_delete
+            )
+            setMessageRes(
+                R.string.also_del_from_phone_album
+            )
+            setShowMessage(
+                isRemote && data.hasDownload
+            )
+            onConfirmClickListener =
+                {
+                    deleteFile(
+                        it
+                    )
+                }
             show()
         }
     }
 
-    private fun deleteFile(isDelLocal: Boolean) {
+    private fun deleteFile(
+        isDelLocal: Boolean
+    ) {
         if (isRemote) {
             lifecycleScope.launch {
                 showCameraLoading()
-                val isSuccess = TS004Repository.deleteFiles(arrayOf(data.id))
+                val isSuccess =
+                    TS004Repository.deleteFiles(
+                        arrayOf(
+                            data.id
+                        )
+                    )
                 if (isSuccess) {
                     if (isDelLocal) {
-                        File(FileConfig.ts004GalleryDir, data.name).delete()
+                        File(
+                            FileConfig.ts004GalleryDir,
+                            data.name
+                        ).delete()
                         MediaScannerConnection.scanFile(
                             this@IRVideoGSYActivity,
-                            arrayOf(FileConfig.ts004GalleryDir),
+                            arrayOf(
+                                FileConfig.ts004GalleryDir
+                            ),
                             null,
                             null
                         )
                     }
                     dismissCameraLoading()
-                    ToastTools.showShort(R.string.test_results_delete_success)
-                    EventBus.getDefault().post(GalleryDelEvent())
+                    ToastTools.showShort(
+                        R.string.test_results_delete_success
+                    )
+                    EventBus.getDefault()
+                        .post(
+                            GalleryDelEvent()
+                        )
                     finish()
                 } else {
                     dismissCameraLoading()
                 }
             }
         } else {
-            EventBus.getDefault().post(GalleryDelEvent())
-            File(data.path).delete()
-            MediaScannerConnection.scanFile(this, arrayOf(FileConfig.ts004GalleryDir), null, null)
+            EventBus.getDefault()
+                .post(
+                    GalleryDelEvent()
+                )
+            File(
+                data.path
+            ).delete()
+            MediaScannerConnection.scanFile(
+                this,
+                arrayOf(
+                    FileConfig.ts004GalleryDir
+                ),
+                null,
+                null
+            )
             finish()
         }
     }
 
     override fun onResume() {
-        getCurPlay().onVideoResume(false)
+        getCurPlay().onVideoResume(
+            false
+        )
         super.onResume()
     }
 

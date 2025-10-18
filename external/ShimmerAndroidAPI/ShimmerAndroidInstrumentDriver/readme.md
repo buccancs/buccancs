@@ -1,4 +1,12 @@
-This API Is made up of the following projects
+This
+API
+Is
+made
+up
+of
+the
+following
+projects
 
 - [ShimmerAndroidInstrumentDriver](https://github.com/ShimmerEngineering/ShimmerAndroidAPI/tree/master/ShimmerAndroidInstrumentDriver/ShimmerAndroidInstrumentDriver)
 - [BluetoothManagerExample](https://github.com/ShimmerEngineering/ShimmerAndroidAPI/tree/master/ShimmerAndroidInstrumentDriver/bluetoothManagerExample)

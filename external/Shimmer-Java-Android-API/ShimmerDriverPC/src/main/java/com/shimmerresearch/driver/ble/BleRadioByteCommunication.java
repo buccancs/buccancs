@@ -66,7 +66,8 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
             writer.write(s, 0, s.length());
             writer.newLine();
             writer.flush();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -94,7 +95,8 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
             p = runTime.exec(executablePath + " " + uuid);
             writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
             reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
 
@@ -129,7 +131,8 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
                                     if (mByteCommunicationListener != null) {
                                         mByteCommunicationListener.eventNewBytesReceived(dataBytes);
                                     }
-                                } catch (DecoderException e) {
+                                } catch (
+                                        DecoderException e) {
                                     e.printStackTrace();
                                 }
                             } else {
@@ -137,7 +140,8 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
                             }
                         }
                     }
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -157,7 +161,8 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
             } else {
                 throw new ShimmerException("Connect Failed");
             }
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
             throw new ShimmerException("InterruptedException");
         }
@@ -174,7 +179,8 @@ public class BleRadioByteCommunication extends AbstractByteCommunication {
             } else {
                 throw new ShimmerException("Disconnect Failed");
             }
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
             throw new ShimmerException("InterruptedException");
         }

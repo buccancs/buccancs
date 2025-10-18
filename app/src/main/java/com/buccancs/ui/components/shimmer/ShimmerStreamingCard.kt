@@ -27,11 +27,12 @@ fun ShimmerStreamingCard(
             style = MaterialTheme.typography.titleMedium
         )
 
-        val message = when {
-            !isConnected -> "Connect the device to prepare for streaming."
-            isStreaming -> "Streaming is active as part of the current recording session."
-            else -> "Start a recording session to begin streaming automatically."
-        }
+        val message =
+            when {
+                !isConnected -> "Connect the device to prepare for streaming."
+                isStreaming -> "Streaming is active as part of the current recording session."
+                else -> "Start a recording session to begin streaming automatically."
+            }
         Text(
             text = message,
             style = MaterialTheme.typography.bodyMedium,
@@ -40,13 +41,19 @@ fun ShimmerStreamingCard(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true
+)
 @Composable
 private fun ShimmerStreamingCardPreview() {
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(Spacing.Large),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Large)
+            modifier = Modifier.padding(
+                Spacing.Large
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Large
+            )
         ) {
             ShimmerStreamingCard(
                 isStreaming = false,

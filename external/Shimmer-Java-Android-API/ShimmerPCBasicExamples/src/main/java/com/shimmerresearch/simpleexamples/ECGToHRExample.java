@@ -65,7 +65,8 @@ public class ECGToHRExample extends BasicProcessWithCallBack {
                     heartRateCalculationECG = new ECGtoHRAdaptive(shimmerDevice.getSamplingRateShimmer());
                     try {
                         shimmerDevice.startStreaming();
-                    } catch (ShimmerException e) {
+                    } catch (
+                            ShimmerException e) {
                         e.printStackTrace();
                     }
                     mConfigureOnFirstTime = false;

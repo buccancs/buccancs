@@ -251,7 +251,8 @@ public class USBMonitorManager {
             if (mUvcCamera != null) {
                 result = mUvcCamera.setUSBPreviewSize(cameraWidth, cameraHeight);
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             for (OnUSBConnectListener onUSBConnectListener : mOnUSBConnectListeners) {
                 onUSBConnectListener.onSetPreviewSizeFail();
             }

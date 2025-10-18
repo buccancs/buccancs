@@ -1,10 +1,27 @@
-rootProject.name = 'ShimmerLSL'
+rootProject
+        .name =
+        'ShimmerLSL'
 
 include 'jna'
 
 include ':ShimmerDriver'
-project(':ShimmerDriver').projectDir = new File(settingsDir, '../ShimmerDriver')
+project(':ShimmerDriver')
+        .projectDir =
+        new File(
+                settingsDir,
+                '../ShimmerDriver'
+        )
 include ':ShimmerDriverPC'
-project(':ShimmerDriverPC').projectDir = new File(settingsDir, '../ShimmerDriverPC')
+project(':ShimmerDriverPC')
+        .projectDir =
+        new File(
+                settingsDir,
+                '../ShimmerDriverPC'
+        )
 include ':ShimmerBluetoothManager'
-project(':ShimmerBluetoothManager').projectDir = new File(settingsDir, '../ShimmerBluetoothManager')
+project(':ShimmerBluetoothManager')
+        .projectDir =
+        new File(
+                settingsDir,
+                '../ShimmerBluetoothManager'
+        )

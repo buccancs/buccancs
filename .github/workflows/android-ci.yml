@@ -1,126 +1,126 @@
 name: Android CI
 
 on:
-  pull_request:
-    branches: [ main, dev ]
-    paths:
-      - 'app/**'
-      - 'desktop/**'
-      - 'protocol/**'
-      - 'sdk/**'
-      - 'shimmer/**'
-      - 'external/**'
-      - '*.gradle*'
-      - 'gradle/**'
-      - 'settings.gradle.kts'
-      - 'build.gradle.kts'
-  push:
-    branches: [ dev ]
-    paths:
-      - 'app/**'
-      - 'desktop/**'
-      - 'protocol/**'
-      - 'sdk/**'
-      - 'shimmer/**'
-      - 'external/**'
-      - '*.gradle*'
-      - 'gradle/**'
-      - 'settings.gradle.kts'
-      - 'build.gradle.kts'
+    pull_request:
+        branches: [main, dev]
+        paths:
+            - 'app/**'
+            - 'desktop/**'
+            - 'protocol/**'
+            - 'sdk/**'
+            - 'shimmer/**'
+            - 'external/**'
+            - '*.gradle*'
+            - 'gradle/**'
+            - 'settings.gradle.kts'
+            - 'build.gradle.kts'
+    push:
+        branches: [dev]
+        paths:
+            - 'app/**'
+            - 'desktop/**'
+            - 'protocol/**'
+            - 'sdk/**'
+            - 'shimmer/**'
+            - 'external/**'
+            - '*.gradle*'
+            - 'gradle/**'
+            - 'settings.gradle.kts'
+            - 'build.gradle.kts'
 
 jobs:
-  android-quality:
-    name: Android Quality Suite
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
+    android-quality:
+        name: Android Quality Suite
+        runs-on: ubuntu-latest
+        timeout-minutes: 45
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-          cache: gradle
+            -   name: Set up JDK 21
+                uses: actions/setup-java@v4
+                with:
+                    distribution: temurin
+                    java-version: '21'
+                    cache: gradle
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+            -   name: Make gradlew executable
+                run: chmod +x gradlew
 
-      - name: Static analysis
-        run: ./gradlew detekt lint --continue
+            -   name: Static analysis
+                run: ./gradlew detekt lint --continue
 
-      - name: Unit tests and assemble
-        run: ./gradlew testDebugUnitTest assembleDebug --continue
+            -   name: Unit tests and assemble
+                run: ./gradlew testDebugUnitTest assembleDebug --continue
 
-      - name: Upload lint reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint-reports
-          path: '**/build/reports/lint-*.html'
-          retention-days: 7
+            -   name: Upload lint reports
+                if: always()
+                uses: actions/upload-artifact@v4
+                with:
+                    name: lint-reports
+                    path: '**/build/reports/lint-*.html'
+                    retention-days: 7
 
-      - name: Upload detekt reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: detekt-reports
-          path: '**/build/reports/detekt/'
-          if-no-files-found: ignore
-          retention-days: 7
+            -   name: Upload detekt reports
+                if: always()
+                uses: actions/upload-artifact@v4
+                with:
+                    name: detekt-reports
+                    path: '**/build/reports/detekt/'
+                    if-no-files-found: ignore
+                    retention-days: 7
 
-      - name: Upload unit test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: unit-test-results
-          path: |
-            **/build/reports/tests/
-            **/build/test-results/
-          if-no-files-found: ignore
-          retention-days: 7
+            -   name: Upload unit test results
+                if: always()
+                uses: actions/upload-artifact@v4
+                with:
+                    name: unit-test-results
+                    path: |
+                        **/build/reports/tests/
+                        **/build/test-results/
+                    if-no-files-found: ignore
+                    retention-days: 7
 
-      - name: Upload debug APK
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-apk
-          path: app/build/outputs/apk/debug/*.apk
-          if-no-files-found: ignore
-          retention-days: 7
+            -   name: Upload debug APK
+                if: always()
+                uses: actions/upload-artifact@v4
+                with:
+                    name: debug-apk
+                    path: app/build/outputs/apk/debug/*.apk
+                    if-no-files-found: ignore
+                    retention-days: 7
 
-  external-build:
-    name: External Builds
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    needs: android-quality
+    external-build:
+        name: External Builds
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        needs: android-quality
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-          cache: gradle
+            -   name: Set up JDK 21
+                uses: actions/setup-java@v4
+                with:
+                    distribution: temurin
+                    java-version: '21'
+                    cache: gradle
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+            -   name: Make gradlew executable
+                run: chmod +x gradlew
 
-      - name: Build curated external projects
-        run: ./gradlew externalBuild --continue
+            -   name: Build curated external projects
+                run: ./gradlew externalBuild --continue
 
-      - name: Archive external outputs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: external-artifacts
-          path: |
-            external/**/build/libs/**/*.jar
-            external/**/build/outputs/**
-          if-no-files-found: ignore
-          retention-days: 7
+            -   name: Archive external outputs
+                if: always()
+                uses: actions/upload-artifact@v4
+                with:
+                    name: external-artifacts
+                    path: |
+                        external/**/build/libs/**/*.jar
+                        external/**/build/outputs/**
+                    if-no-files-found: ignore
+                    retention-days: 7

@@ -30,23 +30,31 @@ fun StatusChip(
     level: StatusLevel = StatusLevel.INFO,
     onClick: (() -> Unit)? = null
 ) {
-    val iconColor = when (level) {
-        StatusLevel.SUCCESS -> MaterialTheme.colorScheme.primary
-        StatusLevel.WARNING -> MaterialTheme.colorScheme.tertiary
-        StatusLevel.ERROR -> MaterialTheme.colorScheme.error
-        StatusLevel.INFO -> MaterialTheme.colorScheme.onSurfaceVariant
-    }
+    val iconColor =
+        when (level) {
+            StatusLevel.SUCCESS -> MaterialTheme.colorScheme.primary
+            StatusLevel.WARNING -> MaterialTheme.colorScheme.tertiary
+            StatusLevel.ERROR -> MaterialTheme.colorScheme.error
+            StatusLevel.INFO -> MaterialTheme.colorScheme.onSurfaceVariant
+        }
 
     AssistChip(
-        onClick = onClick ?: {},
-        label = { Text(label) },
+        onClick = onClick
+            ?: {},
+        label = {
+            Text(
+                label
+            )
+        },
         leadingIcon = icon?.let {
             {
                 Icon(
                     imageVector = it,
                     contentDescription = null,
                     tint = iconColor,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
             }
         },
@@ -64,14 +72,18 @@ fun StatusIndicator(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
+        horizontalArrangement = Arrangement.spacedBy(
+            Spacing.ExtraSmall
+        ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = icon,
             contentDescription = label,
             tint = color,
-            modifier = Modifier.size(Dimensions.IconSizeSmall)
+            modifier = Modifier.size(
+                Dimensions.IconSizeSmall
+            )
         )
         Text(
             text = label,

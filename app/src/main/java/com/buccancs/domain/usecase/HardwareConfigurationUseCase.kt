@@ -15,15 +15,31 @@ import javax.inject.Singleton
  */
 interface HardwareConfigurationUseCase {
     // Shimmer operations
-    suspend fun configureShimmerMacAddress(deviceId: DeviceId, macAddress: String?): Result<Unit>
-    suspend fun configureShimmerGsrRange(deviceId: DeviceId, rangeIndex: Int): Result<Unit>
-    suspend fun configureShimmerSampleRate(deviceId: DeviceId, sampleRateHz: Double): Result<Unit>
+    suspend fun configureShimmerMacAddress(
+        deviceId: DeviceId,
+        macAddress: String?
+    ): Result<Unit>
+
+    suspend fun configureShimmerGsrRange(
+        deviceId: DeviceId,
+        rangeIndex: Int
+    ): Result<Unit>
+
+    suspend fun configureShimmerSampleRate(
+        deviceId: DeviceId,
+        sampleRateHz: Double
+    ): Result<Unit>
 
     // Topdon operations
-    suspend fun setActiveTopdon(deviceId: DeviceId): Result<Unit>
+    suspend fun setActiveTopdon(
+        deviceId: DeviceId
+    ): Result<Unit>
 
     // RGB Camera operations
-    suspend fun configureRgbCamera(deviceId: DeviceId, settings: Map<String, String>): Result<Unit>
+    suspend fun configureRgbCamera(
+        deviceId: DeviceId,
+        settings: Map<String, String>
+    ): Result<Unit>
 }
 
 @Singleton
@@ -39,26 +55,41 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
         macAddress: String?
     ): Result<Unit> {
         return try {
-            val normalized = macAddress?.takeIf { it.isNotBlank() }?.uppercase(Locale.US)
+            val normalized =
+                macAddress?.takeIf { it.isNotBlank() }
+                    ?.uppercase(
+                        Locale.US
+                    )
 
             // Update shimmer settings repository
-            shimmerSettingsRepository.setTargetMac(normalized)
+            shimmerSettingsRepository.setTargetMac(
+                normalized
+            )
 
             // Update hardware config repository
             hardwareConfigRepository.updateConfig { config ->
-                val updated = config.shimmer.map { entry ->
-                    if (entry.id == deviceId.value) {
-                        entry.copy(macAddress = normalized)
-                    } else {
-                        entry
+                val updated =
+                    config.shimmer.map { entry ->
+                        if (entry.id == deviceId.value) {
+                            entry.copy(
+                                macAddress = normalized
+                            )
+                        } else {
+                            entry
+                        }
                     }
-                }
-                config.copy(shimmer = updated)
+                config.copy(
+                    shimmer = updated
+                )
             }
 
-            Result.success(Unit)
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 
@@ -67,26 +98,41 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
         rangeIndex: Int
     ): Result<Unit> {
         return try {
-            val normalized = rangeIndex.coerceIn(0, 4) // 0-4 for Shimmer GSR ranges
+            val normalized =
+                rangeIndex.coerceIn(
+                    0,
+                    4
+                ) // 0-4 for Shimmer GSR ranges
 
             // Update shimmer settings repository
-            shimmerSettingsRepository.setGsrRange(normalized)
+            shimmerSettingsRepository.setGsrRange(
+                normalized
+            )
 
             // Update hardware config repository
             hardwareConfigRepository.updateConfig { config ->
-                val updated = config.shimmer.map { entry ->
-                    if (entry.id == deviceId.value) {
-                        entry.copy(gsrRangeIndex = normalized)
-                    } else {
-                        entry
+                val updated =
+                    config.shimmer.map { entry ->
+                        if (entry.id == deviceId.value) {
+                            entry.copy(
+                                gsrRangeIndex = normalized
+                            )
+                        } else {
+                            entry
+                        }
                     }
-                }
-                config.copy(shimmer = updated)
+                config.copy(
+                    shimmer = updated
+                )
             }
 
-            Result.success(Unit)
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 
@@ -95,39 +141,59 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
         sampleRateHz: Double
     ): Result<Unit> {
         return try {
-            val sanitized = if (sampleRateHz.isFinite() && sampleRateHz > 0.0) {
-                sampleRateHz
-            } else {
-                128.0 // Default sample rate
-            }
+            val sanitized =
+                if (sampleRateHz.isFinite() && sampleRateHz > 0.0) {
+                    sampleRateHz
+                } else {
+                    128.0 // Default sample rate
+                }
 
             // Update shimmer settings repository
-            shimmerSettingsRepository.setSampleRate(sanitized)
+            shimmerSettingsRepository.setSampleRate(
+                sanitized
+            )
 
             // Update hardware config repository
             hardwareConfigRepository.updateConfig { config ->
-                val updated = config.shimmer.map { entry ->
-                    if (entry.id == deviceId.value) {
-                        entry.copy(sampleRateHz = sanitized)
-                    } else {
-                        entry
+                val updated =
+                    config.shimmer.map { entry ->
+                        if (entry.id == deviceId.value) {
+                            entry.copy(
+                                sampleRateHz = sanitized
+                            )
+                        } else {
+                            entry
+                        }
                     }
-                }
-                config.copy(shimmer = updated)
+                config.copy(
+                    shimmer = updated
+                )
             }
 
-            Result.success(Unit)
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 
-    override suspend fun setActiveTopdon(deviceId: DeviceId): Result<Unit> {
+    override suspend fun setActiveTopdon(
+        deviceId: DeviceId
+    ): Result<Unit> {
         return try {
-            topdonDeviceRepository.setActiveDevice(deviceId)
-            Result.success(Unit)
+            topdonDeviceRepository.setActiveDevice(
+                deviceId
+            )
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 
@@ -136,10 +202,17 @@ class HardwareConfigurationUseCaseImpl @Inject constructor(
         settings: Map<String, String>
     ): Result<Unit> {
         return try {
-            sensorRepository.configure(deviceId, settings)
-            Result.success(Unit)
+            sensorRepository.configure(
+                deviceId,
+                settings
+            )
+            Result.success(
+                Unit
+            )
         } catch (t: Throwable) {
-            Result.failure(t)
+            Result.failure(
+                t
+            )
         }
     }
 }

@@ -11,45 +11,84 @@ import com.topdon.lms.sdk.bean.UserInfo
  */
 class LMS private constructor() {
 
-    var token: String? = "stub_token"  // Default stub token
+    var token: String? =
+        "stub_token"  // Default stub token
     val isLogin: Boolean
         get() = token != null
 
     companion object {
         @Volatile
-        private var instance: LMS? = null
+        private var instance: LMS? =
+            null
 
-        var mContext: Context? = null
+        var mContext: Context? =
+            null
 
-        const val SUCCESS = 0
+        const val SUCCESS =
+            0
 
         fun getInstance(): LMS {
-            return instance ?: synchronized(this) {
-                instance ?: LMS().also { instance = it }
-            }
+            return instance
+                ?: synchronized(
+                    this
+                ) {
+                    instance
+                        ?: LMS().also {
+                            instance =
+                                it
+                        }
+                }
         }
     }
 
-    fun checkAppUpdate(callback: (ResponseData) -> Unit) {
+    fun checkAppUpdate(
+        callback: (ResponseData) -> Unit
+    ) {
         // Stub: no update available
-        callback(ResponseData(code = 2000, data = "{}"))
+        callback(
+            ResponseData(
+                code = 2000,
+                data = "{}"
+            )
+        )
     }
 
-    fun getStatement(type: String, callback: IResponseCallback) {
+    fun getStatement(
+        type: String,
+        callback: IResponseCallback
+    ) {
         // Stub: return empty statement
-        callback.onResponse("{}")
+        callback.onResponse(
+            "{}"
+        )
     }
 
-    fun syncUserInfo(callback: ((CommonBean<UserInfo>) -> Unit)? = null) {
+    fun syncUserInfo(
+        callback: ((CommonBean<UserInfo>) -> Unit)? = null
+    ) {
         // Stub: return empty user info
-        callback?.invoke(CommonBean(code = "0", msg = "Stub", data = UserInfo()))
+        callback?.invoke(
+            CommonBean(
+                code = "0",
+                msg = "Stub",
+                data = UserInfo()
+            )
+        )
     }
 
-    fun getUserInfo(callback: ((CommonBean<String>) -> Unit)?) {
+    fun getUserInfo(
+        callback: ((CommonBean<String>) -> Unit)?
+    ) {
         // Stub: return empty user info as JSON string with all required fields
         val jsonData =
             """{"topdonId":"","userName":"","email":"","url":"","pwd":"","remark":"","createTime":0,"updateTime":0,"profilePicture":"","lastVisitTime":"","phone":"","avatar":""}"""
-        callback?.invoke(CommonBean(code = "0", msg = "Stub", data = jsonData))
+        callback?.invoke(
+            CommonBean(
+                code = "0",
+                msg = "Stub",
+                data = jsonData
+            )
+        )
     }
 
     fun getUserInfo(): UserInfo? {
@@ -57,9 +96,15 @@ class LMS private constructor() {
         return null
     }
 
-    fun bindDevice(sn: String, randomNum: String, callback: ((Int) -> Unit)? = null): Int {
+    fun bindDevice(
+        sn: String,
+        randomNum: String,
+        callback: ((Int) -> Unit)? = null
+    ): Int {
         // Stub: return success code
-        callback?.invoke(SUCCESS)
+        callback?.invoke(
+            SUCCESS
+        )
         return SUCCESS
     }
 
@@ -71,7 +116,12 @@ class LMS private constructor() {
         callback: ((ResponseData) -> Unit)?
     ) {
         // Stub: return success response
-        callback?.invoke(ResponseData(code = SUCCESS, data = "{}"))
+        callback?.invoke(
+            ResponseData(
+                code = SUCCESS,
+                data = "{}"
+            )
+        )
     }
 
     data class ResponseData(

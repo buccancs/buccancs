@@ -328,7 +328,8 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         for (ObjectCluster ojc : objectClusterArray) {
             try {
                 return processDataRealTime(ojc);
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -370,7 +371,8 @@ public abstract class AbstractAlgorithm extends BasicProcessWithCallBack impleme
         if (isEnabled()) {
             try {
                 initialize();
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 System.err.println("sampling rate=" + samplingRate);
                 e.printStackTrace();
             }

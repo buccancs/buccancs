@@ -2,13 +2,21 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializetimeSyncPing")
-public inline fun timeSyncPing(block: com.buccancs.control.TimeSyncPingKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncPing =
-    com.buccancs.control.TimeSyncPingKt.Dsl._create(com.buccancs.control.TimeSyncPing.newBuilder())
+@kotlin.jvm.JvmName(
+    "-initializetimeSyncPing"
+)
+public inline fun timeSyncPing(
+    block: com.buccancs.control.TimeSyncPingKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.TimeSyncPing =
+    com.buccancs.control.TimeSyncPingKt.Dsl._create(
+        com.buccancs.control.TimeSyncPing.newBuilder()
+    )
         .apply { block() }
         ._build()
 
@@ -16,7 +24,9 @@ public inline fun timeSyncPing(block: com.buccancs.control.TimeSyncPingKt.Dsl.()
  * Protobuf type `com.buccancs.control.TimeSyncPing`
  */
 public object TimeSyncPingKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.TimeSyncPing.Builder
@@ -24,13 +34,16 @@ public object TimeSyncPingKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.TimeSyncPing.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.TimeSyncPing.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.TimeSyncPing = _builder.build()
+        internal fun _build(): com.buccancs.control.TimeSyncPing =
+            _builder.build()
 
         /**
          * `int64 client_send_epoch_ms = 1;`
@@ -38,7 +51,9 @@ public object TimeSyncPingKt {
         public var clientSendEpochMs: kotlin.Long
             get() = _builder.getClientSendEpochMs()
             set(value) {
-                _builder.setClientSendEpochMs(value)
+                _builder.setClientSendEpochMs(
+                    value
+                )
             }
 
         /**
@@ -54,7 +69,9 @@ public object TimeSyncPingKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -67,6 +84,12 @@ public object TimeSyncPingKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.TimeSyncPing.copy(block: `com.buccancs.control`.TimeSyncPingKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncPing =
-    `com.buccancs.control`.TimeSyncPingKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.buccancs.control.TimeSyncPing.copy(
+    block: `com.buccancs.control`.TimeSyncPingKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.TimeSyncPing =
+    `com.buccancs.control`.TimeSyncPingKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
+        ._build()
 

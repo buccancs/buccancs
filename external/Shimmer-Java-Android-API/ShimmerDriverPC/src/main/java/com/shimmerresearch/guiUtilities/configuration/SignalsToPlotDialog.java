@@ -126,7 +126,8 @@ public class SignalsToPlotDialog {
                                 xAxis[1] = Configuration.Shimmer3.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT;
                                 xAxis[2] = CHANNEL_TYPE.CAL.toString();
                                 plotManager.addXAxis(xAxis);
-                            } catch (Exception e1) {
+                            } catch (
+                                    Exception e1) {
                                 e1.printStackTrace();
                             }
                         }

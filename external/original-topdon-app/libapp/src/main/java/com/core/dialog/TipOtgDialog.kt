@@ -19,40 +19,71 @@ import com.topdon.lib.core.utils.ScreenUtil
  * 提示窗
  * create by fylder on 2018/6/15
  **/
-class TipOtgDialog : Dialog {
+class TipOtgDialog :
+    Dialog {
 
 
-    constructor(context: Context) : super(context)
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
     class Builder {
-        var dialog: TipOtgDialog? = null
-        private var context: Context? = null
-        private var message: String? = null
-        private var positiveStr: String? = null
-        private var cancelStr: String? = null
-        private var positiveEvent: ((check: Boolean) -> Unit)? = null
-        private var cancelEvent: (() -> Unit)? = null
-        private var canceled = false
-        private var hasCheck = false
+        var dialog: TipOtgDialog? =
+            null
+        private var context: Context? =
+            null
+        private var message: String? =
+            null
+        private var positiveStr: String? =
+            null
+        private var cancelStr: String? =
+            null
+        private var positiveEvent: ((check: Boolean) -> Unit)? =
+            null
+        private var cancelEvent: (() -> Unit)? =
+            null
+        private var canceled =
+            false
+        private var hasCheck =
+            false
 
         private lateinit var messageText: TextView
         private lateinit var checkBox: CheckBox
         private lateinit var successBtn: Button
         private lateinit var cancelBtn: Button
 
-        constructor(context: Context) {
-            this.context = context
+        constructor(
+            context: Context
+        ) {
+            this.context =
+                context
         }
 
-        fun setMessage(message: String): Builder {
-            this.message = message
+        fun setMessage(
+            message: String
+        ): Builder {
+            this.message =
+                message
             return this
         }
 
-        fun setMessage(@StringRes message: Int): Builder {
-            this.message = context!!.getString(message)
+        fun setMessage(
+            @StringRes message: Int
+        ): Builder {
+            this.message =
+                context!!.getString(
+                    message
+                )
             return this
         }
 
@@ -60,27 +91,53 @@ class TipOtgDialog : Dialog {
             @StringRes strRes: Int,
             event: ((check: Boolean) -> Unit)? = null
         ): Builder {
-            return setPositiveListener(context!!.getString(strRes), event)
+            return setPositiveListener(
+                context!!.getString(
+                    strRes
+                ),
+                event
+            )
         }
 
-        fun setPositiveListener(str: String, event: ((check: Boolean) -> Unit)? = null): Builder {
-            this.positiveStr = str
-            this.positiveEvent = event
+        fun setPositiveListener(
+            str: String,
+            event: ((check: Boolean) -> Unit)? = null
+        ): Builder {
+            this.positiveStr =
+                str
+            this.positiveEvent =
+                event
             return this
         }
 
-        fun setCancelListener(@StringRes strRes: Int, event: (() -> Unit)? = null): Builder {
-            return setCancelListener(context!!.getString(strRes), event)
+        fun setCancelListener(
+            @StringRes strRes: Int,
+            event: (() -> Unit)? = null
+        ): Builder {
+            return setCancelListener(
+                context!!.getString(
+                    strRes
+                ),
+                event
+            )
         }
 
-        fun setCancelListener(str: String, event: (() -> Unit)? = null): Builder {
-            this.cancelStr = str
-            this.cancelEvent = event
+        fun setCancelListener(
+            str: String,
+            event: (() -> Unit)? = null
+        ): Builder {
+            this.cancelStr =
+                str
+            this.cancelEvent =
+                event
             return this
         }
 
-        fun setCanceled(canceled: Boolean): Builder {
-            this.canceled = canceled
+        fun setCanceled(
+            canceled: Boolean
+        ): Builder {
+            this.canceled =
+                canceled
             return this
         }
 
@@ -91,20 +148,38 @@ class TipOtgDialog : Dialog {
 
         fun create(): TipOtgDialog {
             if (dialog == null) {
-                dialog = TipOtgDialog(context!!, R.style.InfoDialog)
+                dialog =
+                    TipOtgDialog(
+                        context!!,
+                        R.style.InfoDialog
+                    )
             }
             val inflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_tip_otg, null)
-            messageText = view.dialog_tip_msg_text
-            checkBox = view.dialog_tip_check
-            successBtn = view.dialog_tip_success_btn
-            cancelBtn = view.dialog_tip_cancel_btn
+                context!!.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_tip_otg,
+                    null
+                )
+            messageText =
+                view.dialog_tip_msg_text
+            checkBox =
+                view.dialog_tip_check
+            successBtn =
+                view.dialog_tip_success_btn
+            cancelBtn =
+                view.dialog_tip_cancel_btn
             dialog!!.addContentView(
                 view,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             val wRatio =
                 if (context!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     //竖屏
@@ -113,18 +188,29 @@ class TipOtgDialog : Dialog {
                     //横屏
                     0.35
                 }
-            lp.width = (ScreenUtil.getScreenWidth(context!!) * wRatio).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            lp.width =
+                (ScreenUtil.getScreenWidth(
+                    context!!
+                ) * wRatio).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(canceled)
-            checkBox.isChecked = false
-            hasCheck = false
+            dialog!!.setCanceledOnTouchOutside(
+                canceled
+            )
+            checkBox.isChecked =
+                false
+            hasCheck =
+                false
             checkBox.setOnCheckedChangeListener { _, isChecked ->
-                hasCheck = isChecked
+                hasCheck =
+                    isChecked
             }
             successBtn.setOnClickListener {
                 dismiss()
-                positiveEvent?.invoke(hasCheck)
+                positiveEvent?.invoke(
+                    hasCheck
+                )
             }
             cancelBtn.setOnClickListener {
                 dismiss()
@@ -132,24 +218,39 @@ class TipOtgDialog : Dialog {
             }
 
             if (positiveStr != null) {
-                successBtn.text = positiveStr
+                successBtn.text =
+                    positiveStr
             }
-            if (!TextUtils.isEmpty(cancelStr)) {
-                cancelBtn.visibility = View.VISIBLE
-                cancelBtn.text = cancelStr
+            if (!TextUtils.isEmpty(
+                    cancelStr
+                )
+            ) {
+                cancelBtn.visibility =
+                    View.VISIBLE
+                cancelBtn.text =
+                    cancelStr
             } else {
-                cancelBtn.visibility = View.GONE
-                cancelBtn.text = ""
+                cancelBtn.visibility =
+                    View.GONE
+                cancelBtn.text =
+                    ""
             }
             //msg
             if (message != null) {
-                messageText.visibility = View.VISIBLE
-                messageText.setText(message, TextView.BufferType.NORMAL)
+                messageText.visibility =
+                    View.VISIBLE
+                messageText.setText(
+                    message,
+                    TextView.BufferType.NORMAL
+                )
             } else {
-                messageText.visibility = View.GONE
+                messageText.visibility =
+                    View.GONE
             }
 
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipOtgDialog
         }
     }
@@ -157,10 +258,18 @@ class TipOtgDialog : Dialog {
 }
 
 private val View.dialog_tip_msg_text: TextView
-    get() = findViewById(R.id.dialog_tip_msg_text)
+    get() = findViewById(
+        R.id.dialog_tip_msg_text
+    )
 private val View.dialog_tip_check: CheckBox
-    get() = findViewById(R.id.dialog_tip_check)
+    get() = findViewById(
+        R.id.dialog_tip_check
+    )
 private val View.dialog_tip_success_btn: Button
-    get() = findViewById(R.id.dialog_tip_success_btn)
+    get() = findViewById(
+        R.id.dialog_tip_success_btn
+    )
 private val View.dialog_tip_cancel_btn: Button
-    get() = findViewById(R.id.dialog_tip_cancel_btn)
+    get() = findViewById(
+        R.id.dialog_tip_cancel_btn
+    )

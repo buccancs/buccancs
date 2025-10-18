@@ -23,23 +23,45 @@ import com.topdon.lib.core.tools.AppLanguageUtils
 import com.topdon.lib.core.tools.ConstantLanguages
 import com.topdon.module.user.R
 
-class LanguageActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+class LanguageActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val initialLanguage = SharedManager.getLanguage(this)
-        val initialIndex = getLanguageIndex(initialLanguage)
+        val initialLanguage =
+            SharedManager.getLanguage(
+                this
+            )
+        val initialIndex =
+            getLanguageIndex(
+                initialLanguage
+            )
 
         setContent {
             MaterialTheme {
                 LanguageScreen(
                     initialSelectedIndex = initialIndex,
                     onLanguageSelected = { index ->
-                        val localeStr = getLanguageCode(index)
-                        setResult(RESULT_OK, Intent().apply {
-                            putExtra("localeStr", localeStr)
-                        })
+                        val localeStr =
+                            getLanguageCode(
+                                index
+                            )
+                        setResult(
+                            RESULT_OK,
+                            Intent().apply {
+                                putExtra(
+                                    "localeStr",
+                                    localeStr
+                                )
+                            })
                         finish()
                     },
                     onNavigateUp = { finish() }
@@ -48,7 +70,9 @@ class LanguageActivity : ComponentActivity() {
         }
     }
 
-    private fun getLanguageIndex(languageCode: String): Int {
+    private fun getLanguageIndex(
+        languageCode: String
+    ): Int {
         return when (languageCode) {
             ConstantLanguages.ENGLISH -> 0
             ConstantLanguages.RU -> 1
@@ -68,7 +92,9 @@ class LanguageActivity : ComponentActivity() {
         }
     }
 
-    private fun getLanguageCode(index: Int): String {
+    private fun getLanguageCode(
+        index: Int
+    ): String {
         return when (index) {
             0 -> ConstantLanguages.ENGLISH
             1 -> ConstantLanguages.RU
@@ -89,38 +115,51 @@ class LanguageActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun LanguageScreen(
     initialSelectedIndex: Int,
     onLanguageSelected: (Int) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    var selectedIndex by remember { mutableIntStateOf(initialSelectedIndex) }
+    var selectedIndex by remember {
+        mutableIntStateOf(
+            initialSelectedIndex
+        )
+    }
 
-    val languages = listOf(
-        "English" to "English",
-        "Русский" to "Russian",
-        "日本語" to "Japanese",
-        "Deutsch" to "German",
-        "Français" to "French",
-        "Português" to "Portuguese",
-        "Español" to "Spanish",
-        "Italiano" to "Italian",
-        "Polski" to "Polish",
-        "Čeština" to "Czech",
-        "Українська" to "Ukrainian",
-        "Nederlands" to "Dutch",
-        "简体中文" to "Simplified Chinese",
-        "繁體中文" to "Traditional Chinese"
-    )
+    val languages =
+        listOf(
+            "English" to "English",
+            "Русский" to "Russian",
+            "日本語" to "Japanese",
+            "Deutsch" to "German",
+            "Français" to "French",
+            "Português" to "Portuguese",
+            "Español" to "Spanish",
+            "Italiano" to "Italian",
+            "Polski" to "Polish",
+            "Čeština" to "Czech",
+            "Українська" to "Ukrainian",
+            "Nederlands" to "Dutch",
+            "简体中文" to "Simplified Chinese",
+            "繁體中文" to "Traditional Chinese"
+        )
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Language") },
+                title = {
+                    Text(
+                        "Language"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -129,9 +168,15 @@ private fun LanguageScreen(
                 },
                 actions = {
                     TextButton(
-                        onClick = { onLanguageSelected(selectedIndex) }
+                        onClick = {
+                            onLanguageSelected(
+                                selectedIndex
+                            )
+                        }
                     ) {
-                        Text("Done")
+                        Text(
+                            "Done"
+                        )
                     }
                 }
             )
@@ -140,15 +185,24 @@ private fun LanguageScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
-            contentPadding = PaddingValues(vertical = 8.dp)
+                .padding(
+                    padding
+                ),
+            contentPadding = PaddingValues(
+                vertical = 8.dp
+            )
         ) {
-            itemsIndexed(languages) { index, (nativeName, englishName) ->
+            itemsIndexed(
+                languages
+            ) { index, (nativeName, englishName) ->
                 LanguageItem(
                     nativeName = nativeName,
                     englishName = englishName,
                     selected = selectedIndex == index,
-                    onClick = { selectedIndex = index }
+                    onClick = {
+                        selectedIndex =
+                            index
+                    }
                 )
             }
         }
@@ -184,10 +238,14 @@ private fun LanguageItem(
                 )
             }
         },
-        modifier = Modifier.clickable(onClick = onClick),
+        modifier = Modifier.clickable(
+            onClick = onClick
+        ),
         colors = ListItemDefaults.colors(
             containerColor = if (selected) {
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                MaterialTheme.colorScheme.primaryContainer.copy(
+                    alpha = 0.3f
+                )
             } else {
                 MaterialTheme.colorScheme.surface
             }

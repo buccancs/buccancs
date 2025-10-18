@@ -5,7 +5,9 @@ import com.energy.iruvc.utils.CommonParams
 
 object PseudocodeUtils {
 
-    fun changeDualPseudocodeModelByOld(oldPseudocodeMode: Int): CommonParams.PseudoColorUsbDualType {
+    fun changeDualPseudocodeModelByOld(
+        oldPseudocodeMode: Int
+    ): CommonParams.PseudoColorUsbDualType {
         return when (oldPseudocodeMode) {
             1 -> {
                 CommonParams.PseudoColorUsbDualType.WHITE_HOT_MODE
@@ -53,7 +55,9 @@ object PseudocodeUtils {
         }
     }
 
-    fun changePseudocodeModeByOld(oldPseudocodeMode: Int): CommonParams.PseudoColorType {
+    fun changePseudocodeModeByOld(
+        oldPseudocodeMode: Int
+    ): CommonParams.PseudoColorType {
         return when (oldPseudocodeMode) {
             1 -> {
                 CommonParams.PseudoColorType.PSEUDO_1
@@ -101,7 +105,9 @@ object PseudocodeUtils {
         }
     }
 
-    fun changePseudocodeModeByNew(pseudoColorType: CommonParams.PseudoColorType): Int {
+    fun changePseudocodeModeByNew(
+        pseudoColorType: CommonParams.PseudoColorType
+    ): Int {
         return when (pseudoColorType) {
             CommonParams.PseudoColorType.PSEUDO_1 -> {
                 1

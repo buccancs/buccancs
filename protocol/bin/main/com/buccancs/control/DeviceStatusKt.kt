@@ -2,13 +2,21 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializedeviceStatus")
-public inline fun deviceStatus(block: com.buccancs.control.DeviceStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceStatus =
-    com.buccancs.control.DeviceStatusKt.Dsl._create(com.buccancs.control.DeviceStatus.newBuilder())
+@kotlin.jvm.JvmName(
+    "-initializedeviceStatus"
+)
+public inline fun deviceStatus(
+    block: com.buccancs.control.DeviceStatusKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DeviceStatus =
+    com.buccancs.control.DeviceStatusKt.Dsl._create(
+        com.buccancs.control.DeviceStatus.newBuilder()
+    )
         .apply { block() }
         ._build()
 
@@ -16,7 +24,9 @@ public inline fun deviceStatus(block: com.buccancs.control.DeviceStatusKt.Dsl.()
  * Protobuf type `com.buccancs.control.DeviceStatus`
  */
 public object DeviceStatusKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.DeviceStatus.Builder
@@ -24,13 +34,16 @@ public object DeviceStatusKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DeviceStatus.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.DeviceStatus.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.DeviceStatus = _builder.build()
+        internal fun _build(): com.buccancs.control.DeviceStatus =
+            _builder.build()
 
         /**
          * `string device_id = 1;`
@@ -38,7 +51,9 @@ public object DeviceStatusKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -54,7 +69,9 @@ public object DeviceStatusKt {
         public var online: kotlin.Boolean
             get() = _builder.getOnline()
             set(value) {
-                _builder.setOnline(value)
+                _builder.setOnline(
+                    value
+                )
             }
 
         /**
@@ -70,7 +87,9 @@ public object DeviceStatusKt {
         public var recording: kotlin.Boolean
             get() = _builder.getRecording()
             set(value) {
-                _builder.setRecording(value)
+                _builder.setRecording(
+                    value
+                )
             }
 
         /**
@@ -86,7 +105,9 @@ public object DeviceStatusKt {
         public var batteryPercent: kotlin.Double
             get() = _builder.getBatteryPercent()
             set(value) {
-                _builder.setBatteryPercent(value)
+                _builder.setBatteryPercent(
+                    value
+                )
             }
 
         /**
@@ -102,7 +123,9 @@ public object DeviceStatusKt {
         public var lastHeartbeatEpochMs: kotlin.Long
             get() = _builder.getLastHeartbeatEpochMs()
             set(value) {
-                _builder.setLastHeartbeatEpochMs(value)
+                _builder.setLastHeartbeatEpochMs(
+                    value
+                )
             }
 
         /**
@@ -118,7 +141,9 @@ public object DeviceStatusKt {
         public var sessionId: kotlin.String
             get() = _builder.getSessionId()
             set(value) {
-                _builder.setSessionId(value)
+                _builder.setSessionId(
+                    value
+                )
             }
 
         /**
@@ -134,7 +159,9 @@ public object DeviceStatusKt {
         public var previewLatencyMs: kotlin.Double
             get() = _builder.getPreviewLatencyMs()
             set(value) {
-                _builder.setPreviewLatencyMs(value)
+                _builder.setPreviewLatencyMs(
+                    value
+                )
             }
 
         /**
@@ -150,7 +177,9 @@ public object DeviceStatusKt {
         public var clockOffsetMs: kotlin.Double
             get() = _builder.getClockOffsetMs()
             set(value) {
-                _builder.setClockOffsetMs(value)
+                _builder.setClockOffsetMs(
+                    value
+                )
             }
 
         /**
@@ -163,6 +192,12 @@ public object DeviceStatusKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.DeviceStatus.copy(block: `com.buccancs.control`.DeviceStatusKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceStatus =
-    `com.buccancs.control`.DeviceStatusKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.buccancs.control.DeviceStatus.copy(
+    block: `com.buccancs.control`.DeviceStatusKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DeviceStatus =
+    `com.buccancs.control`.DeviceStatusKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
+        ._build()
 

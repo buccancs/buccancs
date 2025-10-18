@@ -26,10 +26,15 @@ class ShimmerScreenViewModel @Inject constructor(
     private val sensorRepository: SensorRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ShimmerScreenUiState.initial())
-    val uiState: StateFlow<ShimmerScreenUiState> = _uiState.asStateFlow()
+    private val _uiState =
+        MutableStateFlow(
+            ShimmerScreenUiState.initial()
+        )
+    val uiState: StateFlow<ShimmerScreenUiState> =
+        _uiState.asStateFlow()
 
-    private val deviceId = SHIMMER_PRIMARY_DEVICE_ID
+    private val deviceId =
+        SHIMMER_PRIMARY_DEVICE_ID
 
     init {
         observeDeviceState()
@@ -41,30 +46,36 @@ class ShimmerScreenViewModel @Inject constructor(
                 deviceManagement.devices,
                 sensorRepository.streamStatuses
             ) { devices, streamStatuses ->
-                val shimmerDevice = devices.find { it.id == deviceId }
-                val streamingActive = streamStatuses.any { status ->
-                    status.deviceId == deviceId &&
-                            status.isStreaming &&
-                            status.streamType != com.buccancs.domain.model.SensorStreamType.PREVIEW
-                }
+                val shimmerDevice =
+                    devices.find { it.id == deviceId }
+                val streamingActive =
+                    streamStatuses.any { status ->
+                        status.deviceId == deviceId &&
+                                status.isStreaming &&
+                                status.streamType != com.buccancs.domain.model.SensorStreamType.PREVIEW
+                    }
                 shimmerDevice to streamingActive
             }.collect { (device, streamingActive) ->
                 if (device == null) {
-                    _uiState.value = ShimmerScreenUiState.initial()
+                    _uiState.value =
+                        ShimmerScreenUiState.initial()
                     return@collect
                 }
-                val isConnected = device.connectionStatus is ConnectionStatus.Connected
-                val isConnecting = device.connectionStatus is ConnectionStatus.Connecting
-                _uiState.value = _uiState.value.copy(
-                    isConnected = isConnected,
-                    isConnecting = isConnecting,
-                    isStreaming = streamingActive,
-                    deviceName = if (isConnected) device.displayName else null,
-                    deviceAddress = if (isConnected) {
-                        device.attributes["shimmer.selected"]
-                            ?: device.attributes["last_bonded_mac"]
-                    } else null
-                )
+                val isConnected =
+                    device.connectionStatus is ConnectionStatus.Connected
+                val isConnecting =
+                    device.connectionStatus is ConnectionStatus.Connecting
+                _uiState.value =
+                    _uiState.value.copy(
+                        isConnected = isConnected,
+                        isConnecting = isConnecting,
+                        isStreaming = streamingActive,
+                        deviceName = if (isConnected) device.displayName else null,
+                        deviceAddress = if (isConnected) {
+                            device.attributes["shimmer.selected"]
+                                ?: device.attributes["last_bonded_mac"]
+                        } else null
+                    )
             }
         }
     }
@@ -75,12 +86,20 @@ class ShimmerScreenViewModel @Inject constructor(
      */
     fun connectDevice() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(errorMessage = null)
-            val result = deviceManagement.connectDevice(deviceId)
-            if (result.isFailure) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = result.exceptionOrNull()?.message ?: "Failed to connect"
+            _uiState.value =
+                _uiState.value.copy(
+                    errorMessage = null
                 )
+            val result =
+                deviceManagement.connectDevice(
+                    deviceId
+                )
+            if (result.isFailure) {
+                _uiState.value =
+                    _uiState.value.copy(
+                        errorMessage = result.exceptionOrNull()?.message
+                            ?: "Failed to connect"
+                    )
             }
         }
     }
@@ -90,20 +109,29 @@ class ShimmerScreenViewModel @Inject constructor(
      */
     fun disconnectDevice() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(errorMessage = null)
-            val result = deviceManagement.disconnectDevice(deviceId)
-            if (result.isFailure) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = result.exceptionOrNull()?.message ?: "Failed to disconnect"
+            _uiState.value =
+                _uiState.value.copy(
+                    errorMessage = null
                 )
+            val result =
+                deviceManagement.disconnectDevice(
+                    deviceId
+                )
+            if (result.isFailure) {
+                _uiState.value =
+                    _uiState.value.copy(
+                        errorMessage = result.exceptionOrNull()?.message
+                            ?: "Failed to disconnect"
+                    )
             }
-            _uiState.value = _uiState.value.copy(
-                timestamp = null,
-                accelX = null,
-                accelY = null,
-                accelZ = null,
-                gsrData = null
-            )
+            _uiState.value =
+                _uiState.value.copy(
+                    timestamp = null,
+                    accelX = null,
+                    accelY = null,
+                    accelZ = null,
+                    gsrData = null
+                )
         }
     }
 
@@ -112,13 +140,23 @@ class ShimmerScreenViewModel @Inject constructor(
      */
     fun scanForDevices() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isScanning = true, errorMessage = null)
-            val result = deviceManagement.refreshInventory()
-            _uiState.value = _uiState.value.copy(isScanning = false)
-            if (result.isFailure) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = result.exceptionOrNull()?.message ?: "Failed to scan for devices"
+            _uiState.value =
+                _uiState.value.copy(
+                    isScanning = true,
+                    errorMessage = null
                 )
+            val result =
+                deviceManagement.refreshInventory()
+            _uiState.value =
+                _uiState.value.copy(
+                    isScanning = false
+                )
+            if (result.isFailure) {
+                _uiState.value =
+                    _uiState.value.copy(
+                        errorMessage = result.exceptionOrNull()?.message
+                            ?: "Failed to scan for devices"
+                    )
             }
         }
     }
@@ -127,15 +165,26 @@ class ShimmerScreenViewModel @Inject constructor(
      * Updates the GSR sensor range configuration.
      * @param rangeIndex Index of the selected range (0-4)
      */
-    fun updateGsrRange(rangeIndex: Int) {
+    fun updateGsrRange(
+        rangeIndex: Int
+    ) {
         viewModelScope.launch {
-            val result = hardwareConfiguration.configureShimmerGsrRange(deviceId, rangeIndex)
-            if (result.isSuccess) {
-                _uiState.value = _uiState.value.copy(gsrRangeIndex = rangeIndex)
-            } else {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = result.exceptionOrNull()?.message ?: "Failed to update GSR range"
+            val result =
+                hardwareConfiguration.configureShimmerGsrRange(
+                    deviceId,
+                    rangeIndex
                 )
+            if (result.isSuccess) {
+                _uiState.value =
+                    _uiState.value.copy(
+                        gsrRangeIndex = rangeIndex
+                    )
+            } else {
+                _uiState.value =
+                    _uiState.value.copy(
+                        errorMessage = result.exceptionOrNull()?.message
+                            ?: "Failed to update GSR range"
+                    )
             }
         }
     }
@@ -144,16 +193,26 @@ class ShimmerScreenViewModel @Inject constructor(
      * Updates the sampling rate of the Shimmer device.
      * @param sampleRate Sampling rate in Hz
      */
-    fun updateSampleRate(sampleRate: Double) {
+    fun updateSampleRate(
+        sampleRate: Double
+    ) {
         viewModelScope.launch {
-            val result = hardwareConfiguration.configureShimmerSampleRate(deviceId, sampleRate)
-            if (result.isSuccess) {
-                _uiState.value = _uiState.value.copy(sampleRate = sampleRate)
-            } else {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = result.exceptionOrNull()?.message
-                        ?: "Failed to update sample rate"
+            val result =
+                hardwareConfiguration.configureShimmerSampleRate(
+                    deviceId,
+                    sampleRate
                 )
+            if (result.isSuccess) {
+                _uiState.value =
+                    _uiState.value.copy(
+                        sampleRate = sampleRate
+                    )
+            } else {
+                _uiState.value =
+                    _uiState.value.copy(
+                        errorMessage = result.exceptionOrNull()?.message
+                            ?: "Failed to update sample rate"
+                    )
             }
         }
     }
@@ -162,7 +221,10 @@ class ShimmerScreenViewModel @Inject constructor(
      * Clears the current error message from the UI state.
      */
     fun clearError() {
-        _uiState.value = _uiState.value.copy(errorMessage = null)
+        _uiState.value =
+            _uiState.value.copy(
+                errorMessage = null
+            )
     }
 }
 
@@ -189,32 +251,43 @@ data class ShimmerScreenUiState(
     val errorMessage: String?
 ) {
     val gsrRangeLabel: String
-        get() = gsrRangeOptions.getOrNull(gsrRangeIndex) ?: gsrRangeOptions.first()
+        get() = gsrRangeOptions.getOrNull(
+            gsrRangeIndex
+        )
+            ?: gsrRangeOptions.first()
 
     companion object {
-        fun initial(): ShimmerScreenUiState = ShimmerScreenUiState(
-            isConnected = false,
-            isConnecting = false,
-            isStreaming = false,
-            isScanning = false,
-            deviceName = null,
-            deviceAddress = null,
-            gsrRangeIndex = 0,
-            gsrRangeOptions = listOf(
-                "10 - 56 kOhm",
-                "56 - 220 kOhm",
-                "220 - 680 kOhm",
-                "680 - 4700 kOhm",
-                "Auto Range"
-            ),
-            sampleRate = 64.0,
-            sampleRateOptions = listOf(8.0, 16.0, 32.0, 64.0, 128.0, 256.0),
-            timestamp = null,
-            accelX = null,
-            accelY = null,
-            accelZ = null,
-            gsrData = null,
-            errorMessage = null
-        )
+        fun initial(): ShimmerScreenUiState =
+            ShimmerScreenUiState(
+                isConnected = false,
+                isConnecting = false,
+                isStreaming = false,
+                isScanning = false,
+                deviceName = null,
+                deviceAddress = null,
+                gsrRangeIndex = 0,
+                gsrRangeOptions = listOf(
+                    "10 - 56 kOhm",
+                    "56 - 220 kOhm",
+                    "220 - 680 kOhm",
+                    "680 - 4700 kOhm",
+                    "Auto Range"
+                ),
+                sampleRate = 64.0,
+                sampleRateOptions = listOf(
+                    8.0,
+                    16.0,
+                    32.0,
+                    64.0,
+                    128.0,
+                    256.0
+                ),
+                timestamp = null,
+                accelX = null,
+                accelY = null,
+                accelZ = null,
+                gsrData = null,
+                errorMessage = null
+            )
     }
 }

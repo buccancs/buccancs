@@ -91,15 +91,23 @@ fun TopdonLoadingOverlay(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.8f)),
+            .background(
+                MaterialTheme.colorScheme.background.copy(
+                    alpha = 0.8f
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             TopdonCircularProgress(
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(
+                    48.dp
+                )
             )
             if (message != null) {
                 Text(
@@ -120,7 +128,10 @@ fun TopdonLoadingOverlay(
 fun TopdonShimmerEffect(
     modifier: Modifier = Modifier
 ) {
-    val transition = rememberInfiniteTransition(label = "shimmer")
+    val transition =
+        rememberInfiniteTransition(
+            label = "shimmer"
+        )
     val translateAnim by transition.animateFloat(
         initialValue = 0f,
         targetValue = 1000f,
@@ -143,8 +154,14 @@ fun TopdonShimmerEffect(
                         MaterialTheme.colorScheme.surfaceVariant,
                         MaterialTheme.colorScheme.surface
                     ),
-                    start = Offset(translateAnim - 500f, translateAnim - 500f),
-                    end = Offset(translateAnim, translateAnim)
+                    start = Offset(
+                        translateAnim - 500f,
+                        translateAnim - 500f
+                    ),
+                    end = Offset(
+                        translateAnim,
+                        translateAnim
+                    )
                 )
             )
     )
@@ -162,7 +179,9 @@ fun TopdonEmptyState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(32.dp),
+            .padding(
+                32.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -171,30 +190,48 @@ fun TopdonEmptyState(
             text = message,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(top = if (icon != null) 16.dp else 0.dp)
+            modifier = Modifier.padding(
+                top = if (icon != null) 16.dp else 0.dp
+            )
         )
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonCircularProgressPreview() {
     TopdonTheme {
-        Box(modifier = Modifier.padding(24.dp)) {
+        Box(
+            modifier = Modifier.padding(
+                24.dp
+            )
+        ) {
             TopdonCircularProgress()
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonLinearProgressPreview() {
     TopdonTheme {
         Column(
-            modifier = Modifier.padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.padding(
+                24.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
-            TopdonLinearProgress(modifier = Modifier.fillMaxSize())
+            TopdonLinearProgress(
+                modifier = Modifier.fillMaxSize()
+            )
             TopdonLinearProgressWithValue(
                 progress = 0.65f,
                 modifier = Modifier.fillMaxSize()
@@ -207,14 +244,21 @@ private fun TopdonLinearProgressPreview() {
 @Composable
 private fun TopdonLoadingOverlayPreview() {
     TopdonTheme {
-        TopdonLoadingOverlay(message = "Connecting to device...")
+        TopdonLoadingOverlay(
+            message = "Connecting to device..."
+        )
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonEmptyStatePreview() {
     TopdonTheme {
-        TopdonEmptyState(message = "No devices connected")
+        TopdonEmptyState(
+            message = "No devices connected"
+        )
     }
 }

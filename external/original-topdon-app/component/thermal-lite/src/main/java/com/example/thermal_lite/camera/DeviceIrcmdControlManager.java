@@ -169,7 +169,8 @@ public class DeviceIrcmdControlManager {
                             }
                         }
                     }
-                } catch (JSONException e) {
+                } catch (
+                        JSONException e) {
                     e.printStackTrace();
                 }
                 mSendFPGACommand = false;
@@ -222,7 +223,8 @@ public class DeviceIrcmdControlManager {
                                     begin, end, intToBytes2(value));
                         }
                     }
-                } catch (JSONException e) {
+                } catch (
+                        JSONException e) {
                     e.printStackTrace();
                 }
                 mSendISPCommand = false;

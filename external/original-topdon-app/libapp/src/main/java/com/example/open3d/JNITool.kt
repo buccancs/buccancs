@@ -2,13 +2,26 @@ package com.example.open3d
 
 object JNITool {
     init {
-        System.loadLibrary("open3d")
+        System.loadLibrary(
+            "open3d"
+        )
     }
 
     external fun stringFromJNI(): String
-    external fun adaptiveThresholdFromJNI(matAddr: Long)
-    external fun diff2firstFrameU1(byteArray: ByteArray, img: ByteArray): ByteArray
-    external fun diff2firstFrameU4(byteArray: ByteArray, img: ByteArray): ByteArray
+    external fun adaptiveThresholdFromJNI(
+        matAddr: Long
+    )
+
+    external fun diff2firstFrameU1(
+        byteArray: ByteArray,
+        img: ByteArray
+    ): ByteArray
+
+    external fun diff2firstFrameU4(
+        byteArray: ByteArray,
+        img: ByteArray
+    ): ByteArray
+
     external fun diff2firstFrameU4ByWH(
         width: Int,
         height: Int,
@@ -47,8 +60,14 @@ object JNITool {
     ): ByteArray
 
     external fun draw_edge_from_temp_reigon_bitmap_argb_psd(
-        image: ByteArray, temperature: ByteArray, image_h: Int,
-        image_w: Int, high_t: Float, low_t: Float,
-        color_h: Int, color_l: Int, type: Int
+        image: ByteArray,
+        temperature: ByteArray,
+        image_h: Int,
+        image_w: Int,
+        high_t: Float,
+        low_t: Float,
+        color_h: Int,
+        color_l: Int,
+        type: Int
     ): ByteArray
 }

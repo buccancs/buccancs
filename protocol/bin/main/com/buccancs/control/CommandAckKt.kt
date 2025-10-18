@@ -2,13 +2,21 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializecommandAck")
-public inline fun commandAck(block: com.buccancs.control.CommandAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandAck =
-    com.buccancs.control.CommandAckKt.Dsl._create(com.buccancs.control.CommandAck.newBuilder())
+@kotlin.jvm.JvmName(
+    "-initializecommandAck"
+)
+public inline fun commandAck(
+    block: com.buccancs.control.CommandAckKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandAck =
+    com.buccancs.control.CommandAckKt.Dsl._create(
+        com.buccancs.control.CommandAck.newBuilder()
+    )
         .apply { block() }
         ._build()
 
@@ -16,7 +24,9 @@ public inline fun commandAck(block: com.buccancs.control.CommandAckKt.Dsl.() -> 
  * Protobuf type `com.buccancs.control.CommandAck`
  */
 public object CommandAckKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.CommandAck.Builder
@@ -24,13 +34,16 @@ public object CommandAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandAck.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.CommandAck.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.CommandAck = _builder.build()
+        internal fun _build(): com.buccancs.control.CommandAck =
+            _builder.build()
 
         /**
          * `bool accepted = 1;`
@@ -38,7 +51,9 @@ public object CommandAckKt {
         public var accepted: kotlin.Boolean
             get() = _builder.getAccepted()
             set(value) {
-                _builder.setAccepted(value)
+                _builder.setAccepted(
+                    value
+                )
             }
 
         /**
@@ -54,7 +69,9 @@ public object CommandAckKt {
         public var info: kotlin.String
             get() = _builder.getInfo()
             set(value) {
-                _builder.setInfo(value)
+                _builder.setInfo(
+                    value
+                )
             }
 
         /**
@@ -67,6 +84,12 @@ public object CommandAckKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.CommandAck.copy(block: `com.buccancs.control`.CommandAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandAck =
-    `com.buccancs.control`.CommandAckKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.buccancs.control.CommandAck.copy(
+    block: `com.buccancs.control`.CommandAckKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandAck =
+    `com.buccancs.control`.CommandAckKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
+        ._build()
 

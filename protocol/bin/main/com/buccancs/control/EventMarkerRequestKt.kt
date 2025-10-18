@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializeeventMarkerRequest")
-public inline fun eventMarkerRequest(block: com.buccancs.control.EventMarkerRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.EventMarkerRequest =
-    com.buccancs.control.EventMarkerRequestKt.Dsl._create(com.buccancs.control.EventMarkerRequest.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializeeventMarkerRequest"
+)
+public inline fun eventMarkerRequest(
+    block: com.buccancs.control.EventMarkerRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.EventMarkerRequest =
+    com.buccancs.control.EventMarkerRequestKt.Dsl._create(
+        com.buccancs.control.EventMarkerRequest.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.EventMarkerRequest`
  */
 public object EventMarkerRequestKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.EventMarkerRequest.Builder
@@ -23,13 +34,16 @@ public object EventMarkerRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.EventMarkerRequest.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.EventMarkerRequest.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.EventMarkerRequest = _builder.build()
+        internal fun _build(): com.buccancs.control.EventMarkerRequest =
+            _builder.build()
 
         /**
          * `.com.buccancs.control.SessionIdentifier session = 1;`
@@ -37,7 +51,9 @@ public object EventMarkerRequestKt {
         public var session: com.buccancs.control.SessionIdentifier
             get() = _builder.getSession()
             set(value) {
-                _builder.setSession(value)
+                _builder.setSession(
+                    value
+                )
             }
 
         /**
@@ -61,7 +77,9 @@ public object EventMarkerRequestKt {
         public var markerId: kotlin.String
             get() = _builder.getMarkerId()
             set(value) {
-                _builder.setMarkerId(value)
+                _builder.setMarkerId(
+                    value
+                )
             }
 
         /**
@@ -77,7 +95,9 @@ public object EventMarkerRequestKt {
         public var description: kotlin.String
             get() = _builder.getDescription()
             set(value) {
-                _builder.setDescription(value)
+                _builder.setDescription(
+                    value
+                )
             }
 
         /**
@@ -93,7 +113,9 @@ public object EventMarkerRequestKt {
         public var targets: com.buccancs.control.DeviceTarget
             get() = _builder.getTargets()
             set(value) {
-                _builder.setTargets(value)
+                _builder.setTargets(
+                    value
+                )
             }
 
         /**
@@ -117,7 +139,9 @@ public object EventMarkerRequestKt {
         public var timestampEpochMs: kotlin.Long
             get() = _builder.getTimestampEpochMs()
             set(value) {
-                _builder.setTimestampEpochMs(value)
+                _builder.setTimestampEpochMs(
+                    value
+                )
             }
 
         /**
@@ -130,8 +154,13 @@ public object EventMarkerRequestKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.EventMarkerRequest.copy(block: `com.buccancs.control`.EventMarkerRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.EventMarkerRequest =
-    `com.buccancs.control`.EventMarkerRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.EventMarkerRequest.copy(
+    block: `com.buccancs.control`.EventMarkerRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.EventMarkerRequest =
+    `com.buccancs.control`.EventMarkerRequestKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 
 public val com.buccancs.control.EventMarkerRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?

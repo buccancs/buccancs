@@ -22,8 +22,13 @@ data class VersionUiState(
 )
 
 @HiltViewModel
-class VersionViewModel @Inject constructor() : ViewModel() {
+class VersionViewModel @Inject constructor() :
+    ViewModel() {
 
-    private val _uiState = MutableStateFlow(VersionUiState())
-    val uiState: StateFlow<VersionUiState> = _uiState.asStateFlow()
+    private val _uiState =
+        MutableStateFlow(
+            VersionUiState()
+        )
+    val uiState: StateFlow<VersionUiState> =
+        _uiState.asStateFlow()
 }

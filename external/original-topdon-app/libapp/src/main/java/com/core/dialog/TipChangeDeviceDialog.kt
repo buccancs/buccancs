@@ -13,43 +13,75 @@ import androidx.annotation.StringRes
 import com.topdon.lib.core.R
 import com.topdon.lib.core.utils.ScreenUtil
 
-@Deprecated("3.80使用新首页设备列表逻辑，不需要设备切换提示弹框了")
-class TipChangeDeviceDialog : Dialog {
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+@Deprecated(
+    "3.80使用新首页设备列表逻辑，不需要设备切换提示弹框了"
+)
+class TipChangeDeviceDialog :
+    Dialog {
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
     class Builder {
-        var dialog: TipChangeDeviceDialog? = null
-        private var context: Context? = null
-        private var message: String? = null
-        private var closeEvent: ((check: Boolean) -> Unit)? = null
-        private var canceled = false
-        private var hasCheck = false
+        var dialog: TipChangeDeviceDialog? =
+            null
+        private var context: Context? =
+            null
+        private var message: String? =
+            null
+        private var closeEvent: ((check: Boolean) -> Unit)? =
+            null
+        private var canceled =
+            false
+        private var hasCheck =
+            false
 
         private lateinit var checkBox: CheckBox
         private lateinit var imgClose: ImageView
 
-        constructor(context: Context) {
-            this.context = context
+        constructor(
+            context: Context
+        ) {
+            this.context =
+                context
         }
 
-        fun setMessage(message: String): Builder {
-            this.message = message
+        fun setMessage(
+            message: String
+        ): Builder {
+            this.message =
+                message
             return this
         }
 
-        fun setMessage(@StringRes message: Int): Builder {
-            this.message = context!!.getString(message)
+        fun setMessage(
+            @StringRes message: Int
+        ): Builder {
+            this.message =
+                context!!.getString(
+                    message
+                )
             return this
         }
 
 
-        fun setCancelListener(event: ((check: Boolean) -> Unit)? = null): Builder {
-            this.closeEvent = event
+        fun setCancelListener(
+            event: ((check: Boolean) -> Unit)? = null
+        ): Builder {
+            this.closeEvent =
+                event
             return this
         }
 
-        fun setCanceled(canceled: Boolean): Builder {
-            this.canceled = canceled
+        fun setCanceled(
+            canceled: Boolean
+        ): Builder {
+            this.canceled =
+                canceled
             return this
         }
 
@@ -60,19 +92,33 @@ class TipChangeDeviceDialog : Dialog {
 
         fun create(): TipChangeDeviceDialog {
             if (dialog == null) {
-                dialog = TipChangeDeviceDialog(context!!, R.style.InfoDialog)
+                dialog =
+                    TipChangeDeviceDialog(
+                        context!!,
+                        R.style.InfoDialog
+                    )
             }
             val inflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_tip_change_device, null)
+                context!!.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_tip_change_device,
+                    null
+                )
 
             view.tv_i_know.setOnClickListener {
                 dismiss()
-                closeEvent?.invoke(hasCheck)
+                closeEvent?.invoke(
+                    hasCheck
+                )
             }
 
-            checkBox = view.dialog_tip_check
-            imgClose = view.img_close
+            checkBox =
+                view.dialog_tip_check
+            imgClose =
+                view.img_close
             dialog!!.addContentView(
                 view,
                 ViewGroup.LayoutParams(
@@ -80,7 +126,8 @@ class TipChangeDeviceDialog : Dialog {
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
             )
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             val wRatio =
                 if (context!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     //竖屏
@@ -89,28 +136,47 @@ class TipChangeDeviceDialog : Dialog {
                     //横屏
                     0.35
                 }
-            lp.width = (ScreenUtil.getScreenWidth(context!!) * wRatio).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            lp.width =
+                (ScreenUtil.getScreenWidth(
+                    context!!
+                ) * wRatio).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(canceled)
-            checkBox.isChecked = false
-            hasCheck = false
+            dialog!!.setCanceledOnTouchOutside(
+                canceled
+            )
+            checkBox.isChecked =
+                false
+            hasCheck =
+                false
             checkBox.setOnCheckedChangeListener { _, isChecked ->
-                hasCheck = isChecked
+                hasCheck =
+                    isChecked
             }
             imgClose.setOnClickListener {
                 dismiss()
-                closeEvent?.invoke(hasCheck)
+                closeEvent?.invoke(
+                    hasCheck
+                )
             }
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipChangeDeviceDialog
         }
     }
 }
 
 private val View.tv_i_know: TextView
-    get() = findViewById(R.id.tv_i_know)
+    get() = findViewById(
+        R.id.tv_i_know
+    )
 private val View.dialog_tip_check: CheckBox
-    get() = findViewById(R.id.dialog_tip_check)
+    get() = findViewById(
+        R.id.dialog_tip_check
+    )
 private val View.img_close: ImageView
-    get() = findViewById(R.id.img_close)
+    get() = findViewById(
+        R.id.img_close
+    )

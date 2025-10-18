@@ -370,9 +370,11 @@ public final class ShimmerBLEGRPC {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (
+                    com.google.protobuf.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
+            } catch (
+                    java.io.IOException e) {
                 throw new com.google.protobuf.InvalidProtocolBufferException(
                         e).setUnfinishedMessage(this);
             } finally {
@@ -536,8 +538,10 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1)
+                return true;
+            if (isInitialized == 0)
+                return false;
 
             memoizedIsInitialized = 1;
             return true;
@@ -555,7 +559,8 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1)
+                return size;
 
             size = 0;
             if (!getMessageBytes().isEmpty()) {
@@ -577,8 +582,10 @@ public final class ShimmerBLEGRPC {
             com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply other = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply) obj;
 
             if (!getMessage()
-                    .equals(other.getMessage())) return false;
-            if (!unknownFields.equals(other.unknownFields)) return false;
+                    .equals(other.getMessage()))
+                return false;
+            if (!unknownFields.equals(other.unknownFields))
+                return false;
             return true;
         }
 
@@ -774,7 +781,8 @@ public final class ShimmerBLEGRPC {
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (
+                        com.google.protobuf.InvalidProtocolBufferException e) {
                     parsedMessage = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {
@@ -931,9 +939,11 @@ public final class ShimmerBLEGRPC {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (
+                    com.google.protobuf.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
+            } catch (
+                    java.io.IOException e) {
                 throw new com.google.protobuf.InvalidProtocolBufferException(
                         e).setUnfinishedMessage(this);
             } finally {
@@ -1097,8 +1107,10 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1)
+                return true;
+            if (isInitialized == 0)
+                return false;
 
             memoizedIsInitialized = 1;
             return true;
@@ -1116,7 +1128,8 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1)
+                return size;
 
             size = 0;
             if (!getNameBytes().isEmpty()) {
@@ -1138,8 +1151,10 @@ public final class ShimmerBLEGRPC {
             com.shimmerresearch.grpc.ShimmerBLEGRPC.Request other = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Request) obj;
 
             if (!getName()
-                    .equals(other.getName())) return false;
-            if (!unknownFields.equals(other.unknownFields)) return false;
+                    .equals(other.getName()))
+                return false;
+            if (!unknownFields.equals(other.unknownFields))
+                return false;
             return true;
         }
 
@@ -1335,7 +1350,8 @@ public final class ShimmerBLEGRPC {
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.Request parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (
+                        com.google.protobuf.InvalidProtocolBufferException e) {
                     parsedMessage = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Request) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {
@@ -1496,9 +1512,11 @@ public final class ShimmerBLEGRPC {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (
+                    com.google.protobuf.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
+            } catch (
+                    java.io.IOException e) {
                 throw new com.google.protobuf.InvalidProtocolBufferException(
                         e).setUnfinishedMessage(this);
             } finally {
@@ -1667,8 +1685,10 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1)
+                return true;
+            if (isInitialized == 0)
+                return false;
 
             memoizedIsInitialized = 1;
             return true;
@@ -1689,7 +1709,8 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1)
+                return size;
 
             size = 0;
             if (!getAddressBytes().isEmpty()) {
@@ -1715,10 +1736,13 @@ public final class ShimmerBLEGRPC {
             com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes other = (com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes) obj;
 
             if (!getAddress()
-                    .equals(other.getAddress())) return false;
+                    .equals(other.getAddress()))
+                return false;
             if (!getByteToWrite()
-                    .equals(other.getByteToWrite())) return false;
-            if (!unknownFields.equals(other.unknownFields)) return false;
+                    .equals(other.getByteToWrite()))
+                return false;
+            if (!unknownFields.equals(other.unknownFields))
+                return false;
             return true;
         }
 
@@ -1919,7 +1943,8 @@ public final class ShimmerBLEGRPC {
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (
+                        com.google.protobuf.InvalidProtocolBufferException e) {
                     parsedMessage = (com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {
@@ -2094,9 +2119,11 @@ public final class ShimmerBLEGRPC {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (
+                    com.google.protobuf.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
+            } catch (
+                    java.io.IOException e) {
                 throw new com.google.protobuf.InvalidProtocolBufferException(
                         e).setUnfinishedMessage(this);
             } finally {
@@ -2260,8 +2287,10 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1)
+                return true;
+            if (isInitialized == 0)
+                return false;
 
             memoizedIsInitialized = 1;
             return true;
@@ -2279,7 +2308,8 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1)
+                return size;
 
             size = 0;
             if (!getMessageBytes().isEmpty()) {
@@ -2301,8 +2331,10 @@ public final class ShimmerBLEGRPC {
             com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest other = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest) obj;
 
             if (!getMessage()
-                    .equals(other.getMessage())) return false;
-            if (!unknownFields.equals(other.unknownFields)) return false;
+                    .equals(other.getMessage()))
+                return false;
+            if (!unknownFields.equals(other.unknownFields))
+                return false;
             return true;
         }
 
@@ -2494,7 +2526,8 @@ public final class ShimmerBLEGRPC {
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (
+                        com.google.protobuf.InvalidProtocolBufferException e) {
                     parsedMessage = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {
@@ -2656,9 +2689,11 @@ public final class ShimmerBLEGRPC {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (
+                    com.google.protobuf.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
+            } catch (
+                    java.io.IOException e) {
                 throw new com.google.protobuf.InvalidProtocolBufferException(
                         e).setUnfinishedMessage(this);
             } finally {
@@ -2834,8 +2869,10 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1)
+                return true;
+            if (isInitialized == 0)
+                return false;
 
             memoizedIsInitialized = 1;
             return true;
@@ -2856,7 +2893,8 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1)
+                return size;
 
             size = 0;
             if (state_ != com.shimmerresearch.grpc.ShimmerBLEGRPC.BluetoothState.Connected.getNumber()) {
@@ -2881,10 +2919,13 @@ public final class ShimmerBLEGRPC {
             }
             com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus other = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus) obj;
 
-            if (state_ != other.state_) return false;
+            if (state_ != other.state_)
+                return false;
             if (!getMessage()
-                    .equals(other.getMessage())) return false;
-            if (!unknownFields.equals(other.unknownFields)) return false;
+                    .equals(other.getMessage()))
+                return false;
+            if (!unknownFields.equals(other.unknownFields))
+                return false;
             return true;
         }
 
@@ -3085,7 +3126,8 @@ public final class ShimmerBLEGRPC {
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (
+                        com.google.protobuf.InvalidProtocolBufferException e) {
                     parsedMessage = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {
@@ -3314,9 +3356,11 @@ public final class ShimmerBLEGRPC {
                         }
                     }
                 }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            } catch (
+                    com.google.protobuf.InvalidProtocolBufferException e) {
                 throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
+            } catch (
+                    java.io.IOException e) {
                 throw new com.google.protobuf.InvalidProtocolBufferException(
                         e).setUnfinishedMessage(this);
             } finally {
@@ -3536,8 +3580,10 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
+            if (isInitialized == 1)
+                return true;
+            if (isInitialized == 0)
+                return false;
 
             memoizedIsInitialized = 1;
             return true;
@@ -3570,7 +3616,8 @@ public final class ShimmerBLEGRPC {
         @java.lang.Override
         public int getSerializedSize() {
             int size = memoizedSize;
-            if (size != -1) return size;
+            if (size != -1)
+                return size;
 
             size = 0;
             if (!getUuidBytes().isEmpty()) {
@@ -3611,18 +3658,25 @@ public final class ShimmerBLEGRPC {
             com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray other = (com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray) obj;
 
             if (!getUuid()
-                    .equals(other.getUuid())) return false;
+                    .equals(other.getUuid()))
+                return false;
             if (!getBluetoothAddress()
-                    .equals(other.getBluetoothAddress())) return false;
-            if (communicationType_ != other.communicationType_) return false;
+                    .equals(other.getBluetoothAddress()))
+                return false;
+            if (communicationType_ != other.communicationType_)
+                return false;
             if (getSystemTime()
-                    != other.getSystemTime()) return false;
+                    != other.getSystemTime())
+                return false;
             if (java.lang.Double.doubleToLongBits(getCalibratedTimeStamp())
                     != java.lang.Double.doubleToLongBits(
-                    other.getCalibratedTimeStamp())) return false;
+                    other.getCalibratedTimeStamp()))
+                return false;
             if (!getBinaryData()
-                    .equals(other.getBinaryData())) return false;
-            if (!unknownFields.equals(other.unknownFields)) return false;
+                    .equals(other.getBinaryData()))
+                return false;
+            if (!unknownFields.equals(other.unknownFields))
+                return false;
             return true;
         }
 
@@ -3959,7 +4013,8 @@ public final class ShimmerBLEGRPC {
                 com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                } catch (
+                        com.google.protobuf.InvalidProtocolBufferException e) {
                     parsedMessage = (com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {

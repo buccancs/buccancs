@@ -6,45 +6,77 @@ plugins {
 
 kapt {
     arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
+        arg(
+                "AROUTER_MODULE_NAME",
+                project
+                        .getName()
+        )
     }
 }
 android {
     namespace "com.infisense.usbir"
-    compileSdk rootProject.ext.android.compileSdk
+    compileSdk
+            rootProject
+                    .ext
+                    .android
+                    .compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.android.minSdk
-        targetSdk rootProject.ext.android.targetSdk
-        ndkVersion rootProject.ext.android.ndkVersion
+        minSdk rootProject
+                .ext
+                .android
+                .minSdk
+        targetSdk
+                rootProject
+                        .ext
+                        .android
+                        .targetSdk
+        ndkVersion
+                rootProject
+                        .ext
+                        .android
+                        .ndkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a"
+            abiFilters "armeabi-v7a",
+                    "arm64-v8a"
         }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles
+                    getDefaultProguardFile(
+                            'proguard-android-optimize.txt'
+                    ),
+                            'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility
+                JavaVersion
+                        .VERSION_21
+        targetCompatibility
+                JavaVersion
+                        .VERSION_21
     }
     buildFeatures {
-        buildConfig = true
+        buildConfig =
+                true
     }
 
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget =
+                '21'
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs', 'src/main/jnilibs']
+            jniLibs
+                    .srcDirs =
+                    ['libs', 'src/main/jnilibs']
         }
     }
     flavorDimensions 'app'
@@ -71,12 +103,33 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api(name: 'libusbdualsdk_1.3.4_2406271906_standard', ext: 'aar')
-    implementation(name: 'opengl_1.3.2_standard', ext: 'aar')
+    implementation
+            fileTree(
+                    dir: 'libs',
+                    include: ['*.jar']
+            )
+    api(
+            name: 'libusbdualsdk_1.3.4_2406271906_standard',
+            ext: 'aar'
+    )
+    implementation(
+            name: 'opengl_1.3.2_standard',
+            ext: 'aar'
+    )
     api 'com.conghuahuadan:superlayout:1.1.0'
-    implementation project(':libapp')
-    api(project(":LocalRepo:libcommon"))
-    api(name: 'suplib-release', ext: 'aar')
-    api(name: 'ai-upscale-release', ext: 'aar')
+    implementation
+            project(':libapp')
+    api(
+            project(
+                    ":LocalRepo:libcommon"
+            )
+    )
+    api(
+            name: 'suplib-release',
+            ext: 'aar'
+    )
+    api(
+            name: 'ai-upscale-release',
+            ext: 'aar'
+    )
 }

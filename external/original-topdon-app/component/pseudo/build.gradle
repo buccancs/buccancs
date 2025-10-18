@@ -7,35 +7,60 @@ plugins {
 
 kapt {
     arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
+        arg(
+                "AROUTER_MODULE_NAME",
+                project
+                        .getName()
+        )
     }
 }
 
 android {
     namespace "com.topdon.pseudo"
-    compileSdk rootProject.ext.android.compileSdk
+    compileSdk
+            rootProject
+                    .ext
+                    .android
+                    .compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.android.minSdk
-        targetSdk rootProject.ext.android.targetSdk
+        minSdk rootProject
+                .ext
+                .android
+                .minSdk
+        targetSdk
+                rootProject
+                        .ext
+                        .android
+                        .targetSdk
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles
+                    getDefaultProguardFile(
+                            'proguard-android-optimize.txt'
+                    ),
+                            'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility
+                JavaVersion
+                        .VERSION_21
+        targetCompatibility
+                JavaVersion
+                        .VERSION_21
     }
     buildFeatures {
-        buildConfig = true
+        buildConfig =
+                true
     }
 
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget =
+                '21'
     }
 
     flavorDimensions 'app'
@@ -62,8 +87,12 @@ android {
 }
 
 dependencies {
-    implementation project(':libapp')
-    implementation project(':libui')
+    implementation
+            project(':libapp')
+    implementation
+            project(':libui')
 
-    kapt libs.arouter.compiler
+    kapt libs
+            .arouter
+            .compiler
 }

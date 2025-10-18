@@ -33,8 +33,12 @@ fun PolicyRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(themeType) {
-        viewModel.loadPolicy(themeType)
+    LaunchedEffect(
+        themeType
+    ) {
+        viewModel.loadPolicy(
+            themeType
+        )
     }
 
     PolicyScreen(
@@ -45,7 +49,9 @@ fun PolicyRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun PolicyScreen(
     title: String,
@@ -57,9 +63,15 @@ private fun PolicyScreen(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text(title) },
+                title = {
+                    Text(
+                        title
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -68,17 +80,26 @@ private fun PolicyScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(
+                    padding
+                )
         ) {
             when {
                 isLoading -> {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(
+                            Alignment.Center
+                        )
                     )
                 }
 
@@ -88,8 +109,12 @@ private fun PolicyScreen(
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(Spacing.Medium)
+                            .verticalScroll(
+                                rememberScrollState()
+                            )
+                            .padding(
+                                Spacing.Medium
+                            )
                     )
                 }
             }

@@ -24,14 +24,31 @@ import com.topdon.module.user.R
 import com.topdon.module.user.model.FaqRepository
 import com.topdon.module.user.model.QuestionData
 
-@Route(path = RouterConfig.QUESTION)
-class QuestionActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.QUESTION
+)
+class QuestionActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val isTS001 = intent.getBooleanExtra("isTS001", false)
-        val questions = FaqRepository.getQuestionList(isTS001)
+        val isTS001 =
+            intent.getBooleanExtra(
+                "isTS001",
+                false
+            )
+        val questions =
+            FaqRepository.getQuestionList(
+                isTS001
+            )
 
         setContent {
             MaterialTheme {
@@ -39,10 +56,20 @@ class QuestionActivity : ComponentActivity() {
                     questions = questions,
                     onQuestionClick = { question ->
                         ARouter.getInstance()
-                            .build(RouterConfig.QUESTION_DETAILS)
-                            .withString("question", question.question)
-                            .withString("answer", question.answer)
-                            .navigation(this)
+                            .build(
+                                RouterConfig.QUESTION_DETAILS
+                            )
+                            .withString(
+                                "question",
+                                question.question
+                            )
+                            .withString(
+                                "answer",
+                                question.answer
+                            )
+                            .navigation(
+                                this
+                            )
                     },
                     onNavigateUp = { finish() }
                 )
@@ -51,7 +78,9 @@ class QuestionActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun QuestionScreen(
     questions: List<QuestionData>,
@@ -61,9 +90,17 @@ private fun QuestionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.app_question)) },
+                title = {
+                    Text(
+                        stringResource(
+                            R.string.app_question
+                        )
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -76,29 +113,49 @@ private fun QuestionScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(
+                    padding
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                8.dp
+            )
         ) {
-            items(questions) { question ->
+            items(
+                questions
+            ) { question ->
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onQuestionClick(question) }
+                        .clickable {
+                            onQuestionClick(
+                                question
+                            )
+                        }
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(
+                                16.dp
+                            ),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = question.question,
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(
+                                1f
+                            )
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(
+                            modifier = Modifier.width(
+                                8.dp
+                            )
+                        )
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                             contentDescription = null,

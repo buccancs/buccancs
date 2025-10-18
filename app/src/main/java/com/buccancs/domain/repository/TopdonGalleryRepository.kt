@@ -12,17 +12,32 @@ interface TopdonGalleryRepository {
 
     fun getVideos(): Flow<List<ThermalVideo>>
 
-    suspend fun getImageById(id: String): ThermalImage?
+    suspend fun getImageById(
+        id: String
+    ): ThermalImage?
 
-    suspend fun getVideoById(id: String): ThermalVideo?
+    suspend fun getVideoById(
+        id: String
+    ): ThermalVideo?
 
-    suspend fun deleteImage(id: String): Result<Unit>
+    suspend fun deleteImage(
+        id: String
+    ): Result<Unit>
 
-    suspend fun deleteVideo(id: String): Result<Unit>
+    suspend fun deleteVideo(
+        id: String
+    ): Result<Unit>
 
-    suspend fun deleteMultiple(ids: List<String>): Result<Unit>
+    suspend fun deleteMultiple(
+        ids: List<String>
+    ): Result<Unit>
 
-    suspend fun shareImages(ids: List<String>): Result<Unit>
+    suspend fun shareImages(
+        ids: List<String>
+    ): Result<Unit>
 
-    suspend fun exportImages(ids: List<String>, destinationPath: String): Result<Unit>
+    suspend fun exportImages(
+        ids: List<String>,
+        destinationPath: String
+    ): Result<Unit>
 }

@@ -137,7 +137,8 @@ public class DeviceListActivity extends Activity {
     }
 
     private void doDiscovery() {
-        if (D) Log.d(TAG, "doDiscovery()");
+        if (D)
+            Log.d(TAG, "doDiscovery()");
 
         setProgressBarIndeterminateVisibility(true);
         setTitle("Scanning");

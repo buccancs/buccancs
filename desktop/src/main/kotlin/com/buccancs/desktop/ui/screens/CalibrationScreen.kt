@@ -39,13 +39,21 @@ import com.buccancs.desktop.ui.theme.Spacing
  */
 @Composable
 fun CalibrationScreen() {
-    var selectedDevice by remember { mutableStateOf("Device-001") }
+    var selectedDevice by remember {
+        mutableStateOf(
+            "Device-001"
+        )
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Spacing.Large),
-        verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            .padding(
+                Spacing.Large
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        )
     ) {
         ScreenHeader(
             title = "Calibration",
@@ -53,42 +61,79 @@ fun CalibrationScreen() {
         )
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             // Device Selection
             item {
-                BuccancsCard(title = "Device Selection") {
-                    var expanded by remember { mutableStateOf(false) }
+                BuccancsCard(
+                    title = "Device Selection"
+                ) {
+                    var expanded by remember {
+                        mutableStateOf(
+                            false
+                        )
+                    }
 
                     ExposedDropdownMenuBox(
                         expanded = expanded,
-                        onExpandedChange = { expanded = it }
+                        onExpandedChange = {
+                            expanded =
+                                it
+                        }
                     ) {
                         OutlinedTextField(
                             value = selectedDevice,
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("Select Device") },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
+                            label = {
+                                Text(
+                                    "Select Device"
+                                )
+                            },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded
+                                )
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .menuAnchor(
                                     ExposedDropdownMenuAnchorType.PrimaryNotEditable,
                                     enabled = true
                                 ),
-                            leadingIcon = { Icon(Icons.Default.PhoneAndroid, "Device") }
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.PhoneAndroid,
+                                    "Device"
+                                )
+                            }
                         )
 
                         ExposedDropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = { expanded = false }
+                            onDismissRequest = {
+                                expanded =
+                                    false
+                            }
                         ) {
-                            listOf("Device-001", "Device-002", "Device-003").forEach { device ->
+                            listOf(
+                                "Device-001",
+                                "Device-002",
+                                "Device-003"
+                            ).forEach { device ->
                                 DropdownMenuItem(
-                                    text = { Text(device) },
+                                    text = {
+                                        Text(
+                                            device
+                                        )
+                                    },
                                     onClick = {
-                                        selectedDevice = device
-                                        expanded = false
+                                        selectedDevice =
+                                            device
+                                        expanded =
+                                            false
                                     }
                                 )
                             }
@@ -103,28 +148,58 @@ fun CalibrationScreen() {
                     title = "Shimmer3 GSR+ Calibration",
                     subtitle = "Galvanic skin response sensor calibration"
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-                        CalibrationMetric("Status", "Calibrated", true)
-                        CalibrationMetric("Last Calibration", "2025-10-14 09:30", false)
-                        CalibrationMetric("Range", "0-100 µS", false)
-                        CalibrationMetric("Offset", "+2.3 µS", false)
-                        CalibrationMetric("Quality Score", "95/100", true)
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
+                        CalibrationMetric(
+                            "Status",
+                            "Calibrated",
+                            true
+                        )
+                        CalibrationMetric(
+                            "Last Calibration",
+                            "2025-10-14 09:30",
+                            false
+                        )
+                        CalibrationMetric(
+                            "Range",
+                            "0-100 µS",
+                            false
+                        )
+                        CalibrationMetric(
+                            "Offset",
+                            "+2.3 µS",
+                            false
+                        )
+                        CalibrationMetric(
+                            "Quality Score",
+                            "95/100",
+                            true
+                        )
 
                         HorizontalDivider()
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                            horizontalArrangement = Arrangement.spacedBy(
+                                Spacing.Small
+                            )
                         ) {
                             PrimaryButton(
                                 text = "Start Calibration",
                                 onClick = { /* Start */ },
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(
+                                    1f
+                                )
                             )
                             SecondaryButton(
                                 text = "Load Profile",
                                 onClick = { /* Load */ },
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(
+                                    1f
+                                )
                             )
                         }
                     }
@@ -137,13 +212,41 @@ fun CalibrationScreen() {
                     title = "Stereo Camera Calibration",
                     subtitle = "Thermal + RGB camera stereo calibration"
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-                        CalibrationMetric("Status", "Calibrated", true)
-                        CalibrationMetric("Last Calibration", "2025-10-15 14:20", false)
-                        CalibrationMetric("Intrinsics - RGB", "fx=1820, fy=1825", false)
-                        CalibrationMetric("Intrinsics - Thermal", "fx=385, fy=388", false)
-                        CalibrationMetric("Reprojection Error", "0.42 px", true)
-                        CalibrationMetric("Baseline", "45.3 mm", false)
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
+                        CalibrationMetric(
+                            "Status",
+                            "Calibrated",
+                            true
+                        )
+                        CalibrationMetric(
+                            "Last Calibration",
+                            "2025-10-15 14:20",
+                            false
+                        )
+                        CalibrationMetric(
+                            "Intrinsics - RGB",
+                            "fx=1820, fy=1825",
+                            false
+                        )
+                        CalibrationMetric(
+                            "Intrinsics - Thermal",
+                            "fx=385, fy=388",
+                            false
+                        )
+                        CalibrationMetric(
+                            "Reprojection Error",
+                            "0.42 px",
+                            true
+                        )
+                        CalibrationMetric(
+                            "Baseline",
+                            "45.3 mm",
+                            false
+                        )
 
                         HorizontalDivider()
 
@@ -164,17 +267,23 @@ fun CalibrationScreen() {
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                            horizontalArrangement = Arrangement.spacedBy(
+                                Spacing.Small
+                            )
                         ) {
                             PrimaryButton(
                                 text = "Start Calibration",
                                 onClick = { /* Start */ },
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(
+                                    1f
+                                )
                             )
                             SecondaryButton(
                                 text = "View Matrix",
                                 onClick = { /* View */ },
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(
+                                    1f
+                                )
                             )
                         }
                     }
@@ -187,7 +296,11 @@ fun CalibrationScreen() {
                     title = "Calibration History",
                     subtitle = "Recent calibration sessions"
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
                         listOf(
                             CalibrationRecord(
                                 "2025-10-15 14:20",
@@ -214,7 +327,9 @@ fun CalibrationScreen() {
                                 "92/100 quality"
                             )
                         ).forEach { record ->
-                            CalibrationRecordRow(record)
+                            CalibrationRecordRow(
+                                record
+                            )
                         }
                     }
                 }
@@ -224,12 +339,19 @@ fun CalibrationScreen() {
 }
 
 @Composable
-private fun CalibrationMetric(label: String, value: String, highlight: Boolean) {
+private fun CalibrationMetric(
+    label: String,
+    value: String,
+    highlight: Boolean
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, style = MaterialTheme.typography.bodyMedium)
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyMedium
+        )
         Text(
             value,
             style = MaterialTheme.typography.bodyMedium,
@@ -239,20 +361,27 @@ private fun CalibrationMetric(label: String, value: String, highlight: Boolean) 
 }
 
 @Composable
-private fun CalibrationRecordRow(record: CalibrationRecord) {
+private fun CalibrationRecordRow(
+    record: CalibrationRecord
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
-            Text(record.timestamp, style = MaterialTheme.typography.bodySmall)
+            Text(
+                record.timestamp,
+                style = MaterialTheme.typography.bodySmall
+            )
             Text(
                 record.type,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Column(horizontalAlignment = Alignment.End) {
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
             Text(
                 record.status,
                 style = MaterialTheme.typography.labelSmall,

@@ -12,7 +12,8 @@ import com.topdon.module.thermal.ir.activity.BaseIRPlushFragment
 // Stubbed: import kotlinx.android.synthetic.main.fragment_ir_plush.dualTextureViewNativeCamera
 // Stubbed: import kotlinx.android.synthetic.main.fragment_ir_plush.temperature_view
 
-class IRPlushFragment : BaseIRPlushFragment() {
+class IRPlushFragment :
+    BaseIRPlushFragment() {
     override fun getSurfaceView(): SurfaceView {
         return dualTextureViewNativeCamera
     }
@@ -21,7 +22,9 @@ class IRPlushFragment : BaseIRPlushFragment() {
         return temperature_view
     }
 
-    override suspend fun onDualViewCreate(dualView: DualViewWithExternalCameraCommonApi?) {
+    override suspend fun onDualViewCreate(
+        dualView: DualViewWithExternalCameraCommonApi?
+    ) {
     }
 
     override fun isDualIR(): Boolean {
@@ -29,7 +32,8 @@ class IRPlushFragment : BaseIRPlushFragment() {
     }
 
     override fun setTemperatureViewType() {
-        getTemperatureDualView().productType = Const.TYPE_IR_DUAL
+        getTemperatureDualView().productType =
+            Const.TYPE_IR_DUAL
     }
 
     override fun initContentView(): Int {

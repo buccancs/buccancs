@@ -38,37 +38,69 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 
-@Route(path = RouterConfig.IR_GALLERY_DETAIL_04)
-class IRGalleryDetail04Activity : BaseActivity() {
-    private var isRemote = false
-    private var position = 0
+@Route(
+    path = RouterConfig.IR_GALLERY_DETAIL_04
+)
+class IRGalleryDetail04Activity :
+    BaseActivity() {
+    private var isRemote =
+        false
+    private var position =
+        0
     private lateinit var dataList: ArrayList<GalleryBean>
-    override fun initContentView() = R.layout.activity_ir_gallery_detail_04
+    override fun initContentView() =
+        R.layout.activity_ir_gallery_detail_04
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint(
+        "SetTextI18n"
+    )
     override fun initView() {
-        isRemote = intent.getBooleanExtra("isRemote", false)
-        position = intent.getIntExtra("position", 0)
-        dataList = intent.getParcelableArrayListExtra("list")!!
-        title_view.setTitleText("${position + 1}/${dataList.size}")
-        cl_bottom.isVisible = isRemote
+        isRemote =
+            intent.getBooleanExtra(
+                "isRemote",
+                false
+            )
+        position =
+            intent.getIntExtra(
+                "position",
+                0
+            )
+        dataList =
+            intent.getParcelableArrayListExtra(
+                "list"
+            )!!
+        title_view.setTitleText(
+            "${position + 1}/${dataList.size}"
+        )
+        cl_bottom.isVisible =
+            isRemote
         if (!isRemote) {
-            title_view.setRightDrawable(R.drawable.ic_toolbar_info_svg)
-            title_view.setRight2Drawable(R.drawable.ic_toolbar_share_svg)
-            title_view.setRight3Drawable(R.drawable.ic_toolbar_delete_svg)
+            title_view.setRightDrawable(
+                R.drawable.ic_toolbar_info_svg
+            )
+            title_view.setRight2Drawable(
+                R.drawable.ic_toolbar_share_svg
+            )
+            title_view.setRight3Drawable(
+                R.drawable.ic_toolbar_delete_svg
+            )
             title_view.setRightClickListener { actionInfo() }
             title_view.setRight2ClickListener { actionShare() }
             title_view.setRight3ClickListener { actionDelete() }
         }
         initViewPager()
         cl_download.setOnClickListener {
-            actionDownload(false)
+            actionDownload(
+                false
+            )
         }
         cl_share.setOnClickListener {
             if (dataList[position].hasDownload) {
                 actionShare()
             } else {
-                actionDownload(true)
+                actionDownload(
+                    true
+                )
             }
         }
         cl_delete.setOnClickListener {
@@ -79,89 +111,242 @@ class IRGalleryDetail04Activity : BaseActivity() {
     override fun initData() {
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint(
+        "SetTextI18n"
+    )
     private fun initViewPager() {
-        ir_gallery_viewpager.adapter = GalleryViewPagerAdapter(this)
-        ir_gallery_viewpager.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                this@IRGalleryDetail04Activity.position = position
-                title_view.setTitleText("${position + 1}/${dataList.size}")
-                iv_download.isSelected = dataList[position].hasDownload
-            }
-        })
-        ir_gallery_viewpager?.setCurrentItem(position, false)
+        ir_gallery_viewpager.adapter =
+            GalleryViewPagerAdapter(
+                this
+            )
+        ir_gallery_viewpager.registerOnPageChangeCallback(
+            object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(
+                    position: Int
+                ) {
+                    super.onPageSelected(
+                        position
+                    )
+                    this@IRGalleryDetail04Activity.position =
+                        position
+                    title_view.setTitleText(
+                        "${position + 1}/${dataList.size}"
+                    )
+                    iv_download.isSelected =
+                        dataList[position].hasDownload
+                }
+            })
+        ir_gallery_viewpager?.setCurrentItem(
+            position,
+            false
+        )
     }
 
     private fun actionInfo() {
         try {
-            val data = dataList[position]
-            val exif = ExifInterface(data.path)
-            val width = exif.getAttribute(ExifInterface.TAG_IMAGE_WIDTH)
-            val length = exif.getAttribute(ExifInterface.TAG_IMAGE_LENGTH)
-            val whStr = "${width}x${length}"
-            val sizeStr = FileTools.getFileSize(data.path)
-            val str = StringBuilder()
-            str.append(getString(R.string.detail_date)).append("\n")
-            str.append(TimeTool.showDateType(data.timeMillis)).append("\n\n")
-            str.append(getString(R.string.detail_info)).append("\n")
-            str.append("${getString(R.string.detail_size)}: ").append(whStr).append("\n")
-            str.append("${getString(R.string.detail_len)}: ").append(sizeStr).append("\n")
-            str.append("${getString(R.string.detail_path)}: ").append(data.path).append("\n")
-            TipDialog.Builder(this).setMessage(str.toString()).setCanceled(true).create().show()
+            val data =
+                dataList[position]
+            val exif =
+                ExifInterface(
+                    data.path
+                )
+            val width =
+                exif.getAttribute(
+                    ExifInterface.TAG_IMAGE_WIDTH
+                )
+            val length =
+                exif.getAttribute(
+                    ExifInterface.TAG_IMAGE_LENGTH
+                )
+            val whStr =
+                "${width}x${length}"
+            val sizeStr =
+                FileTools.getFileSize(
+                    data.path
+                )
+            val str =
+                StringBuilder()
+            str.append(
+                getString(
+                    R.string.detail_date
+                )
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                TimeTool.showDateType(
+                    data.timeMillis
+                )
+            )
+                .append(
+                    "\n\n"
+                )
+            str.append(
+                getString(
+                    R.string.detail_info
+                )
+            )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "${
+                    getString(
+                        R.string.detail_size
+                    )
+                }: "
+            )
+                .append(
+                    whStr
+                )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "${
+                    getString(
+                        R.string.detail_len
+                    )
+                }: "
+            )
+                .append(
+                    sizeStr
+                )
+                .append(
+                    "\n"
+                )
+            str.append(
+                "${
+                    getString(
+                        R.string.detail_path
+                    )
+                }: "
+            )
+                .append(
+                    data.path
+                )
+                .append(
+                    "\n"
+                )
+            TipDialog.Builder(
+                this
+            )
+                .setMessage(
+                    str.toString()
+                )
+                .setCanceled(
+                    true
+                )
+                .create()
+                .show()
         } catch (e: Exception) {
-            ToastTools.showShort(R.string.status_error_load_fail)
+            ToastTools.showShort(
+                R.string.status_error_load_fail
+            )
         }
     }
 
     private fun actionShare() {
-        val data = dataList[position]
-        val uri = FileTools.getUri(File(FileConfig.ts004GalleryDir, data.name))
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        shareIntent.type = "image/jpeg"
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
+        val data =
+            dataList[position]
+        val uri =
+            FileTools.getUri(
+                File(
+                    FileConfig.ts004GalleryDir,
+                    data.name
+                )
+            )
+        val shareIntent =
+            Intent()
+        shareIntent.action =
+            Intent.ACTION_SEND
+        shareIntent.putExtra(
+            Intent.EXTRA_STREAM,
+            uri
+        )
+        shareIntent.type =
+            "image/jpeg"
+        startActivity(
+            Intent.createChooser(
+                shareIntent,
+                getString(
+                    R.string.battery_share
+                )
+            )
+        )
     }
 
     private fun actionDelete() {
-        ConfirmSelectDialog(this).run {
-            setTitleRes(R.string.tip_delete)
-            setMessageRes(R.string.also_del_from_phone_album)
-            setShowMessage(isRemote && dataList[position].hasDownload)
-            onConfirmClickListener = {
-                deleteFile(it)
-            }
+        ConfirmSelectDialog(
+            this
+        ).run {
+            setTitleRes(
+                R.string.tip_delete
+            )
+            setMessageRes(
+                R.string.also_del_from_phone_album
+            )
+            setShowMessage(
+                isRemote && dataList[position].hasDownload
+            )
+            onConfirmClickListener =
+                {
+                    deleteFile(
+                        it
+                    )
+                }
             show()
         }
     }
 
-    private fun deleteFile(isDelLocal: Boolean) {
-        val data = dataList[position]
+    private fun deleteFile(
+        isDelLocal: Boolean
+    ) {
+        val data =
+            dataList[position]
         if (isRemote) {
             lifecycleScope.launch {
                 showCameraLoading()
-                val isSuccess = TS004Repository.deleteFiles(arrayOf(data.id))
+                val isSuccess =
+                    TS004Repository.deleteFiles(
+                        arrayOf(
+                            data.id
+                        )
+                    )
                 if (isSuccess) {
                     if (isDelLocal) {
-                        File(FileConfig.ts004GalleryDir, data.name).delete()
+                        File(
+                            FileConfig.ts004GalleryDir,
+                            data.name
+                        ).delete()
                         MediaScannerConnection.scanFile(
                             this@IRGalleryDetail04Activity,
-                            arrayOf(FileConfig.ts004GalleryDir),
+                            arrayOf(
+                                FileConfig.ts004GalleryDir
+                            ),
                             null,
                             null
                         )
                     }
                     dismissCameraLoading()
-                    ToastTools.showShort(R.string.test_results_delete_success)
-                    EventBus.getDefault().post(GalleryDelEvent())
+                    ToastTools.showShort(
+                        R.string.test_results_delete_success
+                    )
+                    EventBus.getDefault()
+                        .post(
+                            GalleryDelEvent()
+                        )
                     if (dataList.size == 1) {
                         finish()
                     } else {
-                        dataList.removeAt(position)
+                        dataList.removeAt(
+                            position
+                        )
                         if (position >= dataList.size) {
-                            position = dataList.size - 1
+                            position =
+                                dataList.size - 1
                         }
                         initViewPager()
                     }
@@ -170,23 +355,41 @@ class IRGalleryDetail04Activity : BaseActivity() {
                 }
             }
         } else {
-            File(data.path).delete()
-            MediaScannerConnection.scanFile(this, arrayOf(FileConfig.ts004GalleryDir), null, null)
-            EventBus.getDefault().post(GalleryDelEvent())
+            File(
+                data.path
+            ).delete()
+            MediaScannerConnection.scanFile(
+                this,
+                arrayOf(
+                    FileConfig.ts004GalleryDir
+                ),
+                null,
+                null
+            )
+            EventBus.getDefault()
+                .post(
+                    GalleryDelEvent()
+                )
             if (dataList.size == 1) {
                 finish()
             } else {
-                dataList.removeAt(position)
+                dataList.removeAt(
+                    position
+                )
                 if (position >= dataList.size) {
-                    position = dataList.size - 1
+                    position =
+                        dataList.size - 1
                 }
                 initViewPager()
             }
         }
     }
 
-    private fun actionDownload(isToShare: Boolean) {
-        val data = dataList[position]
+    private fun actionDownload(
+        isToShare: Boolean
+    ) {
+        val data =
+            dataList[position]
         if (data.hasDownload) {
             if (isToShare) {
                 actionShare()
@@ -194,58 +397,105 @@ class IRGalleryDetail04Activity : BaseActivity() {
             return
         }
         showCameraLoading()
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        Glide.with(this).downloadOnly().load(data.path).addListener(object : RequestListener<File> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<File>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                dismissCameraLoading()
-                ToastTools.showShort(R.string.liveData_save_error)
-                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                return false
-            }
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
+        Glide.with(
+            this
+        )
+            .downloadOnly()
+            .load(
+                data.path
+            )
+            .addListener(
+                object :
+                    RequestListener<File> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<File>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        dismissCameraLoading()
+                        ToastTools.showShort(
+                            R.string.liveData_save_error
+                        )
+                        window.clearFlags(
+                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                        )
+                        return false
+                    }
 
-            override fun onResourceReady(
-                resource: File?,
-                model: Any?,
-                target: Target<File>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                EventBus.getDefault().post(GalleryDownloadEvent(data.name))
-                dismissCameraLoading()
-                FileUtils.copy(resource, File(FileConfig.ts004GalleryDir, data.name))
-                MediaScannerConnection.scanFile(
-                    this@IRGalleryDetail04Activity,
-                    arrayOf(FileConfig.ts004GalleryDir),
-                    null,
-                    null
-                )
-                ToastTools.showShort(R.string.tip_save_success)
-                data.hasDownload = true
-                iv_download.isSelected = dataList[position].hasDownload
-                if (isToShare) {
-                    actionShare()
-                }
-                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                return false
-            }
-        }).preload()
+                    override fun onResourceReady(
+                        resource: File?,
+                        model: Any?,
+                        target: Target<File>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        EventBus.getDefault()
+                            .post(
+                                GalleryDownloadEvent(
+                                    data.name
+                                )
+                            )
+                        dismissCameraLoading()
+                        FileUtils.copy(
+                            resource,
+                            File(
+                                FileConfig.ts004GalleryDir,
+                                data.name
+                            )
+                        )
+                        MediaScannerConnection.scanFile(
+                            this@IRGalleryDetail04Activity,
+                            arrayOf(
+                                FileConfig.ts004GalleryDir
+                            ),
+                            null,
+                            null
+                        )
+                        ToastTools.showShort(
+                            R.string.tip_save_success
+                        )
+                        data.hasDownload =
+                            true
+                        iv_download.isSelected =
+                            dataList[position].hasDownload
+                        if (isToShare) {
+                            actionShare()
+                        }
+                        window.clearFlags(
+                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                        )
+                        return false
+                    }
+                })
+            .preload()
     }
 
-    inner class GalleryViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+    inner class GalleryViewPagerAdapter(
+        fa: FragmentActivity
+    ) : FragmentStateAdapter(
+        fa
+    ) {
         override fun getItemCount(): Int {
             return dataList.size
         }
 
-        override fun createFragment(position: Int): Fragment {
-            val fragment = GalleryFragment()
-            val bundle = Bundle()
-            bundle.putString("path", dataList[position].path)
-            fragment.arguments = bundle
+        override fun createFragment(
+            position: Int
+        ): Fragment {
+            val fragment =
+                GalleryFragment()
+            val bundle =
+                Bundle()
+            bundle.putString(
+                "path",
+                dataList[position].path
+            )
+            fragment.arguments =
+                bundle
             return fragment
         }
     }

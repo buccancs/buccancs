@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializedeviceRegistration")
-public inline fun deviceRegistration(block: com.buccancs.control.DeviceRegistrationKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceRegistration =
-    com.buccancs.control.DeviceRegistrationKt.Dsl._create(com.buccancs.control.DeviceRegistration.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializedeviceRegistration"
+)
+public inline fun deviceRegistration(
+    block: com.buccancs.control.DeviceRegistrationKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DeviceRegistration =
+    com.buccancs.control.DeviceRegistrationKt.Dsl._create(
+        com.buccancs.control.DeviceRegistration.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.DeviceRegistration`
  */
 public object DeviceRegistrationKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.DeviceRegistration.Builder
@@ -23,13 +34,16 @@ public object DeviceRegistrationKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DeviceRegistration.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.DeviceRegistration.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.DeviceRegistration = _builder.build()
+        internal fun _build(): com.buccancs.control.DeviceRegistration =
+            _builder.build()
 
         /**
          * `string device_id = 1;`
@@ -37,7 +51,9 @@ public object DeviceRegistrationKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object DeviceRegistrationKt {
         public var model: kotlin.String
             get() = _builder.getModel()
             set(value) {
-                _builder.setModel(value)
+                _builder.setModel(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object DeviceRegistrationKt {
         public var platform: kotlin.String
             get() = _builder.getPlatform()
             set(value) {
-                _builder.setPlatform(value)
+                _builder.setPlatform(
+                    value
+                )
             }
 
         /**
@@ -85,7 +105,9 @@ public object DeviceRegistrationKt {
         public var softwareVersion: kotlin.String
             get() = _builder.getSoftwareVersion()
             set(value) {
-                _builder.setSoftwareVersion(value)
+                _builder.setSoftwareVersion(
+                    value
+                )
             }
 
         /**
@@ -99,8 +121,11 @@ public object DeviceRegistrationKt {
          * An uninstantiable, behaviorless type to represent the field in
          * generics.
          */
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-        public class CapabilitiesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+        @kotlin.OptIn(
+            com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+        )
+        public class CapabilitiesProxy private constructor() :
+            com.google.protobuf.kotlin.DslProxy()
 
         /**
          * `repeated string capabilities = 5;`
@@ -117,9 +142,15 @@ public object DeviceRegistrationKt {
          * @param value The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addCapabilities")
-        public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.add(value: kotlin.String) {
-            _builder.addCapabilities(value)
+        @kotlin.jvm.JvmName(
+            "addCapabilities"
+        )
+        public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.add(
+            value: kotlin.String
+        ) {
+            _builder.addCapabilities(
+                value
+            )
         }
 
         /**
@@ -127,8 +158,12 @@ public object DeviceRegistrationKt {
          * @param value The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignCapabilities")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignCapabilities"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(
             value: kotlin.String
         ) {
@@ -140,11 +175,15 @@ public object DeviceRegistrationKt {
          * @param values The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addAllCapabilities")
+        @kotlin.jvm.JvmName(
+            "addAllCapabilities"
+        )
         public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.addAll(
             values: kotlin.collections.Iterable<kotlin.String>
         ) {
-            _builder.addAllCapabilities(values)
+            _builder.addAllCapabilities(
+                values
+            )
         }
 
         /**
@@ -152,12 +191,18 @@ public object DeviceRegistrationKt {
          * @param values The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignAllCapabilities")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignAllCapabilities"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(
             values: kotlin.collections.Iterable<kotlin.String>
         ) {
-            addAll(values)
+            addAll(
+                values
+            )
         }
 
         /**
@@ -166,19 +211,26 @@ public object DeviceRegistrationKt {
          * @param value The capabilities to set.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("setCapabilities")
+        @kotlin.jvm.JvmName(
+            "setCapabilities"
+        )
         public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.set(
             index: kotlin.Int,
             value: kotlin.String
         ) {
-            _builder.setCapabilities(index, value)
+            _builder.setCapabilities(
+                index,
+                value
+            )
         }
 
         /**
          * `repeated string capabilities = 5;`
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("clearCapabilities")
+        @kotlin.jvm.JvmName(
+            "clearCapabilities"
+        )
         public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.clear() {
             _builder.clearCapabilities()
         }
@@ -186,7 +238,12 @@ public object DeviceRegistrationKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.DeviceRegistration.copy(block: `com.buccancs.control`.DeviceRegistrationKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceRegistration =
-    `com.buccancs.control`.DeviceRegistrationKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.DeviceRegistration.copy(
+    block: `com.buccancs.control`.DeviceRegistrationKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DeviceRegistration =
+    `com.buccancs.control`.DeviceRegistrationKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

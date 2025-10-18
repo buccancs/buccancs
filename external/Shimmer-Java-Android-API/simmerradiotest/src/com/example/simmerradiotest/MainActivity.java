@@ -28,7 +28,8 @@ public class MainActivity extends Activity {
         mShimmerRadioProtocol = new ShimmerRadioProtocol(new ShimmerSerialPortAndroid("00:06:66:66:96:86"), new LiteProtocol());
         try {
             mShimmerRadioProtocol.connect();
-        } catch (DeviceException e) {
+        } catch (
+                DeviceException e) {
             e.printStackTrace();
         }
 

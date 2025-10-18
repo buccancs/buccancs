@@ -41,12 +41,16 @@ interface ShimmerHardwareClient {
     /**
      * Perform a BLE scan for additional devices and merge them into [devices].
      */
-    suspend fun scan(duration: Duration = DEFAULT_SCAN_DURATION)
+    suspend fun scan(
+        duration: Duration = DEFAULT_SCAN_DURATION
+    )
 
     /**
      * Establish a connection to the given MAC address.
      */
-    suspend fun connect(macAddress: String)
+    suspend fun connect(
+        macAddress: String
+    )
 
     /**
      * Disconnect the current device and reset state.
@@ -56,7 +60,9 @@ interface ShimmerHardwareClient {
     /**
      * Apply hardware-level settings to the connected device.
      */
-    suspend fun applySettings(settings: ShimmerHardwareSettings)
+    suspend fun applySettings(
+        settings: ShimmerHardwareSettings
+    )
 
     /**
      * Begin streaming sensor data. Emitted samples flow through [samples].
@@ -69,7 +75,8 @@ interface ShimmerHardwareClient {
     suspend fun stopStreaming()
 
     private companion object {
-        val DEFAULT_SCAN_DURATION: Duration = 5.seconds
+        val DEFAULT_SCAN_DURATION: Duration =
+            5.seconds
     }
 }
 
@@ -95,8 +102,13 @@ data class ShimmerHardwareSettings(
 }
 
 sealed interface ShimmerStatus {
-    data object Idle : ShimmerStatus
-    data class Connecting(val macAddress: String) : ShimmerStatus
+    data object Idle :
+        ShimmerStatus
+
+    data class Connecting(
+        val macAddress: String
+    ) : ShimmerStatus
+
     data class Connected(
         val macAddress: String,
         val sinceEpochMs: Long,
@@ -110,7 +122,11 @@ sealed interface ShimmerStatus {
         val samplesPerSecond: Double,
     ) : ShimmerStatus
 
-    data class Error(val macAddress: String?, val message: String, val recoverable: Boolean) :
+    data class Error(
+        val macAddress: String?,
+        val message: String,
+        val recoverable: Boolean
+    ) :
         ShimmerStatus
 }
 

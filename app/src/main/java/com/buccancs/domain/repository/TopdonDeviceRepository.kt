@@ -9,7 +9,10 @@ interface TopdonDeviceRepository {
     val deviceState: StateFlow<TopdonDeviceState>
     val previewFrame: StateFlow<TopdonPreviewFrame?>
     val activeDeviceId: StateFlow<DeviceId>
-    suspend fun setActiveDevice(deviceId: DeviceId)
+    suspend fun setActiveDevice(
+        deviceId: DeviceId
+    )
+
     suspend fun refresh()
     suspend fun connect()
     suspend fun disconnect()

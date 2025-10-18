@@ -17,39 +17,67 @@ import com.topdon.lib.core.utils.ScreenUtil
 /**
  * 观测-标靶颜色
  */
-class TipTargetColorDialog : Dialog {
+class TipTargetColorDialog :
+    Dialog {
 
-    constructor(context: Context) : super(context)
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
     class Builder {
-        var dialog: TipTargetColorDialog? = null
-        private var context: Context? = null
-        private var closeEvent: ((targetColor: Int) -> Unit)? = null
-        private var canceled = false
-        private var targetColor = ObserveBean.TYPE_TARGET_COLOR_GREEN
+        var dialog: TipTargetColorDialog? =
+            null
+        private var context: Context? =
+            null
+        private var closeEvent: ((targetColor: Int) -> Unit)? =
+            null
+        private var canceled =
+            false
+        private var targetColor =
+            ObserveBean.TYPE_TARGET_COLOR_GREEN
 
         private lateinit var titleText: TextView
         private lateinit var imgClose: ImageView
         private lateinit var recyclerView: RecyclerView
 
-        constructor(context: Context) {
-            this.context = context
+        constructor(
+            context: Context
+        ) {
+            this.context =
+                context
         }
 
-        fun setCancelListener(event: ((targetColor: Int) -> Unit)? = null): Builder {
-            this.closeEvent = event
+        fun setCancelListener(
+            event: ((targetColor: Int) -> Unit)? = null
+        ): Builder {
+            this.closeEvent =
+                event
             return this
         }
 
-        fun setTargetColor(color: Int): Builder {
-            this.targetColor = color
+        fun setTargetColor(
+            color: Int
+        ): Builder {
+            this.targetColor =
+                color
             return this
         }
 
-        fun setCanceled(canceled: Boolean): Builder {
-            this.canceled = canceled
+        fun setCanceled(
+            canceled: Boolean
+        ): Builder {
+            this.canceled =
+                canceled
             return this
         }
 
@@ -59,33 +87,65 @@ class TipTargetColorDialog : Dialog {
 
         fun create(): TipTargetColorDialog {
             if (dialog == null) {
-                dialog = TipTargetColorDialog(context!!, R.style.InfoDialog)
+                dialog =
+                    TipTargetColorDialog(
+                        context!!,
+                        R.style.InfoDialog
+                    )
             }
             val inflater =
-                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.dialog_tip_target_color, null)
+                context!!.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+                ) as LayoutInflater
+            val view =
+                inflater.inflate(
+                    R.layout.dialog_tip_target_color,
+                    null
+                )
 
             view.tv_i_know.setOnClickListener {
                 dismiss()
-                closeEvent?.invoke(targetColor)
+                closeEvent?.invoke(
+                    targetColor
+                )
             }
 
-            titleText = view.tv_title
-            imgClose = view.img_close
-            recyclerView = view.recycler_view
+            titleText =
+                view.tv_title
+            imgClose =
+                view.img_close
+            recyclerView =
+                view.recycler_view
             recyclerView.layoutManager =
-                LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
-            val targetColorAdapter = TargetColorAdapter(context!!, targetColor)
-            targetColorAdapter.listener = listener@{ _, item ->
-                targetColor = item
-                targetColorAdapter.selectedCode(item)
-            }
-            recyclerView?.adapter = targetColorAdapter
+                LinearLayoutManager(
+                    context!!,
+                    RecyclerView.HORIZONTAL,
+                    false
+                )
+            val targetColorAdapter =
+                TargetColorAdapter(
+                    context!!,
+                    targetColor
+                )
+            targetColorAdapter.listener =
+                listener@{ _, item ->
+                    targetColor =
+                        item
+                    targetColorAdapter.selectedCode(
+                        item
+                    )
+                }
+            recyclerView?.adapter =
+                targetColorAdapter
             dialog!!.addContentView(
                 view,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
-            val lp = dialog!!.window!!.attributes
+            val lp =
+                dialog!!.window!!.attributes
             val wRatio =
                 if (context!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     //竖屏
@@ -94,25 +154,41 @@ class TipTargetColorDialog : Dialog {
                     //横屏
                     0.35
                 }
-            lp.width = (ScreenUtil.getScreenWidth(context!!) * wRatio).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            lp.width =
+                (ScreenUtil.getScreenWidth(
+                    context!!
+                ) * wRatio).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(canceled)
+            dialog!!.setCanceledOnTouchOutside(
+                canceled
+            )
             imgClose.setOnClickListener {
                 dismiss()
 //              closeEvent?.invoke(targetColor)
             }
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipTargetColorDialog
         }
     }
 }
 
 private val View.tv_i_know: TextView
-    get() = findViewById(R.id.tv_i_know)
+    get() = findViewById(
+        R.id.tv_i_know
+    )
 private val View.tv_title: TextView
-    get() = findViewById(R.id.tv_title)
+    get() = findViewById(
+        R.id.tv_title
+    )
 private val View.img_close: ImageView
-    get() = findViewById(R.id.img_close)
+    get() = findViewById(
+        R.id.img_close
+    )
 private val View.recycler_view: RecyclerView
-    get() = findViewById(R.id.recycler_view)
+    get() = findViewById(
+        R.id.recycler_view
+    )

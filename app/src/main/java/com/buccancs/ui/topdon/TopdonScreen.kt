@@ -75,7 +75,9 @@ import com.buccancs.ui.theme.Spacing
 import kotlin.math.roundToInt
 import kotlin.time.Instant
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopdonRoute(
     deviceId: DeviceId,
@@ -87,8 +89,12 @@ fun TopdonRoute(
     viewModel: TopdonViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    LaunchedEffect(deviceId) {
-        viewModel.setActiveDevice(deviceId)
+    LaunchedEffect(
+        deviceId
+    ) {
+        viewModel.setActiveDevice(
+            deviceId
+        )
         viewModel.refresh()
     }
     TopdonScreen(
@@ -113,7 +119,9 @@ fun TopdonRoute(
 }
 
 @VisibleForTesting
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 internal fun TopdonScreen(
     state: TopdonUiState,
@@ -134,7 +142,8 @@ internal fun TopdonScreen(
     onUpdatePreviewFps: (Int) -> Unit,
     onClearError: () -> Unit
 ) {
-    val toolbarState = rememberTopAppBarState()
+    val toolbarState =
+        rememberTopAppBarState()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -146,7 +155,9 @@ internal fun TopdonScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Navigate back"
@@ -154,24 +165,39 @@ internal fun TopdonScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onNavigateToSettings) {
+                    IconButton(
+                        onClick = onNavigateToSettings
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Settings,
                             contentDescription = "Settings"
                         )
                     }
                 },
-                scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(toolbarState)
+                scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
+                    toolbarState
+                )
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(LayoutPadding.Screen),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    padding
+                )
+                .padding(
+                    LayoutPadding.Screen
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             item {
                 TopdonStatusCard(
@@ -193,7 +219,10 @@ internal fun TopdonScreen(
                 )
             }
             item {
-                TopdonQuickActionsCard(onNavigateToGallery, onNavigateToSettings)
+                TopdonQuickActionsCard(
+                    onNavigateToGallery,
+                    onNavigateToSettings
+                )
             }
             item {
                 TopdonSettingsCard(
@@ -226,7 +255,11 @@ private fun TopdonStatusCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(
+                    1f
+                )
+            ) {
                 Text(
                     text = state.deviceLabel,
                     style = MaterialTheme.typography.titleMedium,
@@ -234,12 +267,16 @@ private fun TopdonStatusCard(
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.ExtraSmall
+                    )
                 ) {
                     Icon(
                         imageVector = if (state.isConnected) Icons.Default.Check else Icons.Default.Close,
                         contentDescription = null,
-                        modifier = Modifier.size(Dimensions.IconSizeSmall),
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        ),
                         tint = if (state.isConnected) {
                             MaterialTheme.colorScheme.primary
                         } else {
@@ -258,7 +295,11 @@ private fun TopdonStatusCard(
                 }
             }
             if (state.scanning) {
-                CircularProgressIndicator(modifier = Modifier.size(Dimensions.IconSizeDefault))
+                CircularProgressIndicator(
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeDefault
+                    )
+                )
             }
         }
 
@@ -289,30 +330,42 @@ private fun TopdonStatusCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(Spacing.SmallMedium),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                        .padding(
+                            Spacing.SmallMedium
+                        ),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         imageVector = Icons.Default.Error,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onErrorContainer,
-                        modifier = Modifier.size(Dimensions.IconSizeDefault)
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeDefault
+                        )
                     )
                     Text(
                         text = error,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onErrorContainer,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(
+                            1f
+                        )
                     )
                     FilledTonalIconButton(
                         onClick = onClearError,
-                        modifier = Modifier.size(Dimensions.TouchTargetMinimum)
+                        modifier = Modifier.size(
+                            Dimensions.TouchTargetMinimum
+                        )
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Dismiss error",
-                            modifier = Modifier.size(Dimensions.IconSizeSmall)
+                            modifier = Modifier.size(
+                                Dimensions.IconSizeSmall
+                            )
                         )
                     }
                 }
@@ -321,37 +374,61 @@ private fun TopdonStatusCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             TopdonButton(
                 onClick = onConnect,
                 enabled = !state.isConnected,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
-                Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                Text("Connect")
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.ExtraSmall
+                    )
+                )
+                Text(
+                    "Connect"
+                )
             }
             TopdonOutlinedButton(
                 onClick = onDisconnect,
                 enabled = state.isConnected,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
-                Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                Text("Disconnect")
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.ExtraSmall
+                    )
+                )
+                Text(
+                    "Disconnect"
+                )
             }
             IconButton(
                 onClick = onRefresh,
-                modifier = Modifier.size(Dimensions.TouchTargetMinimum)
+                modifier = Modifier.size(
+                    Dimensions.TouchTargetMinimum
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
@@ -368,10 +445,18 @@ private fun TopdonStatusCard(
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
-                Spacer(modifier = Modifier.width(Spacing.SmallMedium))
-                Text("Connection Guide")
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.SmallMedium
+                    )
+                )
+                Text(
+                    "Connection Guide"
+                )
             }
         }
     }
@@ -385,12 +470,21 @@ private fun TopdonPreviewCard(
     onTogglePreview: () -> Unit,
     onNavigateToThermalPreview: () -> Unit
 ) {
-    val previewFrame = state.previewFrame
-    val imageBitmap = remember(previewFrame?.payload) {
-        previewFrame?.payload?.let { bytes ->
-            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
+    val previewFrame =
+        state.previewFrame
+    val imageBitmap =
+        remember(
+            previewFrame?.payload
+        ) {
+            previewFrame?.payload?.let { bytes ->
+                BitmapFactory.decodeByteArray(
+                    bytes,
+                    0,
+                    bytes.size
+                )
+                    ?.asImageBitmap()
+            }
         }
-    }
     SectionCard(
         modifier = Modifier.fillMaxWidth(),
         spacing = Spacing.Small
@@ -407,12 +501,18 @@ private fun TopdonPreviewCard(
             )
             AssistChip(
                 onClick = onTogglePreview,
-                label = { Text(if (state.previewActive) "Streaming" else "Idle") },
+                label = {
+                    Text(
+                        if (state.previewActive) "Streaming" else "Idle"
+                    )
+                },
                 leadingIcon = {
                     Icon(
                         imageVector = if (state.previewActive) Icons.Default.PlayArrow else Icons.Default.Stop,
                         contentDescription = null,
-                        modifier = Modifier.size(Dimensions.IconSizeSmall)
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        )
                     )
                 },
                 colors = AssistChipDefaults.assistChipColors(
@@ -428,8 +528,12 @@ private fun TopdonPreviewCard(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(Dimensions.Size160)
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                    .height(
+                        Dimensions.Size160
+                    )
+                    .background(
+                        MaterialTheme.colorScheme.surfaceVariant
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 if (imageBitmap != null) {
@@ -442,12 +546,16 @@ private fun TopdonPreviewCard(
                 } else {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
                     ) {
                         Icon(
                             imageVector = if (state.previewActive) Icons.Default.PlayArrow else Icons.Default.Stop,
                             contentDescription = null,
-                            modifier = Modifier.size(Dimensions.IconSizeLarge),
+                            modifier = Modifier.size(
+                                Dimensions.IconSizeLarge
+                            ),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
@@ -461,51 +569,81 @@ private fun TopdonPreviewCard(
         }
 
         previewFrame?.let { frame ->
-            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.ExtraSmall
+                )
+            ) {
                 Text(
                     text = "Resolution: ${frame.width} x ${frame.height} (x${frame.superSamplingFactor})",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                TopdonTimestamp(frame.timestamp)
+                TopdonTimestamp(
+                    frame.timestamp
+                )
             }
         }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             TopdonButton(
                 onClick = onStartPreview,
                 enabled = state.isConnected && !state.previewActive,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.PlayArrow,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
-                Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                Text("Start")
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.ExtraSmall
+                    )
+                )
+                Text(
+                    "Start"
+                )
             }
             TopdonOutlinedButton(
                 onClick = onStopPreview,
                 enabled = state.previewActive,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Stop,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
-                Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-                Text("Stop")
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.ExtraSmall
+                    )
+                )
+                Text(
+                    "Stop"
+                )
             }
 
             FilledTonalIconButton(
                 onClick = onNavigateToThermalPreview,
                 enabled = state.isConnected,
-                modifier = Modifier.size(Dimensions.TouchTargetMinimum)
+                modifier = Modifier.size(
+                    Dimensions.TouchTargetMinimum
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.OpenInFull,
@@ -533,32 +671,54 @@ private fun TopdonQuickActionsCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             TopdonOutlinedButton(
                 onClick = onNavigateToGallery,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Image,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
-                Spacer(modifier = Modifier.width(Spacing.SmallMedium))
-                Text("Gallery")
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.SmallMedium
+                    )
+                )
+                Text(
+                    "Gallery"
+                )
             }
 
             TopdonOutlinedButton(
                 onClick = onNavigateToSettings,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = null,
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
-                Spacer(modifier = Modifier.width(Spacing.SmallMedium))
-                Text("Settings")
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.SmallMedium
+                    )
+                )
+                Text(
+                    "Settings"
+                )
             }
         }
     }
@@ -597,7 +757,11 @@ private fun TopdonSettingsCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(
+                    modifier = Modifier.weight(
+                        1f
+                    )
+                ) {
                     Text(
                         text = "Auto-connect on USB",
                         style = MaterialTheme.typography.bodyMedium,
@@ -616,7 +780,11 @@ private fun TopdonSettingsCard(
             }
         }
 
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.ExtraSmall
+            )
+        ) {
             Text(
                 text = "Colour Palette",
                 style = MaterialTheme.typography.labelLarge,
@@ -629,7 +797,11 @@ private fun TopdonSettingsCard(
             )
         }
 
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.ExtraSmall
+            )
+        ) {
             Text(
                 text = "Super Sampling",
                 style = MaterialTheme.typography.labelLarge,
@@ -650,7 +822,9 @@ private fun TopdonSettingsCard(
 }
 
 @Composable
-private fun TopdonTimestamp(timestamp: Instant) {
+private fun TopdonTimestamp(
+    timestamp: Instant
+) {
     Text(
         text = "Last frame: $timestamp",
         style = MaterialTheme.typography.bodySmall,
@@ -664,23 +838,42 @@ private fun PaletteDropdown(
     selected: TopdonPalette,
     onSelect: (TopdonPalette) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember {
+        mutableStateOf(
+            false
+        )
+    }
     TopdonButton(
-        onClick = { expanded = true },
+        onClick = {
+            expanded =
+                true
+        },
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(selected.name.lowercase().replaceFirstChar { it.titlecase() })
+        Text(
+            selected.name.lowercase()
+                .replaceFirstChar { it.titlecase() })
     }
     DropdownMenu(
         expanded = expanded,
-        onDismissRequest = { expanded = false }
+        onDismissRequest = {
+            expanded =
+                false
+        }
     ) {
         options.forEach { option ->
             DropdownMenuItem(
-                text = { Text(option.name.lowercase().replaceFirstChar { it.titlecase() }) },
+                text = {
+                    Text(
+                        option.name.lowercase()
+                            .replaceFirstChar { it.titlecase() })
+                },
                 onClick = {
-                    expanded = false
-                    onSelect(option)
+                    expanded =
+                        false
+                    onSelect(
+                        option
+                    )
                 }
             )
         }
@@ -693,23 +886,42 @@ private fun SuperSamplingDropdown(
     selected: TopdonSuperSamplingFactor,
     onSelect: (TopdonSuperSamplingFactor) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember {
+        mutableStateOf(
+            false
+        )
+    }
     TopdonButton(
-        onClick = { expanded = true },
+        onClick = {
+            expanded =
+                true
+        },
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text("x${selected.multiplier}")
+        Text(
+            "x${selected.multiplier}"
+        )
     }
     DropdownMenu(
         expanded = expanded,
-        onDismissRequest = { expanded = false }
+        onDismissRequest = {
+            expanded =
+                false
+        }
     ) {
         options.forEach { option ->
             DropdownMenuItem(
-                text = { Text("x${option.multiplier}") },
+                text = {
+                    Text(
+                        "x${option.multiplier}"
+                    )
+                },
                 onClick = {
-                    expanded = false
-                    onSelect(option)
+                    expanded =
+                        false
+                    onSelect(
+                        option
+                    )
                 }
             )
         }
@@ -721,8 +933,16 @@ private fun PreviewFpsSlider(
     current: Int,
     onUpdate: (Int) -> Unit
 ) {
-    var sliderValue by remember { mutableFloatStateOf(current.toFloat()) }
-    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+    var sliderValue by remember {
+        mutableFloatStateOf(
+            current.toFloat()
+        )
+    }
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Small
+        )
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -750,11 +970,16 @@ private fun PreviewFpsSlider(
         }
         Slider(
             value = sliderValue,
-            onValueChange = { sliderValue = it },
+            onValueChange = {
+                sliderValue =
+                    it
+            },
             valueRange = 2f..30f,
             steps = 28,
             onValueChangeFinished = {
-                onUpdate(sliderValue.roundToInt())
+                onUpdate(
+                    sliderValue.roundToInt()
+                )
             },
             modifier = Modifier.fillMaxWidth()
         )

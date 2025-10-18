@@ -24,22 +24,53 @@ import com.topdon.lib.core.view.TitleView
 /**
  * 汽车检测类型拾取弹框.
  */
-class CarDetectDialog(context: Context, val listener: ((bean: CarDetectChildBean) -> Unit)) :
-    Dialog(context, R.style.DefaultDialog) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(true)
-        setCanceledOnTouchOutside(false)
+class CarDetectDialog(
+    context: Context,
+    val listener: ((bean: CarDetectChildBean) -> Unit)
+) :
+    Dialog(
+        context,
+        R.style.DefaultDialog
+    ) {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        setCancelable(
+            true
+        )
+        setCanceledOnTouchOutside(
+            false
+        )
 
 
-        val rootView: View = LayoutInflater.from(context).inflate(R.layout.dialog_car_detect, null)
-        setContentView(rootView)
+        val rootView: View =
+            LayoutInflater.from(
+                context
+            )
+                .inflate(
+                    R.layout.dialog_car_detect,
+                    null
+                )
+        setContentView(
+            rootView
+        )
 
         rootView.title_view.setLeftClickListener { dismiss() }
 
         rootView.rcy_detect.layoutManager =
-            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        rootView.rcy_detect?.adapter = CarDetectAdapter(context, getDetectList())
+            LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL,
+                false
+            )
+        rootView.rcy_detect?.adapter =
+            CarDetectAdapter(
+                context,
+                getDetectList()
+            )
 
 
         /*window?.let {
@@ -53,208 +84,352 @@ class CarDetectDialog(context: Context, val listener: ((bean: CarDetectChildBean
     companion object {
         @JvmStatic
         fun getDetectList(): MutableList<CarDetectBean> {
-            val dataList: MutableList<CarDetectBean> = ArrayList()
-            val data1List: MutableList<CarDetectChildBean> = ArrayList()
-            val data2List: MutableList<CarDetectChildBean> = ArrayList()
+            val dataList: MutableList<CarDetectBean> =
+                ArrayList()
+            val data1List: MutableList<CarDetectChildBean> =
+                ArrayList()
+            val data2List: MutableList<CarDetectChildBean> =
+                ArrayList()
             data1List.add(
                 CarDetectChildBean(
-                    0, 0,
-                    BaseApplication.instance.getString(R.string.abnormal_description1),
-                    BaseApplication.instance.getString(R.string.abnormal_item1),
+                    0,
+                    0,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description1
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item1
+                    ),
                     "40~70"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 1,
-                    BaseApplication.instance.getString(R.string.abnormal_description2),
-                    BaseApplication.instance.getString(R.string.abnormal_item2),
+                    0,
+                    1,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description2
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item2
+                    ),
                     "200~400"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 2,
-                    BaseApplication.instance.getString(R.string.abnormal_description3),
-                    BaseApplication.instance.getString(R.string.abnormal_item3),
+                    0,
+                    2,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description3
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item3
+                    ),
                     "200~400"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 3,
-                    BaseApplication.instance.getString(R.string.abnormal_description4),
-                    BaseApplication.instance.getString(R.string.abnormal_item4),
+                    0,
+                    3,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description4
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item4
+                    ),
                     "40~60"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 4,
-                    BaseApplication.instance.getString(R.string.abnormal_description5),
-                    BaseApplication.instance.getString(R.string.abnormal_item5),
+                    0,
+                    4,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description5
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item5
+                    ),
                     "40~60"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 5,
-                    BaseApplication.instance.getString(R.string.abnormal_description6),
-                    BaseApplication.instance.getString(R.string.abnormal_item6),
+                    0,
+                    5,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description6
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item6
+                    ),
                     "40~60"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 6,
-                    BaseApplication.instance.getString(R.string.abnormal_description7),
-                    BaseApplication.instance.getString(R.string.abnormal_item7),
+                    0,
+                    6,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description7
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item7
+                    ),
                     "40~60"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 7,
-                    BaseApplication.instance.getString(R.string.abnormal_description8),
-                    BaseApplication.instance.getString(R.string.abnormal_item8),
+                    0,
+                    7,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description8
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item8
+                    ),
                     "80~100"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 8,
-                    BaseApplication.instance.getString(R.string.abnormal_description9),
-                    BaseApplication.instance.getString(R.string.abnormal_item9),
+                    0,
+                    8,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description9
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item9
+                    ),
                     "80~100"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 9,
-                    BaseApplication.instance.getString(R.string.abnormal_description10),
-                    BaseApplication.instance.getString(R.string.abnormal_item10),
+                    0,
+                    9,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description10
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item10
+                    ),
                     "80~100"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 10,
-                    BaseApplication.instance.getString(R.string.abnormal_description11),
-                    BaseApplication.instance.getString(R.string.abnormal_item11),
+                    0,
+                    10,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description11
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item11
+                    ),
                     "80~100"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 11,
-                    BaseApplication.instance.getString(R.string.abnormal_description12),
-                    BaseApplication.instance.getString(R.string.abnormal_item12),
+                    0,
+                    11,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description12
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item12
+                    ),
                     "80~100"
                 )
             )
             data1List.add(
                 CarDetectChildBean(
-                    0, 12,
-                    BaseApplication.instance.getString(R.string.abnormal_description13),
-                    BaseApplication.instance.getString(R.string.abnormal_item13),
+                    0,
+                    12,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description13
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item13
+                    ),
                     "80~100"
                 )
             )
-            val carDetectBean1 = CarDetectBean(
-                BaseApplication.instance.getString(R.string.abnormal_title1),
-                data1List
-            )
+            val carDetectBean1 =
+                CarDetectBean(
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_title1
+                    ),
+                    data1List
+                )
             data2List.add(
                 CarDetectChildBean(
-                    1, 0,
-                    BaseApplication.instance.getString(R.string.abnormal_description14),
-                    BaseApplication.instance.getString(R.string.abnormal_item14),
+                    1,
+                    0,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description14
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item14
+                    ),
                     "20~50"
                 )
             )
             data2List.add(
                 CarDetectChildBean(
-                    1, 1,
-                    BaseApplication.instance.getString(R.string.abnormal_description15),
-                    BaseApplication.instance.getString(R.string.abnormal_item15),
+                    1,
+                    1,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description15
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item15
+                    ),
                     "20~50"
                 )
             )
             data2List.add(
                 CarDetectChildBean(
-                    1, 2,
-                    BaseApplication.instance.getString(R.string.abnormal_description16),
-                    BaseApplication.instance.getString(R.string.abnormal_item16),
+                    1,
+                    2,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description16
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item16
+                    ),
                     "20~50"
                 )
             )
             data2List.add(
                 CarDetectChildBean(
-                    1, 3,
-                    BaseApplication.instance.getString(R.string.abnormal_description17),
-                    BaseApplication.instance.getString(R.string.abnormal_item17),
+                    1,
+                    3,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description17
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item17
+                    ),
                     "20~50"
                 )
             )
             data2List.add(
                 CarDetectChildBean(
-                    1, 4,
-                    BaseApplication.instance.getString(R.string.abnormal_description18),
-                    BaseApplication.instance.getString(R.string.abnormal_item18),
+                    1,
+                    4,
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_description18
+                    ),
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_item18
+                    ),
                     "20~50"
                 )
             )
-            val carDetectBean2 = CarDetectBean(
-                BaseApplication.instance.getString(R.string.abnormal_title2),
-                data2List
+            val carDetectBean2 =
+                CarDetectBean(
+                    BaseApplication.instance.getString(
+                        R.string.abnormal_title2
+                    ),
+                    data2List
+                )
+            dataList.add(
+                carDetectBean1
             )
-            dataList.add(carDetectBean1)
-            dataList.add(carDetectBean2)
+            dataList.add(
+                carDetectBean2
+            )
             return dataList
         }
     }
 
-    inner class CarDetectAdapter(val act: Context, private var carDetects: List<CarDetectBean>) :
+    inner class CarDetectAdapter(
+        val act: Context,
+        private var carDetects: List<CarDetectBean>
+    ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_car_detect_layout, parent, false)
-            return ItemView(view)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): RecyclerView.ViewHolder {
+            val view =
+                LayoutInflater.from(
+                    parent.context
+                )
+                    .inflate(
+                        R.layout.item_car_detect_layout,
+                        parent,
+                        false
+                    )
+            return ItemView(
+                view
+            )
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        override fun onBindViewHolder(
+            holder: RecyclerView.ViewHolder,
+            position: Int
+        ) {
             if (holder is ItemView) {
-                val bean = carDetects[position]
-                holder.tvTitle.text = bean.title
+                val bean =
+                    carDetects[position]
+                holder.tvTitle.text =
+                    bean.title
                 holder.rcyDetectChild.layoutManager =
-                    LinearLayoutManager(act, RecyclerView.VERTICAL, false)
-                val carDetectChildAdapter = CarDetectChildAdapter(act, bean.detectChildBeans)
-                carDetectChildAdapter.listener = listener@{ _, item ->
-                    carDetects.forEach { it ->
-                        it.detectChildBeans.forEach {
-                            it.isSelected = false
+                    LinearLayoutManager(
+                        act,
+                        RecyclerView.VERTICAL,
+                        false
+                    )
+                val carDetectChildAdapter =
+                    CarDetectChildAdapter(
+                        act,
+                        bean.detectChildBeans
+                    )
+                carDetectChildAdapter.listener =
+                    listener@{ _, item ->
+                        carDetects.forEach { it ->
+                            it.detectChildBeans.forEach {
+                                it.isSelected =
+                                    false
+                            }
                         }
+                        item.isSelected =
+                            true
+                        carDetectChildAdapter.notifyDataSetChanged()
+                        SharedManager.saveCarDetectInfo(
+                            item
+                        )
+                        listener.invoke(
+                            item
+                        )
+                        dismiss()
                     }
-                    item.isSelected = true
-                    carDetectChildAdapter.notifyDataSetChanged()
-                    SharedManager.saveCarDetectInfo(item)
-                    listener.invoke(item)
-                    dismiss()
-                }
 
-                var selectCarDetect = SharedManager.getCarDetectInfo()
+                var selectCarDetect =
+                    SharedManager.getCarDetectInfo()
                 carDetects.forEachIndexed { index, carDetectBean ->
                     carDetectBean.detectChildBeans.forEachIndexed { childIndex, carDetectChildBean ->
                         if (selectCarDetect == null) {
-                            carDetectChildBean.isSelected = (index == 0 && childIndex == 0)
+                            carDetectChildBean.isSelected =
+                                (index == 0 && childIndex == 0)
                         } else {
                             carDetectChildBean.isSelected =
-                                TextUtils.equals(carDetectChildBean.item, selectCarDetect.item)
+                                TextUtils.equals(
+                                    carDetectChildBean.item,
+                                    selectCarDetect.item
+                                )
                         }
                     }
                 }
 
-                holder.rcyDetectChild?.adapter = carDetectChildAdapter
+                holder.rcyDetectChild?.adapter =
+                    carDetectChildAdapter
             }
         }
 
@@ -262,9 +437,15 @@ class CarDetectDialog(context: Context, val listener: ((bean: CarDetectChildBean
             return carDetects.size
         }
 
-        inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val tvTitle: TextView = itemView.tv_title
-            val rcyDetectChild: RecyclerView = itemView.rcy_detect_child
+        inner class ItemView(
+            itemView: View
+        ) : RecyclerView.ViewHolder(
+            itemView
+        ) {
+            val tvTitle: TextView =
+                itemView.tv_title
+            val rcyDetectChild: RecyclerView =
+                itemView.rcy_detect_child
         }
     }
 
@@ -274,23 +455,46 @@ class CarDetectDialog(context: Context, val listener: ((bean: CarDetectChildBean
         private var carChildDetects: List<CarDetectChildBean>
     ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        var listener: ((index: Int, bean: CarDetectChildBean) -> Unit)? = null
+        var listener: ((index: Int, bean: CarDetectChildBean) -> Unit)? =
+            null
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_car_detect_child_layout, parent, false)
-            return ItemView(view)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): RecyclerView.ViewHolder {
+            val view =
+                LayoutInflater.from(
+                    parent.context
+                )
+                    .inflate(
+                        R.layout.item_car_detect_child_layout,
+                        parent,
+                        false
+                    )
+            return ItemView(
+                view
+            )
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        override fun onBindViewHolder(
+            holder: RecyclerView.ViewHolder,
+            position: Int
+        ) {
             if (holder is ItemView) {
-                val bean = carChildDetects[position]
-                holder.tvTitle.text = bean.item
+                val bean =
+                    carChildDetects[position]
+                holder.tvTitle.text =
+                    bean.item
                 holder.viewLine.visibility =
                     if (position == carChildDetects.size - 1) View.GONE else View.VISIBLE
-                holder.ivSelectState.setImageResource(if (bean.isSelected) R.drawable.ic_car_detect_selected else R.drawable.ic_car_detect_unselected)
+                holder.ivSelectState.setImageResource(
+                    if (bean.isSelected) R.drawable.ic_car_detect_selected else R.drawable.ic_car_detect_unselected
+                )
                 holder.rlyParent.setOnClickListener {
-                    listener?.invoke(position, carChildDetects[position])
+                    listener?.invoke(
+                        position,
+                        carChildDetects[position]
+                    )
                 }
             }
         }
@@ -299,28 +503,52 @@ class CarDetectDialog(context: Context, val listener: ((bean: CarDetectChildBean
             return carChildDetects.size
         }
 
-        inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val rlyParent: RelativeLayout = itemView.rly_parent
-            val tvTitle: TextView = itemView.tv_name
-            val ivSelectState: ImageView = itemView.iv_select_state
-            val viewLine: View = itemView.view_line
+        inner class ItemView(
+            itemView: View
+        ) : RecyclerView.ViewHolder(
+            itemView
+        ) {
+            val rlyParent: RelativeLayout =
+                itemView.rly_parent
+            val tvTitle: TextView =
+                itemView.tv_name
+            val ivSelectState: ImageView =
+                itemView.iv_select_state
+            val viewLine: View =
+                itemView.view_line
         }
     }
 }
 
 private val View.title_view: TitleView
-    get() = findViewById(R.id.title_view)
+    get() = findViewById(
+        R.id.title_view
+    )
 private val View.rcy_detect: RecyclerView
-    get() = findViewById(R.id.rcy_detect)
+    get() = findViewById(
+        R.id.rcy_detect
+    )
 private val View.tv_title: TextView
-    get() = findViewById(R.id.tv_title)
+    get() = findViewById(
+        R.id.tv_title
+    )
 private val View.rcy_detect_child: RecyclerView
-    get() = findViewById(R.id.rcy_detect_child)
+    get() = findViewById(
+        R.id.rcy_detect_child
+    )
 private val View.rly_parent: RelativeLayout
-    get() = findViewById(R.id.rly_parent)
+    get() = findViewById(
+        R.id.rly_parent
+    )
 private val View.tv_name: TextView
-    get() = findViewById(R.id.tv_name)
+    get() = findViewById(
+        R.id.tv_name
+    )
 private val View.iv_select_state: ImageView
-    get() = findViewById(R.id.iv_select_state)
+    get() = findViewById(
+        R.id.iv_select_state
+    )
 private val View.view_line: View
-    get() = findViewById(R.id.view_line)
+    get() = findViewById(
+        R.id.view_line
+    )

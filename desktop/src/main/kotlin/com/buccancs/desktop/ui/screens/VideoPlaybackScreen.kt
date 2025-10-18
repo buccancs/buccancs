@@ -52,29 +52,58 @@ import com.buccancs.desktop.ui.theme.Spacing
  */
 @Composable
 fun VideoPlaybackScreen() {
-    var selectedSession by remember { mutableStateOf<String?>(null) }
-    var playbackSpeed by remember { mutableStateOf(1.0f) }
-    var isPlaying by remember { mutableStateOf(false) }
-    var currentTime by remember { mutableStateOf(0f) }
-    val duration = 185f // 3:05 in seconds
+    var selectedSession by remember {
+        mutableStateOf<String?>(
+            null
+        )
+    }
+    var playbackSpeed by remember {
+        mutableStateOf(
+            1.0f
+        )
+    }
+    var isPlaying by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    var currentTime by remember {
+        mutableStateOf(
+            0f
+        )
+    }
+    val duration =
+        185f // 3:05 in seconds
 
     Row(modifier = Modifier.fillMaxSize()) {
         // Session list sidebar
         Surface(
             modifier = Modifier
-                .width(300.dp)
+                .width(
+                    300.dp
+                )
                 .fillMaxHeight(),
             color = MaterialTheme.colorScheme.surfaceVariant,
             tonalElevation = 1.dp
         ) {
-            Column(modifier = Modifier.padding(Spacing.Medium)) {
+            Column(
+                modifier = Modifier.padding(
+                    Spacing.Medium
+                )
+            ) {
                 Text(
                     "Recorded Sessions",
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = Spacing.Medium)
+                    modifier = Modifier.padding(
+                        bottom = Spacing.Medium
+                    )
                 )
 
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    )
+                ) {
                     items(
                         listOf(
                             SessionRecord(
@@ -112,7 +141,10 @@ fun VideoPlaybackScreen() {
                         SessionListItem(
                             session = session,
                             selected = selectedSession == session.id,
-                            onClick = { selectedSession = session.id }
+                            onClick = {
+                                selectedSession =
+                                    session.id
+                            }
                         )
                     }
                 }
@@ -123,8 +155,12 @@ fun VideoPlaybackScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(Spacing.Large),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    Spacing.Large
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             Text(
                 "Video Playback",
@@ -137,7 +173,9 @@ fun VideoPlaybackScreen() {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f),
+                        .weight(
+                            1f
+                        ),
                     colors = CardDefaults.cardColors(
                         containerColor = Color.Black
                     )
@@ -148,31 +186,44 @@ fun VideoPlaybackScreen() {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                            verticalArrangement = Arrangement.spacedBy(
+                                Spacing.Medium
+                            )
                         ) {
                             Icon(
                                 Icons.Default.PlayCircle,
                                 contentDescription = null,
-                                modifier = Modifier.size(120.dp),
+                                modifier = Modifier.size(
+                                    120.dp
+                                ),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                             Text(
-                                selectedSession ?: "",
+                                selectedSession
+                                    ?: "",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = Color.White
                             )
                             Text(
                                 "Multi-angle synchronized playback",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.White.copy(alpha = 0.7f)
+                                color = Color.White.copy(
+                                    alpha = 0.7f
+                                )
                             )
                         }
                     }
                 }
 
                 // Playback controls
-                BuccancsCard(title = "Playback Controls") {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
+                BuccancsCard(
+                    title = "Playback Controls"
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Medium
+                        )
+                    ) {
                         // Timeline
                         Column {
                             Row(
@@ -180,17 +231,24 @@ fun VideoPlaybackScreen() {
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    formatTime(currentTime),
+                                    formatTime(
+                                        currentTime
+                                    ),
                                     style = MaterialTheme.typography.bodySmall
                                 )
                                 Text(
-                                    formatTime(duration),
+                                    formatTime(
+                                        duration
+                                    ),
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }
                             Slider(
                                 value = currentTime,
-                                onValueChange = { currentTime = it },
+                                onValueChange = {
+                                    currentTime =
+                                        it
+                                },
                                 valueRange = 0f..duration,
                                 modifier = Modifier.fillMaxWidth()
                             )
@@ -199,37 +257,79 @@ fun VideoPlaybackScreen() {
                         // Control buttons
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                Spacing.Small
+                            ),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(onClick = { currentTime = 0f }) {
-                                Icon(Icons.Default.SkipPrevious, "Skip to start")
+                            IconButton(
+                                onClick = {
+                                    currentTime =
+                                        0f
+                                }) {
+                                Icon(
+                                    Icons.Default.SkipPrevious,
+                                    "Skip to start"
+                                )
                             }
 
                             FilledIconButton(
-                                onClick = { isPlaying = !isPlaying },
-                                modifier = Modifier.size(56.dp)
+                                onClick = {
+                                    isPlaying =
+                                        !isPlaying
+                                },
+                                modifier = Modifier.size(
+                                    56.dp
+                                )
                             ) {
                                 Icon(
                                     if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
                                     if (isPlaying) "Pause" else "Play",
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.size(
+                                        32.dp
+                                    )
                                 )
                             }
 
-                            IconButton(onClick = { currentTime = duration }) {
-                                Icon(Icons.Default.SkipNext, "Skip to end")
+                            IconButton(
+                                onClick = {
+                                    currentTime =
+                                        duration
+                                }) {
+                                Icon(
+                                    Icons.Default.SkipNext,
+                                    "Skip to end"
+                                )
                             }
 
-                            Spacer(Modifier.width(Spacing.Medium))
+                            Spacer(
+                                Modifier.width(
+                                    Spacing.Medium
+                                )
+                            )
 
-                            Text("Speed:", style = MaterialTheme.typography.labelMedium)
+                            Text(
+                                "Speed:",
+                                style = MaterialTheme.typography.labelMedium
+                            )
 
-                            listOf(0.5f, 1.0f, 1.5f, 2.0f).forEach { speed ->
+                            listOf(
+                                0.5f,
+                                1.0f,
+                                1.5f,
+                                2.0f
+                            ).forEach { speed ->
                                 FilterChip(
                                     selected = playbackSpeed == speed,
-                                    onClick = { playbackSpeed = speed },
-                                    label = { Text("${speed}x") }
+                                    onClick = {
+                                        playbackSpeed =
+                                            speed
+                                    },
+                                    label = {
+                                        Text(
+                                            "${speed}x"
+                                        )
+                                    }
                                 )
                             }
                         }
@@ -237,47 +337,88 @@ fun VideoPlaybackScreen() {
                         // Stream selection
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                            horizontalArrangement = Arrangement.spacedBy(
+                                Spacing.Small
+                            )
                         ) {
-                            var showRgb by remember { mutableStateOf(true) }
-                            var showThermal by remember { mutableStateOf(true) }
-                            var showGsr by remember { mutableStateOf(true) }
+                            var showRgb by remember {
+                                mutableStateOf(
+                                    true
+                                )
+                            }
+                            var showThermal by remember {
+                                mutableStateOf(
+                                    true
+                                )
+                            }
+                            var showGsr by remember {
+                                mutableStateOf(
+                                    true
+                                )
+                            }
 
                             FilterChip(
                                 selected = showRgb,
-                                onClick = { showRgb = !showRgb },
-                                label = { Text("RGB") },
+                                onClick = {
+                                    showRgb =
+                                        !showRgb
+                                },
+                                label = {
+                                    Text(
+                                        "RGB"
+                                    )
+                                },
                                 leadingIcon = {
                                     Icon(
                                         Icons.Default.Videocam,
                                         null,
-                                        Modifier.size(18.dp)
+                                        Modifier.size(
+                                            18.dp
+                                        )
                                     )
                                 }
                             )
 
                             FilterChip(
                                 selected = showThermal,
-                                onClick = { showThermal = !showThermal },
-                                label = { Text("Thermal") },
+                                onClick = {
+                                    showThermal =
+                                        !showThermal
+                                },
+                                label = {
+                                    Text(
+                                        "Thermal"
+                                    )
+                                },
                                 leadingIcon = {
                                     Icon(
                                         Icons.Default.Thermostat,
                                         null,
-                                        Modifier.size(18.dp)
+                                        Modifier.size(
+                                            18.dp
+                                        )
                                     )
                                 }
                             )
 
                             FilterChip(
                                 selected = showGsr,
-                                onClick = { showGsr = !showGsr },
-                                label = { Text("GSR") },
+                                onClick = {
+                                    showGsr =
+                                        !showGsr
+                                },
+                                label = {
+                                    Text(
+                                        "GSR"
+                                    )
+                                },
                                 leadingIcon = {
                                     Icon(
                                         Icons.Default.ShowChart,
                                         null,
-                                        Modifier.size(18.dp)
+                                        Modifier.size(
+                                            18.dp
+                                        )
                                     )
                                 }
                             )
@@ -286,22 +427,52 @@ fun VideoPlaybackScreen() {
                 }
 
                 // Session metadata
-                BuccancsCard(title = "Session Metadata") {
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-                        MetadataRow("Session ID", selectedSession ?: "")
-                        MetadataRow("Recorded", "16 Oct 2025 10:30:15")
-                        MetadataRow("Duration", "3:05")
-                        MetadataRow("Devices", "2 (Device-001, Device-002)")
-                        MetadataRow("Subjects", "Subject-A, Subject-B")
-                        MetadataRow("Operator", "Operator-001")
-                        MetadataRow("Total Size", "1.2 GB")
+                BuccancsCard(
+                    title = "Session Metadata"
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
+                        MetadataRow(
+                            "Session ID",
+                            selectedSession
+                                ?: ""
+                        )
+                        MetadataRow(
+                            "Recorded",
+                            "16 Oct 2025 10:30:15"
+                        )
+                        MetadataRow(
+                            "Duration",
+                            "3:05"
+                        )
+                        MetadataRow(
+                            "Devices",
+                            "2 (Device-001, Device-002)"
+                        )
+                        MetadataRow(
+                            "Subjects",
+                            "Subject-A, Subject-B"
+                        )
+                        MetadataRow(
+                            "Operator",
+                            "Operator-001"
+                        )
+                        MetadataRow(
+                            "Total Size",
+                            "1.2 GB"
+                        )
                     }
                 }
             } else {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f),
+                        .weight(
+                            1f
+                        ),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant
                     )
@@ -312,12 +483,16 @@ fun VideoPlaybackScreen() {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                            verticalArrangement = Arrangement.spacedBy(
+                                Spacing.Medium
+                            )
                         ) {
                             Icon(
                                 Icons.Default.VideoLibrary,
                                 contentDescription = null,
-                                modifier = Modifier.size(80.dp),
+                                modifier = Modifier.size(
+                                    80.dp
+                                ),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
@@ -348,7 +523,11 @@ private fun SessionListItem(
                 MaterialTheme.colorScheme.surface
         )
     ) {
-        Column(modifier = Modifier.padding(Spacing.Small)) {
+        Column(
+            modifier = Modifier.padding(
+                Spacing.Small
+            )
+        ) {
             Text(
                 session.id,
                 style = MaterialTheme.typography.labelMedium,
@@ -361,27 +540,37 @@ private fun SessionListItem(
                 session.timestamp,
                 style = MaterialTheme.typography.bodySmall,
                 color = if (selected)
-                    MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                    MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                        alpha = 0.7f
+                    )
                 else
                     MaterialTheme.colorScheme.onSurfaceVariant
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.Small
+                )
             ) {
                 Text(
                     session.duration,
                     style = MaterialTheme.typography.bodySmall,
                     color = if (selected)
-                        MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                        MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                            alpha = 0.7f
+                        )
                     else
                         MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Text("•")
+                Text(
+                    "•"
+                )
                 Text(
                     session.size,
                     style = MaterialTheme.typography.bodySmall,
                     color = if (selected)
-                        MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                        MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                            alpha = 0.7f
+                        )
                     else
                         MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -391,12 +580,18 @@ private fun SessionListItem(
 }
 
 @Composable
-private fun MetadataRow(label: String, value: String) {
+private fun MetadataRow(
+    label: String,
+    value: String
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, style = MaterialTheme.typography.bodyMedium)
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyMedium
+        )
         Text(
             value,
             style = MaterialTheme.typography.bodyMedium,
@@ -405,10 +600,17 @@ private fun MetadataRow(label: String, value: String) {
     }
 }
 
-private fun formatTime(seconds: Float): String {
-    val mins = (seconds / 60).toInt()
-    val secs = (seconds % 60).toInt()
-    return "%d:%02d".format(mins, secs)
+private fun formatTime(
+    seconds: Float
+): String {
+    val mins =
+        (seconds / 60).toInt()
+    val secs =
+        (seconds % 60).toInt()
+    return "%d:%02d".format(
+        mins,
+        secs
+    )
 }
 
 private data class SessionRecord(

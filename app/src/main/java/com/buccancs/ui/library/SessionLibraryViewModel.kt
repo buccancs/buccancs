@@ -21,7 +21,12 @@ import kotlin.time.Instant
 class SessionLibraryViewModel @Inject constructor(
     private val storage: RecordingStorage
 ) : ViewModel() {
-    private val json = Json { ignoreUnknownKeys = true; prettyPrint = false }
+    private val json =
+        Json {
+            ignoreUnknownKeys =
+                true; prettyPrint =
+            false
+        }
     private val _state =
         MutableStateFlow(
             SessionLibraryUiState(
@@ -30,7 +35,8 @@ class SessionLibraryViewModel @Inject constructor(
                 errorMessage = null
             )
         )
-    val state: StateFlow<SessionLibraryUiState> = _state.asStateFlow()
+    val state: StateFlow<SessionLibraryUiState> =
+        _state.asStateFlow()
 
     init {
         refresh()
@@ -38,51 +44,89 @@ class SessionLibraryViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, errorMessage = null)
-            val result = runCatching { loadSessions() }
-            _state.value = result.fold(
-                onSuccess = { summaries ->
-                    SessionLibraryUiState(
-                        isLoading = false,
-                        sessions = summaries,
-                        errorMessage = null
-                    )
-                },
-                onFailure = { error ->
-                    SessionLibraryUiState(
-                        isLoading = false,
-                        sessions = emptyList(),
-                        errorMessage = error.message ?: "Unable to load sessions"
-                    )
-                }
-            )
+            _state.value =
+                _state.value.copy(
+                    isLoading = true,
+                    errorMessage = null
+                )
+            val result =
+                runCatching { loadSessions() }
+            _state.value =
+                result.fold(
+                    onSuccess = { summaries ->
+                        SessionLibraryUiState(
+                            isLoading = false,
+                            sessions = summaries,
+                            errorMessage = null
+                        )
+                    },
+                    onFailure = { error ->
+                        SessionLibraryUiState(
+                            isLoading = false,
+                            sessions = emptyList(),
+                            errorMessage = error.message
+                                ?: "Unable to load sessions"
+                        )
+                    }
+                )
         }
     }
 
-    private suspend fun loadSessions(): List<SessionSummary> = withContext(Dispatchers.IO) {
-        val sessionIds = storage.sessionIds()
-        val summaries = mutableListOf<SessionSummary>()
-        sessionIds.forEach { sessionId ->
-            val manifestFile = storage.manifestFile(sessionId)
-            val manifest = parseManifest(manifestFile) ?: return@forEach
-            val directory = storage.sessionDirectory(sessionId)
-            val sizeBytes = storage.directorySize(directory)
-            summaries += SessionSummary(
-                sessionId = sessionId,
-                startedAt = Instant.fromEpochMilliseconds(manifest.startedAtEpochMs),
-                endedAt = manifest.endedAtEpochMs?.let { Instant.fromEpochMilliseconds(it) },
-                durationMillis = manifest.durationMillis,
-                artifactCount = manifest.artifacts.size,
-                totalBytes = sizeBytes,
-                simulation = manifest.simulation
-            )
+    private suspend fun loadSessions(): List<SessionSummary> =
+        withContext(
+            Dispatchers.IO
+        ) {
+            val sessionIds =
+                storage.sessionIds()
+            val summaries =
+                mutableListOf<SessionSummary>()
+            sessionIds.forEach { sessionId ->
+                val manifestFile =
+                    storage.manifestFile(
+                        sessionId
+                    )
+                val manifest =
+                    parseManifest(
+                        manifestFile
+                    )
+                        ?: return@forEach
+                val directory =
+                    storage.sessionDirectory(
+                        sessionId
+                    )
+                val sizeBytes =
+                    storage.directorySize(
+                        directory
+                    )
+                summaries += SessionSummary(
+                    sessionId = sessionId,
+                    startedAt = Instant.fromEpochMilliseconds(
+                        manifest.startedAtEpochMs
+                    ),
+                    endedAt = manifest.endedAtEpochMs?.let {
+                        Instant.fromEpochMilliseconds(
+                            it
+                        )
+                    },
+                    durationMillis = manifest.durationMillis,
+                    artifactCount = manifest.artifacts.size,
+                    totalBytes = sizeBytes,
+                    simulation = manifest.simulation
+                )
+            }
+            summaries.sortedByDescending { it.startedAt }
         }
-        summaries.sortedByDescending { it.startedAt }
-    }
 
-    private fun parseManifest(file: File): SessionManifest? {
+    private fun parseManifest(
+        file: File
+    ): SessionManifest? {
         if (!file.exists()) return null
-        return runCatching { json.decodeFromString(SessionManifest.serializer(), file.readText()) }
+        return runCatching {
+            json.decodeFromString(
+                SessionManifest.serializer(),
+                file.readText()
+            )
+        }
             .getOrNull()
     }
 }
@@ -93,11 +137,12 @@ data class SessionLibraryUiState(
     val errorMessage: String?
 ) {
     companion object {
-        fun empty(): SessionLibraryUiState = SessionLibraryUiState(
-            isLoading = false,
-            sessions = emptyList(),
-            errorMessage = null
-        )
+        fun empty(): SessionLibraryUiState =
+            SessionLibraryUiState(
+                isLoading = false,
+                sessions = emptyList(),
+                errorMessage = null
+            )
     }
 }
 
@@ -112,11 +157,22 @@ data class SessionSummary(
 ) {
     val durationFormatted: String
         get() = durationMillis?.let { millis ->
-            val seconds = millis / 1000
-            val hours = seconds / 3600
-            val minutes = (seconds % 3600) / 60
-            val remaining = seconds % 60
-            String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, remaining)
-        } ?: "n/a"
+            val seconds =
+                millis / 1000
+            val hours =
+                seconds / 3600
+            val minutes =
+                (seconds % 3600) / 60
+            val remaining =
+                seconds % 60
+            String.format(
+                Locale.US,
+                "%02d:%02d:%02d",
+                hours,
+                minutes,
+                remaining
+            )
+        }
+            ?: "n/a"
 }
 

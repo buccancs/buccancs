@@ -92,7 +92,8 @@ public class PayloadContentsDetailsV8orAbove extends PayloadContentsDetails {
             try {
                 dataBlockDetails = verisenseDevice.parseDataBlockMetaData(byteBuffer, currentByteIndexInPayload, dataBlockStartByteIndexInFile, dataBlockIndexInPayload, getPayloadIndex());
                 dataBlockIndexInPayload++;
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 printDataBlockMetadataReport();
                 throw (e);
             }

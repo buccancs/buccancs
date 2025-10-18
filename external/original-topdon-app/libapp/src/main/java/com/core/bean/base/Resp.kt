@@ -4,12 +4,18 @@ import android.text.TextUtils
 
 class Resp<T> {
 
-    var code: String = ""
-    var msg: String = ""
-    var data: T? = null
+    var code: String =
+        ""
+    var msg: String =
+        ""
+    var data: T? =
+        null
 
     fun isSuccess(): Boolean {
-        return TextUtils.equals(code, "0")
+        return TextUtils.equals(
+            code,
+            "0"
+        )
     }
 
     override fun toString(): String {

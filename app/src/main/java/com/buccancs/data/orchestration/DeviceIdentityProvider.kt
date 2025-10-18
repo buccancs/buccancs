@@ -12,13 +12,20 @@ class DeviceIdentityProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     fun deviceId(): String {
-        val androidId = runCatching {
-            Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
-        }.getOrNull()?.takeIf { !it.isNullOrBlank() }
+        val androidId =
+            runCatching {
+                Settings.Secure.getString(
+                    context.contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+            }.getOrNull()
+                ?.takeIf { !it.isNullOrBlank() }
         if (!androidId.isNullOrBlank()) {
             return "android-$androidId"
         }
-        val model = Build.MODEL.orEmpty().ifBlank { "unknown" }
+        val model =
+            Build.MODEL.orEmpty()
+                .ifBlank { "unknown" }
         return "android-$model"
     }
 }

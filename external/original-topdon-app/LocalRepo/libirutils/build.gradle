@@ -1,2 +1,9 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('libirutils_1.2.0_2409241055.aar'))
+configurations
+        .maybeCreate(
+                "default"
+        )
+artifacts
+        .add(
+                "default",
+                file('libirutils_1.2.0_2409241055.aar')
+        )

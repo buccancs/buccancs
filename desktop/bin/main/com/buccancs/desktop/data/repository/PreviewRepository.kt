@@ -6,8 +6,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.time.Instant
 
 class PreviewRepository {
-    private val previews = MutableStateFlow<Map<PreviewKey, PreviewFrameData>>(emptyMap())
-    fun observe(): StateFlow<Map<PreviewKey, PreviewFrameData>> = previews.asStateFlow()
+    private val previews =
+        MutableStateFlow<Map<PreviewKey, PreviewFrameData>>(
+            emptyMap()
+        )
+
+    fun observe(): StateFlow<Map<PreviewKey, PreviewFrameData>> =
+        previews.asStateFlow()
+
     fun update(
         deviceId: String,
         cameraId: String,
@@ -18,19 +24,33 @@ class PreviewRepository {
         height: Int,
         latencyMs: Double
     ) {
-        val key = PreviewKey(deviceId, cameraId)
-        val data = PreviewFrameData(
-            deviceId = deviceId,
-            cameraId = cameraId,
-            capturedAt = Instant.ofEpochMilli(frameTimestampEpochMs),
-            receivedAt = Instant.now(),
-            mimeType = mimeType,
-            width = width,
-            height = height,
-            payload = encodedFrame,
-            latencyMs = latencyMs
-        )
-        previews.value = previews.value.toMutableMap().apply { put(key, data) }
+        val key =
+            PreviewKey(
+                deviceId,
+                cameraId
+            )
+        val data =
+            PreviewFrameData(
+                deviceId = deviceId,
+                cameraId = cameraId,
+                capturedAt = Instant.ofEpochMilli(
+                    frameTimestampEpochMs
+                ),
+                receivedAt = Instant.now(),
+                mimeType = mimeType,
+                width = width,
+                height = height,
+                payload = encodedFrame,
+                latencyMs = latencyMs
+            )
+        previews.value =
+            previews.value.toMutableMap()
+                .apply {
+                    put(
+                        key,
+                        data
+                    )
+                }
     }
 
     data class PreviewKey(

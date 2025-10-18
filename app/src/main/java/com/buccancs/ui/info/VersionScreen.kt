@@ -45,7 +45,9 @@ fun VersionRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun VersionScreen(
     appName: String,
@@ -58,9 +60,15 @@ private fun VersionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Version Information") },
+                title = {
+                    Text(
+                        "Version Information"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -69,20 +77,35 @@ private fun VersionScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.Small
+                )
             ) {
                 Text(
                     text = "○",
@@ -112,11 +135,21 @@ private fun VersionScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(Spacing.Medium),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                        .padding(
+                            Spacing.Medium
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    )
                 ) {
-                    VersionInfoRow("Build", buildNumber)
-                    VersionInfoRow("Release Date", releaseDate)
+                    VersionInfoRow(
+                        "Build",
+                        buildNumber
+                    )
+                    VersionInfoRow(
+                        "Release Date",
+                        releaseDate
+                    )
                 }
             }
 
@@ -127,8 +160,12 @@ private fun VersionScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(Spacing.Medium),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                            .padding(
+                                Spacing.Medium
+                            ),
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
                     ) {
                         Text(
                             text = "Features",
@@ -140,7 +177,9 @@ private fun VersionScreen(
                             Text(
                                 text = "• $feature",
                                 style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(start = Spacing.Small)
+                                modifier = Modifier.padding(
+                                    start = Spacing.Small
+                                )
                             )
                         }
                     }
@@ -151,8 +190,13 @@ private fun VersionScreen(
 }
 
 @Composable
-private fun VersionInfoRow(label: String, value: String) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+private fun VersionInfoRow(
+    label: String,
+    value: String
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,

@@ -42,7 +42,8 @@ public abstract class SensorBMPX80 extends AbstractSensor {
                 outputStream.write(mCalibDetailsBmpX80.getPressureRawCoefficients().length);
                 outputStream.write(mCalibDetailsBmpX80.getPressureRawCoefficients());
                 rawcal = outputStream.toByteArray();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
 

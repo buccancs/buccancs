@@ -40,7 +40,9 @@ fun HelpRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun HelpScreen(
     sections: List<HelpSection>,
@@ -49,9 +51,15 @@ private fun HelpScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Help & Support") },
+                title = {
+                    Text(
+                        "Help & Support"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -60,25 +68,42 @@ private fun HelpScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.SmallMedium)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.SmallMedium
+            )
         ) {
             sections.forEach { section ->
-                HelpSectionCard(section)
+                HelpSectionCard(
+                    section
+                )
             }
         }
     }
 }
 
 @Composable
-private fun HelpSectionCard(section: HelpSection) {
+private fun HelpSectionCard(
+    section: HelpSection
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -88,8 +113,12 @@ private fun HelpSectionCard(section: HelpSection) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             Text(
                 text = section.title,

@@ -102,7 +102,9 @@ public class UartPacketDetails {
                         if (uCPD.mComponentByte == uartComponentByte && uCPD.mPropertyByte == uartPropertyByte) {
                             return uCPD;
                         }
-                    } catch (IllegalArgumentException | IllegalAccessException e) {
+                    } catch (
+                            IllegalArgumentException |
+                            IllegalAccessException e) {
                     }
                 }
             }

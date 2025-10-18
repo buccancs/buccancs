@@ -153,7 +153,8 @@ public class SignalsToPlotFragment extends ListFragment {
                             Log.e(LOG_TAG, "dynamicPlot is null!");
                         }
                         shimmerService.mPlotManager.addSignal(mList.get(i), dynamicPlot);
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         Log.e(LOG_TAG, "Error! Could not add signal: " + e);
                         e.printStackTrace();
                     }
@@ -170,7 +171,8 @@ public class SignalsToPlotFragment extends ListFragment {
                                 Log.e(LOG_TAG, "dynamicPlot is null!");
                             }
                             shimmerService.mPlotManager.addSignal(mList.get(position), dynamicPlot);
-                        } catch (Exception e) {
+                        } catch (
+                                Exception e) {
                             Log.e(LOG_TAG, "Error! Could not add signal: " + e);
                             e.printStackTrace();
                         }

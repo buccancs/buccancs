@@ -56,7 +56,8 @@ public class SensorsEnabledFragment extends ListFragment {
         super.onAttach(activity);
         try {
             mCallback = (SensorsEnabledFragment.OnSensorsSelectedListener) activity;
-        } catch (ClassCastException e) {
+        } catch (
+                ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnSensorSelectedListener");
         }
 

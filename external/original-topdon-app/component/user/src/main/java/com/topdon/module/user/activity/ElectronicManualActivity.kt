@@ -23,13 +23,27 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.utils.Constants
 import com.topdon.module.user.R
 
-@Route(path = RouterConfig.ELECTRONIC_MANUAL)
-class ElectronicManualActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.ELECTRONIC_MANUAL
+)
+class ElectronicManualActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val productType = intent.getIntExtra(Constants.SETTING_TYPE, 0)
+        val productType =
+            intent.getIntExtra(
+                Constants.SETTING_TYPE,
+                0
+            )
 
         setContent {
             MaterialTheme {
@@ -40,21 +54,42 @@ class ElectronicManualActivity : ComponentActivity() {
                             if (productType == Constants.SETTING_BOOK) {
                             } else {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.QUESTION)
-                                    .withBoolean("isTS001", true)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.QUESTION
+                                    )
+                                    .withBoolean(
+                                        "isTS001",
+                                        true
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                             }
                         } else {
                             if (productType == Constants.SETTING_BOOK) {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.PDF)
-                                    .withBoolean("isTS001", false)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.PDF
+                                    )
+                                    .withBoolean(
+                                        "isTS001",
+                                        false
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                             } else {
                                 ARouter.getInstance()
-                                    .build(RouterConfig.QUESTION)
-                                    .withBoolean("isTS001", false)
-                                    .navigation(this)
+                                    .build(
+                                        RouterConfig.QUESTION
+                                    )
+                                    .withBoolean(
+                                        "isTS001",
+                                        false
+                                    )
+                                    .navigation(
+                                        this
+                                    )
                             }
                         }
                     },
@@ -65,34 +100,50 @@ class ElectronicManualActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun ElectronicManualScreen(
     productType: Int,
     onItemClick: (isTS001: Boolean) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    val items = remember(productType) {
-        buildList {
-            if (productType == 1) {
-                add("TS001")
+    val items =
+        remember(
+            productType
+        ) {
+            buildList {
+                if (productType == 1) {
+                    add("TS001")
+                }
+                add("TS004")
             }
-            add("TS004")
         }
-    }
 
-    val title = if (productType == Constants.SETTING_BOOK) {
-        stringResource(R.string.electronic_manual)
-    } else {
-        stringResource(R.string.app_question)
-    }
+    val title =
+        if (productType == Constants.SETTING_BOOK) {
+            stringResource(
+                R.string.electronic_manual
+            )
+        } else {
+            stringResource(
+                R.string.app_question
+            )
+        }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(title) },
+                title = {
+                    Text(
+                        title
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -105,23 +156,36 @@ private fun ElectronicManualScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(
+                    padding
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                8.dp
+            )
         ) {
-            itemsIndexed(items) { index, item ->
+            itemsIndexed(
+                items
+            ) { index, item ->
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            val isTS001 = productType == 1 && index == 0
-                            onItemClick(isTS001)
+                            val isTS001 =
+                                productType == 1 && index == 0
+                            onItemClick(
+                                isTS001
+                            )
                         }
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(
+                                16.dp
+                            ),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {

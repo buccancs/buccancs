@@ -1173,7 +1173,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
                         if (algorithmResultObject != null) {
                             ojc = (ObjectCluster) algorithmResultObject.mResult;
                         }
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -1186,7 +1187,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
                         if (algorithmResultObject != null) {
                             ojc = (ObjectCluster) algorithmResultObject.mResult;
                         }
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -1475,7 +1477,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
                 Integer sensorId = Configuration.Shimmer3.SENSOR_ID.RESERVED_ANY_SENSOR;
                 try {
                     sensorId = Integer.parseInt(identifier);
-                } catch (NumberFormatException nFE) {
+                } catch (
+                        NumberFormatException nFE) {
                 }
 
                 returnValue = getMapOfSensorCalibrationPerSensor(sensorId);
@@ -1528,7 +1531,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
         Integer sensorId = Configuration.Shimmer3.SENSOR_ID.RESERVED_ANY_SENSOR;
         try {
             sensorId = Integer.parseInt(identifier);
-        } catch (NumberFormatException eFE) {
+        } catch (
+                NumberFormatException eFE) {
         }
         for (AbstractSensor abstractSensor : mMapOfSensorClasses.values()) {
             returnValue = abstractSensor.setConfigValueUsingConfigLabel(sensorId, configLabel, valueToSet);
@@ -1544,7 +1548,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
         Integer sensorId = Configuration.Shimmer3.SENSOR_ID.RESERVED_ANY_SENSOR;
         try {
             sensorId = Integer.parseInt(identifier);
-        } catch (NumberFormatException eFE) {
+        } catch (
+                NumberFormatException eFE) {
         }
         for (AbstractSensor abstractSensor : mMapOfSensorClasses.values()) {
             returnValue = abstractSensor.getConfigValueUsingConfigLabel(sensorId, configLabel);
@@ -2590,7 +2595,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
                     aa.initialize();
                 } else if (!aa.isEnabled()) {
                 }
-            } catch (Exception e1) {
+            } catch (
+                    Exception e1) {
                 consolePrintException("Error initialising algorithm module\t" + aa.getAlgorithmName(), e1.getStackTrace());
             }
         }
@@ -2854,7 +2860,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
             AbstractAlgorithm abstractAlgorithm = iterator.next();
             try {
                 abstractAlgorithm.resetAlgorithmBuffers();
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -3219,7 +3226,8 @@ public abstract class ShimmerDevice extends BasicProcessWithCallBack implements 
     public void threadSleep(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             consolePrintLn("threadSleep ERROR");
             e.printStackTrace();
         }

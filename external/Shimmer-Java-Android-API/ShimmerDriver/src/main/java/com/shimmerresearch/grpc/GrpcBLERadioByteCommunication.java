@@ -64,7 +64,8 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
             public void actionPerformed(ActionEvent e) {
                 try {
                     ble.connect();
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -86,7 +87,8 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
             public void actionPerformed(ActionEvent e) {
                 try {
                     ble.disconnect();
-                } catch (ShimmerException e1) {
+                } catch (
+                        ShimmerException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -198,7 +200,8 @@ public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
             } else {
                 throw new ShimmerException("Connect Failed");
             }
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
             throw new ShimmerException("InterruptedException");
         }

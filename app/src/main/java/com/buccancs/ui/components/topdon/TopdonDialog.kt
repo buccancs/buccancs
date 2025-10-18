@@ -38,17 +38,24 @@ fun TopdonAlertDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TopdonTextButton(onClick = {
-                onConfirm()
-                onDismiss()
-            }) {
-                Text(confirmText)
+            TopdonTextButton(
+                onClick = {
+                    onConfirm()
+                    onDismiss()
+                }) {
+                Text(
+                    confirmText
+                )
             }
         },
         dismissButton = dismissText?.let {
             {
-                TopdonTextButton(onClick = onDismiss) {
-                    Text(it)
+                TopdonTextButton(
+                    onClick = onDismiss
+                ) {
+                    Text(
+                        it
+                    )
                 }
             }
         },
@@ -66,7 +73,9 @@ fun TopdonAlertDialog(
             )
         },
         modifier = modifier,
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(
+            16.dp
+        ),
         containerColor = MaterialTheme.colorScheme.surface,
         titleContentColor = MaterialTheme.colorScheme.onSurface,
         textContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -77,7 +86,9 @@ fun TopdonAlertDialog(
 /**
  * Topdon-styled custom dialog with arbitrary content
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopdonDialog(
     onDismiss: () -> Unit,
@@ -91,7 +102,9 @@ fun TopdonDialog(
         properties = properties
     ) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(
+                16.dp
+            ),
             color = MaterialTheme.colorScheme.surface
         ) {
             content()
@@ -148,7 +161,9 @@ fun TopdonPermissionDialog(
 /**
  * Loading dialog with custom content
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopdonLoadingDialog(
     message: String,
@@ -158,17 +173,28 @@ fun TopdonLoadingDialog(
     BasicAlertDialog(
         onDismissRequest = onDismiss,
         modifier = modifier,
-        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+        properties = DialogProperties(
+            dismissOnBackPress = false,
+            dismissOnClickOutside = false
+        )
     ) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(
+                16.dp
+            ),
             color = MaterialTheme.colorScheme.surface,
-            modifier = Modifier.padding(24.dp)
+            modifier = Modifier.padding(
+                24.dp
+            )
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(24.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    16.dp
+                ),
+                modifier = Modifier.padding(
+                    24.dp
+                )
             ) {
                 androidx.compose.material3.CircularProgressIndicator(
                     color = MaterialTheme.colorScheme.primary

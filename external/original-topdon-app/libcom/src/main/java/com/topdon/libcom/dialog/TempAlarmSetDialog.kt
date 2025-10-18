@@ -26,26 +26,55 @@ import com.topdon.lib.core.R as CoreR
 class TempAlarmSetDialog(
     context: Context,
     private val isEdit: Boolean,
-) : Dialog(context, R.style.app_compat_dialog), CompoundButton.OnCheckedChangeListener {
-    var alarmBean = AlarmBean()
+) : Dialog(
+    context,
+    R.style.app_compat_dialog
+),
+    CompoundButton.OnCheckedChangeListener {
+    var alarmBean =
+        AlarmBean()
         set(value) {
-            field = value.copy()
+            field =
+                value.copy()
         }
-    var onSaveListener: ((alarmBean: AlarmBean) -> Unit)? = null
-    private var mediaPlayer: MediaPlayer? = null
-    public var hideAlarmMark = false
+    var onSaveListener: ((alarmBean: AlarmBean) -> Unit)? =
+        null
+    private var mediaPlayer: MediaPlayer? =
+        null
+    public var hideAlarmMark =
+        false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(false)
-        setCanceledOnTouchOutside(false)
-        setContentView(LayoutInflater.from(context).inflate(R.layout.dialog_temp_alarm_set, null))
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        setCancelable(
+            false
+        )
+        setCanceledOnTouchOutside(
+            false
+        )
+        setContentView(
+            LayoutInflater.from(
+                context
+            )
+                .inflate(
+                    R.layout.dialog_temp_alarm_set,
+                    null
+                )
+        )
         initView()
         window?.let {
-            val layoutParams = it.attributes
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-            it.attributes = layoutParams
+            val layoutParams =
+                it.attributes
+            layoutParams.width =
+                ViewGroup.LayoutParams.MATCH_PARENT
+            layoutParams.height =
+                ViewGroup.LayoutParams.MATCH_PARENT
+            it.attributes =
+                layoutParams
         }
     }
 
@@ -57,37 +86,77 @@ class TempAlarmSetDialog(
         cl_root.setOnClickListener { dismiss() }
         cl_close.setOnClickListener { dismiss() }
         tv_save.setOnClickListener { save() }
-        iv_ringtone1.setOnClickListener { selectRingtone(0) }
-        iv_ringtone2.setOnClickListener { selectRingtone(1) }
-        iv_ringtone3.setOnClickListener { selectRingtone(2) }
-        iv_ringtone4.setOnClickListener { selectRingtone(3) }
-        iv_ringtone5.setOnClickListener { selectRingtone(4) }
-        switch_alarm_high.setOnCheckedChangeListener(this)
-        switch_alarm_low.setOnCheckedChangeListener(this)
-        switch_alarm_mark.setOnCheckedChangeListener(this)
-        switch_alarm_ringtone.setOnCheckedChangeListener(this)
+        iv_ringtone1.setOnClickListener {
+            selectRingtone(
+                0
+            )
+        }
+        iv_ringtone2.setOnClickListener {
+            selectRingtone(
+                1
+            )
+        }
+        iv_ringtone3.setOnClickListener {
+            selectRingtone(
+                2
+            )
+        }
+        iv_ringtone4.setOnClickListener {
+            selectRingtone(
+                3
+            )
+        }
+        iv_ringtone5.setOnClickListener {
+            selectRingtone(
+                4
+            )
+        }
+        switch_alarm_high.setOnCheckedChangeListener(
+            this
+        )
+        switch_alarm_low.setOnCheckedChangeListener(
+            this
+        )
+        switch_alarm_mark.setOnCheckedChangeListener(
+            this
+        )
+        switch_alarm_ringtone.setOnCheckedChangeListener(
+            this
+        )
         img_mark_high.setOnClickListener {
-            showColorDialog(true)
+            showColorDialog(
+                true
+            )
         }
         img_mark_low.setOnClickListener {
-            showColorDialog(false)
+            showColorDialog(
+                false
+            )
         }
         iv_check_stoke.setOnClickListener {
             if (!iv_check_stoke.isSelected) {
-                iv_check_stoke.isSelected = true
-                iv_check_matrix.isSelected = false
-                alarmBean.markType = AlarmBean.TYPE_ALARM_MARK_STROKE
+                iv_check_stoke.isSelected =
+                    true
+                iv_check_matrix.isSelected =
+                    false
+                alarmBean.markType =
+                    AlarmBean.TYPE_ALARM_MARK_STROKE
             }
         }
         iv_check_matrix.setOnClickListener {
             if (!iv_check_matrix.isSelected) {
-                iv_check_stoke.isSelected = false
-                iv_check_matrix.isSelected = true
-                alarmBean.markType = AlarmBean.TYPE_ALARM_MARK_MATRIX
+                iv_check_stoke.isSelected =
+                    false
+                iv_check_matrix.isSelected =
+                    true
+                alarmBean.markType =
+                    AlarmBean.TYPE_ALARM_MARK_MATRIX
             }
         }
-        tv_alarm_high_unit.text = UnitTools.showUnit()
-        tv_alarm_low_unit.text = UnitTools.showUnit()
+        tv_alarm_high_unit.text =
+            UnitTools.showUnit()
+        tv_alarm_low_unit.text =
+            UnitTools.showUnit()
     }
 
     override fun show() {
@@ -96,108 +165,226 @@ class TempAlarmSetDialog(
     }
 
     private fun refreshAlarmView() {
-        switch_alarm_high.isChecked = alarmBean.isHighOpen
-        switch_alarm_low.isChecked = alarmBean.isLowOpen
-        switch_alarm_mark.isChecked = isEdit || alarmBean.isMarkOpen
+        switch_alarm_high.isChecked =
+            alarmBean.isHighOpen
+        switch_alarm_low.isChecked =
+            alarmBean.isLowOpen
+        switch_alarm_mark.isChecked =
+            isEdit || alarmBean.isMarkOpen
         if (!isEdit) {
-            switch_alarm_ringtone.isChecked = alarmBean.isRingtoneOpen
+            switch_alarm_ringtone.isChecked =
+                alarmBean.isRingtoneOpen
         }
-        iv_check_stoke.isSelected = alarmBean.markType == AlarmBean.TYPE_ALARM_MARK_STROKE
-        iv_check_matrix.isSelected = alarmBean.markType == AlarmBean.TYPE_ALARM_MARK_MATRIX
-        Glide.with(context).load(ColorDrawable(alarmBean.highColor)).into(img_c_alarm_high)
-        Glide.with(context).load(ColorDrawable(alarmBean.lowColor)).into(img_c_alarm_low)
-        et_alarm_high.isEnabled = switch_alarm_high.isChecked
-        et_alarm_low.isEnabled = switch_alarm_low.isChecked
-        cl_alarm_mark.isVisible = isEdit || switch_alarm_mark.isChecked
-        cl_ringtone_select.isVisible = !isEdit && switch_alarm_ringtone.isChecked
-        tv_alarm_ringtone.isVisible = !isEdit
-        switch_alarm_ringtone.isVisible = !isEdit
+        iv_check_stoke.isSelected =
+            alarmBean.markType == AlarmBean.TYPE_ALARM_MARK_STROKE
+        iv_check_matrix.isSelected =
+            alarmBean.markType == AlarmBean.TYPE_ALARM_MARK_MATRIX
+        Glide.with(
+            context
+        )
+            .load(
+                ColorDrawable(
+                    alarmBean.highColor
+                )
+            )
+            .into(
+                img_c_alarm_high
+            )
+        Glide.with(
+            context
+        )
+            .load(
+                ColorDrawable(
+                    alarmBean.lowColor
+                )
+            )
+            .into(
+                img_c_alarm_low
+            )
+        et_alarm_high.isEnabled =
+            switch_alarm_high.isChecked
+        et_alarm_low.isEnabled =
+            switch_alarm_low.isChecked
+        cl_alarm_mark.isVisible =
+            isEdit || switch_alarm_mark.isChecked
+        cl_ringtone_select.isVisible =
+            !isEdit && switch_alarm_ringtone.isChecked
+        tv_alarm_ringtone.isVisible =
+            !isEdit
+        switch_alarm_ringtone.isVisible =
+            !isEdit
         if (hideAlarmMark) {
-            tv_alarm_mark.visibility = View.GONE
-            switch_alarm_mark.visibility = View.GONE
-            cl_alarm_mark.visibility = View.GONE
+            tv_alarm_mark.visibility =
+                View.GONE
+            switch_alarm_mark.visibility =
+                View.GONE
+            cl_alarm_mark.visibility =
+                View.GONE
         }
-        switch_alarm_mark.isVisible = !isEdit
+        switch_alarm_mark.isVisible =
+            !isEdit
         if (alarmBean.highTemp == Float.MAX_VALUE) {
-            et_alarm_high.setText("")
+            et_alarm_high.setText(
+                ""
+            )
         } else {
-            et_alarm_high.setText(UnitTools.showUnitValue(alarmBean.highTemp).toString())
+            et_alarm_high.setText(
+                UnitTools.showUnitValue(
+                    alarmBean.highTemp
+                )
+                    .toString()
+            )
         }
         if (alarmBean.lowTemp == Float.MIN_VALUE) {
-            et_alarm_low.setText("")
+            et_alarm_low.setText(
+                ""
+            )
         } else {
-            et_alarm_low.setText(UnitTools.showUnitValue(alarmBean.lowTemp).toString())
+            et_alarm_low.setText(
+                UnitTools.showUnitValue(
+                    alarmBean.lowTemp
+                )
+                    .toString()
+            )
         }
-        iv_ringtone1.isSelected = false
-        iv_ringtone2.isSelected = false
-        iv_ringtone3.isSelected = false
-        iv_ringtone4.isSelected = false
-        iv_ringtone5.isSelected = false
+        iv_ringtone1.isSelected =
+            false
+        iv_ringtone2.isSelected =
+            false
+        iv_ringtone3.isSelected =
+            false
+        iv_ringtone4.isSelected =
+            false
+        iv_ringtone5.isSelected =
+            false
         when (alarmBean.ringtoneType) {
-            0 -> iv_ringtone1.isSelected = true
-            1 -> iv_ringtone2.isSelected = true
-            2 -> iv_ringtone3.isSelected = true
-            3 -> iv_ringtone4.isSelected = true
-            4 -> iv_ringtone5.isSelected = true
+            0 -> iv_ringtone1.isSelected =
+                true
+
+            1 -> iv_ringtone2.isSelected =
+                true
+
+            2 -> iv_ringtone3.isSelected =
+                true
+
+            3 -> iv_ringtone4.isSelected =
+                true
+
+            4 -> iv_ringtone5.isSelected =
+                true
         }
     }
 
     private fun save() {
         try {
-            val inputHigh = if (switch_alarm_high.isChecked) {
-                if (et_alarm_high.text.isNotEmpty()) UnitTools.showToCValue(
-                    et_alarm_high.text.toString().toFloat()
-                ) else null
-            } else {
-                null
-            }
-            val inputLow = if (switch_alarm_low.isChecked) {
-                if (et_alarm_low.text.isNotEmpty()) UnitTools.showToCValue(
-                    et_alarm_low.text.toString().toFloat()
-                ) else null
-            } else {
-                null
-            }
+            val inputHigh =
+                if (switch_alarm_high.isChecked) {
+                    if (et_alarm_high.text.isNotEmpty()) UnitTools.showToCValue(
+                        et_alarm_high.text.toString()
+                            .toFloat()
+                    ) else null
+                } else {
+                    null
+                }
+            val inputLow =
+                if (switch_alarm_low.isChecked) {
+                    if (et_alarm_low.text.isNotEmpty()) UnitTools.showToCValue(
+                        et_alarm_low.text.toString()
+                            .toFloat()
+                    ) else null
+                } else {
+                    null
+                }
             if (inputHigh != null && inputLow != null && inputLow > inputHigh) {
-                ToastTools.showShort(CoreR.string.tip_input_format)
+                ToastTools.showShort(
+                    CoreR.string.tip_input_format
+                )
                 return
             }
         } catch (e: Exception) {
-            ToastTools.showShort(CoreR.string.tip_input_format)
+            ToastTools.showShort(
+                CoreR.string.tip_input_format
+            )
             return
         }
-        val inputHigh = if (et_alarm_high.text.isNotEmpty()) et_alarm_high.text.toString() else ""
-        val inputLow = if (et_alarm_low.text.isNotEmpty()) et_alarm_low.text.toString() else ""
-        var highValue: Float? = null
-        var lowValue: Float? = null
+        val inputHigh =
+            if (et_alarm_high.text.isNotEmpty()) et_alarm_high.text.toString() else ""
+        val inputLow =
+            if (et_alarm_low.text.isNotEmpty()) et_alarm_low.text.toString() else ""
+        var highValue: Float? =
+            null
+        var lowValue: Float? =
+            null
         try {
             highValue =
-                if (inputHigh.isNotEmpty()) UnitTools.showToCValue(inputHigh.toFloat()) else null
+                if (inputHigh.isNotEmpty()) UnitTools.showToCValue(
+                    inputHigh.toFloat()
+                ) else null
             lowValue =
-                if (inputLow.isNotEmpty()) UnitTools.showToCValue(inputLow.toFloat()) else null
+                if (inputLow.isNotEmpty()) UnitTools.showToCValue(
+                    inputLow.toFloat()
+                ) else null
         } catch (_: Exception) {
         }
-        alarmBean.highTemp = highValue ?: Float.MAX_VALUE
-        alarmBean.lowTemp = lowValue ?: Float.MIN_VALUE
-        alarmBean.isHighOpen = switch_alarm_high.isChecked
-        alarmBean.isLowOpen = switch_alarm_low.isChecked
-        alarmBean.isRingtoneOpen = switch_alarm_ringtone.isChecked
-        onSaveListener?.invoke(alarmBean)
+        alarmBean.highTemp =
+            highValue
+                ?: Float.MAX_VALUE
+        alarmBean.lowTemp =
+            lowValue
+                ?: Float.MIN_VALUE
+        alarmBean.isHighOpen =
+            switch_alarm_high.isChecked
+        alarmBean.isLowOpen =
+            switch_alarm_low.isChecked
+        alarmBean.isRingtoneOpen =
+            switch_alarm_ringtone.isChecked
+        onSaveListener?.invoke(
+            alarmBean
+        )
         dismiss()
     }
 
-    private fun showColorDialog(isHigh: Boolean) {
+    private fun showColorDialog(
+        isHigh: Boolean
+    ) {
         val colorPickDialog =
-            ColorPickDialog(context, if (isHigh) alarmBean.highColor else alarmBean.lowColor, -1)
-        colorPickDialog.onPickListener = { it: Int, i1: Int ->
-            if (isHigh) {
-                alarmBean.highColor = it
-                Glide.with(context).load(ColorDrawable(it)).into(img_c_alarm_high)
-            } else {
-                alarmBean.lowColor = it
-                Glide.with(context).load(ColorDrawable(it)).into(img_c_alarm_low)
+            ColorPickDialog(
+                context,
+                if (isHigh) alarmBean.highColor else alarmBean.lowColor,
+                -1
+            )
+        colorPickDialog.onPickListener =
+            { it: Int, i1: Int ->
+                if (isHigh) {
+                    alarmBean.highColor =
+                        it
+                    Glide.with(
+                        context
+                    )
+                        .load(
+                            ColorDrawable(
+                                it
+                            )
+                        )
+                        .into(
+                            img_c_alarm_high
+                        )
+                } else {
+                    alarmBean.lowColor =
+                        it
+                    Glide.with(
+                        context
+                    )
+                        .load(
+                            ColorDrawable(
+                                it
+                            )
+                        )
+                        .into(
+                            img_c_alarm_low
+                        )
+                }
             }
-        }
         colorPickDialog.show()
     }
 
@@ -208,40 +395,57 @@ class TempAlarmSetDialog(
                 mediaPlayer?.stop()
             }
             mediaPlayer?.release()
-            mediaPlayer = null
+            mediaPlayer =
+                null
         } catch (_: Exception) {
         }
     }
 
-    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+    override fun onCheckedChanged(
+        buttonView: CompoundButton?,
+        isChecked: Boolean
+    ) {
         when (buttonView?.id) {
             R.id.switch_alarm_high -> {
-                et_alarm_high.isEnabled = isChecked
-                alarmBean.isHighOpen = isChecked
+                et_alarm_high.isEnabled =
+                    isChecked
+                alarmBean.isHighOpen =
+                    isChecked
             }
 
             R.id.switch_alarm_low -> {
-                et_alarm_low.isEnabled = isChecked
-                alarmBean.isLowOpen = isChecked
+                et_alarm_low.isEnabled =
+                    isChecked
+                alarmBean.isLowOpen =
+                    isChecked
             }
 
             R.id.switch_alarm_mark -> {
-                cl_alarm_mark.isVisible = isChecked
-                alarmBean.isMarkOpen = isChecked
+                cl_alarm_mark.isVisible =
+                    isChecked
+                alarmBean.isMarkOpen =
+                    isChecked
             }
 
             R.id.switch_alarm_ringtone -> {
-                cl_ringtone_select.isVisible = isChecked
+                cl_ringtone_select.isVisible =
+                    isChecked
                 if (isChecked) {
-                    selectRingtone(alarmBean.ringtoneType)
+                    selectRingtone(
+                        alarmBean.ringtoneType
+                    )
                 } else {
-                    selectRingtone(null)
+                    selectRingtone(
+                        null
+                    )
                 }
             }
         }
     }
 
-    private fun selectRingtone(position: Int?) {
+    private fun selectRingtone(
+        position: Int?
+    ) {
         try {
             if (mediaPlayer != null) {
                 mediaPlayer?.stop()
@@ -252,79 +456,170 @@ class TempAlarmSetDialog(
         if (position == null) {
             return
         }
-        alarmBean.ringtoneType = position
-        iv_ringtone1.isSelected = false
-        iv_ringtone2.isSelected = false
-        iv_ringtone3.isSelected = false
-        iv_ringtone4.isSelected = false
-        iv_ringtone5.isSelected = false
+        alarmBean.ringtoneType =
+            position
+        iv_ringtone1.isSelected =
+            false
+        iv_ringtone2.isSelected =
+            false
+        iv_ringtone3.isSelected =
+            false
+        iv_ringtone4.isSelected =
+            false
+        iv_ringtone5.isSelected =
+            false
         when (position) {
-            0 -> iv_ringtone1.isSelected = true
-            1 -> iv_ringtone2.isSelected = true
-            2 -> iv_ringtone3.isSelected = true
-            3 -> iv_ringtone4.isSelected = true
-            4 -> iv_ringtone5.isSelected = true
+            0 -> iv_ringtone1.isSelected =
+                true
+
+            1 -> iv_ringtone2.isSelected =
+                true
+
+            2 -> iv_ringtone3.isSelected =
+                true
+
+            3 -> iv_ringtone4.isSelected =
+                true
+
+            4 -> iv_ringtone5.isSelected =
+                true
         }
         when (position) {
-            0 -> mediaPlayer = MediaPlayer.create(context, R.raw.ringtone1)
-            1 -> mediaPlayer = MediaPlayer.create(context, R.raw.ringtone2)
-            2 -> mediaPlayer = MediaPlayer.create(context, R.raw.ringtone3)
-            3 -> mediaPlayer = MediaPlayer.create(context, R.raw.ringtone4)
-            4 -> mediaPlayer = MediaPlayer.create(context, R.raw.ringtone5)
+            0 -> mediaPlayer =
+                MediaPlayer.create(
+                    context,
+                    R.raw.ringtone1
+                )
+
+            1 -> mediaPlayer =
+                MediaPlayer.create(
+                    context,
+                    R.raw.ringtone2
+                )
+
+            2 -> mediaPlayer =
+                MediaPlayer.create(
+                    context,
+                    R.raw.ringtone3
+                )
+
+            3 -> mediaPlayer =
+                MediaPlayer.create(
+                    context,
+                    R.raw.ringtone4
+                )
+
+            4 -> mediaPlayer =
+                MediaPlayer.create(
+                    context,
+                    R.raw.ringtone5
+                )
         }
         mediaPlayer?.start()
     }
 }
 
 private val TempAlarmSetDialog.cl_root: View
-    get() = findViewById(R.id.cl_root)
+    get() = findViewById(
+        R.id.cl_root
+    )
 private val TempAlarmSetDialog.cl_close: View
-    get() = findViewById(R.id.cl_close)
+    get() = findViewById(
+        R.id.cl_close
+    )
 private val TempAlarmSetDialog.tv_save: TextView
-    get() = findViewById(R.id.tv_save)
+    get() = findViewById(
+        R.id.tv_save
+    )
 private val TempAlarmSetDialog.iv_ringtone1: ImageView
-    get() = findViewById(R.id.iv_ringtone1)
+    get() = findViewById(
+        R.id.iv_ringtone1
+    )
 private val TempAlarmSetDialog.iv_ringtone2: ImageView
-    get() = findViewById(R.id.iv_ringtone2)
+    get() = findViewById(
+        R.id.iv_ringtone2
+    )
 private val TempAlarmSetDialog.iv_ringtone3: ImageView
-    get() = findViewById(R.id.iv_ringtone3)
+    get() = findViewById(
+        R.id.iv_ringtone3
+    )
 private val TempAlarmSetDialog.iv_ringtone4: ImageView
-    get() = findViewById(R.id.iv_ringtone4)
+    get() = findViewById(
+        R.id.iv_ringtone4
+    )
 private val TempAlarmSetDialog.iv_ringtone5: ImageView
-    get() = findViewById(R.id.iv_ringtone5)
+    get() = findViewById(
+        R.id.iv_ringtone5
+    )
 private val TempAlarmSetDialog.switch_alarm_high: SwitchCompat
-    get() = findViewById(R.id.switch_alarm_high)
+    get() = findViewById(
+        R.id.switch_alarm_high
+    )
 private val TempAlarmSetDialog.switch_alarm_low: SwitchCompat
-    get() = findViewById(R.id.switch_alarm_low)
+    get() = findViewById(
+        R.id.switch_alarm_low
+    )
 private val TempAlarmSetDialog.switch_alarm_mark: SwitchCompat
-    get() = findViewById(R.id.switch_alarm_mark)
+    get() = findViewById(
+        R.id.switch_alarm_mark
+    )
 private val TempAlarmSetDialog.switch_alarm_ringtone: SwitchCompat
-    get() = findViewById(R.id.switch_alarm_ringtone)
+    get() = findViewById(
+        R.id.switch_alarm_ringtone
+    )
 private val TempAlarmSetDialog.img_mark_high: View
-    get() = findViewById(R.id.img_mark_high)
+    get() = findViewById(
+        R.id.img_mark_high
+    )
 private val TempAlarmSetDialog.img_mark_low: View
-    get() = findViewById(R.id.img_mark_low)
+    get() = findViewById(
+        R.id.img_mark_low
+    )
 private val TempAlarmSetDialog.iv_check_stoke: ImageView
-    get() = findViewById(R.id.iv_check_stoke)
+    get() = findViewById(
+        R.id.iv_check_stoke
+    )
 private val TempAlarmSetDialog.iv_check_matrix: ImageView
-    get() = findViewById(R.id.iv_check_matrix)
+    get() = findViewById(
+        R.id.iv_check_matrix
+    )
 private val TempAlarmSetDialog.tv_alarm_high_unit: TextView
-    get() = findViewById(R.id.tv_alarm_high_unit)
+    get() = findViewById(
+        R.id.tv_alarm_high_unit
+    )
 private val TempAlarmSetDialog.tv_alarm_low_unit: TextView
-    get() = findViewById(R.id.tv_alarm_low_unit)
+    get() = findViewById(
+        R.id.tv_alarm_low_unit
+    )
 private val TempAlarmSetDialog.img_c_alarm_high: ImageView
-    get() = findViewById(R.id.img_c_alarm_high)
+    get() = findViewById(
+        R.id.img_c_alarm_high
+    )
 private val TempAlarmSetDialog.img_c_alarm_low: ImageView
-    get() = findViewById(R.id.img_c_alarm_low)
+    get() = findViewById(
+        R.id.img_c_alarm_low
+    )
 private val TempAlarmSetDialog.et_alarm_high: EditText
-    get() = findViewById(R.id.et_alarm_high)
+    get() = findViewById(
+        R.id.et_alarm_high
+    )
 private val TempAlarmSetDialog.et_alarm_low: EditText
-    get() = findViewById(R.id.et_alarm_low)
+    get() = findViewById(
+        R.id.et_alarm_low
+    )
 private val TempAlarmSetDialog.cl_alarm_mark: View
-    get() = findViewById(R.id.cl_alarm_mark)
+    get() = findViewById(
+        R.id.cl_alarm_mark
+    )
 private val TempAlarmSetDialog.cl_ringtone_select: View
-    get() = findViewById(R.id.cl_ringtone_select)
+    get() = findViewById(
+        R.id.cl_ringtone_select
+    )
 private val TempAlarmSetDialog.tv_alarm_ringtone: TextView
-    get() = findViewById(R.id.tv_alarm_ringtone)
+    get() = findViewById(
+        R.id.tv_alarm_ringtone
+    )
 private val TempAlarmSetDialog.tv_alarm_mark: TextView
-    get() = findViewById(R.id.tv_alarm_mark)
+    get() = findViewById(
+        R.id.tv_alarm_mark
+    )

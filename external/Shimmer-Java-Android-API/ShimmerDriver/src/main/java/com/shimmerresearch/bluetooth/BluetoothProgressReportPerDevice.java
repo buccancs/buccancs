@@ -54,8 +54,10 @@ public class BluetoothProgressReportPerDevice implements Serializable {
 
         mCommandCompleted = commandsCompleted;
 
-        if (mProgressCounter < 0) mProgressCounter = 0;
-        if (mProgressCounter > mProgressEndValue) mProgressCounter = mProgressEndValue;
+        if (mProgressCounter < 0)
+            mProgressCounter = 0;
+        if (mProgressCounter > mProgressEndValue)
+            mProgressCounter = mProgressEndValue;
 
         if (mProgressEndValue != 0) {
             mProgressPercentageComplete = (int) (((double) mProgressCounter / (double) mProgressEndValue) * 100);
@@ -97,10 +99,12 @@ public class BluetoothProgressReportPerDevice implements Serializable {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (BluetoothProgressReportPerDevice) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }

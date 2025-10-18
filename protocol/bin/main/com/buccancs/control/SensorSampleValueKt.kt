@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializesensorSampleValue")
-public inline fun sensorSampleValue(block: com.buccancs.control.SensorSampleValueKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleValue =
-    com.buccancs.control.SensorSampleValueKt.Dsl._create(com.buccancs.control.SensorSampleValue.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializesensorSampleValue"
+)
+public inline fun sensorSampleValue(
+    block: com.buccancs.control.SensorSampleValueKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SensorSampleValue =
+    com.buccancs.control.SensorSampleValueKt.Dsl._create(
+        com.buccancs.control.SensorSampleValue.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.SensorSampleValue`
  */
 public object SensorSampleValueKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.SensorSampleValue.Builder
@@ -23,13 +34,16 @@ public object SensorSampleValueKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SensorSampleValue.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.SensorSampleValue.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.SensorSampleValue = _builder.build()
+        internal fun _build(): com.buccancs.control.SensorSampleValue =
+            _builder.build()
 
         /**
          * `string key = 1;`
@@ -37,7 +51,9 @@ public object SensorSampleValueKt {
         public var key: kotlin.String
             get() = _builder.getKey()
             set(value) {
-                _builder.setKey(value)
+                _builder.setKey(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object SensorSampleValueKt {
         public var value: kotlin.Double
             get() = _builder.getValue()
             set(value) {
-                _builder.setValue(value)
+                _builder.setValue(
+                    value
+                )
             }
 
         /**
@@ -66,7 +84,12 @@ public object SensorSampleValueKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.SensorSampleValue.copy(block: `com.buccancs.control`.SensorSampleValueKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorSampleValue =
-    `com.buccancs.control`.SensorSampleValueKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.SensorSampleValue.copy(
+    block: `com.buccancs.control`.SensorSampleValueKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SensorSampleValue =
+    `com.buccancs.control`.SensorSampleValueKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

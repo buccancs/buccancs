@@ -49,13 +49,30 @@ fun MainContainerScreen(
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedTab by remember { mutableIntStateOf(1) }
+    var selectedTab by remember {
+        mutableIntStateOf(
+            1
+        )
+    }
 
-    val navItems = listOf(
-        BottomNavItem("Gallery", Icons.Default.Image, 0),
-        BottomNavItem("Main", Icons.Default.Home, 1),
-        BottomNavItem("Mine", Icons.Default.Person, 2)
-    )
+    val navItems =
+        listOf(
+            BottomNavItem(
+                "Gallery",
+                Icons.Default.Image,
+                0
+            ),
+            BottomNavItem(
+                "Main",
+                Icons.Default.Home,
+                1
+            ),
+            BottomNavItem(
+                "Mine",
+                Icons.Default.Person,
+                2
+            )
+        )
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -72,9 +89,16 @@ fun MainContainerScreen(
                                 contentDescription = item.label
                             )
                         },
-                        label = { Text(item.label) },
+                        label = {
+                            Text(
+                                item.label
+                            )
+                        },
                         selected = selectedTab == item.index,
-                        onClick = { selectedTab = item.index }
+                        onClick = {
+                            selectedTab =
+                                item.index
+                        }
                     )
                 }
             }
@@ -83,7 +107,9 @@ fun MainContainerScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(
+                    paddingValues
+                )
         ) {
             when (selectedTab) {
                 0 -> GalleryScreen(

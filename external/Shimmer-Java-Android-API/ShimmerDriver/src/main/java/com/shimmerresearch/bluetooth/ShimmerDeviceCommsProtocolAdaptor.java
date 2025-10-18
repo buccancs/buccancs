@@ -20,7 +20,8 @@ public class ShimmerDeviceCommsProtocolAdaptor {
         if (mShimmerDevice.mCommsProtocolRadio != null) {
             try {
                 mShimmerDevice.mCommsProtocolRadio.connect();
-            } catch (ShimmerException dE) {
+            } catch (
+                    ShimmerException dE) {
                 mShimmerDevice.consolePrintLn("Failed to Connect");
                 mShimmerDevice.consolePrintLn(dE.getErrStringFormatted());
 

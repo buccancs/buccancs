@@ -61,7 +61,8 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
     public void connect() throws ShimmerException {
         try {
             mRadioHal.connect();
-        } catch (ShimmerException dE) {
+        } catch (
+                ShimmerException dE) {
             disconnect();
             throw (dE);
         }
@@ -76,7 +77,8 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
         if (mRadioHal != null) {
             try {
                 mRadioHal.disconnect();
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 eventError(e);
                 throw (e);
             } finally {
@@ -245,7 +247,8 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
             try {
                 mRadioProtocol.setProtocolListener(new CommsProtocolListener());
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 eventError(e);
             }
 
@@ -416,7 +419,8 @@ public class CommsProtocolRadio extends BasicProcessWithCallBack {
 
             try {
                 disconnect();
-            } catch (ShimmerException e) {
+            } catch (
+                    ShimmerException e) {
                 eventError(e);
             }
         }

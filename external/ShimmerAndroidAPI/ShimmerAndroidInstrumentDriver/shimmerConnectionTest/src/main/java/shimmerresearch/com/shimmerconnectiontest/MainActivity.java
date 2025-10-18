@@ -121,7 +121,8 @@ public class MainActivity extends Activity {
             if (btManager == null) {
                 try {
                     btManager = new ShimmerBluetoothManagerAndroid(this, mHandler);
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -301,7 +302,8 @@ public class MainActivity extends Activity {
                                     editTextTotalRetries.setText(Integer.toString(totalRetries));
                                     try {
                                         Thread.sleep(500);
-                                    } catch (InterruptedException e) {
+                                    } catch (
+                                            InterruptedException e) {
                                         e.printStackTrace();
                                     }
                                     Log.i(LOG_TAG, "Connect Called, retry count: " + Integer.toString(retryCount) + "; Total number of retries:" + totalRetries);
@@ -310,7 +312,8 @@ public class MainActivity extends Activity {
                                     btManager.connectShimmerThroughBTAddress(macAdd);
                                     try {
                                         Thread.sleep(500);
-                                    } catch (InterruptedException e) {
+                                    } catch (
+                                            InterruptedException e) {
                                         e.printStackTrace();
                                     }
                                 } else {

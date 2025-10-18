@@ -42,53 +42,115 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 
-@Route(path = RouterConfig.IR_MAIN)
-class IRMainActivity : BaseActivity(), View.OnClickListener {
-    private var isTC007 = false
-    override fun initContentView(): Int = R.layout.activity_ir_main
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
+@Route(
+    path = RouterConfig.IR_MAIN
+)
+class IRMainActivity :
+    BaseActivity(),
+    View.OnClickListener {
+    private var isTC007 =
+        false
+
+    override fun initContentView(): Int =
+        R.layout.activity_ir_main
+
+    override fun onNewIntent(
+        intent: Intent?
+    ) {
+        super.onNewIntent(
+            intent
+        )
         initView()
     }
 
     override fun initView() {
-        isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-        view_page.offscreenPageLimit = 5
-        view_page.isUserInputEnabled = false
-        view_page.adapter = ViewPagerAdapter(this, isTC007)
-        view_page.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                refreshTabSelect(position)
-            }
-        })
-        view_page.setCurrentItem(2, false)
-        cl_icon_monitor.setOnClickListener(this)
-        cl_icon_gallery.setOnClickListener(this)
-        view_main_thermal.setOnClickListener(this)
-        cl_icon_report.setOnClickListener(this)
-        cl_icon_mine.setOnClickListener(this)
+        isTC007 =
+            intent.getBooleanExtra(
+                ExtraKeyConfig.IS_TC007,
+                false
+            )
+        view_page.offscreenPageLimit =
+            5
+        view_page.isUserInputEnabled =
+            false
+        view_page.adapter =
+            ViewPagerAdapter(
+                this,
+                isTC007
+            )
+        view_page.registerOnPageChangeCallback(
+            object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(
+                    position: Int
+                ) {
+                    refreshTabSelect(
+                        position
+                    )
+                }
+            })
+        view_page.setCurrentItem(
+            2,
+            false
+        )
+        cl_icon_monitor.setOnClickListener(
+            this
+        )
+        cl_icon_gallery.setOnClickListener(
+            this
+        )
+        view_main_thermal.setOnClickListener(
+            this
+        )
+        cl_icon_report.setOnClickListener(
+            this
+        )
+        cl_icon_mine.setOnClickListener(
+            this
+        )
         showGuideDialog()
     }
 
     override fun onResume() {
         super.onResume()
         if (isTC007) {
-            if (WebSocketProxy.getInstance().isTC007Connect()) {
-                NetWorkUtils.switchNetwork(false)
-                iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_connect)
+            if (WebSocketProxy.getInstance()
+                    .isTC007Connect()
+            ) {
+                NetWorkUtils.switchNetwork(
+                    false
+                )
+                iv_main_bg.setImageResource(
+                    R.drawable.ic_ir_main_bg_connect
+                )
                 lifecycleScope.launch {
                 }
                 if (SharedManager.isConnect07AutoOpen) {
-                    ARouter.getInstance().build(RouterConfig.IR_THERMAL_07).navigation(this)
+                    ARouter.getInstance()
+                        .build(
+                            RouterConfig.IR_THERMAL_07
+                        )
+                        .navigation(
+                            this
+                        )
                 }
             } else {
-                iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_disconnect)
+                iv_main_bg.setImageResource(
+                    R.drawable.ic_ir_main_bg_disconnect
+                )
             }
         } else {
-            if (DeviceTools.isConnect(isAutoRequest = false)) {
-                iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_connect)
+            if (DeviceTools.isConnect(
+                    isAutoRequest = false
+                )
+            ) {
+                iv_main_bg.setImageResource(
+                    R.drawable.ic_ir_main_bg_connect
+                )
             } else {
-                iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_disconnect)
+                iv_main_bg.setImageResource(
+                    R.drawable.ic_ir_main_bg_disconnect
+                )
             }
         }
     }
@@ -98,32 +160,49 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
 
     override fun connected() {
         if (!isTC007) {
-            iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_connect)
+            iv_main_bg.setImageResource(
+                R.drawable.ic_ir_main_bg_connect
+            )
         }
     }
 
     override fun disConnected() {
         if (!isTC007) {
-            iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_disconnect)
+            iv_main_bg.setImageResource(
+                R.drawable.ic_ir_main_bg_disconnect
+            )
         }
     }
 
-    override fun onSocketConnected(isTS004: Boolean) {
+    override fun onSocketConnected(
+        isTS004: Boolean
+    ) {
         if (!isTS004 && isTC007) {
-            iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_connect)
+            iv_main_bg.setImageResource(
+                R.drawable.ic_ir_main_bg_connect
+            )
         }
     }
 
-    override fun onSocketDisConnected(isTS004: Boolean) {
+    override fun onSocketDisConnected(
+        isTS004: Boolean
+    ) {
         if (!isTS004 && isTC007) {
-            iv_main_bg.setImageResource(R.drawable.ic_ir_main_bg_disconnect)
+            iv_main_bg.setImageResource(
+                R.drawable.ic_ir_main_bg_disconnect
+            )
         }
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(
+        v: View?
+    ) {
         when (v) {
             cl_icon_monitor -> {
-                view_page.setCurrentItem(0, false)
+                view_page.setCurrentItem(
+                    0,
+                    false
+                )
             }
 
             cl_icon_gallery -> {
@@ -131,56 +210,92 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
             }
 
             view_main_thermal -> {
-                view_page.setCurrentItem(2, false)
+                view_page.setCurrentItem(
+                    2,
+                    false
+                )
             }
 
             cl_icon_report -> {
                 if (LMS.getInstance().isLogin) {
-                    view_page.setCurrentItem(3, false)
+                    view_page.setCurrentItem(
+                        3,
+                        false
+                    )
                 } else {
-                    LMS.getInstance().activityLogin(null) {
-                        if (it) {
-                            view_page.setCurrentItem(3, false)
-                            EventBus.getDefault().post(PDFEvent())
+                    LMS.getInstance()
+                        .activityLogin(
+                            null
+                        ) {
+                            if (it) {
+                                view_page.setCurrentItem(
+                                    3,
+                                    false
+                                )
+                                EventBus.getDefault()
+                                    .post(
+                                        PDFEvent()
+                                    )
+                            }
                         }
-                    }
                 }
             }
 
             cl_icon_mine -> {
-                view_page.setCurrentItem(4, false)
+                view_page.setCurrentItem(
+                    4,
+                    false
+                )
             }
         }
     }
 
-    private fun refreshTabSelect(index: Int) {
-        iv_icon_monitor.isSelected = false
-        tv_icon_monitor.isSelected = false
-        iv_icon_gallery.isSelected = false
-        tv_icon_gallery.isSelected = false
-        iv_icon_report.isSelected = false
-        tv_icon_report.isSelected = false
-        iv_icon_mine.isSelected = false
-        tv_icon_mine.isSelected = false
+    private fun refreshTabSelect(
+        index: Int
+    ) {
+        iv_icon_monitor.isSelected =
+            false
+        tv_icon_monitor.isSelected =
+            false
+        iv_icon_gallery.isSelected =
+            false
+        tv_icon_gallery.isSelected =
+            false
+        iv_icon_report.isSelected =
+            false
+        tv_icon_report.isSelected =
+            false
+        iv_icon_mine.isSelected =
+            false
+        tv_icon_mine.isSelected =
+            false
         when (index) {
             0 -> {
-                iv_icon_monitor.isSelected = true
-                tv_icon_monitor.isSelected = true
+                iv_icon_monitor.isSelected =
+                    true
+                tv_icon_monitor.isSelected =
+                    true
             }
 
             1 -> {
-                iv_icon_gallery.isSelected = true
-                tv_icon_gallery.isSelected = true
+                iv_icon_gallery.isSelected =
+                    true
+                tv_icon_gallery.isSelected =
+                    true
             }
 
             3 -> {
-                iv_icon_report.isSelected = true
-                tv_icon_report.isSelected = true
+                iv_icon_report.isSelected =
+                    true
+                tv_icon_report.isSelected =
+                    true
             }
 
             4 -> {
-                iv_icon_mine.isSelected = true
-                tv_icon_mine.isSelected = true
+                iv_icon_mine.isSelected =
+                    true
+                tv_icon_mine.isSelected =
+                    true
             }
         }
     }
@@ -190,46 +305,83 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
             return
         }
         when (SharedManager.homeGuideStep) {
-            1 -> view_page.setCurrentItem(0, false)
-            2 -> view_page.setCurrentItem(4, false)
-            3 -> view_page.setCurrentItem(2, false)
+            1 -> view_page.setCurrentItem(
+                0,
+                false
+            )
+
+            2 -> view_page.setCurrentItem(
+                4,
+                false
+            )
+
+            3 -> view_page.setCurrentItem(
+                2,
+                false
+            )
         }
-        val guideDialog = HomeGuideDialog(this, SharedManager.homeGuideStep)
-        guideDialog.onNextClickListener = {
-            when (it) {
-                1 -> {
-                    view_page.setCurrentItem(4, false)
-                    if (Build.VERSION.SDK_INT < 31) {
-                        lifecycleScope.launch {
-                            delay(100)
-                            guideDialog.blurBg(cl_root)
+        val guideDialog =
+            HomeGuideDialog(
+                this,
+                SharedManager.homeGuideStep
+            )
+        guideDialog.onNextClickListener =
+            {
+                when (it) {
+                    1 -> {
+                        view_page.setCurrentItem(
+                            4,
+                            false
+                        )
+                        if (Build.VERSION.SDK_INT < 31) {
+                            lifecycleScope.launch {
+                                delay(
+                                    100
+                                )
+                                guideDialog.blurBg(
+                                    cl_root
+                                )
+                            }
                         }
+                        SharedManager.homeGuideStep =
+                            2
                     }
-                    SharedManager.homeGuideStep = 2
-                }
 
-                2 -> {
-                    view_page.setCurrentItem(2, false)
-                    if (Build.VERSION.SDK_INT < 31) {
-                        lifecycleScope.launch {
-                            delay(100)
-                            guideDialog.blurBg(cl_root)
+                    2 -> {
+                        view_page.setCurrentItem(
+                            2,
+                            false
+                        )
+                        if (Build.VERSION.SDK_INT < 31) {
+                            lifecycleScope.launch {
+                                delay(
+                                    100
+                                )
+                                guideDialog.blurBg(
+                                    cl_root
+                                )
+                            }
                         }
+                        SharedManager.homeGuideStep =
+                            3
                     }
-                    SharedManager.homeGuideStep = 3
-                }
 
-                3 -> {
-                    SharedManager.homeGuideStep = 0
+                    3 -> {
+                        SharedManager.homeGuideStep =
+                            0
+                    }
                 }
             }
-        }
-        guideDialog.onSkinClickListener = {
-            SharedManager.homeGuideStep = 0
-        }
+        guideDialog.onSkinClickListener =
+            {
+                SharedManager.homeGuideStep =
+                    0
+            }
         guideDialog.setOnDismissListener {
             if (Build.VERSION.SDK_INT >= 31) {
-                window?.decorView?.setRenderEffect(null)
+                window?.decorView?.setRenderEffect(
+                    null
+                )
             }
         }
         guideDialog.show()
@@ -243,8 +395,12 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
             )
         } else {
             lifecycleScope.launch {
-                delay(100)
-                guideDialog.blurBg(cl_root)
+                delay(
+                    100
+                )
+                guideDialog.blurBg(
+                    cl_root
+                )
             }
         }
     }
@@ -270,84 +426,170 @@ class IRMainActivity : BaseActivity(), View.OnClickListener {
                     Permission.WRITE_EXTERNAL_STORAGE
                 )
             } else {
-                listOf(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+                listOf(
+                    Permission.READ_EXTERNAL_STORAGE,
+                    Permission.WRITE_EXTERNAL_STORAGE
+                )
             }
-        if (!XXPermissions.isGranted(this, permissionList)) {
+        if (!XXPermissions.isGranted(
+                this,
+                permissionList
+            )
+        ) {
             if (BaseApplication.instance.isDomestic()) {
-                TipDialog.Builder(this)
+                TipDialog.Builder(
+                    this
+                )
                     .setMessage(
                         getString(
                             R.string.permission_request_storage_app,
                             CommUtils.getAppName()
                         )
                     )
-                    .setCancelListener(R.string.app_cancel)
-                    .setPositiveListener(R.string.app_confirm) {
-                        initStoragePermission(permissionList)
+                    .setCancelListener(
+                        R.string.app_cancel
+                    )
+                    .setPositiveListener(
+                        R.string.app_confirm
+                    ) {
+                        initStoragePermission(
+                            permissionList
+                        )
                     }
-                    .create().show()
+                    .create()
+                    .show()
             } else {
-                initStoragePermission(permissionList)
+                initStoragePermission(
+                    permissionList
+                )
             }
         } else {
-            initStoragePermission(permissionList)
+            initStoragePermission(
+                permissionList
+            )
         }
     }
 
-    private fun initStoragePermission(permissionList: List<String>) {
+    private fun initStoragePermission(
+        permissionList: List<String>
+    ) {
         if (PermissionUtils.isVisualUser()) {
-            view_page.setCurrentItem(1, false)
+            view_page.setCurrentItem(
+                1,
+                false
+            )
             return
         }
-        XXPermissions.with(this)
-            .permission(permissionList)
-            .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
-                    if (allGranted) {
-                        view_page.setCurrentItem(1, false)
+        XXPermissions.with(
+            this
+        )
+            .permission(
+                permissionList
+            )
+            .request(
+                object :
+                    OnPermissionCallback {
+                    override fun onGranted(
+                        permissions: MutableList<String>,
+                        allGranted: Boolean
+                    ) {
+                        if (allGranted) {
+                            view_page.setCurrentItem(
+                                1,
+                                false
+                            )
+                        }
                     }
-                }
 
-                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
-                    if (doNotAskAgain) {
-                        TipDialog.Builder(this@IRMainActivity)
-                            .setTitleMessage(getString(R.string.app_tip))
-                            .setMessage(getString(R.string.app_album_content))
-                            .setPositiveListener(R.string.app_open) {
-                                AppUtils.launchAppDetailsSettings()
-                            }
-                            .setCancelListener(R.string.app_cancel) {
-                            }
-                            .setCanceled(true)
-                            .create().show()
+                    override fun onDenied(
+                        permissions: MutableList<String>,
+                        doNotAskAgain: Boolean
+                    ) {
+                        if (doNotAskAgain) {
+                            TipDialog.Builder(
+                                this@IRMainActivity
+                            )
+                                .setTitleMessage(
+                                    getString(
+                                        R.string.app_tip
+                                    )
+                                )
+                                .setMessage(
+                                    getString(
+                                        R.string.app_album_content
+                                    )
+                                )
+                                .setPositiveListener(
+                                    R.string.app_open
+                                ) {
+                                    AppUtils.launchAppDetailsSettings()
+                                }
+                                .setCancelListener(
+                                    R.string.app_cancel
+                                ) {
+                                }
+                                .setCanceled(
+                                    true
+                                )
+                                .create()
+                                .show()
+                        }
                     }
-                }
-            })
+                })
     }
 
-    private class ViewPagerAdapter(activity: FragmentActivity, val isTC007: Boolean) :
-        FragmentStateAdapter(activity) {
-        override fun getItemCount() = 5
-        override fun createFragment(position: Int): Fragment {
+    private class ViewPagerAdapter(
+        activity: FragmentActivity,
+        val isTC007: Boolean
+    ) :
+        FragmentStateAdapter(
+            activity
+        ) {
+        override fun getItemCount() =
+            5
+
+        override fun createFragment(
+            position: Int
+        ): Fragment {
             if (position == 1) {
                 return IRGalleryTabFragment().apply {
-                    arguments = Bundle().also {
-                        val dirType = if (isTC007) DirType.TC007.ordinal else DirType.LINE.ordinal
-                        it.putBoolean(ExtraKeyConfig.CAN_SWITCH_DIR, false)
-                        it.putBoolean(ExtraKeyConfig.HAS_BACK_ICON, false)
-                        it.putInt(ExtraKeyConfig.DIR_TYPE, dirType)
-                    }
+                    arguments =
+                        Bundle().also {
+                            val dirType =
+                                if (isTC007) DirType.TC007.ordinal else DirType.LINE.ordinal
+                            it.putBoolean(
+                                ExtraKeyConfig.CAN_SWITCH_DIR,
+                                false
+                            )
+                            it.putBoolean(
+                                ExtraKeyConfig.HAS_BACK_ICON,
+                                false
+                            )
+                            it.putInt(
+                                ExtraKeyConfig.DIR_TYPE,
+                                dirType
+                            )
+                        }
                 }
             } else {
-                val fragment = when (position) {
-                    0 -> AbilityFragment()
-                    2 -> IRThermalFragment()
-                    3 -> PDFListFragment()
-                    else -> ARouter.getInstance().build(RouterConfig.TC_MORE)
-                        .navigation() as Fragment
-                }
+                val fragment =
+                    when (position) {
+                        0 -> AbilityFragment()
+                        2 -> IRThermalFragment()
+                        3 -> PDFListFragment()
+                        else -> ARouter.getInstance()
+                            .build(
+                                RouterConfig.TC_MORE
+                            )
+                            .navigation() as Fragment
+                    }
                 fragment.arguments =
-                    Bundle().also { it.putBoolean(ExtraKeyConfig.IS_TC007, isTC007) }
+                    Bundle().also {
+                        it.putBoolean(
+                            ExtraKeyConfig.IS_TC007,
+                            isTC007
+                        )
+                    }
                 return fragment
             }
         }

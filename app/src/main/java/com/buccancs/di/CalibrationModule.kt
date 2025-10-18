@@ -9,7 +9,9 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(
+    SingletonComponent::class
+)
 abstract class CalibrationModule {
     @Binds
     @Singleton

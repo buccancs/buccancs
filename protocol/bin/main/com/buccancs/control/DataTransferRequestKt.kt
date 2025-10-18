@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializedataTransferRequest")
-public inline fun dataTransferRequest(block: com.buccancs.control.DataTransferRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferRequest =
-    com.buccancs.control.DataTransferRequestKt.Dsl._create(com.buccancs.control.DataTransferRequest.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializedataTransferRequest"
+)
+public inline fun dataTransferRequest(
+    block: com.buccancs.control.DataTransferRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DataTransferRequest =
+    com.buccancs.control.DataTransferRequestKt.Dsl._create(
+        com.buccancs.control.DataTransferRequest.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.DataTransferRequest`
  */
 public object DataTransferRequestKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.DataTransferRequest.Builder
@@ -23,13 +34,16 @@ public object DataTransferRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DataTransferRequest.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.DataTransferRequest.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.DataTransferRequest = _builder.build()
+        internal fun _build(): com.buccancs.control.DataTransferRequest =
+            _builder.build()
 
         /**
          * `.com.buccancs.control.SessionIdentifier session = 1;`
@@ -37,7 +51,9 @@ public object DataTransferRequestKt {
         public var session: com.buccancs.control.SessionIdentifier
             get() = _builder.getSession()
             set(value) {
-                _builder.setSession(value)
+                _builder.setSession(
+                    value
+                )
             }
 
         /**
@@ -61,7 +77,9 @@ public object DataTransferRequestKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -77,7 +95,9 @@ public object DataTransferRequestKt {
         public var fileName: kotlin.String
             get() = _builder.getFileName()
             set(value) {
-                _builder.setFileName(value)
+                _builder.setFileName(
+                    value
+                )
             }
 
         /**
@@ -93,7 +113,9 @@ public object DataTransferRequestKt {
         public var sizeBytes: kotlin.Long
             get() = _builder.getSizeBytes()
             set(value) {
-                _builder.setSizeBytes(value)
+                _builder.setSizeBytes(
+                    value
+                )
             }
 
         /**
@@ -109,7 +131,9 @@ public object DataTransferRequestKt {
         public var chunk: com.google.protobuf.ByteString
             get() = _builder.getChunk()
             set(value) {
-                _builder.setChunk(value)
+                _builder.setChunk(
+                    value
+                )
             }
 
         /**
@@ -125,7 +149,9 @@ public object DataTransferRequestKt {
         public var endOfStream: kotlin.Boolean
             get() = _builder.getEndOfStream()
             set(value) {
-                _builder.setEndOfStream(value)
+                _builder.setEndOfStream(
+                    value
+                )
             }
 
         /**
@@ -141,7 +167,9 @@ public object DataTransferRequestKt {
         public var sha256: com.google.protobuf.ByteString
             get() = _builder.getSha256()
             set(value) {
-                _builder.setSha256(value)
+                _builder.setSha256(
+                    value
+                )
             }
 
         /**
@@ -157,7 +185,9 @@ public object DataTransferRequestKt {
         public var mimeType: kotlin.String
             get() = _builder.getMimeType()
             set(value) {
-                _builder.setMimeType(value)
+                _builder.setMimeType(
+                    value
+                )
             }
 
         /**
@@ -173,7 +203,9 @@ public object DataTransferRequestKt {
         public var streamType: kotlin.String
             get() = _builder.getStreamType()
             set(value) {
-                _builder.setStreamType(value)
+                _builder.setStreamType(
+                    value
+                )
             }
 
         /**
@@ -186,8 +218,13 @@ public object DataTransferRequestKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.DataTransferRequest.copy(block: `com.buccancs.control`.DataTransferRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DataTransferRequest =
-    `com.buccancs.control`.DataTransferRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.DataTransferRequest.copy(
+    block: `com.buccancs.control`.DataTransferRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DataTransferRequest =
+    `com.buccancs.control`.DataTransferRequestKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 
 public val com.buccancs.control.DataTransferRequestOrBuilder.sessionOrNull: com.buccancs.control.SessionIdentifier?

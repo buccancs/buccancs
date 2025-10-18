@@ -26,64 +26,105 @@ class TopdonGalleryViewModel @Inject constructor(
     private val galleryRepository: TopdonGalleryRepository
 ) : ViewModel() {
 
-    private val selectedItems = MutableStateFlow<Set<String>>(emptySet())
-    private val selectionMode = MutableStateFlow(false)
-    private val isLoading = MutableStateFlow(false)
-    private val error = MutableStateFlow<String?>(null)
-
-    val uiState: StateFlow<GalleryUiState> = combine(
-        galleryRepository.getAllMedia(),
-        selectedItems,
-        selectionMode,
-        isLoading,
-        error
-    ) { items, selected, mode, loading, err ->
-        GalleryUiState(
-            items = items,
-            selectedItems = selected,
-            selectionMode = mode,
-            isLoading = loading,
-            error = err
+    private val selectedItems =
+        MutableStateFlow<Set<String>>(
+            emptySet()
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = GalleryUiState(isLoading = true)
-    )
+    private val selectionMode =
+        MutableStateFlow(
+            false
+        )
+    private val isLoading =
+        MutableStateFlow(
+            false
+        )
+    private val error =
+        MutableStateFlow<String?>(
+            null
+        )
 
-    fun toggleSelection(id: String) {
-        val current = selectedItems.value
-        selectedItems.value = if (current.contains(id)) {
-            current - id
-        } else {
-            current + id
+    val uiState: StateFlow<GalleryUiState> =
+        combine(
+            galleryRepository.getAllMedia(),
+            selectedItems,
+            selectionMode,
+            isLoading,
+            error
+        ) { items, selected, mode, loading, err ->
+            GalleryUiState(
+                items = items,
+                selectedItems = selected,
+                selectionMode = mode,
+                isLoading = loading,
+                error = err
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                5000
+            ),
+            initialValue = GalleryUiState(
+                isLoading = true
+            )
+        )
+
+    fun toggleSelection(
+        id: String
+    ) {
+        val current =
+            selectedItems.value
+        selectedItems.value =
+            if (current.contains(
+                    id
+                )
+            ) {
+                current - id
+            } else {
+                current + id
+            }
+    }
+
+    fun enterSelectionMode(
+        initialId: String? = null
+    ) {
+        selectionMode.value =
+            true
+        initialId?.let {
+            toggleSelection(
+                it
+            )
         }
     }
 
-    fun enterSelectionMode(initialId: String? = null) {
-        selectionMode.value = true
-        initialId?.let { toggleSelection(it) }
-    }
-
     fun exitSelectionMode() {
-        selectionMode.value = false
-        selectedItems.value = emptySet()
+        selectionMode.value =
+            false
+        selectedItems.value =
+            emptySet()
     }
 
     fun deleteSelected() {
         viewModelScope.launch {
-            isLoading.value = true
+            isLoading.value =
+                true
             try {
-                val ids = selectedItems.value.toList()
-                val result = galleryRepository.deleteMultiple(ids)
+                val ids =
+                    selectedItems.value.toList()
+                val result =
+                    galleryRepository.deleteMultiple(
+                        ids
+                    )
                 result.onFailure { e ->
-                    error.value = "Failed to delete: ${e.message}"
+                    error.value =
+                        "Failed to delete: ${e.message}"
                 }
                 exitSelectionMode()
             } catch (e: Exception) {
-                error.value = "Failed to delete: ${e.message}"
+                error.value =
+                    "Failed to delete: ${e.message}"
             } finally {
-                isLoading.value = false
+                isLoading.value =
+                    false
             }
         }
     }
@@ -91,19 +132,26 @@ class TopdonGalleryViewModel @Inject constructor(
     fun shareSelected() {
         viewModelScope.launch {
             try {
-                val ids = selectedItems.value.toList()
-                val result = galleryRepository.shareImages(ids)
+                val ids =
+                    selectedItems.value.toList()
+                val result =
+                    galleryRepository.shareImages(
+                        ids
+                    )
                 result.onFailure { e ->
-                    error.value = "Failed to share: ${e.message}"
+                    error.value =
+                        "Failed to share: ${e.message}"
                 }
                 exitSelectionMode()
             } catch (e: Exception) {
-                error.value = "Failed to share: ${e.message}"
+                error.value =
+                    "Failed to share: ${e.message}"
             }
         }
     }
 
     fun clearError() {
-        error.value = null
+        error.value =
+            null
     }
 }

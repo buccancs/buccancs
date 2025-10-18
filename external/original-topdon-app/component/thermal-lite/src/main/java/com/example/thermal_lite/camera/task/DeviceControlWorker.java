@@ -26,7 +26,8 @@ public class DeviceControlWorker {
                             Log.d(TAG, "DeviceControlWorker mEventQueue wait");
                             try {
                                 mEventQueue.wait();
-                            } catch (InterruptedException e) {
+                            } catch (
+                                    InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -56,7 +57,8 @@ public class DeviceControlWorker {
                         }
                     }
                 }
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 e.printStackTrace();
             }
         }
@@ -76,7 +78,8 @@ public class DeviceControlWorker {
             try {
                 mThread.interrupt();
                 mThread = null;
-            } catch (Exception e) {
+            } catch (
+                    Exception e) {
                 Thread.currentThread().interrupt();
                 e.printStackTrace();
             }

@@ -41,7 +41,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import java.io.File
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun PdfViewerScreen(
     pdfFileName: String,
@@ -49,35 +51,79 @@ fun PdfViewerScreen(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    var pdfRenderer by remember { mutableStateOf<PdfRenderer?>(null) }
-    var pageCount by remember { mutableStateOf(0) }
-    var isLoading by remember { mutableStateOf(true) }
-    var hasError by remember { mutableStateOf(false) }
+    val context =
+        LocalContext.current
+    var pdfRenderer by remember {
+        mutableStateOf<PdfRenderer?>(
+            null
+        )
+    }
+    var pageCount by remember {
+        mutableStateOf(
+            0
+        )
+    }
+    var isLoading by remember {
+        mutableStateOf(
+            true
+        )
+    }
+    var hasError by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
-    LaunchedEffect(pdfFileName) {
+    LaunchedEffect(
+        pdfFileName
+    ) {
         try {
-            val file = File(context.getExternalFilesDir("pdf"), pdfFileName)
+            val file =
+                File(
+                    context.getExternalFilesDir(
+                        "pdf"
+                    ),
+                    pdfFileName
+                )
             if (!file.exists()) {
-                val outputStream = file.outputStream()
-                context.assets.open(pdfFileName).use { input ->
-                    input.copyTo(outputStream)
-                }
+                val outputStream =
+                    file.outputStream()
+                context.assets.open(
+                    pdfFileName
+                )
+                    .use { input ->
+                        input.copyTo(
+                            outputStream
+                        )
+                    }
                 outputStream.close()
             }
 
             val fileDescriptor =
-                ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
-            pdfRenderer = PdfRenderer(fileDescriptor)
-            pageCount = pdfRenderer?.pageCount ?: 0
-            isLoading = false
+                ParcelFileDescriptor.open(
+                    file,
+                    ParcelFileDescriptor.MODE_READ_ONLY
+                )
+            pdfRenderer =
+                PdfRenderer(
+                    fileDescriptor
+                )
+            pageCount =
+                pdfRenderer?.pageCount
+                    ?: 0
+            isLoading =
+                false
         } catch (e: Exception) {
-            hasError = true
-            isLoading = false
+            hasError =
+                true
+            isLoading =
+                false
         }
     }
 
-    DisposableEffect(Unit) {
+    DisposableEffect(
+        Unit
+    ) {
         onDispose {
             pdfRenderer?.close()
         }
@@ -87,9 +133,15 @@ fun PdfViewerScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(title) },
+                title = {
+                    Text(
+                        title
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -105,12 +157,16 @@ fun PdfViewerScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(
+                    paddingValues
+                )
         ) {
             when {
                 isLoading -> {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(
+                            Alignment.Center
+                        )
                     )
                 }
 
@@ -119,7 +175,9 @@ fun PdfViewerScreen(
                         text = "Failed to load PDF",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(
+                            Alignment.Center
+                        )
                     )
                 }
 
@@ -143,7 +201,9 @@ private fun PdfPageList(
     LazyColumn(
         modifier = modifier.fillMaxSize()
     ) {
-        items(pageCount) { pageIndex ->
+        items(
+            pageCount
+        ) { pageIndex ->
             PdfPage(
                 pdfRenderer = pdfRenderer,
                 pageIndex = pageIndex
@@ -158,19 +218,39 @@ private fun PdfPage(
     pageIndex: Int,
     modifier: Modifier = Modifier
 ) {
-    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
-    var scale by remember { mutableFloatStateOf(1f) }
+    var bitmap by remember {
+        mutableStateOf<Bitmap?>(
+            null
+        )
+    }
+    var scale by remember {
+        mutableFloatStateOf(
+            1f
+        )
+    }
 
-    LaunchedEffect(pageIndex) {
+    LaunchedEffect(
+        pageIndex
+    ) {
         try {
-            val page = pdfRenderer.openPage(pageIndex)
-            val pageBitmap = Bitmap.createBitmap(
-                page.width * 2,
-                page.height * 2,
-                Bitmap.Config.ARGB_8888
+            val page =
+                pdfRenderer.openPage(
+                    pageIndex
+                )
+            val pageBitmap =
+                Bitmap.createBitmap(
+                    page.width * 2,
+                    page.height * 2,
+                    Bitmap.Config.ARGB_8888
+                )
+            page.render(
+                pageBitmap,
+                null,
+                null,
+                PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
             )
-            page.render(pageBitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-            bitmap = pageBitmap
+            bitmap =
+                pageBitmap
             page.close()
         } catch (e: Exception) {
             // Handle error
@@ -181,10 +261,18 @@ private fun PdfPage(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .pointerInput(Unit) {
+                .padding(
+                    8.dp
+                )
+                .pointerInput(
+                    Unit
+                ) {
                     detectTransformGestures { _, _, zoom, _ ->
-                        scale = (scale * zoom).coerceIn(0.5f, 3f)
+                        scale =
+                            (scale * zoom).coerceIn(
+                                0.5f,
+                                3f
+                            )
                     }
                 }
         ) {

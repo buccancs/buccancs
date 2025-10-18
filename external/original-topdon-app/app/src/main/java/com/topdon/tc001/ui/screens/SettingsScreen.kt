@@ -43,7 +43,9 @@ data class SettingsItem(
     val onClick: () -> Unit
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun SettingsScreen(
     userName: String?,
@@ -61,7 +63,11 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = {
+                    Text(
+                        "Settings"
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
@@ -71,9 +77,15 @@ fun SettingsScreen(
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(
+                    paddingValues
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             item {
                 ProfileCard(
@@ -89,7 +101,9 @@ fun SettingsScreen(
                     text = "Preferences",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(
+                        start = 8.dp
+                    )
                 )
             }
 
@@ -109,7 +123,11 @@ fun SettingsScreen(
                         )
                     )
 
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                    HorizontalDivider(
+                        modifier = Modifier.padding(
+                            horizontal = 16.dp
+                        )
+                    )
 
                     SettingsListItem(
                         item = SettingsItem(
@@ -127,7 +145,9 @@ fun SettingsScreen(
                     text = "About",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(
+                        start = 8.dp
+                    )
                 )
             }
 
@@ -150,7 +170,11 @@ fun SettingsScreen(
             }
 
             item {
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(
+                    modifier = Modifier.height(
+                        24.dp
+                    )
+                )
             }
         }
     }
@@ -167,39 +191,52 @@ private fun ProfileCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(
+                onClick = onClick
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(
+                    20.dp
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(
+                    16.dp
+                ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Surface(
-                    modifier = Modifier.size(56.dp),
+                    modifier = Modifier.size(
+                        56.dp
+                    ),
                     shape = MaterialTheme.shapes.medium,
                     color = MaterialTheme.colorScheme.primary
                 ) {
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = null,
-                        modifier = Modifier.padding(12.dp),
+                        modifier = Modifier.padding(
+                            12.dp
+                        ),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
 
                 Column {
                     Text(
-                        text = userName ?: "Guest",
+                        text = userName
+                            ?: "Guest",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -238,21 +275,31 @@ private fun SettingsListItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = item.onClick)
-            .padding(16.dp),
+            .clickable(
+                onClick = item.onClick
+            )
+            .padding(
+                16.dp
+            ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(
+                16.dp
+            ),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(
+                1f
+            )
         ) {
             Icon(
                 imageVector = item.icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(
+                    24.dp
+                )
             )
 
             Column {

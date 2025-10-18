@@ -2,11 +2,44 @@
 
 ## Overview
 
-This document describes the stub implementation of the proprietary Topdon LMS SDK that was removed
-from the project. These stubs allow the code to compile and provide placeholders for the actual SDK
+This
+document
+describes
+the
+stub
+implementation
+of
+the
+proprietary
+Topdon
+LMS
+SDK
+that
+was
+removed
+from
+the
+project.
+These
+stubs
+allow
+the
+code
+to
+compile
+and
+provide
+placeholders
+for
+the
+actual
+SDK
 functionality.
 
-**Location:** `libapp/src/main/java/com/topdon/lms/sdk/`
+*
+*Location:
+**
+`libapp/src/main/java/com/topdon/lms/sdk/`
 
 ---
 
@@ -69,7 +102,9 @@ class LMS private constructor() {
 }
 ```
 
-**Usage:**
+*
+*Usage:
+**
 
 ```kotlin
 // Initialize
@@ -103,7 +138,9 @@ class HttpProxy private constructor() {
 }
 ```
 
-**Usage:**
+*
+*Usage:
+**
 
 ```kotlin
 val params = RequestParams()
@@ -188,15 +225,38 @@ object LanguageUtil {
 }
 ```
 
-Language ID mapping:
+Language
+ID
+mapping:
 
-- 0 = English (default)
-- 1 = Chinese (zh)
-- 2 = Spanish (es)
-- 3 = French (fr)
-- 4 = German (de)
-- 5 = Japanese (ja)
-- 6 = Korean (ko)
+-
+0 =
+English (
+default)
+-
+1 =
+Chinese (
+zh)
+-
+2 =
+Spanish (
+es)
+-
+3 =
+French (
+fr)
+-
+4 =
+German (
+de)
+-
+5 =
+Japanese (
+ja)
+-
+6 =
+Korean (
+ko)
 
 #### StringUtils
 
@@ -281,7 +341,10 @@ class LmsLoadView @JvmOverloads constructor(
 }
 ```
 
-**XML Usage:**
+*
+*XML
+Usage:
+**
 
 ```xml
 <com.topdon.lms.sdk.weiget.LmsLoadView
@@ -294,67 +357,277 @@ class LmsLoadView @JvmOverloads constructor(
 
 ## Stub Behavior
 
-All stub implementations follow these principles:
+All
+stub
+implementations
+follow
+these
+principles:
 
-1. **No-op Operations:** Methods that would normally perform network/SDK operations do nothing
-2. **Safe Returns:** Methods return safe default values (empty strings, nulls, success codes)
-3. **Callback Invocation:** Callbacks are invoked with stub data to prevent NPEs
-4. **Error Simulation:** HTTP operations call `onFail` callbacks to simulate unavailability
+1.
+*
+*No-op
+Operations:
+**
+Methods
+that
+would
+normally
+perform
+network/SDK
+operations
+do
+nothing
+2.
+*
+*Safe
+Returns:
+**
+Methods
+return
+safe
+default
+values (
+empty
+strings,
+nulls,
+success
+codes)
+3.
+*
+*Callback
+Invocation:
+**
+Callbacks
+are
+invoked
+with
+stub
+data
+to
+prevent
+NPEs
+4.
+*
+*Error
+Simulation:
+**
+HTTP
+operations
+call
+`onFail`
+callbacks
+to
+simulate
+unavailability
 
 ### Error Handling
 
-When stub methods are called, they typically:
+When
+stub
+methods
+are
+called,
+they
+typically:
 
-- Return `LMS.SUCCESS` (0) for status codes
-- Return empty strings or null for data
-- Invoke error callbacks with message: "Stub: {class} not implemented"
+-
+Return
+`LMS.SUCCESS` (
+0)
+for
+status
+codes
+-
+Return
+empty
+strings
+or
+null
+for
+data
+-
+Invoke
+error
+callbacks
+with
+message: "
+Stub:
+{class}
+not
+implemented"
 
 ---
 
 ## Migration from Stubs to Real Implementation
 
-When the actual LMS SDK becomes available:
+When
+the
+actual
+LMS
+SDK
+becomes
+available:
 
-1. **Remove stub files** from `libapp/src/main/java/com/topdon/lms/sdk/`
-2. **Add real SDK AAR** to `libapp/libs/` directory
-3. **Update dependencies** in `libapp/build.gradle`:
-   ```gradle
-   dependencies {
-       api files('libs/lms_sdk.aar')
-   }
-   ```
-4. **Test all SDK integration points**
-5. **Update initialization** in Application class
-6. **Verify authentication flows**
+1.
+*
+*Remove
+stub
+files
+**
+from
+`libapp/src/main/java/com/topdon/lms/sdk/`
+2.
+*
+*Add
+real
+SDK
+AAR
+**
+to
+`libapp/libs/`
+directory
+3.
+*
+*Update
+dependencies
+**
+in
+`libapp/build.gradle`:
+```gradle
+dependencies {
+    api files('libs/lms_sdk.aar')
+}
+```
+4.
+*
+*Test
+all
+SDK
+integration
+points
+**
+5.
+*
+*Update
+initialization
+**
+in
+Application
+class
+6.
+*
+*Verify
+authentication
+flows
+**
 
 ---
 
 ## Known Limitations
 
-1. **No Network Calls:** All HTTP operations are stubbed
-2. **No Authentication:** Login always fails or returns stub data
-3. **No Cloud Sync:** User data not synchronized
-4. **No Analytics:** Tracking/analytics not functional
-5. **No Updates:** Version checking returns no updates
+1.
+*
+*No
+Network
+Calls:
+**
+All
+HTTP
+operations
+are
+stubbed
+2.
+*
+*No
+Authentication:
+**
+Login
+always
+fails
+or
+returns
+stub
+data
+3.
+*
+*No
+Cloud
+Sync:
+**
+User
+data
+not
+synchronized
+4.
+*
+*No
+Analytics:
+**
+Tracking/analytics
+not
+functional
+5.
+*
+*No
+Updates:
+**
+Version
+checking
+returns
+no
+updates
 
 ---
 
 ## Dependencies
 
-The stubs require only standard Android/Kotlin libraries:
+The
+stubs
+require
+only
+standard
+Android/Kotlin
+libraries:
 
-- `android.content.Context`
-- `android.widget.Toast`
-- `com.google.gson.Gson` (for JSON parsing in ResponseBean)
-- Standard Kotlin stdlib
+-
+`android.content.Context`
+-
+`android.widget.Toast`
+-
+`com.google.gson.Gson` (
+for
+JSON
+parsing
+in
+ResponseBean)
+-
+Standard
+Kotlin
+stdlib
 
-No external dependencies are required for the stubs themselves.
+No
+external
+dependencies
+are
+required
+for
+the
+stubs
+themselves.
 
 ---
 
 ## Testing
 
-To test code that uses LMS SDK stubs:
+To
+test
+code
+that
+uses
+LMS
+SDK
+stubs:
 
 ```kotlin
 @Test
@@ -370,21 +643,81 @@ fun testUserLogin() {
 }
 ```
 
-Mock the LMS class in unit tests if different behavior is needed.
+Mock
+the
+LMS
+class
+in
+unit
+tests
+if
+different
+behavior
+is
+needed.
 
 ---
 
 ## Support
 
-If you encounter issues with the stubs:
+If
+you
+encounter
+issues
+with
+the
+stubs:
 
-1. Check that imports are correct: `import com.topdon.lms.sdk.*`
-2. Verify the stub file exists in the expected location
-3. Check for compilation errors in the stub classes
-4. Ensure Java 21 is being used for compilation
+1.
+Check
+that
+imports
+are
+correct:
+`import com.topdon.lms.sdk.*`
+2.
+Verify
+the
+stub
+file
+exists
+in
+the
+expected
+location
+3.
+Check
+for
+compilation
+errors
+in
+the
+stub
+classes
+4.
+Ensure
+Java
+21
+is
+being
+used
+for
+compilation
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** 2025-10-16  
-**Status:** Production-ready stubs
+*
+*Document
+Version:
+**
+1.0  
+*
+*Last
+Updated:
+**
+2025-10-16  
+*
+*Status:
+**
+Production-ready
+stubs

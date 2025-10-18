@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializesessionIdentifier")
-public inline fun sessionIdentifier(block: com.buccancs.control.SessionIdentifierKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SessionIdentifier =
-    com.buccancs.control.SessionIdentifierKt.Dsl._create(com.buccancs.control.SessionIdentifier.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializesessionIdentifier"
+)
+public inline fun sessionIdentifier(
+    block: com.buccancs.control.SessionIdentifierKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SessionIdentifier =
+    com.buccancs.control.SessionIdentifierKt.Dsl._create(
+        com.buccancs.control.SessionIdentifier.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.SessionIdentifier`
  */
 public object SessionIdentifierKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.SessionIdentifier.Builder
@@ -23,13 +34,16 @@ public object SessionIdentifierKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SessionIdentifier.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.SessionIdentifier.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.SessionIdentifier = _builder.build()
+        internal fun _build(): com.buccancs.control.SessionIdentifier =
+            _builder.build()
 
         /**
          * `string id = 1;`
@@ -37,7 +51,9 @@ public object SessionIdentifierKt {
         public var id: kotlin.String
             get() = _builder.getId()
             set(value) {
-                _builder.setId(value)
+                _builder.setId(
+                    value
+                )
             }
 
         /**
@@ -50,7 +66,12 @@ public object SessionIdentifierKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.SessionIdentifier.copy(block: `com.buccancs.control`.SessionIdentifierKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SessionIdentifier =
-    `com.buccancs.control`.SessionIdentifierKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.SessionIdentifier.copy(
+    block: `com.buccancs.control`.SessionIdentifierKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SessionIdentifier =
+    `com.buccancs.control`.SessionIdentifierKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

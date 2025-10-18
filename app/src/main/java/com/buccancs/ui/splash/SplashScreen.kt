@@ -40,7 +40,9 @@ fun SplashRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(state.navigationTarget) {
+    LaunchedEffect(
+        state.navigationTarget
+    ) {
         when (state.navigationTarget) {
             NavigationTarget.CLAUSE -> onNavigateToClause()
             NavigationTarget.MAIN -> onNavigateToMain()
@@ -48,17 +50,30 @@ fun SplashRoute(
         }
     }
 
-    SplashScreen(appName = state.appName)
+    SplashScreen(
+        appName = state.appName
+    )
 }
 
 @Composable
-private fun SplashScreen(appName: String) {
-    val alphaAnimation = remember { Animatable(0f) }
+private fun SplashScreen(
+    appName: String
+) {
+    val alphaAnimation =
+        remember {
+            Animatable(
+                0f
+            )
+        }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(
+        Unit
+    ) {
         alphaAnimation.animateTo(
             targetValue = 1f,
-            animationSpec = tween(durationMillis = 800)
+            animationSpec = tween(
+                durationMillis = 800
+            )
         )
     }
 
@@ -68,8 +83,12 @@ private fun SplashScreen(appName: String) {
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF1a1a2e),
-                        Color(0xFF16213e)
+                        Color(
+                            0xFF1a1a2e
+                        ),
+                        Color(
+                            0xFF16213e
+                        )
                     )
                 )
             ),
@@ -78,7 +97,9 @@ private fun SplashScreen(appName: String) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.alpha(alphaAnimation.value)
+            modifier = Modifier.alpha(
+                alphaAnimation.value
+            )
         ) {
             Text(
                 text = "THERMAL",
@@ -97,14 +118,20 @@ private fun SplashScreen(appName: String) {
                 color = Color.White
             )
 
-            Spacer(modifier = Modifier.height(280.dp))  // Large spacer for layout
+            Spacer(
+                modifier = Modifier.height(
+                    280.dp
+                )
+            )  // Large spacer for layout
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Box(
-                    modifier = Modifier.size(Dimensions.Size48),
+                    modifier = Modifier.size(
+                        Dimensions.Size48
+                    ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -114,7 +141,11 @@ private fun SplashScreen(appName: String) {
                     )
                 }
 
-                Spacer(modifier = Modifier.width(Spacing.SmallMedium))
+                Spacer(
+                    modifier = Modifier.width(
+                        Spacing.SmallMedium
+                    )
+                )
 
                 Text(
                     text = appName,

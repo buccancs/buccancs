@@ -24,14 +24,16 @@ public class CommonUtil {
             tau_data = new byte[lenth];
             if (is.read((tau_data)) != lenth) {
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         } finally {
             try {
                 if (is != null) {
                     is.close();
                 }
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         }
@@ -64,7 +66,8 @@ public class CommonUtil {
     }
 
     public static float round(float value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+        if (places < 0)
+            throw new IllegalArgumentException();
 
         final float factor = (float) Math.pow(10, places);
         return Math.round(value * factor) / factor;

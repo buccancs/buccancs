@@ -121,7 +121,8 @@ public class Shimmer3DOrientationExample extends Activity {
                             mShimmerDevice1.enableOnTheFlyGyroCal(true, 102, 1.2);
                             try {
                                 mShimmerDevice1.startStreaming();
-                            } catch (ShimmerException e) {
+                            } catch (
+                                    ShimmerException e) {
                                 e.printStackTrace();
                             }
                             break;
@@ -309,7 +310,8 @@ public class Shimmer3DOrientationExample extends Activity {
                             mShimmerDevice1.enableLowPowerMag(data.getExtras().getBoolean("Enable"));
                             try {
                                 mShimmerDevice1.startStreaming();
-                            } catch (ShimmerException e) {
+                            } catch (
+                                    ShimmerException e) {
                                 e.printStackTrace();
                             }
                         } else {

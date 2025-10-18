@@ -27,40 +27,60 @@ class MultiDeviceRecordingExercise @Inject constructor(
         startTimeoutMillis: Long = DEFAULT_START_TIMEOUT_MILLIS,
         stopTimeoutMillis: Long = DEFAULT_STOP_TIMEOUT_MILLIS
     ): RecordingExerciseResult {
-        val devicesSnapshot = sensorRepository.devices.value
-        val targetDevices = devicesSnapshot.filter { device ->
-            device.capabilities.any { it != SensorStreamType.PREVIEW }
-        }
-        val sessionId = buildSessionId(sessionPrefix)
-        val startedAt = nowInstant()
-        recordingService.startOrResume(sessionId, startedAt)
-        val startObservations = awaitStreaming(
-            targetDevices = targetDevices,
-            expectedActive = true,
-            timeoutMillis = startTimeoutMillis
-        )
-        delay(warmupMillis)
-        val stopSummary = recordingService.stopWithSummary()
-        val stopObservations = awaitStreaming(
-            targetDevices = targetDevices,
-            expectedActive = false,
-            timeoutMillis = stopTimeoutMillis
-        )
-        val artifactGroups = stopSummary.artifacts.groupBy { it.deviceId }
-        val deviceResults = targetDevices.map { device ->
-            val start = startObservations[device.id]
-            val stop = stopObservations[device.id]
-            val artifacts = artifactGroups[device.id].orEmpty()
-            DeviceExerciseResult(
-                deviceId = device.id,
-                displayName = device.displayName,
-                streamsObserved = start?.streamTypes ?: emptySet(),
-                startObservedAt = start?.timestamp,
-                stopObservedAt = stop?.timestamp,
-                artifacts = artifacts,
-                success = start != null && stop != null
+        val devicesSnapshot =
+            sensorRepository.devices.value
+        val targetDevices =
+            devicesSnapshot.filter { device ->
+                device.capabilities.any { it != SensorStreamType.PREVIEW }
+            }
+        val sessionId =
+            buildSessionId(
+                sessionPrefix
             )
-        }
+        val startedAt =
+            nowInstant()
+        recordingService.startOrResume(
+            sessionId,
+            startedAt
+        )
+        val startObservations =
+            awaitStreaming(
+                targetDevices = targetDevices,
+                expectedActive = true,
+                timeoutMillis = startTimeoutMillis
+            )
+        delay(
+            warmupMillis
+        )
+        val stopSummary =
+            recordingService.stopWithSummary()
+        val stopObservations =
+            awaitStreaming(
+                targetDevices = targetDevices,
+                expectedActive = false,
+                timeoutMillis = stopTimeoutMillis
+            )
+        val artifactGroups =
+            stopSummary.artifacts.groupBy { it.deviceId }
+        val deviceResults =
+            targetDevices.map { device ->
+                val start =
+                    startObservations[device.id]
+                val stop =
+                    stopObservations[device.id]
+                val artifacts =
+                    artifactGroups[device.id].orEmpty()
+                DeviceExerciseResult(
+                    deviceId = device.id,
+                    displayName = device.displayName,
+                    streamsObserved = start?.streamTypes
+                        ?: emptySet(),
+                    startObservedAt = start?.timestamp,
+                    stopObservedAt = stop?.timestamp,
+                    artifacts = artifacts,
+                    success = start != null && stop != null
+                )
+            }
         return RecordingExerciseResult(
             sessionId = sessionId,
             startedAt = startedAt,
@@ -79,24 +99,39 @@ class MultiDeviceRecordingExercise @Inject constructor(
         if (targetDevices.isEmpty()) {
             return emptyMap()
         }
-        val observed = mutableMapOf<DeviceId, StreamingObservation>()
-        withTimeoutOrNull(timeoutMillis) {
+        val observed =
+            mutableMapOf<DeviceId, StreamingObservation>()
+        withTimeoutOrNull(
+            timeoutMillis
+        ) {
             sensorRepository.streamStatuses.collect { statuses ->
-                val timestamp = nowInstant()
+                val timestamp =
+                    nowInstant()
                 targetDevices.forEach { device ->
-                    if (observed.containsKey(device.id)) return@forEach
-                    val deviceStatuses = statuses.filter { it.deviceId == device.id }
+                    if (observed.containsKey(
+                            device.id
+                        )
+                    ) return@forEach
+                    val deviceStatuses =
+                        statuses.filter { it.deviceId == device.id }
                     val nonPreviewActive =
                         deviceStatuses.any { it.streamType != SensorStreamType.PREVIEW && it.isStreaming }
                     val meetsExpectation =
                         if (expectedActive) nonPreviewActive else !nonPreviewActive
                     if (meetsExpectation) {
-                        val activeStreams = if (expectedActive) {
-                            deviceStatuses.filter { it.isStreaming }.map { it.streamType }.toSet()
-                        } else {
-                            emptySet()
-                        }
-                        observed[device.id] = StreamingObservation(timestamp, activeStreams)
+                        val activeStreams =
+                            if (expectedActive) {
+                                deviceStatuses.filter { it.isStreaming }
+                                    .map { it.streamType }
+                                    .toSet()
+                            } else {
+                                emptySet()
+                            }
+                        observed[device.id] =
+                            StreamingObservation(
+                                timestamp,
+                                activeStreams
+                            )
                     }
                 }
                 if (observed.size == targetDevices.size) {
@@ -107,13 +142,18 @@ class MultiDeviceRecordingExercise @Inject constructor(
         return observed.toMap()
     }
 
-    private fun buildSessionId(prefix: String): String =
+    private fun buildSessionId(
+        prefix: String
+    ): String =
         "$prefix-${System.currentTimeMillis()}"
 
     companion object {
-        private const val DEFAULT_WARMUP_MILLIS = 3_000L
-        private const val DEFAULT_START_TIMEOUT_MILLIS = 10_000L
-        private const val DEFAULT_STOP_TIMEOUT_MILLIS = 10_000L
+        private const val DEFAULT_WARMUP_MILLIS =
+            3_000L
+        private const val DEFAULT_START_TIMEOUT_MILLIS =
+            10_000L
+        private const val DEFAULT_STOP_TIMEOUT_MILLIS =
+            10_000L
     }
 }
 

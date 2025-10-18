@@ -40,41 +40,50 @@ data class DeviceTypeOption(
     val deviceType: DeviceType
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun DeviceTypeScreen(
     onDeviceTypeSelected: (DeviceType) -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val deviceOptions = listOf(
-        DeviceTypeOption(
-            name = "TC001 (Line)",
-            description = "USB thermal camera",
-            icon = Icons.Default.Thermostat,
-            deviceType = DeviceType.TC001_LINE
-        ),
-        DeviceTypeOption(
-            name = "TS004",
-            description = "WiFi thermal monocular",
-            icon = Icons.Default.DeviceHub,
-            deviceType = DeviceType.TS004
-        ),
-        DeviceTypeOption(
-            name = "TC007",
-            description = "WiFi thermal camera",
-            icon = Icons.Default.Devices,
-            deviceType = DeviceType.TC007
+    val deviceOptions =
+        listOf(
+            DeviceTypeOption(
+                name = "TC001 (Line)",
+                description = "USB thermal camera",
+                icon = Icons.Default.Thermostat,
+                deviceType = DeviceType.TC001_LINE
+            ),
+            DeviceTypeOption(
+                name = "TS004",
+                description = "WiFi thermal monocular",
+                icon = Icons.Default.DeviceHub,
+                deviceType = DeviceType.TS004
+            ),
+            DeviceTypeOption(
+                name = "TC007",
+                description = "WiFi thermal camera",
+                icon = Icons.Default.Devices,
+                deviceType = DeviceType.TC007
+            )
         )
-    )
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Select Device Type") },
+                title = {
+                    Text(
+                        "Select Device Type"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -90,14 +99,26 @@ fun DeviceTypeScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(
+                    paddingValues
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                12.dp
+            )
         ) {
-            items(deviceOptions) { option ->
+            items(
+                deviceOptions
+            ) { option ->
                 DeviceTypeCard(
                     option = option,
-                    onClick = { onDeviceTypeSelected(option.deviceType) }
+                    onClick = {
+                        onDeviceTypeSelected(
+                            option.deviceType
+                        )
+                    }
                 )
             }
         }
@@ -113,28 +134,40 @@ private fun DeviceTypeCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(
+                onClick = onClick
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(
+                    20.dp
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(
+                    16.dp
+                ),
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             ) {
                 Icon(
                     imageVector = option.icon,
                     contentDescription = null,
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(
+                        40.dp
+                    ),
                     tint = MaterialTheme.colorScheme.primary
                 )
 

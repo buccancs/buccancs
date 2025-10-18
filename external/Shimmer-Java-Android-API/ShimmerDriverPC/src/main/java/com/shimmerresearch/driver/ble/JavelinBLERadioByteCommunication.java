@@ -80,7 +80,8 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             directory = "C:\\GHCon\\Shimmer-Java-Android-API\\ShimmerDriverPC";
             String absoluteDLLPath = new File(directory, dllPath).getAbsolutePath();
             return absoluteDLLPath;
-        } catch (URISyntaxException e) {
+        } catch (
+                URISyntaxException e) {
             e.printStackTrace();
         }
         return "";
@@ -101,9 +102,11 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             ble.getStatus();
             Thread.sleep(1000);
             ble.disconnect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println();
@@ -155,7 +158,8 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
             }
             try {
                 Thread.sleep(300);
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
             }
             System.out.println(l_name + " Connected");
@@ -182,9 +186,10 @@ public class JavelinBLERadioByteCommunication extends AbstractByteCommunication 
                 ServiceUUID,
                 RXUUID, 10000);
         System.out.print("Wait 1 said: ");
-        if (l_bytes != null) for (byte l_byte : l_bytes) {
-            System.out.print(" " + l_byte);
-        }
+        if (l_bytes != null)
+            for (byte l_byte : l_bytes) {
+                System.out.print(" " + l_byte);
+            }
     }
 
     @Override

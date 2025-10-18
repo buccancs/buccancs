@@ -20,24 +20,38 @@ class HardwareDebugViewModel @Inject constructor(
     private val hardwareDebugger: HardwareDebugger
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HardwareDebugUiState())
-    val uiState: StateFlow<HardwareDebugUiState> = _uiState.asStateFlow()
+    private val _uiState =
+        MutableStateFlow(
+            HardwareDebugUiState()
+        )
+    val uiState: StateFlow<HardwareDebugUiState> =
+        _uiState.asStateFlow()
 
     init {
         startDebugSession()
     }
 
     fun startDebugSession() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _uiState.update { it.copy(isScanning = true) }
+        viewModelScope.launch(
+            Dispatchers.IO
+        ) {
+            _uiState.update {
+                it.copy(
+                    isScanning = true
+                )
+            }
 
             try {
                 hardwareDebugger.startDebugSession()
 
-                val systemInfo = hardwareDebugger.getSystemInfo()
-                val usbDevices = hardwareDebugger.scanUsbDevices()
-                val bluetoothInfo = hardwareDebugger.scanBluetoothDevices()
-                val logPath = hardwareDebugger.retrieveDebugLogFile().absolutePath
+                val systemInfo =
+                    hardwareDebugger.getSystemInfo()
+                val usbDevices =
+                    hardwareDebugger.scanUsbDevices()
+                val bluetoothInfo =
+                    hardwareDebugger.scanBluetoothDevices()
+                val logPath =
+                    hardwareDebugger.retrieveDebugLogFile().absolutePath
 
                 _uiState.update {
                     it.copy(
@@ -49,13 +63,19 @@ class HardwareDebugViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isScanning = false) }
+                _uiState.update {
+                    it.copy(
+                        isScanning = false
+                    )
+                }
             }
         }
     }
 
     fun saveDebugLog() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(
+            Dispatchers.IO
+        ) {
             hardwareDebugger.endDebugSession()
         }
     }

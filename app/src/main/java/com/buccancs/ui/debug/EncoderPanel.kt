@@ -27,15 +27,29 @@ fun EncoderPanel(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier.padding(
+                16.dp
+            )
+        ) {
             Text(
                 text = "Stream Telemetry",
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    8.dp
+                )
+            )
             streams.forEach { status ->
-                StreamRow(status = status)
-                Spacer(modifier = Modifier.height(8.dp))
+                StreamRow(
+                    status = status
+                )
+                Spacer(
+                    modifier = Modifier.height(
+                        8.dp
+                    )
+                )
             }
             if (streams.isEmpty()) {
                 Text(
@@ -48,31 +62,50 @@ fun EncoderPanel(
 }
 
 @Composable
-private fun StreamRow(status: SensorStreamStatus) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+private fun StreamRow(
+    status: SensorStreamStatus
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(
             text = "${status.deviceId.value} — ${status.streamType.name}",
             style = MaterialTheme.typography.bodyMedium
         )
-        val rate = when {
-            status.sampleRateHz != null -> formatDouble(status.sampleRateHz)
-            status.frameRateFps != null -> formatDouble(status.frameRateFps)
-            else -> "n/a"
-        }
+        val rate =
+            when {
+                status.sampleRateHz != null -> formatDouble(
+                    status.sampleRateHz
+                )
+
+                status.frameRateFps != null -> formatDouble(
+                    status.frameRateFps
+                )
+
+                else -> "n/a"
+            }
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = "Rate: $rate ${if (status.sampleRateHz != null) "Hz" else "fps"}",
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
             Text(
                 text = "Streaming: ${status.isStreaming}",
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
         }
         Text(
-            text = "Buffered: ${formatDouble(status.bufferedDurationSeconds ?: 0.0)} s · Simulated: ${status.isSimulated}",
+            text = "Buffered: ${
+                formatDouble(
+                    status.bufferedDurationSeconds ?: 0.0
+                )
+            } s · Simulated: ${status.isSimulated}",
             style = MaterialTheme.typography.bodySmall
         )
         Text(
@@ -82,5 +115,14 @@ private fun StreamRow(status: SensorStreamStatus) {
     }
 }
 
-private fun formatDouble(value: Double?): String =
-    value?.let { String.format(Locale.US, "%.2f", it) } ?: "n/a"
+private fun formatDouble(
+    value: Double?
+): String =
+    value?.let {
+        String.format(
+            Locale.US,
+            "%.2f",
+            it
+        )
+    }
+        ?: "n/a"

@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializesensorStreamAck")
-public inline fun sensorStreamAck(block: com.buccancs.control.SensorStreamAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorStreamAck =
-    com.buccancs.control.SensorStreamAckKt.Dsl._create(com.buccancs.control.SensorStreamAck.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializesensorStreamAck"
+)
+public inline fun sensorStreamAck(
+    block: com.buccancs.control.SensorStreamAckKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SensorStreamAck =
+    com.buccancs.control.SensorStreamAckKt.Dsl._create(
+        com.buccancs.control.SensorStreamAck.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.SensorStreamAck`
  */
 public object SensorStreamAckKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.SensorStreamAck.Builder
@@ -23,13 +34,16 @@ public object SensorStreamAckKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.SensorStreamAck.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.SensorStreamAck.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.SensorStreamAck = _builder.build()
+        internal fun _build(): com.buccancs.control.SensorStreamAck =
+            _builder.build()
 
         /**
          * `bool success = 1;`
@@ -37,7 +51,9 @@ public object SensorStreamAckKt {
         public var success: kotlin.Boolean
             get() = _builder.getSuccess()
             set(value) {
-                _builder.setSuccess(value)
+                _builder.setSuccess(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object SensorStreamAckKt {
         public var errorMessage: kotlin.String
             get() = _builder.getErrorMessage()
             set(value) {
-                _builder.setErrorMessage(value)
+                _builder.setErrorMessage(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object SensorStreamAckKt {
         public var totalSamples: kotlin.Long
             get() = _builder.getTotalSamples()
             set(value) {
-                _builder.setTotalSamples(value)
+                _builder.setTotalSamples(
+                    value
+                )
             }
 
         /**
@@ -82,7 +102,12 @@ public object SensorStreamAckKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.SensorStreamAck.copy(block: `com.buccancs.control`.SensorStreamAckKt.Dsl.() -> kotlin.Unit): com.buccancs.control.SensorStreamAck =
-    `com.buccancs.control`.SensorStreamAckKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.SensorStreamAck.copy(
+    block: `com.buccancs.control`.SensorStreamAckKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.SensorStreamAck =
+    `com.buccancs.control`.SensorStreamAckKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

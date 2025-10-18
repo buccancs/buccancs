@@ -22,7 +22,11 @@ fun SearchBar(
         value = query,
         onValueChange = onQueryChange,
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(placeholder) },
+        placeholder = {
+            Text(
+                placeholder
+            )
+        },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -31,7 +35,12 @@ fun SearchBar(
         },
         trailingIcon = {
             if (query.isNotBlank()) {
-                IconButton(onClick = { onQueryChange("") }) {
+                IconButton(
+                    onClick = {
+                        onQueryChange(
+                            ""
+                        )
+                    }) {
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Clear"

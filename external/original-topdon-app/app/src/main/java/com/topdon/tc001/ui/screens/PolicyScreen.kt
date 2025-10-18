@@ -28,7 +28,9 @@ enum class PolicyType {
     TERMS_OF_SERVICE
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun PolicyScreen(
     policyType: PolicyType,
@@ -37,19 +39,26 @@ fun PolicyScreen(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val title = when (policyType) {
-        PolicyType.USER_AGREEMENT -> "User Agreement"
-        PolicyType.PRIVACY_POLICY -> "Privacy Policy"
-        PolicyType.TERMS_OF_SERVICE -> "Terms of Service"
-    }
+    val title =
+        when (policyType) {
+            PolicyType.USER_AGREEMENT -> "User Agreement"
+            PolicyType.PRIVACY_POLICY -> "Privacy Policy"
+            PolicyType.TERMS_OF_SERVICE -> "Terms of Service"
+        }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(title) },
+                title = {
+                    Text(
+                        title
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -65,12 +74,16 @@ fun PolicyScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(
+                    paddingValues
+                )
         ) {
             when {
                 isLoading -> {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(
+                            Alignment.Center
+                        )
                     )
                 }
 
@@ -78,8 +91,12 @@ fun PolicyScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(16.dp)
+                            .verticalScroll(
+                                rememberScrollState()
+                            )
+                            .padding(
+                                16.dp
+                            )
                     ) {
                         Text(
                             text = policyContent,
@@ -94,7 +111,9 @@ fun PolicyScreen(
                         text = "Failed to load policy content",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(
+                            Alignment.Center
+                        )
                     )
                 }
             }

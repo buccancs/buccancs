@@ -38,7 +38,9 @@ fun ShimmerConnectionCard(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -55,11 +57,17 @@ fun ShimmerConnectionCard(
                 }
             )
 
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(
+                    1f
+                )
+            ) {
                 Text(
                     text = when {
                         isConnecting -> "Connecting..."
-                        isConnected -> deviceName ?: "Shimmer Device"
+                        isConnected -> deviceName
+                            ?: "Shimmer Device"
+
                         else -> "Not Connected"
                     },
                     style = MaterialTheme.typography.titleMedium
@@ -77,40 +85,58 @@ fun ShimmerConnectionCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (isConnected) {
                 OutlinedButton(
                     onClick = onDisconnect,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
-                    Text("Disconnect")
+                    Text(
+                        "Disconnect"
+                    )
                 }
             } else {
                 Button(
                     onClick = onConnect,
                     enabled = !isConnecting,
                     modifier = Modifier
-                        .weight(1f)
-                        .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
                 ) {
-                    Text(if (isConnecting) "Connecting..." else "Connect")
+                    Text(
+                        if (isConnecting) "Connecting..." else "Connect"
+                    )
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true
+)
 @Composable
 private fun ShimmerConnectionCardPreview() {
     MaterialTheme {
         Column(
             modifier = Modifier,
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             ShimmerConnectionCard(
                 isConnected = false,

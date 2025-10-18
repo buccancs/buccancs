@@ -16,17 +16,26 @@ import javax.inject.Singleton
 class RetentionPreferencesRepository @Inject constructor(
     @ApplicationContext context: Context
 ) {
-    private val dataStore = PreferenceDataStoreFactory.create(
-        produceFile = { context.preferencesDataStoreFile(DATA_STORE_NAME) }
-    )
-
-    val preferences: Flow<RetentionPreferences> = dataStore.data.map { prefs ->
-        RetentionPreferences(
-            minFreeBytes = prefs[MIN_FREE_BYTES_KEY] ?: DEFAULT_MIN_FREE_BYTES,
-            maxSessions = prefs[MAX_SESSIONS_KEY] ?: DEFAULT_MAX_SESSIONS,
-            maxAgeDays = prefs[MAX_AGE_DAYS_KEY] ?: DEFAULT_MAX_AGE_DAYS
+    private val dataStore =
+        PreferenceDataStoreFactory.create(
+            produceFile = {
+                context.preferencesDataStoreFile(
+                    DATA_STORE_NAME
+                )
+            }
         )
-    }
+
+    val preferences: Flow<RetentionPreferences> =
+        dataStore.data.map { prefs ->
+            RetentionPreferences(
+                minFreeBytes = prefs[MIN_FREE_BYTES_KEY]
+                    ?: DEFAULT_MIN_FREE_BYTES,
+                maxSessions = prefs[MAX_SESSIONS_KEY]
+                    ?: DEFAULT_MAX_SESSIONS,
+                maxAgeDays = prefs[MAX_AGE_DAYS_KEY]
+                    ?: DEFAULT_MAX_AGE_DAYS
+            )
+        }
 
     suspend fun update(
         minFreeBytes: Long,
@@ -34,20 +43,36 @@ class RetentionPreferencesRepository @Inject constructor(
         maxAgeDays: Long
     ) {
         dataStore.edit { prefs ->
-            prefs[MIN_FREE_BYTES_KEY] = minFreeBytes
-            prefs[MAX_SESSIONS_KEY] = maxSessions
-            prefs[MAX_AGE_DAYS_KEY] = maxAgeDays
+            prefs[MIN_FREE_BYTES_KEY] =
+                minFreeBytes
+            prefs[MAX_SESSIONS_KEY] =
+                maxSessions
+            prefs[MAX_AGE_DAYS_KEY] =
+                maxAgeDays
         }
     }
 
     companion object {
-        private const val DATA_STORE_NAME = "retention_prefs"
-        private val MIN_FREE_BYTES_KEY = longPreferencesKey("min_free_bytes")
-        private val MAX_SESSIONS_KEY = intPreferencesKey("max_sessions")
-        private val MAX_AGE_DAYS_KEY = longPreferencesKey("max_age_days")
-        private const val DEFAULT_MAX_SESSIONS = 48
-        private const val DEFAULT_MIN_FREE_BYTES = 6L * 1024 * 1024 * 1024
-        private const val DEFAULT_MAX_AGE_DAYS = 30L
+        private const val DATA_STORE_NAME =
+            "retention_prefs"
+        private val MIN_FREE_BYTES_KEY =
+            longPreferencesKey(
+                "min_free_bytes"
+            )
+        private val MAX_SESSIONS_KEY =
+            intPreferencesKey(
+                "max_sessions"
+            )
+        private val MAX_AGE_DAYS_KEY =
+            longPreferencesKey(
+                "max_age_days"
+            )
+        private const val DEFAULT_MAX_SESSIONS =
+            48
+        private const val DEFAULT_MIN_FREE_BYTES =
+            6L * 1024 * 1024 * 1024
+        private const val DEFAULT_MAX_AGE_DAYS =
+            30L
     }
 }
 

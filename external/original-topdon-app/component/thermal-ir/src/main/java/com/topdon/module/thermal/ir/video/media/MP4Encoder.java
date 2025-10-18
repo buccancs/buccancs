@@ -83,7 +83,8 @@ public class MP4Encoder extends Encoder {
             audioCodec.configure(audioFormat, null, null, CONFIGURE_FLAG_ENCODE);
             audioCodec.start();
             mediaMuxer = new MediaMuxer(outputFilePath, MUXER_OUTPUT_MPEG_4);
-        } catch (IOException ioe) {
+        } catch (
+                IOException ioe) {
             throw new RuntimeException("MediaMuxer creation failed", ioe);
         }
     }

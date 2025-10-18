@@ -9,38 +9,62 @@ import androidx.compose.ui.unit.dp
  */
 object Dimensions {
     // Icon sizes aligned to MD3 standards
-    val IconSizeSmall = 16.dp      // For status indicators, chips
-    val IconSizeDefault = 24.dp    // Standard icon size
-    val IconSizeLarge = 32.dp      // Large icons, FAB
+    val IconSizeSmall =
+        16.dp      // For status indicators, chips
+    val IconSizeDefault =
+        24.dp    // Standard icon size
+    val IconSizeLarge =
+        32.dp      // Large icons, FAB
 
     // Touch targets (minimum 48dp per MD3)
-    val TouchTargetMinimum = 48.dp
+    val TouchTargetMinimum =
+        48.dp
 
     // Common sizes aligned to 8dp grid
-    val Size160 = 160.dp  // Preview height
-    val Size120 = 120.dp
-    val Size80 = 80.dp
-    val Size48 = 48.dp    // Minimum touch target
-    val Size40 = 40.dp
-    val Size32 = 32.dp
-    val Size24 = 24.dp
-    val Size16 = 16.dp
-    val Size8 = 8.dp
-    val Size4 = 4.dp
+    val Size160 =
+        160.dp  // Preview height
+    val Size120 =
+        120.dp
+    val Size80 =
+        80.dp
+    val Size48 =
+        48.dp    // Minimum touch target
+    val Size40 =
+        40.dp
+    val Size32 =
+        32.dp
+    val Size24 =
+        24.dp
+    val Size16 =
+        16.dp
+    val Size8 =
+        8.dp
+    val Size4 =
+        4.dp
 
     // Elevation levels (Material Design 3)
-    val ElevationNone = 0.dp
-    val ElevationLevel1 = 1.dp   // Filled button
-    val ElevationLevel2 = 2.dp   // Tonal button
-    val ElevationLevel3 = 4.dp   // Pressed state
-    val ElevationLevel4 = 6.dp   // Dialog
-    val ElevationLevel5 = 8.dp   // Navigation bar
+    val ElevationNone =
+        0.dp
+    val ElevationLevel1 =
+        1.dp   // Filled button
+    val ElevationLevel2 =
+        2.dp   // Tonal button
+    val ElevationLevel3 =
+        4.dp   // Pressed state
+    val ElevationLevel4 =
+        6.dp   // Dialog
+    val ElevationLevel5 =
+        8.dp   // Navigation bar
 
     // Border widths
-    val BorderThin = 1.dp        // Subtle borders
-    val BorderDefault = 2.dp     // Standard borders
-    val BorderThick = 4.dp       // Emphasis borders
+    val BorderThin =
+        1.dp        // Subtle borders
+    val BorderDefault =
+        2.dp     // Standard borders
+    val BorderThick =
+        4.dp       // Emphasis borders
 
     // Stroke widths
-    val StrokeWidth = 4.dp       // Progress indicators
+    val StrokeWidth =
+        4.dp       // Progress indicators
 }

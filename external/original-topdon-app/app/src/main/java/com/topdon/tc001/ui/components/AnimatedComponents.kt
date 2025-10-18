@@ -16,38 +16,65 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 object AnimationConstants {
-    const val DURATION_SHORT = 200
-    const val DURATION_MEDIUM = 300
-    const val DURATION_LONG = 500
+    const val DURATION_SHORT =
+        200
+    const val DURATION_MEDIUM =
+        300
+    const val DURATION_LONG =
+        500
 }
 
 object NavigationTransitions {
     fun enterTransition(): EnterTransition {
         return slideInHorizontally(
             initialOffsetX = { it },
-            animationSpec = tween(AnimationConstants.DURATION_MEDIUM)
-        ) + fadeIn(animationSpec = tween(AnimationConstants.DURATION_MEDIUM))
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        ) + fadeIn(
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        )
     }
 
     fun exitTransition(): ExitTransition {
         return slideOutHorizontally(
             targetOffsetX = { -it / 3 },
-            animationSpec = tween(AnimationConstants.DURATION_MEDIUM)
-        ) + fadeOut(animationSpec = tween(AnimationConstants.DURATION_MEDIUM))
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        ) + fadeOut(
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        )
     }
 
     fun popEnterTransition(): EnterTransition {
         return slideInHorizontally(
             initialOffsetX = { -it / 3 },
-            animationSpec = tween(AnimationConstants.DURATION_MEDIUM)
-        ) + fadeIn(animationSpec = tween(AnimationConstants.DURATION_MEDIUM))
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        ) + fadeIn(
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        )
     }
 
     fun popExitTransition(): ExitTransition {
         return slideOutHorizontally(
             targetOffsetX = { it },
-            animationSpec = tween(AnimationConstants.DURATION_MEDIUM)
-        ) + fadeOut(animationSpec = tween(AnimationConstants.DURATION_MEDIUM))
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        ) + fadeOut(
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        )
     }
 }
 
@@ -55,15 +82,27 @@ object ModalTransitions {
     fun enterTransition(): EnterTransition {
         return slideInVertically(
             initialOffsetY = { it },
-            animationSpec = tween(AnimationConstants.DURATION_MEDIUM)
-        ) + fadeIn(animationSpec = tween(AnimationConstants.DURATION_SHORT))
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        ) + fadeIn(
+            animationSpec = tween(
+                AnimationConstants.DURATION_SHORT
+            )
+        )
     }
 
     fun exitTransition(): ExitTransition {
         return slideOutVertically(
             targetOffsetY = { it },
-            animationSpec = tween(AnimationConstants.DURATION_MEDIUM)
-        ) + fadeOut(animationSpec = tween(AnimationConstants.DURATION_SHORT))
+            animationSpec = tween(
+                AnimationConstants.DURATION_MEDIUM
+            )
+        ) + fadeOut(
+            animationSpec = tween(
+                AnimationConstants.DURATION_SHORT
+            )
+        )
     }
 }
 

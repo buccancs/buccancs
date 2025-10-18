@@ -21,47 +21,90 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeGuideDialog(context: Context, private val currentStep: Int) :
-    Dialog(context, R.style.TransparentDialog) {
-    var onNextClickListener: ((step: Int) -> Unit)? = null
-    var onSkinClickListener: (() -> Unit)? = null
+class HomeGuideDialog(
+    context: Context,
+    private val currentStep: Int
+) :
+    Dialog(
+        context,
+        R.style.TransparentDialog
+    ) {
+    var onNextClickListener: ((step: Int) -> Unit)? =
+        null
+    var onSkinClickListener: (() -> Unit)? =
+        null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(true)
-        setCanceledOnTouchOutside(false)
-        setContentView(LayoutInflater.from(context).inflate(R.layout.dialog_home_guide, null))
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        setCancelable(
+            true
+        )
+        setCanceledOnTouchOutside(
+            false
+        )
+        setContentView(
+            LayoutInflater.from(
+                context
+            )
+                .inflate(
+                    R.layout.dialog_home_guide,
+                    null
+                )
+        )
         when (currentStep) {
             1 -> {
-                cl_guide_1.isVisible = true
-                cl_guide_2.isVisible = false
-                cl_guide_3.isVisible = false
+                cl_guide_1.isVisible =
+                    true
+                cl_guide_2.isVisible =
+                    false
+                cl_guide_3.isVisible =
+                    false
             }
 
             2 -> {
-                cl_guide_1.isVisible = false
-                cl_guide_2.isVisible = true
-                cl_guide_3.isVisible = false
+                cl_guide_1.isVisible =
+                    false
+                cl_guide_2.isVisible =
+                    true
+                cl_guide_3.isVisible =
+                    false
             }
 
             3 -> {
-                cl_guide_1.isVisible = false
-                cl_guide_2.isVisible = false
-                cl_guide_3.isVisible = true
+                cl_guide_1.isVisible =
+                    false
+                cl_guide_2.isVisible =
+                    false
+                cl_guide_3.isVisible =
+                    true
             }
         }
         tv_next1.setOnClickListener {
-            onNextClickListener?.invoke(1)
-            cl_guide_1.isVisible = false
-            cl_guide_2.isVisible = true
+            onNextClickListener?.invoke(
+                1
+            )
+            cl_guide_1.isVisible =
+                false
+            cl_guide_2.isVisible =
+                true
         }
         tv_next2.setOnClickListener {
-            onNextClickListener?.invoke(2)
-            cl_guide_2.isVisible = false
-            cl_guide_3.isVisible = true
+            onNextClickListener?.invoke(
+                2
+            )
+            cl_guide_2.isVisible =
+                false
+            cl_guide_3.isVisible =
+                true
         }
         tv_i_know.setOnClickListener {
-            onNextClickListener?.invoke(3)
+            onNextClickListener?.invoke(
+                3
+            )
             dismiss()
         }
 
@@ -80,28 +123,74 @@ class HomeGuideDialog(context: Context, private val currentStep: Int) :
         onSkinClickListener?.invoke()
     }
 
-    fun blurBg(rootView: View) {
-        CoroutineScope(Dispatchers.IO).launch {
+    fun blurBg(
+        rootView: View
+    ) {
+        CoroutineScope(
+            Dispatchers.IO
+        ).launch {
             try {
                 val sourceBitmap =
-                    Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
+                    Bitmap.createBitmap(
+                        rootView.width,
+                        rootView.height,
+                        Bitmap.Config.ARGB_8888
+                    )
                 val outputBitmap =
-                    Bitmap.createBitmap(rootView.width, rootView.height, Bitmap.Config.ARGB_8888)
-                val canvas = Canvas(sourceBitmap)
-                rootView.draw(canvas)
-                val renderScript = RenderScript.create(context)
-                val inputAllocation = Allocation.createFromBitmap(renderScript, sourceBitmap)
-                val outputAllocation = Allocation.createTyped(renderScript, inputAllocation.type)
+                    Bitmap.createBitmap(
+                        rootView.width,
+                        rootView.height,
+                        Bitmap.Config.ARGB_8888
+                    )
+                val canvas =
+                    Canvas(
+                        sourceBitmap
+                    )
+                rootView.draw(
+                    canvas
+                )
+                val renderScript =
+                    RenderScript.create(
+                        context
+                    )
+                val inputAllocation =
+                    Allocation.createFromBitmap(
+                        renderScript,
+                        sourceBitmap
+                    )
+                val outputAllocation =
+                    Allocation.createTyped(
+                        renderScript,
+                        inputAllocation.type
+                    )
                 val blurScript =
-                    ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
-                blurScript.setRadius(20f)
-                blurScript.setInput(inputAllocation)
-                blurScript.forEach(outputAllocation)
-                outputAllocation.copyTo(outputBitmap)
+                    ScriptIntrinsicBlur.create(
+                        renderScript,
+                        Element.U8_4(
+                            renderScript
+                        )
+                    )
+                blurScript.setRadius(
+                    20f
+                )
+                blurScript.setInput(
+                    inputAllocation
+                )
+                blurScript.forEach(
+                    outputAllocation
+                )
+                outputAllocation.copyTo(
+                    outputBitmap
+                )
                 renderScript.destroy()
-                launch(Dispatchers.Main) {
-                    iv_blur_bg.isVisible = true
-                    iv_blur_bg.setImageBitmap(outputBitmap)
+                launch(
+                    Dispatchers.Main
+                ) {
+                    iv_blur_bg.isVisible =
+                        true
+                    iv_blur_bg.setImageBitmap(
+                        outputBitmap
+                    )
                 }
             } catch (_: Exception) {
             }

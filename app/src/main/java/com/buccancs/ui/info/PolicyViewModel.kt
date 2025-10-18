@@ -17,15 +17,27 @@ data class PolicyUiState(
 )
 
 @HiltViewModel
-class PolicyViewModel @Inject constructor() : ViewModel() {
+class PolicyViewModel @Inject constructor() :
+    ViewModel() {
 
-    private val _uiState = MutableStateFlow(PolicyUiState())
-    val uiState: StateFlow<PolicyUiState> = _uiState.asStateFlow()
+    private val _uiState =
+        MutableStateFlow(
+            PolicyUiState()
+        )
+    val uiState: StateFlow<PolicyUiState> =
+        _uiState.asStateFlow()
 
-    fun loadPolicy(themeType: Int) {
+    fun loadPolicy(
+        themeType: Int
+    ) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            delay(500)
+            _uiState.value =
+                _uiState.value.copy(
+                    isLoading = true
+                )
+            delay(
+                500
+            )
 
             val (title, content) = when (themeType) {
                 1 -> "User Agreement" to generateUserAgreement()
@@ -34,15 +46,17 @@ class PolicyViewModel @Inject constructor() : ViewModel() {
                 else -> "Policy" to "Policy content not available."
             }
 
-            _uiState.value = PolicyUiState(
-                title = title,
-                content = content,
-                isLoading = false
-            )
+            _uiState.value =
+                PolicyUiState(
+                    title = title,
+                    content = content,
+                    isLoading = false
+                )
         }
     }
 
-    private fun generateUserAgreement(): String = """
+    private fun generateUserAgreement(): String =
+        """
         USER AGREEMENT
         
         Last Updated: 2025
@@ -74,7 +88,8 @@ class PolicyViewModel @Inject constructor() : ViewModel() {
         For questions, contact support.
     """.trimIndent()
 
-    private fun generatePrivacyPolicy(): String = """
+    private fun generatePrivacyPolicy(): String =
+        """
         PRIVACY POLICY
         
         Last Updated: 2025
@@ -115,7 +130,8 @@ class PolicyViewModel @Inject constructor() : ViewModel() {
         Contact us for privacy concerns.
     """.trimIndent()
 
-    private fun generateTermsOfService(): String = """
+    private fun generateTermsOfService(): String =
+        """
         TERMS OF SERVICE
         
         Last Updated: 2025

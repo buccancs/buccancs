@@ -7,4 +7,7 @@ import android.hardware.usb.UsbDevice
  * @param isConnect true-已连接 false-已断开
  * @param device 若已连接，连接的设备
  */
-data class DeviceConnectEvent(val isConnect: Boolean, val device: UsbDevice?)
+data class DeviceConnectEvent(
+    val isConnect: Boolean,
+    val device: UsbDevice?
+)

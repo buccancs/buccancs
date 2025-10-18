@@ -6,4 +6,6 @@ package com.topdon.lib.core.bean.event
  *
  * @param text 消息内容
  */
-data class SocketMsgEvent(val text: String)
+data class SocketMsgEvent(
+    val text: String
+)

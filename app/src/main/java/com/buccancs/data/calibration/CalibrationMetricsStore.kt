@@ -20,42 +20,83 @@ import kotlin.time.Instant
 class CalibrationMetricsStore @Inject constructor(
     @ApplicationContext context: Context
 ) {
-    private val dataStore = PreferenceDataStoreFactory.create(
-        produceFile = { context.preferencesDataStoreFile(STORE_NAME) }
-    )
-
-    val metrics: Flow<CalibrationMetrics?> = dataStore.data.map { preferences ->
-        val generatedAt = preferences[KEY_GENERATED_AT] ?: return@map null
-        val meanError = preferences[KEY_MEAN_ERROR] ?: return@map null
-        val maxError = preferences[KEY_MAX_ERROR] ?: return@map null
-        val usedPairs = preferences[KEY_USED_PAIRS] ?: return@map null
-        val requiredPairs = preferences[KEY_REQUIRED_PAIRS] ?: return@map null
-        CalibrationMetrics(
-            generatedAt = Instant.fromEpochMilliseconds(generatedAt),
-            meanReprojectionError = meanError,
-            maxReprojectionError = maxError,
-            usedPairs = usedPairs,
-            requiredPairs = requiredPairs
+    private val dataStore =
+        PreferenceDataStoreFactory.create(
+            produceFile = {
+                context.preferencesDataStoreFile(
+                    STORE_NAME
+                )
+            }
         )
-    }
 
-    suspend fun update(result: CalibrationResult) {
+    val metrics: Flow<CalibrationMetrics?> =
+        dataStore.data.map { preferences ->
+            val generatedAt =
+                preferences[KEY_GENERATED_AT]
+                    ?: return@map null
+            val meanError =
+                preferences[KEY_MEAN_ERROR]
+                    ?: return@map null
+            val maxError =
+                preferences[KEY_MAX_ERROR]
+                    ?: return@map null
+            val usedPairs =
+                preferences[KEY_USED_PAIRS]
+                    ?: return@map null
+            val requiredPairs =
+                preferences[KEY_REQUIRED_PAIRS]
+                    ?: return@map null
+            CalibrationMetrics(
+                generatedAt = Instant.fromEpochMilliseconds(
+                    generatedAt
+                ),
+                meanReprojectionError = meanError,
+                maxReprojectionError = maxError,
+                usedPairs = usedPairs,
+                requiredPairs = requiredPairs
+            )
+        }
+
+    suspend fun update(
+        result: CalibrationResult
+    ) {
         dataStore.edit { preferences ->
-            preferences[KEY_GENERATED_AT] = result.generatedAt.toEpochMilliseconds()
-            preferences[KEY_MEAN_ERROR] = result.meanReprojectionError
+            preferences[KEY_GENERATED_AT] =
+                result.generatedAt.toEpochMilliseconds()
+            preferences[KEY_MEAN_ERROR] =
+                result.meanReprojectionError
             preferences[KEY_MAX_ERROR] =
-                result.perViewErrors.maxOrNull() ?: result.meanReprojectionError
-            preferences[KEY_USED_PAIRS] = result.usedPairs
-            preferences[KEY_REQUIRED_PAIRS] = result.requiredPairs
+                result.perViewErrors.maxOrNull()
+                    ?: result.meanReprojectionError
+            preferences[KEY_USED_PAIRS] =
+                result.usedPairs
+            preferences[KEY_REQUIRED_PAIRS] =
+                result.requiredPairs
         }
     }
 
     companion object {
-        private const val STORE_NAME = "calibration_metrics.preferences_pb"
-        private val KEY_GENERATED_AT = longPreferencesKey("generated_at_epoch_ms")
-        private val KEY_MEAN_ERROR = doublePreferencesKey("mean_reprojection_error")
-        private val KEY_MAX_ERROR = doublePreferencesKey("max_reprojection_error")
-        private val KEY_USED_PAIRS = intPreferencesKey("used_pairs")
-        private val KEY_REQUIRED_PAIRS = intPreferencesKey("required_pairs")
+        private const val STORE_NAME =
+            "calibration_metrics.preferences_pb"
+        private val KEY_GENERATED_AT =
+            longPreferencesKey(
+                "generated_at_epoch_ms"
+            )
+        private val KEY_MEAN_ERROR =
+            doublePreferencesKey(
+                "mean_reprojection_error"
+            )
+        private val KEY_MAX_ERROR =
+            doublePreferencesKey(
+                "max_reprojection_error"
+            )
+        private val KEY_USED_PAIRS =
+            intPreferencesKey(
+                "used_pairs"
+            )
+        private val KEY_REQUIRED_PAIRS =
+            intPreferencesKey(
+                "required_pairs"
+            )
     }
 }

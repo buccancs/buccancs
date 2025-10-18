@@ -320,7 +320,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     private int mNumberofTXRetriesCount = 1;
     private boolean mWriteCalibrationDumpWhenConfiguringForClone = true;
     private boolean mInstructionStackLock = false;
-    @Deprecated // mContinousSync doesn't do anything
+    @Deprecated
+    // mContinousSync doesn't do anything
     private boolean mContinousSync = false;
     private boolean mUseLegacyDelayToDelayForResponse = false;
     private SystemTimestampPlot systemTimestampPlot = new SystemTimestampPlot();
@@ -664,7 +665,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         try {
             objectCluster = buildMsg(packet, fwType, timeSync, pcTimeStamp);
             objectCluster = systemTimestampPlot.processSystemTimestampPlot(objectCluster);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         }
 
@@ -728,7 +730,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             for (int i = 0; i < packetSize; i++) {
                 try {
                     mListofPCTimeStamps.remove(0);
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     consolePrintException(e.getMessage(), e.getStackTrace());
                 }
             }
@@ -1774,14 +1777,16 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         stopAllTimers();
 
         clearAllInstructions();
-        while (getListofInstructions().size() > 0) ;
+        while (getListofInstructions().size() > 0)
+            ;
         setInstructionStackLock(true);
         mOperationUnderway = true;
     }
 
     public void operationWaitForFinish() {
         setInstructionStackLock(false);
-        while (getListofInstructions().size() > 0) ;
+        while (getListofInstructions().size() > 0)
+            ;
     }
 
     @Override
@@ -1881,7 +1886,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerCheckForAckOrResp.cancel();
                 mTimerCheckForAckOrResp.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
             mTimerCheckForAckOrResp = null;
@@ -1893,7 +1899,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerCheckForAckOrResp.cancel();
                 mTimerCheckForAckOrResp.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
             mTimerCheckForAckOrResp = null;
@@ -1923,7 +1930,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerReadStatus.cancel();
                 mTimerReadStatus.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
             mTimerReadStatus = null;
@@ -1947,7 +1955,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerCheckAlive.cancel();
                 mTimerCheckAlive.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
             mTimerCheckAlive = null;
@@ -1969,7 +1978,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerReadBattStatus.cancel();
                 mTimerReadBattStatus.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
             mTimerReadBattStatus = null;
@@ -1996,7 +2006,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerConnecting.cancel();
                 mTimerConnecting.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
             mTimerConnecting = null;
@@ -2008,7 +2019,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerCheckSerialPortClear.cancel();
                 mTimerCheckSerialPortClear.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
 
@@ -2021,7 +2033,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
             try {
                 mTimerCheckSerialPortClear.cancel();
                 mTimerCheckSerialPortClear.purge();
-            } catch (NullPointerException npe) {
+            } catch (
+                    NullPointerException npe) {
                 npe.printStackTrace();
             }
             mTimerCheckSerialPortClear = null;
@@ -2261,7 +2274,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
                     if (result.contains(AbstractCommsProtocolWired.TEST_ENDING)) {
                         tcs.setResult(true);
                     }
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                     tcs.setResult(false);
                 }
@@ -2276,7 +2290,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         boolean completed = false;
         try {
             completed = tcs.getTask().waitForCompletion(AbstractCommsProtocolWired.TIMEOUT_IN_SHIMMER_TEST, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
             InShimmerTest = false;
             startTimerCheckIfAlive();
@@ -2540,12 +2555,14 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
                 writeMagSamplingRate(getMagRate());
                 try {
                     writeAccelSamplingRate(getWRAccelRate());
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
                 try {
                     writeGyroSamplingRate(getGyroRate());
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
                 writeExgSamplingRate(rate);
@@ -3066,7 +3083,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     public int getEXG1CH1GainValue() {
 
         int gain = -1;
-        while (!getListofInstructions().isEmpty()) ;
+        while (!getListofInstructions().isEmpty())
+            ;
         int tmpGain = getExg1CH1GainValue();
         if (tmpGain == 1 || tmpGain == 2 || tmpGain == 3 || tmpGain == 4 || tmpGain == 6 || tmpGain == 8 || tmpGain == 12) {
             gain = tmpGain;
@@ -3077,7 +3095,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     public int getEXG1CH2GainValue() {
 
         int gain = -1;
-        while (!getListofInstructions().isEmpty()) ;
+        while (!getListofInstructions().isEmpty())
+            ;
         int tmpGain = getExg1CH2GainValue();
         if (tmpGain == 1 || tmpGain == 2 || tmpGain == 3 || tmpGain == 4 || tmpGain == 6 || tmpGain == 8 || tmpGain == 12) {
             gain = tmpGain;
@@ -3088,7 +3107,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     public int getEXG2CH1GainValue() {
 
         int gain = -1;
-        while (!getListofInstructions().isEmpty()) ;
+        while (!getListofInstructions().isEmpty())
+            ;
         int tmpGain = getExg2CH1GainValue();
         if (tmpGain == 1 || tmpGain == 2 || tmpGain == 3 || tmpGain == 4 || tmpGain == 6 || tmpGain == 8 || tmpGain == 12) {
             gain = tmpGain;
@@ -3100,7 +3120,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
     public int getEXG2CH2GainValue() {
 
         int gain = -1;
-        while (!getListofInstructions().isEmpty()) ;
+        while (!getListofInstructions().isEmpty())
+            ;
         int tmpGain = getExg2CH2GainValue();
         if (tmpGain == 1 || tmpGain == 2 || tmpGain == 3 || tmpGain == 4 || tmpGain == 6 || tmpGain == 8 || tmpGain == 12) {
             gain = tmpGain;
@@ -3108,12 +3129,14 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         return gain;
     }
 
-    @Deprecated //mContinousSync doesn't do anything
+    @Deprecated
+    //mContinousSync doesn't do anything
     public boolean getContinuousSync() {
         return mContinousSync;
     }
 
-    @Deprecated //mContinousSync doesn't do anything
+    @Deprecated
+    //mContinousSync doesn't do anything
     public void setContinuousSync(boolean continousSync) {
         mContinousSync = continousSync;
     }
@@ -3786,7 +3809,8 @@ public abstract class ShimmerBluetooth extends ShimmerObject implements Serializ
         synchronized (mListofInstructions) {
             try {
                 mListofInstructions.remove(index);
-            } catch (IndexOutOfBoundsException e) {
+            } catch (
+                    IndexOutOfBoundsException e) {
                 consolePrintLn("Tried to remove BT instruction but it was already gone.");
                 consolePrintException(e.getMessage(), e.getStackTrace());
             }

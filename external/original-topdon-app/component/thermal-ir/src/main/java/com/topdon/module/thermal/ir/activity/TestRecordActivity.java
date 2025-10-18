@@ -224,7 +224,8 @@ public class TestRecordActivity extends Activity {
             recording = true;
             audioThread.start();
 
-        } catch (FFmpegFrameRecorder.Exception e) {
+        } catch (
+                FFmpegFrameRecorder.Exception e) {
             e.printStackTrace();
         }
     }
@@ -234,7 +235,8 @@ public class TestRecordActivity extends Activity {
         runAudioThread = false;
         try {
             audioThread.join();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
         audioRecordRunnable = null;
@@ -278,7 +280,8 @@ public class TestRecordActivity extends Activity {
                     for (int i = firstIndex; i <= lastIndex; i++) {
                         recorder.recordSamples(samples[i % samples.length]);
                     }
-                } catch (FFmpegFrameRecorder.Exception e) {
+                } catch (
+                        FFmpegFrameRecorder.Exception e) {
                     Log.v(LOG_TAG, e.getMessage());
                     e.printStackTrace();
                 }
@@ -289,7 +292,8 @@ public class TestRecordActivity extends Activity {
             try {
                 recorder.stop();
                 recorder.release();
-            } catch (FFmpegFrameRecorder.Exception e) {
+            } catch (
+                    FFmpegFrameRecorder.Exception e) {
                 e.printStackTrace();
             }
             recorder = null;
@@ -351,12 +355,14 @@ public class TestRecordActivity extends Activity {
                 if (bufferReadResult > 0) {
                     Log.v(LOG_TAG, "bufferReadResult: " + bufferReadResult);
                     if (recording) {
-                        if (RECORD_LENGTH <= 0) try {
-                            recorder.recordSamples(audioData);
-                        } catch (FFmpegFrameRecorder.Exception e) {
-                            Log.v(LOG_TAG, e.getMessage());
-                            e.printStackTrace();
-                        }
+                        if (RECORD_LENGTH <= 0)
+                            try {
+                                recorder.recordSamples(audioData);
+                            } catch (
+                                    FFmpegFrameRecorder.Exception e) {
+                                Log.v(LOG_TAG, e.getMessage());
+                                e.printStackTrace();
+                            }
                     }
                 }
             }
@@ -391,7 +397,8 @@ public class TestRecordActivity extends Activity {
             try {
                 stopPreview();
                 mCamera.setPreviewDisplay(holder);
-            } catch (IOException exception) {
+            } catch (
+                    IOException exception) {
                 mCamera.release();
                 mCamera = null;
             }
@@ -431,7 +438,8 @@ public class TestRecordActivity extends Activity {
             try {
                 mHolder.addCallback(null);
                 mCamera.setPreviewCallback(null);
-            } catch (RuntimeException e) {
+            } catch (
+                    RuntimeException e) {
             }
         }
 
@@ -463,17 +471,19 @@ public class TestRecordActivity extends Activity {
             if (yuvImage != null && recording) {
                 ((ByteBuffer) yuvImage.image[0].position(0)).put(data);
 
-                if (RECORD_LENGTH <= 0) try {
-                    Log.v(LOG_TAG, "Writing Frame");
-                    long t = 1000 * (System.currentTimeMillis() - startTime);
-                    if (t > recorder.getTimestamp()) {
-                        recorder.setTimestamp(t);
+                if (RECORD_LENGTH <= 0)
+                    try {
+                        Log.v(LOG_TAG, "Writing Frame");
+                        long t = 1000 * (System.currentTimeMillis() - startTime);
+                        if (t > recorder.getTimestamp()) {
+                            recorder.setTimestamp(t);
+                        }
+                        recorder.record(yuvImage);
+                    } catch (
+                            FFmpegFrameRecorder.Exception e) {
+                        Log.v(LOG_TAG, e.getMessage());
+                        e.printStackTrace();
                     }
-                    recorder.record(yuvImage);
-                } catch (FFmpegFrameRecorder.Exception e) {
-                    Log.v(LOG_TAG, e.getMessage());
-                    e.printStackTrace();
-                }
             }
         }
     }

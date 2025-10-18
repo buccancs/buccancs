@@ -227,7 +227,8 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
         try {
             super.show();
             DialogLog.print("dialog show");
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             DialogLog.print(e);
         }
     }
@@ -241,7 +242,8 @@ public abstract class BaseDialog extends Dialog implements DialogInterface.OnSho
         try {
             super.dismiss();
             DialogLog.print("dialog dismiss");
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             DialogLog.print(e);
         }
     }

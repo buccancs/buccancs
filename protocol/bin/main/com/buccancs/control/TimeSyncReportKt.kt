@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializetimeSyncReport")
-public inline fun timeSyncReport(block: com.buccancs.control.TimeSyncReportKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncReport =
-    com.buccancs.control.TimeSyncReportKt.Dsl._create(com.buccancs.control.TimeSyncReport.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializetimeSyncReport"
+)
+public inline fun timeSyncReport(
+    block: com.buccancs.control.TimeSyncReportKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.TimeSyncReport =
+    com.buccancs.control.TimeSyncReportKt.Dsl._create(
+        com.buccancs.control.TimeSyncReport.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.TimeSyncReport`
  */
 public object TimeSyncReportKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.TimeSyncReport.Builder
@@ -23,13 +34,16 @@ public object TimeSyncReportKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.TimeSyncReport.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.TimeSyncReport.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.TimeSyncReport = _builder.build()
+        internal fun _build(): com.buccancs.control.TimeSyncReport =
+            _builder.build()
 
         /**
          * `string device_id = 1;`
@@ -37,7 +51,9 @@ public object TimeSyncReportKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object TimeSyncReportKt {
         public var offsetMs: kotlin.Double
             get() = _builder.getOffsetMs()
             set(value) {
-                _builder.setOffsetMs(value)
+                _builder.setOffsetMs(
+                    value
+                )
             }
 
         /**
@@ -69,7 +87,9 @@ public object TimeSyncReportKt {
         public var roundTripMs: kotlin.Double
             get() = _builder.getRoundTripMs()
             set(value) {
-                _builder.setRoundTripMs(value)
+                _builder.setRoundTripMs(
+                    value
+                )
             }
 
         /**
@@ -85,7 +105,9 @@ public object TimeSyncReportKt {
         public var sampleEpochMs: kotlin.Long
             get() = _builder.getSampleEpochMs()
             set(value) {
-                _builder.setSampleEpochMs(value)
+                _builder.setSampleEpochMs(
+                    value
+                )
             }
 
         /**
@@ -98,6 +120,12 @@ public object TimeSyncReportKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.TimeSyncReport.copy(block: `com.buccancs.control`.TimeSyncReportKt.Dsl.() -> kotlin.Unit): com.buccancs.control.TimeSyncReport =
-    `com.buccancs.control`.TimeSyncReportKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.buccancs.control.TimeSyncReport.copy(
+    block: `com.buccancs.control`.TimeSyncReportKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.TimeSyncReport =
+    `com.buccancs.control`.TimeSyncReportKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
+        ._build()
 

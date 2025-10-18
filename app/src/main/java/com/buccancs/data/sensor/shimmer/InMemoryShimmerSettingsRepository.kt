@@ -11,29 +11,57 @@ import kotlinx.coroutines.sync.withLock
 class InMemoryShimmerSettingsRepository(
     initial: ShimmerSettings = ShimmerSettings()
 ) : ShimmerSettingsRepository {
-    private val mutex = Mutex()
-    private val state = MutableStateFlow(initial)
-    override val settings: StateFlow<ShimmerSettings> = state.asStateFlow()
+    private val mutex =
+        Mutex()
+    private val state =
+        MutableStateFlow(
+            initial
+        )
+    override val settings: StateFlow<ShimmerSettings> =
+        state.asStateFlow()
 
-    override suspend fun setTargetMac(macAddress: String?) {
+    override suspend fun setTargetMac(
+        macAddress: String?
+    ) {
         mutex.withLock {
-            val normalized = macAddress?.trim()?.takeIf { it.isNotEmpty() }?.uppercase()
-            state.value = state.value.copy(targetMacAddress = normalized)
+            val normalized =
+                macAddress?.trim()
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.uppercase()
+            state.value =
+                state.value.copy(
+                    targetMacAddress = normalized
+                )
         }
     }
 
-    override suspend fun setGsrRange(index: Int) {
+    override suspend fun setGsrRange(
+        index: Int
+    ) {
         mutex.withLock {
-            val normalized = index.coerceIn(0, ShimmerSettings.DEFAULT_GSR_RANGE)
-            state.value = state.value.copy(gsrRangeIndex = normalized)
+            val normalized =
+                index.coerceIn(
+                    0,
+                    ShimmerSettings.DEFAULT_GSR_RANGE
+                )
+            state.value =
+                state.value.copy(
+                    gsrRangeIndex = normalized
+                )
         }
     }
 
-    override suspend fun setSampleRate(sampleRateHz: Double) {
+    override suspend fun setSampleRate(
+        sampleRateHz: Double
+    ) {
         mutex.withLock {
-            val sanitized = sampleRateHz.takeIf { it.isFinite() && it > 0.0 }
-                ?: ShimmerSettings.DEFAULT_SAMPLE_RATE_HZ
-            state.value = state.value.copy(sampleRateHz = sanitized)
+            val sanitized =
+                sampleRateHz.takeIf { it.isFinite() && it > 0.0 }
+                    ?: ShimmerSettings.DEFAULT_SAMPLE_RATE_HZ
+            state.value =
+                state.value.copy(
+                    sampleRateHz = sanitized
+                )
         }
     }
 }

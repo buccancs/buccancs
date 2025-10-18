@@ -11,15 +11,25 @@ interface BluetoothService {
     fun isAvailable(): Boolean
 }
 
-class AndroidBluetoothService(private val adapter: BluetoothAdapter?) : BluetoothService {
-    override fun isEnabled(): Boolean = adapter?.isEnabled == true
+class AndroidBluetoothService(
+    private val adapter: BluetoothAdapter?
+) : BluetoothService {
+    override fun isEnabled(): Boolean =
+        adapter?.isEnabled == true
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint(
+        "MissingPermission"
+    )
     override fun getBondedDevices(): Set<BluetoothDevice> =
-        adapter?.bondedDevices ?: emptySet()
+        adapter?.bondedDevices
+            ?: emptySet()
 
-    @SuppressLint("MissingPermission")
-    override fun startDiscovery(): Boolean = adapter?.startDiscovery() == true
+    @SuppressLint(
+        "MissingPermission"
+    )
+    override fun startDiscovery(): Boolean =
+        adapter?.startDiscovery() == true
 
-    override fun isAvailable(): Boolean = adapter != null
+    override fun isAvailable(): Boolean =
+        adapter != null
 }

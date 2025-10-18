@@ -14,27 +14,40 @@ import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(
+    SingletonComponent::class
+)
 internal object SensorConnectorModule {
     @Provides
     @IntoSet
     @Singleton
-    fun provideRgbConnector(connector: RgbCameraConnector): SensorConnector = connector
+    fun provideRgbConnector(
+        connector: RgbCameraConnector
+    ): SensorConnector =
+        connector
 
     @Provides
     @IntoSet
     @Singleton
-    fun provideMicrophoneConnector(connector: MicrophoneConnector): SensorConnector = connector
+    fun provideMicrophoneConnector(
+        connector: MicrophoneConnector
+    ): SensorConnector =
+        connector
 
     @Provides
     @IntoSet
     @Singleton
-    fun provideShimmerMultiConnector(manager: ShimmerConnectorManager): MultiDeviceConnector =
+    fun provideShimmerMultiConnector(
+        manager: ShimmerConnectorManager
+    ): MultiDeviceConnector =
         manager
 
     @Provides
     @IntoSet
     @Singleton
-    fun provideTopdonMultiConnector(manager: TopdonConnectorManager): MultiDeviceConnector = manager
+    fun provideTopdonMultiConnector(
+        manager: TopdonConnectorManager
+    ): MultiDeviceConnector =
+        manager
 }
 

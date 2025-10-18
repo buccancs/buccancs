@@ -46,17 +46,31 @@ import com.buccancs.desktop.ui.theme.Spacing
  */
 @Composable
 fun FileExplorerScreen() {
-    var currentPath by remember { mutableStateOf("~/.buccancs/sessions") }
-    var selectedFile by remember { mutableStateOf<FileItem?>(null) }
+    var currentPath by remember {
+        mutableStateOf(
+            "~/.buccancs/sessions"
+        )
+    }
+    var selectedFile by remember {
+        mutableStateOf<FileItem?>(
+            null
+        )
+    }
 
     Row(modifier = Modifier.fillMaxSize()) {
         // File browser
         Column(
             modifier = Modifier
-                .weight(1f)
+                .weight(
+                    1f
+                )
                 .fillMaxHeight()
-                .padding(Spacing.Large),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    Spacing.Large
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             Text(
                 "File Explorer",
@@ -65,12 +79,22 @@ fun FileExplorerScreen() {
             )
 
             // Breadcrumb navigation
-            BuccancsCard(title = "Location") {
+            BuccancsCard(
+                title = "Location"
+            ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(Icons.Default.Folder, "Location", Modifier.size(20.dp))
+                    Icon(
+                        Icons.Default.Folder,
+                        "Location",
+                        Modifier.size(
+                            20.dp
+                        )
+                    )
                     Text(
                         currentPath,
                         style = MaterialTheme.typography.bodyMedium,
@@ -85,14 +109,23 @@ fun FileExplorerScreen() {
                 subtitle = "Session data and recordings"
             ) {
                 LazyColumn(
-                    modifier = Modifier.heightIn(max = 600.dp),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                    modifier = Modifier.heightIn(
+                        max = 600.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.ExtraSmall
+                    )
                 ) {
-                    items(getSampleFiles()) { file ->
+                    items(
+                        getSampleFiles()
+                    ) { file ->
                         FileListItem(
                             file = file,
                             selected = selectedFile == file,
-                            onClick = { selectedFile = file }
+                            onClick = {
+                                selectedFile =
+                                    file
+                            }
                         )
                     }
                 }
@@ -100,7 +133,9 @@ fun FileExplorerScreen() {
 
             // Actions
             Row(
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.Small
+                )
             ) {
                 SecondaryButton(
                     text = "Open Location",
@@ -116,7 +151,9 @@ fun FileExplorerScreen() {
         // File details sidebar
         Surface(
             modifier = Modifier
-                .width(350.dp)
+                .width(
+                    350.dp
+                )
                 .fillMaxHeight(),
             color = MaterialTheme.colorScheme.surfaceVariant,
             tonalElevation = 1.dp
@@ -124,8 +161,12 @@ fun FileExplorerScreen() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(Spacing.Large),
-                verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                    .padding(
+                        Spacing.Large
+                    ),
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.Medium
+                )
             ) {
                 if (selectedFile != null) {
                     Text(
@@ -133,30 +174,70 @@ fun FileExplorerScreen() {
                         style = MaterialTheme.typography.titleLarge
                     )
 
-                    BuccancsOutlinedCard(title = selectedFile!!.name) {
-                        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
-                            DetailRow("Type", selectedFile!!.type)
-                            DetailRow("Size", selectedFile!!.size)
-                            DetailRow("Modified", selectedFile!!.modified)
+                    BuccancsOutlinedCard(
+                        title = selectedFile!!.name
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(
+                                Spacing.Small
+                            )
+                        ) {
+                            DetailRow(
+                                "Type",
+                                selectedFile!!.type
+                            )
+                            DetailRow(
+                                "Size",
+                                selectedFile!!.size
+                            )
+                            DetailRow(
+                                "Modified",
+                                selectedFile!!.modified
+                            )
 
                             if (selectedFile!!.type == "Video") {
                                 HorizontalDivider()
-                                DetailRow("Resolution", "1920x1080")
-                                DetailRow("Duration", "3:05")
-                                DetailRow("Codec", "H.264")
-                                DetailRow("Frame Rate", "30 fps")
+                                DetailRow(
+                                    "Resolution",
+                                    "1920x1080"
+                                )
+                                DetailRow(
+                                    "Duration",
+                                    "3:05"
+                                )
+                                DetailRow(
+                                    "Codec",
+                                    "H.264"
+                                )
+                                DetailRow(
+                                    "Frame Rate",
+                                    "30 fps"
+                                )
                             }
 
                             if (selectedFile!!.type == "CSV") {
                                 HorizontalDivider()
-                                DetailRow("Rows", "128,547")
-                                DetailRow("Sample Rate", "128 Hz")
-                                DetailRow("Channels", "GSR, PPG")
+                                DetailRow(
+                                    "Rows",
+                                    "128,547"
+                                )
+                                DetailRow(
+                                    "Sample Rate",
+                                    "128 Hz"
+                                )
+                                DetailRow(
+                                    "Channels",
+                                    "GSR, PPG"
+                                )
                             }
                         }
                     }
 
-                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            Spacing.Small
+                        )
+                    ) {
                         PrimaryButton(
                             text = "Open File",
                             onClick = { /* Open */ },
@@ -176,7 +257,11 @@ fun FileExplorerScreen() {
                         )
                     }
 
-                    Spacer(Modifier.weight(1f))
+                    Spacer(
+                        Modifier.weight(
+                            1f
+                        )
+                    )
 
                     SecondaryButton(
                         text = "Delete",
@@ -190,12 +275,16 @@ fun FileExplorerScreen() {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                            verticalArrangement = Arrangement.spacedBy(
+                                Spacing.Medium
+                            )
                         ) {
                             Icon(
                                 Icons.Default.InsertDriveFile,
                                 contentDescription = null,
-                                modifier = Modifier.size(64.dp),
+                                modifier = Modifier.size(
+                                    64.dp
+                                ),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
@@ -229,8 +318,12 @@ private fun FileListItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Small),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                .padding(
+                    Spacing.Small
+                ),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -242,14 +335,20 @@ private fun FileListItem(
                     else -> Icons.Default.InsertDriveFile
                 },
                 contentDescription = file.type,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(
+                    24.dp
+                ),
                 tint = if (selected)
                     MaterialTheme.colorScheme.onPrimaryContainer
                 else
                     MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(
+                    1f
+                )
+            ) {
                 Text(
                     file.name,
                     style = MaterialTheme.typography.bodyMedium,
@@ -262,7 +361,9 @@ private fun FileListItem(
                     "${file.type} • ${file.size}",
                     style = MaterialTheme.typography.bodySmall,
                     color = if (selected)
-                        MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                        MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                            alpha = 0.7f
+                        )
                     else
                         MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -272,7 +373,10 @@ private fun FileListItem(
 }
 
 @Composable
-private fun DetailRow(label: String, value: String) {
+private fun DetailRow(
+    label: String,
+    value: String
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -291,16 +395,66 @@ private fun DetailRow(label: String, value: String) {
 
 private fun getSampleFiles(): List<FileItem> {
     return listOf(
-        FileItem("session-2025-10-16-001", "Folder", "—", "16 Oct 10:30"),
-        FileItem("rgb_device001.mp4", "Video", "458 MB", "16 Oct 10:35"),
-        FileItem("thermal_device001.mp4", "Video", "234 MB", "16 Oct 10:35"),
-        FileItem("gsr_device001.csv", "CSV", "12 MB", "16 Oct 10:35"),
-        FileItem("session_manifest.json", "JSON", "4 KB", "16 Oct 10:35"),
-        FileItem("session-2025-10-15-003", "Folder", "—", "15 Oct 16:20"),
-        FileItem("rgb_device002.mp4", "Video", "512 MB", "15 Oct 16:25"),
-        FileItem("thermal_device002.mp4", "Video", "256 MB", "15 Oct 16:25"),
-        FileItem("gsr_device002.csv", "CSV", "15 MB", "15 Oct 16:25"),
-        FileItem("bookmarks.json", "JSON", "2 KB", "15 Oct 16:25")
+        FileItem(
+            "session-2025-10-16-001",
+            "Folder",
+            "—",
+            "16 Oct 10:30"
+        ),
+        FileItem(
+            "rgb_device001.mp4",
+            "Video",
+            "458 MB",
+            "16 Oct 10:35"
+        ),
+        FileItem(
+            "thermal_device001.mp4",
+            "Video",
+            "234 MB",
+            "16 Oct 10:35"
+        ),
+        FileItem(
+            "gsr_device001.csv",
+            "CSV",
+            "12 MB",
+            "16 Oct 10:35"
+        ),
+        FileItem(
+            "session_manifest.json",
+            "JSON",
+            "4 KB",
+            "16 Oct 10:35"
+        ),
+        FileItem(
+            "session-2025-10-15-003",
+            "Folder",
+            "—",
+            "15 Oct 16:20"
+        ),
+        FileItem(
+            "rgb_device002.mp4",
+            "Video",
+            "512 MB",
+            "15 Oct 16:25"
+        ),
+        FileItem(
+            "thermal_device002.mp4",
+            "Video",
+            "256 MB",
+            "15 Oct 16:25"
+        ),
+        FileItem(
+            "gsr_device002.csv",
+            "CSV",
+            "15 MB",
+            "15 Oct 16:25"
+        ),
+        FileItem(
+            "bookmarks.json",
+            "JSON",
+            "2 KB",
+            "15 Oct 16:25"
+        )
     )
 }
 

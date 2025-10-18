@@ -31,19 +31,23 @@ fun SectionCard(
     elevation: CardElevation? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val resolvedColors = colors ?: if (tonal) {
-        CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-    } else {
-        CardDefaults.elevatedCardColors()
-    }
+    val resolvedColors =
+        colors
+            ?: if (tonal) {
+                CardDefaults.elevatedCardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            } else {
+                CardDefaults.elevatedCardColors()
+            }
 
-    val resolvedElevation = elevation ?: CardDefaults.elevatedCardElevation(
-        defaultElevation = if (tonal) Dimensions.ElevationLevel2 else Dimensions.ElevationLevel1,
-        pressedElevation = if (tonal) Dimensions.ElevationLevel3 else Dimensions.ElevationLevel2
-    )
+    val resolvedElevation =
+        elevation
+            ?: CardDefaults.elevatedCardElevation(
+                defaultElevation = if (tonal) Dimensions.ElevationLevel2 else Dimensions.ElevationLevel1,
+                pressedElevation = if (tonal) Dimensions.ElevationLevel3 else Dimensions.ElevationLevel2
+            )
 
     ElevatedCard(
         modifier = modifier,
@@ -52,8 +56,12 @@ fun SectionCard(
         elevation = resolvedElevation
     ) {
         Column(
-            modifier = Modifier.padding(contentPadding),
-            verticalArrangement = Arrangement.spacedBy(spacing),
+            modifier = Modifier.padding(
+                contentPadding
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                spacing
+            ),
             content = content
         )
     }

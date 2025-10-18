@@ -7,9 +7,15 @@ import java.util.Locale
  * Stub implementation of LMS SDK LanguageUtil
  */
 object LanguageUtil {
-    fun getLanguageId(context: Context?): Int {
+    fun getLanguageId(
+        context: Context?
+    ): Int {
         // Stub: return English language ID
-        val locale = context?.resources?.configuration?.locales?.get(0) ?: Locale.getDefault()
+        val locale =
+            context?.resources?.configuration?.locales?.get(
+                0
+            )
+                ?: Locale.getDefault()
         return when (locale.language) {
             "zh" -> 1  // Chinese
             "es" -> 2  // Spanish
@@ -21,8 +27,14 @@ object LanguageUtil {
         }
     }
 
-    fun getLanguageCode(context: Context?): String {
-        val locale = context?.resources?.configuration?.locales?.get(0) ?: Locale.getDefault()
+    fun getLanguageCode(
+        context: Context?
+    ): String {
+        val locale =
+            context?.resources?.configuration?.locales?.get(
+                0
+            )
+                ?: Locale.getDefault()
         return locale.language
     }
 }

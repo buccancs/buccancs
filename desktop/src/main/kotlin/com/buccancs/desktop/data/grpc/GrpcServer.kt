@@ -28,38 +28,88 @@ class GrpcServer(
     private val commandRepository: CommandRepository,
     private val aggregationService: SessionAggregationService
 ) {
-    private val logger = LoggerFactory.getLogger(GrpcServer::class.java)
-    private val started = AtomicBoolean(false)
-
-    private val server: Server = NettyServerBuilder
-        .forPort(port)
-        .executor(Dispatchers.Default.asExecutor())
-        .addService(
-            OrchestrationServiceImpl(
-                sessionRepository,
-                deviceRepository,
-                commandRepository,
-                sensorRecordingManager
-            )
+    private val logger =
+        LoggerFactory.getLogger(
+            GrpcServer::class.java
         )
-        .addService(CommandServiceImpl(commandRepository, deviceRepository))
-        .addService(TimeSyncServiceImpl(deviceRepository))
-        .addService(PreviewServiceImpl(sessionRepository, deviceRepository, previewRepository))
-        .addService(SensorStreamServiceImpl(sessionRepository, sensorRecordingManager))
-        .addService(DataTransferServiceImpl(sessionRepository, aggregationService))
-        .build()
+    private val started =
+        AtomicBoolean(
+            false
+        )
+
+    private val server: Server =
+        NettyServerBuilder
+            .forPort(
+                port
+            )
+            .executor(
+                Dispatchers.Default.asExecutor()
+            )
+            .addService(
+                OrchestrationServiceImpl(
+                    sessionRepository,
+                    deviceRepository,
+                    commandRepository,
+                    sensorRecordingManager
+                )
+            )
+            .addService(
+                CommandServiceImpl(
+                    commandRepository,
+                    deviceRepository
+                )
+            )
+            .addService(
+                TimeSyncServiceImpl(
+                    deviceRepository
+                )
+            )
+            .addService(
+                PreviewServiceImpl(
+                    sessionRepository,
+                    deviceRepository,
+                    previewRepository
+                )
+            )
+            .addService(
+                SensorStreamServiceImpl(
+                    sessionRepository,
+                    sensorRecordingManager
+                )
+            )
+            .addService(
+                DataTransferServiceImpl(
+                    sessionRepository,
+                    aggregationService
+                )
+            )
+            .build()
 
     fun start() {
-        if (started.compareAndSet(false, true)) {
+        if (started.compareAndSet(
+                false,
+                true
+            )
+        ) {
             try {
                 server.start()
-                logger.info("gRPC server started on port {}", port)
-                Runtime.getRuntime().addShutdownHook(Thread {
-                    stop()
-                })
+                logger.info(
+                    "gRPC server started on port {}",
+                    port
+                )
+                Runtime.getRuntime()
+                    .addShutdownHook(
+                        Thread {
+                            stop()
+                        })
             } catch (e: Exception) {
-                started.set(false)
-                logger.error("Failed to start gRPC server on port $port", e)
+                started.set(
+                    false
+                )
+                logger.error(
+                    "Failed to start gRPC server on port $port",
+                    e
+                )
                 throw IllegalStateException(
                     "Cannot start gRPC server on port $port. Port may already be in use.",
                     e
@@ -69,9 +119,15 @@ class GrpcServer(
     }
 
     fun stop() {
-        if (started.compareAndSet(true, false)) {
+        if (started.compareAndSet(
+                true,
+                false
+            )
+        ) {
             server.shutdown()
-            logger.info("gRPC server stopped")
+            logger.info(
+                "gRPC server stopped"
+            )
         }
     }
 

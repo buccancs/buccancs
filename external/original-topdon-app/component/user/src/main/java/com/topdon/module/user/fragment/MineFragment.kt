@@ -56,98 +56,198 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MineFragment : BaseFragment(), View.OnClickListener {
-    private var isNeedRefreshLogin = false
-    private var _binding: FragmentMineBinding? = null
+class MineFragment :
+    BaseFragment(),
+    View.OnClickListener {
+    private var isNeedRefreshLogin =
+        false
+    private var _binding: FragmentMineBinding? =
+        null
     private val binding get() = _binding!!
-    private var dragCustomerView: View? = null
-    override fun initContentView(): Int = R.layout.fragment_mine
+    private var dragCustomerView: View? =
+        null
+
+    override fun initContentView(): Int =
+        R.layout.fragment_mine
+
     override fun initView() {
-        _binding = FragmentMineBinding.bind(requireView())
-        val binding = binding
-        binding.ivWinter.setOnClickListener(this)
-        binding.settingItemLanguage.setOnClickListener(this)
-        binding.settingItemVersion.setOnClickListener(this)
-        binding.settingItemClear.setOnClickListener(this)
-        binding.settingUserLay.setOnClickListener(this)
-        binding.settingUserImgNight.setOnClickListener(this)
-        binding.settingUserText.setOnClickListener(this)
-        binding.settingElectronicManual.setOnClickListener(this)
-        binding.settingFaq.setOnClickListener(this)
-        binding.settingFeedback.setOnClickListener(this)
-        binding.settingItemUnit.setOnClickListener(this)
-        dragCustomerView = binding.root.findViewById<View>(R.id.drag_customer_view)?.also {
-            it.setOnClickListener(this)
-        }
-        binding.viewWinterPoint.isVisible = !SharedManager.hasClickWinter
-        if (BaseApplication.instance.isDomestic()) {
-            binding.settingItemLanguage.visibility = View.GONE
-        }
-        viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onResume(owner: LifecycleOwner) {
-                if (WebSocketProxy.getInstance().isConnected()) {
-                    NetWorkUtils.switchNetwork(false)
+        _binding =
+            FragmentMineBinding.bind(
+                requireView()
+            )
+        val binding =
+            binding
+        binding.ivWinter.setOnClickListener(
+            this
+        )
+        binding.settingItemLanguage.setOnClickListener(
+            this
+        )
+        binding.settingItemVersion.setOnClickListener(
+            this
+        )
+        binding.settingItemClear.setOnClickListener(
+            this
+        )
+        binding.settingUserLay.setOnClickListener(
+            this
+        )
+        binding.settingUserImgNight.setOnClickListener(
+            this
+        )
+        binding.settingUserText.setOnClickListener(
+            this
+        )
+        binding.settingElectronicManual.setOnClickListener(
+            this
+        )
+        binding.settingFaq.setOnClickListener(
+            this
+        )
+        binding.settingFeedback.setOnClickListener(
+            this
+        )
+        binding.settingItemUnit.setOnClickListener(
+            this
+        )
+        dragCustomerView =
+            binding.root.findViewById<View>(
+                R.id.drag_customer_view
+            )
+                ?.also {
+                    it.setOnClickListener(
+                        this
+                    )
                 }
-            }
-        })
+        binding.viewWinterPoint.isVisible =
+            !SharedManager.hasClickWinter
+        if (BaseApplication.instance.isDomestic()) {
+            binding.settingItemLanguage.visibility =
+                View.GONE
+        }
+        viewLifecycleOwner.lifecycle.addObserver(
+            object :
+                DefaultLifecycleObserver {
+                override fun onResume(
+                    owner: LifecycleOwner
+                ) {
+                    if (WebSocketProxy.getInstance()
+                            .isConnected()
+                    ) {
+                        NetWorkUtils.switchNetwork(
+                            false
+                        )
+                    }
+                }
+            })
     }
 
     override fun initData() {
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun updatePDF(event: PDFEvent) {
-        isNeedRefreshLogin = true
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun updatePDF(
+        event: PDFEvent
+    ) {
+        isNeedRefreshLogin =
+            true
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onWinterClick(event: WinterClickEvent) {
-        _binding?.viewWinterPoint?.isVisible = false
+    @Subscribe(
+        threadMode = ThreadMode.MAIN
+    )
+    fun onWinterClick(
+        event: WinterClickEvent
+    ) {
+        _binding?.viewWinterPoint?.isVisible =
+            false
     }
 
     override fun onResume() {
         super.onResume()
         changeLoginStyle()
         if (isNeedRefreshLogin) {
-            isNeedRefreshLogin = false
+            isNeedRefreshLogin =
+                false
             checkLoginResult()
         }
     }
 
     private val languagePickResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val localeStr: String =
-                    it.data?.getStringExtra("localeStr") ?: return@registerForActivityResult
-                SharedManager.setLanguage(requireContext(), localeStr)
-                LanguageUtils.applyLanguage(AppLanguageUtils.getLocaleByLanguage(localeStr))
-                ToastTools.showShort(R.string.tip_save_success)
+                    it.data?.getStringExtra(
+                        "localeStr"
+                    )
+                        ?: return@registerForActivityResult
+                SharedManager.setLanguage(
+                    requireContext(),
+                    localeStr
+                )
+                LanguageUtils.applyLanguage(
+                    AppLanguageUtils.getLocaleByLanguage(
+                        localeStr
+                    )
+                )
+                ToastTools.showShort(
+                    R.string.tip_save_success
+                )
             }
         }
 
-    override fun onClick(v: View?) {
-        val binding = binding
+    override fun onClick(
+        v: View?
+    ) {
+        val binding =
+            binding
         when (v) {
             binding.ivWinter -> {
-                binding.viewWinterPoint.isVisible = false
-                SharedManager.hasClickWinter = true
-                EventBus.getDefault().post(WinterClickEvent())
-                val url = if (UrlConstant.BASE_URL == "https://api.topdon.com/") {
-                    "https://app.topdon.com/h5/share/#/detectionGuidanceIndex?showHeader=1&" +
-                            "languageId=${LanguageUtil.getLanguageId(requireContext())}"
-                } else {
-                    "http://172.16.66.77:8081/#/detectionGuidanceIndex?languageId=1&showHeader=1"
-                }
+                binding.viewWinterPoint.isVisible =
+                    false
+                SharedManager.hasClickWinter =
+                    true
+                EventBus.getDefault()
+                    .post(
+                        WinterClickEvent()
+                    )
+                val url =
+                    if (UrlConstant.BASE_URL == "https://api.topdon.com/") {
+                        "https://app.topdon.com/h5/share/#/detectionGuidanceIndex?showHeader=1&" +
+                                "languageId=${
+                                    LanguageUtil.getLanguageId(
+                                        requireContext()
+                                    )
+                                }"
+                    } else {
+                        "http://172.16.66.77:8081/#/detectionGuidanceIndex?languageId=1&showHeader=1"
+                    }
 
-                ARouter.getInstance().build(RouterConfig.WEB_VIEW)
-                    .withString(ExtraKeyConfig.URL, url)
-                    .navigation(requireContext())
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.WEB_VIEW
+                    )
+                    .withString(
+                        ExtraKeyConfig.URL,
+                        url
+                    )
+                    .navigation(
+                        requireContext()
+                    )
             }
 
             binding.settingUserLay, binding.settingUserImgNight -> {
-                if (UserInfoManager.getInstance().isLogin()) {
-                    isNeedRefreshLogin = true
-                    LMS.getInstance().activityUserInfo()
+                if (UserInfoManager.getInstance()
+                        .isLogin()
+                ) {
+                    isNeedRefreshLogin =
+                        true
+                    LMS.getInstance()
+                        .activityUserInfo()
                 } else {
                     loginAction()
                 }
@@ -160,45 +260,95 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             }
 
             binding.settingElectronicManual -> {
-                ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
-                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_BOOK)
-                    .navigation(requireContext())
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.ELECTRONIC_MANUAL
+                    )
+                    .withInt(
+                        Constants.SETTING_TYPE,
+                        Constants.SETTING_BOOK
+                    )
+                    .navigation(
+                        requireContext()
+                    )
             }
 
             binding.settingFaq -> {
-                ARouter.getInstance().build(RouterConfig.ELECTRONIC_MANUAL)
-                    .withInt(Constants.SETTING_TYPE, Constants.SETTING_FAQ)
-                    .navigation(requireContext())
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.ELECTRONIC_MANUAL
+                    )
+                    .withInt(
+                        Constants.SETTING_TYPE,
+                        Constants.SETTING_FAQ
+                    )
+                    .navigation(
+                        requireContext()
+                    )
             }
 
             binding.settingFeedback -> {
                 if (LMS.getInstance().isLogin) {
-                    val devSn = SharedManager.getDeviceSn()
+                    val devSn =
+                        SharedManager.getDeviceSn()
                     FeedBackBean().apply {
-                        logPath = logPath
-                        sn = devSn
-                        lastConnectSn = devSn
-                        XLog.e("bcf", "sn $sn  logPath $logPath")
-                    }.let { feedBackBean ->
-                        val intent = Intent(requireContext(), FeedbackActivity::class.java)
-                        intent.putExtra(FeedbackActivity.FEEDBACKBEAN, feedBackBean)
-                        startActivity(intent)
+                        logPath =
+                            logPath
+                        sn =
+                            devSn
+                        lastConnectSn =
+                            devSn
+                        XLog.e(
+                            "bcf",
+                            "sn $sn  logPath $logPath"
+                        )
                     }
+                        .let { feedBackBean ->
+                            val intent =
+                                Intent(
+                                    requireContext(),
+                                    FeedbackActivity::class.java
+                                )
+                            intent.putExtra(
+                                FeedbackActivity.FEEDBACKBEAN,
+                                feedBackBean
+                            )
+                            startActivity(
+                                intent
+                            )
+                        }
                 } else {
                     loginAction()
                 }
             }
 
             binding.settingItemUnit -> {
-                ARouter.getInstance().build(RouterConfig.UNIT).navigation(requireContext())
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.UNIT
+                    )
+                    .navigation(
+                        requireContext()
+                    )
             }
 
             binding.settingItemVersion -> {
-                ARouter.getInstance().build(RouterConfig.VERSION).navigation(requireContext())
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.VERSION
+                    )
+                    .navigation(
+                        requireContext()
+                    )
             }
 
             binding.settingItemLanguage -> {
-                languagePickResult.launch(Intent(requireContext(), LanguageActivity::class.java))
+                languagePickResult.launch(
+                    Intent(
+                        requireContext(),
+                        LanguageActivity::class.java
+                    )
+                )
             }
 
             binding.settingItemClear -> {
@@ -206,67 +356,140 @@ class MineFragment : BaseFragment(), View.OnClickListener {
             }
 
             dragCustomerView -> {
-                val sn = SharedManager.getDeviceSn()
-                if (!TextUtils.isEmpty(sn)) {
-                    ZohoSalesIQ.Visitor.addInfo("SN", sn)
+                val sn =
+                    SharedManager.getDeviceSn()
+                if (!TextUtils.isEmpty(
+                        sn
+                    )
+                ) {
+                    ZohoSalesIQ.Visitor.addInfo(
+                        "SN",
+                        sn
+                    )
                 }
-                ZohoSalesIQ.Visitor.addInfo("Model", "Topinfrared")
+                ZohoSalesIQ.Visitor.addInfo(
+                    "Model",
+                    "Topinfrared"
+                )
                 ZohoSalesIQ.Chat.show()
             }
         }
     }
 
     private fun loginAction() {
-        isNeedRefreshLogin = true
-        val bgBitmap = BitmapFactory.decodeResource(resources, R.mipmap.bg_login)
-        LMS.getInstance().activityLogin(null, null, false, null, bgBitmap)
+        isNeedRefreshLogin =
+            true
+        val bgBitmap =
+            BitmapFactory.decodeResource(
+                resources,
+                R.mipmap.bg_login
+            )
+        LMS.getInstance()
+            .activityLogin(
+                null,
+                null,
+                false,
+                null,
+                bgBitmap
+            )
     }
 
     private fun checkLoginResult() {
         if (LMS.getInstance().isLogin) {
-            LMS.getInstance().getUserInfo { userinfo: CommonBean ->
-                try {
-                    val json = userinfo.data
-                    val infoData = Gson().fromJson(json, ResponseUserInfo::class.java)
-                    UserInfoManager.getInstance().login(
-                        token = LMS.getInstance().token,
-                        userId = infoData.topdonId,
-                        phone = infoData.phone,
-                        email = infoData.email,
-                        nickname = infoData.userName,
-                        headUrl = infoData.avatar,
-                    )
-                    changeLoginStyle()
-                } catch (e: Exception) {
-                    XLog.e(" 登录异常: ${e.message}")
+            LMS.getInstance()
+                .getUserInfo { userinfo: CommonBean ->
+                    try {
+                        val json =
+                            userinfo.data
+                        val infoData =
+                            Gson().fromJson(
+                                json,
+                                ResponseUserInfo::class.java
+                            )
+                        UserInfoManager.getInstance()
+                            .login(
+                                token = LMS.getInstance().token,
+                                userId = infoData.topdonId,
+                                phone = infoData.phone,
+                                email = infoData.email,
+                                nickname = infoData.userName,
+                                headUrl = infoData.avatar,
+                            )
+                        changeLoginStyle()
+                    } catch (e: Exception) {
+                        XLog.e(
+                            " 登录异常: ${e.message}"
+                        )
+                    }
                 }
-            }
         } else {
-            XLog.e(" 登录失败")
+            XLog.e(
+                " 登录失败"
+            )
             changeLoginStyle()
-            _binding?.settingUserImgNight?.setImageResource(R.mipmap.ic_default_user_head)
+            _binding?.settingUserImgNight?.setImageResource(
+                R.mipmap.ic_default_user_head
+            )
         }
     }
 
     private fun changeLoginStyle() {
-        val binding = _binding ?: return
+        val binding =
+            _binding
+                ?: return
         if (LMS.getInstance().isLogin) {
             val layoutParams =
-                ConstraintLayout.LayoutParams(0, ConstraintLayout.LayoutParams.WRAP_CONTENT)
-            layoutParams.startToEnd = R.id.setting_user_img_night
-            layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            layoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-            layoutParams.marginStart = SizeUtils.dp2px(16f)
-            layoutParams.marginEnd = SizeUtils.dp2px(16f)
-            binding.settingUserText.setPadding(0, 0, 0, 0)
-            binding.settingUserText.gravity = Gravity.LEFT
-            binding.settingUserText.layoutParams = layoutParams
-            val drawable = ContextCompat.getDrawable(requireContext(), R.color.transparent)
-            drawable!!.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
-            binding.settingUserText.setCompoundDrawables(null, null, drawable, null)
-            binding.settingUserText.text = SharedManager.getNickname()
-            binding.tvEmail.text = SharedManager.getUsername()
-            binding.settingUserLay.visibility = View.VISIBLE
+                ConstraintLayout.LayoutParams(
+                    0,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+                )
+            layoutParams.startToEnd =
+                R.id.setting_user_img_night
+            layoutParams.endToEnd =
+                ConstraintLayout.LayoutParams.PARENT_ID
+            layoutParams.topToTop =
+                ConstraintLayout.LayoutParams.PARENT_ID
+            layoutParams.marginStart =
+                SizeUtils.dp2px(
+                    16f
+                )
+            layoutParams.marginEnd =
+                SizeUtils.dp2px(
+                    16f
+                )
+            binding.settingUserText.setPadding(
+                0,
+                0,
+                0,
+                0
+            )
+            binding.settingUserText.gravity =
+                Gravity.LEFT
+            binding.settingUserText.layoutParams =
+                layoutParams
+            val drawable =
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.color.transparent
+                )
+            drawable!!.setBounds(
+                0,
+                0,
+                drawable.minimumWidth,
+                drawable.minimumHeight
+            )
+            binding.settingUserText.setCompoundDrawables(
+                null,
+                null,
+                drawable,
+                null
+            )
+            binding.settingUserText.text =
+                SharedManager.getNickname()
+            binding.tvEmail.text =
+                SharedManager.getUsername()
+            binding.settingUserLay.visibility =
+                View.VISIBLE
             GlideLoader.loadCircle(
                 binding.settingUserImgNight,
                 SharedManager.getHeadIcon(),
@@ -274,59 +497,118 @@ class MineFragment : BaseFragment(), View.OnClickListener {
                 RequestOptions().optionalCircleCrop()
             )
         } else {
-            val layoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.startToEnd = R.id.setting_user_img_night
-            layoutParams.topToTop = R.id.setting_user_img_night
-            layoutParams.bottomToBottom = R.id.setting_user_img_night
+            val layoutParams =
+                ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+                )
+            layoutParams.startToEnd =
+                R.id.setting_user_img_night
+            layoutParams.topToTop =
+                R.id.setting_user_img_night
+            layoutParams.bottomToBottom =
+                R.id.setting_user_img_night
             binding.settingUserText.setPadding(
-                SizeUtils.dp2px(16f),
-                SizeUtils.dp2px(16f),
-                SizeUtils.dp2px(16f),
-                SizeUtils.dp2px(16f)
+                SizeUtils.dp2px(
+                    16f
+                ),
+                SizeUtils.dp2px(
+                    16f
+                ),
+                SizeUtils.dp2px(
+                    16f
+                ),
+                SizeUtils.dp2px(
+                    16f
+                )
             )
-            binding.settingUserText.gravity = Gravity.CENTER
-            binding.settingUserText.layoutParams = layoutParams
+            binding.settingUserText.gravity =
+                Gravity.CENTER
+            binding.settingUserText.layoutParams =
+                layoutParams
             binding.settingUserText.setText(
                 AppLanguageUtils.attachBaseContext(
-                    context, SharedManager.getLanguage(requireContext())
-                ).getString(R.string.app_sign_in)
+                    context,
+                    SharedManager.getLanguage(
+                        requireContext()
+                    )
+                )
+                    .getString(
+                        R.string.app_sign_in
+                    )
             )
-            val drawable = ContextCompat.getDrawable(requireContext(), R.mipmap.ic_arrow_login)
-            drawable!!.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
-            binding.settingUserText.setCompoundDrawables(null, null, drawable, null)
-            binding.settingUserLay.visibility = View.GONE
-            binding.tvEmail.text = ""
-            binding.settingUserImgNight.setImageResource(R.mipmap.ic_default_user_head)
+            val drawable =
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.mipmap.ic_arrow_login
+                )
+            drawable!!.setBounds(
+                0,
+                0,
+                drawable.minimumWidth,
+                drawable.minimumHeight
+            )
+            binding.settingUserText.setCompoundDrawables(
+                null,
+                null,
+                drawable,
+                null
+            )
+            binding.settingUserLay.visibility =
+                View.GONE
+            binding.tvEmail.text =
+                ""
+            binding.settingUserImgNight.setImageResource(
+                R.mipmap.ic_default_user_head
+            )
         }
     }
 
     private fun clearCache() {
         lifecycleScope.launch {
             showLoadingDialog()
-            withContext(Dispatchers.IO) {
+            withContext(
+                Dispatchers.IO
+            ) {
                 try {
-                    AppDatabase.getInstance().thermalDao().deleteByUserId(SharedManager.getUserId())
+                    AppDatabase.getInstance()
+                        .thermalDao()
+                        .deleteByUserId(
+                            SharedManager.getUserId()
+                        )
                     CleanUtils.cleanExternalCache()
                 } catch (e: Exception) {
-                    XLog.w("清除缓存异常: ${e.message}")
+                    XLog.w(
+                        "清除缓存异常: ${e.message}"
+                    )
                 }
-                delay(1000)
+                delay(
+                    1000
+                )
             }
             dismissLoadingDialog()
-            delay(50)
-            TipDialog.Builder(requireContext())
-                .setMessage(R.string.clear_finish)
-                .setCanceled(true)
-                .create().show()
+            delay(
+                50
+            )
+            TipDialog.Builder(
+                requireContext()
+            )
+                .setMessage(
+                    R.string.clear_finish
+                )
+                .setCanceled(
+                    true
+                )
+                .create()
+                .show()
         }
 
 
         override fun onDestroyView() {
             super.onDestroyView()
-            dragCustomerView = null
-            _binding = null
+            dragCustomerView =
+                null
+            _binding =
+                null
         }
     }

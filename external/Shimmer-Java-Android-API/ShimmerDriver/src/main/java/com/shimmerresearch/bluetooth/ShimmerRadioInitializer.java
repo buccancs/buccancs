@@ -38,9 +38,11 @@ public class ShimmerRadioInitializer {
             shimmerVerObject = createShimmerVerObject(hardwareVersion, bufferFWVersion);
 
             return shimmerVerObject;
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             throw (e);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -106,9 +108,11 @@ public class ShimmerRadioInitializer {
                     return expansionBoardDetails;
                 }
             }
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
         return null;

@@ -33,60 +33,102 @@ class AppGraph private constructor(
     private val appScope: CoroutineScope,
     private val connectionMonitor: DeviceConnectionMonitor
 ) {
-    fun provideAppViewModel(): AppViewModel = appViewModel
-    fun provideGrpcServer(): GrpcServer = grpcServer
-    fun provideSubjectErasureManager(): SubjectErasureManager = subjectErasureManager
+    fun provideAppViewModel(): AppViewModel =
+        appViewModel
+
+    fun provideGrpcServer(): GrpcServer =
+        grpcServer
+
+    fun provideSubjectErasureManager(): SubjectErasureManager =
+        subjectErasureManager
+
     fun shutdown() {
         connectionMonitor.stop()
         appScope.cancel()
     }
 
     companion object {
-        private const val DEFAULT_PORT = 50051
-        private const val SESSION_CAP_BYTES = 10L * 1024 * 1024 * 1024
+        private const val DEFAULT_PORT =
+            50051
+        private const val SESSION_CAP_BYTES =
+            10L * 1024 * 1024 * 1024
+
         fun create(): AppGraph {
-            val baseDir = resolveBaseDirectory()
+            val baseDir =
+                resolveBaseDirectory()
             val keyProvider =
-                EncryptionKeyProvider(baseDir.resolve("keysets").resolve("desktop-aead.json"))
-            val encryptionManager = EncryptionManager(keyProvider)
-            val retentionPolicy = RetentionPolicy(
-                perSessionCapBytes = SESSION_CAP_BYTES,
-                perDeviceCapBytes = SESSION_CAP_BYTES,
-                globalCapBytes = SESSION_CAP_BYTES * 5
-            )
-            val retentionManager = DataRetentionManager(retentionPolicy)
-            val sessionRepository = SessionRepository(
-                baseDir.resolve("sessions"),
-                encryptionManager,
-                retentionManager
-            )
-            val deviceRepository = DeviceRepository()
-            val previewRepository = PreviewRepository()
-            val commandRepository = CommandRepository()
-            val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-            val recordingManager = SensorRecordingManager(sessionRepository)
-            val grpcServer = GrpcServer(
-                port = DEFAULT_PORT,
-                sessionRepository = sessionRepository,
-                deviceRepository = deviceRepository,
-                previewRepository = previewRepository,
-                sensorRecordingManager = recordingManager,
-                commandRepository = commandRepository
-            )
-            val erasureManager = SubjectErasureManager(sessionRepository)
-            val viewModel = AppViewModel(
-                sessionRepository = sessionRepository,
-                deviceRepository = deviceRepository,
-                retentionManager = retentionManager,
-                previewRepository = previewRepository,
-                subjectErasureManager = erasureManager,
-                commandRepository = commandRepository
-            )
-            val connectionMonitor = DeviceConnectionMonitor(
-                deviceRepository = deviceRepository,
-                sessionRepository = sessionRepository,
-                scope = appScope
-            )
+                EncryptionKeyProvider(
+                    baseDir.resolve(
+                        "keysets"
+                    )
+                        .resolve(
+                            "desktop-aead.json"
+                        )
+                )
+            val encryptionManager =
+                EncryptionManager(
+                    keyProvider
+                )
+            val retentionPolicy =
+                RetentionPolicy(
+                    perSessionCapBytes = SESSION_CAP_BYTES,
+                    perDeviceCapBytes = SESSION_CAP_BYTES,
+                    globalCapBytes = SESSION_CAP_BYTES * 5
+                )
+            val retentionManager =
+                DataRetentionManager(
+                    retentionPolicy
+                )
+            val sessionRepository =
+                SessionRepository(
+                    baseDir.resolve(
+                        "sessions"
+                    ),
+                    encryptionManager,
+                    retentionManager
+                )
+            val deviceRepository =
+                DeviceRepository()
+            val previewRepository =
+                PreviewRepository()
+            val commandRepository =
+                CommandRepository()
+            val appScope =
+                CoroutineScope(
+                    SupervisorJob() + Dispatchers.Default
+                )
+            val recordingManager =
+                SensorRecordingManager(
+                    sessionRepository
+                )
+            val grpcServer =
+                GrpcServer(
+                    port = DEFAULT_PORT,
+                    sessionRepository = sessionRepository,
+                    deviceRepository = deviceRepository,
+                    previewRepository = previewRepository,
+                    sensorRecordingManager = recordingManager,
+                    commandRepository = commandRepository
+                )
+            val erasureManager =
+                SubjectErasureManager(
+                    sessionRepository
+                )
+            val viewModel =
+                AppViewModel(
+                    sessionRepository = sessionRepository,
+                    deviceRepository = deviceRepository,
+                    retentionManager = retentionManager,
+                    previewRepository = previewRepository,
+                    subjectErasureManager = erasureManager,
+                    commandRepository = commandRepository
+                )
+            val connectionMonitor =
+                DeviceConnectionMonitor(
+                    deviceRepository = deviceRepository,
+                    sessionRepository = sessionRepository,
+                    scope = appScope
+                )
             connectionMonitor.start()
             return AppGraph(
                 sessionRepository = sessionRepository,
@@ -103,8 +145,16 @@ class AppGraph private constructor(
         }
 
         private fun resolveBaseDirectory(): Path {
-            val home = Paths.get(System.getProperty("user.home"), ".buccancs")
-            Files.createDirectories(home)
+            val home =
+                Paths.get(
+                    System.getProperty(
+                        "user.home"
+                    ),
+                    ".buccancs"
+                )
+            Files.createDirectories(
+                home
+            )
             return home
         }
     }

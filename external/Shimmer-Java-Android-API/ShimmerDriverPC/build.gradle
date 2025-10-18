@@ -4,8 +4,12 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility =
+            JavaVersion
+                    .VERSION_21
+    targetCompatibility =
+            JavaVersion
+                    .VERSION_21
 }
 
 repositories {
@@ -19,20 +23,40 @@ test {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            groupId = 'com.shimmerresearch'
-            artifactId = 'shimmerdriverpc'
-            version = '0.11.6_beta'
+        mavenJava(
+                MavenPublication
+        ) {
+            from components
+                    .java
+            groupId =
+                    'com.shimmerresearch'
+            artifactId =
+                    'shimmerdriverpc'
+            version =
+                    '0.11.6_beta'
         }
     }
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/ShimmerEngineering/Shimmer-Java-Android-API")
+            url = uri(
+                    "https://maven.pkg.github.com/ShimmerEngineering/Shimmer-Java-Android-API"
+            )
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                username =
+                        project
+                                .findProperty(
+                                        "gpr.user"
+                                ) ?:
+                                System
+                                        .getenv("USERNAME")
+                password =
+                        project
+                                .findProperty(
+                                        "gpr.key"
+                                ) ?:
+                                System
+                                        .getenv("TOKEN")
             }
         }
     }
@@ -40,8 +64,10 @@ publishing {
 
 dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.16'
-    implementation project(':ShimmerDriver')
-    implementation project(':ShimmerBluetoothManager')
+    implementation
+            project(':ShimmerDriver')
+    implementation
+            project(':ShimmerBluetoothManager')
     implementation 'com.parse.bolts:bolts-tasks:1.4.0'
 
     api 'io.github.java-native:jssc:2.9.6'

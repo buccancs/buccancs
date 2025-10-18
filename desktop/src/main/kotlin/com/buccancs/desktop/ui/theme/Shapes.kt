@@ -9,17 +9,33 @@ import androidx.compose.ui.unit.dp
  * Consistent corner radii across all components
  */
 object CornerRadius {
-    val ExtraSmall = 4.dp
-    val Small = 8.dp
-    val Medium = 12.dp
-    val Large = 16.dp
-    val ExtraLarge = 28.dp
+    val ExtraSmall =
+        4.dp
+    val Small =
+        8.dp
+    val Medium =
+        12.dp
+    val Large =
+        16.dp
+    val ExtraLarge =
+        28.dp
 }
 
-val BuccancsShapes = Shapes(
-    extraSmall = RoundedCornerShape(CornerRadius.ExtraSmall),
-    small = RoundedCornerShape(CornerRadius.Small),
-    medium = RoundedCornerShape(CornerRadius.Medium),
-    large = RoundedCornerShape(CornerRadius.Large),
-    extraLarge = RoundedCornerShape(CornerRadius.ExtraLarge)
-)
+val BuccancsShapes =
+    Shapes(
+        extraSmall = RoundedCornerShape(
+            CornerRadius.ExtraSmall
+        ),
+        small = RoundedCornerShape(
+            CornerRadius.Small
+        ),
+        medium = RoundedCornerShape(
+            CornerRadius.Medium
+        ),
+        large = RoundedCornerShape(
+            CornerRadius.Large
+        ),
+        extraLarge = RoundedCornerShape(
+            CornerRadius.ExtraLarge
+        )
+    )

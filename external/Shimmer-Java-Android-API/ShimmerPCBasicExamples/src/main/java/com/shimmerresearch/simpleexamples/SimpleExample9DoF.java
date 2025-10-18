@@ -84,12 +84,14 @@ public class SimpleExample9DoF extends BasicProcessWithCallBack {
             public void actionPerformed(ActionEvent arg0) {
                 try {
                     mShimmer.startStreaming();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
                 try {
                     mShimmer2.startStreaming();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             }
@@ -303,7 +305,8 @@ public class SimpleExample9DoF extends BasicProcessWithCallBack {
                     SimpleExample9DoF window = new SimpleExample9DoF();
                     window.frame.setVisible(true);
 
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
 

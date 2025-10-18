@@ -14,17 +14,26 @@ import kotlin.time.Instant
 class EventPublisher @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope
 ) {
-    private val eventsFlow = MutableSharedFlow<ControlServerEvent>(
-        replay = 0,
-        extraBufferCapacity = BUFFER_CAPACITY
-    )
+    private val eventsFlow =
+        MutableSharedFlow<ControlServerEvent>(
+            replay = 0,
+            extraBufferCapacity = BUFFER_CAPACITY
+        )
 
-    val events: SharedFlow<ControlServerEvent> = eventsFlow.asSharedFlow()
+    val events: SharedFlow<ControlServerEvent> =
+        eventsFlow.asSharedFlow()
 
-    fun publish(event: ControlServerEvent) {
-        if (!eventsFlow.tryEmit(event)) {
+    fun publish(
+        event: ControlServerEvent
+    ) {
+        if (!eventsFlow.tryEmit(
+                event
+            )
+        ) {
             scope.launch {
-                eventsFlow.emit(event)
+                eventsFlow.emit(
+                    event
+                )
             }
         }
     }
@@ -38,7 +47,8 @@ class EventPublisher @Inject constructor(
     )
 
     private companion object {
-        private const val BUFFER_CAPACITY = 64
+        private const val BUFFER_CAPACITY =
+            64
     }
 }
 

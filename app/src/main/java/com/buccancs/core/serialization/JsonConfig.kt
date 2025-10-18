@@ -9,55 +9,81 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 object JsonConfig {
-    val standard: Json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-        encodeDefaults = true
-        prettyPrint = false
-    }
+    val standard: Json =
+        Json {
+            ignoreUnknownKeys =
+                true
+            isLenient =
+                true
+            encodeDefaults =
+                true
+            prettyPrint =
+                false
+        }
 
-    val pretty: Json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-        encodeDefaults = true
-        prettyPrint = true
-    }
+    val pretty: Json =
+        Json {
+            ignoreUnknownKeys =
+                true
+            isLenient =
+                true
+            encodeDefaults =
+                true
+            prettyPrint =
+                true
+        }
 
-    val strict: Json = Json {
-        ignoreUnknownKeys = false
-        isLenient = false
-        encodeDefaults = true
-        prettyPrint = false
-    }
+    val strict: Json =
+        Json {
+            ignoreUnknownKeys =
+                false
+            isLenient =
+                false
+            encodeDefaults =
+                true
+            prettyPrint =
+                false
+        }
 }
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(
+    SingletonComponent::class
+)
 object JsonModule {
     @Provides
     @Singleton
     @StandardJson
-    fun provideStandardJson(): Json = JsonConfig.standard
+    fun provideStandardJson(): Json =
+        JsonConfig.standard
 
     @Provides
     @Singleton
     @PrettyJson
-    fun providePrettyJson(): Json = JsonConfig.pretty
+    fun providePrettyJson(): Json =
+        JsonConfig.pretty
 
     @Provides
     @Singleton
     @StrictJson
-    fun provideStrictJson(): Json = JsonConfig.strict
+    fun provideStrictJson(): Json =
+        JsonConfig.strict
 }
 
 @Qualifier
-@Retention(AnnotationRetention.BINARY)
+@Retention(
+    AnnotationRetention.BINARY
+)
 annotation class StandardJson
 
 @Qualifier
-@Retention(AnnotationRetention.BINARY)
+@Retention(
+    AnnotationRetention.BINARY
+)
 annotation class PrettyJson
 
 @Qualifier
-@Retention(AnnotationRetention.BINARY)
+@Retention(
+    AnnotationRetention.BINARY
+)
 annotation class StrictJson

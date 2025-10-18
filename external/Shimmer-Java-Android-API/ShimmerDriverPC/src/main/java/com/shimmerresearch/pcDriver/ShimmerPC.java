@@ -234,7 +234,8 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                         } else {
                             disconnectNoException();
                         }
-                    } catch (SerialPortException ex) {
+                    } catch (
+                            SerialPortException ex) {
                         consolePrintException(ex.getMessage(), ex.getStackTrace());
 
                         disconnectNoException();
@@ -263,7 +264,9 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                     return true;
                 }
             }
-        } catch (SerialPortException | NullPointerException ex) {
+        } catch (
+                SerialPortException |
+                NullPointerException ex) {
             consolePrintException(ex.getMessage(), ex.getStackTrace());
 
             connectionLost();
@@ -278,7 +281,9 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
             } else {
                 return 0;
             }
-        } catch (SerialPortException | NullPointerException ex) {
+        } catch (
+                SerialPortException |
+                NullPointerException ex) {
             consolePrintException(ex.getMessage(), ex.getStackTrace());
             connectionLost();
             return 0;
@@ -294,7 +299,9 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                 }
                 mByteCommunication.writeBytes(data);
             }
-        } catch (SerialPortException | NullPointerException ex) {
+        } catch (
+                SerialPortException |
+                NullPointerException ex) {
             consolePrintLn("Tried to writeBytes but port is closed");
             consolePrintException(ex.getMessage(), ex.getStackTrace());
             connectionLost();
@@ -320,11 +327,14 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                     consolePrintLn("Tried to readBytes but port is closed");
                 }
             }
-        } catch (SerialPortException | NullPointerException e) {
+        } catch (
+                SerialPortException |
+                NullPointerException e) {
             connectionLost();
             consolePrintLn("Tried to readBytes but serial port error");
             consolePrintException(e.getMessage(), e.getStackTrace());
-        } catch (SerialPortTimeoutException e) {
+        } catch (
+                SerialPortTimeoutException e) {
             consolePrintLn("Tried to readBytes but serial port timed out");
             consolePrintException(e.getMessage(), e.getStackTrace());
 
@@ -376,7 +386,8 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     }
 
     @Override
-    @Deprecated //Use disconnect() instead
+    @Deprecated
+    //Use disconnect() instead
     public void stop() {
         disconnectNoException();
     }
@@ -391,7 +402,8 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
     public void disconnectNoException() {
         try {
             disconnect();
-        } catch (ShimmerException e) {
+        } catch (
+                ShimmerException e) {
             e.printStackTrace();
         }
     }
@@ -407,7 +419,8 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
             if (mIOThread != null) {
                 mIOThread.stop = true;
 
-                while (mIOThread != null && mIOThread.isAlive()) ;
+                while (mIOThread != null && mIOThread.isAlive())
+                    ;
 
                 mIOThread = null;
 
@@ -428,7 +441,8 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
                 }
             }
             mByteCommunication = null;
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             consolePrintException(ex.getMessage(), ex.getStackTrace());
             setBluetoothRadioState(BT_STATE.DISCONNECTED);
         }
@@ -559,10 +573,12 @@ public class ShimmerPC extends ShimmerBluetooth implements Serializable {
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
             return (ShimmerPC) ois.readObject();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return null;
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }

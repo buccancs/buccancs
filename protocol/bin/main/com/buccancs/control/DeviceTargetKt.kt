@@ -2,13 +2,21 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializedeviceTarget")
-public inline fun deviceTarget(block: com.buccancs.control.DeviceTargetKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceTarget =
-    com.buccancs.control.DeviceTargetKt.Dsl._create(com.buccancs.control.DeviceTarget.newBuilder())
+@kotlin.jvm.JvmName(
+    "-initializedeviceTarget"
+)
+public inline fun deviceTarget(
+    block: com.buccancs.control.DeviceTargetKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DeviceTarget =
+    com.buccancs.control.DeviceTargetKt.Dsl._create(
+        com.buccancs.control.DeviceTarget.newBuilder()
+    )
         .apply { block() }
         ._build()
 
@@ -16,7 +24,9 @@ public inline fun deviceTarget(block: com.buccancs.control.DeviceTargetKt.Dsl.()
  * Protobuf type `com.buccancs.control.DeviceTarget`
  */
 public object DeviceTargetKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.DeviceTarget.Builder
@@ -24,20 +34,26 @@ public object DeviceTargetKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.DeviceTarget.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.DeviceTarget.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.DeviceTarget = _builder.build()
+        internal fun _build(): com.buccancs.control.DeviceTarget =
+            _builder.build()
 
         /**
          * An uninstantiable, behaviorless type to represent the field in
          * generics.
          */
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-        public class DeviceIdsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+        @kotlin.OptIn(
+            com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+        )
+        public class DeviceIdsProxy private constructor() :
+            com.google.protobuf.kotlin.DslProxy()
 
         /**
          * `repeated string device_ids = 1;`
@@ -54,9 +70,15 @@ public object DeviceTargetKt {
          * @param value The deviceIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addDeviceIds")
-        public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.add(value: kotlin.String) {
-            _builder.addDeviceIds(value)
+        @kotlin.jvm.JvmName(
+            "addDeviceIds"
+        )
+        public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.add(
+            value: kotlin.String
+        ) {
+            _builder.addDeviceIds(
+                value
+            )
         }
 
         /**
@@ -64,8 +86,12 @@ public object DeviceTargetKt {
          * @param value The deviceIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignDeviceIds")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignDeviceIds"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(
             value: kotlin.String
         ) {
@@ -77,9 +103,15 @@ public object DeviceTargetKt {
          * @param values The deviceIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addAllDeviceIds")
-        public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
-            _builder.addAllDeviceIds(values)
+        @kotlin.jvm.JvmName(
+            "addAllDeviceIds"
+        )
+        public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.addAll(
+            values: kotlin.collections.Iterable<kotlin.String>
+        ) {
+            _builder.addAllDeviceIds(
+                values
+            )
         }
 
         /**
@@ -87,12 +119,18 @@ public object DeviceTargetKt {
          * @param values The deviceIds to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignAllDeviceIds")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignAllDeviceIds"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.plusAssign(
             values: kotlin.collections.Iterable<kotlin.String>
         ) {
-            addAll(values)
+            addAll(
+                values
+            )
         }
 
         /**
@@ -101,19 +139,26 @@ public object DeviceTargetKt {
          * @param value The deviceIds to set.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("setDeviceIds")
+        @kotlin.jvm.JvmName(
+            "setDeviceIds"
+        )
         public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.set(
             index: kotlin.Int,
             value: kotlin.String
         ) {
-            _builder.setDeviceIds(index, value)
+            _builder.setDeviceIds(
+                index,
+                value
+            )
         }
 
         /**
          * `repeated string device_ids = 1;`
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("clearDeviceIds")
+        @kotlin.jvm.JvmName(
+            "clearDeviceIds"
+        )
         public fun com.google.protobuf.kotlin.DslList<kotlin.String, DeviceIdsProxy>.clear() {
             _builder.clearDeviceIds()
         }
@@ -124,7 +169,9 @@ public object DeviceTargetKt {
         public var broadcast: kotlin.Boolean
             get() = _builder.getBroadcast()
             set(value) {
-                _builder.setBroadcast(value)
+                _builder.setBroadcast(
+                    value
+                )
             }
 
         /**
@@ -137,6 +184,12 @@ public object DeviceTargetKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.DeviceTarget.copy(block: `com.buccancs.control`.DeviceTargetKt.Dsl.() -> kotlin.Unit): com.buccancs.control.DeviceTarget =
-    `com.buccancs.control`.DeviceTargetKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.buccancs.control.DeviceTarget.copy(
+    block: `com.buccancs.control`.DeviceTargetKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.DeviceTarget =
+    `com.buccancs.control`.DeviceTargetKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
+        ._build()
 

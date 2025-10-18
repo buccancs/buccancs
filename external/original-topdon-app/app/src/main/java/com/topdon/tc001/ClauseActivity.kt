@@ -30,16 +30,35 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-@Route(path = RouterConfig.CLAUSE)
-class ClauseActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.CLAUSE
+)
+class ClauseActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        val appName = CommUtils.getAppName()
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        val version = VersionUtils.getCodeStr(this)
-        val keyUseType = if (BaseApplication.instance.isDomestic()) 1 else 0
+        val appName =
+            CommUtils.getAppName()
+        val year =
+            Calendar.getInstance()
+                .get(
+                    Calendar.YEAR
+                )
+        val version =
+            VersionUtils.getCodeStr(
+                this
+            )
+        val keyUseType =
+            if (BaseApplication.instance.isDomestic()) 1 else 0
 
         setContent {
             TopdonTheme {
@@ -50,12 +69,25 @@ class ClauseActivity : ComponentActivity() {
                     onAgree = { confirmInitApp() },
                     onDisagree = { showDisagreeDialog() },
                     onNavigateToPolicy = { themeType ->
-                        if (NetworkUtil.isConnected(this)) {
+                        if (NetworkUtil.isConnected(
+                                this
+                            )
+                        ) {
                             ARouter.getInstance()
-                                .build(RouterConfig.POLICY)
-                                .withInt(PolicyActivity.KEY_THEME_TYPE, themeType)
-                                .withInt(PolicyActivity.KEY_USE_TYPE, keyUseType)
-                                .navigation(this)
+                                .build(
+                                    RouterConfig.POLICY
+                                )
+                                .withInt(
+                                    PolicyActivity.KEY_THEME_TYPE,
+                                    themeType
+                                )
+                                .withInt(
+                                    PolicyActivity.KEY_USE_TYPE,
+                                    keyUseType
+                                )
+                                .navigation(
+                                    this
+                                )
                         }
                     }
                 )
@@ -64,28 +96,54 @@ class ClauseActivity : ComponentActivity() {
     }
 
     private fun showDisagreeDialog() {
-        androidx.appcompat.app.AlertDialog.Builder(this)
-            .setMessage(getString(R.string.privacy_tips))
-            .setPositiveButton(R.string.privacy_confirm) { _, _ -> confirmInitApp() }
-            .setNegativeButton(R.string.privacy_cancel) { _, _ -> finish() }
-            .setCancelable(true)
+        androidx.appcompat.app.AlertDialog.Builder(
+            this
+        )
+            .setMessage(
+                getString(
+                    R.string.privacy_tips
+                )
+            )
+            .setPositiveButton(
+                R.string.privacy_confirm
+            ) { _, _ -> confirmInitApp() }
+            .setNegativeButton(
+                R.string.privacy_cancel
+            ) { _, _ -> finish() }
+            .setCancelable(
+                true
+            )
             .show()
     }
 
     private fun confirmInitApp() {
         lifecycleScope.launch {
             App.delayInit()
-            async(Dispatchers.IO) {
-                delay(1000)
+            async(
+                Dispatchers.IO
+            ) {
+                delay(
+                    1000
+                )
             }.await()
-            ARouter.getInstance().build(RouterConfig.MAIN).navigation(this@ClauseActivity)
-            SharedManager.setHasShowClause(true)
+            ARouter.getInstance()
+                .build(
+                    RouterConfig.MAIN
+                )
+                .navigation(
+                    this@ClauseActivity
+                )
+            SharedManager.setHasShowClause(
+                true
+            )
             finish()
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun ClauseScreen(
     appName: String,
@@ -98,17 +156,29 @@ private fun ClauseScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Terms & Conditions") }
+                title = {
+                    Text(
+                        "Terms & Conditions"
+                    )
+                }
             )
         }
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             Text(
                 text = "Welcome to $appName",
@@ -125,8 +195,12 @@ private fun ClauseScreen(
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    modifier = Modifier.padding(
+                        16.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(
+                        8.dp
+                    )
                 ) {
                     Text(
                         text = "Before using this application, please read and agree to:",
@@ -134,24 +208,42 @@ private fun ClauseScreen(
                     )
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(1) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                1
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("User Agreement")
+                        Text(
+                            "User Agreement"
+                        )
                     }
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(2) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                2
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Privacy Policy")
+                        Text(
+                            "Privacy Policy"
+                        )
                     }
 
                     TextButton(
-                        onClick = { onNavigateToPolicy(3) },
+                        onClick = {
+                            onNavigateToPolicy(
+                                3
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Terms of Service")
+                        Text(
+                            "Terms of Service"
+                        )
                     }
                 }
             }
@@ -162,28 +254,46 @@ private fun ClauseScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(
+                modifier = Modifier.weight(
+                    1f
+                )
+            )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 OutlinedButton(
                     onClick = onDisagree,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(
+                        1f
+                    )
                 ) {
-                    Text("Disagree")
+                    Text(
+                        "Disagree"
+                    )
                 }
 
                 Button(
                     onClick = onAgree,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(
+                        1f
+                    )
                 ) {
-                    Text("Agree & Continue")
+                    Text(
+                        "Agree & Continue"
+                    )
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    8.dp
+                )
+            )
 
             Text(
                 text = "$yearRange\nVersion $version",

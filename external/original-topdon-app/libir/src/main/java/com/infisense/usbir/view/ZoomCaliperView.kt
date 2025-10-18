@@ -17,38 +17,81 @@ import com.infisense.usbir.R
 import com.infisense.usbir.utils.TargetUtils
 import com.topdon.lib.core.bean.ObserveBean
 
-class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListener {
-    private var centerX: Float = Float.MAX_VALUE
-    private var centerY: Float = Float.MAX_VALUE
-    private var cameraCharacteristics: CameraCharacteristics? = null
-    private var isReverse: Boolean = false
+class ZoomCaliperView :
+    LinearLayout,
+    ScaleGestureDetector.OnScaleGestureListener {
+    private var centerX: Float =
+        Float.MAX_VALUE
+    private var centerY: Float =
+        Float.MAX_VALUE
+    private var cameraCharacteristics: CameraCharacteristics? =
+        null
+    private var isReverse: Boolean =
+        false
     private lateinit var mTextureView: View
-    private var canScale = false
-    private var def_caliper = 180f
-    var magnifier: Magnifier? = null
-    var textureMagnifier: Magnifier? = null
-    var m: Float = 0.0f
-    var zoomViewCloseListener: (() -> Unit)? = null
+    private var canScale =
+        false
+    private var def_caliper =
+        180f
+    var magnifier: Magnifier? =
+        null
+    var textureMagnifier: Magnifier? =
+        null
+    var m: Float =
+        0.0f
+    var zoomViewCloseListener: (() -> Unit)? =
+        null
 
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(
+        context: Context
+    ) : this(
+        context,
+        null
+    )
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?
+    ) : super(
+        context,
+        attrs
+    ) {
         initView()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+    constructor(
+        context: Context,
+        attrs: AttributeSet,
+        defStyleAttr: Int
+    ) : super(
         context,
         attrs,
         defStyleAttr
     )
 
     private fun initView() {
-        inflate(context, R.layout.zoom_bb, this)
-        mTextureView = findViewById(R.id.camera_texture)
-        lis = ScaleGestureDetector(context, this)
+        inflate(
+            context,
+            R.layout.zoom_bb,
+            this
+        )
+        mTextureView =
+            findViewById(
+                R.id.camera_texture
+            )
+        lis =
+            ScaleGestureDetector(
+                context,
+                this
+            )
         originalBitmap =
-            (resources.getDrawable(R.drawable.svg_ic_target_horizontal_person_green) as BitmapDrawable).bitmap
-        originalBitmapWidth = originalBitmap.width.toFloat()
-        originalBitmapHeight = originalBitmap.height.toFloat()
+            (resources.getDrawable(
+                R.drawable.svg_ic_target_horizontal_person_green
+            ) as BitmapDrawable).bitmap
+        originalBitmapWidth =
+            originalBitmap.width.toFloat()
+        originalBitmapHeight =
+            originalBitmap.height.toFloat()
         onResumeView()
     }
 
@@ -61,158 +104,258 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         if (this.imageHeight == imageHeight && this.imageWidth == imageWidth) {
             return
         }
-        this.imageWidth = imageWidth
-        this.imageHeight = imageHeight
+        this.imageWidth =
+            imageWidth
+        this.imageHeight =
+            imageHeight
         if (parentViewWidth > 0) {
-            this.parentViewWidth = parentViewWidth.toFloat()
+            this.parentViewWidth =
+                parentViewWidth.toFloat()
         } else {
-            this.parentViewWidth = (parent as ViewGroup).measuredWidth.toFloat()
+            this.parentViewWidth =
+                (parent as ViewGroup).measuredWidth.toFloat()
         }
         if (parentViewHeight > 0) {
-            this.parentViewHeight = parentViewHeight.toFloat()
+            this.parentViewHeight =
+                parentViewHeight.toFloat()
         } else {
-            this.parentViewHeight = (parent as ViewGroup).measuredHeight.toFloat()
+            this.parentViewHeight =
+                (parent as ViewGroup).measuredHeight.toFloat()
         }
         if (parentViewWidth > 0) {
-            xscale = parentViewWidth.toFloat() / imageWidth.toFloat()
+            xscale =
+                parentViewWidth.toFloat() / imageWidth.toFloat()
         }
         if (parentViewHeight > 0) {
-            yscale = parentViewHeight.toFloat() / imageHeight.toFloat()
+            yscale =
+                parentViewHeight.toFloat() / imageHeight.toFloat()
         }
-        showBitmapHeight = pxBitmapHeight * yscale
-        showBitmapHeightWidth = pxBitmapHeight * originalBitmapWidth / originalBitmapHeight * xscale
-        val layoutParams = mTextureView.layoutParams
-        layoutParams.width = showBitmapHeightWidth.toInt()
-        layoutParams.height = showBitmapHeight.toInt()
-        mTextureView.layoutParams = layoutParams
-        (mTextureView as ImageView).setImageBitmap(originalBitmap)
+        showBitmapHeight =
+            pxBitmapHeight * yscale
+        showBitmapHeightWidth =
+            pxBitmapHeight * originalBitmapWidth / originalBitmapHeight * xscale
+        val layoutParams =
+            mTextureView.layoutParams
+        layoutParams.width =
+            showBitmapHeightWidth.toInt()
+        layoutParams.height =
+            showBitmapHeight.toInt()
+        mTextureView.layoutParams =
+            layoutParams
+        (mTextureView as ImageView).setImageBitmap(
+            originalBitmap
+        )
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
     }
 
-    private var startX = 0f
-    private var startY = 0f
-    private var moveX = 0f
-    private var moveY = 0f
-    private var parentViewW = 0f
-    private var parentViewH = 0f
-    private var isScale = false
-    private var scale = 1f
-    private var scaleW = 0f
-    private var scaleH = 0f
+    private var startX =
+        0f
+    private var startY =
+        0f
+    private var moveX =
+        0f
+    private var moveY =
+        0f
+    private var parentViewW =
+        0f
+    private var parentViewH =
+        0f
+    private var isScale =
+        false
+    private var scale =
+        1f
+    private var scaleW =
+        0f
+    private var scaleH =
+        0f
     private lateinit var originalBitmap: Bitmap
-    private var imageWidth = 0
-    private var imageHeight = 0
-    private var parentViewWidth = 0f
-    private var parentViewHeight = 0f
-    private var xscale = 0f
-    private var yscale = 0f
-    private var originalBitmapWidth = 0f
-    private var originalBitmapHeight = 0f
-    private var pxBitmapHeight = 200f
-    private var showBitmapHeightWidth = 0f
-    private var showBitmapHeight = 0f
+    private var imageWidth =
+        0
+    private var imageHeight =
+        0
+    private var parentViewWidth =
+        0f
+    private var parentViewHeight =
+        0f
+    private var xscale =
+        0f
+    private var yscale =
+        0f
+    private var originalBitmapWidth =
+        0f
+    private var originalBitmapHeight =
+        0f
+    private var pxBitmapHeight =
+        200f
+    private var showBitmapHeightWidth =
+        0f
+    private var showBitmapHeight =
+        0f
     private lateinit var lis: ScaleGestureDetector
-    var isCheckChildView = false
-    var contentWith = 0
-    var contentHeight = 0
+    var isCheckChildView =
+        false
+    var contentWith =
+        0
+    var contentHeight =
+        0
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
+    override fun onTouchEvent(
+        event: MotionEvent
+    ): Boolean {
         if (canScale && isScale && event.action != MotionEvent.ACTION_UP) {
-            return lis.onTouchEvent(event)
+            return lis.onTouchEvent(
+                event
+            )
         }
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                scaleW = mTextureView.width * (scale - 1) / 2f
-                scaleH = mTextureView.height * (scale - 1) / 2f
-                startX = event.x - mTextureView.x
-                startY = event.y - mTextureView.y
-                val view: View = mTextureView.parent as View
-                parentViewW = view.measuredWidth.toFloat()
-                parentViewH = view.measuredHeight.toFloat()
+                scaleW =
+                    mTextureView.width * (scale - 1) / 2f
+                scaleH =
+                    mTextureView.height * (scale - 1) / 2f
+                startX =
+                    event.x - mTextureView.x
+                startY =
+                    event.y - mTextureView.y
+                val view: View =
+                    mTextureView.parent as View
+                parentViewW =
+                    view.measuredWidth.toFloat()
+                parentViewH =
+                    view.measuredHeight.toFloat()
                 isCheckChildView =
-                    isTouchPointInView(mTextureView, event.rawX.toInt(), event.rawY.toInt())
+                    isTouchPointInView(
+                        mTextureView,
+                        event.rawX.toInt(),
+                        event.rawY.toInt()
+                    )
             }
 
             MotionEvent.ACTION_MOVE -> {
                 if (isCheckChildView) {
-                    moveX = event.x - startX
-                    moveY = event.y - startY
+                    moveX =
+                        event.x - startX
+                    moveY =
+                        event.y - startY
                     if (m < 100f && m >= 50f) {
-                        contentWith = (mTextureView.measuredWidth / 2).toInt()
-                        contentHeight = (mTextureView.measuredHeight / 2).toInt()
-                        if (moveX < (-contentWith / 2)) moveX = (-contentWith / 2).toFloat()
-                        if (moveY < (-contentHeight / 2)) moveY = (-contentHeight / 2).toFloat()
+                        contentWith =
+                            (mTextureView.measuredWidth / 2).toInt()
+                        contentHeight =
+                            (mTextureView.measuredHeight / 2).toInt()
+                        if (moveX < (-contentWith / 2)) moveX =
+                            (-contentWith / 2).toFloat()
+                        if (moveY < (-contentHeight / 2)) moveY =
+                            (-contentHeight / 2).toFloat()
                         if (moveX > parentViewW - contentWith * 4 / 3) {
-                            moveX = parentViewW - contentWith * 4 / 3
+                            moveX =
+                                parentViewW - contentWith * 4 / 3
                         }
                         if (parentViewH > parentViewW) {
                             if (moveY > parentViewH - contentHeight * 4 / 3) {
-                                moveY = parentViewH - contentHeight * 4 / 3
+                                moveY =
+                                    parentViewH - contentHeight * 4 / 3
                             }
                         } else {
                             if (moveY > parentViewH - contentHeight * 4 / 3) {
-                                moveY = parentViewH - contentHeight * 4 / 3
+                                moveY =
+                                    parentViewH - contentHeight * 4 / 3
                             }
                         }
                     } else if (m <= 20f) {
-                        contentWith = (mTextureView.measuredWidth / 2f).toInt()
-                        contentHeight = (mTextureView.measuredHeight / 2f).toInt()
-                        if (moveX < (-contentWith / 2)) moveX = (-contentWith / 2).toFloat()
-                        if (moveY < (-contentHeight / 2)) moveY = (-contentHeight / 2).toFloat()
+                        contentWith =
+                            (mTextureView.measuredWidth / 2f).toInt()
+                        contentHeight =
+                            (mTextureView.measuredHeight / 2f).toInt()
+                        if (moveX < (-contentWith / 2)) moveX =
+                            (-contentWith / 2).toFloat()
+                        if (moveY < (-contentHeight / 2)) moveY =
+                            (-contentHeight / 2).toFloat()
                         if (moveX > parentViewW - contentWith) {
-                            moveX = parentViewW - contentWith
+                            moveX =
+                                parentViewW - contentWith
                         }
                         if (parentViewH > parentViewW) {
                             if (moveY > parentViewH - contentHeight) {
-                                moveY = parentViewH - contentHeight
+                                moveY =
+                                    parentViewH - contentHeight
                             }
                         } else {
                             if (moveY > parentViewH - contentHeight) {
-                                moveY = parentViewH - contentHeight
+                                moveY =
+                                    parentViewH - contentHeight
                             }
                         }
                     } else {
-                        contentWith = mTextureView.width
-                        contentHeight = mTextureView.height
-                        if (moveX < (-contentWith / 2)) moveX = (-contentWith / 2).toFloat()
-                        if (moveY < (-contentHeight / 2)) moveY = (-contentHeight / 2).toFloat()
+                        contentWith =
+                            mTextureView.width
+                        contentHeight =
+                            mTextureView.height
+                        if (moveX < (-contentWith / 2)) moveX =
+                            (-contentWith / 2).toFloat()
+                        if (moveY < (-contentHeight / 2)) moveY =
+                            (-contentHeight / 2).toFloat()
                         if (moveX > parentViewW - mTextureView.width / 2) {
-                            moveX = parentViewW - mTextureView.width / 2
+                            moveX =
+                                parentViewW - mTextureView.width / 2
                         }
                         if (moveY > parentViewH - mTextureView.height / 2) {
-                            moveY = parentViewH - mTextureView.height / 2
+                            moveY =
+                                parentViewH - mTextureView.height / 2
                         }
                     }
-                    mTextureView.x = moveX
-                    mTextureView.y = moveY
-                    centerX = mTextureView.x + mTextureView.measuredWidth / 2
-                    centerY = mTextureView.y + mTextureView.measuredHeight / 2
+                    mTextureView.x =
+                        moveX
+                    mTextureView.y =
+                        moveY
+                    centerX =
+                        mTextureView.x + mTextureView.measuredWidth / 2
+                    centerY =
+                        mTextureView.y + mTextureView.measuredHeight / 2
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && m < 100f) {
-                        magnifier?.show(centerX, centerY)
+                        magnifier?.show(
+                            centerX,
+                            centerY
+                        )
                     }
                 }
             }
 
             MotionEvent.ACTION_UP -> {
-                isCheckChildView = false
-                isScale = false
-                val startX = viewX
-                val startY = viewY
-                if ((viewX < 0 && startX < -mTextureView.width * scale + SizeUtils.dp2px(10f)) ||
-                    (startX > 0 && startX > parentViewW - SizeUtils.dp2px(10f)) ||
-                    (startY < 0 && startY < -mTextureView.height * scale + SizeUtils.dp2px(10f)) ||
-                    (startY > 0 && startY > parentViewH - SizeUtils.dp2px(10f))
+                isCheckChildView =
+                    false
+                isScale =
+                    false
+                val startX =
+                    viewX
+                val startY =
+                    viewY
+                if ((viewX < 0 && startX < -mTextureView.width * scale + SizeUtils.dp2px(
+                        10f
+                    )) ||
+                    (startX > 0 && startX > parentViewW - SizeUtils.dp2px(
+                        10f
+                    )) ||
+                    (startY < 0 && startY < -mTextureView.height * scale + SizeUtils.dp2px(
+                        10f
+                    )) ||
+                    (startY > 0 && startY > parentViewH - SizeUtils.dp2px(
+                        10f
+                    ))
                 ) {
                     zoomViewCloseListener?.invoke()
                 }
             }
         }
-        var canTouch = isCheckChildView
+        var canTouch =
+            isCheckChildView
         if (canScale) {
-            canTouch = lis.onTouchEvent(event)
+            canTouch =
+                lis.onTouchEvent(
+                    event
+                )
         }
         return canTouch
     }
@@ -221,50 +364,80 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         super.onAttachedToWindow()
     }
 
-    private fun isTouchPointInView(targetView: View?, xAxis: Int, yAxis: Int): Boolean {
+    private fun isTouchPointInView(
+        targetView: View?,
+        xAxis: Int,
+        yAxis: Int
+    ): Boolean {
         if (targetView == null) {
             return false
         }
-        val location = IntArray(2)
-        targetView.getLocationOnScreen(location)
-        val left = location[0]
-        val top = location[1]
-        val right = left + targetView.measuredWidth
-        val bottom = top + targetView.measuredHeight
+        val location =
+            IntArray(
+                2
+            )
+        targetView.getLocationOnScreen(
+            location
+        )
+        val left =
+            location[0]
+        val top =
+            location[1]
+        val right =
+            left + targetView.measuredWidth
+        val bottom =
+            top + targetView.measuredHeight
         return (yAxis >= top) && (yAxis <= bottom) && (xAxis >= left) && (xAxis <= right)
     }
 
-    override fun onScale(detector: ScaleGestureDetector): Boolean {
-        isScale = true
+    override fun onScale(
+        detector: ScaleGestureDetector
+    ): Boolean {
+        isScale =
+            true
         detector?.let {
-            val scaleFactor = it.scaleFactor - 1
+            val scaleFactor =
+                it.scaleFactor - 1
             scale += scaleFactor
-            mTextureView.scaleX = scale
-            mTextureView.scaleY = scale
+            mTextureView.scaleX =
+                scale
+            mTextureView.scaleY =
+                scale
         }
         return true
     }
 
-    override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-        isScale = true
+    override fun onScaleBegin(
+        detector: ScaleGestureDetector
+    ): Boolean {
+        isScale =
+            true
         return true
     }
 
-    override fun onScaleEnd(detector: ScaleGestureDetector) {
+    override fun onScaleEnd(
+        detector: ScaleGestureDetector
+    ) {
     }
 
-    private var mPreviewSize: Size? = null
+    private var mPreviewSize: Size? =
+        null
 
-    fun setRotation(isReverse: Boolean) {
-        this.isReverse = isReverse
+    fun setRotation(
+        isReverse: Boolean
+    ) {
+        this.isReverse =
+            isReverse
         updateRotation()
     }
 
     private fun updateRotation() {
         if (isReverse) {
-            mTextureView.rotation = 180f
+            mTextureView.rotation =
+                180f
         } else {
-            mTextureView.rotation = 0f
+            mTextureView.rotation =
+                0f
         }
     }
 
@@ -284,19 +457,30 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
     val viewScale: Float
         get() = scale
 
-    fun setCameraAlpha(alpha: Float) {
-        mTextureView?.alpha = 1 - alpha
+    fun setCameraAlpha(
+        alpha: Float
+    ) {
+        mTextureView?.alpha =
+            1 - alpha
     }
 
-    fun setCaliperM(m: Float) {
-        scale = m / def_caliper
-        mTextureView.scaleX = scale
-        mTextureView.scaleY = scale
+    fun setCaliperM(
+        m: Float
+    ) {
+        scale =
+            m / def_caliper
+        mTextureView.scaleX =
+            scale
+        mTextureView.scaleY =
+            scale
         invalidate()
     }
 
-    private var curChooseMeasureMode: Int = ObserveBean.TYPE_MEASURE_PERSON
-    private var curChooseTargetMode: Int = ObserveBean.TYPE_TARGET_HORIZONTAL
+    private var curChooseMeasureMode: Int =
+        ObserveBean.TYPE_MEASURE_PERSON
+    private var curChooseTargetMode: Int =
+        ObserveBean.TYPE_TARGET_HORIZONTAL
+
     fun updateSelectBitmap(
         targetMeasureMode: Int,
         targetType: Int,
@@ -306,9 +490,16 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         if (curChooseTargetMode == targetType && curChooseMeasureMode == targetMeasureMode) {
             return
         }
-        curChooseMeasureMode = targetMeasureMode
-        curChooseTargetMode = targetType
-        updateTargetBitmap(targetMeasureMode, targetType, targetColorType, parentCameraView)
+        curChooseMeasureMode =
+            targetMeasureMode
+        curChooseTargetMode =
+            targetType
+        updateTargetBitmap(
+            targetMeasureMode,
+            targetType,
+            targetColorType,
+            parentCameraView
+        )
     }
 
     fun updateTargetBitmap(
@@ -317,71 +508,144 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         targetColorType: Int,
         parentCameraView: View?
     ) {
-        this.visibility = View.VISIBLE
-        m = TargetUtils.getMeasureSize(targetMeasureMode)
+        this.visibility =
+            View.VISIBLE
+        m =
+            TargetUtils.getMeasureSize(
+                targetMeasureMode
+            )
         val targetIcon =
-            TargetUtils.getSelectTargetDraw(targetMeasureMode, targetType, targetColorType)
-        originalBitmap = (resources.getDrawable(targetIcon) as BitmapDrawable).bitmap
-        (mTextureView as ImageView).setImageBitmap(originalBitmap)
+            TargetUtils.getSelectTargetDraw(
+                targetMeasureMode,
+                targetType,
+                targetColorType
+            )
+        originalBitmap =
+            (resources.getDrawable(
+                targetIcon
+            ) as BitmapDrawable).bitmap
+        (mTextureView as ImageView).setImageBitmap(
+            originalBitmap
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             magnifier?.dismiss()
             if (m >= 100f) {
-                setCaliperM(def_caliper)
-                mTextureView.visibility = View.VISIBLE
+                setCaliperM(
+                    def_caliper
+                )
+                mTextureView.visibility =
+                    View.VISIBLE
                 textureMagnifier?.dismiss()
                 magnifier?.dismiss()
                 invalidate()
                 return
             }
             if (parentCameraView != null) {
-                val builder = Magnifier.Builder(parentCameraView)
+                val builder =
+                    Magnifier.Builder(
+                        parentCameraView
+                    )
                 if (m < 50f) {
-                    setCaliperM(def_caliper / 2)
-                    mTextureView.visibility = View.INVISIBLE
-                    builder.setInitialZoom(4f)
-                    builder.setCornerRadius(SizeUtils.dp2px(282f).toFloat())
-                    builder.setClippingEnabled(false)
-                    builder.setOverlay(ContextCompat.getDrawable(context, targetIcon))
-                    builder.setSize(
-                        SizeUtils.dp2px(282f),
-                        SizeUtils.dp2px(282f)
+                    setCaliperM(
+                        def_caliper / 2
                     )
-                    magnifier = builder.build()
+                    mTextureView.visibility =
+                        View.INVISIBLE
+                    builder.setInitialZoom(
+                        4f
+                    )
+                    builder.setCornerRadius(
+                        SizeUtils.dp2px(
+                            282f
+                        )
+                            .toFloat()
+                    )
+                    builder.setClippingEnabled(
+                        false
+                    )
+                    builder.setOverlay(
+                        ContextCompat.getDrawable(
+                            context,
+                            targetIcon
+                        )
+                    )
+                    builder.setSize(
+                        SizeUtils.dp2px(
+                            282f
+                        ),
+                        SizeUtils.dp2px(
+                            282f
+                        )
+                    )
+                    magnifier =
+                        builder.build()
                 } else if (m >= 50f && m < 100f) {
-                    setCaliperM(def_caliper / 2)
-                    mTextureView.visibility = View.VISIBLE
-                    builder.setInitialZoom(2f)
-                    builder.setCornerRadius(SizeUtils.dp2px(282f).toFloat())
-                    builder.setClippingEnabled(false)
-                    builder.setSize(
-                        SizeUtils.dp2px(282f),
-                        SizeUtils.dp2px(282f)
+                    setCaliperM(
+                        def_caliper / 2
                     )
-                    magnifier = builder.build()
+                    mTextureView.visibility =
+                        View.VISIBLE
+                    builder.setInitialZoom(
+                        2f
+                    )
+                    builder.setCornerRadius(
+                        SizeUtils.dp2px(
+                            282f
+                        )
+                            .toFloat()
+                    )
+                    builder.setClippingEnabled(
+                        false
+                    )
+                    builder.setSize(
+                        SizeUtils.dp2px(
+                            282f
+                        ),
+                        SizeUtils.dp2px(
+                            282f
+                        )
+                    )
+                    magnifier =
+                        builder.build()
                 }
             }
             requestLayout()
-            mTextureView.postDelayed(Runnable {
-                centerX = parentCameraView!!.measuredWidth.toFloat() / 2
-                centerY = parentCameraView!!.measuredHeight.toFloat() / 2
-                mTextureView.x = centerX - mTextureView.measuredWidth / 2
-                mTextureView.y = centerY - mTextureView.measuredHeight / 2
-                magnifier?.show(centerX, centerY)
-            }, 200)
+            mTextureView.postDelayed(
+                Runnable {
+                    centerX =
+                        parentCameraView!!.measuredWidth.toFloat() / 2
+                    centerY =
+                        parentCameraView!!.measuredHeight.toFloat() / 2
+                    mTextureView.x =
+                        centerX - mTextureView.measuredWidth / 2
+                    mTextureView.y =
+                        centerY - mTextureView.measuredHeight / 2
+                    magnifier?.show(
+                        centerX,
+                        centerY
+                    )
+                },
+                200
+            )
         }
     }
 
     fun hideView() {
-        this.visibility = GONE
+        this.visibility =
+            GONE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             magnifier?.dismiss()
         }
     }
 
     fun showView() {
-        this.visibility = VISIBLE
+        this.visibility =
+            VISIBLE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            magnifier?.show(centerX, centerY)
+            magnifier?.show(
+                centerX,
+                centerY
+            )
         }
     }
 
@@ -391,35 +655,55 @@ class ZoomCaliperView : LinearLayout, ScaleGestureDetector.OnScaleGestureListene
         }
     }
 
-    fun del(reductionXY: Boolean) {
+    fun del(
+        reductionXY: Boolean
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             magnifier?.dismiss()
         }
-        curChooseMeasureMode = ObserveBean.TYPE_MEASURE_PERSON
-        curChooseTargetMode = ObserveBean.TYPE_TARGET_HORIZONTAL
+        curChooseMeasureMode =
+            ObserveBean.TYPE_MEASURE_PERSON
+        curChooseTargetMode =
+            ObserveBean.TYPE_TARGET_HORIZONTAL
         if (this.visibility == View.VISIBLE) {
-            this.visibility = GONE
+            this.visibility =
+                GONE
             if (reductionXY) {
-                centerX = Float.MAX_VALUE
-                centerY = Float.MAX_VALUE
+                centerX =
+                    Float.MAX_VALUE
+                centerY =
+                    Float.MAX_VALUE
             } else {
-                val parent = parent as ViewGroup
-                centerX = parent.measuredWidth.toFloat() / 2
-                centerY = parent.measuredHeight.toFloat() / 2
-                mTextureView.x = centerX - mTextureView.width / 2
-                mTextureView.y = centerY - mTextureView.height / 2
+                val parent =
+                    parent as ViewGroup
+                centerX =
+                    parent.measuredWidth.toFloat() / 2
+                centerY =
+                    parent.measuredHeight.toFloat() / 2
+                mTextureView.x =
+                    centerX - mTextureView.width / 2
+                mTextureView.y =
+                    centerY - mTextureView.height / 2
             }
         }
     }
 
     fun updateCenter() {
-        val parent = parent as ViewGroup
-        centerX = parent.measuredWidth.toFloat() / 2
-        centerY = parent.measuredHeight.toFloat() / 2
-        mTextureView.x = centerX - mTextureView.width / 2
-        mTextureView.y = centerY - mTextureView.height / 2
+        val parent =
+            parent as ViewGroup
+        centerX =
+            parent.measuredWidth.toFloat() / 2
+        centerY =
+            parent.measuredHeight.toFloat() / 2
+        mTextureView.x =
+            centerX - mTextureView.width / 2
+        mTextureView.y =
+            centerY - mTextureView.height / 2
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            magnifier?.show(centerX, centerY)
+            magnifier?.show(
+                centerX,
+                centerY
+            )
         }
     }
 

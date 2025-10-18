@@ -26,6 +26,9 @@ interface DualCameraController {
     val thermalInfo: CameraStreamInfo
     val isSimulation: Boolean
     suspend fun ensureReady()
-    suspend fun capturePair(pattern: CalibrationPatternConfig): CalibrationFramePair
+    suspend fun capturePair(
+        pattern: CalibrationPatternConfig
+    ): CalibrationFramePair
+
     suspend fun shutdown()
 }

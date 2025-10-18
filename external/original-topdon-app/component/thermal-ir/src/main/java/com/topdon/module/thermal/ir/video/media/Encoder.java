@@ -31,13 +31,15 @@ public abstract class Encoder {
                     Bitmap bitmap = null;
                     try {
                         bitmap = bitmapQueue.remove(0);
-                    } catch (IndexOutOfBoundsException e) {
+                    } catch (
+                            IndexOutOfBoundsException e) {
                         Log.e(TAG, e.getMessage());
                     }
                     if (bitmap != null) {
                         try {
                             onAddFrame(bitmap);
-                        } catch (ArrayIndexOutOfBoundsException e) {
+                        } catch (
+                                ArrayIndexOutOfBoundsException e) {
                             Log.e(TAG, e.getMessage());
                         }
                         bitmap.recycle();

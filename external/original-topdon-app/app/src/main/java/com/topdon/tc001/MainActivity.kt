@@ -34,20 +34,41 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-@Route(path = RouterConfig.MAIN)
-class MainActivity : ComponentActivity() {
+@Route(
+    path = RouterConfig.MAIN
+)
+class MainActivity :
+    ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
         // Initialize app components
-        lifecycleScope.launch(Dispatchers.IO) {
-            SupHelp.getInstance().initAiUpScaler(Utils.getApp())
+        lifecycleScope.launch(
+            Dispatchers.IO
+        ) {
+            SupHelp.getInstance()
+                .initAiUpScaler(
+                    Utils.getApp()
+                )
         }
 
         App.instance.initWebSocket()
-        copyAssetFile("SR.pb", File(filesDir, "SR.pb"))
+        copyAssetFile(
+            "SR.pb",
+            File(
+                filesDir,
+                "SR.pb"
+            )
+        )
         BaseApplication.instance.clearDb()
 
         // Auto-navigate to device screen if connected
@@ -63,47 +84,102 @@ class MainActivity : ComponentActivity() {
     private fun checkInitialNavigation() {
         if (!SharedManager.hasTcLine && !SharedManager.hasTS004 && !SharedManager.hasTC007) {
             if (DeviceTools.isConnect()) {
-                if (!WebSocketProxy.getInstance().isConnected()) {
+                if (!WebSocketProxy.getInstance()
+                        .isConnected()
+                ) {
                     ARouter.getInstance()
-                        .build(RouterConfig.IR_MAIN)
-                        .withBoolean(ExtraKeyConfig.IS_TC007, false)
-                        .navigation(this)
+                        .build(
+                            RouterConfig.IR_MAIN
+                        )
+                        .withBoolean(
+                            ExtraKeyConfig.IS_TC007,
+                            false
+                        )
+                        .navigation(
+                            this
+                        )
                 }
             } else {
-                if (WebSocketProxy.getInstance().isTS004Connect()) {
-                    ARouter.getInstance().build(RouterConfig.IR_MONOCULAR).navigation(this)
-                } else if (WebSocketProxy.getInstance().isTC007Connect()) {
+                if (WebSocketProxy.getInstance()
+                        .isTS004Connect()
+                ) {
                     ARouter.getInstance()
-                        .build(RouterConfig.IR_MAIN)
-                        .withBoolean(ExtraKeyConfig.IS_TC007, true)
-                        .navigation(this)
+                        .build(
+                            RouterConfig.IR_MONOCULAR
+                        )
+                        .navigation(
+                            this
+                        )
+                } else if (WebSocketProxy.getInstance()
+                        .isTC007Connect()
+                ) {
+                    ARouter.getInstance()
+                        .build(
+                            RouterConfig.IR_MAIN
+                        )
+                        .withBoolean(
+                            ExtraKeyConfig.IS_TC007,
+                            true
+                        )
+                        .navigation(
+                            this
+                        )
                 }
             }
         }
 
         if (DeviceTools.isConnect()) {
-            SharedManager.hasTcLine = true
+            SharedManager.hasTcLine =
+                true
         }
-        if (WebSocketProxy.getInstance().isTS004Connect()) {
-            SharedManager.hasTS004 = true
+        if (WebSocketProxy.getInstance()
+                .isTS004Connect()
+        ) {
+            SharedManager.hasTS004 =
+                true
         }
-        if (WebSocketProxy.getInstance().isTC007Connect()) {
-            SharedManager.hasTC007 = true
+        if (WebSocketProxy.getInstance()
+                .isTC007Connect()
+        ) {
+            SharedManager.hasTC007 =
+                true
         }
     }
 
-    private fun copyAssetFile(assetName: String, targetFile: File) {
+    private fun copyAssetFile(
+        assetName: String,
+        targetFile: File
+    ) {
         if (targetFile.exists()) return
         try {
-            assets.open(assetName).use { input ->
-                FileOutputStream(targetFile).use { output ->
-                    val buffer = ByteArray(1024)
-                    var length: Int
-                    while (input.read(buffer).also { length = it } > 0) {
-                        output.write(buffer, 0, length)
+            assets.open(
+                assetName
+            )
+                .use { input ->
+                    FileOutputStream(
+                        targetFile
+                    ).use { output ->
+                        val buffer =
+                            ByteArray(
+                                1024
+                            )
+                        var length: Int
+                        while (input.read(
+                                buffer
+                            )
+                                .also {
+                                    length =
+                                        it
+                                } > 0
+                        ) {
+                            output.write(
+                                buffer,
+                                0,
+                                length
+                            )
+                        }
                     }
                 }
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -112,22 +188,37 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MainActivityScreen() {
-    var selectedTab by remember { mutableStateOf(1) } // Start on Home tab
-    var showExitDialog by remember { mutableStateOf(false) }
+    var selectedTab by remember {
+        mutableStateOf(
+            1
+        )
+    } // Start on Home tab
+    var showExitDialog by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
     BackHandler {
-        showExitDialog = true
+        showExitDialog =
+            true
     }
 
     if (showExitDialog) {
         ExitConfirmDialog(
             appName = CommUtils.getAppName(),
             onConfirm = {
-                showExitDialog = false
+                showExitDialog =
+                    false
                 // Exit app
-                android.os.Process.killProcess(android.os.Process.myPid())
+                android.os.Process.killProcess(
+                    android.os.Process.myPid()
+                )
             },
-            onDismiss = { showExitDialog = false }
+            onDismiss = {
+                showExitDialog =
+                    false
+            }
         )
     }
 
@@ -135,11 +226,18 @@ private fun MainActivityScreen() {
         bottomBar = {
             BottomNavigationBar(
                 selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it }
+                onTabSelected = {
+                    selectedTab =
+                        it
+                }
             )
         }
     ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
+        Box(
+            modifier = Modifier.padding(
+                padding
+            )
+        ) {
             when (selectedTab) {
                 0 -> GalleryTabContent()
                 1 -> HomeTabContent()
@@ -156,24 +254,63 @@ private fun BottomNavigationBar(
 ) {
     NavigationBar {
         NavigationBarItem(
-            icon = { Icon(Icons.Default.PhotoLibrary, contentDescription = "Gallery") },
-            label = { Text("Gallery") },
+            icon = {
+                Icon(
+                    Icons.Default.PhotoLibrary,
+                    contentDescription = "Gallery"
+                )
+            },
+            label = {
+                Text(
+                    "Gallery"
+                )
+            },
             selected = selectedTab == 0,
-            onClick = { onTabSelected(0) }
+            onClick = {
+                onTabSelected(
+                    0
+                )
+            }
         )
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-            label = { Text("Home") },
+            icon = {
+                Icon(
+                    Icons.Default.Home,
+                    contentDescription = "Home"
+                )
+            },
+            label = {
+                Text(
+                    "Home"
+                )
+            },
             selected = selectedTab == 1,
-            onClick = { onTabSelected(1) }
+            onClick = {
+                onTabSelected(
+                    1
+                )
+            }
         )
 
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-            label = { Text("Profile") },
+            icon = {
+                Icon(
+                    Icons.Default.Person,
+                    contentDescription = "Profile"
+                )
+            },
+            label = {
+                Text(
+                    "Profile"
+                )
+            },
             selected = selectedTab == 2,
-            onClick = { onTabSelected(2) }
+            onClick = {
+                onTabSelected(
+                    2
+                )
+            }
         )
     }
 }
@@ -187,17 +324,25 @@ private fun GalleryTabContent() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(
+                    16.dp
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
         ) {
             Icon(
                 imageVector = Icons.Default.PhotoLibrary,
                 contentDescription = null,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(
+                    64.dp
+                ),
                 tint = MaterialTheme.colorScheme.primary
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    16.dp
+                )
+            )
             Text(
                 text = "Gallery",
                 style = MaterialTheme.typography.headlineMedium
@@ -214,12 +359,23 @@ private fun GalleryTabContent() {
 @Composable
 private fun HomeTabContent() {
     // Use existing MainScreen composable
-    val mockDevices = remember {
-        listOf(
-            DeviceInfo("TC001", DeviceType.TC001_LINE, isConnected = false, batteryLevel = null),
-            DeviceInfo("TS004", DeviceType.TS004, isConnected = false, batteryLevel = null)
-        )
-    }
+    val mockDevices =
+        remember {
+            listOf(
+                DeviceInfo(
+                    "TC001",
+                    DeviceType.TC001_LINE,
+                    isConnected = false,
+                    batteryLevel = null
+                ),
+                DeviceInfo(
+                    "TS004",
+                    DeviceType.TS004,
+                    isConnected = false,
+                    batteryLevel = null
+                )
+            )
+        }
 
     MainScreen(
         devices = mockDevices,
@@ -247,17 +403,25 @@ private fun ProfileTabContent() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(
+                    16.dp
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = null,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(
+                    64.dp
+                ),
                 tint = MaterialTheme.colorScheme.primary
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    16.dp
+                )
+            )
             Text(
                 text = "Profile",
                 style = MaterialTheme.typography.headlineMedium
@@ -279,17 +443,38 @@ private fun ExitConfirmDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        icon = { Icon(Icons.Default.ExitToApp, contentDescription = null) },
-        title = { Text("Exit $appName?") },
-        text = { Text("Are you sure you want to exit the application?") },
+        icon = {
+            Icon(
+                Icons.Default.ExitToApp,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(
+                "Exit $appName?"
+            )
+        },
+        text = {
+            Text(
+                "Are you sure you want to exit the application?"
+            )
+        },
         confirmButton = {
-            Button(onClick = onConfirm) {
-                Text("Exit")
+            Button(
+                onClick = onConfirm
+            ) {
+                Text(
+                    "Exit"
+                )
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text(
+                    "Cancel"
+                )
             }
         }
     )

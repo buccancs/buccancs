@@ -51,7 +51,9 @@ import com.buccancs.domain.model.ThermalImage
 import com.buccancs.ui.theme.Spacing
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun ImageDetailRoute(
     imageId: String,
@@ -63,13 +65,27 @@ fun ImageDetailRoute(
     ImageDetailScreen(
         state = state,
         onNavigateUp = onNavigateUp,
-        onDelete = { viewModel.deleteImage(imageId) },
-        onShare = { viewModel.shareImage(imageId) },
-        onExport = { viewModel.exportImage(imageId) }
+        onDelete = {
+            viewModel.deleteImage(
+                imageId
+            )
+        },
+        onShare = {
+            viewModel.shareImage(
+                imageId
+            )
+        },
+        onExport = {
+            viewModel.exportImage(
+                imageId
+            )
+        }
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun ImageDetailScreen(
     state: ImageDetailUiState,
@@ -78,7 +94,11 @@ private fun ImageDetailScreen(
     onShare: () -> Unit,
     onExport: () -> Unit
 ) {
-    var showMenu by remember { mutableStateOf(false) }
+    var showMenu by remember {
+        mutableStateOf(
+            false
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -86,14 +106,20 @@ private fun ImageDetailScreen(
                 title = {
                     state.image?.let { image ->
                         Text(
-                            text = image.timestamp.format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
+                            text = image.timestamp.format(
+                                DateTimeFormatter.ofPattern(
+                                    "dd MMM yyyy, HH:mm"
+                                )
+                            ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Navigate back"
@@ -101,7 +127,11 @@ private fun ImageDetailScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { showMenu = true }) {
+                    IconButton(
+                        onClick = {
+                            showMenu =
+                                true
+                        }) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
                             contentDescription = "More options"
@@ -109,35 +139,62 @@ private fun ImageDetailScreen(
                     }
                     DropdownMenu(
                         expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
+                        onDismissRequest = {
+                            showMenu =
+                                false
+                        }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Edit") },
+                            text = {
+                                Text(
+                                    "Edit"
+                                )
+                            },
                             onClick = {
-                                showMenu = false
+                                showMenu =
+                                    false
                             },
                             leadingIcon = {
-                                Icon(Icons.Default.Edit, contentDescription = null)
+                                Icon(
+                                    Icons.Default.Edit,
+                                    contentDescription = null
+                                )
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Export") },
+                            text = {
+                                Text(
+                                    "Export"
+                                )
+                            },
                             onClick = {
-                                showMenu = false
+                                showMenu =
+                                    false
                                 onExport()
                             },
                             leadingIcon = {
-                                Icon(Icons.Default.Share, contentDescription = null)
+                                Icon(
+                                    Icons.Default.Share,
+                                    contentDescription = null
+                                )
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Delete") },
+                            text = {
+                                Text(
+                                    "Delete"
+                                )
+                            },
                             onClick = {
-                                showMenu = false
+                                showMenu =
+                                    false
                                 onDelete()
                             },
                             leadingIcon = {
-                                Icon(Icons.Default.Delete, contentDescription = null)
+                                Icon(
+                                    Icons.Default.Delete,
+                                    contentDescription = null
+                                )
                             }
                         )
                     }
@@ -150,19 +207,30 @@ private fun ImageDetailScreen(
         bottomBar = {
             state.image?.let { image ->
                 BottomAppBar(
-                    containerColor = Color.Black.copy(alpha = 0.9f)
+                    containerColor = Color.Black.copy(
+                        alpha = 0.9f
+                    )
                 ) {
-                    ImageMetadataBar(image)
+                    ImageMetadataBar(
+                        image
+                    )
                 }
             }
         },
         containerColor = Color.Black,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(
+                    padding
+                )
         ) {
             state.image?.let { image ->
                 ZoomableImageView(
@@ -188,34 +256,71 @@ private fun ZoomableImageView(
     image: ThermalImage,
     modifier: Modifier = Modifier
 ) {
-    var scale by remember { mutableFloatStateOf(1f) }
-    var offsetX by remember { mutableFloatStateOf(0f) }
-    var offsetY by remember { mutableFloatStateOf(0f) }
-
-    val state = rememberTransformableState { zoomChange, panChange, _ ->
-        scale = (scale * zoomChange).coerceIn(1f, 5f)
-
-        val maxX = (image.width * scale - image.width) / 2
-        val maxY = (image.height * scale - image.height) / 2
-
-        offsetX = (offsetX + panChange.x).coerceIn(-maxX, maxX)
-        offsetY = (offsetY + panChange.y).coerceIn(-maxY, maxY)
+    var scale by remember {
+        mutableFloatStateOf(
+            1f
+        )
     }
+    var offsetX by remember {
+        mutableFloatStateOf(
+            0f
+        )
+    }
+    var offsetY by remember {
+        mutableFloatStateOf(
+            0f
+        )
+    }
+
+    val state =
+        rememberTransformableState { zoomChange, panChange, _ ->
+            scale =
+                (scale * zoomChange).coerceIn(
+                    1f,
+                    5f
+                )
+
+            val maxX =
+                (image.width * scale - image.width) / 2
+            val maxY =
+                (image.height * scale - image.height) / 2
+
+            offsetX =
+                (offsetX + panChange.x).coerceIn(
+                    -maxX,
+                    maxX
+                )
+            offsetY =
+                (offsetY + panChange.y).coerceIn(
+                    -maxY,
+                    maxY
+                )
+        }
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .transformable(state = state)
-            .pointerInput(Unit) {
+            .background(
+                Color.Black
+            )
+            .transformable(
+                state = state
+            )
+            .pointerInput(
+                Unit
+            ) {
                 detectTapGestures(
                     onDoubleTap = {
                         if (scale > 1f) {
-                            scale = 1f
-                            offsetX = 0f
-                            offsetY = 0f
+                            scale =
+                                1f
+                            offsetX =
+                                0f
+                            offsetY =
+                                0f
                         } else {
-                            scale = 2f
+                            scale =
+                                2f
                         }
                     }
                 )
@@ -224,8 +329,13 @@ private fun ZoomableImageView(
     ) {
         Box(
             modifier = Modifier
-                .size(image.width.dp, image.height.dp)
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .size(
+                    image.width.dp,
+                    image.height.dp
+                )
+                .background(
+                    MaterialTheme.colorScheme.surfaceVariant
+                )
                 .graphicsLayer(
                     scaleX = scale,
                     scaleY = scale,
@@ -237,8 +347,12 @@ private fun ZoomableImageView(
             Icon(
                 imageVector = Icons.Default.ZoomIn,
                 contentDescription = null,
-                modifier = Modifier.size(64.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
+                modifier = Modifier.size(
+                    64.dp
+                ),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                    alpha = 0.3f
+                )
             )
         }
 
@@ -246,8 +360,12 @@ private fun ZoomableImageView(
             ZoomIndicator(
                 scale = scale,
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(Spacing.Medium)
+                    .align(
+                        Alignment.TopEnd
+                    )
+                    .padding(
+                        Spacing.Medium
+                    )
             )
         }
     }
@@ -261,10 +379,15 @@ private fun ZoomIndicator(
     Box(
         modifier = modifier
             .background(
-                color = Color.Black.copy(alpha = 0.7f),
+                color = Color.Black.copy(
+                    alpha = 0.7f
+                ),
                 shape = MaterialTheme.shapes.small
             )
-            .padding(horizontal = Spacing.SmallMedium, vertical = Spacing.ExtraSmall)
+            .padding(
+                horizontal = Spacing.SmallMedium,
+                vertical = Spacing.ExtraSmall
+            )
     ) {
         Text(
             text = "${(scale * 100).toInt()}%",
@@ -281,7 +404,9 @@ private fun ImageMetadataBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = Spacing.Medium),
+            .padding(
+                horizontal = Spacing.Medium
+            ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -289,7 +414,9 @@ private fun ImageMetadataBar(
             Text(
                 text = "Temperature Range",
                 style = MaterialTheme.typography.labelSmall,
-                color = Color.White.copy(alpha = 0.7f)
+                color = Color.White.copy(
+                    alpha = 0.7f
+                )
             )
             Text(
                 text = "${image.minTemperature.toInt()}°C - ${image.maxTemperature.toInt()}°C",
@@ -298,11 +425,15 @@ private fun ImageMetadataBar(
             )
         }
 
-        Column(horizontalAlignment = Alignment.End) {
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
             Text(
                 text = "Average",
                 style = MaterialTheme.typography.labelSmall,
-                color = Color.White.copy(alpha = 0.7f)
+                color = Color.White.copy(
+                    alpha = 0.7f
+                )
             )
             Text(
                 text = "${image.avgTemperature.toInt()}°C",
@@ -311,11 +442,15 @@ private fun ImageMetadataBar(
             )
         }
 
-        Column(horizontalAlignment = Alignment.End) {
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
             Text(
                 text = "Resolution",
                 style = MaterialTheme.typography.labelSmall,
-                color = Color.White.copy(alpha = 0.7f)
+                color = Color.White.copy(
+                    alpha = 0.7f
+                )
             )
             Text(
                 text = "${image.width}×${image.height}",

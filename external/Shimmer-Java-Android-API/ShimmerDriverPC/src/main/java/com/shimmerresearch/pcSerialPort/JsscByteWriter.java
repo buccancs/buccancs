@@ -19,7 +19,8 @@ public class JsscByteWriter implements ByteWriter {
         try {
             serialPort.purgePort(SerialPort.PURGE_TXABORT);
             serialPort.purgePort(SerialPort.PURGE_TXCLEAR);
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             throw new IOException(e);
         }
     }
@@ -28,7 +29,8 @@ public class JsscByteWriter implements ByteWriter {
     public void write(byte[] bytes) throws IOException {
         try {
             serialPort.writeBytes(bytes);
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             throw new IOException(e);
         }
     }
@@ -37,7 +39,8 @@ public class JsscByteWriter implements ByteWriter {
     public void write(byte oneByte) throws IOException {
         try {
             serialPort.writeByte(oneByte);
-        } catch (SerialPortException e) {
+        } catch (
+                SerialPortException e) {
             throw new IOException(e);
         }
     }

@@ -34,135 +34,212 @@ import com.shimmerresearch.exceptions.ShimmerException
 import com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication
 import com.shimmerresearch.verisense.sensors.SensorLIS2DW12
 
-class MainActivity : ComponentActivity() {
+class MainActivity :
+    ComponentActivity() {
 
     companion object {
-        private const val LOG_TAG = "VeriBLEBasicExample"
+        private const val LOG_TAG =
+            "VeriBLEBasicExample"
     }
 
-    private val macAddress = "C0:04:19:85:9A:D5"
-    private var radio1: VerisenseBleAndroidRadioByteCommunication? = null
-    private var protocol1: VerisenseProtocolByteCommunication? = null
-    private var device1: VerisenseDeviceAndroid? = null
+    private val macAddress =
+        "C0:04:19:85:9A:D5"
+    private var radio1: VerisenseBleAndroidRadioByteCommunication? =
+        null
+    private var protocol1: VerisenseProtocolByteCommunication? =
+        null
+    private var device1: VerisenseDeviceAndroid? =
+        null
 
-    private val connectionState = mutableStateOf("Disconnected")
-    private val accelData = mutableStateOf("X: N/A\nY: N/A\nZ: N/A")
-
-    private val mHandler = object : Handler(Looper.getMainLooper()) {
-        override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET -> {
-                    if (msg.obj is ObjectCluster) {
-                        val objectCluster = msg.obj as ObjectCluster
-
-                        val allFormats = objectCluster.getCollectionOfFormatClusters(
-                            Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP
-                        )
-                        val timeStampCluster =
-                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
-                        val timeStampData = timeStampCluster?.mData
-                        Log.i(LOG_TAG, "Time Stamp: $timeStampData")
-
-                        val accelXFormats = objectCluster.getCollectionOfFormatClusters(
-                            SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_X
-                        )
-                        val accelXCluster = ObjectCluster.returnFormatCluster(
-                            accelXFormats,
-                            "CAL"
-                        ) as? FormatCluster
-                        val accelXData = accelXCluster?.mData
-                        if (accelXCluster != null) {
-                            Log.i(LOG_TAG, "Accel X: $accelXData")
-                        }
-
-                        val accelYFormats = objectCluster.getCollectionOfFormatClusters(
-                            SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Y
-                        )
-                        val accelYCluster = ObjectCluster.returnFormatCluster(
-                            accelYFormats,
-                            "CAL"
-                        ) as? FormatCluster
-                        val accelYData = accelYCluster?.mData
-                        if (accelYCluster != null) {
-                            Log.i(LOG_TAG, "Accel Y: $accelYData")
-                        }
-
-                        val accelZFormats = objectCluster.getCollectionOfFormatClusters(
-                            SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Z
-                        )
-                        val accelZCluster = ObjectCluster.returnFormatCluster(
-                            accelZFormats,
-                            "CAL"
-                        ) as? FormatCluster
-                        val accelZData = accelZCluster?.mData
-                        if (accelZCluster != null) {
-                            Log.i(LOG_TAG, "Accel Z: $accelZData")
-                        }
-
-                        accelData.value =
-                            "X: ${accelXData ?: "N/A"}\nY: ${accelYData ?: "N/A"}\nZ: ${accelZData ?: "N/A"}"
-                    }
-                }
-
-                Shimmer.MESSAGE_TOAST -> {
-                    Toast.makeText(
-                        applicationContext,
-                        msg.data.getString(Shimmer.TOAST),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE -> {
-                    var state: ShimmerBluetooth.BT_STATE? = null
-                    var macAddress = ""
-
-                    when (msg.obj) {
-                        is ObjectCluster -> {
-                            state = (msg.obj as ObjectCluster).mState
-                            macAddress = (msg.obj as ObjectCluster).macAddress
-                        }
-
-                        is CallbackObject -> {
-                            state = (msg.obj as CallbackObject).mState
-                            macAddress = (msg.obj as CallbackObject).mBluetoothAddress
-                        }
-                    }
-
-                    when (state) {
-                        ShimmerBluetooth.BT_STATE.CONNECTED -> connectionState.value = "Connected"
-                        ShimmerBluetooth.BT_STATE.CONNECTING -> connectionState.value = "Connecting"
-                        ShimmerBluetooth.BT_STATE.STREAMING -> connectionState.value = "Streaming"
-                        ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> connectionState.value =
-                            "Streaming & Logging"
-
-                        ShimmerBluetooth.BT_STATE.SDLOGGING -> connectionState.value = "SD Logging"
-                        ShimmerBluetooth.BT_STATE.DISCONNECTED -> connectionState.value =
-                            "Disconnected"
-
-                        else -> {}
-                    }
-                }
-            }
-            super.handleMessage(msg)
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val permissions = arrayOf(
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+    private val connectionState =
+        mutableStateOf(
+            "Disconnected"
+        )
+    private val accelData =
+        mutableStateOf(
+            "X: N/A\nY: N/A\nZ: N/A"
         )
 
-        val permissionGranted = permissions.all {
-            ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
+    private val mHandler =
+        object :
+            Handler(
+                Looper.getMainLooper()
+            ) {
+            override fun handleMessage(
+                msg: Message
+            ) {
+                when (msg.what) {
+                    ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET -> {
+                        if (msg.obj is ObjectCluster) {
+                            val objectCluster =
+                                msg.obj as ObjectCluster
+
+                            val allFormats =
+                                objectCluster.getCollectionOfFormatClusters(
+                                    Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP
+                                )
+                            val timeStampCluster =
+                                ObjectCluster.returnFormatCluster(
+                                    allFormats,
+                                    "CAL"
+                                ) as? FormatCluster
+                            val timeStampData =
+                                timeStampCluster?.mData
+                            Log.i(
+                                LOG_TAG,
+                                "Time Stamp: $timeStampData"
+                            )
+
+                            val accelXFormats =
+                                objectCluster.getCollectionOfFormatClusters(
+                                    SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_X
+                                )
+                            val accelXCluster =
+                                ObjectCluster.returnFormatCluster(
+                                    accelXFormats,
+                                    "CAL"
+                                ) as? FormatCluster
+                            val accelXData =
+                                accelXCluster?.mData
+                            if (accelXCluster != null) {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Accel X: $accelXData"
+                                )
+                            }
+
+                            val accelYFormats =
+                                objectCluster.getCollectionOfFormatClusters(
+                                    SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Y
+                                )
+                            val accelYCluster =
+                                ObjectCluster.returnFormatCluster(
+                                    accelYFormats,
+                                    "CAL"
+                                ) as? FormatCluster
+                            val accelYData =
+                                accelYCluster?.mData
+                            if (accelYCluster != null) {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Accel Y: $accelYData"
+                                )
+                            }
+
+                            val accelZFormats =
+                                objectCluster.getCollectionOfFormatClusters(
+                                    SensorLIS2DW12.ObjectClusterSensorName.LIS2DW12_ACC_Z
+                                )
+                            val accelZCluster =
+                                ObjectCluster.returnFormatCluster(
+                                    accelZFormats,
+                                    "CAL"
+                                ) as? FormatCluster
+                            val accelZData =
+                                accelZCluster?.mData
+                            if (accelZCluster != null) {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Accel Z: $accelZData"
+                                )
+                            }
+
+                            accelData.value =
+                                "X: ${accelXData ?: "N/A"}\nY: ${accelYData ?: "N/A"}\nZ: ${accelZData ?: "N/A"}"
+                        }
+                    }
+
+                    Shimmer.MESSAGE_TOAST -> {
+                        Toast.makeText(
+                            applicationContext,
+                            msg.data.getString(
+                                Shimmer.TOAST
+                            ),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+
+                    ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE -> {
+                        var state: ShimmerBluetooth.BT_STATE? =
+                            null
+                        var macAddress =
+                            ""
+
+                        when (msg.obj) {
+                            is ObjectCluster -> {
+                                state =
+                                    (msg.obj as ObjectCluster).mState
+                                macAddress =
+                                    (msg.obj as ObjectCluster).macAddress
+                            }
+
+                            is CallbackObject -> {
+                                state =
+                                    (msg.obj as CallbackObject).mState
+                                macAddress =
+                                    (msg.obj as CallbackObject).mBluetoothAddress
+                            }
+                        }
+
+                        when (state) {
+                            ShimmerBluetooth.BT_STATE.CONNECTED -> connectionState.value =
+                                "Connected"
+
+                            ShimmerBluetooth.BT_STATE.CONNECTING -> connectionState.value =
+                                "Connecting"
+
+                            ShimmerBluetooth.BT_STATE.STREAMING -> connectionState.value =
+                                "Streaming"
+
+                            ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> connectionState.value =
+                                "Streaming & Logging"
+
+                            ShimmerBluetooth.BT_STATE.SDLOGGING -> connectionState.value =
+                                "SD Logging"
+
+                            ShimmerBluetooth.BT_STATE.DISCONNECTED -> connectionState.value =
+                                "Disconnected"
+
+                            else -> {}
+                        }
+                    }
+                }
+                super.handleMessage(
+                    msg
+                )
+            }
         }
 
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+
+        val permissions =
+            arrayOf(
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+
+        val permissionGranted =
+            permissions.all {
+                ContextCompat.checkSelfPermission(
+                    this,
+                    it
+                ) == PackageManager.PERMISSION_GRANTED
+            }
+
         if (!permissionGranted) {
-            ActivityCompat.requestPermissions(this, permissions, 110)
+            ActivityCompat.requestPermissions(
+                this,
+                permissions,
+                110
+            )
         }
 
         setContent {
@@ -184,34 +261,46 @@ class MainActivity : ComponentActivity() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(
+                        16.dp
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "Verisense BLE Basic Example",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(
+                        bottom = 8.dp
+                    )
                 )
 
                 Text(
                     text = "Status: $state",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(
+                        bottom = 16.dp
+                    )
                 )
 
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(
+                            vertical = 8.dp
+                        )
                 ) {
                     Column(
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(
+                            16.dp
+                        )
                     ) {
                         Text(
                             text = "Accelerometer Data (LIS2DW12)",
                             style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            modifier = Modifier.padding(
+                                bottom = 8.dp
+                            )
                         )
                         Text(
                             text = data,
@@ -220,93 +309,136 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(
+                    modifier = Modifier.height(
+                        8.dp
+                    )
+                )
 
                 Button(
                     onClick = { connectDevice() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Connect")
+                    Text(
+                        "Connect"
+                    )
                 }
 
                 Button(
                     onClick = { readOpConfig() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     enabled = state == "Connected"
                 ) {
-                    Text("Read Operational Config")
+                    Text(
+                        "Read Operational Config"
+                    )
                 }
 
                 Button(
                     onClick = { readProdConfig() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     enabled = state == "Connected"
                 ) {
-                    Text("Read Production Config")
+                    Text(
+                        "Read Production Config"
+                    )
                 }
 
                 Button(
                     onClick = { startStreaming() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     enabled = state == "Connected"
                 ) {
-                    Text("Start Streaming")
+                    Text(
+                        "Start Streaming"
+                    )
                 }
 
                 Button(
                     onClick = { stopStreaming() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     enabled = state == "Streaming"
                 ) {
-                    Text("Stop Streaming")
+                    Text(
+                        "Stop Streaming"
+                    )
                 }
 
                 Button(
                     onClick = { startSpeedTest() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     enabled = state == "Connected" || state == "Streaming"
                 ) {
-                    Text("Start Speed Test")
+                    Text(
+                        "Start Speed Test"
+                    )
                 }
 
                 Button(
                     onClick = { stopSpeedTest() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     enabled = state == "Connected" || state == "Streaming"
                 ) {
-                    Text("Stop Speed Test")
+                    Text(
+                        "Stop Speed Test"
+                    )
                 }
 
                 Button(
                     onClick = { disconnectDevice() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     enabled = state != "Disconnected"
                 ) {
-                    Text("Disconnect")
+                    Text(
+                        "Disconnect"
+                    )
                 }
             }
         }
     }
 
     private fun connectDevice() {
-        val pairedDevicesIntent = Intent(applicationContext, ShimmerBluetoothDialog::class.java)
-        startActivityForResult(pairedDevicesIntent, ShimmerBluetoothDialog.REQUEST_CONNECT_SHIMMER)
+        val pairedDevicesIntent =
+            Intent(
+                applicationContext,
+                ShimmerBluetoothDialog::class.java
+            )
+        startActivityForResult(
+            pairedDevicesIntent,
+            ShimmerBluetoothDialog.REQUEST_CONNECT_SHIMMER
+        )
     }
 
     private fun disconnectDevice() {
@@ -379,18 +511,40 @@ class MainActivity : ComponentActivity() {
         }.start()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
         if (requestCode == ShimmerBluetoothDialog.REQUEST_CONNECT_SHIMMER) {
             if (resultCode == Activity.RESULT_OK) {
-                BleManager.getInstance().init(application)
-                device1 = VerisenseDeviceAndroid(mHandler)
-                val macAdd = data?.getStringExtra(ShimmerBluetoothDialog.EXTRA_DEVICE_ADDRESS)
+                BleManager.getInstance()
+                    .init(
+                        application
+                    )
+                device1 =
+                    VerisenseDeviceAndroid(
+                        mHandler
+                    )
+                val macAdd =
+                    data?.getStringExtra(
+                        ShimmerBluetoothDialog.EXTRA_DEVICE_ADDRESS
+                    )
                 macAdd?.let {
-                    radio1 = VerisenseBleAndroidRadioByteCommunication(it)
-                    protocol1 = VerisenseProtocolByteCommunication(radio1)
+                    radio1 =
+                        VerisenseBleAndroidRadioByteCommunication(
+                            it
+                        )
+                    protocol1 =
+                        VerisenseProtocolByteCommunication(
+                            radio1
+                        )
 
                     Thread {
-                        device1?.setProtocol(Configuration.COMMUNICATION_TYPE.BLUETOOTH, protocol1)
+                        device1?.setProtocol(
+                            Configuration.COMMUNICATION_TYPE.BLUETOOTH,
+                            protocol1
+                        )
                         try {
                             device1?.connect()
                         } catch (e: ShimmerException) {
@@ -400,6 +554,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(
+            requestCode,
+            resultCode,
+            data
+        )
     }
 }

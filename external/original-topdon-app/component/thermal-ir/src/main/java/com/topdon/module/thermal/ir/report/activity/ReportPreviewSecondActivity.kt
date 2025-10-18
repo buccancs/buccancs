@@ -32,52 +32,105 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 
-@Route(path = RouterConfig.REPORT_PREVIEW_SECOND)
-class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(),
+@Route(
+    path = RouterConfig.REPORT_PREVIEW_SECOND
+)
+class ReportPreviewSecondActivity :
+    BaseViewModelActivity<UpReportViewModel>(),
     View.OnClickListener {
-    private var isTC007 = false
-    private var reportBean: ReportBean? = null
-    private var pdfFilePath: String? = null
+    private var isTC007 =
+        false
+    private var reportBean: ReportBean? =
+        null
+    private var pdfFilePath: String? =
+        null
 
-    override fun initContentView() = R.layout.activity_report_preview_second
-    override fun providerVMClass() = UpReportViewModel::class.java
+    override fun initContentView() =
+        R.layout.activity_report_preview_second
+
+    override fun providerVMClass() =
+        UpReportViewModel::class.java
+
     override fun initView() {
-        reportBean = intent.getParcelableExtra(ExtraKeyConfig.REPORT_BEAN)
-        isTC007 = intent.getBooleanExtra(ExtraKeyConfig.IS_TC007, false)
-        title_view.setTitleText(R.string.album_edit_preview)
-        title_view.setLeftDrawable(R.drawable.svg_arrow_left_e8)
-        title_view.setRightDrawable(R.drawable.ic_report_exit_svg)
+        reportBean =
+            intent.getParcelableExtra(
+                ExtraKeyConfig.REPORT_BEAN
+            )
+        isTC007 =
+            intent.getBooleanExtra(
+                ExtraKeyConfig.IS_TC007,
+                false
+            )
+        title_view.setTitleText(
+            R.string.album_edit_preview
+        )
+        title_view.setLeftDrawable(
+            R.drawable.svg_arrow_left_e8
+        )
+        title_view.setRightDrawable(
+            R.drawable.ic_report_exit_svg
+        )
         title_view.setLeftClickListener {
             finish()
         }
         title_view.setRightClickListener {
-            TipDialog.Builder(this)
-                .setMessage(R.string.album_report_exit_tips)
-                .setPositiveListener(R.string.app_ok) {
-                    EventBus.getDefault().post(ReportCreateEvent())
+            TipDialog.Builder(
+                this
+            )
+                .setMessage(
+                    R.string.album_report_exit_tips
+                )
+                .setPositiveListener(
+                    R.string.app_ok
+                ) {
+                    EventBus.getDefault()
+                        .post(
+                            ReportCreateEvent()
+                        )
                     finish()
                 }
-                .setCancelListener(R.string.app_cancel) {
+                .setCancelListener(
+                    R.string.app_cancel
+                ) {
                 }
-                .setCanceled(false)
-                .create().show()
+                .setCanceled(
+                    false
+                )
+                .create()
+                .show()
         }
-        report_info_view.refreshInfo(reportBean?.report_info)
-        report_info_view.refreshCondition(reportBean?.detection_condition)
+        report_info_view.refreshInfo(
+            reportBean?.report_info
+        )
+        report_info_view.refreshCondition(
+            reportBean?.detection_condition
+        )
         if (reportBean?.report_info?.is_report_watermark == 1) {
-            watermark_view.watermarkText = reportBean?.report_info?.report_watermark
+            watermark_view.watermarkText =
+                reportBean?.report_info?.report_watermark
         }
-        val irList = reportBean?.infrared_data
+        val irList =
+            reportBean?.infrared_data
         if (irList != null) {
             for (i in irList.indices) {
-                val reportShowView = ReportIRShowView(this)
-                reportShowView.refreshData(i == 0, i == irList.size - 1, irList[i])
-                lifecycleScope.launch {
-                    val drawable = GlideLoader.getDrawable(
-                        this@ReportPreviewSecondActivity,
-                        irList[i].picture_url
+                val reportShowView =
+                    ReportIRShowView(
+                        this
                     )
-                    reportShowView.setImageDrawable(drawable)
+                reportShowView.refreshData(
+                    i == 0,
+                    i == irList.size - 1,
+                    irList[i]
+                )
+                lifecycleScope.launch {
+                    val drawable =
+                        GlideLoader.getDrawable(
+                            this@ReportPreviewSecondActivity,
+                            irList[i].picture_url
+                        )
+                    reportShowView.setImageDrawable(
+                        drawable
+                    )
                 }
                 ll_content.addView(
                     reportShowView,
@@ -86,37 +139,73 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(),
                 )
             }
         }
-        tv_to_pdf.setOnClickListener(this)
-        tv_complete.setOnClickListener(this)
-        lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onResume(owner: LifecycleOwner) {
-                if (WebSocketProxy.getInstance().isConnected()) {
-                    NetWorkUtils.connectivityManager.bindProcessToNetwork(null)
+        tv_to_pdf.setOnClickListener(
+            this
+        )
+        tv_complete.setOnClickListener(
+            this
+        )
+        lifecycle.addObserver(
+            object :
+                DefaultLifecycleObserver {
+                override fun onResume(
+                    owner: LifecycleOwner
+                ) {
+                    if (WebSocketProxy.getInstance()
+                            .isConnected()
+                    ) {
+                        NetWorkUtils.connectivityManager.bindProcessToNetwork(
+                            null
+                        )
+                    }
                 }
-            }
-        })
+            })
     }
 
     override fun initData() {
-        viewModel.commonBeanLD.observe(this) {
+        viewModel.commonBeanLD.observe(
+            this
+        ) {
             dismissCameraLoading()
             if (it.code == LMS.SUCCESS) {
-                EventBus.getDefault().post(ReportCreateEvent())
-                ARouter.getInstance().build(RouterConfig.REPORT_LIST)
-                    .withBoolean(ExtraKeyConfig.IS_TC007, isTC007)
-                    .navigation(this)
+                EventBus.getDefault()
+                    .post(
+                        ReportCreateEvent()
+                    )
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.REPORT_LIST
+                    )
+                    .withBoolean(
+                        ExtraKeyConfig.IS_TC007,
+                        isTC007
+                    )
+                    .navigation(
+                        this
+                    )
                 finish()
             } else {
-                ToastUtils.showShort(StringUtils.getResString(this, it.code.toString()))
+                ToastUtils.showShort(
+                    StringUtils.getResString(
+                        this,
+                        it.code.toString()
+                    )
+                )
             }
         }
-        viewModel.exceptionLD.observe(this) {
+        viewModel.exceptionLD.observe(
+            this
+        ) {
             dismissCameraLoading()
-            requestError(it)
+            requestError(
+                it
+            )
         }
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(
+        v: View?
+    ) {
         when (v) {
             tv_to_pdf -> {
                 saveWithPDF()
@@ -128,22 +217,36 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(),
                         return
                     }
                     showCameraLoading()
-                    viewModel.upload(isTC007, reportBean)
+                    viewModel.upload(
+                        isTC007,
+                        reportBean
+                    )
                 } else {
-                    LMS.getInstance().activityLogin()
+                    LMS.getInstance()
+                        .activityLogin()
                 }
             }
         }
     }
 
     private fun saveWithPDF() {
-        if (TextUtils.isEmpty(pdfFilePath)) {
+        if (TextUtils.isEmpty(
+                pdfFilePath
+            )
+        ) {
             showCameraLoading()
-            lifecycleScope.launch(Dispatchers.IO) {
-                val name = reportBean?.report_info?.report_number
+            lifecycleScope.launch(
+                Dispatchers.IO
+            ) {
+                val name =
+                    reportBean?.report_info?.report_number
                 if (name != null) {
-                    if (File(FileConfig.getPdfDir() + "/$name.pdf").exists() &&
-                        !TextUtils.isEmpty(pdfFilePath)
+                    if (File(
+                            FileConfig.getPdfDir() + "/$name.pdf"
+                        ).exists() &&
+                        !TextUtils.isEmpty(
+                            pdfFilePath
+                        )
                     ) {
                         lifecycleScope.launch {
                             dismissCameraLoading()
@@ -152,12 +255,20 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(),
                         return@launch
                     }
                 }
-                pdfFilePath = PDFHelp.savePdfFileByListView(
-                    name ?: System.currentTimeMillis().toString(),
-                    scroll_view, getPrintViewList(), watermark_view
-                )
+                pdfFilePath =
+                    PDFHelp.savePdfFileByListView(
+                        name
+                            ?: System.currentTimeMillis()
+                                .toString(),
+                        scroll_view,
+                        getPrintViewList(),
+                        watermark_view
+                    )
                 lifecycleScope.launch {
-                    tv_to_pdf.text = getString(R.string.battery_share)
+                    tv_to_pdf.text =
+                        getString(
+                            R.string.battery_share
+                        )
                     dismissCameraLoading()
                     actionShare()
                 }
@@ -168,22 +279,49 @@ class ReportPreviewSecondActivity : BaseViewModelActivity<UpReportViewModel>(),
     }
 
     private fun actionShare() {
-        val uri = FileTools.getUri(File(pdfFilePath!!))
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        shareIntent.type = "application/pdf"
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.battery_share)))
+        val uri =
+            FileTools.getUri(
+                File(
+                    pdfFilePath!!
+                )
+            )
+        val shareIntent =
+            Intent()
+        shareIntent.action =
+            Intent.ACTION_SEND
+        shareIntent.putExtra(
+            Intent.EXTRA_STREAM,
+            uri
+        )
+        shareIntent.type =
+            "application/pdf"
+        startActivity(
+            Intent.createChooser(
+                shareIntent,
+                getString(
+                    R.string.battery_share
+                )
+            )
+        )
     }
 
     private fun getPrintViewList(): ArrayList<View> {
-        val result = ArrayList<View>()
-        result.add(report_info_view)
-        val childCount = ll_content.childCount
+        val result =
+            ArrayList<View>()
+        result.add(
+            report_info_view
+        )
+        val childCount =
+            ll_content.childCount
         for (i in 0 until childCount) {
-            val childView = ll_content.getChildAt(i)
+            val childView =
+                ll_content.getChildAt(
+                    i
+                )
             if (childView is ReportIRShowView) {
-                result.addAll(childView.getPrintViewList())
+                result.addAll(
+                    childView.getPrintViewList()
+                )
             }
         }
         return result

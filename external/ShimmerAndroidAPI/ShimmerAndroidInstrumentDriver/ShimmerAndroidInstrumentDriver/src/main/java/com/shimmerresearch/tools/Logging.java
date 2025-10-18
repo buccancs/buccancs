@@ -57,7 +57,8 @@ public class Logging {
         mDelimiter = delimiter;
         File root = new File(Environment.getExternalStorageDirectory() + "/" + folderName);
         if (!root.exists()) {
-            if (root.mkdir()) ;
+            if (root.mkdir())
+                ;
         }
         outputFile = new File(root, mFileName + "." + ShimmerService.FILE_TYPE.DAT.getName());
     }
@@ -184,7 +185,8 @@ public class Logging {
                 writer.write(mDelimiter);
             }
             writer.newLine();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             Log.d("Shimmer", "Error with bufferedwriter");
         }
@@ -194,7 +196,8 @@ public class Logging {
         if (writer != null) {
             try {
                 writer.close();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         }

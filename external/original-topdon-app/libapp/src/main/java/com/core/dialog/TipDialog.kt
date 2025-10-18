@@ -16,71 +16,136 @@ import com.topdon.lib.core.R
  * 提示窗
  * create by fylder on 2018/6/15
  **/
-class TipDialog : Dialog {
+class TipDialog :
+    Dialog {
 
-    constructor(context: Context) : super(context)
+    constructor(
+        context: Context
+    ) : super(
+        context
+    )
 
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+    constructor(
+        context: Context,
+        themeResId: Int
+    ) : super(
+        context,
+        themeResId
+    )
 
     override fun onBackPressed() {
 
     }
 
 
-    class Builder(private val context: Context) {
-        var dialog: TipDialog? = null
+    class Builder(
+        private val context: Context
+    ) {
+        var dialog: TipDialog? =
+            null
 
-        private var message: String? = null
-        private var titleMessage: String? = null
-        private var positiveStr: String? = null
-        private var cancelStr: String? = null
-        private var positiveEvent: (() -> Unit)? = null
-        private var cancelEvent: (() -> Unit)? = null
-        private var canceled = false
-        private var isShowRestartTips = false
+        private var message: String? =
+            null
+        private var titleMessage: String? =
+            null
+        private var positiveStr: String? =
+            null
+        private var cancelStr: String? =
+            null
+        private var positiveEvent: (() -> Unit)? =
+            null
+        private var cancelEvent: (() -> Unit)? =
+            null
+        private var canceled =
+            false
+        private var isShowRestartTips =
+            false
 
-        fun setTitleMessage(message: String): Builder {
-            this.titleMessage = message
+        fun setTitleMessage(
+            message: String
+        ): Builder {
+            this.titleMessage =
+                message
             return this
         }
 
-        fun setMessage(message: String): Builder {
-            this.message = message
+        fun setMessage(
+            message: String
+        ): Builder {
+            this.message =
+                message
             return this
         }
 
-        fun setMessage(@StringRes message: Int): Builder {
-            this.message = context.getString(message)
+        fun setMessage(
+            @StringRes message: Int
+        ): Builder {
+            this.message =
+                context.getString(
+                    message
+                )
             return this
         }
 
-        fun setPositiveListener(@StringRes strRes: Int, event: (() -> Unit)? = null): Builder {
-            return setPositiveListener(context.getString(strRes), event)
+        fun setPositiveListener(
+            @StringRes strRes: Int,
+            event: (() -> Unit)? = null
+        ): Builder {
+            return setPositiveListener(
+                context.getString(
+                    strRes
+                ),
+                event
+            )
         }
 
-        fun setPositiveListener(str: String, event: (() -> Unit)? = null): Builder {
-            this.positiveStr = str
-            this.positiveEvent = event
+        fun setPositiveListener(
+            str: String,
+            event: (() -> Unit)? = null
+        ): Builder {
+            this.positiveStr =
+                str
+            this.positiveEvent =
+                event
             return this
         }
 
-        fun setCancelListener(@StringRes strRes: Int, event: (() -> Unit)? = null): Builder {
-            return setCancelListener(context.getString(strRes), event)
+        fun setCancelListener(
+            @StringRes strRes: Int,
+            event: (() -> Unit)? = null
+        ): Builder {
+            return setCancelListener(
+                context.getString(
+                    strRes
+                ),
+                event
+            )
         }
 
-        fun setCancelListener(str: String, event: (() -> Unit)? = null): Builder {
-            this.cancelStr = str
-            this.cancelEvent = event
+        fun setCancelListener(
+            str: String,
+            event: (() -> Unit)? = null
+        ): Builder {
+            this.cancelStr =
+                str
+            this.cancelEvent =
+                event
             return this
         }
 
-        fun setCanceled(canceled: Boolean): Builder {
-            this.canceled = canceled
+        fun setCanceled(
+            canceled: Boolean
+        ): Builder {
+            this.canceled =
+                canceled
             return this
         }
 
-        fun setShowRestartTops(isShowRestartTips: Boolean): Builder {
-            this.isShowRestartTips = isShowRestartTips
+        fun setShowRestartTops(
+            isShowRestartTips: Boolean
+        ): Builder {
+            this.isShowRestartTips =
+                isShowRestartTips
             return this
         }
 
@@ -91,22 +156,42 @@ class TipDialog : Dialog {
 
         fun create(): TipDialog {
             if (dialog == null) {
-                dialog = TipDialog(context, R.style.InfoDialog)
+                dialog =
+                    TipDialog(
+                        context,
+                        R.style.InfoDialog
+                    )
             }
 
-            val view = LayoutInflater.from(context).inflate(R.layout.dialog_tip, null)
+            val view =
+                LayoutInflater.from(
+                    context
+                )
+                    .inflate(
+                        R.layout.dialog_tip,
+                        null
+                    )
             dialog!!.addContentView(
                 view,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
             )
             val isPortrait =
                 context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-            val widthPixels = context.resources.displayMetrics.widthPixels
-            val lp = dialog!!.window!!.attributes
-            lp.width = (widthPixels * if (isPortrait) 0.85 else 0.35).toInt() //设置宽度
-            dialog!!.window!!.attributes = lp
+            val widthPixels =
+                context.resources.displayMetrics.widthPixels
+            val lp =
+                dialog!!.window!!.attributes
+            lp.width =
+                (widthPixels * if (isPortrait) 0.85 else 0.35).toInt() //设置宽度
+            dialog!!.window!!.attributes =
+                lp
 
-            dialog!!.setCanceledOnTouchOutside(canceled)
+            dialog!!.setCanceledOnTouchOutside(
+                canceled
+            )
             view.dialog_tip_success_btn.setOnClickListener {
                 dismiss()
                 positiveEvent?.invoke()
@@ -117,36 +202,59 @@ class TipDialog : Dialog {
             }
 
             if (positiveStr != null) {
-                view.dialog_tip_success_btn.text = positiveStr
+                view.dialog_tip_success_btn.text =
+                    positiveStr
             }
-            if (!TextUtils.isEmpty(cancelStr)) {
-                view.space_margin.visibility = View.VISIBLE
-                view.dialog_tip_cancel_btn.visibility = View.VISIBLE
-                view.dialog_tip_cancel_btn.text = cancelStr
+            if (!TextUtils.isEmpty(
+                    cancelStr
+                )
+            ) {
+                view.space_margin.visibility =
+                    View.VISIBLE
+                view.dialog_tip_cancel_btn.visibility =
+                    View.VISIBLE
+                view.dialog_tip_cancel_btn.text =
+                    cancelStr
             } else {
-                view.space_margin.visibility = View.GONE
-                view.dialog_tip_cancel_btn.visibility = View.GONE
-                view.dialog_tip_cancel_btn.text = ""
+                view.space_margin.visibility =
+                    View.GONE
+                view.dialog_tip_cancel_btn.visibility =
+                    View.GONE
+                view.dialog_tip_cancel_btn.text =
+                    ""
             }
             //msg
             if (message != null) {
-                view.dialog_tip_msg_text.visibility = View.VISIBLE
-                view.dialog_tip_msg_text.setText(message, TextView.BufferType.NORMAL)
+                view.dialog_tip_msg_text.visibility =
+                    View.VISIBLE
+                view.dialog_tip_msg_text.setText(
+                    message,
+                    TextView.BufferType.NORMAL
+                )
             } else {
-                view.dialog_tip_msg_text.visibility = View.GONE
+                view.dialog_tip_msg_text.visibility =
+                    View.GONE
             }
 
             //msg
             if (titleMessage != null) {
-                view.dialog_tip_title_msg_text.visibility = View.VISIBLE
-                view.dialog_tip_title_msg_text.setText(titleMessage, TextView.BufferType.NORMAL)
+                view.dialog_tip_title_msg_text.visibility =
+                    View.VISIBLE
+                view.dialog_tip_title_msg_text.setText(
+                    titleMessage,
+                    TextView.BufferType.NORMAL
+                )
             } else {
-                view.dialog_tip_title_msg_text.visibility = View.GONE
+                view.dialog_tip_title_msg_text.visibility =
+                    View.GONE
             }
 
-            view.tv_restart_tips.isVisible = isShowRestartTips
+            view.tv_restart_tips.isVisible =
+                isShowRestartTips
 
-            dialog!!.setContentView(view)
+            dialog!!.setContentView(
+                view
+            )
             return dialog as TipDialog
         }
     }
@@ -154,14 +262,26 @@ class TipDialog : Dialog {
 }
 
 private val View.dialog_tip_success_btn: TextView
-    get() = findViewById(R.id.dialog_tip_success_btn)
+    get() = findViewById(
+        R.id.dialog_tip_success_btn
+    )
 private val View.dialog_tip_cancel_btn: TextView
-    get() = findViewById(R.id.dialog_tip_cancel_btn)
+    get() = findViewById(
+        R.id.dialog_tip_cancel_btn
+    )
 private val View.space_margin: View
-    get() = findViewById(R.id.space_margin)
+    get() = findViewById(
+        R.id.space_margin
+    )
 private val View.dialog_tip_msg_text: TextView
-    get() = findViewById(R.id.dialog_tip_msg_text)
+    get() = findViewById(
+        R.id.dialog_tip_msg_text
+    )
 private val View.dialog_tip_title_msg_text: TextView
-    get() = findViewById(R.id.dialog_tip_title_msg_text)
+    get() = findViewById(
+        R.id.dialog_tip_title_msg_text
+    )
 private val View.tv_restart_tips: TextView
-    get() = findViewById(R.id.tv_restart_tips)
+    get() = findViewById(
+        R.id.tv_restart_tips
+    )

@@ -28,7 +28,8 @@ class TCPServerWP {
             time_last = time_init = System.currentTimeMillis();
 
             int length = 0;
-            do {
+            do
+            {
                 length = dIn.available();
                 length_total += (long) length;
                 if (length > 0) {

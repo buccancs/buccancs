@@ -201,7 +201,8 @@ public class LineChartRenderer extends LineRadarRenderer {
             Entry next = cur;
             int nextIndex = -1;
 
-            if (cur == null) return;
+            if (cur == null)
+                return;
 
             cubicPath.moveTo(cur.getX(), cur.getY() * phaseY);
 
@@ -300,7 +301,8 @@ public class LineChartRenderer extends LineRadarRenderer {
             for (int j = mXBounds.min; j <= mXBounds.range + mXBounds.min; j++) {
 
                 Entry e = dataSet.getEntryForIndex(j);
-                if (e == null) continue;
+                if (e == null)
+                    continue;
 
                 mLineBuffer[0] = e.getX();
                 mLineBuffer[1] = e.getY() * phaseY;
@@ -309,7 +311,8 @@ public class LineChartRenderer extends LineRadarRenderer {
 
                     e = dataSet.getEntryForIndex(j + 1);
 
-                    if (e == null) break;
+                    if (e == null)
+                        break;
 
                     if (isDrawSteppedEnabled) {
                         mLineBuffer[2] = e.getX();
@@ -360,7 +363,8 @@ public class LineChartRenderer extends LineRadarRenderer {
                     e1 = dataSet.getEntryForIndex(x == 0 ? 0 : (x - 1));
                     e2 = dataSet.getEntryForIndex(x);
 
-                    if (e1 == null || e2 == null) continue;
+                    if (e1 == null || e2 == null)
+                        continue;
 
                     mLineBuffer[j++] = e1.getX();
                     mLineBuffer[j++] = e1.getY() * phaseY;
@@ -403,7 +407,8 @@ public class LineChartRenderer extends LineRadarRenderer {
         int currentEndIndex = indexInterval;
         int iterations = 0;
 
-        do {
+        do
+        {
             currentStartIndex = startingIndex + (iterations * indexInterval);
             currentEndIndex = currentStartIndex + indexInterval;
             currentEndIndex = currentEndIndex > endingIndex ? endingIndex : currentEndIndex;
@@ -599,7 +604,8 @@ public class LineChartRenderer extends LineRadarRenderer {
 
                 Entry e = dataSet.getEntryForIndex(j);
 
-                if (e == null) break;
+                if (e == null)
+                    break;
 
                 mCirclesBuffer[0] = e.getX();
                 mCirclesBuffer[1] = e.getY() * phaseY;

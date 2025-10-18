@@ -106,7 +106,8 @@ public class SendData extends BasicProcessWithCallBack {
             if (device instanceof ShimmerBluetooth) {
                 try {
                     ((ShimmerBluetooth) device).startStreaming();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             }
@@ -157,7 +158,8 @@ public class SendData extends BasicProcessWithCallBack {
                 try {
                     originalShimmerDevice.configureFromClone(cloneShimmer);
                     originalShimmerDevice.operationStart(BT_STATE.CONFIGURING);
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     e.printStackTrace();
                 }
             } else {
@@ -171,7 +173,8 @@ public class SendData extends BasicProcessWithCallBack {
     private static void threadSleep(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -235,7 +238,8 @@ public class SendData extends BasicProcessWithCallBack {
 
             deviceOutletsMap.put(shimmerName, outlets);
 
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
             System.err.println("Error initializing LSL Outlets: " + e.getMessage());
         }

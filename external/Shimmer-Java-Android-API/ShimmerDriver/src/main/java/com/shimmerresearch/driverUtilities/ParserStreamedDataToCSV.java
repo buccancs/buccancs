@@ -106,7 +106,8 @@ public class ParserStreamedDataToCSV {
 
         try {
             bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -138,7 +139,8 @@ public class ParserStreamedDataToCSV {
             writeSingleLineHeaderToCSVFile(channelsHeader);
             bufferedWriter.write(unitsHeader);
             bufferedWriter.newLine();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
 
@@ -153,7 +155,8 @@ public class ParserStreamedDataToCSV {
             }
             bufferedWriter.write(channelsHeader);
             bufferedWriter.newLine();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
 
@@ -200,7 +203,8 @@ public class ParserStreamedDataToCSV {
         try {
             bufferedWriter.write(sampleToWrite);
             bufferedWriter.newLine();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }
@@ -210,7 +214,8 @@ public class ParserStreamedDataToCSV {
             if (bufferedWriter != null) {
                 bufferedWriter.close();
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
     }

@@ -24,17 +24,35 @@ import com.topdon.lib.core.config.RouterConfig
 import com.topdon.lib.core.utils.Constants
 import com.topdon.tc001.ui.theme.TopdonTheme
 
-@Route(path = RouterConfig.IR_MORE_HELP)
-class MoreHelpActivity : ComponentActivity() {
+@Route(
+    path = RouterConfig.IR_MORE_HELP
+)
+class MoreHelpActivity :
+    ComponentActivity() {
     private lateinit var wifiManager: WifiManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
-        wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val connectionType = intent.getIntExtra(Constants.SETTING_CONNECTION_TYPE, 0)
-        val isConnectionGuide = connectionType == Constants.SETTING_CONNECTION
+        wifiManager =
+            getSystemService(
+                Context.WIFI_SERVICE
+            ) as WifiManager
+        val connectionType =
+            intent.getIntExtra(
+                Constants.SETTING_CONNECTION_TYPE,
+                0
+            )
+        val isConnectionGuide =
+            connectionType == Constants.SETTING_CONNECTION
 
         setContent {
             TopdonTheme {
@@ -56,33 +74,65 @@ class MoreHelpActivity : ComponentActivity() {
     }
 
     private fun showWifiDialog() {
-        androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle(getString(R.string.app_tip))
-            .setMessage(R.string.ts004_wlan_tips)
-            .setPositiveButton(R.string.app_open) { _, _ ->
+        androidx.appcompat.app.AlertDialog.Builder(
+            this
+        )
+            .setTitle(
+                getString(
+                    R.string.app_tip
+                )
+            )
+            .setMessage(
+                R.string.ts004_wlan_tips
+            )
+            .setPositiveButton(
+                R.string.app_open
+            ) { _, _ ->
                 launchWifiSettings()
             }
-            .setNegativeButton(R.string.app_cancel, null)
-            .setCancelable(true)
+            .setNegativeButton(
+                R.string.app_cancel,
+                null
+            )
+            .setCancelable(
+                true
+            )
             .show()
     }
 
     private fun launchWifiSettings() {
         if (Build.VERSION.SDK_INT < 29) {
-            wifiManager.isWifiEnabled = true
+            wifiManager.isWifiEnabled =
+                true
         } else {
-            var wifiIntent = Intent(Settings.Panel.ACTION_WIFI)
-            if (wifiIntent.resolveActivity(packageManager) == null) {
-                wifiIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            var wifiIntent =
+                Intent(
+                    Settings.Panel.ACTION_WIFI
+                )
+            if (wifiIntent.resolveActivity(
+                    packageManager
+                ) == null
+            ) {
+                wifiIntent =
+                    Intent(
+                        Settings.ACTION_WIFI_SETTINGS
+                    )
             }
-            if (wifiIntent.resolveActivity(packageManager) != null) {
-                startActivity(wifiIntent)
+            if (wifiIntent.resolveActivity(
+                    packageManager
+                ) != null
+            ) {
+                startActivity(
+                    wifiIntent
+                )
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun MoreHelpScreen(
     isConnectionGuide: Boolean,
@@ -92,9 +142,15 @@ private fun MoreHelpScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (isConnectionGuide) "Connection Guide" else "Help") },
+                title = {
+                    Text(
+                        if (isConnectionGuide) "Connection Guide" else "Help"
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -107,15 +163,25 @@ private fun MoreHelpScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(
+                    padding
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp
+            )
         ) {
             if (isConnectionGuide) {
                 ConnectionGuideContent()
             } else {
-                DisconnectionHelpContent(onOpenWifiSettings)
+                DisconnectionHelpContent(
+                    onOpenWifiSettings
+                )
             }
         }
     }
@@ -132,8 +198,12 @@ private fun ConnectionGuideContent() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                12.dp
+            )
         ) {
             Text(
                 text = "Device Connection Guide",
@@ -169,9 +239,13 @@ private fun ConnectionGuideContent() {
 }
 
 @Composable
-private fun DisconnectionHelpContent(onOpenWifiSettings: () -> Unit) {
+private fun DisconnectionHelpContent(
+    onOpenWifiSettings: () -> Unit
+) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            16.dp
+        )
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -182,8 +256,12 @@ private fun DisconnectionHelpContent(onOpenWifiSettings: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .padding(
+                        16.dp
+                    ),
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp
+                )
             ) {
                 Text(
                     text = "Device Disconnected",
@@ -208,8 +286,12 @@ private fun DisconnectionHelpContent(onOpenWifiSettings: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                    .padding(
+                        16.dp
+                    ),
+                verticalArrangement = Arrangement.spacedBy(
+                    12.dp
+                )
             ) {
                 HelpItem(
                     number = "1",
@@ -233,7 +315,9 @@ private fun DisconnectionHelpContent(onOpenWifiSettings: () -> Unit) {
                     onClick = onOpenWifiSettings,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Open WiFi Settings")
+                    Text(
+                        "Open WiFi Settings"
+                    )
                 }
             }
         }
@@ -248,12 +332,16 @@ private fun HelpItem(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(
+            12.dp
+        )
     ) {
         Surface(
             shape = MaterialTheme.shapes.small,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(
+                32.dp
+            )
         ) {
             Box(
                 contentAlignment = androidx.compose.ui.Alignment.Center
@@ -267,7 +355,11 @@ private fun HelpItem(
             }
         }
 
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier.weight(
+                1f
+            )
+        ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,

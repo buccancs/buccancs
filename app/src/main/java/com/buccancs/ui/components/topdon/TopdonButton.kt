@@ -37,9 +37,13 @@ fun TopdonButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(Dimensions.TouchTargetMinimum),
+        modifier = modifier.height(
+            Dimensions.TouchTargetMinimum
+        ),
         enabled = enabled,
-        shape = RoundedCornerShape(CornerRadius.ExtraLarge),
+        shape = RoundedCornerShape(
+            CornerRadius.ExtraLarge
+        ),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onSurface,
@@ -66,18 +70,25 @@ fun TopdonOutlinedButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.height(Dimensions.TouchTargetMinimum),
+        modifier = modifier.height(
+            Dimensions.TouchTargetMinimum
+        ),
         enabled = enabled,
-        shape = RoundedCornerShape(CornerRadius.ExtraLarge),
+        shape = RoundedCornerShape(
+            CornerRadius.ExtraLarge
+        ),
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = MaterialTheme.colorScheme.onSurface,
             disabledContentColor = TopdonColors.TextTertiary
         ),
-        border = ButtonDefaults.outlinedButtonBorder(enabled = enabled).copy(
-            brush = androidx.compose.ui.graphics.SolidColor(
-                if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
-            )
-        ),
+        border = ButtonDefaults.outlinedButtonBorder(
+            enabled = enabled
+        )
+            .copy(
+                brush = androidx.compose.ui.graphics.SolidColor(
+                    if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
+                )
+            ),
         contentPadding = PaddingValues(
             horizontal = Spacing.Large,
             vertical = Spacing.SmallMedium
@@ -136,32 +147,50 @@ fun TopdonIconButton(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonButtonPreview() {
     TopdonTheme {
-        TopdonButton(onClick = {}) {
-            Text("Connect Device")
+        TopdonButton(
+            onClick = {}) {
+            Text(
+                "Connect Device"
+            )
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonOutlinedButtonPreview() {
     TopdonTheme {
-        TopdonOutlinedButton(onClick = {}) {
-            Text("Disconnect")
+        TopdonOutlinedButton(
+            onClick = {}) {
+            Text(
+                "Disconnect"
+            )
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonTextButtonPreview() {
     TopdonTheme {
-        TopdonTextButton(onClick = {}) {
-            Text("Refresh")
+        TopdonTextButton(
+            onClick = {}) {
+            Text(
+                "Refresh"
+            )
         }
     }
 }

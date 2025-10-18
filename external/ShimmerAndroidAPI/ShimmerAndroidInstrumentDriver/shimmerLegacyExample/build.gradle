@@ -8,12 +8,17 @@ android {
     compileSdkVersion 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility
+                JavaVersion
+                        .VERSION_11
+        targetCompatibility
+                JavaVersion
+                        .VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget =
+                '11'
     }
 
     buildFeatures {
@@ -21,7 +26,8 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = '1.5.8'
+        kotlinCompilerExtensionVersion =
+                '1.5.8'
     }
 
     defaultConfig {
@@ -36,13 +42,19 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles
+                    getDefaultProguardFile(
+                            'proguard-android.txt'
+                    ),
+                            'proguard-rules.pro'
         }
     }
 
-    configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
-    }
+    configurations
+            .all {
+                resolutionStrategy
+                        .force 'com.google.code.findbugs:jsr305:1.3.9'
+            }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -54,11 +66,16 @@ android {
 }
 
 dependencies {
-    implementation project(':ShimmerAndroidInstrumentDriver')
+    implementation
+            project(':ShimmerAndroidInstrumentDriver')
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    def composeBom = platform('androidx.compose:compose-bom:2024.02.00')
-    implementation composeBom
+    def composeBom =
+            platform(
+                    'androidx.compose:compose-bom:2024.02.00'
+            )
+    implementation
+            composeBom
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'

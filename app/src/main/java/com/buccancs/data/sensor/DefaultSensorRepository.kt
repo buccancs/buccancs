@@ -32,34 +32,68 @@ class DefaultSensorRepository @Inject constructor(
     singleConnectorSet: Set<@JvmSuppressWildcards SensorConnector>,
     multiConnectorSet: Set<@JvmSuppressWildcards MultiDeviceConnector>
 ) : SensorRepository {
-    private val singleConnectors = singleConnectorSet.sortedBy { it.deviceId.value }
-    private val multiConnectors = multiConnectorSet.toList()
-    private val devicesCache = mutableMapOf<DeviceId, SensorDevice>()
-    private val statusesCache = mutableMapOf<DeviceId, List<SensorStreamStatus>>()
-    private val devicesMutex = Mutex()
-    private val statusMutex = Mutex()
-    private val connectorHandles = mutableMapOf<DeviceId, ConnectorHandle>()
-    private val multiConnectorDevices = mutableMapOf<MultiDeviceConnector, MutableSet<DeviceId>>()
-    private val _simulationEnabled = MutableStateFlow(false)
-    override val simulationEnabled: StateFlow<Boolean> = _simulationEnabled.asStateFlow()
-    private val _devices = MutableStateFlow<List<SensorDevice>>(emptyList())
-    override val devices: StateFlow<List<SensorDevice>> = _devices.asStateFlow()
-    private val _streamStatuses = MutableStateFlow<List<SensorStreamStatus>>(emptyList())
-    override val streamStatuses: StateFlow<List<SensorStreamStatus>> = _streamStatuses.asStateFlow()
-    private val _throttleLevel = MutableStateFlow(PerformanceThrottleLevel.NORMAL)
-    override val throttleLevel: StateFlow<PerformanceThrottleLevel> = _throttleLevel.asStateFlow()
-    private val _recordingState = MutableStateFlow(
-        RecordingState(
-            lifecycle = RecordingLifecycleState.Idle,
-            anchor = null,
-            updatedAt = nowInstant()
+    private val singleConnectors =
+        singleConnectorSet.sortedBy { it.deviceId.value }
+    private val multiConnectors =
+        multiConnectorSet.toList()
+    private val devicesCache =
+        mutableMapOf<DeviceId, SensorDevice>()
+    private val statusesCache =
+        mutableMapOf<DeviceId, List<SensorStreamStatus>>()
+    private val devicesMutex =
+        Mutex()
+    private val statusMutex =
+        Mutex()
+    private val connectorHandles =
+        mutableMapOf<DeviceId, ConnectorHandle>()
+    private val multiConnectorDevices =
+        mutableMapOf<MultiDeviceConnector, MutableSet<DeviceId>>()
+    private val _simulationEnabled =
+        MutableStateFlow(
+            false
         )
-    )
-    override val recordingState: StateFlow<RecordingState> = _recordingState.asStateFlow()
+    override val simulationEnabled: StateFlow<Boolean> =
+        _simulationEnabled.asStateFlow()
+    private val _devices =
+        MutableStateFlow<List<SensorDevice>>(
+            emptyList()
+        )
+    override val devices: StateFlow<List<SensorDevice>> =
+        _devices.asStateFlow()
+    private val _streamStatuses =
+        MutableStateFlow<List<SensorStreamStatus>>(
+            emptyList()
+        )
+    override val streamStatuses: StateFlow<List<SensorStreamStatus>> =
+        _streamStatuses.asStateFlow()
+    private val _throttleLevel =
+        MutableStateFlow(
+            PerformanceThrottleLevel.NORMAL
+        )
+    override val throttleLevel: StateFlow<PerformanceThrottleLevel> =
+        _throttleLevel.asStateFlow()
+    private val _recordingState =
+        MutableStateFlow(
+            RecordingState(
+                lifecycle = RecordingLifecycleState.Idle,
+                anchor = null,
+                updatedAt = nowInstant()
+            )
+        )
+    override val recordingState: StateFlow<RecordingState> =
+        _recordingState.asStateFlow()
 
     init {
-        singleConnectors.forEach { attachSingleConnector(it) }
-        multiConnectors.forEach { attachMultiConnector(it) }
+        singleConnectors.forEach {
+            attachSingleConnector(
+                it
+            )
+        }
+        multiConnectors.forEach {
+            attachMultiConnector(
+                it
+            )
+        }
         publishInitialSnapshots()
     }
 
@@ -72,156 +106,264 @@ class DefaultSensorRepository @Inject constructor(
         }
     }
 
-    override suspend fun connect(deviceId: DeviceId) {
-        when (val handle = connectorHandles[deviceId]) {
+    override suspend fun connect(
+        deviceId: DeviceId
+    ) {
+        when (val handle =
+            connectorHandles[deviceId]) {
             is ConnectorHandle.Single -> handle.connector.connect()
-            is ConnectorHandle.Multi -> handle.connector.connect(deviceId)
+            is ConnectorHandle.Multi -> handle.connector.connect(
+                deviceId
+            )
+
             null -> Unit
         }
     }
 
-    override suspend fun disconnect(deviceId: DeviceId) {
-        when (val handle = connectorHandles[deviceId]) {
+    override suspend fun disconnect(
+        deviceId: DeviceId
+    ) {
+        when (val handle =
+            connectorHandles[deviceId]) {
             is ConnectorHandle.Single -> handle.connector.disconnect()
-            is ConnectorHandle.Multi -> handle.connector.disconnect(deviceId)
+            is ConnectorHandle.Multi -> handle.connector.disconnect(
+                deviceId
+            )
+
             null -> Unit
         }
     }
 
-    override suspend fun configure(deviceId: DeviceId, options: Map<String, String>) {
-        val result = when (val handle = connectorHandles[deviceId]) {
-            is ConnectorHandle.Single -> handle.connector.configure(options)
-            is ConnectorHandle.Multi -> handle.connector.configure(deviceId, options)
-            null -> return
-        }
+    override suspend fun configure(
+        deviceId: DeviceId,
+        options: Map<String, String>
+    ) {
+        val result =
+            when (val handle =
+                connectorHandles[deviceId]) {
+                is ConnectorHandle.Single -> handle.connector.configure(
+                    options
+                )
+
+                is ConnectorHandle.Multi -> handle.connector.configure(
+                    deviceId,
+                    options
+                )
+
+                null -> return
+            }
         if (result is DeviceCommandResult.Failed) {
-            throw result.error ?: IllegalStateException("Configuration failed with unknown error")
+            throw result.error
+                ?: IllegalStateException(
+                    "Configuration failed with unknown error"
+                )
         }
     }
 
-    override suspend fun setSimulationEnabled(enabled: Boolean) {
+    override suspend fun setSimulationEnabled(
+        enabled: Boolean
+    ) {
         if (_simulationEnabled.value == enabled) return
-        _simulationEnabled.value = enabled
-        singleConnectors.forEach { connector -> connector.applySimulation(enabled) }
-        multiConnectors.forEach { connector -> connector.applySimulation(enabled) }
+        _simulationEnabled.value =
+            enabled
+        singleConnectors.forEach { connector ->
+            connector.applySimulation(
+                enabled
+            )
+        }
+        multiConnectors.forEach { connector ->
+            connector.applySimulation(
+                enabled
+            )
+        }
     }
 
-    override suspend fun startStreaming(anchor: RecordingSessionAnchor) {
-        val now = nowInstant()
-        _recordingState.value = RecordingState(
-            lifecycle = RecordingLifecycleState.Starting,
-            anchor = anchor,
-            updatedAt = now
-        )
+    override suspend fun startStreaming(
+        anchor: RecordingSessionAnchor
+    ) {
+        val now =
+            nowInstant()
+        _recordingState.value =
+            RecordingState(
+                lifecycle = RecordingLifecycleState.Starting,
+                anchor = anchor,
+                updatedAt = now
+            )
         devicesMutex.withLock {
             singleConnectors.forEach { connector ->
-                val snapshot = devicesCache[connector.deviceId]
+                val snapshot =
+                    devicesCache[connector.deviceId]
                 if (snapshot?.connectionStatus is ConnectionStatus.Connected) {
-                    val result = connector.startStreaming(anchor)
+                    val result =
+                        connector.startStreaming(
+                            anchor
+                        )
                     if (result is DeviceCommandResult.Failed) {
                         throw result.error
-                            ?: IllegalStateException("Start streaming failed with unknown error")
+                            ?: IllegalStateException(
+                                "Start streaming failed with unknown error"
+                            )
                     }
                 }
             }
             multiConnectors.forEach { connector ->
-                val deviceIds = multiConnectorDevices[connector].orEmpty()
+                val deviceIds =
+                    multiConnectorDevices[connector].orEmpty()
                 deviceIds.forEach { deviceId ->
-                    val snapshot = devicesCache[deviceId]
+                    val snapshot =
+                        devicesCache[deviceId]
                     if (snapshot?.connectionStatus is ConnectionStatus.Connected) {
-                        val result = connector.startStreaming(deviceId, anchor)
+                        val result =
+                            connector.startStreaming(
+                                deviceId,
+                                anchor
+                            )
                         if (result is DeviceCommandResult.Failed) {
                             throw result.error
-                                ?: IllegalStateException("Start streaming failed with unknown error")
+                                ?: IllegalStateException(
+                                    "Start streaming failed with unknown error"
+                                )
                         }
                     }
                 }
             }
         }
-        _recordingState.value = RecordingState(
-            lifecycle = RecordingLifecycleState.Recording,
-            anchor = anchor,
-            updatedAt = nowInstant()
-        )
+        _recordingState.value =
+            RecordingState(
+                lifecycle = RecordingLifecycleState.Recording,
+                anchor = anchor,
+                updatedAt = nowInstant()
+            )
     }
 
     override suspend fun stopStreaming(): RecordingSessionAnchor? {
-        val anchor = _recordingState.value.anchor
-        _recordingState.value = RecordingState(
-            lifecycle = RecordingLifecycleState.Stopping,
-            anchor = anchor,
-            updatedAt = nowInstant()
-        )
+        val anchor =
+            _recordingState.value.anchor
+        _recordingState.value =
+            RecordingState(
+                lifecycle = RecordingLifecycleState.Stopping,
+                anchor = anchor,
+                updatedAt = nowInstant()
+            )
         singleConnectors.forEach { connector ->
-            val result = connector.stopStreaming()
+            val result =
+                connector.stopStreaming()
             if (result is DeviceCommandResult.Failed) {
                 throw result.error
-                    ?: IllegalStateException("Stop streaming failed with unknown error")
+                    ?: IllegalStateException(
+                        "Stop streaming failed with unknown error"
+                    )
             }
         }
         multiConnectors.forEach { connector ->
-            val deviceIds = multiConnectorDevices[connector].orEmpty()
+            val deviceIds =
+                multiConnectorDevices[connector].orEmpty()
             deviceIds.forEach { deviceId ->
-                val result = connector.stopStreaming(deviceId)
+                val result =
+                    connector.stopStreaming(
+                        deviceId
+                    )
                 if (result is DeviceCommandResult.Failed) {
                     throw result.error
-                        ?: IllegalStateException("Stop streaming failed with unknown error")
+                        ?: IllegalStateException(
+                            "Stop streaming failed with unknown error"
+                        )
                 }
             }
         }
         statusMutex.withLock {
-            statusesCache.keys.forEach { key -> statusesCache[key] = emptyList() }
+            statusesCache.keys.forEach { key ->
+                statusesCache[key] =
+                    emptyList()
+            }
             publishStatusesLocked()
         }
-        _recordingState.value = RecordingState(
-            lifecycle = RecordingLifecycleState.Idle,
-            anchor = null,
-            updatedAt = nowInstant()
-        )
+        _recordingState.value =
+            RecordingState(
+                lifecycle = RecordingLifecycleState.Idle,
+                anchor = null,
+                updatedAt = nowInstant()
+            )
         return anchor
     }
 
-    override suspend fun collectSessionArtifacts(sessionId: String): List<SessionArtifact> {
-        val collected = mutableListOf<SessionArtifact>()
+    override suspend fun collectSessionArtifacts(
+        sessionId: String
+    ): List<SessionArtifact> {
+        val collected =
+            mutableListOf<SessionArtifact>()
         singleConnectors.forEach { connector ->
-            val artifacts = runCatching { connector.collectArtifacts(sessionId) }
-                .getOrElse { emptyList() }
-            collected.addAll(artifacts)
+            val artifacts =
+                runCatching {
+                    connector.collectArtifacts(
+                        sessionId
+                    )
+                }
+                    .getOrElse { emptyList() }
+            collected.addAll(
+                artifacts
+            )
         }
         multiConnectors.forEach { connector ->
-            val deviceIds = multiConnectorDevices[connector].orEmpty()
+            val deviceIds =
+                multiConnectorDevices[connector].orEmpty()
             deviceIds.forEach { deviceId ->
-                val artifacts = runCatching { connector.collectArtifacts(deviceId, sessionId) }
-                    .getOrElse { emptyList() }
-                collected.addAll(artifacts)
+                val artifacts =
+                    runCatching {
+                        connector.collectArtifacts(
+                            deviceId,
+                            sessionId
+                        )
+                    }
+                        .getOrElse { emptyList() }
+                collected.addAll(
+                    artifacts
+                )
             }
         }
         return collected
     }
 
-    override suspend fun applyPerformanceThrottle(level: PerformanceThrottleLevel) {
+    override suspend fun applyPerformanceThrottle(
+        level: PerformanceThrottleLevel
+    ) {
         if (_throttleLevel.value == level) return
-        _throttleLevel.value = level
+        _throttleLevel.value =
+            level
         singleConnectors.forEach { connector ->
             if (connector is ThrottlableConnector) {
-                connector.applyThrottle(level)
+                connector.applyThrottle(
+                    level
+                )
             }
         }
         multiConnectors.forEach { connector ->
             if (connector is ThrottlableConnector) {
-                connector.applyThrottle(level)
+                connector.applyThrottle(
+                    level
+                )
             }
         }
     }
 
-    private fun attachSingleConnector(connector: SensorConnector) {
-        devicesCache[connector.deviceId] = connector.device.value
-        statusesCache.putIfAbsent(connector.deviceId, emptyList())
-        connectorHandles[connector.deviceId] = ConnectorHandle.Single(connector)
+    private fun attachSingleConnector(
+        connector: SensorConnector
+    ) {
+        devicesCache[connector.deviceId] =
+            connector.device.value
+        statusesCache.putIfAbsent(
+            connector.deviceId,
+            emptyList()
+        )
+        connectorHandles[connector.deviceId] =
+            ConnectorHandle.Single(
+                connector
+            )
         scope.launch {
             connector.device.collect { device ->
                 devicesMutex.withLock {
-                    devicesCache[device.id] = device
+                    devicesCache[device.id] =
+                        device
                     publishDevicesLocked()
                 }
             }
@@ -229,45 +371,77 @@ class DefaultSensorRepository @Inject constructor(
         scope.launch {
             connector.streamStatuses.collect { statuses ->
                 statusMutex.withLock {
-                    statusesCache[connector.deviceId] = statuses
+                    statusesCache[connector.deviceId] =
+                        statuses
                     publishStatusesLocked()
                 }
             }
         }
     }
 
-    private fun attachMultiConnector(connector: MultiDeviceConnector) {
-        val known = multiConnectorDevices.getOrPut(connector) { mutableSetOf() }
+    private fun attachMultiConnector(
+        connector: MultiDeviceConnector
+    ) {
+        val known =
+            multiConnectorDevices.getOrPut(
+                connector
+            ) { mutableSetOf() }
         connector.devices.value.forEach { (deviceId, device) ->
-            known.add(deviceId)
-            devicesCache[deviceId] = device
-            connectorHandles[deviceId] = ConnectorHandle.Multi(connector)
+            known.add(
+                deviceId
+            )
+            devicesCache[deviceId] =
+                device
+            connectorHandles[deviceId] =
+                ConnectorHandle.Multi(
+                    connector
+                )
         }
         connector.streamStatuses.value.forEach { (deviceId, statuses) ->
-            statusesCache[deviceId] = statuses
+            statusesCache[deviceId] =
+                statuses
         }
         scope.launch {
             connector.devices.collect { snapshot ->
                 val removed: Set<DeviceId>
                 devicesMutex.withLock {
-                    val incomingIds = snapshot.keys.toSet()
-                    removed = known.toSet() - incomingIds
+                    val incomingIds =
+                        snapshot.keys.toSet()
+                    removed =
+                        known.toSet() - incomingIds
                     removed.forEach { deviceId ->
-                        known.remove(deviceId)
-                        devicesCache.remove(deviceId)
-                        connectorHandles.remove(deviceId)
+                        known.remove(
+                            deviceId
+                        )
+                        devicesCache.remove(
+                            deviceId
+                        )
+                        connectorHandles.remove(
+                            deviceId
+                        )
                     }
                     snapshot.forEach { (deviceId, device) ->
-                        if (known.add(deviceId)) {
-                            connectorHandles[deviceId] = ConnectorHandle.Multi(connector)
+                        if (known.add(
+                                deviceId
+                            )
+                        ) {
+                            connectorHandles[deviceId] =
+                                ConnectorHandle.Multi(
+                                    connector
+                                )
                         }
-                        devicesCache[deviceId] = device
+                        devicesCache[deviceId] =
+                            device
                     }
                     publishDevicesLocked()
                 }
                 if (removed.isNotEmpty()) {
                     statusMutex.withLock {
-                        removed.forEach { statusesCache.remove(it) }
+                        removed.forEach {
+                            statusesCache.remove(
+                                it
+                            )
+                        }
                         publishStatusesLocked()
                     }
                 }
@@ -277,11 +451,17 @@ class DefaultSensorRepository @Inject constructor(
             connector.streamStatuses.collect { statusMap ->
                 statusMutex.withLock {
                     statusMap.forEach { (deviceId, statuses) ->
-                        statusesCache[deviceId] = statuses
+                        statusesCache[deviceId] =
+                            statuses
                     }
-                    val knownIds = known.toSet()
-                    val missing = knownIds - statusMap.keys
-                    missing.forEach { deviceId -> statusesCache[deviceId] = emptyList() }
+                    val knownIds =
+                        known.toSet()
+                    val missing =
+                        knownIds - statusMap.keys
+                    missing.forEach { deviceId ->
+                        statusesCache[deviceId] =
+                            emptyList()
+                    }
                     publishStatusesLocked()
                 }
             }
@@ -289,24 +469,33 @@ class DefaultSensorRepository @Inject constructor(
     }
 
     private fun publishInitialSnapshots() {
-        _devices.value = devicesCache.values.sortedBy { it.id.value }
-        _streamStatuses.value = statusesCache.entries
-            .sortedBy { it.key.value }
-            .flatMap { it.value }
+        _devices.value =
+            devicesCache.values.sortedBy { it.id.value }
+        _streamStatuses.value =
+            statusesCache.entries
+                .sortedBy { it.key.value }
+                .flatMap { it.value }
     }
 
     private fun publishDevicesLocked() {
-        _devices.value = devicesCache.values.sortedBy { it.id.value }
+        _devices.value =
+            devicesCache.values.sortedBy { it.id.value }
     }
 
     private fun publishStatusesLocked() {
-        _streamStatuses.value = statusesCache.entries
-            .sortedBy { it.key.value }
-            .flatMap { it.value }
+        _streamStatuses.value =
+            statusesCache.entries
+                .sortedBy { it.key.value }
+                .flatMap { it.value }
     }
 
     private sealed interface ConnectorHandle {
-        data class Single(val connector: SensorConnector) : ConnectorHandle
-        data class Multi(val connector: MultiDeviceConnector) : ConnectorHandle
+        data class Single(
+            val connector: SensorConnector
+        ) : ConnectorHandle
+
+        data class Multi(
+            val connector: MultiDeviceConnector
+        ) : ConnectorHandle
     }
 }

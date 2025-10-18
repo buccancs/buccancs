@@ -20,10 +20,15 @@ internal class SimulatedThermalConnector @Inject constructor(
     scope = scope,
     artifactFactory = artifactFactory,
     initialDevice = SensorDevice(
-        id = com.buccancs.domain.model.DeviceId("topdon-tc001"),
+        id = com.buccancs.domain.model.DeviceId(
+            "topdon-tc001"
+        ),
         displayName = "Topdon TC001",
         type = SensorDeviceType.TOPDON_TC001,
-        capabilities = setOf(SensorStreamType.THERMAL_VIDEO, SensorStreamType.PREVIEW),
+        capabilities = setOf(
+            SensorStreamType.THERMAL_VIDEO,
+            SensorStreamType.PREVIEW
+        ),
         connectionStatus = ConnectionStatus.Disconnected,
         isSimulated = false,
         attributes = mapOf(
@@ -32,47 +37,80 @@ internal class SimulatedThermalConnector @Inject constructor(
         )
     )
 ) {
-    constructor(scope: CoroutineScope) : this(scope, SimulatedTestSupport.artifactFactory())
+    constructor(
+        scope: CoroutineScope
+    ) : this(
+        scope,
+        SimulatedTestSupport.artifactFactory()
+    )
 
-    override fun streamIntervalMs(): Long = 200L
-    override fun simulatedBatteryPercent(device: SensorDevice): Int? = null
-    override fun simulatedRssi(device: SensorDevice): Int? = null
+    override fun streamIntervalMs(): Long =
+        200L
+
+    override fun simulatedBatteryPercent(
+        device: SensorDevice
+    ): Int? =
+        null
+
+    override fun simulatedRssi(
+        device: SensorDevice
+    ): Int? =
+        null
+
     override fun sampleStatuses(
         timestamp: Instant,
         frameCounter: Long,
         anchor: com.buccancs.domain.model.RecordingSessionAnchor
     ): List<SensorStreamStatus> {
-        val random = Random(deviceId.value.hashCode() * 17 + frameCounter.toInt())
-        val thermal = SensorStreamStatus(
-            deviceId = deviceId,
-            streamType = SensorStreamType.THERMAL_VIDEO,
-            sampleRateHz = null,
-            frameRateFps = 25.0,
-            lastSampleTimestamp = timestamp,
-            bufferedDurationSeconds = simulatedBufferedSeconds(
+        val random =
+            Random(
+                deviceId.value.hashCode() * 17 + frameCounter.toInt()
+            )
+        val thermal =
+            SensorStreamStatus(
+                deviceId = deviceId,
                 streamType = SensorStreamType.THERMAL_VIDEO,
-                baseVideo = 0.6,
-                baseSample = 0.0,
-                randomizer = { random.nextDouble(0.0, 0.15) }
-            ),
-            isStreaming = true,
-            isSimulated = true
-        )
-        val preview = SensorStreamStatus(
-            deviceId = deviceId,
-            streamType = SensorStreamType.PREVIEW,
-            sampleRateHz = null,
-            frameRateFps = 12.0,
-            lastSampleTimestamp = timestamp,
-            bufferedDurationSeconds = simulatedBufferedSeconds(
+                sampleRateHz = null,
+                frameRateFps = 25.0,
+                lastSampleTimestamp = timestamp,
+                bufferedDurationSeconds = simulatedBufferedSeconds(
+                    streamType = SensorStreamType.THERMAL_VIDEO,
+                    baseVideo = 0.6,
+                    baseSample = 0.0,
+                    randomizer = {
+                        random.nextDouble(
+                            0.0,
+                            0.15
+                        )
+                    }
+                ),
+                isStreaming = true,
+                isSimulated = true
+            )
+        val preview =
+            SensorStreamStatus(
+                deviceId = deviceId,
                 streamType = SensorStreamType.PREVIEW,
-                baseVideo = 0.3,
-                baseSample = 0.0,
-                randomizer = { random.nextDouble(0.0, 0.1) }
-            ),
-            isStreaming = true,
-            isSimulated = true
+                sampleRateHz = null,
+                frameRateFps = 12.0,
+                lastSampleTimestamp = timestamp,
+                bufferedDurationSeconds = simulatedBufferedSeconds(
+                    streamType = SensorStreamType.PREVIEW,
+                    baseVideo = 0.3,
+                    baseSample = 0.0,
+                    randomizer = {
+                        random.nextDouble(
+                            0.0,
+                            0.1
+                        )
+                    }
+                ),
+                isStreaming = true,
+                isSimulated = true
+            )
+        return listOf(
+            thermal,
+            preview
         )
-        return listOf(thermal, preview)
     }
 }

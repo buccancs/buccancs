@@ -19,4 +19,7 @@ enum class IrParam {
     ParamTemperature,//温度模式、高低增益
 }
 
-data class TempFont(val textSize: Int, val textColor: Int)
+data class TempFont(
+    val textSize: Int,
+    val textColor: Int
+)

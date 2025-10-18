@@ -384,7 +384,8 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                 try {
                     mDevice.startStreaming();
                     mViewPager.setCurrentItem(mDevice instanceof VerisenseDevice ? 5 : 4);
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     if (e.getMessage() == "A task is still ongoing") {
                         otherTaskOngoingToast.show();
                     }
@@ -400,7 +401,8 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                 ShimmerDevice mDevice = mService.getShimmer(selectedDeviceAddress);
                 try {
                     mDevice.stopStreaming();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     if (e.getMessage() == "A task is still ongoing") {
                         otherTaskOngoingToast.show();
                     }
@@ -425,7 +427,8 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                 try {
                     mDevice.getMapOfVerisenseProtocolByteCommunication().get(COMMUNICATION_TYPE.BLUETOOTH).writeAndReadOperationalConfig(opConfig);
                     Toast.makeText(this, logging ? "Logging Enabled" : "Logging Disabled", Toast.LENGTH_SHORT).show();
-                } catch (ShimmerException e) {
+                } catch (
+                        ShimmerException e) {
                     if (e.getMessage() == "A task is still ongoing") {
                         otherTaskOngoingToast.show();
                     }
@@ -447,7 +450,9 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
                         try {
                             mDevice.getMapOfVerisenseProtocolByteCommunication().get(COMMUNICATION_TYPE.BLUETOOTH).eraseDataTask().waitForCompletion(60, TimeUnit.SECONDS);
                             progress.dismiss();
-                        } catch (ShimmerException | InterruptedException e) {
+                        } catch (
+                                ShimmerException |
+                                InterruptedException e) {
                             progress.dismiss();
                             if (e.getMessage() == "A task is still ongoing") {
                                 otherTaskOngoingToast.show();
@@ -651,7 +656,8 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
 
                 try {
                     mDevice.getMapOfVerisenseProtocolByteCommunication().get(COMMUNICATION_TYPE.BLUETOOTH).readLoggedData();
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     if (e.getMessage() == "A task is still ongoing") {
                     }
                     e.printStackTrace();
@@ -748,7 +754,8 @@ public class MainActivity extends AppCompatActivity implements ConnectedShimmers
         alertDialog.show();
         try {
             looper.loop();
-        } catch (RuntimeException e) {
+        } catch (
+                RuntimeException e) {
         }
     }
 

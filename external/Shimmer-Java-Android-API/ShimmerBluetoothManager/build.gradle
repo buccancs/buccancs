@@ -4,8 +4,12 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility =
+            JavaVersion
+                    .VERSION_21
+    targetCompatibility =
+            JavaVersion
+                    .VERSION_21
 }
 
 repositories {
@@ -15,20 +19,40 @@ repositories {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            groupId = 'com.shimmerresearch'
-            artifactId = 'shimmerbluetoothmanager'
-            version = '0.11.6_beta'
+        mavenJava(
+                MavenPublication
+        ) {
+            from components
+                    .java
+            groupId =
+                    'com.shimmerresearch'
+            artifactId =
+                    'shimmerbluetoothmanager'
+            version =
+                    '0.11.6_beta'
         }
     }
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/ShimmerEngineering/Shimmer-Java-Android-API")
+            url = uri(
+                    "https://maven.pkg.github.com/ShimmerEngineering/Shimmer-Java-Android-API"
+            )
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                username =
+                        project
+                                .findProperty(
+                                        "gpr.user"
+                                ) ?:
+                                System
+                                        .getenv("USERNAME")
+                password =
+                        project
+                                .findProperty(
+                                        "gpr.key"
+                                ) ?:
+                                System
+                                        .getenv("TOKEN")
             }
         }
     }
@@ -37,7 +61,8 @@ publishing {
 dependencies {
     implementation 'commons-codec:commons-codec:1.17.1'
     implementation 'commons-lang:commons-lang:2.6'
-    implementation project(':ShimmerDriver')
+    implementation
+            project(':ShimmerDriver')
 
     testImplementation 'junit:junit:4.13.2'
 }

@@ -32,42 +32,80 @@ import com.topdon.tc001.ui.theme.TopdonTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+class SplashActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        requestedOrientation =
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
         setContent {
             TopdonTheme {
-                SplashScreen(appName = CommUtils.getAppName())
+                SplashScreen(
+                    appName = CommUtils.getAppName()
+                )
             }
         }
 
         lifecycleScope.launch {
-            delay(if (BuildConfig.DEBUG) 3000 else 1000)
+            delay(
+                if (BuildConfig.DEBUG) 3000 else 1000
+            )
             if (SharedManager.getHasShowClause()) {
-                ARouter.getInstance().build(RouterConfig.MAIN).navigation(this@SplashActivity)
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.MAIN
+                    )
+                    .navigation(
+                        this@SplashActivity
+                    )
             } else {
-                ARouter.getInstance().build(RouterConfig.CLAUSE).navigation(this@SplashActivity)
+                ARouter.getInstance()
+                    .build(
+                        RouterConfig.CLAUSE
+                    )
+                    .navigation(
+                        this@SplashActivity
+                    )
             }
             finish()
         }
     }
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated(
+        "Deprecated in Java"
+    )
     override fun onBackPressed() {
     }
 }
 
 @Composable
-private fun SplashScreen(appName: String) {
-    val alphaAnimation = remember { Animatable(0f) }
+private fun SplashScreen(
+    appName: String
+) {
+    val alphaAnimation =
+        remember {
+            Animatable(
+                0f
+            )
+        }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(
+        Unit
+    ) {
         alphaAnimation.animateTo(
             targetValue = 1f,
-            animationSpec = tween(durationMillis = 800)
+            animationSpec = tween(
+                durationMillis = 800
+            )
         )
     }
 
@@ -77,9 +115,15 @@ private fun SplashScreen(appName: String) {
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF1a1a2e),
-                        Color(0xFF16213e),
-                        Color(0xFF0f1419)
+                        Color(
+                            0xFF1a1a2e
+                        ),
+                        Color(
+                            0xFF16213e
+                        ),
+                        Color(
+                            0xFF0f1419
+                        )
                     )
                 )
             ),
@@ -89,8 +133,12 @@ private fun SplashScreen(appName: String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .alpha(alphaAnimation.value)
-                .padding(24.dp)
+                .alpha(
+                    alphaAnimation.value
+                )
+                .padding(
+                    24.dp
+                )
         ) {
             Text(
                 text = "TOPDON",
@@ -102,35 +150,53 @@ private fun SplashScreen(appName: String) {
                 letterSpacing = 4.sp
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    8.dp
+                )
+            )
 
             Text(
                 text = "THERMAL IMAGING",
                 style = MaterialTheme.typography.titleMedium,
                 fontSize = 16.sp,
                 fontStyle = FontStyle.Italic,
-                color = Color(0xFFB0B0B0),
+                color = Color(
+                    0xFFB0B0B0
+                ),
                 letterSpacing = 2.sp
             )
 
-            Spacer(modifier = Modifier.height(280.dp))
+            Spacer(
+                modifier = Modifier.height(
+                    280.dp
+                )
+            )
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Box(
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(
+                        40.dp
+                    ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "○",
                         fontSize = 40.sp,
-                        color = Color(0xFFFF6B35)
+                        color = Color(
+                            0xFFFF6B35
+                        )
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(
+                    modifier = Modifier.width(
+                        12.dp
+                    )
+                )
 
                 Text(
                     text = appName,

@@ -61,7 +61,11 @@ fun RowScope.TopdonNavigationBarItem(
                 contentDescription = label
             )
         },
-        label = { Text(label) },
+        label = {
+            Text(
+                label
+            )
+        },
         modifier = modifier,
         enabled = enabled,
         alwaysShowLabel = true,
@@ -113,7 +117,11 @@ fun RowScope.TopdonNavigationBarItemWithBadge(
                 )
             }
         },
-        label = { Text(label) },
+        label = {
+            Text(
+                label
+            )
+        },
         modifier = modifier,
         enabled = enabled,
         alwaysShowLabel = true,

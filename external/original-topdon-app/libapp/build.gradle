@@ -7,20 +7,45 @@ plugins {
 
 kapt {
     arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-        arg("room.schemaLocation", "$projectDir/schemas".toString())
-        arg("room.incremental", "true")
-        arg("room.expandProjection", "true")
+        arg(
+                "AROUTER_MODULE_NAME",
+                project
+                        .getName()
+        )
+        arg(
+                "room.schemaLocation",
+                "$projectDir/schemas"
+                        .toString()
+        )
+        arg(
+                "room.incremental",
+                "true"
+        )
+        arg(
+                "room.expandProjection",
+                "true"
+        )
     }
 }
 
 android {
     namespace "com.topdon.lib.core"
-    compileSdk rootProject.ext.android.compileSdk
+    compileSdk
+            rootProject
+                    .ext
+                    .android
+                    .compileSdk
 
     defaultConfig {
-        minSdk rootProject.ext.android.minSdk
-        targetSdk rootProject.ext.android.targetSdk
+        minSdk rootProject
+                .ext
+                .android
+                .minSdk
+        targetSdk
+                rootProject
+                        .ext
+                        .android
+                        .targetSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -29,25 +54,39 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles
+                    getDefaultProguardFile(
+                            'proguard-android-optimize.txt'
+                    ),
+                            'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility
+                JavaVersion
+                        .VERSION_21
+        targetCompatibility
+                JavaVersion
+                        .VERSION_21
     }
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget =
+                '21'
     }
     buildFeatures {
-        dataBinding = true
-        viewBinding = true
-        buildConfig = true
+        dataBinding =
+                true
+        viewBinding =
+                true
+        buildConfig =
+                true
     }
 
     lint {
-        abortOnError = false
-        checkReleaseBuilds = false
+        abortOnError =
+                false
+        checkReleaseBuilds =
+                false
     }
 
     flavorDimensions 'app'
@@ -74,68 +113,161 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['src/main/jniLibs']
+            jniLibs
+                    .srcDirs =
+                    ['src/main/jniLibs']
         }
     }
 }
 
 dependencies {
     // Stubbed out - Direct local .aar file dependencies not supported when building an AAR
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    api libs.androidx.appcompat
-    api libs.androidx.fragment.ktx
-    api libs.androidx.material
+    api fileTree(
+            include: ['*.jar'],
+            dir: 'libs'
+    )
+    api libs
+            .androidx
+            .appcompat
+    api libs
+            .androidx
+            .fragment
+            .ktx
+    api libs
+            .androidx
+            .material
 
-    api libs.androidx.lifecycle.runtime.ktx
-    api libs.androidx.lifecycle.viewmodel.ktx
-    api libs.androidx.lifecycle.livedata.ktx
+    api libs
+            .androidx
+            .lifecycle
+            .runtime
+            .ktx
+    api libs
+            .androidx
+            .lifecycle
+            .viewmodel
+            .ktx
+    api libs
+            .androidx
+            .lifecycle
+            .livedata
+            .ktx
 
-    kapt libs.androidx.room.compiler
-    api libs.androidx.room.ktx
+    kapt libs
+            .androidx
+            .room
+            .compiler
+    api libs
+            .androidx
+            .room
+            .ktx
 
-    api libs.androidx.work.runtime.ktx
+    api libs
+            .androidx
+            .work
+            .runtime
+            .ktx
 
 
-    api libs.eventbus
+    api libs
+            .eventbus
 
-    api libs.glide
-    kapt libs.glide.compiler
+    api libs
+            .glide
+    kapt libs
+            .glide
+            .compiler
 
-    api libs.rxjava2
-    api libs.rxandroid
-    api libs.okhttp
-    api libs.okhttp.logging.interceptor
-    api libs.retrofit
-    api libs.retrofit.converter.gson
-    api libs.retrofit.adapter.rxjava2
-    api libs.rxpermissions
-    api libs.rxlifecycle
-    api libs.rxlifecycle.android
-    api libs.rxlifecycle.components
-    api libs.rxlifecycle.ktx
-    api libs.rxlifecycle.android.lifecycle.ktx
+    api libs
+            .rxjava2
+    api libs
+            .rxandroid
+    api libs
+            .okhttp
+    api libs
+            .okhttp
+            .logging
+            .interceptor
+    api libs
+            .retrofit
+    api libs
+            .retrofit
+            .converter
+            .gson
+    api libs
+            .retrofit
+            .adapter
+            .rxjava2
+    api libs
+            .rxpermissions
+    api libs
+            .rxlifecycle
+    api libs
+            .rxlifecycle
+            .android
+    api libs
+            .rxlifecycle
+            .components
+    api libs
+            .rxlifecycle
+            .ktx
+    api libs
+            .rxlifecycle
+            .android
+            .lifecycle
+            .ktx
 
-    api libs.arouter.api
-    kapt libs.arouter.compiler
+    api libs
+            .arouter
+            .api
+    kapt libs
+            .arouter
+            .compiler
 
-    api libs.utilcode
-    api libs.xxpermissions
-    api libs.xlog
-    api libs.photoview
-    api libs.android.pdf.viewer
-    api libs.lottie
+    api libs
+            .utilcode
+    api libs
+            .xxpermissions
+    api libs
+            .xlog
+    api libs
+            .photoview
+    api libs
+            .android
+            .pdf
+            .viewer
+    api libs
+            .lottie
 
-    api libs.brvah
-    api libs.smartrefresh.kernel
-    api libs.smartrefresh.header.classics
-    api libs.smartrefresh.header.material
+    api libs
+            .brvah
+    api libs
+            .smartrefresh
+            .kernel
+    api libs
+            .smartrefresh
+            .header
+            .classics
+    api libs
+            .smartrefresh
+            .header
+            .material
 
-    api libs.colorpickerview
-    api libs.mnimagebrowser
-    api libs.nifty.slider
-    api libs.nifty.slider.effect
-    api libs.javacv
-    api libs.javacpp
+    api libs
+            .colorpickerview
+    api libs
+            .mnimagebrowser
+    api libs
+            .nifty
+            .slider
+    api libs
+            .nifty
+            .slider
+            .effect
+    api libs
+            .javacv
+    api libs
+            .javacpp
     //     api files('libs\\abtest-1.0.1.aar') // Analytics/logging not needed
     //     api files('libs\\auth-number-2.13.2.1.aar') // Analytics/logging not needed
     //     api files('libs\\logger-2.2.1-release.aar') // Analytics/logging not needed

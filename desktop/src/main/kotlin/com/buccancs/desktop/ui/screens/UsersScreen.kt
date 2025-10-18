@@ -43,14 +43,26 @@ import com.buccancs.desktop.ui.theme.Spacing
  */
 @Composable
 fun UsersScreen() {
-    var showAddDialog by remember { mutableStateOf(false) }
-    var selectedTab by remember { mutableStateOf(0) }
+    var showAddDialog by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    var selectedTab by remember {
+        mutableStateOf(
+            0
+        )
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Spacing.Large),
-        verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+            .padding(
+                Spacing.Large
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -60,26 +72,47 @@ fun UsersScreen() {
             ScreenHeader(
                 title = "User Management",
                 subtitle = "Manage operators, subjects, and their participation in sessions",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
 
             PrimaryButton(
                 text = "Add User",
-                onClick = { showAddDialog = true }
+                onClick = {
+                    showAddDialog =
+                        true
+                }
             )
         }
 
         // Tabs
-        PrimaryTabRow(selectedTabIndex = selectedTab) {
+        PrimaryTabRow(
+            selectedTabIndex = selectedTab
+        ) {
             Tab(
                 selected = selectedTab == 0,
-                onClick = { selectedTab = 0 },
-                text = { Text("Operators") }
+                onClick = {
+                    selectedTab =
+                        0
+                },
+                text = {
+                    Text(
+                        "Operators"
+                    )
+                }
             )
             Tab(
                 selected = selectedTab == 1,
-                onClick = { selectedTab = 1 },
-                text = { Text("Subjects") }
+                onClick = {
+                    selectedTab =
+                        1
+                },
+                text = {
+                    Text(
+                        "Subjects"
+                    )
+                }
             )
         }
 
@@ -91,8 +124,14 @@ fun UsersScreen() {
 
     if (showAddDialog) {
         AddUserDialog(
-            onDismiss = { showAddDialog = false },
-            onConfirm = { showAddDialog = false }
+            onDismiss = {
+                showAddDialog =
+                    false
+            },
+            onConfirm = {
+                showAddDialog =
+                    false
+            }
         )
     }
 }
@@ -100,10 +139,16 @@ fun UsersScreen() {
 @Composable
 private fun OperatorsContent() {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        )
     ) {
-        items(getSampleOperators()) { operator ->
-            OperatorCard(operator)
+        items(
+            getSampleOperators()
+        ) { operator ->
+            OperatorCard(
+                operator
+            )
         }
     }
 }
@@ -111,34 +156,54 @@ private fun OperatorsContent() {
 @Composable
 private fun SubjectsContent() {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        )
     ) {
-        items(getSampleSubjects()) { subject ->
-            SubjectCard(subject)
+        items(
+            getSampleSubjects()
+        ) { subject ->
+            SubjectCard(
+                subject
+            )
         }
     }
 }
 
 @Composable
-private fun OperatorCard(operator: Operator) {
+private fun OperatorCard(
+    operator: Operator
+) {
     BuccancsCard(
         title = operator.name,
         subtitle = operator.id
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Email", style = MaterialTheme.typography.labelSmall)
+                    Text(
+                        "Email",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         operator.email,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Role", style = MaterialTheme.typography.labelSmall)
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(
+                        "Role",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         operator.role,
                         style = MaterialTheme.typography.bodyMedium,
@@ -154,14 +219,22 @@ private fun OperatorCard(operator: Operator) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Sessions Conducted", style = MaterialTheme.typography.labelSmall)
+                    Text(
+                        "Sessions Conducted",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         operator.sessionsCount.toString(),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Last Active", style = MaterialTheme.typography.labelSmall)
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(
+                        "Last Active",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         operator.lastActive,
                         style = MaterialTheme.typography.bodyMedium
@@ -171,7 +244,11 @@ private fun OperatorCard(operator: Operator) {
 
             HorizontalDivider()
 
-            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.Small
+                )
+            ) {
                 SecondaryButton(
                     text = "Edit",
                     onClick = { /* Edit */ }
@@ -192,25 +269,39 @@ private fun OperatorCard(operator: Operator) {
 }
 
 @Composable
-private fun SubjectCard(subject: Subject) {
+private fun SubjectCard(
+    subject: Subject
+) {
     BuccancsCard(
         title = subject.id,
         subtitle = if (subject.consentGiven) "Consent: ✓ Given" else "Consent: ⚠ Pending"
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Age Group", style = MaterialTheme.typography.labelSmall)
+                    Text(
+                        "Age Group",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         subject.ageGroup,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Gender", style = MaterialTheme.typography.labelSmall)
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(
+                        "Gender",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         subject.gender,
                         style = MaterialTheme.typography.bodyMedium
@@ -225,14 +316,22 @@ private fun SubjectCard(subject: Subject) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Sessions Participated", style = MaterialTheme.typography.labelSmall)
+                    Text(
+                        "Sessions Participated",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         subject.sessionsCount.toString(),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Last Session", style = MaterialTheme.typography.labelSmall)
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(
+                        "Last Session",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         subject.lastSession,
                         style = MaterialTheme.typography.bodyMedium
@@ -255,7 +354,11 @@ private fun SubjectCard(subject: Subject) {
 
             HorizontalDivider()
 
-            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Small)) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    Spacing.Small
+                )
+            ) {
                 SecondaryButton(
                     text = "Edit",
                     onClick = { /* Edit */ }
@@ -280,27 +383,62 @@ private fun AddUserDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
-    var userType by remember { mutableStateOf("Operator") }
-    var userId by remember { mutableStateOf("") }
-    var userName by remember { mutableStateOf("") }
+    var userType by remember {
+        mutableStateOf(
+            "Operator"
+        )
+    }
+    var userId by remember {
+        mutableStateOf(
+            ""
+        )
+    }
+    var userName by remember {
+        mutableStateOf(
+            ""
+        )
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add User") },
+        title = {
+            Text(
+                "Add User"
+            )
+        },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(Spacing.Medium)) {
-                var expanded by remember { mutableStateOf(false) }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.Medium
+                )
+            ) {
+                var expanded by remember {
+                    mutableStateOf(
+                        false
+                    )
+                }
 
                 ExposedDropdownMenuBox(
                     expanded = expanded,
-                    onExpandedChange = { expanded = it }
+                    onExpandedChange = {
+                        expanded =
+                            it
+                    }
                 ) {
                     OutlinedTextField(
                         value = userType,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("User Type") },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
+                        label = {
+                            Text(
+                                "User Type"
+                            )
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .menuAnchor(
@@ -311,14 +449,26 @@ private fun AddUserDialog(
 
                     ExposedDropdownMenu(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        onDismissRequest = {
+                            expanded =
+                                false
+                        }
                     ) {
-                        listOf("Operator", "Subject").forEach { type ->
+                        listOf(
+                            "Operator",
+                            "Subject"
+                        ).forEach { type ->
                             DropdownMenuItem(
-                                text = { Text(type) },
+                                text = {
+                                    Text(
+                                        type
+                                    )
+                                },
                                 onClick = {
-                                    userType = type
-                                    expanded = false
+                                    userType =
+                                        type
+                                    expanded =
+                                        false
                                 }
                             )
                         }
@@ -327,8 +477,15 @@ private fun AddUserDialog(
 
                 OutlinedTextField(
                     value = userId,
-                    onValueChange = { userId = it },
-                    label = { Text("User ID") },
+                    onValueChange = {
+                        userId =
+                            it
+                    },
+                    label = {
+                        Text(
+                            "User ID"
+                        )
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
@@ -336,8 +493,15 @@ private fun AddUserDialog(
                 if (userType == "Operator") {
                     OutlinedTextField(
                         value = userName,
-                        onValueChange = { userName = it },
-                        label = { Text("Full Name") },
+                        onValueChange = {
+                            userName =
+                                it
+                        },
+                        label = {
+                            Text(
+                                "Full Name"
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
@@ -345,10 +509,16 @@ private fun AddUserDialog(
             }
         },
         confirmButton = {
-            PrimaryButton(text = "Add", onClick = onConfirm)
+            PrimaryButton(
+                text = "Add",
+                onClick = onConfirm
+            )
         },
         dismissButton = {
-            TertiaryButton(text = "Cancel", onClick = onDismiss)
+            TertiaryButton(
+                text = "Cancel",
+                onClick = onDismiss
+            )
         }
     )
 }
@@ -387,10 +557,42 @@ private fun getSampleOperators(): List<Operator> {
 
 private fun getSampleSubjects(): List<Subject> {
     return listOf(
-        Subject("SUBJ-A001", "25-30", "Female", true, 8, "16 Oct 2025", true),
-        Subject("SUBJ-A002", "18-24", "Male", true, 12, "15 Oct 2025", true),
-        Subject("SUBJ-A003", "31-40", "Female", false, 0, "—", false),
-        Subject("SUBJ-A004", "25-30", "Non-binary", true, 5, "14 Oct 2025", true)
+        Subject(
+            "SUBJ-A001",
+            "25-30",
+            "Female",
+            true,
+            8,
+            "16 Oct 2025",
+            true
+        ),
+        Subject(
+            "SUBJ-A002",
+            "18-24",
+            "Male",
+            true,
+            12,
+            "15 Oct 2025",
+            true
+        ),
+        Subject(
+            "SUBJ-A003",
+            "31-40",
+            "Female",
+            false,
+            0,
+            "—",
+            false
+        ),
+        Subject(
+            "SUBJ-A004",
+            "25-30",
+            "Non-binary",
+            true,
+            5,
+            "14 Oct 2025",
+            true
+        )
     )
 }
 

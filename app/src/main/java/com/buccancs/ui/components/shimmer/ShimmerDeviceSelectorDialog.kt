@@ -43,7 +43,9 @@ fun ShimmerDeviceSelectorDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(
+        onDismissRequest = onDismiss
+    ) {
         Surface(
             modifier = modifier,
             shape = MaterialTheme.shapes.large,
@@ -53,12 +55,16 @@ fun ShimmerDeviceSelectorDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(Spacing.Medium)
+                    .padding(
+                        Spacing.Medium
+                    )
             ) {
                 Text(
                     text = "Select Shimmer Device",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Spacing.Medium)
+                    modifier = Modifier.padding(
+                        bottom = Spacing.Medium
+                    )
                 )
 
                 if (pairedDevices.isNotEmpty()) {
@@ -66,24 +72,39 @@ fun ShimmerDeviceSelectorDialog(
                         text = "Paired Devices",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(bottom = Spacing.Small)
+                        modifier = Modifier.padding(
+                            bottom = Spacing.Small
+                        )
                     )
 
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f, fill = false)
+                            .weight(
+                                1f,
+                                fill = false
+                            )
                     ) {
-                        items(pairedDevices) { device ->
+                        items(
+                            pairedDevices
+                        ) { device ->
                             DeviceListItem(
                                 device = device,
-                                onClick = { onDeviceSelected(device) }
+                                onClick = {
+                                    onDeviceSelected(
+                                        device
+                                    )
+                                }
                             )
                             HorizontalDivider()
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(Spacing.Medium))
+                    Spacer(
+                        modifier = Modifier.height(
+                            Spacing.Medium
+                        )
+                    )
                 }
 
                 if (availableDevices.isNotEmpty()) {
@@ -91,24 +112,39 @@ fun ShimmerDeviceSelectorDialog(
                         text = "Available Devices",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.padding(bottom = Spacing.Small)
+                        modifier = Modifier.padding(
+                            bottom = Spacing.Small
+                        )
                     )
 
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f, fill = false)
+                            .weight(
+                                1f,
+                                fill = false
+                            )
                     ) {
-                        items(availableDevices) { device ->
+                        items(
+                            availableDevices
+                        ) { device ->
                             DeviceListItem(
                                 device = device,
-                                onClick = { onDeviceSelected(device) }
+                                onClick = {
+                                    onDeviceSelected(
+                                        device
+                                    )
+                                }
                             )
                             HorizontalDivider()
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(Spacing.Medium))
+                    Spacer(
+                        modifier = Modifier.height(
+                            Spacing.Medium
+                        )
+                    )
                 }
 
                 if (pairedDevices.isEmpty() && availableDevices.isEmpty() && !isScanning) {
@@ -116,7 +152,9 @@ fun ShimmerDeviceSelectorDialog(
                         text = "No devices found. Tap 'Scan' to search for devices.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(vertical = Spacing.Large)
+                        modifier = Modifier.padding(
+                            vertical = Spacing.Large
+                        )
                     )
                 }
 
@@ -124,35 +162,49 @@ fun ShimmerDeviceSelectorDialog(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = Spacing.Medium),
+                            .padding(
+                                vertical = Spacing.Medium
+                            ),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         CircularProgressIndicator()
                         Text(
                             text = "Scanning...",
-                            modifier = Modifier.padding(start = Spacing.Medium)
+                            modifier = Modifier.padding(
+                                start = Spacing.Medium
+                            )
                         )
                     }
                 }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    )
                 ) {
                     TextButton(
                         onClick = onDismiss,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(
+                            1f
+                        )
                     ) {
-                        Text("Cancel")
+                        Text(
+                            "Cancel"
+                        )
                     }
 
                     Button(
                         onClick = onScanForDevices,
                         enabled = !isScanning,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(
+                            1f
+                        )
                     ) {
-                        Text(if (isScanning) "Scanning..." else "Scan")
+                        Text(
+                            if (isScanning) "Scanning..." else "Scan"
+                        )
                     }
                 }
             }
@@ -168,9 +220,15 @@ private fun DeviceListItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(Spacing.Medium),
-        horizontalArrangement = Arrangement.spacedBy(Spacing.Medium),
+            .clickable(
+                onClick = onClick
+            )
+            .padding(
+                Spacing.Medium
+            ),
+        horizontalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
+        ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -183,7 +241,11 @@ private fun DeviceListItem(
             }
         )
 
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier.weight(
+                1f
+            )
+        ) {
             Text(
                 text = device.name,
                 style = MaterialTheme.typography.bodyLarge

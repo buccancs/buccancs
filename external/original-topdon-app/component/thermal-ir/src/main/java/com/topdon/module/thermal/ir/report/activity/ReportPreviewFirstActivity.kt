@@ -9,20 +9,37 @@ import com.topdon.module.thermal.ir.report.bean.ReportInfoBean
 
 // Stubbed: import kotlinx.android.synthetic.main.activity_report_preview_first.*
 
-@Route(path = RouterConfig.REPORT_PREVIEW_FIRST)
-class ReportPreviewFirstActivity : BaseActivity() {
+@Route(
+    path = RouterConfig.REPORT_PREVIEW_FIRST
+)
+class ReportPreviewFirstActivity :
+    BaseActivity() {
 
-    override fun initContentView() = R.layout.activity_report_preview_first
+    override fun initContentView() =
+        R.layout.activity_report_preview_first
+
     override fun initView() {
-        title_view.setLeftDrawable(R.drawable.svg_arrow_left_e8)
+        title_view.setLeftDrawable(
+            R.drawable.svg_arrow_left_e8
+        )
         title_view.setLeftClickListener {
             finish()
         }
-        val reportInfoBean: ReportInfoBean? = intent.getParcelableExtra(ExtraKeyConfig.REPORT_INFO)
-        report_info_view.refreshInfo(reportInfoBean)
-        report_info_view.refreshCondition(intent.getParcelableExtra(ExtraKeyConfig.REPORT_CONDITION))
+        val reportInfoBean: ReportInfoBean? =
+            intent.getParcelableExtra(
+                ExtraKeyConfig.REPORT_INFO
+            )
+        report_info_view.refreshInfo(
+            reportInfoBean
+        )
+        report_info_view.refreshCondition(
+            intent.getParcelableExtra(
+                ExtraKeyConfig.REPORT_CONDITION
+            )
+        )
         if (reportInfoBean?.is_report_watermark == 1) {
-            watermark_view.watermarkText = reportInfoBean.report_watermark
+            watermark_view.watermarkText =
+                reportInfoBean.report_watermark
         }
     }
 

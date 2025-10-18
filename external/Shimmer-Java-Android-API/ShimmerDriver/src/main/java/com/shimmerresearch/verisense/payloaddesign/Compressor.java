@@ -69,7 +69,8 @@ public class Compressor {
                 returnValues[b] = (byte) (bytesDecompressedSoFar.get(b));
             }
 
-        } catch (DataFormatException dfe) {
+        } catch (
+                DataFormatException dfe) {
             dfe.printStackTrace();
         }
 
@@ -83,7 +84,8 @@ public class Compressor {
 
         try {
             returnValues = this.compress(stringToCompress.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException uee) {
+        } catch (
+                UnsupportedEncodingException uee) {
             uee.printStackTrace();
         }
 
@@ -102,7 +104,8 @@ public class Compressor {
                     bytesDecompressed.length,
                     "UTF-8"
             );
-        } catch (UnsupportedEncodingException uee) {
+        } catch (
+                UnsupportedEncodingException uee) {
             uee.printStackTrace();
         }
 

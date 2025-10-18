@@ -18,44 +18,85 @@ import com.topdon.lib.core.view.ColorSelectView
  *
  * Created by LCG on 2024/2/2.
  */
-class ColorSelectDialog(context: Context, @ColorInt private var color: Int) :
-    Dialog(context, R.style.InfoDialog) {
+class ColorSelectDialog(
+    context: Context,
+    @ColorInt private var color: Int
+) :
+    Dialog(
+        context,
+        R.style.InfoDialog
+    ) {
 
     /**
      * 颜色值拾取事件监听.
      */
-    var onPickListener: ((color: Int) -> Unit)? = null
+    var onPickListener: ((color: Int) -> Unit)? =
+        null
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCancelable(true)
-        setCanceledOnTouchOutside(true)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        setCancelable(
+            true
+        )
+        setCanceledOnTouchOutside(
+            true
+        )
 
 
         val rootView: View =
-            LayoutInflater.from(context).inflate(R.layout.dialog_color_select, null)
-        setContentView(rootView)
-        rootView.color_select_view.selectColor(color)
-        rootView.color_select_view.onSelectListener = {
-            color = it
-        }
+            LayoutInflater.from(
+                context
+            )
+                .inflate(
+                    R.layout.dialog_color_select,
+                    null
+                )
+        setContentView(
+            rootView
+        )
+        rootView.color_select_view.selectColor(
+            color
+        )
+        rootView.color_select_view.onSelectListener =
+            {
+                color =
+                    it
+            }
         rootView.tv_save.setOnClickListener {
             dismiss()
-            onPickListener?.invoke(color)
+            onPickListener?.invoke(
+                color
+            )
         }
 
 
         window?.let {
-            val layoutParams = it.attributes
-            layoutParams.width = ScreenUtil.getScreenWidth(context) - SizeUtils.dp2px(36f)
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            it.attributes = layoutParams
+            val layoutParams =
+                it.attributes
+            layoutParams.width =
+                ScreenUtil.getScreenWidth(
+                    context
+                ) - SizeUtils.dp2px(
+                    36f
+                )
+            layoutParams.height =
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            it.attributes =
+                layoutParams
         }
     }
 }
 
 private val View.color_select_view: ColorSelectView
-    get() = findViewById(R.id.color_select_view)
+    get() = findViewById(
+        R.id.color_select_view
+    )
 private val View.tv_save: TextView
-    get() = findViewById(R.id.tv_save)
+    get() = findViewById(
+        R.id.tv_save
+    )

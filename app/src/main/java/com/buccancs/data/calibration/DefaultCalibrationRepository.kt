@@ -49,12 +49,22 @@ class DefaultCalibrationRepository @Inject constructor(
     private val metricsStore: CalibrationMetricsStore,
     @ApplicationScope private val scope: CoroutineScope
 ) : CalibrationRepository {
-    private val stateMutex = Mutex()
-    private val calculationMutex = Mutex()
-    private val _state = MutableStateFlow(initialState())
-    private val metricsState = MutableStateFlow<CalibrationMetrics?>(null)
-    private var sessionId: String? = null
-    private var captureCounter = 0
+    private val stateMutex =
+        Mutex()
+    private val calculationMutex =
+        Mutex()
+    private val _state =
+        MutableStateFlow(
+            initialState()
+        )
+    private val metricsState =
+        MutableStateFlow<CalibrationMetrics?>(
+            null
+        )
+    private var sessionId: String? =
+        null
+    private var captureCounter =
+        0
     override val sessionState: StateFlow<CalibrationSessionState>
         get() = _state.asStateFlow()
     override val metrics: StateFlow<CalibrationMetrics?>
@@ -62,19 +72,30 @@ class DefaultCalibrationRepository @Inject constructor(
 
     init {
         scope.launch {
-            metricsStore.metrics.collect { metricsState.value = it }
+            metricsStore.metrics.collect {
+                metricsState.value =
+                    it
+            }
         }
     }
 
-    override suspend fun configure(pattern: CalibrationPatternConfig, requiredPairs: Int) {
-        require(requiredPairs >= 3) { "requiredPairs must be at least 3" }
+    override suspend fun configure(
+        pattern: CalibrationPatternConfig,
+        requiredPairs: Int
+    ) {
+        require(
+            requiredPairs >= 3
+        ) { "requiredPairs must be at least 3" }
         stateMutex.withLock {
-            _state.value = _state.value.copy(
-                pattern = pattern,
-                requiredPairs = requiredPairs.coerceAtLeast(3),
-                infoMessage = "Pattern updated to ${pattern.rows}x${pattern.cols}",
-                errorMessage = null
-            )
+            _state.value =
+                _state.value.copy(
+                    pattern = pattern,
+                    requiredPairs = requiredPairs.coerceAtLeast(
+                        3
+                    ),
+                    infoMessage = "Pattern updated to ${pattern.rows}x${pattern.cols}",
+                    errorMessage = null
+                )
         }
     }
 
@@ -83,169 +104,260 @@ class DefaultCalibrationRepository @Inject constructor(
             if (_state.value.active) return
             ensureOpenCvLoaded()
             controller.ensureReady()
-            captureCounter = 0
-            val newSessionId = createSessionId()
-            sessionId = newSessionId
-            storage.createSessionDirectory(newSessionId)
-            _state.value = _state.value.copy(
-                active = true,
-                captures = emptyList(),
-                isProcessing = false,
-                lastResult = null,
-                infoMessage = "Calibration session $newSessionId started",
-                errorMessage = null
+            captureCounter =
+                0
+            val newSessionId =
+                createSessionId()
+            sessionId =
+                newSessionId
+            storage.createSessionDirectory(
+                newSessionId
             )
+            _state.value =
+                _state.value.copy(
+                    active = true,
+                    captures = emptyList(),
+                    isProcessing = false,
+                    lastResult = null,
+                    infoMessage = "Calibration session $newSessionId started",
+                    errorMessage = null
+                )
         }
     }
 
     override suspend fun capturePair(): CalibrationCapture {
         val currentSession =
-            sessionId ?: throw IllegalStateException("Calibration session not started")
-        val pattern = _state.value.pattern
-        val captureId = "capture-${captureCounter++}"
-        val sessionDir = storage.sessionDirectory(currentSession)
-        val rgbFile = File(sessionDir, "${captureId}_rgb.png")
-        val thermalFile = File(sessionDir, "${captureId}_thermal.png")
-        val framePair = controller.capturePair(pattern)
-        storage.persistBitmap(framePair.rgb.bitmap, rgbFile)
-        storage.persistBitmap(framePair.thermal.bitmap, thermalFile)
-        val capture = CalibrationCapture(
-            id = captureId,
-            rgb = CalibrationImageDescriptor(
-                path = rgbFile.absolutePath,
-                width = framePair.rgb.bitmap.width,
-                height = framePair.rgb.bitmap.height,
-                capturedAt = framePair.rgb.capturedAt
-            ),
-            thermal = CalibrationImageDescriptor(
-                path = thermalFile.absolutePath,
-                width = framePair.thermal.bitmap.width,
-                height = framePair.thermal.bitmap.height,
-                capturedAt = framePair.thermal.capturedAt
+            sessionId
+                ?: throw IllegalStateException(
+                    "Calibration session not started"
+                )
+        val pattern =
+            _state.value.pattern
+        val captureId =
+            "capture-${captureCounter++}"
+        val sessionDir =
+            storage.sessionDirectory(
+                currentSession
             )
+        val rgbFile =
+            File(
+                sessionDir,
+                "${captureId}_rgb.png"
+            )
+        val thermalFile =
+            File(
+                sessionDir,
+                "${captureId}_thermal.png"
+            )
+        val framePair =
+            controller.capturePair(
+                pattern
+            )
+        storage.persistBitmap(
+            framePair.rgb.bitmap,
+            rgbFile
         )
-        stateMutex.withLock {
-            _state.value = _state.value.copy(
-                captures = _state.value.captures + capture,
-                infoMessage = "Captured pair ${_state.value.captures.size + 1}",
-                errorMessage = null
+        storage.persistBitmap(
+            framePair.thermal.bitmap,
+            thermalFile
+        )
+        val capture =
+            CalibrationCapture(
+                id = captureId,
+                rgb = CalibrationImageDescriptor(
+                    path = rgbFile.absolutePath,
+                    width = framePair.rgb.bitmap.width,
+                    height = framePair.rgb.bitmap.height,
+                    capturedAt = framePair.rgb.capturedAt
+                ),
+                thermal = CalibrationImageDescriptor(
+                    path = thermalFile.absolutePath,
+                    width = framePair.thermal.bitmap.width,
+                    height = framePair.thermal.bitmap.height,
+                    capturedAt = framePair.thermal.capturedAt
+                )
             )
+        stateMutex.withLock {
+            _state.value =
+                _state.value.copy(
+                    captures = _state.value.captures + capture,
+                    infoMessage = "Captured pair ${_state.value.captures.size + 1}",
+                    errorMessage = null
+                )
         }
         return capture
     }
 
-    override suspend fun removeCapture(id: String) {
-        val currentSession = sessionId ?: return
-        stateMutex.withLock {
-            val capture = _state.value.captures.find { it.id == id } ?: return
-            runCatching {
-                File(capture.rgb.path).delete()
-                File(capture.thermal.path).delete()
-            }
-            _state.value = _state.value.copy(
-                captures = _state.value.captures.filterNot { it.id == id },
-                infoMessage = "Removed capture $id"
-            )
-        }
-        storage.createSessionDirectory(currentSession)
-    }
-
-    override suspend fun computeAndPersist(): CalibrationResult = calculationMutex.withLock {
+    override suspend fun removeCapture(
+        id: String
+    ) {
         val currentSession =
-            sessionId ?: throw IllegalStateException("Calibration session not started")
-        val captures = _state.value.captures
-        val required = _state.value.requiredPairs
-        if (captures.size < required) {
-            throw IllegalStateException("Need at least $required capture pairs before computing calibration")
-        }
+            sessionId
+                ?: return
         stateMutex.withLock {
+            val capture =
+                _state.value.captures.find { it.id == id }
+                    ?: return
+            runCatching {
+                File(
+                    capture.rgb.path
+                ).delete()
+                File(
+                    capture.thermal.path
+                ).delete()
+            }
             _state.value =
                 _state.value.copy(
-                    isProcessing = true,
-                    infoMessage = "Computing calibration...",
-                    errorMessage = null
+                    captures = _state.value.captures.filterNot { it.id == id },
+                    infoMessage = "Removed capture $id"
                 )
         }
-        val result = runCatching {
-            withContext(Dispatchers.Default) {
-                performCalibration(_state.value.pattern, captures)
-            }
-        }.onFailure { error ->
-            stateMutex.withLock {
-                _state.value = _state.value.copy(
-                    isProcessing = false,
-                    errorMessage = error.message ?: "Calibration failed",
-                    infoMessage = null
-                )
-            }
-        }.getOrThrow()
-        storage.writeResult(currentSession, result)
-
-        // Validate quality before accepting calibration
-        val qualityCheck = validateCalibrationQuality(result)
-
-        if (!qualityCheck.passed) {
-            // Quality check failed - reject calibration
-            stateMutex.withLock {
-                _state.value = _state.value.copy(
-                    isProcessing = false,
-                    lastResult = null,
-                    infoMessage = null,
-                    errorMessage = "Calibration quality insufficient"
-                )
-            }
-            throw CalibrationQualityException(
-                message = "Calibration quality does not meet minimum standards",
-                issues = qualityCheck.issues,
-                recommendation = qualityCheck.recommendation
-            )
-        }
-
-        // Quality check passed
-        val metricsSnapshot = CalibrationMetrics(
-            generatedAt = result.generatedAt,
-            meanReprojectionError = result.meanReprojectionError,
-            maxReprojectionError = result.perViewErrors.maxOrNull() ?: result.meanReprojectionError,
-            usedPairs = result.usedPairs,
-            requiredPairs = result.requiredPairs
+        storage.createSessionDirectory(
+            currentSession
         )
-        metricsState.value = metricsSnapshot
-        metricsStore.update(result)
-        stateMutex.withLock {
-            // Show quality warnings if any, otherwise show recommendation
-            val message = qualityCheck.warnings.firstOrNull() ?: qualityCheck.recommendation
-
-            _state.value = _state.value.copy(
-                isProcessing = false,
-                lastResult = result,
-                infoMessage = "Calibration complete (RMS ${"%.4f".format(result.meanReprojectionError)})",
-                errorMessage = message
-            )
-        }
-        return result
     }
 
-    override suspend fun loadLatestResult(): CalibrationResult? =
-        storage.loadLatestResult().also { result ->
-            if (result != null) {
-                stateMutex.withLock {
-                    _state.value = _state.value.copy(
-                        lastResult = result,
-                        infoMessage = "Loaded cached calibration"
+    override suspend fun computeAndPersist(): CalibrationResult =
+        calculationMutex.withLock {
+            val currentSession =
+                sessionId
+                    ?: throw IllegalStateException(
+                        "Calibration session not started"
                     )
-                }
+            val captures =
+                _state.value.captures
+            val required =
+                _state.value.requiredPairs
+            if (captures.size < required) {
+                throw IllegalStateException(
+                    "Need at least $required capture pairs before computing calibration"
+                )
             }
+            stateMutex.withLock {
+                _state.value =
+                    _state.value.copy(
+                        isProcessing = true,
+                        infoMessage = "Computing calibration...",
+                        errorMessage = null
+                    )
+            }
+            val result =
+                runCatching {
+                    withContext(
+                        Dispatchers.Default
+                    ) {
+                        performCalibration(
+                            _state.value.pattern,
+                            captures
+                        )
+                    }
+                }.onFailure { error ->
+                    stateMutex.withLock {
+                        _state.value =
+                            _state.value.copy(
+                                isProcessing = false,
+                                errorMessage = error.message
+                                    ?: "Calibration failed",
+                                infoMessage = null
+                            )
+                    }
+                }
+                    .getOrThrow()
+            storage.writeResult(
+                currentSession,
+                result
+            )
+
+            // Validate quality before accepting calibration
+            val qualityCheck =
+                validateCalibrationQuality(
+                    result
+                )
+
+            if (!qualityCheck.passed) {
+                // Quality check failed - reject calibration
+                stateMutex.withLock {
+                    _state.value =
+                        _state.value.copy(
+                            isProcessing = false,
+                            lastResult = null,
+                            infoMessage = null,
+                            errorMessage = "Calibration quality insufficient"
+                        )
+                }
+                throw CalibrationQualityException(
+                    message = "Calibration quality does not meet minimum standards",
+                    issues = qualityCheck.issues,
+                    recommendation = qualityCheck.recommendation
+                )
+            }
+
+            // Quality check passed
+            val metricsSnapshot =
+                CalibrationMetrics(
+                    generatedAt = result.generatedAt,
+                    meanReprojectionError = result.meanReprojectionError,
+                    maxReprojectionError = result.perViewErrors.maxOrNull()
+                        ?: result.meanReprojectionError,
+                    usedPairs = result.usedPairs,
+                    requiredPairs = result.requiredPairs
+                )
+            metricsState.value =
+                metricsSnapshot
+            metricsStore.update(
+                result
+            )
+            stateMutex.withLock {
+                // Show quality warnings if any, otherwise show recommendation
+                val message =
+                    qualityCheck.warnings.firstOrNull()
+                        ?: qualityCheck.recommendation
+
+                _state.value =
+                    _state.value.copy(
+                        isProcessing = false,
+                        lastResult = result,
+                        infoMessage = "Calibration complete (RMS ${
+                            "%.4f".format(
+                                result.meanReprojectionError
+                            )
+                        })",
+                        errorMessage = message
+                    )
+            }
+            return result
         }
 
+    override suspend fun loadLatestResult(): CalibrationResult? =
+        storage.loadLatestResult()
+            .also { result ->
+                if (result != null) {
+                    stateMutex.withLock {
+                        _state.value =
+                            _state.value.copy(
+                                lastResult = result,
+                                infoMessage = "Loaded cached calibration"
+                            )
+                    }
+                }
+            }
+
     override suspend fun clearSession() {
-        val previousSession = sessionId
-        sessionId = null
+        val previousSession =
+            sessionId
+        sessionId =
+            null
         stateMutex.withLock {
-            _state.value = initialState()
+            _state.value =
+                initialState()
         }
         scope.launch {
             controller.shutdown()
-            previousSession?.let { storage.deleteSessionDirectory(it) }
+            previousSession?.let {
+                storage.deleteSessionDirectory(
+                    it
+                )
+            }
         }
     }
 
@@ -253,67 +365,120 @@ class DefaultCalibrationRepository @Inject constructor(
         pattern: CalibrationPatternConfig,
         captures: List<CalibrationCapture>
     ): CalibrationResult {
-        val patternSize = Size(pattern.cols.toDouble(), pattern.rows.toDouble())
-        val objectPoints = ArrayList<MatOfPoint3f>()
-        val rgbPoints = ArrayList<MatOfPoint2f>()
-        val thermalPoints = ArrayList<MatOfPoint2f>()
-        val rgbSize = Size(
-            captures.first().rgb.width.toDouble(),
-            captures.first().rgb.height.toDouble()
-        )
-        val thermalSize = Size(
-            captures.first().thermal.width.toDouble(),
-            captures.first().thermal.height.toDouble()
-        )
+        val patternSize =
+            Size(
+                pattern.cols.toDouble(),
+                pattern.rows.toDouble()
+            )
+        val objectPoints =
+            ArrayList<MatOfPoint3f>()
+        val rgbPoints =
+            ArrayList<MatOfPoint2f>()
+        val thermalPoints =
+            ArrayList<MatOfPoint2f>()
+        val rgbSize =
+            Size(
+                captures.first().rgb.width.toDouble(),
+                captures.first().rgb.height.toDouble()
+            )
+        val thermalSize =
+            Size(
+                captures.first().thermal.width.toDouble(),
+                captures.first().thermal.height.toDouble()
+            )
         captures.forEach { capture ->
-            val rgbGray = loadGrayMat(capture.rgb.path)
-            val thermalGray = loadGrayMat(capture.thermal.path)
-            val rgbCorners = MatOfPoint2f()
-            val thermalCorners = MatOfPoint2f()
+            val rgbGray =
+                loadGrayMat(
+                    capture.rgb.path
+                )
+            val thermalGray =
+                loadGrayMat(
+                    capture.thermal.path
+                )
+            val rgbCorners =
+                MatOfPoint2f()
+            val thermalCorners =
+                MatOfPoint2f()
             val chessboardFlags =
                 Calib3d.CALIB_CB_ADAPTIVE_THRESH or Calib3d.CALIB_CB_NORMALIZE_IMAGE or Calib3d.CALIB_CB_FAST_CHECK
             val foundRgb =
-                Calib3d.findChessboardCorners(rgbGray, patternSize, rgbCorners, chessboardFlags)
-            val foundThermal = Calib3d.findChessboardCorners(
-                thermalGray,
-                patternSize,
-                thermalCorners,
-                chessboardFlags
-            )
+                Calib3d.findChessboardCorners(
+                    rgbGray,
+                    patternSize,
+                    rgbCorners,
+                    chessboardFlags
+                )
+            val foundThermal =
+                Calib3d.findChessboardCorners(
+                    thermalGray,
+                    patternSize,
+                    thermalCorners,
+                    chessboardFlags
+                )
             if (!foundRgb || !foundThermal) {
                 rgbGray.release()
                 thermalGray.release()
                 rgbCorners.release()
                 thermalCorners.release()
-                throw IllegalStateException("Failed to detect calibration pattern in capture ${capture.id}")
+                throw IllegalStateException(
+                    "Failed to detect calibration pattern in capture ${capture.id}"
+                )
             }
-            refineCorners(rgbGray, rgbCorners)
-            refineCorners(thermalGray, thermalCorners)
-            val objectPointMat = createObjectPoints(pattern)
-            objectPoints.add(objectPointMat)
-            rgbPoints.add(rgbCorners)
-            thermalPoints.add(thermalCorners)
+            refineCorners(
+                rgbGray,
+                rgbCorners
+            )
+            refineCorners(
+                thermalGray,
+                thermalCorners
+            )
+            val objectPointMat =
+                createObjectPoints(
+                    pattern
+                )
+            objectPoints.add(
+                objectPointMat
+            )
+            rgbPoints.add(
+                rgbCorners
+            )
+            thermalPoints.add(
+                thermalCorners
+            )
             rgbGray.release()
             thermalGray.release()
         }
-        val rgbResult = calibrateSingleCamera(objectPoints, rgbPoints, rgbSize)
-        val thermalResult = calibrateSingleCamera(objectPoints, thermalPoints, thermalSize)
-        val stereo = performStereoCalibration(
-            objectPoints = objectPoints,
-            rgbPoints = rgbPoints,
-            thermalPoints = thermalPoints,
-            rgbSize = rgbSize,
-            rgbIntrinsic = rgbResult,
-            thermalIntrinsic = thermalResult
-        )
-        val perViewErrors = computeAveragePerViewErrors(
-            objectPoints,
-            rgbPoints,
-            thermalPoints,
-            rgbResult,
-            thermalResult
-        )
-        val meanRms = (rgbResult.rms + thermalResult.rms + stereo.rms) / 3.0
+        val rgbResult =
+            calibrateSingleCamera(
+                objectPoints,
+                rgbPoints,
+                rgbSize
+            )
+        val thermalResult =
+            calibrateSingleCamera(
+                objectPoints,
+                thermalPoints,
+                thermalSize
+            )
+        val stereo =
+            performStereoCalibration(
+                objectPoints = objectPoints,
+                rgbPoints = rgbPoints,
+                thermalPoints = thermalPoints,
+                rgbSize = rgbSize,
+                rgbIntrinsic = rgbResult,
+                thermalIntrinsic = thermalResult
+            )
+        val perViewErrors =
+            computeAveragePerViewErrors(
+                objectPoints,
+                rgbPoints,
+                thermalPoints,
+                rgbResult,
+                thermalResult
+            )
+        val meanRms =
+            (rgbResult.rms + thermalResult.rms + stereo.rms) / 3.0
         return CalibrationResult(
             generatedAt = nowInstant(),
             pattern = pattern,
@@ -330,24 +495,49 @@ class DefaultCalibrationRepository @Inject constructor(
         )
     }
 
-    private fun loadGrayMat(path: String): Mat {
-        val bitmap = BitmapFactory.decodeFile(path)
-            ?: throw IllegalStateException("Unable to load image $path")
-        val mat = Mat()
-        Utils.bitmapToMat(bitmap, mat)
-        val gray = Mat()
-        Imgproc.cvtColor(mat, gray, Imgproc.COLOR_RGBA2GRAY)
+    private fun loadGrayMat(
+        path: String
+    ): Mat {
+        val bitmap =
+            BitmapFactory.decodeFile(
+                path
+            )
+                ?: throw IllegalStateException(
+                    "Unable to load image $path"
+                )
+        val mat =
+            Mat()
+        Utils.bitmapToMat(
+            bitmap,
+            mat
+        )
+        val gray =
+            Mat()
+        Imgproc.cvtColor(
+            mat,
+            gray,
+            Imgproc.COLOR_RGBA2GRAY
+        )
         mat.release()
         bitmap.recycle()
         return gray
     }
 
-    private fun refineCorners(image: Mat, corners: MatOfPoint2f) {
+    private fun refineCorners(
+        image: Mat,
+        corners: MatOfPoint2f
+    ) {
         Imgproc.cornerSubPix(
             image,
             corners,
-            Size(11.0, 11.0),
-            Size(-1.0, -1.0),
+            Size(
+                11.0,
+                11.0
+            ),
+            Size(
+                -1.0,
+                -1.0
+            ),
             org.opencv.core.TermCriteria(
                 org.opencv.core.TermCriteria.EPS or org.opencv.core.TermCriteria.COUNT,
                 30,
@@ -365,24 +555,63 @@ class DefaultCalibrationRepository @Inject constructor(
         val imageSize: Size
     ) {
         fun toParameters(): CameraIntrinsicParameters {
-            val fx = cameraMatrix.get(0, 0)[0]
-            val fy = cameraMatrix.get(1, 1)[0]
-            val skew = cameraMatrix.get(0, 1)[0]
-            val cx = cameraMatrix.get(0, 2)[0]
-            val cy = cameraMatrix.get(1, 2)[0]
-            val radial = mutableListOf<Double>()
-            val tangential = mutableListOf<Double>()
-            val indices = listOf(0, 1, 4, 5, 6, 7)
+            val fx =
+                cameraMatrix.get(
+                    0,
+                    0
+                )[0]
+            val fy =
+                cameraMatrix.get(
+                    1,
+                    1
+                )[0]
+            val skew =
+                cameraMatrix.get(
+                    0,
+                    1
+                )[0]
+            val cx =
+                cameraMatrix.get(
+                    0,
+                    2
+                )[0]
+            val cy =
+                cameraMatrix.get(
+                    1,
+                    2
+                )[0]
+            val radial =
+                mutableListOf<Double>()
+            val tangential =
+                mutableListOf<Double>()
+            val indices =
+                listOf(
+                    0,
+                    1,
+                    4,
+                    5,
+                    6,
+                    7
+                )
             indices.forEach { idx ->
                 if (idx < distortion.total()) {
-                    radial += distortion.get(0, idx)[0]
+                    radial += distortion.get(
+                        0,
+                        idx
+                    )[0]
                 }
             }
             if (distortion.total() >= 3) {
-                tangential += distortion.get(0, 2)[0]
+                tangential += distortion.get(
+                    0,
+                    2
+                )[0]
             }
             if (distortion.total() >= 4) {
-                tangential += distortion.get(0, 3)[0]
+                tangential += distortion.get(
+                    0,
+                    3
+                )[0]
             }
             return CameraIntrinsicParameters(
                 fx = fx,
@@ -409,22 +638,36 @@ class DefaultCalibrationRepository @Inject constructor(
         imagePoints: List<MatOfPoint2f>,
         imageSize: Size
     ): SingleCalibration {
-        val cameraMatrix = Mat.eye(3, 3, CvType.CV_64F)
-        val distortion = MatOfDouble()
-        val rvecs = mutableListOf<Mat>()
-        val tvecs = mutableListOf<Mat>()
-        val flags = Calib3d.CALIB_RATIONAL_MODEL or Calib3d.CALIB_FIX_K4 or Calib3d.CALIB_FIX_K5
-        val rms = Calib3d.calibrateCamera(
-            objectPoints.map { it as Mat },
-            imagePoints.map { it as Mat },
-            imageSize,
-            cameraMatrix,
-            distortion,
-            rvecs,
-            tvecs,
-            flags,
-            org.opencv.core.TermCriteria(org.opencv.core.TermCriteria.EPS, 100, 1e-6)
-        )
+        val cameraMatrix =
+            Mat.eye(
+                3,
+                3,
+                CvType.CV_64F
+            )
+        val distortion =
+            MatOfDouble()
+        val rvecs =
+            mutableListOf<Mat>()
+        val tvecs =
+            mutableListOf<Mat>()
+        val flags =
+            Calib3d.CALIB_RATIONAL_MODEL or Calib3d.CALIB_FIX_K4 or Calib3d.CALIB_FIX_K5
+        val rms =
+            Calib3d.calibrateCamera(
+                objectPoints.map { it as Mat },
+                imagePoints.map { it as Mat },
+                imageSize,
+                cameraMatrix,
+                distortion,
+                rvecs,
+                tvecs,
+                flags,
+                org.opencv.core.TermCriteria(
+                    org.opencv.core.TermCriteria.EPS,
+                    100,
+                    1e-6
+                )
+            )
         return SingleCalibration(
             rms = rms,
             cameraMatrix = cameraMatrix,
@@ -443,38 +686,65 @@ class DefaultCalibrationRepository @Inject constructor(
         rgbIntrinsic: SingleCalibration,
         thermalIntrinsic: SingleCalibration
     ): StereoCalibration {
-        val rotation = Mat()
-        val translation = Mat()
-        val essential = Mat()
-        val fundamental = Mat()
-        val flags = Calib3d.CALIB_FIX_INTRINSIC
-        val rms = Calib3d.stereoCalibrate(
-            objectPoints.map { it as Mat },
-            rgbPoints.map { it as Mat },
-            thermalPoints.map { it as Mat },
-            rgbIntrinsic.cameraMatrix,
-            rgbIntrinsic.distortion,
-            thermalIntrinsic.cameraMatrix,
-            thermalIntrinsic.distortion,
-            rgbSize,
-            rotation,
-            translation,
-            essential,
-            fundamental,
-            flags,
-            org.opencv.core.TermCriteria(org.opencv.core.TermCriteria.EPS, 100, 1e-6)
-        )
-        val rotationValues = DoubleArray(9)
+        val rotation =
+            Mat()
+        val translation =
+            Mat()
+        val essential =
+            Mat()
+        val fundamental =
+            Mat()
+        val flags =
+            Calib3d.CALIB_FIX_INTRINSIC
+        val rms =
+            Calib3d.stereoCalibrate(
+                objectPoints.map { it as Mat },
+                rgbPoints.map { it as Mat },
+                thermalPoints.map { it as Mat },
+                rgbIntrinsic.cameraMatrix,
+                rgbIntrinsic.distortion,
+                thermalIntrinsic.cameraMatrix,
+                thermalIntrinsic.distortion,
+                rgbSize,
+                rotation,
+                translation,
+                essential,
+                fundamental,
+                flags,
+                org.opencv.core.TermCriteria(
+                    org.opencv.core.TermCriteria.EPS,
+                    100,
+                    1e-6
+                )
+            )
+        val rotationValues =
+            DoubleArray(
+                9
+            )
         for (row in 0 until 3) {
             for (col in 0 until 3) {
-                rotationValues[row * 3 + col] = rotation.get(row, col)[0]
+                rotationValues[row * 3 + col] =
+                    rotation.get(
+                        row,
+                        col
+                    )[0]
             }
         }
-        val translationValues = listOf(
-            translation.get(0, 0)[0],
-            translation.get(1, 0)[0],
-            translation.get(2, 0)[0]
-        )
+        val translationValues =
+            listOf(
+                translation.get(
+                    0,
+                    0
+                )[0],
+                translation.get(
+                    1,
+                    0
+                )[0],
+                translation.get(
+                    2,
+                    0
+                )[0]
+            )
         rotation.release()
         translation.release()
         essential.release()
@@ -493,25 +763,29 @@ class DefaultCalibrationRepository @Inject constructor(
         rgbCalibration: SingleCalibration,
         thermalCalibration: SingleCalibration
     ): List<Double> {
-        val errors = mutableListOf<Double>()
+        val errors =
+            mutableListOf<Double>()
         for (index in objectPoints.indices) {
-            val objectMat = objectPoints[index]
-            val rgbError = computeReprojectionError(
-                objectMat,
-                rgbPoints[index],
-                rgbCalibration.cameraMatrix,
-                rgbCalibration.distortion,
-                rgbCalibration.rvecs[index],
-                rgbCalibration.tvecs[index]
-            )
-            val thermalError = computeReprojectionError(
-                objectMat,
-                thermalPoints[index],
-                thermalCalibration.cameraMatrix,
-                thermalCalibration.distortion,
-                thermalCalibration.rvecs[index],
-                thermalCalibration.tvecs[index]
-            )
+            val objectMat =
+                objectPoints[index]
+            val rgbError =
+                computeReprojectionError(
+                    objectMat,
+                    rgbPoints[index],
+                    rgbCalibration.cameraMatrix,
+                    rgbCalibration.distortion,
+                    rgbCalibration.rvecs[index],
+                    rgbCalibration.tvecs[index]
+                )
+            val thermalError =
+                computeReprojectionError(
+                    objectMat,
+                    thermalPoints[index],
+                    thermalCalibration.cameraMatrix,
+                    thermalCalibration.distortion,
+                    thermalCalibration.rvecs[index],
+                    thermalCalibration.tvecs[index]
+                )
             errors += (rgbError + thermalError) / 2.0
         }
         return errors
@@ -525,23 +799,48 @@ class DefaultCalibrationRepository @Inject constructor(
         rvec: Mat,
         tvec: Mat
     ): Double {
-        val projected = MatOfPoint2f()
-        Calib3d.projectPoints(objectPoints, rvec, tvec, cameraMatrix, distortion, projected)
-        val originalPoints = imagePoints
-        val projectedArray = projected.toArray()
-        val originalArray = originalPoints.toArray()
-        var errorSum = 0.0
+        val projected =
+            MatOfPoint2f()
+        Calib3d.projectPoints(
+            objectPoints,
+            rvec,
+            tvec,
+            cameraMatrix,
+            distortion,
+            projected
+        )
+        val originalPoints =
+            imagePoints
+        val projectedArray =
+            projected.toArray()
+        val originalArray =
+            originalPoints.toArray()
+        var errorSum =
+            0.0
         for (i in projectedArray.indices) {
-            val dx = projectedArray[i].x - originalArray[i].x
-            val dy = projectedArray[i].y - originalArray[i].y
-            errorSum += dx.pow(2) + dy.pow(2)
+            val dx =
+                projectedArray[i].x - originalArray[i].x
+            val dy =
+                projectedArray[i].y - originalArray[i].y
+            errorSum += dx.pow(
+                2
+            ) + dy.pow(
+                2
+            )
         }
         projected.release()
-        return kotlin.math.sqrt(errorSum / projectedArray.size)
+        return kotlin.math.sqrt(
+            errorSum / projectedArray.size
+        )
     }
 
-    private fun createObjectPoints(pattern: CalibrationPatternConfig): MatOfPoint3f {
-        val points = ArrayList<Point3>(pattern.rows * pattern.cols)
+    private fun createObjectPoints(
+        pattern: CalibrationPatternConfig
+    ): MatOfPoint3f {
+        val points =
+            ArrayList<Point3>(
+                pattern.rows * pattern.cols
+            )
         for (row in 0 until pattern.rows) {
             for (col in 0 until pattern.cols) {
                 points += Point3(
@@ -551,48 +850,73 @@ class DefaultCalibrationRepository @Inject constructor(
                 )
             }
         }
-        return MatOfPoint3f(*points.toTypedArray())
+        return MatOfPoint3f(
+            *points.toTypedArray()
+        )
     }
 
     private fun ensureOpenCvLoaded() {
         if (OPEN_CV_READY.get()) return
-        synchronized(OPEN_CV_READY) {
+        synchronized(
+            OPEN_CV_READY
+        ) {
             if (OPEN_CV_READY.get()) return
-            val initialized = OpenCVLoader.initDebug()
+            val initialized =
+                OpenCVLoader.initDebug()
             if (!initialized) {
-                throw IllegalStateException("Unable to load OpenCV native libraries")
+                throw IllegalStateException(
+                    "Unable to load OpenCV native libraries"
+                )
             }
-            OPEN_CV_READY.set(true)
+            OPEN_CV_READY.set(
+                true
+            )
         }
     }
 
     private fun createSessionId(): String {
-        val timestamp = nowInstant().toEpochMilliseconds()
-        return "cal-${timestamp}-${UUID.randomUUID().toString().take(8)}"
+        val timestamp =
+            nowInstant().toEpochMilliseconds()
+        return "cal-${timestamp}-${
+            UUID.randomUUID()
+                .toString()
+                .take(
+                    8
+                )
+        }"
     }
 
-    private fun initialState(): CalibrationSessionState = CalibrationSessionState(
-        active = false,
-        pattern = CalibrationDefaults.Pattern,
-        requiredPairs = CalibrationDefaults.RequiredPairs,
-        captures = emptyList(),
-        isProcessing = false,
-        lastResult = null,
-        infoMessage = null,
-        errorMessage = null
-    )
+    private fun initialState(): CalibrationSessionState =
+        CalibrationSessionState(
+            active = false,
+            pattern = CalibrationDefaults.Pattern,
+            requiredPairs = CalibrationDefaults.RequiredPairs,
+            captures = emptyList(),
+            isProcessing = false,
+            lastResult = null,
+            infoMessage = null,
+            errorMessage = null
+        )
 
     companion object {
-        private val OPEN_CV_READY = AtomicBoolean(false)
+        private val OPEN_CV_READY =
+            AtomicBoolean(
+                false
+            )
     }
 
     @VisibleForTesting
     internal fun resetForTesting() {
-        sessionId = null
-        captureCounter = 0
-        OPEN_CV_READY.set(false)
+        sessionId =
+            null
+        captureCounter =
+            0
+        OPEN_CV_READY.set(
+            false
+        )
         runCatching { runBlocking { controller.shutdown() } }
-        _state.value = initialState()
+        _state.value =
+            initialState()
     }
 }
 

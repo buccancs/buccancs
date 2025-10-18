@@ -16,9 +16,14 @@ interface CoroutineDispatchers {
 /**
  * Production implementation backed by the standard Kotlin dispatchers.
  */
-class DefaultCoroutineDispatchers : CoroutineDispatchers {
-    override val default: CoroutineDispatcher = Dispatchers.Default
-    override val io: CoroutineDispatcher = Dispatchers.IO
-    override val main: CoroutineDispatcher = Dispatchers.Main
-    override val mainImmediate: CoroutineDispatcher = Dispatchers.Main.immediate
+class DefaultCoroutineDispatchers :
+    CoroutineDispatchers {
+    override val default: CoroutineDispatcher =
+        Dispatchers.Default
+    override val io: CoroutineDispatcher =
+        Dispatchers.IO
+    override val main: CoroutineDispatcher =
+        Dispatchers.Main
+    override val mainImmediate: CoroutineDispatcher =
+        Dispatchers.Main.immediate
 }

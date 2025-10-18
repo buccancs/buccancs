@@ -120,12 +120,17 @@ fun TopdonSlider(
     modifier: Modifier = Modifier,
     steps: Int = 0,
     enabled: Boolean = true,
-    valueFormatter: (Float) -> String = { it.roundToInt().toString() },
+    valueFormatter: (Float) -> String = {
+        it.roundToInt()
+            .toString()
+    },
     onValueChangeFinished: (() -> Unit)? = null
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(TopdonSpacing.ExtraSmall)
+        verticalArrangement = Arrangement.spacedBy(
+            TopdonSpacing.ExtraSmall
+        )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -138,7 +143,9 @@ fun TopdonSlider(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = valueFormatter(value),
+                text = valueFormatter(
+                    value
+                ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -184,8 +191,14 @@ fun TopdonTemperatureSlider(
         modifier = modifier,
         steps = 0,
         valueFormatter = { temp ->
-            val displayTemp = if (useFahrenheit) (temp * 9f / 5f) + 32f else temp
-            String.format(Locale.US, "%.1f°%s", displayTemp, if (useFahrenheit) "F" else "C")
+            val displayTemp =
+                if (useFahrenheit) (temp * 9f / 5f) + 32f else temp
+            String.format(
+                Locale.US,
+                "%.1f°%s",
+                displayTemp,
+                if (useFahrenheit) "F" else "C"
+            )
         },
         onValueChangeFinished = onValueChangeFinished
     )
@@ -209,82 +222,161 @@ fun TopdonZoomSlider(
         label = "Zoom",
         modifier = modifier,
         steps = 0,
-        valueFormatter = { String.format(Locale.US, "%.1fx", it) },
+        valueFormatter = {
+            String.format(
+                Locale.US,
+                "%.1fx",
+                it
+            )
+        },
         onValueChangeFinished = onValueChangeFinished
     )
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF16131E)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF16131E
+)
 @Composable
 private fun TopdonControlsPreview() {
     TopdonTheme {
-        var switchState by remember { mutableStateOf(false) }
-        var checkboxState by remember { mutableStateOf(false) }
-        var radioState by remember { mutableStateOf(0) }
-        var sliderValue by remember { mutableFloatStateOf(50f) }
-        var tempValue by remember { mutableFloatStateOf(25f) }
-        var zoomValue by remember { mutableFloatStateOf(1f) }
+        var switchState by remember {
+            mutableStateOf(
+                false
+            )
+        }
+        var checkboxState by remember {
+            mutableStateOf(
+                false
+            )
+        }
+        var radioState by remember {
+            mutableStateOf(
+                0
+            )
+        }
+        var sliderValue by remember {
+            mutableFloatStateOf(
+                50f
+            )
+        }
+        var tempValue by remember {
+            mutableFloatStateOf(
+                25f
+            )
+        }
+        var zoomValue by remember {
+            mutableFloatStateOf(
+                1f
+            )
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                24.dp
+            )
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Auto-connect", color = MaterialTheme.colorScheme.onSurface)
-                TopdonSwitch(checked = switchState, onCheckedChange = { switchState = it })
+                Text(
+                    "Auto-connect",
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                TopdonSwitch(
+                    checked = switchState,
+                    onCheckedChange = {
+                        switchState =
+                            it
+                    })
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TopdonCheckbox(checked = checkboxState, onCheckedChange = { checkboxState = it })
+                TopdonCheckbox(
+                    checked = checkboxState,
+                    onCheckedChange = {
+                        checkboxState =
+                            it
+                    })
                 Text(
                     text = "Enable high resolution",
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(
+                        start = 8.dp
+                    )
                 )
             }
 
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    8.dp
+                )
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    TopdonRadioButton(selected = radioState == 0, onClick = { radioState = 0 })
+                    TopdonRadioButton(
+                        selected = radioState == 0,
+                        onClick = {
+                            radioState =
+                                0
+                        })
                     Text(
                         text = "Celsius",
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(start = 8.dp)
+                        modifier = Modifier.padding(
+                            start = 8.dp
+                        )
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    TopdonRadioButton(selected = radioState == 1, onClick = { radioState = 1 })
+                    TopdonRadioButton(
+                        selected = radioState == 1,
+                        onClick = {
+                            radioState =
+                                1
+                        })
                     Text(
                         text = "Fahrenheit",
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(start = 8.dp)
+                        modifier = Modifier.padding(
+                            start = 8.dp
+                        )
                     )
                 }
             }
 
             TopdonSlider(
                 value = sliderValue,
-                onValueChange = { sliderValue = it },
+                onValueChange = {
+                    sliderValue =
+                        it
+                },
                 valueRange = 0f..100f,
                 label = "Frame Rate"
             )
 
             TopdonTemperatureSlider(
                 value = tempValue,
-                onValueChange = { tempValue = it },
+                onValueChange = {
+                    tempValue =
+                        it
+                },
                 valueRange = -20f..120f,
                 label = "Temperature Threshold"
             )
 
             TopdonZoomSlider(
                 value = zoomValue,
-                onValueChange = { zoomValue = it }
+                onValueChange = {
+                    zoomValue =
+                        it
+                }
             )
         }
     }

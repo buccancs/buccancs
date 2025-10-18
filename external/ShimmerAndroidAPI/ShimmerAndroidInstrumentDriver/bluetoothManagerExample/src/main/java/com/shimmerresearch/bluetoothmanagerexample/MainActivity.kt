@@ -40,151 +40,256 @@ import com.shimmerresearch.driver.ObjectCluster
 import com.shimmerresearch.driver.ShimmerDevice
 import com.shimmerresearch.exceptions.ShimmerException
 
-class MainActivity : ComponentActivity() {
+class MainActivity :
+    ComponentActivity() {
 
     companion object {
-        const val LOG_TAG = "BluetoothManagerExample"
+        const val LOG_TAG =
+            "BluetoothManagerExample"
     }
 
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (BluetoothDevice.ACTION_FOUND == action) {
-                val device: BluetoothDevice? =
-                    intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                        return
+    private val receiver =
+        object :
+            BroadcastReceiver() {
+            override fun onReceive(
+                context: Context,
+                intent: Intent
+            ) {
+                val action =
+                    intent.action
+                if (BluetoothDevice.ACTION_FOUND == action) {
+                    val device: BluetoothDevice? =
+                        intent.getParcelableExtra(
+                            BluetoothDevice.EXTRA_DEVICE
+                        )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(
+                                Manifest.permission.BLUETOOTH_CONNECT
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            return
+                        }
                     }
-                }
-                device?.let {
-                    val deviceName = it.name
-                    val deviceHardwareAddress = it.address
+                    device?.let {
+                        val deviceName =
+                            it.name
+                        val deviceHardwareAddress =
+                            it.address
+                    }
                 }
             }
         }
-    }
 
-    private var btManager: ShimmerBluetoothManagerAndroid? = null
-    private var shimmerDevice: ShimmerDevice? = null
-    private var shimmerBtAdd: String? = null
-    private var preferredBtType: ShimmerBluetoothManagerAndroid.BT_TYPE? = null
-    private val looper = Looper.myLooper()
+    private var btManager: ShimmerBluetoothManagerAndroid? =
+        null
+    private var shimmerDevice: ShimmerDevice? =
+        null
+    private var shimmerBtAdd: String? =
+        null
+    private var preferredBtType: ShimmerBluetoothManagerAndroid.BT_TYPE? =
+        null
+    private val looper =
+        Looper.myLooper()
 
-    private val connectionState = mutableStateOf("Disconnected")
-    private val statusMessage = mutableStateOf("Please refer to the Android Logcat for signal data")
+    private val connectionState =
+        mutableStateOf(
+            "Disconnected"
+        )
+    private val statusMessage =
+        mutableStateOf(
+            "Please refer to the Android Logcat for signal data"
+        )
 
-    private val mHandler = object : Handler(Looper.getMainLooper()) {
-        override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET -> {
-                    if (msg.obj is ObjectCluster) {
-                        val objectCluster = msg.obj as ObjectCluster
+    private val mHandler =
+        object :
+            Handler(
+                Looper.getMainLooper()
+            ) {
+            override fun handleMessage(
+                msg: Message
+            ) {
+                when (msg.what) {
+                    ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET -> {
+                        if (msg.obj is ObjectCluster) {
+                            val objectCluster =
+                                msg.obj as ObjectCluster
 
-                        val allFormats =
-                            objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP)
-                        val timeStampCluster =
-                            ObjectCluster.returnFormatCluster(allFormats, "CAL") as? FormatCluster
-                        val timeStampData = timeStampCluster?.mData
-                        Log.i(LOG_TAG, "Time Stamp: $timeStampData")
+                            val allFormats =
+                                objectCluster.getCollectionOfFormatClusters(
+                                    Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP
+                                )
+                            val timeStampCluster =
+                                ObjectCluster.returnFormatCluster(
+                                    allFormats,
+                                    "CAL"
+                                ) as? FormatCluster
+                            val timeStampData =
+                                timeStampCluster?.mData
+                            Log.i(
+                                LOG_TAG,
+                                "Time Stamp: $timeStampData"
+                            )
 
-                        val accelFormats =
-                            objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X)
-                        val accelXCluster =
-                            ObjectCluster.returnFormatCluster(accelFormats, "CAL") as? FormatCluster
-                        accelXCluster?.let {
-                            val accelXData = it.mData
-                            Log.i(LOG_TAG, "Accel LN X: $accelXData")
+                            val accelFormats =
+                                objectCluster.getCollectionOfFormatClusters(
+                                    Configuration.Shimmer3.ObjectClusterSensorName.ACCEL_LN_X
+                                )
+                            val accelXCluster =
+                                ObjectCluster.returnFormatCluster(
+                                    accelFormats,
+                                    "CAL"
+                                ) as? FormatCluster
+                            accelXCluster?.let {
+                                val accelXData =
+                                    it.mData
+                                Log.i(
+                                    LOG_TAG,
+                                    "Accel LN X: $accelXData"
+                                )
+                            }
                         }
                     }
-                }
 
-                Shimmer.MESSAGE_TOAST -> {
-                    Toast.makeText(
-                        applicationContext,
-                        msg.data.getString(Shimmer.TOAST),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE -> {
-                    var state: ShimmerBluetooth.BT_STATE? = null
-                    var macAddress = ""
-
-                    when (msg.obj) {
-                        is ObjectCluster -> {
-                            state = (msg.obj as ObjectCluster).mState
-                            macAddress = (msg.obj as ObjectCluster).macAddress
-                        }
-
-                        is CallbackObject -> {
-                            state = (msg.obj as CallbackObject).mState
-                            macAddress = (msg.obj as CallbackObject).mBluetoothAddress
-                        }
+                    Shimmer.MESSAGE_TOAST -> {
+                        Toast.makeText(
+                            applicationContext,
+                            msg.data.getString(
+                                Shimmer.TOAST
+                            ),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
                     }
 
-                    Log.d(
-                        LOG_TAG,
-                        "Shimmer state changed! Shimmer = $macAddress, new state = $state"
-                    )
+                    ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE -> {
+                        var state: ShimmerBluetooth.BT_STATE? =
+                            null
+                        var macAddress =
+                            ""
 
-                    when (state) {
-                        ShimmerBluetooth.BT_STATE.CONNECTED -> {
-                            Log.i(LOG_TAG, "Shimmer [$macAddress] is now CONNECTED")
-                            connectionState.value = "Connected"
-                            shimmerBtAdd?.let {
-                                shimmerDevice = btManager?.getShimmerDeviceBtConnectedFromMac(it)
-                                if (shimmerDevice != null) {
-                                    Log.i(LOG_TAG, "Got the ShimmerDevice!")
-                                } else {
-                                    Log.i(LOG_TAG, "ShimmerDevice returned is NULL!")
-                                }
+                        when (msg.obj) {
+                            is ObjectCluster -> {
+                                state =
+                                    (msg.obj as ObjectCluster).mState
+                                macAddress =
+                                    (msg.obj as ObjectCluster).macAddress
+                            }
+
+                            is CallbackObject -> {
+                                state =
+                                    (msg.obj as CallbackObject).mState
+                                macAddress =
+                                    (msg.obj as CallbackObject).mBluetoothAddress
                             }
                         }
 
-                        ShimmerBluetooth.BT_STATE.CONNECTING -> {
-                            Log.i(LOG_TAG, "Shimmer [$macAddress] is CONNECTING")
-                            connectionState.value = "Connecting"
-                        }
+                        Log.d(
+                            LOG_TAG,
+                            "Shimmer state changed! Shimmer = $macAddress, new state = $state"
+                        )
 
-                        ShimmerBluetooth.BT_STATE.STREAMING -> {
-                            Log.i(LOG_TAG, "Shimmer [$macAddress] is now STREAMING")
-                            connectionState.value = "Streaming"
-                        }
-
-                        ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> {
-                            Log.i(LOG_TAG, "Shimmer [$macAddress] is now STREAMING AND LOGGING")
-                            connectionState.value = "Streaming & Logging"
-                        }
-
-                        ShimmerBluetooth.BT_STATE.SDLOGGING -> {
-                            Log.i(LOG_TAG, "Shimmer [$macAddress] is now SDLOGGING")
-                            connectionState.value = "SD Logging"
-                            if (shimmerDevice == null) {
+                        when (state) {
+                            ShimmerBluetooth.BT_STATE.CONNECTED -> {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Shimmer [$macAddress] is now CONNECTED"
+                                )
+                                connectionState.value =
+                                    "Connected"
                                 shimmerBtAdd?.let {
                                     shimmerDevice =
-                                        btManager?.getShimmerDeviceBtConnectedFromMac(it)
-                                    Log.i(LOG_TAG, "Got the ShimmerDevice!")
+                                        btManager?.getShimmerDeviceBtConnectedFromMac(
+                                            it
+                                        )
+                                    if (shimmerDevice != null) {
+                                        Log.i(
+                                            LOG_TAG,
+                                            "Got the ShimmerDevice!"
+                                        )
+                                    } else {
+                                        Log.i(
+                                            LOG_TAG,
+                                            "ShimmerDevice returned is NULL!"
+                                        )
+                                    }
                                 }
                             }
-                        }
 
-                        ShimmerBluetooth.BT_STATE.DISCONNECTED -> {
-                            Log.i(LOG_TAG, "Shimmer [$macAddress] has been DISCONNECTED")
-                            connectionState.value = "Disconnected"
-                            shimmerDevice = null
-                        }
+                            ShimmerBluetooth.BT_STATE.CONNECTING -> {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Shimmer [$macAddress] is CONNECTING"
+                                )
+                                connectionState.value =
+                                    "Connecting"
+                            }
 
-                        else -> {}
+                            ShimmerBluetooth.BT_STATE.STREAMING -> {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Shimmer [$macAddress] is now STREAMING"
+                                )
+                                connectionState.value =
+                                    "Streaming"
+                            }
+
+                            ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING -> {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Shimmer [$macAddress] is now STREAMING AND LOGGING"
+                                )
+                                connectionState.value =
+                                    "Streaming & Logging"
+                            }
+
+                            ShimmerBluetooth.BT_STATE.SDLOGGING -> {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Shimmer [$macAddress] is now SDLOGGING"
+                                )
+                                connectionState.value =
+                                    "SD Logging"
+                                if (shimmerDevice == null) {
+                                    shimmerBtAdd?.let {
+                                        shimmerDevice =
+                                            btManager?.getShimmerDeviceBtConnectedFromMac(
+                                                it
+                                            )
+                                        Log.i(
+                                            LOG_TAG,
+                                            "Got the ShimmerDevice!"
+                                        )
+                                    }
+                                }
+                            }
+
+                            ShimmerBluetooth.BT_STATE.DISCONNECTED -> {
+                                Log.i(
+                                    LOG_TAG,
+                                    "Shimmer [$macAddress] has been DISCONNECTED"
+                                )
+                                connectionState.value =
+                                    "Disconnected"
+                                shimmerDevice =
+                                    null
+                            }
+
+                            else -> {}
+                        }
                     }
                 }
+                super.handleMessage(
+                    msg
+                )
             }
-            super.handleMessage(msg)
         }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -194,17 +299,27 @@ class MainActivity : ComponentActivity() {
                         Manifest.permission.BLUETOOTH_CONNECT,
                         Manifest.permission.BLUETOOTH_SCAN,
                         Manifest.permission.ACCESS_FINE_LOCATION
-                    ), 0
+                    ),
+                    0
                 )
             } else {
                 requestPermissions(
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ),
+                    0
                 )
             }
         }
 
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        registerReceiver(receiver, filter)
+        val filter =
+            IntentFilter(
+                BluetoothDevice.ACTION_FOUND
+            )
+        registerReceiver(
+            receiver,
+            filter
+        )
 
         setContent {
             MaterialTheme {
@@ -225,100 +340,144 @@ class MainActivity : ComponentActivity() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(
+                        16.dp
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "Shimmer Bluetooth Manager",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(
+                        bottom = 8.dp
+                    )
                 )
 
                 Text(
                     text = "Status: $state",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(
+                        bottom = 16.dp
+                    )
                 )
 
                 Button(
                     onClick = { openMenu() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Enable/Disable Sensors")
+                    Text(
+                        "Enable/Disable Sensors"
+                    )
                 }
 
                 Button(
                     onClick = { openConfigMenu() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Configuration")
+                    Text(
+                        "Configuration"
+                    )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(
+                    modifier = Modifier.height(
+                        16.dp
+                    )
+                )
 
                 Text(
                     text = status,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(
+                        vertical = 8.dp
+                    )
                 )
 
                 Button(
                     onClick = { startStreaming() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Start Streaming")
+                    Text(
+                        "Start Streaming"
+                    )
                 }
 
                 Button(
                     onClick = { stopStreaming() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Stop Streaming")
+                    Text(
+                        "Stop Streaming"
+                    )
                 }
 
                 Button(
                     onClick = { startSDLogging() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Start SD Logging")
+                    Text(
+                        "Start SD Logging"
+                    )
                 }
 
                 Button(
                     onClick = { stopSDLogging() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Stop SD Logging")
+                    Text(
+                        "Stop SD Logging"
+                    )
                 }
 
                 Button(
                     onClick = { connectDevice() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Connect")
+                    Text(
+                        "Connect"
+                    )
                 }
 
                 Button(
                     onClick = { disconnectDevice() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(
+                            vertical = 4.dp
+                        )
                 ) {
-                    Text("Disconnect")
+                    Text(
+                        "Disconnect"
+                    )
                 }
             }
         }
@@ -329,19 +488,41 @@ class MainActivity : ComponentActivity() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val allPermissionsGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+        super.onRequestPermissionsResult(
+            requestCode,
+            permissions,
+            grantResults
+        )
+        val allPermissionsGranted =
+            grantResults.all { it == PackageManager.PERMISSION_GRANTED }
 
         if (!allPermissionsGranted) {
-            Toast.makeText(this, "Please allow all requested permissions", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                this,
+                "Please allow all requested permissions",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         } else {
-            BleManager.getInstance().init(application)
+            BleManager.getInstance()
+                .init(
+                    application
+                )
             try {
-                btManager = ShimmerBluetoothManagerAndroid(this, mHandler)
+                btManager =
+                    ShimmerBluetoothManagerAndroid(
+                        this,
+                        mHandler
+                    )
             } catch (e: Exception) {
-                Log.e(LOG_TAG, "Couldn't create ShimmerBluetoothManagerAndroid. Error: $e")
-                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                Log.e(
+                    LOG_TAG,
+                    "Couldn't create ShimmerBluetoothManagerAndroid. Error: $e"
+                )
+                val enableBtIntent =
+                    Intent(
+                        BluetoothAdapter.ACTION_REQUEST_ENABLE
+                    )
                 if (ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.BLUETOOTH_CONNECT
@@ -349,14 +530,19 @@ class MainActivity : ComponentActivity() {
                 ) {
                     return
                 }
-                startActivityForResult(enableBtIntent, 1)
+                startActivityForResult(
+                    enableBtIntent,
+                    1
+                )
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(receiver)
+        unregisterReceiver(
+            receiver
+        )
     }
 
     override fun onStop() {
@@ -364,7 +550,10 @@ class MainActivity : ComponentActivity() {
             when {
                 it.isSDLogging -> {
                     it.stopSDLogging()
-                    Log.d(LOG_TAG, "Stopped Shimmer Logging")
+                    Log.d(
+                        LOG_TAG,
+                        "Stopped Shimmer Logging"
+                    )
                 }
 
                 it.isStreaming -> {
@@ -373,17 +562,26 @@ class MainActivity : ComponentActivity() {
                     } catch (e: ShimmerException) {
                         e.printStackTrace()
                     }
-                    Log.d(LOG_TAG, "Stopped Shimmer Streaming")
+                    Log.d(
+                        LOG_TAG,
+                        "Stopped Shimmer Streaming"
+                    )
                 }
 
                 else -> {
                     it.stopStreamingAndLogging()
-                    Log.d(LOG_TAG, "Stopped Shimmer Streaming and Logging")
+                    Log.d(
+                        LOG_TAG,
+                        "Stopped Shimmer Streaming and Logging"
+                    )
                 }
             }
         }
         btManager?.disconnectAllDevices()
-        Log.i(LOG_TAG, "Shimmer DISCONNECTED")
+        Log.i(
+            LOG_TAG,
+            "Shimmer DISCONNECTED"
+        )
         super.onStop()
     }
 
@@ -410,50 +608,83 @@ class MainActivity : ComponentActivity() {
     private fun openConfigMenu() {
         shimmerDevice?.let { device ->
             if (!device.isStreaming && !device.isSDLogging) {
-                ShimmerDialogConfigurations.buildShimmerConfigOptions(device, this, btManager)
+                ShimmerDialogConfigurations.buildShimmerConfigOptions(
+                    device,
+                    this,
+                    btManager
+                )
             } else {
-                Log.e(LOG_TAG, "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING")
+                Log.e(
+                    LOG_TAG,
+                    "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING"
+                )
                 Toast.makeText(
                     this,
                     "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING",
                     Toast.LENGTH_SHORT
-                ).show()
+                )
+                    .show()
             }
-        } ?: run {
-            Log.e(LOG_TAG, "Cannot open menu! Shimmer device is not connected")
-            Toast.makeText(
-                this,
-                "Cannot open menu! Shimmer device is not connected",
-                Toast.LENGTH_SHORT
-            ).show()
         }
+            ?: run {
+                Log.e(
+                    LOG_TAG,
+                    "Cannot open menu! Shimmer device is not connected"
+                )
+                Toast.makeText(
+                    this,
+                    "Cannot open menu! Shimmer device is not connected",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
     }
 
     private fun openMenu() {
         shimmerDevice?.let { device ->
             if (!device.isStreaming && !device.isSDLogging) {
-                ShimmerDialogConfigurations.buildShimmerSensorEnableDetails(device, this, btManager)
+                ShimmerDialogConfigurations.buildShimmerSensorEnableDetails(
+                    device,
+                    this,
+                    btManager
+                )
             } else {
-                Log.e(LOG_TAG, "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING")
+                Log.e(
+                    LOG_TAG,
+                    "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING"
+                )
                 Toast.makeText(
                     this,
                     "Cannot open menu! Shimmer device is STREAMING AND/OR LOGGING",
                     Toast.LENGTH_SHORT
-                ).show()
+                )
+                    .show()
             }
-        } ?: run {
-            Log.e(LOG_TAG, "Cannot open menu! Shimmer device is not connected")
-            Toast.makeText(
-                this,
-                "Cannot open menu! Shimmer device is not connected",
-                Toast.LENGTH_SHORT
-            ).show()
         }
+            ?: run {
+                Log.e(
+                    LOG_TAG,
+                    "Cannot open menu! Shimmer device is not connected"
+                )
+                Toast.makeText(
+                    this,
+                    "Cannot open menu! Shimmer device is not connected",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
     }
 
     private fun connectDevice() {
-        val intent = Intent(applicationContext, ShimmerBluetoothDialog::class.java)
-        startActivityForResult(intent, ShimmerBluetoothDialog.REQUEST_CONNECT_SHIMMER)
+        val intent =
+            Intent(
+                applicationContext,
+                ShimmerBluetoothDialog::class.java
+            )
+        startActivityForResult(
+            intent,
+            ShimmerBluetoothDialog.REQUEST_CONNECT_SHIMMER
+        )
     }
 
     private fun disconnectDevice() {
@@ -461,14 +692,18 @@ class MainActivity : ComponentActivity() {
             try {
                 (it as ShimmerBluetooth).disconnect()
             } catch (e: ShimmerException) {
-                throw RuntimeException(e)
+                throw RuntimeException(
+                    e
+                )
             }
         }
     }
 
     private fun startSDLogging() {
         shimmerDevice?.let {
-            (it as ShimmerBluetooth).writeConfigTime(System.currentTimeMillis())
+            (it as ShimmerBluetooth).writeConfigTime(
+                System.currentTimeMillis()
+            )
             it.startSDLogging()
         }
     }
@@ -477,46 +712,83 @@ class MainActivity : ComponentActivity() {
         shimmerDevice?.stopSDLogging()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 if (btManager == null) {
                     try {
-                        btManager = ShimmerBluetoothManagerAndroid(this, mHandler)
+                        btManager =
+                            ShimmerBluetoothManagerAndroid(
+                                this,
+                                mHandler
+                            )
                     } catch (e: Exception) {
-                        Log.e(LOG_TAG, "Couldn't create ShimmerBluetoothManagerAndroid. Error: $e")
+                        Log.e(
+                            LOG_TAG,
+                            "Couldn't create ShimmerBluetoothManagerAndroid. Error: $e"
+                        )
                     }
                 }
                 btManager?.disconnectAllDevices()
-                shimmerDevice = null
+                shimmerDevice =
+                    null
                 showBtTypeConnectionOption()
-                val macAdd = data?.getStringExtra(ShimmerBluetoothDialog.EXTRA_DEVICE_ADDRESS)
-                val deviceName = data?.getStringExtra(ShimmerBluetoothDialog.EXTRA_DEVICE_NAME)
+                val macAdd =
+                    data?.getStringExtra(
+                        ShimmerBluetoothDialog.EXTRA_DEVICE_ADDRESS
+                    )
+                val deviceName =
+                    data?.getStringExtra(
+                        ShimmerBluetoothDialog.EXTRA_DEVICE_NAME
+                    )
                 macAdd?.let {
-                    btManager?.connectShimmerThroughBTAddress(it, deviceName, preferredBtType)
-                    shimmerBtAdd = it
+                    btManager?.connectShimmerThroughBTAddress(
+                        it,
+                        deviceName,
+                        preferredBtType
+                    )
+                    shimmerBtAdd =
+                        it
                 }
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(
+            requestCode,
+            resultCode,
+            data
+        )
     }
 
     private fun showBtTypeConnectionOption() {
-        val alertDialog = AlertDialog.Builder(this).create()
-        alertDialog.setCancelable(false)
-        alertDialog.setMessage("Choose preferred Bluetooth type")
+        val alertDialog =
+            AlertDialog.Builder(
+                this
+            )
+                .create()
+        alertDialog.setCancelable(
+            false
+        )
+        alertDialog.setMessage(
+            "Choose preferred Bluetooth type"
+        )
         alertDialog.setButton(
             Dialog.BUTTON_POSITIVE,
             "BT CLASSIC"
         ) { dialog, _ ->
-            preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC
+            preferredBtType =
+                ShimmerBluetoothManagerAndroid.BT_TYPE.BT_CLASSIC
             looper?.quit()
         }
         alertDialog.setButton(
             Dialog.BUTTON_NEGATIVE,
             "BLE"
         ) { dialog, _ ->
-            preferredBtType = ShimmerBluetoothManagerAndroid.BT_TYPE.BLE
+            preferredBtType =
+                ShimmerBluetoothManagerAndroid.BT_TYPE.BLE
             looper?.quit()
         }
         alertDialog.show()

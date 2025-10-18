@@ -34,9 +34,18 @@ data class ReportTempBean(
         is_temperature
     )
 
-    fun isMaxOpen() = is_max_temperature == 1
-    fun isMinOpen() = is_min_temperature == 1
-    fun isAverageOpen() = is_mean_temperature == 1
-    fun isExplainOpen() = is_comment == 1
-    fun isTempOpen() = is_temperature == 1
+    fun isMaxOpen() =
+        is_max_temperature == 1
+
+    fun isMinOpen() =
+        is_min_temperature == 1
+
+    fun isAverageOpen() =
+        is_mean_temperature == 1
+
+    fun isExplainOpen() =
+        is_comment == 1
+
+    fun isTempOpen() =
+        is_temperature == 1
 }

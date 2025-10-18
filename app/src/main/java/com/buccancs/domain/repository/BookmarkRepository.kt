@@ -6,7 +6,14 @@ import kotlin.time.Instant
 
 interface BookmarkRepository {
     val bookmarks: StateFlow<List<RecordingBookmark>>
-    suspend fun add(label: String, timestamp: Instant)
-    suspend fun remove(bookmarkId: String)
+    suspend fun add(
+        label: String,
+        timestamp: Instant
+    )
+
+    suspend fun remove(
+        bookmarkId: String
+    )
+
     suspend fun clear()
 }

@@ -25,10 +25,20 @@ class ImageDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val imageId: String = savedStateHandle.get<String>("imageId") ?: ""
+    private val imageId: String =
+        savedStateHandle.get<String>(
+            "imageId"
+        )
+            ?: ""
 
-    private val _uiState = MutableStateFlow(ImageDetailUiState(isLoading = true))
-    val uiState: StateFlow<ImageDetailUiState> = _uiState.asStateFlow()
+    private val _uiState =
+        MutableStateFlow(
+            ImageDetailUiState(
+                isLoading = true
+            )
+        )
+    val uiState: StateFlow<ImageDetailUiState> =
+        _uiState.asStateFlow()
 
     init {
         loadImage()
@@ -37,49 +47,81 @@ class ImageDetailViewModel @Inject constructor(
     private fun loadImage() {
         viewModelScope.launch {
             try {
-                val image = galleryRepository.getImageById(imageId)
+                val image =
+                    galleryRepository.getImageById(
+                        imageId
+                    )
                 _uiState.update {
-                    it.copy(image = image, isLoading = false)
+                    it.copy(
+                        image = image,
+                        isLoading = false
+                    )
                 }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(error = e.message, isLoading = false)
-                }
-            }
-        }
-    }
-
-    fun deleteImage(id: String) {
-        viewModelScope.launch {
-            try {
-                galleryRepository.deleteImage(id)
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(error = "Failed to delete: ${e.message}")
+                    it.copy(
+                        error = e.message,
+                        isLoading = false
+                    )
                 }
             }
         }
     }
 
-    fun shareImage(id: String) {
+    fun deleteImage(
+        id: String
+    ) {
         viewModelScope.launch {
             try {
-                galleryRepository.shareImages(listOf(id))
+                galleryRepository.deleteImage(
+                    id
+                )
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(error = "Failed to share: ${e.message}")
+                    it.copy(
+                        error = "Failed to delete: ${e.message}"
+                    )
                 }
             }
         }
     }
 
-    fun exportImage(id: String) {
+    fun shareImage(
+        id: String
+    ) {
         viewModelScope.launch {
             try {
-                galleryRepository.exportImages(listOf(id), "/storage/emulated/0/Download")
+                galleryRepository.shareImages(
+                    listOf(
+                        id
+                    )
+                )
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(error = "Failed to export: ${e.message}")
+                    it.copy(
+                        error = "Failed to share: ${e.message}"
+                    )
+                }
+            }
+        }
+    }
+
+    fun exportImage(
+        id: String
+    ) {
+        viewModelScope.launch {
+            try {
+                galleryRepository.exportImages(
+                    listOf(
+                        id
+                    ),
+                    "/storage/emulated/0/Download"
+                )
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        error = "Failed to export: ${e.message}"
+                    )
                 }
             }
         }

@@ -34,34 +34,75 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
     private val connectorManager: TopdonConnectorManager,
     private val hardwareConfigRepository: SensorHardwareConfigRepository
 ) : TopdonDeviceRepository {
-    private val errors = MutableStateFlow<String?>(null)
-    private val scanning = MutableStateFlow(false)
-    private val deviceStateFlow = MutableStateFlow(
-        TopdonDeviceState(
-            device = null,
-            statuses = emptyList(),
-            previewActive = false,
-            lastPreviewTimestamp = null,
-            scanning = false,
-            lastError = null
+    private val errors =
+        MutableStateFlow<String?>(
+            null
         )
+    private val scanning =
+        MutableStateFlow(
+            false
+        )
+    private val deviceStateFlow =
+        MutableStateFlow(
+            TopdonDeviceState(
+                device = null,
+                statuses = emptyList(),
+                previewActive = false,
+                lastPreviewTimestamp = null,
+                scanning = false,
+                lastError = null
+            )
+        )
+
+    private val _activeDeviceId =
+        MutableStateFlow(
+            TOPDON_TC001_DEVICE_ID
+        )
+    override val activeDeviceId: StateFlow<DeviceId> =
+        _activeDeviceId.asStateFlow()
+
+    @OptIn(
+        ExperimentalCoroutinesApi::class
     )
+    private val previewFrameFlow: StateFlow<TopdonPreviewFrame?> =
+        activeDeviceId
+            .flatMapLatest { id ->
+                connectorManager.previewFrame(
+                    id
+                )
+                    ?: flowOf(
+                        null
+                    )
+            }
+            .stateIn(
+                scope,
+                SharingStarted.Eagerly,
+                null
+            )
 
-    private val _activeDeviceId = MutableStateFlow(TOPDON_TC001_DEVICE_ID)
-    override val activeDeviceId: StateFlow<DeviceId> = _activeDeviceId.asStateFlow()
+    @OptIn(
+        ExperimentalCoroutinesApi::class
+    )
+    private val previewRunningFlow: StateFlow<Boolean> =
+        activeDeviceId
+            .flatMapLatest { id ->
+                connectorManager.previewRunning(
+                    id
+                )
+                    ?: flowOf(
+                        false
+                    )
+            }
+            .stateIn(
+                scope,
+                SharingStarted.Eagerly,
+                false
+            )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val previewFrameFlow: StateFlow<TopdonPreviewFrame?> = activeDeviceId
-        .flatMapLatest { id -> connectorManager.previewFrame(id) ?: flowOf(null) }
-        .stateIn(scope, SharingStarted.Eagerly, null)
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val previewRunningFlow: StateFlow<Boolean> = activeDeviceId
-        .flatMapLatest { id -> connectorManager.previewRunning(id) ?: flowOf(false) }
-        .stateIn(scope, SharingStarted.Eagerly, false)
-
-    override val deviceState: StateFlow<TopdonDeviceState> = deviceStateFlow.asStateFlow()
-    override val previewFrame: StateFlow<TopdonPreviewFrame?> = previewFrameFlow
+    override val deviceState: StateFlow<TopdonDeviceState> =
+        deviceStateFlow.asStateFlow()
+    override val previewFrame: StateFlow<TopdonPreviewFrame?> =
+        previewFrameFlow
 
     private data class TopdonSnapshot(
         val deviceId: DeviceId,
@@ -72,112 +113,183 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
     )
 
     init {
-        val snapshotFlow = combine(
-            sensorRepository.devices,
-            sensorRepository.streamStatuses,
-            previewRunningFlow,
-            previewFrameFlow,
-            activeDeviceId
-        ) { devices, statuses, previewActive, frame, deviceId ->
-            TopdonSnapshot(
-                deviceId = deviceId,
-                devices = devices,
-                statuses = statuses,
-                previewActive = previewActive,
-                frame = frame
-            )
-        }
-        scope.launch(Dispatchers.Default) {
+        val snapshotFlow =
+            combine(
+                sensorRepository.devices,
+                sensorRepository.streamStatuses,
+                previewRunningFlow,
+                previewFrameFlow,
+                activeDeviceId
+            ) { devices, statuses, previewActive, frame, deviceId ->
+                TopdonSnapshot(
+                    deviceId = deviceId,
+                    devices = devices,
+                    statuses = statuses,
+                    previewActive = previewActive,
+                    frame = frame
+                )
+            }
+        scope.launch(
+            Dispatchers.Default
+        ) {
             snapshotFlow
-                .combine(scanning) { snapshot, scanningFlag -> snapshot to scanningFlag }
-                .combine(errors) { (snapshot, scanningFlag), errorMessage ->
-                    Triple(snapshot, scanningFlag, errorMessage)
+                .combine(
+                    scanning
+                ) { snapshot, scanningFlag -> snapshot to scanningFlag }
+                .combine(
+                    errors
+                ) { (snapshot, scanningFlag), errorMessage ->
+                    Triple(
+                        snapshot,
+                        scanningFlag,
+                        errorMessage
+                    )
                 }
                 .collect { (snapshot, scanningFlag, errorMessage) ->
-                    val device = snapshot.devices.firstOrNull { it.id == snapshot.deviceId }
+                    val device =
+                        snapshot.devices.firstOrNull { it.id == snapshot.deviceId }
                     val streamStatuses =
                         snapshot.statuses.filter { it.deviceId == snapshot.deviceId }
-                    deviceStateFlow.value = TopdonDeviceState(
-                        device = device,
-                        statuses = streamStatuses,
-                        previewActive = snapshot.previewActive,
-                        lastPreviewTimestamp = snapshot.frame?.timestamp,
-                        scanning = scanningFlag,
-                        lastError = errorMessage
-                    )
+                    deviceStateFlow.value =
+                        TopdonDeviceState(
+                            device = device,
+                            statuses = streamStatuses,
+                            previewActive = snapshot.previewActive,
+                            lastPreviewTimestamp = snapshot.frame?.timestamp,
+                            scanning = scanningFlag,
+                            lastError = errorMessage
+                        )
                 }
         }
     }
 
     init {
-        scope.launch(Dispatchers.Default) {
+        scope.launch(
+            Dispatchers.Default
+        ) {
             hardwareConfigRepository.config.collect { config ->
-                val available = config.topdon.mapNotNull { entry ->
-                    entry.id.takeIf { it.isNotBlank() }?.let(::DeviceId)
-                }
+                val available =
+                    config.topdon.mapNotNull { entry ->
+                        entry.id.takeIf { it.isNotBlank() }
+                            ?.let(
+                                ::DeviceId
+                            )
+                    }
                 if (available.isEmpty()) {
                     return@collect
                 }
-                val current = _activeDeviceId.value
+                val current =
+                    _activeDeviceId.value
                 if (available.none { it == current }) {
-                    _activeDeviceId.value = available.first()
+                    _activeDeviceId.value =
+                        available.first()
                 }
             }
         }
     }
 
     override suspend fun refresh() {
-        scanning.value = true
+        scanning.value =
+            true
         try {
             sensorRepository.refreshInventory()
         } catch (t: Throwable) {
-            errors.value = t.message ?: "Topdon refresh failed."
+            errors.value =
+                t.message
+                    ?: "Topdon refresh failed."
         } finally {
-            scanning.value = false
+            scanning.value =
+                false
         }
     }
 
     override suspend fun connect() {
-        errors.value = null
-        val deviceId = _activeDeviceId.value
-        runCatching { sensorRepository.connect(deviceId) }
-            .onFailure { t -> errors.value = t.message ?: "Unable to connect to Topdon device." }
+        errors.value =
+            null
+        val deviceId =
+            _activeDeviceId.value
+        runCatching {
+            sensorRepository.connect(
+                deviceId
+            )
+        }
+            .onFailure { t ->
+                errors.value =
+                    t.message
+                        ?: "Unable to connect to Topdon device."
+            }
     }
 
     override suspend fun disconnect() {
-        errors.value = null
-        val deviceId = _activeDeviceId.value
-        runCatching { sensorRepository.disconnect(deviceId) }
-            .onFailure { t -> errors.value = t.message ?: "Unable to disconnect Topdon device." }
+        errors.value =
+            null
+        val deviceId =
+            _activeDeviceId.value
+        runCatching {
+            sensorRepository.disconnect(
+                deviceId
+            )
+        }
+            .onFailure { t ->
+                errors.value =
+                    t.message
+                        ?: "Unable to disconnect Topdon device."
+            }
     }
 
     override suspend fun startPreview() {
-        val result = connectorManager.startPreview(_activeDeviceId.value)
+        val result =
+            connectorManager.startPreview(
+                _activeDeviceId.value
+            )
         when (result) {
-            is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error?.message
-            else -> errors.value = null
+            is DeviceCommandResult.Rejected -> errors.value =
+                result.reason
+
+            is DeviceCommandResult.Failed -> errors.value =
+                result.error?.message
+
+            else -> errors.value =
+                null
         }
     }
 
     override suspend fun stopPreview() {
-        val result = connectorManager.stopPreview(_activeDeviceId.value)
+        val result =
+            connectorManager.stopPreview(
+                _activeDeviceId.value
+            )
         if (result is DeviceCommandResult.Failed) {
-            errors.value = result.error?.message
+            errors.value =
+                result.error?.message
         } else {
-            errors.value = null
+            errors.value =
+                null
         }
     }
 
-    override suspend fun setActiveDevice(deviceId: DeviceId) {
-        _activeDeviceId.value = deviceId
+    override suspend fun setActiveDevice(
+        deviceId: DeviceId
+    ) {
+        _activeDeviceId.value =
+            deviceId
         hardwareConfigRepository.updateConfig { config ->
-            val reordered = config.topdon.toMutableList()
-            val index = reordered.indexOfFirst { it.id == deviceId.value }
+            val reordered =
+                config.topdon.toMutableList()
+            val index =
+                reordered.indexOfFirst { it.id == deviceId.value }
             if (index > 0) {
-                val selected = reordered.removeAt(index)
-                reordered.add(0, selected)
-                config.copy(topdon = reordered)
+                val selected =
+                    reordered.removeAt(
+                        index
+                    )
+                reordered.add(
+                    0,
+                    selected
+                )
+                config.copy(
+                    topdon = reordered
+                )
             } else {
                 config
             }
@@ -185,36 +297,64 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
     }
 
     override suspend fun clearError() {
-        errors.value = null
+        errors.value =
+            null
     }
 
     override suspend fun capturePhoto() {
-        errors.value = null
-        val result = connectorManager.capturePhoto(_activeDeviceId.value)
+        errors.value =
+            null
+        val result =
+            connectorManager.capturePhoto(
+                _activeDeviceId.value
+            )
         when (result) {
-            is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error?.message
-            else -> errors.value = null
+            is DeviceCommandResult.Rejected -> errors.value =
+                result.reason
+
+            is DeviceCommandResult.Failed -> errors.value =
+                result.error?.message
+
+            else -> errors.value =
+                null
         }
     }
 
     override suspend fun startRecording() {
-        errors.value = null
-        val result = connectorManager.startRecording(_activeDeviceId.value)
+        errors.value =
+            null
+        val result =
+            connectorManager.startRecording(
+                _activeDeviceId.value
+            )
         when (result) {
-            is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error?.message
-            else -> errors.value = null
+            is DeviceCommandResult.Rejected -> errors.value =
+                result.reason
+
+            is DeviceCommandResult.Failed -> errors.value =
+                result.error?.message
+
+            else -> errors.value =
+                null
         }
     }
 
     override suspend fun stopRecording() {
-        errors.value = null
-        val result = connectorManager.stopRecording(_activeDeviceId.value)
+        errors.value =
+            null
+        val result =
+            connectorManager.stopRecording(
+                _activeDeviceId.value
+            )
         when (result) {
-            is DeviceCommandResult.Rejected -> errors.value = result.reason
-            is DeviceCommandResult.Failed -> errors.value = result.error?.message
-            else -> errors.value = null
+            is DeviceCommandResult.Rejected -> errors.value =
+                result.reason
+
+            is DeviceCommandResult.Failed -> errors.value =
+                result.error?.message
+
+            else -> errors.value =
+                null
         }
     }
 }

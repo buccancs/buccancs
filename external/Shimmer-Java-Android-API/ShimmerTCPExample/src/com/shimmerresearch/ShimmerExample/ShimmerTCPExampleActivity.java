@@ -42,12 +42,14 @@ public class ShimmerTCPExampleActivity extends Activity {
                         if (dOut != null) {
                             try {
                                 dOut.writeInt(dataojc.length);
-                            } catch (IOException e) {
+                            } catch (
+                                    IOException e) {
                                 e.printStackTrace();
                             }
                             try {
                                 dOut.write(dataojc);
-                            } catch (IOException e) {
+                            } catch (
+                                    IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
@@ -78,9 +80,11 @@ public class ShimmerTCPExampleActivity extends Activity {
                                         try {
                                             clientSocket = new Socket("10.1.1.1", 5000);
                                             dOut = new DataOutputStream(clientSocket.getOutputStream());
-                                        } catch (UnknownHostException e) {
+                                        } catch (
+                                                UnknownHostException e) {
                                             e.printStackTrace();
-                                        } catch (IOException e) {
+                                        } catch (
+                                                IOException e) {
                                             e.printStackTrace();
                                         }
                                     }

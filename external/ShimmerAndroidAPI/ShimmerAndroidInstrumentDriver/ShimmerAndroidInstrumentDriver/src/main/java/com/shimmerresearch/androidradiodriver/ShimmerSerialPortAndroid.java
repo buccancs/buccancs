@@ -73,7 +73,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
         try {
             device = mBluetoothAdapter.getRemoteDevice(mBluetoothAddress);
             mBluetoothSocket = device.createRfcommSocketToServiceRecord(mSPP_UUID);// If your device fails to pair try: device.createInsecureRfcommSocketToServiceRecord(mSPP_UUID)
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING);
         }
     }
@@ -81,7 +82,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     private void connectBluetoothSocket() {
         try {
             mBluetoothSocket.connect();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             closeBluetoothSocket();
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING);
         }
@@ -95,7 +97,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
             if (mUseListenerThread) {
                 startListening();
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING);
             return false;
         }
@@ -107,7 +110,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
             if (mBluetoothSocket != null) {
                 mBluetoothSocket.close();
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING);
         } finally {
             mBluetoothSocket = null;
@@ -119,7 +123,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
             if (mInStream != null) {
                 mInStream.close();
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING);
         } finally {
             mInStream = null;
@@ -132,7 +137,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
             if (mOutStream != null) {
                 mOutStream.close();
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING);
         } finally {
             mOutStream = null;
@@ -167,7 +173,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     public void txBytes(byte[] bytes) {
 
         synchronized (this) {
-            if (mState == ShimmerBluetooth.BT_STATE.DISCONNECTED) return;
+            if (mState == ShimmerBluetooth.BT_STATE.DISCONNECTED)
+                return;
         }
         write(bytes);
     }
@@ -175,7 +182,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     private void write(byte[] buffer) {
         try {
             mOutStream.write(buffer);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_WRITING_DATA);
         }
     }
@@ -187,7 +195,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
             try {
                 mInStream.readFully(buffer, 0, numBytes);
                 return (buffer);
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_READING_DATA);
             }
         }
@@ -214,7 +223,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
                 System.out.println("IN STREAM NULL");
                 return false;
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_READING_DATA);
             return false;
         }
@@ -224,7 +234,8 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
     public int availableBytes() {
         try {
             return mInStream.available();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             catchException(e, ErrorCodesSerialPort.SHIMMERUART_COMM_ERR_READING_DATA);
             return 0;
         }
@@ -272,12 +283,14 @@ public class ShimmerSerialPortAndroid extends AbstractSerialPortHal {
 
 
                     }
-                } catch (IOException e) {
+                } catch (
+                        IOException e) {
                     e.printStackTrace();
                 } finally {
                     try {
                         mInStream.close();
-                    } catch (IOException e) {
+                    } catch (
+                            IOException e) {
                         e.printStackTrace();
                     }
                 }

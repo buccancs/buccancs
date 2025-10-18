@@ -56,7 +56,8 @@ fun SettingsRoute(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
+    val context =
+        LocalContext.current
     SettingsScreen(
         state = state,
         onHostChanged = viewModel::onHostChanged,
@@ -66,12 +67,18 @@ fun SettingsRoute(
         onRetentionMaxSessionsChanged = viewModel::onRetentionMaxSessionsChanged,
         onRetentionMaxAgeDaysChanged = viewModel::onRetentionMaxAgeDaysChanged,
         onApplyOrchestrator = viewModel::applyOrchestrator,
-        onApplyRetention = { viewModel.applyRetention(context) },
+        onApplyRetention = {
+            viewModel.applyRetention(
+                context
+            )
+        },
         onClearMessage = viewModel::clearMessage
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun SettingsScreen(
     state: SettingsUiState,
@@ -89,18 +96,33 @@ fun SettingsScreen(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = "Settings") },
+                title = {
+                    Text(
+                        text = "Settings"
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors()
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(LayoutPadding.Screen),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    padding
+                )
+                .padding(
+                    LayoutPadding.Screen
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             item {
                 SectionHeader(
@@ -134,7 +156,9 @@ fun SettingsScreen(
                 )
             }
             item {
-                StorageSummaryCard(state = state)
+                StorageSummaryCard(
+                    state = state
+                )
             }
 
             item {
@@ -144,7 +168,9 @@ fun SettingsScreen(
                 )
             }
             item {
-                SimulationModeCard(state = state)
+                SimulationModeCard(
+                    state = state
+                )
             }
 
             item {
@@ -159,7 +185,10 @@ fun SettingsScreen(
 
             if (state.message != null) {
                 item {
-                    MessageCard(message = state.message, onDismiss = onClearMessage)
+                    MessageCard(
+                        message = state.message,
+                        onDismiss = onClearMessage
+                    )
                 }
             }
         }
@@ -186,14 +215,22 @@ private fun OrchestratorCard(
         OutlinedTextField(
             value = state.hostInput,
             onValueChange = onHostChanged,
-            label = { Text(text = "Host") },
+            label = {
+                Text(
+                    text = "Host"
+                )
+            },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = state.portInput,
             onValueChange = onPortChanged,
-            label = { Text(text = "Port") },
+            label = {
+                Text(
+                    text = "Port"
+                )
+            },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -226,16 +263,28 @@ private fun OrchestratorCard(
             enabled = !state.isApplying,
             modifier = Modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                .testTag("settings-apply-orchestrator")
+                .defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                )
+                .testTag(
+                    "settings-apply-orchestrator"
+                )
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = null,
-                modifier = Modifier.size(Dimensions.IconSizeSmall)
+                modifier = Modifier.size(
+                    Dimensions.IconSizeSmall
+                )
             )
-            Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-            Text(text = "Apply Connection")
+            Spacer(
+                modifier = Modifier.width(
+                    Spacing.ExtraSmall
+                )
+            )
+            Text(
+                text = "Apply Connection"
+            )
         }
     }
 }
@@ -263,7 +312,11 @@ private fun RetentionCard(
             shape = MaterialTheme.shapes.small
         ) {
             Text(
-                text = "Defaults: ${formatGigabytes(state.retentionDefaults.minFreeBytes)} free, " +
+                text = "Defaults: ${
+                    formatGigabytes(
+                        state.retentionDefaults.minFreeBytes
+                    )
+                } free, " +
                         "${state.retentionDefaults.maxSessions} sessions max, " +
                         "${state.retentionDefaults.maxAgeDays} days",
                 style = MaterialTheme.typography.bodySmall,
@@ -277,21 +330,33 @@ private fun RetentionCard(
         OutlinedTextField(
             value = state.retentionMinFreeInput,
             onValueChange = onMinFreeChanged,
-            label = { Text(text = "Minimum free space (GB)") },
+            label = {
+                Text(
+                    text = "Minimum free space (GB)"
+                )
+            },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = state.retentionMaxSessionsInput,
             onValueChange = onMaxSessionsChanged,
-            label = { Text(text = "Maximum sessions") },
+            label = {
+                Text(
+                    text = "Maximum sessions"
+                )
+            },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = state.retentionMaxAgeDaysInput,
             onValueChange = onMaxAgeDaysChanged,
-            label = { Text(text = "Maximum age (days)") },
+            label = {
+                Text(
+                    text = "Maximum age (days)"
+                )
+            },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -300,16 +365,28 @@ private fun RetentionCard(
             enabled = !state.isApplying,
             modifier = Modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = Dimensions.TouchTargetMinimum)
-                .testTag("settings-apply-retention")
+                .defaultMinSize(
+                    minHeight = Dimensions.TouchTargetMinimum
+                )
+                .testTag(
+                    "settings-apply-retention"
+                )
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = null,
-                modifier = Modifier.size(Dimensions.IconSizeSmall)
+                modifier = Modifier.size(
+                    Dimensions.IconSizeSmall
+                )
             )
-            Spacer(modifier = Modifier.width(Spacing.ExtraSmall))
-            Text(text = "Apply Policy")
+            Spacer(
+                modifier = Modifier.width(
+                    Spacing.ExtraSmall
+                )
+            )
+            Text(
+                text = "Apply Policy"
+            )
         }
     }
 }
@@ -318,7 +395,8 @@ private fun RetentionCard(
 private fun StorageSummaryCard(
     state: SettingsUiState
 ) {
-    val storage = state.storageState
+    val storage =
+        state.storageState
     SectionCard(
         modifier = Modifier.fillMaxWidth(),
         spacing = Spacing.Small
@@ -328,11 +406,33 @@ private fun StorageSummaryCard(
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
-        InfoRow("Total", formatBytes(storage.totalBytes))
-        InfoRow("Available", formatBytes(storage.availableBytes))
-        InfoRow("Used", formatBytes(storage.usedBytes))
-        InfoRow("Status", storage.status.name)
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
+        InfoRow(
+            "Total",
+            formatBytes(
+                storage.totalBytes
+            )
+        )
+        InfoRow(
+            "Available",
+            formatBytes(
+                storage.availableBytes
+            )
+        )
+        InfoRow(
+            "Used",
+            formatBytes(
+                storage.usedBytes
+            )
+        )
+        InfoRow(
+            "Status",
+            storage.status.name
+        )
     }
 }
 
@@ -392,15 +492,31 @@ private fun AppInfoCard() {
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.Small))
-        InfoRow("Version", BuildConfig.VERSION_NAME)
-        InfoRow("Build", BuildConfig.VERSION_CODE.toString())
-        InfoRow("Type", if (BuildConfig.DEBUG) "Debug" else "Release")
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                vertical = Spacing.Small
+            )
+        )
+        InfoRow(
+            "Version",
+            BuildConfig.VERSION_NAME
+        )
+        InfoRow(
+            "Build",
+            BuildConfig.VERSION_CODE.toString()
+        )
+        InfoRow(
+            "Type",
+            if (BuildConfig.DEBUG) "Debug" else "Release"
+        )
     }
 }
 
 @Composable
-private fun MessageCard(message: String, onDismiss: () -> Unit) {
+private fun MessageCard(
+    message: String,
+    onDismiss: () -> Unit
+) {
     SectionCard(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.elevatedCardColors(
@@ -411,42 +527,82 @@ private fun MessageCard(message: String, onDismiss: () -> Unit) {
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = null,
-                modifier = Modifier.size(Dimensions.IconSizeDefault)
+                modifier = Modifier.size(
+                    Dimensions.IconSizeDefault
+                )
             )
             Text(
                 text = message,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(
+                    1f
+                )
             )
             FilledTonalIconButton(
                 onClick = onDismiss,
-                modifier = Modifier.size(Dimensions.TouchTargetMinimum)
+                modifier = Modifier.size(
+                    Dimensions.TouchTargetMinimum
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Dismiss",
-                    modifier = Modifier.size(Dimensions.IconSizeSmall)
+                    modifier = Modifier.size(
+                        Dimensions.IconSizeSmall
+                    )
                 )
             }
         }
     }
 }
 
-private fun formatBytes(bytes: Long): String {
+private fun formatBytes(
+    bytes: Long
+): String {
     if (bytes <= 0) return "0 B"
-    val units = arrayOf("B", "KB", "MB", "GB", "TB")
-    val digitGroups = (Math.log10(bytes.toDouble()) / Math.log10(1024.0)).toInt()
-    val value = bytes / Math.pow(1024.0, digitGroups.toDouble())
-    return String.format(Locale.US, "%.1f %s", value, units[digitGroups])
+    val units =
+        arrayOf(
+            "B",
+            "KB",
+            "MB",
+            "GB",
+            "TB"
+        )
+    val digitGroups =
+        (Math.log10(
+            bytes.toDouble()
+        ) / Math.log10(
+            1024.0
+        )).toInt()
+    val value =
+        bytes / Math.pow(
+            1024.0,
+            digitGroups.toDouble()
+        )
+    return String.format(
+        Locale.US,
+        "%.1f %s",
+        value,
+        units[digitGroups]
+    )
 }
 
-private fun formatGigabytes(bytes: Long): String {
-    val gb = bytes.toDouble() / (1024.0 * 1024.0 * 1024.0)
-    return String.format(Locale.US, "%.2f GB", gb)
+private fun formatGigabytes(
+    bytes: Long
+): String {
+    val gb =
+        bytes.toDouble() / (1024.0 * 1024.0 * 1024.0)
+    return String.format(
+        Locale.US,
+        "%.2f GB",
+        gb
+    )
 }

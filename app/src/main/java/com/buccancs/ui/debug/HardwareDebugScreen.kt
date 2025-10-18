@@ -34,7 +34,9 @@ import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun HardwareDebugScreen(
     viewModel: HardwareDebugViewModel = hiltViewModel()
@@ -44,33 +46,54 @@ fun HardwareDebugScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Hardware Debugger") }
+                title = {
+                    Text(
+                        "Hardware Debugger"
+                    )
+                }
             )
         },
         containerColor = MaterialTheme.colorScheme.background,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(LayoutPadding.Screen),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    padding
+                )
+                .padding(
+                    LayoutPadding.Screen
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             // Control buttons
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small)
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    )
                 ) {
                     AnimatedButton(
                         onClick = { viewModel.startDebugSession() },
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(
+                            1f
+                        ),
                         text = "Start Session"
                     )
                     AnimatedOutlinedButton(
                         onClick = { viewModel.saveDebugLog() },
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(
+                            1f
+                        ),
                         text = "Save Log"
                     )
                 }
@@ -87,10 +110,22 @@ fun HardwareDebugScreen(
                             "System Information",
                             style = MaterialTheme.typography.titleMedium
                         )
-                        InfoRow("Device", "${info.manufacturer} ${info.model}")
-                        InfoRow("Android", "${info.androidVersion} (SDK ${info.sdkInt})")
-                        InfoRow("Memory", "${info.totalMemoryMb} MB")
-                        InfoRow("CPU", info.cpuAbi)
+                        InfoRow(
+                            "Device",
+                            "${info.manufacturer} ${info.model}"
+                        )
+                        InfoRow(
+                            "Android",
+                            "${info.androidVersion} (SDK ${info.sdkInt})"
+                        )
+                        InfoRow(
+                            "Memory",
+                            "${info.totalMemoryMb} MB"
+                        )
+                        InfoRow(
+                            "CPU",
+                            info.cpuAbi
+                        )
                     }
                 }
             }
@@ -103,9 +138,14 @@ fun HardwareDebugScreen(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                        horizontalArrangement = Arrangement.spacedBy(
+                            Spacing.ExtraSmall
+                        )
                     ) {
-                        Icon(Icons.Default.Usb, contentDescription = null)
+                        Icon(
+                            Icons.Default.Usb,
+                            contentDescription = null
+                        )
                         Text(
                             "USB Devices (${uiState.usbDevices.size})",
                             style = MaterialTheme.typography.titleMedium
@@ -124,8 +164,12 @@ fun HardwareDebugScreen(
                 }
             }
 
-            items(uiState.usbDevices) { device ->
-                UsbDeviceCard(device)
+            items(
+                uiState.usbDevices
+            ) { device ->
+                UsbDeviceCard(
+                    device
+                )
             }
 
             // Bluetooth info
@@ -137,18 +181,37 @@ fun HardwareDebugScreen(
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+                            horizontalArrangement = Arrangement.spacedBy(
+                                Spacing.ExtraSmall
+                            )
                         ) {
-                            Icon(Icons.Default.Bluetooth, contentDescription = null)
+                            Icon(
+                                Icons.Default.Bluetooth,
+                                contentDescription = null
+                            )
                             Text(
                                 "Bluetooth",
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }
-                        InfoRow("Available", info.isAvailable.toString())
-                        InfoRow("Enabled", info.isEnabled.toString())
-                        info.adapterName?.let { InfoRow("Adapter", it) }
-                        InfoRow("Bonded Devices", info.bondedDevices.size.toString())
+                        InfoRow(
+                            "Available",
+                            info.isAvailable.toString()
+                        )
+                        InfoRow(
+                            "Enabled",
+                            info.isEnabled.toString()
+                        )
+                        info.adapterName?.let {
+                            InfoRow(
+                                "Adapter",
+                                it
+                            )
+                        }
+                        InfoRow(
+                            "Bonded Devices",
+                            info.bondedDevices.size.toString()
+                        )
                     }
 
                     info.bondedDevices.forEach { device ->
@@ -157,7 +220,8 @@ fun HardwareDebugScreen(
                             spacing = Spacing.ExtraSmall
                         ) {
                             Text(
-                                device.name ?: "Unknown Device",
+                                device.name
+                                    ?: "Unknown Device",
                                 style = MaterialTheme.typography.titleSmall
                             )
                             Text(
@@ -165,10 +229,20 @@ fun HardwareDebugScreen(
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontFamily = FontFamily.Monospace
                             )
-                            InfoRow("Bond State", device.bondState.toString())
-                            InfoRow("Type", device.type.toString())
+                            InfoRow(
+                                "Bond State",
+                                device.bondState.toString()
+                            )
+                            InfoRow(
+                                "Type",
+                                device.type.toString()
+                            )
 
-                            if (device.name?.contains("Shimmer", ignoreCase = true) == true) {
+                            if (device.name?.contains(
+                                    "Shimmer",
+                                    ignoreCase = true
+                                ) == true
+                            ) {
                                 Text(
                                     "SHIMMER DEVICE",
                                     style = MaterialTheme.typography.labelMedium,
@@ -204,24 +278,53 @@ fun HardwareDebugScreen(
 }
 
 @Composable
-private fun UsbDeviceCard(device: UsbDeviceInfo) {
+private fun UsbDeviceCard(
+    device: UsbDeviceInfo
+) {
     SectionCard(
         modifier = Modifier.fillMaxWidth(),
         spacing = Spacing.Small
     ) {
         Text(
-            device.productName ?: device.deviceName,
+            device.productName
+                ?: device.deviceName,
             style = MaterialTheme.typography.titleSmall
         )
 
-        InfoRow("Vendor ID", "0x${device.vendorId.toString(16)}")
-        InfoRow("Product ID", "0x${device.productId.toString(16)}")
-        device.manufacturerName?.let { InfoRow("Manufacturer", it) }
-        device.serialNumber?.let { InfoRow("Serial", it) }
+        InfoRow(
+            "Vendor ID",
+            "0x${
+                device.vendorId.toString(
+                    16
+                )
+            }"
+        )
+        InfoRow(
+            "Product ID",
+            "0x${
+                device.productId.toString(
+                    16
+                )
+            }"
+        )
+        device.manufacturerName?.let {
+            InfoRow(
+                "Manufacturer",
+                it
+            )
+        }
+        device.serialNumber?.let {
+            InfoRow(
+                "Serial",
+                it
+            )
+        }
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.ExtraSmall
+            )
         ) {
             Icon(
                 if (device.hasPermission) Icons.Default.Check else Icons.Default.Close,
@@ -249,17 +352,24 @@ private fun UsbDeviceCard(device: UsbDeviceInfo) {
 }
 
 @Composable
-private fun InfoRow(label: String, value: String) {
+private fun InfoRow(
+    label: String,
+    value: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = Spacing.Hairline)
+            .padding(
+                vertical = Spacing.Hairline
+            )
     ) {
         Text(
             text = "$label: ",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.weight(0.4f)
+            modifier = Modifier.weight(
+                0.4f
+            )
         )
         Text(
             text = value,

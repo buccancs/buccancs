@@ -35,13 +35,19 @@ fun BuccancsCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = colors,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Medium)
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -49,8 +55,12 @@ fun BuccancsCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall),
-                    modifier = Modifier.weight(1f)
+                    verticalArrangement = Arrangement.spacedBy(
+                        Spacing.ExtraSmall
+                    ),
+                    modifier = Modifier.weight(
+                        1f
+                    )
                 ) {
                     Text(
                         text = title,
@@ -66,7 +76,9 @@ fun BuccancsCard(
                     }
                 }
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.Small),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    ),
                     verticalAlignment = Alignment.CenterVertically,
                     content = actions
                 )
@@ -88,17 +100,26 @@ fun BuccancsOutlinedCard(
 ) {
     OutlinedCard(
         modifier = modifier.fillMaxWidth(),
-        border = CardDefaults.outlinedCardBorder().copy(
-            width = 1.dp
-        )
+        border = CardDefaults.outlinedCardBorder()
+            .copy(
+                width = 1.dp
+            )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(Spacing.ExtraSmall)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    Spacing.ExtraSmall
+                )
+            ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
@@ -127,38 +148,45 @@ fun StatusCard(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit = {}
 ) {
-    val colors = when (status) {
-        StatusType.Success -> CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
+    val colors =
+        when (status) {
+            StatusType.Success -> CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
 
-        StatusType.Warning -> CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-        )
+            StatusType.Warning -> CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+            )
 
-        StatusType.Error -> CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer,
-            contentColor = MaterialTheme.colorScheme.onErrorContainer
-        )
+            StatusType.Error -> CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                contentColor = MaterialTheme.colorScheme.onErrorContainer
+            )
 
-        StatusType.Info -> CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
+            StatusType.Info -> CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
 
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = colors,
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 1.dp
+        )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Spacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(Spacing.Small)
+                .padding(
+                    Spacing.Medium
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Small
+            )
         ) {
             Text(
                 text = title,

@@ -2,20 +2,31 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializecommandSubscribeRequest")
-public inline fun commandSubscribeRequest(block: com.buccancs.control.CommandSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandSubscribeRequest =
-    com.buccancs.control.CommandSubscribeRequestKt.Dsl._create(com.buccancs.control.CommandSubscribeRequest.newBuilder())
-        .apply { block() }._build()
+@kotlin.jvm.JvmName(
+    "-initializecommandSubscribeRequest"
+)
+public inline fun commandSubscribeRequest(
+    block: com.buccancs.control.CommandSubscribeRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandSubscribeRequest =
+    com.buccancs.control.CommandSubscribeRequestKt.Dsl._create(
+        com.buccancs.control.CommandSubscribeRequest.newBuilder()
+    )
+        .apply { block() }
+        ._build()
 
 /**
  * Protobuf type `com.buccancs.control.CommandSubscribeRequest`
  */
 public object CommandSubscribeRequestKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.CommandSubscribeRequest.Builder
@@ -23,13 +34,16 @@ public object CommandSubscribeRequestKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.CommandSubscribeRequest.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.CommandSubscribeRequest.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.CommandSubscribeRequest = _builder.build()
+        internal fun _build(): com.buccancs.control.CommandSubscribeRequest =
+            _builder.build()
 
         /**
          * `string device_id = 1;`
@@ -37,7 +51,9 @@ public object CommandSubscribeRequestKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -53,7 +69,9 @@ public object CommandSubscribeRequestKt {
         public var sessionId: kotlin.String
             get() = _builder.getSessionId()
             set(value) {
-                _builder.setSessionId(value)
+                _builder.setSessionId(
+                    value
+                )
             }
 
         /**
@@ -67,8 +85,11 @@ public object CommandSubscribeRequestKt {
          * An uninstantiable, behaviorless type to represent the field in
          * generics.
          */
-        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-        public class CapabilitiesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+        @kotlin.OptIn(
+            com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+        )
+        public class CapabilitiesProxy private constructor() :
+            com.google.protobuf.kotlin.DslProxy()
 
         /**
          * `repeated string capabilities = 3;`
@@ -85,9 +106,15 @@ public object CommandSubscribeRequestKt {
          * @param value The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addCapabilities")
-        public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.add(value: kotlin.String) {
-            _builder.addCapabilities(value)
+        @kotlin.jvm.JvmName(
+            "addCapabilities"
+        )
+        public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.add(
+            value: kotlin.String
+        ) {
+            _builder.addCapabilities(
+                value
+            )
         }
 
         /**
@@ -95,8 +122,12 @@ public object CommandSubscribeRequestKt {
          * @param value The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignCapabilities")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignCapabilities"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(
             value: kotlin.String
         ) {
@@ -108,11 +139,15 @@ public object CommandSubscribeRequestKt {
          * @param values The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("addAllCapabilities")
+        @kotlin.jvm.JvmName(
+            "addAllCapabilities"
+        )
         public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.addAll(
             values: kotlin.collections.Iterable<kotlin.String>
         ) {
-            _builder.addAllCapabilities(values)
+            _builder.addAllCapabilities(
+                values
+            )
         }
 
         /**
@@ -120,12 +155,18 @@ public object CommandSubscribeRequestKt {
          * @param values The capabilities to add.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("plusAssignAllCapabilities")
-        @Suppress("NOTHING_TO_INLINE")
+        @kotlin.jvm.JvmName(
+            "plusAssignAllCapabilities"
+        )
+        @Suppress(
+            "NOTHING_TO_INLINE"
+        )
         public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.plusAssign(
             values: kotlin.collections.Iterable<kotlin.String>
         ) {
-            addAll(values)
+            addAll(
+                values
+            )
         }
 
         /**
@@ -134,19 +175,26 @@ public object CommandSubscribeRequestKt {
          * @param value The capabilities to set.
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("setCapabilities")
+        @kotlin.jvm.JvmName(
+            "setCapabilities"
+        )
         public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.set(
             index: kotlin.Int,
             value: kotlin.String
         ) {
-            _builder.setCapabilities(index, value)
+            _builder.setCapabilities(
+                index,
+                value
+            )
         }
 
         /**
          * `repeated string capabilities = 3;`
          */
         @kotlin.jvm.JvmSynthetic
-        @kotlin.jvm.JvmName("clearCapabilities")
+        @kotlin.jvm.JvmName(
+            "clearCapabilities"
+        )
         public fun com.google.protobuf.kotlin.DslList<kotlin.String, CapabilitiesProxy>.clear() {
             _builder.clearCapabilities()
         }
@@ -157,7 +205,9 @@ public object CommandSubscribeRequestKt {
         public var includeBroadcast: kotlin.Boolean
             get() = _builder.getIncludeBroadcast()
             set(value) {
-                _builder.setIncludeBroadcast(value)
+                _builder.setIncludeBroadcast(
+                    value
+                )
             }
 
         /**
@@ -170,7 +220,12 @@ public object CommandSubscribeRequestKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.CommandSubscribeRequest.copy(block: `com.buccancs.control`.CommandSubscribeRequestKt.Dsl.() -> kotlin.Unit): com.buccancs.control.CommandSubscribeRequest =
-    `com.buccancs.control`.CommandSubscribeRequestKt.Dsl._create(this.toBuilder()).apply { block() }
+public inline fun com.buccancs.control.CommandSubscribeRequest.copy(
+    block: `com.buccancs.control`.CommandSubscribeRequestKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.CommandSubscribeRequest =
+    `com.buccancs.control`.CommandSubscribeRequestKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
         ._build()
 

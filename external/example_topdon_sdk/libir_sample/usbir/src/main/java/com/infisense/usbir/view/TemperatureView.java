@@ -137,7 +137,8 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
                 while (!temperatureThread.isInterrupted() && runflag) {
                     synchronized (syncimage.dataLock) {
                         irtemp.setTempData(temperature);
-                        if (syncimage.type == 1) irtemp.setScale(16);
+                        if (syncimage.type == 1)
+                            irtemp.setScale(16);
                     }
                     LibIRTemp.TemperatureSampleResult temperatureSampleResult = irtemp.getTemperatureOfRect(new Rect(0, 0, imageWidth / 2, imageHeight - 1));
                     maxTemperature = temperatureSampleResult.maxTemperature;
@@ -1110,7 +1111,8 @@ public class TemperatureView extends SurfaceView implements SurfaceHolder.Callba
         temperatureThread.interrupt();
         try {
             temperatureThread.join();
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
     }

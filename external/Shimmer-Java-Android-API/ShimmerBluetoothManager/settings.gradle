@@ -1,4 +1,11 @@
-rootProject.name = 'ShimmerBluetoothManager'
+rootProject
+        .name =
+        'ShimmerBluetoothManager'
 
 include ':ShimmerDriver'
-project(':ShimmerDriver').projectDir = new File(settingsDir, '../ShimmerDriver')
+project(':ShimmerDriver')
+        .projectDir =
+        new File(
+                settingsDir,
+                '../ShimmerDriver'
+        )

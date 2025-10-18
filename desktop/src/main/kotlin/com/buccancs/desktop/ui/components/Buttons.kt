@@ -30,7 +30,9 @@ fun PrimaryButton(
             vertical = Spacing.Small
         )
     ) {
-        Text(text)
+        Text(
+            text
+        )
     }
 }
 
@@ -53,7 +55,9 @@ fun SecondaryButton(
             vertical = Spacing.Small
         )
     ) {
-        Text(text)
+        Text(
+            text
+        )
     }
 }
 
@@ -76,7 +80,9 @@ fun TertiaryButton(
             vertical = Spacing.Small
         )
     ) {
-        Text(text)
+        Text(
+            text
+        )
     }
 }
 
@@ -117,6 +123,8 @@ fun TonalButton(
             vertical = Spacing.Small
         )
     ) {
-        Text(text)
+        Text(
+            text
+        )
     }
 }

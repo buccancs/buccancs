@@ -2,13 +2,21 @@
 // source: orchestration.proto
 
 // Generated files should ignore deprecation warnings
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION"
+)
 
 package com.buccancs.control
 
-@kotlin.jvm.JvmName("-initializepreviewFrame")
-public inline fun previewFrame(block: com.buccancs.control.PreviewFrameKt.Dsl.() -> kotlin.Unit): com.buccancs.control.PreviewFrame =
-    com.buccancs.control.PreviewFrameKt.Dsl._create(com.buccancs.control.PreviewFrame.newBuilder())
+@kotlin.jvm.JvmName(
+    "-initializepreviewFrame"
+)
+public inline fun previewFrame(
+    block: com.buccancs.control.PreviewFrameKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.PreviewFrame =
+    com.buccancs.control.PreviewFrameKt.Dsl._create(
+        com.buccancs.control.PreviewFrame.newBuilder()
+    )
         .apply { block() }
         ._build()
 
@@ -16,7 +24,9 @@ public inline fun previewFrame(block: com.buccancs.control.PreviewFrameKt.Dsl.()
  * Protobuf type `com.buccancs.control.PreviewFrame`
  */
 public object PreviewFrameKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @kotlin.OptIn(
+        com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class
+    )
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
         private val _builder: com.buccancs.control.PreviewFrame.Builder
@@ -24,13 +34,16 @@ public object PreviewFrameKt {
         public companion object {
             @kotlin.jvm.JvmSynthetic
             @kotlin.PublishedApi
-            internal fun _create(builder: com.buccancs.control.PreviewFrame.Builder): Dsl =
+            internal fun _create(
+                builder: com.buccancs.control.PreviewFrame.Builder
+            ): Dsl =
                 Dsl(builder)
         }
 
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _build(): com.buccancs.control.PreviewFrame = _builder.build()
+        internal fun _build(): com.buccancs.control.PreviewFrame =
+            _builder.build()
 
         /**
          * `string device_id = 1;`
@@ -38,7 +51,9 @@ public object PreviewFrameKt {
         public var deviceId: kotlin.String
             get() = _builder.getDeviceId()
             set(value) {
-                _builder.setDeviceId(value)
+                _builder.setDeviceId(
+                    value
+                )
             }
 
         /**
@@ -54,7 +69,9 @@ public object PreviewFrameKt {
         public var cameraId: kotlin.String
             get() = _builder.getCameraId()
             set(value) {
-                _builder.setCameraId(value)
+                _builder.setCameraId(
+                    value
+                )
             }
 
         /**
@@ -70,7 +87,9 @@ public object PreviewFrameKt {
         public var frameTimestampEpochMs: kotlin.Long
             get() = _builder.getFrameTimestampEpochMs()
             set(value) {
-                _builder.setFrameTimestampEpochMs(value)
+                _builder.setFrameTimestampEpochMs(
+                    value
+                )
             }
 
         /**
@@ -86,7 +105,9 @@ public object PreviewFrameKt {
         public var encodedFrame: com.google.protobuf.ByteString
             get() = _builder.getEncodedFrame()
             set(value) {
-                _builder.setEncodedFrame(value)
+                _builder.setEncodedFrame(
+                    value
+                )
             }
 
         /**
@@ -102,7 +123,9 @@ public object PreviewFrameKt {
         public var mimeType: kotlin.String
             get() = _builder.getMimeType()
             set(value) {
-                _builder.setMimeType(value)
+                _builder.setMimeType(
+                    value
+                )
             }
 
         /**
@@ -118,7 +141,9 @@ public object PreviewFrameKt {
         public var width: kotlin.Int
             get() = _builder.getWidth()
             set(value) {
-                _builder.setWidth(value)
+                _builder.setWidth(
+                    value
+                )
             }
 
         /**
@@ -134,7 +159,9 @@ public object PreviewFrameKt {
         public var height: kotlin.Int
             get() = _builder.getHeight()
             set(value) {
-                _builder.setHeight(value)
+                _builder.setHeight(
+                    value
+                )
             }
 
         /**
@@ -147,6 +174,12 @@ public object PreviewFrameKt {
 }
 
 @kotlin.jvm.JvmSynthetic
-public inline fun com.buccancs.control.PreviewFrame.copy(block: `com.buccancs.control`.PreviewFrameKt.Dsl.() -> kotlin.Unit): com.buccancs.control.PreviewFrame =
-    `com.buccancs.control`.PreviewFrameKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun com.buccancs.control.PreviewFrame.copy(
+    block: `com.buccancs.control`.PreviewFrameKt.Dsl.() -> kotlin.Unit
+): com.buccancs.control.PreviewFrame =
+    `com.buccancs.control`.PreviewFrameKt.Dsl._create(
+        this.toBuilder()
+    )
+        .apply { block() }
+        ._build()
 

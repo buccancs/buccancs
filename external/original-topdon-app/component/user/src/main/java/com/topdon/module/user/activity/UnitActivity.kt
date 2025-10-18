@@ -20,18 +20,30 @@ import com.topdon.lib.core.common.SharedManager
 import com.topdon.lib.core.config.RouterConfig
 import com.topdon.module.user.R
 
-@Route(path = RouterConfig.UNIT)
-class UnitActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Route(
+    path = RouterConfig.UNIT
+)
+class UnitActivity :
+    ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(
+            savedInstanceState
+        )
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
 
         setContent {
             MaterialTheme {
                 UnitScreen(
                     initialUnit = SharedManager.getTemperature(),
                     onUnitChanged = { unit ->
-                        SharedManager.setTemperature(unit)
+                        SharedManager.setTemperature(
+                            unit
+                        )
                     },
                     onNavigateUp = { finish() }
                 )
@@ -40,21 +52,35 @@ class UnitActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
 @Composable
 private fun UnitScreen(
     initialUnit: Int,
     onUnitChanged: (Int) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    var selectedUnit by remember { mutableIntStateOf(initialUnit) }
+    var selectedUnit by remember {
+        mutableIntStateOf(
+            initialUnit
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.unit_title)) },
+                title = {
+                    Text(
+                        stringResource(
+                            R.string.unit_title
+                        )
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
+                    IconButton(
+                        onClick = onNavigateUp
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -64,11 +90,17 @@ private fun UnitScreen(
                 actions = {
                     TextButton(
                         onClick = {
-                            onUnitChanged(selectedUnit)
+                            onUnitChanged(
+                                selectedUnit
+                            )
                             onNavigateUp()
                         }
                     ) {
-                        Text(stringResource(R.string.done))
+                        Text(
+                            stringResource(
+                                R.string.done
+                            )
+                        )
                     }
                 }
             )
@@ -77,22 +109,38 @@ private fun UnitScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(
+                    padding
+                )
+                .padding(
+                    16.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                8.dp
+            )
         ) {
             UnitOption(
-                title = stringResource(R.string.degrees_celsius),
+                title = stringResource(
+                    R.string.degrees_celsius
+                ),
                 subtitle = "°C",
                 selected = selectedUnit == 1,
-                onClick = { selectedUnit = 1 }
+                onClick = {
+                    selectedUnit =
+                        1
+                }
             )
 
             UnitOption(
-                title = stringResource(R.string.fahrenheit),
+                title = stringResource(
+                    R.string.fahrenheit
+                ),
                 subtitle = "°F",
                 selected = selectedUnit == 0,
-                onClick = { selectedUnit = 0 }
+                onClick = {
+                    selectedUnit =
+                        0
+                }
             )
         }
     }
@@ -108,7 +156,9 @@ private fun UnitOption(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(
+                onClick = onClick
+            ),
         colors = CardDefaults.cardColors(
             containerColor = if (selected) {
                 MaterialTheme.colorScheme.primaryContainer
@@ -120,7 +170,9 @@ private fun UnitOption(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(
+                    16.dp
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

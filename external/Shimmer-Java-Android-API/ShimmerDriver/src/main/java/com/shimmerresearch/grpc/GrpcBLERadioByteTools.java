@@ -40,7 +40,8 @@ public class GrpcBLERadioByteTools {
                 try {
                     int port = grpcTools.startServer();
                     System.out.println("Server Started : " + port);
-                } catch (Exception e1) {
+                } catch (
+                        Exception e1) {
                     e1.printStackTrace();
                 }
             }
@@ -79,7 +80,8 @@ public class GrpcBLERadioByteTools {
                     port = grpcTools.getFreePort();
 
                     System.out.println(port + " is free");
-                } catch (Exception e1) {
+                } catch (
+                        Exception e1) {
                     e1.printStackTrace();
                 }
             }
@@ -98,7 +100,8 @@ public class GrpcBLERadioByteTools {
                 ServerSocket serverSocket = new ServerSocket(i);
                 serverSocket.close();
                 return i;
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 System.out.println("Port in use: " + i);
             }
 
@@ -119,7 +122,8 @@ public class GrpcBLERadioByteTools {
             }
 
             return false;
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -144,7 +148,8 @@ public class GrpcBLERadioByteTools {
                 while ((line = reader.readLine()) != null) {
                     System.out.println(line);
                 }
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
         });

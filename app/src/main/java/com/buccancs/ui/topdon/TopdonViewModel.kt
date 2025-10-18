@@ -29,39 +29,60 @@ class TopdonViewModel @Inject constructor(
     private val settingsRepository: TopdonSettingsRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val streamState = deviceRepository.deviceState
-    private val previewFrames = deviceRepository.previewFrame
-    private val settingsFlow = settingsRepository.settings
+    private val streamState =
+        deviceRepository.deviceState
+    private val previewFrames =
+        deviceRepository.previewFrame
+    private val settingsFlow =
+        settingsRepository.settings
 
-    val uiState: StateFlow<TopdonUiState> = combine(
-        streamState,
-        previewFrames,
-        settingsFlow
-    ) { deviceState, previewFrame, settings ->
-        TopdonUiState(
-            deviceLabel = deviceState.device?.displayName ?: "Topdon TC001",
-            connectionStatusLabel = formatConnection(deviceState.device?.connectionStatus),
-            isConnected = deviceState.device?.connectionStatus is ConnectionStatus.Connected,
-            previewActive = deviceState.previewActive,
-            previewFrame = previewFrame,
-            lastPreviewTimestamp = deviceState.lastPreviewTimestamp,
-            scanning = deviceState.scanning,
-            errorMessage = deviceState.lastError,
-            settings = settings,
-            streamStatuses = deviceState.statuses.map { it.toUiModel() },
-            paletteOptions = TopdonPalette.values().toList(),
-            superSamplingOptions = TopdonSuperSamplingFactor.values().toList()
+    val uiState: StateFlow<TopdonUiState> =
+        combine(
+            streamState,
+            previewFrames,
+            settingsFlow
+        ) { deviceState, previewFrame, settings ->
+            TopdonUiState(
+                deviceLabel = deviceState.device?.displayName
+                    ?: "Topdon TC001",
+                connectionStatusLabel = formatConnection(
+                    deviceState.device?.connectionStatus
+                ),
+                isConnected = deviceState.device?.connectionStatus is ConnectionStatus.Connected,
+                previewActive = deviceState.previewActive,
+                previewFrame = previewFrame,
+                lastPreviewTimestamp = deviceState.lastPreviewTimestamp,
+                scanning = deviceState.scanning,
+                errorMessage = deviceState.lastError,
+                settings = settings,
+                streamStatuses = deviceState.statuses.map { it.toUiModel() },
+                paletteOptions = TopdonPalette.values()
+                    .toList(),
+                superSamplingOptions = TopdonSuperSamplingFactor.values()
+                    .toList()
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                5_000
+            ),
+            initialValue = TopdonUiState.initial()
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = TopdonUiState.initial()
-    )
 
     init {
-        val deviceIdArg = savedStateHandle.get<String>(DEVICE_ID_KEY)?.takeIf { it.isNotBlank() }
+        val deviceIdArg =
+            savedStateHandle.get<String>(
+                DEVICE_ID_KEY
+            )
+                ?.takeIf { it.isNotBlank() }
         if (deviceIdArg != null) {
-            viewModelScope.launch { deviceRepository.setActiveDevice(DeviceId(deviceIdArg)) }
+            viewModelScope.launch {
+                deviceRepository.setActiveDevice(
+                    DeviceId(
+                        deviceIdArg
+                    )
+                )
+            }
         }
     }
 
@@ -86,7 +107,8 @@ class TopdonViewModel @Inject constructor(
     }
 
     fun togglePreview() {
-        val active = uiState.value.previewActive
+        val active =
+            uiState.value.previewActive
         viewModelScope.launch {
             if (active) {
                 deviceRepository.stopPreview()
@@ -96,27 +118,43 @@ class TopdonViewModel @Inject constructor(
         }
     }
 
-    fun setAutoConnect(enabled: Boolean) {
+    fun setAutoConnect(
+        enabled: Boolean
+    ) {
         viewModelScope.launch {
-            settingsRepository.setAutoConnect(enabled)
+            settingsRepository.setAutoConnect(
+                enabled
+            )
         }
     }
 
-    fun selectPalette(palette: TopdonPalette) {
+    fun selectPalette(
+        palette: TopdonPalette
+    ) {
         viewModelScope.launch {
-            settingsRepository.setPalette(palette)
+            settingsRepository.setPalette(
+                palette
+            )
         }
     }
 
-    fun selectSuperSampling(factor: TopdonSuperSamplingFactor) {
+    fun selectSuperSampling(
+        factor: TopdonSuperSamplingFactor
+    ) {
         viewModelScope.launch {
-            settingsRepository.setSuperSampling(factor)
+            settingsRepository.setSuperSampling(
+                factor
+            )
         }
     }
 
-    fun updatePreviewFps(limit: Int) {
+    fun updatePreviewFps(
+        limit: Int
+    ) {
         viewModelScope.launch {
-            settingsRepository.setPreviewFpsLimit(limit)
+            settingsRepository.setPreviewFpsLimit(
+                limit
+            )
         }
     }
 
@@ -124,8 +162,14 @@ class TopdonViewModel @Inject constructor(
         viewModelScope.launch { deviceRepository.clearError() }
     }
 
-    fun setActiveDevice(deviceId: DeviceId) {
-        viewModelScope.launch { deviceRepository.setActiveDevice(deviceId) }
+    fun setActiveDevice(
+        deviceId: DeviceId
+    ) {
+        viewModelScope.launch {
+            deviceRepository.setActiveDevice(
+                deviceId
+            )
+        }
     }
 
     fun capturePhoto() {
@@ -151,22 +195,42 @@ class TopdonViewModel @Inject constructor(
                 SensorStreamType.AUDIO -> "Audio"
             },
             detail = buildString {
-                frameRateFps?.let { append(String.format(Locale.US, "%.1f fps", it)) }
+                frameRateFps?.let {
+                    append(
+                        String.format(
+                            Locale.US,
+                            "%.1f fps",
+                            it
+                        )
+                    )
+                }
                 if (sampleRateHz != null) {
-                    if (isNotEmpty()) append(" | ")
-                    append(String.format(Locale.US, "%.1f Hz", sampleRateHz))
+                    if (isNotEmpty()) append(
+                        " | "
+                    )
+                    append(
+                        String.format(
+                            Locale.US,
+                            "%.1f Hz",
+                            sampleRateHz
+                        )
+                    )
                 }
             }
         )
 
-    private fun formatConnection(status: ConnectionStatus?): String = when (status) {
-        is ConnectionStatus.Connected -> "Connected since ${status.since}"
-        ConnectionStatus.Connecting -> "Connecting"
-        ConnectionStatus.Disconnected, null -> "Disconnected"
-    }
+    private fun formatConnection(
+        status: ConnectionStatus?
+    ): String =
+        when (status) {
+            is ConnectionStatus.Connected -> "Connected since ${status.since}"
+            ConnectionStatus.Connecting -> "Connecting"
+            ConnectionStatus.Disconnected, null -> "Disconnected"
+        }
 
     companion object {
-        const val DEVICE_ID_KEY = "deviceId"
+        const val DEVICE_ID_KEY =
+            "deviceId"
     }
 }
 
@@ -189,20 +253,23 @@ data class TopdonUiState(
         get() = settings.autoConnectOnAttach
 
     companion object {
-        fun initial(): TopdonUiState = TopdonUiState(
-            deviceLabel = "Topdon TC001",
-            connectionStatusLabel = "Disconnected",
-            isConnected = false,
-            previewActive = false,
-            previewFrame = null,
-            lastPreviewTimestamp = null,
-            scanning = false,
-            errorMessage = null,
-            settings = TopdonSettings(),
-            streamStatuses = emptyList(),
-            paletteOptions = TopdonPalette.values().toList(),
-            superSamplingOptions = TopdonSuperSamplingFactor.values().toList()
-        )
+        fun initial(): TopdonUiState =
+            TopdonUiState(
+                deviceLabel = "Topdon TC001",
+                connectionStatusLabel = "Disconnected",
+                isConnected = false,
+                previewActive = false,
+                previewFrame = null,
+                lastPreviewTimestamp = null,
+                scanning = false,
+                errorMessage = null,
+                settings = TopdonSettings(),
+                streamStatuses = emptyList(),
+                paletteOptions = TopdonPalette.values()
+                    .toList(),
+                superSamplingOptions = TopdonSuperSamplingFactor.values()
+                    .toList()
+            )
     }
 }
 

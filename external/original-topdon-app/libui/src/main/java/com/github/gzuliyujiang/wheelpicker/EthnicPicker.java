@@ -128,7 +128,8 @@ public class EthnicPicker extends OptionPicker {
                 entity.setSpelling(jsonObject.getString("spelling"));
                 data.add(entity);
             }
-        } catch (JSONException e) {
+        } catch (
+                JSONException e) {
             DialogLog.print(e);
         }
         switch (ethnicSpec) {
