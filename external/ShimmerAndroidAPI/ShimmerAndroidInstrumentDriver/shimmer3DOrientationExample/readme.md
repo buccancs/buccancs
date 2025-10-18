@@ -33,20 +33,26 @@ be
 calibrated
 
 -
+
 Low
 Noise
 Accel
+
 -
+
 Gyroscope
 at
 500dps
+
 -
+
 Magnetometer
 
 Known
 issues:-
 
 -
+
 Magnetometer
 is
 fixed

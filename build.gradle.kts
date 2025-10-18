@@ -75,6 +75,14 @@ private data class ExternalProjectBuild(
 
 private val externalBuilds =
     listOf(
+        // IRCamera - Topdon thermal camera application
+        ExternalProjectBuild(
+            "buildIRCamera",
+            "external/IRCamera",
+            tasksToRun = listOf("assembleDebug"),
+            maxSupportedJavaMajor = 21
+        ),
+        
         // Temporarily disabled due to Gradle version conflict
         ExternalProjectBuild(
             "buildOriginalTopdonApp",

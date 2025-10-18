@@ -19,6 +19,7 @@ Legacy
 Example
 
 -
+
 This
 example
 demonstrates
@@ -37,7 +38,9 @@ of
 the
 Bluetooth
 Manager
+
 -
+
 This
 example
 assume
@@ -53,7 +56,9 @@ Low
 Noise
 Accelerometer
 enabled
+
 -
+
 The
 build.gradle
 file
@@ -76,6 +81,7 @@ compile 'ShimmerAndroidInstrumentDriver:ShimmerAndroidInstrumentDriver:3.0.65Bet
 ```
 
 -
+
 Note
 you
 will

@@ -18,10 +18,10 @@ kapt {
 android {
     namespace "com.topdon.module.thermal.ir"
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdk
+    rootProject
+            .ext
+            .android
+            .compileSdk
 
     defaultConfig {
         minSdk rootProject
@@ -29,10 +29,10 @@ android {
                 .android
                 .minSdk
         targetSdk
-                rootProject
-                        .ext
-                        .android
-                        .targetSdk
+        rootProject
+                .ext
+                .android
+                .targetSdk
 
         buildConfigField "String",
                 "VERSION_NAME",
@@ -44,19 +44,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
         targetCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
     }
     kotlinOptions {
         jvmTarget =
@@ -105,17 +105,17 @@ dependencies {
     )
 
     implementation
-            project(':libapp')
+    project(':libapp')
     implementation
-            project(':libcom')
+    project(':libcom')
     implementation
-            project(':libir')
+    project(':libir')
     implementation
-            project(':libmenu')
+    project(':libmenu')
     implementation
-            project(':libui')
+    project(':libui')
     implementation
-            project(':component:pseudo')
+    project(':component:pseudo')
 
     kapt libs
             .arouter
@@ -140,7 +140,7 @@ dependencies {
                     'androidx.compose:compose-bom:2024.09.03'
             )
     implementation
-            composeBom
+    composeBom
 
     // Material 3
     implementation 'androidx.compose.material3:material3'

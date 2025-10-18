@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Error
@@ -31,25 +29,19 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -60,10 +52,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import com.buccancs.ui.components.SectionCard
@@ -75,57 +63,11 @@ import com.buccancs.ui.theme.Spacing
 import kotlin.math.roundToInt
 import kotlin.time.Instant
 
-@OptIn(
-    ExperimentalMaterial3Api::class
-)
-@Composable
-fun TopdonRoute(
-    deviceId: DeviceId,
-    onNavigateUp: () -> Unit,
-    onNavigateToThermalPreview: () -> Unit = {},
-    onNavigateToGallery: () -> Unit = {},
-    onNavigateToSettings: () -> Unit = {},
-    onNavigateToGuide: () -> Unit = {},
-    viewModel: TopdonViewModel = hiltViewModel()
-) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-    LaunchedEffect(
-        deviceId
-    ) {
-        viewModel.setActiveDevice(
-            deviceId
-        )
-        viewModel.refresh()
-    }
-    TopdonScreen(
-        state = state,
-        onNavigateUp = onNavigateUp,
-        onNavigateToThermalPreview = onNavigateToThermalPreview,
-        onNavigateToGallery = onNavigateToGallery,
-        onNavigateToSettings = onNavigateToSettings,
-        onNavigateToGuide = onNavigateToGuide,
-        onRefresh = viewModel::refresh,
-        onConnect = viewModel::connect,
-        onDisconnect = viewModel::disconnect,
-        onStartPreview = viewModel::startPreview,
-        onStopPreview = viewModel::stopPreview,
-        onTogglePreview = viewModel::togglePreview,
-        onSetAutoConnect = viewModel::setAutoConnect,
-        onSelectPalette = viewModel::selectPalette,
-        onSelectSuperSampling = viewModel::selectSuperSampling,
-        onUpdatePreviewFps = viewModel::updatePreviewFps,
-        onClearError = viewModel::clearError
-    )
-}
-
 @VisibleForTesting
-@OptIn(
-    ExperimentalMaterial3Api::class
-)
 @Composable
-internal fun TopdonScreen(
+internal fun TopdonMonitorPage(
     state: TopdonUiState,
-    onNavigateUp: () -> Unit,
+    modifier: Modifier = Modifier,
     onNavigateToThermalPreview: () -> Unit,
     onNavigateToGallery: () -> Unit,
     onNavigateToSettings: () -> Unit,
@@ -142,97 +84,49 @@ internal fun TopdonScreen(
     onUpdatePreviewFps: (Int) -> Unit,
     onClearError: () -> Unit
 ) {
-    val toolbarState =
-        rememberTopAppBarState()
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Topdon TC001",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = onNavigateUp
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Navigate back"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = onNavigateToSettings
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "Settings"
-                        )
-                    }
-                },
-                scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
-                    toolbarState
-                )
-            )
-        },
-        contentWindowInsets = WindowInsets(
-            0,
-            0,
-            0,
-            0
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(
+                LayoutPadding.Screen
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.Medium
         )
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    padding
-                )
-                .padding(
-                    LayoutPadding.Screen
-                ),
-            verticalArrangement = Arrangement.spacedBy(
-                Spacing.Medium
+    ) {
+        item {
+            TopdonStatusCard(
+                state,
+                onRefresh,
+                onConnect,
+                onDisconnect,
+                onClearError,
+                onNavigateToGuide
             )
-        ) {
-            item {
-                TopdonStatusCard(
-                    state,
-                    onRefresh,
-                    onConnect,
-                    onDisconnect,
-                    onClearError,
-                    onNavigateToGuide
-                )
-            }
-            item {
-                TopdonPreviewCard(
-                    state,
-                    onStartPreview,
-                    onStopPreview,
-                    onTogglePreview,
-                    onNavigateToThermalPreview
-                )
-            }
-            item {
-                TopdonQuickActionsCard(
-                    onNavigateToGallery,
-                    onNavigateToSettings
-                )
-            }
-            item {
-                TopdonSettingsCard(
-                    state,
-                    onSetAutoConnect,
-                    onSelectPalette,
-                    onSelectSuperSampling,
-                    onUpdatePreviewFps
-                )
-            }
+        }
+        item {
+            TopdonPreviewCard(
+                state,
+                onStartPreview,
+                onStopPreview,
+                onTogglePreview,
+                onNavigateToThermalPreview
+            )
+        }
+        item {
+            TopdonQuickActionsCard(
+                onNavigateToGallery,
+                onNavigateToSettings
+            )
+        }
+        item {
+            TopdonSettingsCard(
+                state,
+                onSetAutoConnect,
+                onSelectPalette,
+                onSelectSuperSampling,
+                onUpdatePreviewFps
+            )
         }
     }
 }
@@ -246,6 +140,17 @@ private fun TopdonStatusCard(
     onClearError: () -> Unit,
     onNavigateToGuide: () -> Unit
 ) {
+    val previewColour =
+        when (state.previewStateCode) {
+            ThermalUiStateCode.PREVIEW_STREAMING,
+            ThermalUiStateCode.PREVIEW_RECORDING ->
+                MaterialTheme.colorScheme.primary
+
+            ThermalUiStateCode.PREVIEW_ERROR ->
+                MaterialTheme.colorScheme.error
+
+            else -> MaterialTheme.colorScheme.onSurfaceVariant
+        }
     SectionCard(
         modifier = Modifier.fillMaxWidth(),
         spacing = Spacing.SmallMedium
@@ -283,15 +188,22 @@ private fun TopdonStatusCard(
                             MaterialTheme.colorScheme.onSurfaceVariant
                         }
                     )
-                    Text(
-                        text = state.connectionStatusLabel,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = if (state.isConnected) {
-                            MaterialTheme.colorScheme.primary
-                        } else {
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        }
-                    )
+                    Column {
+                        Text(
+                            text = state.connectionStatusLabel,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = if (state.isConnected) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            }
+                        )
+                        Text(
+                            text = state.previewStateSummary,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = previewColour
+                        )
+                    }
                 }
             }
             if (state.scanning) {
@@ -489,6 +401,51 @@ private fun TopdonPreviewCard(
         modifier = Modifier.fillMaxWidth(),
         spacing = Spacing.Small
     ) {
+        val (previewIcon, chipContainer, chipLabelColour) =
+            when (state.previewStateCode) {
+                ThermalUiStateCode.PREVIEW_STREAMING,
+                ThermalUiStateCode.PREVIEW_RECORDING ->
+                    Triple(
+                        Icons.Default.PlayArrow,
+                        MaterialTheme.colorScheme.primaryContainer,
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+
+                ThermalUiStateCode.PREVIEW_BUFFERING ->
+                    Triple(
+                        Icons.Default.Refresh,
+                        MaterialTheme.colorScheme.secondaryContainer,
+                        MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+
+                ThermalUiStateCode.PREVIEW_ERROR ->
+                    Triple(
+                        Icons.Default.Error,
+                        MaterialTheme.colorScheme.errorContainer,
+                        MaterialTheme.colorScheme.onErrorContainer
+                    )
+
+                ThermalUiStateCode.DEVICE_CONNECTING ->
+                    Triple(
+                        Icons.Default.Refresh,
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                ThermalUiStateCode.DEVICE_READY ->
+                    Triple(
+                        Icons.Default.PlayArrow,
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                ThermalUiStateCode.DEVICE_DISCONNECTED ->
+                    Triple(
+                        Icons.Default.Stop,
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+            }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -503,12 +460,12 @@ private fun TopdonPreviewCard(
                 onClick = onTogglePreview,
                 label = {
                     Text(
-                        if (state.previewActive) "Streaming" else "Idle"
+                        state.previewStateSummary
                     )
                 },
                 leadingIcon = {
                     Icon(
-                        imageVector = if (state.previewActive) Icons.Default.PlayArrow else Icons.Default.Stop,
+                        imageVector = previewIcon,
                         contentDescription = null,
                         modifier = Modifier.size(
                             Dimensions.IconSizeSmall
@@ -516,8 +473,8 @@ private fun TopdonPreviewCard(
                     )
                 },
                 colors = AssistChipDefaults.assistChipColors(
-                    containerColor = if (state.previewActive) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                    labelColor = if (state.previewActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                    containerColor = chipContainer,
+                    labelColor = chipLabelColour
                 )
             )
         }
@@ -551,15 +508,15 @@ private fun TopdonPreviewCard(
                         )
                     ) {
                         Icon(
-                            imageVector = if (state.previewActive) Icons.Default.PlayArrow else Icons.Default.Stop,
+                            imageVector = previewIcon,
                             contentDescription = null,
                             modifier = Modifier.size(
                                 Dimensions.IconSizeLarge
                             ),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = chipLabelColour
                         )
                         Text(
-                            text = if (state.previewActive) "Awaiting frame..." else "Preview idle",
+                            text = state.previewStateCode.label,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -591,9 +548,21 @@ private fun TopdonPreviewCard(
                 Spacing.Small
             )
         ) {
+            val canStartPreview =
+                state.previewStateCode in setOf(
+                    ThermalUiStateCode.DEVICE_READY,
+                    ThermalUiStateCode.DEVICE_DISCONNECTED,
+                    ThermalUiStateCode.PREVIEW_ERROR
+                )
+            val canStopPreview =
+                state.previewStateCode in setOf(
+                    ThermalUiStateCode.PREVIEW_STREAMING,
+                    ThermalUiStateCode.PREVIEW_RECORDING,
+                    ThermalUiStateCode.PREVIEW_BUFFERING
+                )
             TopdonButton(
                 onClick = onStartPreview,
-                enabled = state.isConnected && !state.previewActive,
+                enabled = canStartPreview,
                 modifier = Modifier.weight(
                     1f
                 )
@@ -616,7 +585,7 @@ private fun TopdonPreviewCard(
             }
             TopdonOutlinedButton(
                 onClick = onStopPreview,
-                enabled = state.previewActive,
+                enabled = canStopPreview,
                 modifier = Modifier.weight(
                     1f
                 )
@@ -640,7 +609,7 @@ private fun TopdonPreviewCard(
 
             FilledTonalIconButton(
                 onClick = onNavigateToThermalPreview,
-                enabled = state.isConnected,
+                enabled = state.previewStateCode != ThermalUiStateCode.DEVICE_DISCONNECTED,
                 modifier = Modifier.size(
                     Dimensions.TouchTargetMinimum
                 )

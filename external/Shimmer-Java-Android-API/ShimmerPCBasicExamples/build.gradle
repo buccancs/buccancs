@@ -45,11 +45,11 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.16'
     implementation 'com.parse.bolts:bolts-tasks:1.4.0'
     implementation
-            project(':ShimmerDriver')
+    project(':ShimmerDriver')
     implementation
-            project(':ShimmerDriverPC')
+    project(':ShimmerDriverPC')
     implementation
-            project(':ShimmerBluetoothManager')
+    project(':ShimmerBluetoothManager')
     implementation name: 'ShimmerBiophysicalProcessingLibrary_Rev_0_11'
 
     testImplementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.24.3'

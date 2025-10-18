@@ -1,9 +1,9 @@
 package com.buccancs.data.sensor
 
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.data.sensor.connector.MultiDeviceConnector
-import com.buccancs.data.sensor.connector.SensorConnector
-import com.buccancs.data.sensor.connector.ThrottlableConnector
+import com.buccancs.domain.connector.MultiDeviceConnector
+import com.buccancs.domain.connector.SensorConnector
+import com.buccancs.domain.connector.ThrottlableConnector
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId

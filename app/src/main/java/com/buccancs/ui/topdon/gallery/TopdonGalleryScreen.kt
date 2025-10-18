@@ -46,6 +46,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.buccancs.domain.model.ThermalMediaItem
 import com.buccancs.ui.theme.Dimensions
+import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
 import java.time.format.DateTimeFormatter
 
@@ -70,6 +71,96 @@ fun TopdonGalleryRoute(
         onDeleteSelected = viewModel::deleteSelected,
         onShareSelected = viewModel::shareSelected
     )
+}
+
+@Composable
+fun TopdonGalleryPane(
+    onNavigateToDetail: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: TopdonGalleryViewModel = hiltViewModel()
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(
+                LayoutPadding.Screen
+            ),
+        verticalArrangement = Arrangement.spacedBy(
+            Spacing.SmallMedium
+        )
+    ) {
+        if (state.selectionMode) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${state.selectedItems.size} selected",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        Spacing.Small
+                    )
+                ) {
+                    IconButton(
+                        onClick = viewModel::shareSelected
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = "Share selected"
+                        )
+                    }
+                    IconButton(
+                        onClick = viewModel::deleteSelected
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete selected"
+                        )
+                    }
+                    IconButton(
+                        onClick = viewModel::exitSelectionMode
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Exit selection"
+                        )
+                    }
+                }
+            }
+        } else {
+            Text(
+                text = "Captured sessions",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+
+        GalleryContent(
+            modifier = Modifier.fillMaxSize(),
+            items = state.items,
+            selectionMode = state.selectionMode,
+            selectedItems = state.selectedItems,
+            isLoading = state.isLoading,
+            onItemClick = { id ->
+                if (state.selectionMode) {
+                    viewModel.toggleSelection(id)
+                } else {
+                    onNavigateToDetail(id)
+                }
+            },
+            onItemLongClick = { id ->
+                if (state.selectionMode) {
+                    viewModel.toggleSelection(id)
+                } else {
+                    viewModel.enterSelectionMode(id)
+                }
+            }
+        )
+    }
 }
 
 @OptIn(
@@ -195,7 +286,7 @@ private fun TopdonGalleryScreen(
 }
 
 @Composable
-private fun GalleryContent(
+internal fun GalleryContent(
     modifier: Modifier = Modifier,
     items: List<ThermalMediaItem>,
     selectionMode: Boolean,

@@ -60,11 +60,11 @@ publishing {
 
 dependencies {
     implementation
-            project(':ShimmerDriver')
+    project(':ShimmerDriver')
     implementation
-            project(':ShimmerBluetoothManager')
+    project(':ShimmerBluetoothManager')
     implementation
-            project(':ShimmerDriverPC')
+    project(':ShimmerDriverPC')
     implementation 'net.java.dev.jna:jna:5.15.0'
 
     testImplementation 'junit:junit:4.13.2'

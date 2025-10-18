@@ -16,10 +16,10 @@ kapt {
 android {
     namespace "com.infisense.usbir"
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdk
+    rootProject
+            .ext
+            .android
+            .compileSdk
 
     defaultConfig {
         minSdk rootProject
@@ -27,15 +27,15 @@ android {
                 .android
                 .minSdk
         targetSdk
-                rootProject
-                        .ext
-                        .android
-                        .targetSdk
+        rootProject
+                .ext
+                .android
+                .targetSdk
         ndkVersion
-                rootProject
-                        .ext
-                        .android
-                        .ndkVersion
+        rootProject
+                .ext
+                .android
+                .ndkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -49,19 +49,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
         targetCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
     }
     buildFeatures {
         buildConfig =
@@ -104,10 +104,10 @@ android {
 
 dependencies {
     implementation
-            fileTree(
-                    dir: 'libs',
-                    include: ['*.jar']
-            )
+    fileTree(
+            dir: 'libs',
+            include: ['*.jar']
+    )
     api(
             name: 'libusbdualsdk_1.3.4_2406271906_standard',
             ext: 'aar'
@@ -118,7 +118,7 @@ dependencies {
     )
     api 'com.conghuahuadan:superlayout:1.1.0'
     implementation
-            project(':libapp')
+    project(':libapp')
     api(
             project(
                     ":LocalRepo:libcommon"

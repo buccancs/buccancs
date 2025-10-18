@@ -43,7 +43,9 @@ studies.
 ## Functional Requirements
 
 -
+
 *
+
 *FR1 –
 Multi-device
 sensor
@@ -83,7 +85,9 @@ supported
 modality.
 
 -
+
 *
+
 *FR2 –
 Synchronised
 recording
@@ -119,7 +123,9 @@ across
 devices.
 
 -
+
 *
+
 *FR3 –
 Time
 synchronisation
@@ -154,7 +160,9 @@ ms
 drift.
 
 -
+
 *
+
 *FR4 –
 Session
 lifecycle
@@ -185,7 +193,9 @@ been
 verified.
 
 -
+
 *
+
 *FR5 –
 High-fidelity
 data
@@ -223,7 +233,9 @@ stress
 coverage.
 
 -
+
 *
+
 *FR6 –
 Monitoring
 user
@@ -260,7 +272,9 @@ production
 bridge.
 
 -
+
 *
+
 *FR7 –
 Stimulus
 broadcasting
@@ -299,7 +313,9 @@ all
 agents.
 
 -
+
 *
+
 *FR8 –
 Fault
 tolerance
@@ -338,7 +354,9 @@ manual
 drills.
 
 -
+
 *
+
 *FR9 –
 Calibration
 utilities
@@ -368,7 +386,9 @@ operate
 end-to-end.
 
 -
+
 *
+
 *FR10 –
 Post-session
 data
@@ -405,7 +425,9 @@ drills.
 ## Non-Functional Requirements
 
 -
+
 *
+
 *NFR1 –
 Real-time
 throughput
@@ -439,7 +461,9 @@ frame
 loss.
 
 -
+
 *
+
 *NFR2 –
 Temporal
 accuracy
@@ -470,7 +494,9 @@ automated
 alerting.
 
 -
+
 *
+
 *NFR3 –
 Reliability
 **  
@@ -498,7 +524,9 @@ failure
 modes.
 
 -
+
 *
+
 *NFR4 –
 Data
 integrity
@@ -529,7 +557,9 @@ recording
 pipeline.
 
 -
+
 *
+
 *NFR5 –
 Security
 **  
@@ -558,7 +588,9 @@ transport
 chain.
 
 -
+
 *
+
 *NFR6 –
 Observability &
 usability
@@ -588,7 +620,9 @@ workflow
 needs.
 
 -
+
 *
+
 *NFR7 –
 Scalability
 **  
@@ -618,7 +652,9 @@ are
 validated.
 
 -
+
 *
+
 *NFR8 –
 Maintainability
 **  
@@ -649,6 +685,7 @@ maintainability.
 ## Using This Document
 
 -
+
 Update
 the
 relevant
@@ -661,7 +698,9 @@ tests,
 or
 status
 changes.
+
 -
+
 Link
 new
 validation
@@ -677,7 +716,9 @@ reviewers
 can
 trace
 compliance.
+
 -
+
 If
 new
 requirements

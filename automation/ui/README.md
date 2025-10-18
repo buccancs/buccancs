@@ -23,6 +23,7 @@ quickly.
 *
 
 *
+
 Capture
 the
 UI
@@ -41,6 +42,7 @@ adb pull /sdcard/screen.png
 *
 
 *
+
 Run
 the
 analyser
@@ -72,10 +74,13 @@ python3 automation/ui/ui_analyzer.py window_dump.xml \
 *
 
 *
+
 Review &
 Iterate
 **
+
 -
+
 Open
 `automation/ui/samples/latest/ui-analysis.html`
 in
@@ -88,7 +93,9 @@ descriptions,
 and
 suggested
 fixes.
+
 -
+
 Share
 `automation/ui/samples/latest/ai-prompt.txt`
 with
@@ -120,6 +127,7 @@ highlights:
 *
 
 *
+
 23
 high
 **:
@@ -135,6 +143,7 @@ labels
 *
 
 *
+
 12
 medium
 **:

@@ -63,7 +63,7 @@ public class DeviceIrcmdControlManager {
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
         for (int i = 0; i < ispParamReadByteArray.length; i++) {
             ispParamReadByteArrStr.append(String.format("%8s",
-                    Integer.toBinaryString(ispParamReadByteArray[i] & 0xFF)).replace(' ' , '0'));
+                    Integer.toBinaryString(ispParamReadByteArray[i] & 0xFF)).replace(' ', '0'));
         }
         Log.i(TAG, "name = " + name + " ispParamReadByteArrStr = " + ispParamReadByteArrStr.toString() +
                 " ispParamReadByteArrStrInt = " + Long.parseLong(ispParamReadByteArrStr.toString(), 2));
@@ -80,14 +80,14 @@ public class DeviceIrcmdControlManager {
         StringBuilder ispParamReadByteArrStr = new StringBuilder();
         for (int i = 0; i < ispParamReadByteArray.length; i++) {
             ispParamReadByteArrStr.append(String.format("%8s",
-                    Integer.toBinaryString(ispParamReadByteArray[i] & 0xFF)).replace(' ' , '0'));
+                    Integer.toBinaryString(ispParamReadByteArray[i] & 0xFF)).replace(' ', '0'));
         }
         Log.i(TAG, "name = " + name + " ispParamReadByteArrStr = " + ispParamReadByteArrStr.toString() +
                 " ispParamReadByteArrStrInt = " + Long.parseLong(ispParamReadByteArrStr.toString(), 2));
 
         StringBuilder valueArrStr = new StringBuilder();
         for (int i = 0; i < valueArray.length; i++) {
-            valueArrStr.append(String.format("%8s", Integer.toBinaryString(valueArray[i] & 0xFF)).replace(' ' , '0'));
+            valueArrStr.append(String.format("%8s", Integer.toBinaryString(valueArray[i] & 0xFF)).replace(' ', '0'));
         }
         Log.i(TAG, "name = " + name + " valueArrStr = " + valueArrStr.toString());
 

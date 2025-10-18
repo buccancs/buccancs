@@ -288,6 +288,20 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             binding.cameraView.start();
             isrun = true;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        Log.w(TAG, "onStop");
+        super.onStop();
+        if (iruvc != null) {
+            iruvc.unregisterUSB();
+            iruvc.stopPreview();
+        }
+        imageThread.interrupt();
+        syncimage.valid = false;
+        binding.cameraView.stop();
+        isrun = false;
     }    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -314,20 +328,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    @Override
-    protected void onStop() {
-        Log.w(TAG, "onStop");
-        super.onStop();
-        if (iruvc != null) {
-            iruvc.unregisterUSB();
-            iruvc.stopPreview();
-        }
-        imageThread.interrupt();
-        syncimage.valid = false;
-        binding.cameraView.stop();
-        isrun = false;
-    }
 
     @Override
     protected void onDestroy() {

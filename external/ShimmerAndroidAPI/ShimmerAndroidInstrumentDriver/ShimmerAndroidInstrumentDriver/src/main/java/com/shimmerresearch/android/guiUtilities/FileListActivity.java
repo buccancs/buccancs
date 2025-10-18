@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import com.shimmerresearch.androidinstrumentdriver.R;
@@ -19,8 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import javax.annotation.Nullable;
 
 public class FileListActivity extends Activity {
 
@@ -59,7 +58,7 @@ public class FileListActivity extends Activity {
 
         setResult(Activity.RESULT_CANCELED);
 
-        cancelButton = (Button) findViewById(R.id.buttonCancel);
+        cancelButton = findViewById(R.id.buttonCancel);
 
         File fileDir = new File(DIRECTORY_PATH);
         if (!fileDir.exists()) {
@@ -79,7 +78,7 @@ public class FileListActivity extends Activity {
 
                 mFilesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name, fileNamesArray);
 
-                filesListView = (ListView) findViewById(R.id.listViewFiles);
+                filesListView = findViewById(R.id.listViewFiles);
                 filesListView.setAdapter(mFilesArrayAdapter);
                 filesListView.setOnItemClickListener(mFileClickListener);
 

@@ -4,17 +4,17 @@
 
     <!-- Generic USB thermal camera vendors -->
     <usb-device
-            product-id="0"
-            vendor-id="11261" />  <!-- TopDon -->
+        product-id="0"
+        vendor-id="11261" />  <!-- TopDon -->
     <usb-device
-            product-id="0"
-            vendor-id="1003" />   <!-- Generic thermal cameras -->
+        product-id="0"
+        vendor-id="1003" />   <!-- Generic thermal cameras -->
     <usb-device
-            product-id="0"
-            vendor-id="3034" />   <!-- FLIR -->
+        product-id="0"
+        vendor-id="3034" />   <!-- FLIR -->
     <usb-device
-            product-id="0"
-            vendor-id="1240" />   <!-- Seek Thermal -->
+        product-id="0"
+        vendor-id="1240" />   <!-- Seek Thermal -->
 
     <!-- Add more vendor/product IDs as needed -->
     <!-- Format: vendor-id and product-id should be in decimal -->

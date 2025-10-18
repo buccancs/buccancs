@@ -3,18 +3,23 @@
 ## Summary
 
 -
+
 Total
 test
 files:
 67
+
 -
+
 Status:
 Tests
 are
 DISABLED
 by
 default
+
 -
+
 Enable
 with:
 ./gradlew
@@ -32,24 +37,31 @@ have
 evolved:
 
 1.
+
 Missing
 or
 relocated
 classes (
 EventPublisher,
 ControlServerToken)
+
 2.
+
 Constructor
 signature
 changes (
 RecordingService
 parameters)
+
 3.
+
 Result/Error
 API
 null-safety
 changes
+
 4.
+
 MediaCodec.CodecException
 constructor
 access
@@ -59,6 +71,7 @@ access
 ### Application Layer (12 files)
 
 -
+
 DefaultDeviceCommandServiceTest.kt
 -
 PerformanceMetricsAnalyzerTest.kt
@@ -76,6 +89,7 @@ more...
 ### Core/Result Layer (5 files)
 
 -
+
 BluetoothResultHelpersTest.kt
 -
 CodecResultHelpersTest.kt
@@ -89,6 +103,7 @@ StorageResultHelpersTest.kt
 ### Data Layer (15 files)
 
 -
+
 DefaultBookmarkRepositoryTest.kt
 -
 DefaultDeviceEventRepositoryTest.kt
@@ -104,6 +119,7 @@ more...
 ### DI/Module Tests (9 files)
 
 -
+
 CalibrationModuleTest.kt
 -
 CoroutineModuleTest.kt
@@ -117,6 +133,7 @@ more...
 ### Integration Tests (6 files)
 
 -
+
 ExtendedSessionTest.kt
 -
 CalibrationWorkflowIntegrationTest.kt
@@ -128,6 +145,7 @@ more...
 ### UI/ViewModel Tests (15 files)
 
 -
+
 CalibrationViewModelTest.kt
 -
 DeviceInventoryViewModelTest.kt
@@ -141,6 +159,7 @@ more...
 ### Performance Tests (3 files)
 
 -
+
 LoadTestingTest.kt
 -
 MemoryEfficiencyTest.kt
@@ -150,6 +169,7 @@ ResourceConstraintsTest.kt
 ### Utility/Resource Tests (2 files)
 
 -
+
 ResourceCleanupTest.kt
 -
 AppShutdownRule.kt

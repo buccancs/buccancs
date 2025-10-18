@@ -3,22 +3,29 @@
 ## Status: Ready for Phase 2
 
 *
+
 *Build
 Configuration:
 **
 ✅
-Updated  
+Updated
+
 *
+
 *Dependencies:
 **
 ✅
-Added  
+Added
+
 *
+
 *Theme:
 **
 ✅
-Created  
+Created
+
 *
+
 *Activities
 Converted:
 **
@@ -42,28 +49,39 @@ activities
 handling:
 
 -
+
 Real-time
 thermal
 camera
 processing
+
 -
+
 OpenGL
 rendering
+
 -
+
 Temperature
 measurement
 and
 analysis
+
 -
+
 Image/video
 capture
 and
 playback
+
 -
+
 Monitoring
 and
 charting
+
 -
+
 Configuration
 and
 calibration
@@ -73,6 +91,7 @@ calibration
 ### Updated Files
 
 -
+
 ✅
 `build.gradle` -
 Compose
@@ -80,13 +99,17 @@ plugin
 and
 dependencies
 added
+
 -
+
 ✅
 Theme
 created
 at
 `ui/theme/Theme.kt`
+
 -
+
 ✅
 Directory
 structure
@@ -124,7 +147,9 @@ of
 thermal
 processing,
 use
+
 *
+
 *Compose
 Shell +
 AndroidView
@@ -193,109 +218,119 @@ thermal
 views:
 
 1.
+
 *
+
 *IRMainActivity
 ** (
 ViewPager
 with
 tabs)
-    -
-    Convert
-    bottom
-    navigation
-    to
-    Compose
-    -
-    Preserve
-    fragment
-    ViewPager
-    in
-    AndroidView
-    -
-    Maintain
-    tab
-    selection
-    logic
+-
+Convert
+bottom
+navigation
+to
+Compose
+-
+Preserve
+fragment
+ViewPager
+in
+AndroidView
+-
+Maintain
+tab
+selection
+logic
 
 2.
+
 *
+
 *IRThermalActivity
 ** (
 Main
 camera
 interface)
-    -
-    Convert
-    top
-    app
-    bar
-    to
-    Compose
-    -
-    Convert
-    bottom
-    controls
-    to
-    Compose
-    -
-    Preserve
-    thermal
-    camera
-    view
+-
+Convert
+top
+app
+bar
+to
+Compose
+-
+Convert
+bottom
+controls
+to
+Compose
+-
+Preserve
+thermal
+camera
+view
 
 3.
+
 *
+
 *IRGalleryHomeActivity
 ** (
 Gallery
 home) -
 ✅
 Started
-    -
-    Use
-    fragment
-    in
-    AndroidView
-    -
-    Add
-    Compose
-    app
-    bar
+-
+Use
+fragment
+in
+AndroidView
+-
+Add
+Compose
+app
+bar
 
 4.
+
 *
+
 *IRMonitorActivity
 ** (
 Monitoring
 interface)
-    -
-    Convert
-    navigation
-    to
-    Compose
-    -
-    Preserve
-    monitoring
-    views
+-
+Convert
+navigation
+to
+Compose
+-
+Preserve
+monitoring
+views
 
 5.
+
 *
+
 *IRConfigActivity
 ** (
 Configuration
 screen)
-    -
-    Convert
-    app
-    bar
-    to
-    Compose
-    -
-    Keep
-    RecyclerView
-    in
-    AndroidView
-    initially
+-
+Convert
+app
+bar
+to
+Compose
+-
+Keep
+RecyclerView
+in
+AndroidView
+initially
 
 ### Tier 2: Simple Screens (Week 2)
 
@@ -306,28 +341,39 @@ for
 settings/configuration:
 
 6.
+
 *
+
 *IRCameraSettingActivity
 ** -
 Camera
 settings
 list
+
 7.
+
 *
+
 *IREmissivityActivity
 ** -
 Emissivity
 configuration
+
 8.
+
 *
+
 *ManualStep1Activity
 ** -
 Manual
 calibration
 step
 1
+
 9.
+
 *
+
 *ManualStep2Activity
 ** -
 Manual
@@ -338,33 +384,47 @@ step
 ### Tier 3: Gallery & Media (Week 3)
 
 10.
+
 *
+
 *IRGalleryDetail01Activity
 ** -
 Gallery
 detail
 view
+
 11.
+
 *
+
 *IRGalleryDetail04Activity
 ** -
 Alternative
 detail
 view
+
 12.
+
 *
+
 *ImagePickIRActivity
 ** -
 Image
 picker
+
 13.
+
 *
+
 *ImagePickIRPlushActivity
 ** -
 Enhanced
 picker
+
 14.
+
 *
+
 *IRVideoGSYActivity
 ** -
 Video
@@ -373,19 +433,27 @@ player
 ### Tier 4: Monitoring & Charts (Week 4)
 
 15.
+
 *
+
 *MonitoryHomeActivity
 ** -
 Monitor
 home
+
 16.
+
 *
+
 *IRMonitorChartActivity
 ** -
 Chart
 display
+
 17.
+
 *
+
 *IRLogMPChartActivity
 ** -
 Log
@@ -539,7 +607,9 @@ activity:
 ## Critical Warnings
 
 ⚠️
+
 *
+
 *DO
 NOT
 **
@@ -548,7 +618,9 @@ thermal
 processing
 logic  
 ⚠️
+
 *
+
 *DO
 NOT
 **
@@ -557,7 +629,9 @@ OpenGL
 rendering
 code  
 ⚠️
+
 *
+
 *DO
 NOT
 **
@@ -566,7 +640,9 @@ temperature
 calculation
 algorithms  
 ⚠️
+
 *
+
 *DO
 **
 preserve
@@ -577,7 +653,9 @@ complex
 thermal
 UI  
 ⚠️
+
 *
+
 *DO
 **
 test
@@ -592,7 +670,9 @@ TC007)
 ## Performance Considerations
 
 1.
+
 *
+
 *AndroidView
 overhead:
 **
@@ -600,24 +680,33 @@ Minimal
 for
 static
 views
+
 2.
+
 *
+
 *Recomposition:
 **
 Keep
 state
 outside
 AndroidView
+
 3.
+
 *
+
 *Memory:
 **
 Monitor
 thermal
 view
 lifecycle
+
 4.
+
 *
+
 *Camera
 preview:
 **
@@ -630,6 +719,7 @@ properly
 ## Next Steps
 
 1.
+
 Start
 with
 IRMainActivity (
@@ -637,21 +727,29 @@ highest
 priority,
 most
 visible)
+
 2.
+
 Test
 thoroughly
 on
 TC001
 device
+
 3.
+
 Measure
 performance
 benchmarks
+
 4.
+
 Continue
 with
 IRThermalActivity
+
 5.
+
 Document
 lessons
 learned
@@ -659,12 +757,17 @@ learned
 ## Resources
 
 -
+
 *
+
 *Theme:
 **
 `ui/theme/Theme.kt`
+
 -
+
 *
+
 *Example:
 **
 See
@@ -673,8 +776,11 @@ module
 activities
 for
 patterns
+
 -
+
 *
+
 *Documentation:
 **
 `/docs/project/TOPDON_PHASE2_STRATEGY_2025-10-16_0045.md`
@@ -682,17 +788,22 @@ patterns
 ---
 
 *
+
 *Status:
 **
 Ready
 to
-Start  
+Start
+
 *
+
 *First
 Target:
 **
-IRMainActivity  
+IRMainActivity
+
 *
+
 *Estimated
 Phase
 2:

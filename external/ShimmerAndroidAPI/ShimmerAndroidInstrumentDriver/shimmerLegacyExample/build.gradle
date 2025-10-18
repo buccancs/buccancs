@@ -9,11 +9,11 @@ android {
 
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_11
+        JavaVersion
+                .VERSION_11
         targetCompatibility
-                JavaVersion
-                        .VERSION_11
+        JavaVersion
+                .VERSION_11
     }
 
     kotlinOptions {
@@ -43,10 +43,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
 
@@ -67,7 +67,7 @@ android {
 
 dependencies {
     implementation
-            project(':ShimmerAndroidInstrumentDriver')
+    project(':ShimmerAndroidInstrumentDriver')
     implementation 'androidx.multidex:multidex:2.0.1'
 
     def composeBom =
@@ -75,7 +75,7 @@ dependencies {
                     'androidx.compose:compose-bom:2024.02.00'
             )
     implementation
-            composeBom
+    composeBom
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'

@@ -43,6 +43,7 @@ it.
 ShimmerDriverPC/src/test/java/com/shimmerresearch/driver/ble/VerisenseProtocolByteGrpcCommunicationTest.java
 
 2.
+
 ShimmerPCBasicExamples/src/main/java/com/shimmerresearch/simpleexamples/ShimmerGRPCExample.java
 
 Make

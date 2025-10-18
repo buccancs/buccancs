@@ -18,10 +18,10 @@ kapt {
 android {
     namespace "com.topdon.lib.ui"
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdk
+    rootProject
+            .ext
+            .android
+            .compileSdk
 
     defaultConfig {
         minSdk rootProject
@@ -29,10 +29,10 @@ android {
                 .android
                 .minSdk
         targetSdk
-                rootProject
-                        .ext
-                        .android
-                        .targetSdk
+        rootProject
+                .ext
+                .android
+                .targetSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,19 +41,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
         targetCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
     }
     buildFeatures {
         buildConfig =
@@ -90,9 +90,9 @@ android {
 
 dependencies {
     implementation
-            project(':libapp')
+    project(':libapp')
     implementation
-            project(':libmenu')
+    project(':libmenu')
     //伪彩条用着 PseudoColorConfig
     kapt libs
             .arouter

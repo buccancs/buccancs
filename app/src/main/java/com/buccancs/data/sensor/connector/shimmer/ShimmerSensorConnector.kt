@@ -8,8 +8,8 @@ import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
 import com.buccancs.core.result.toResult
 import com.buccancs.core.serialization.JsonConfig
-import com.buccancs.data.sensor.SensorStreamClient
-import com.buccancs.data.sensor.SensorStreamEmitter
+import com.buccancs.domain.sensor.SensorStreamClient
+import com.buccancs.domain.sensor.SensorStreamEmitter
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage

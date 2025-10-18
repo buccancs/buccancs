@@ -1,15 +1,20 @@
 # Active Task Plan: Documentation Consolidation
 
 *
+
 *Created
 **:
-2025-10-18  
+2025-10-18
+
 *
+
 *Target
 completion
 **:
-2025-10-18  
+2025-10-18
+
 *
+
 *Status
 **:
 🟢
@@ -49,6 +54,7 @@ knowledge.
 ## Acceptance Criteria
 
 1.
+
 Core
 documentation
 reduced
@@ -64,7 +70,9 @@ set (
 `agents.md`,
 and
 `tasks/`).
+
 2.
+
 Key
 hardware,
 automation,
@@ -76,7 +84,9 @@ into
 the
 surviving
 documents.
+
 3.
+
 `docs/index.md`
 updated
 to
@@ -95,7 +105,9 @@ thesis
 material,
 active
 plan).
+
 4.
+
 Redundant
 directories (
 analysis,
@@ -109,7 +121,9 @@ removed
 from
 the
 repository.
+
 5.
+
 `docs/tasks/active-plan.md`
 rewritten
 to
@@ -209,6 +223,7 @@ artefact.
 ## Next Actions
 
 1.
+
 Socialise
 the
 new
@@ -225,7 +240,9 @@ archives
 instead
 of
 `docs/`.
+
 2.
+
 Reinstate
 a
 compact
@@ -235,7 +252,9 @@ if
 new
 workflows
 surface.
+
 3.
+
 Schedule
 a
 quarterly

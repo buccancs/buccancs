@@ -1,42 +1,42 @@
 {
-    "shimmer": [
-        {
-            "id": "shimmer-primary",
-            "displayName": "Shimmer3 GSR (Primary)",
-            "macAddress": null,
-            "gsrRangeIndex": 4,
-            "sampleRateHz": 128.0
-        },
-        {
-            "id": "shimmer-secondary",
-            "displayName": "Shimmer3 GSR (Secondary)",
-            "macAddress": null,
-            "gsrRangeIndex": 4,
-            "sampleRateHz": 128.0
-        }
-    ],
-    "topdon": [
-        {
-            "id": "topdon-tc001",
-            "displayName": "Topdon TC001 #1",
-            "vendorId": 13350,
-            "productId": 1,
-            "serialNumber": null,
-            "autoConnectOnAttach": true,
-            "palette": "IRONBOW",
-            "superSampling": "X2",
-            "previewFpsLimit": 12
-        },
-        {
-            "id": "topdon-tc001-2",
-            "displayName": "Topdon TC001 #2",
-            "vendorId": 13350,
-            "productId": 1,
-            "serialNumber": null,
-            "autoConnectOnAttach": true,
-            "palette": "GRAYSCALE",
-            "superSampling": "X2",
-            "previewFpsLimit": 12
-        }
-    ]
+  "shimmer": [
+    {
+      "id": "shimmer-primary",
+      "displayName": "Shimmer3 GSR (Primary)",
+      "macAddress": null,
+      "gsrRangeIndex": 4,
+      "sampleRateHz": 128.0
+    },
+    {
+      "id": "shimmer-secondary",
+      "displayName": "Shimmer3 GSR (Secondary)",
+      "macAddress": null,
+      "gsrRangeIndex": 4,
+      "sampleRateHz": 128.0
+    }
+  ],
+  "topdon": [
+    {
+      "id": "topdon-tc001",
+      "displayName": "Topdon TC001 #1",
+      "vendorId": 13350,
+      "productId": 1,
+      "serialNumber": null,
+      "autoConnectOnAttach": true,
+      "palette": "IRONBOW",
+      "superSampling": "X2",
+      "previewFpsLimit": 12
+    },
+    {
+      "id": "topdon-tc001-2",
+      "displayName": "Topdon TC001 #2",
+      "vendorId": 13350,
+      "productId": 1,
+      "serialNumber": null,
+      "autoConnectOnAttach": true,
+      "palette": "GRAYSCALE",
+      "superSampling": "X2",
+      "previewFpsLimit": 12
+    }
+  ]
 }

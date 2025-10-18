@@ -389,6 +389,7 @@ continuations
 *
 
 *
+
 Shimmer3
 GSR+
 **
@@ -411,6 +412,7 @@ checks
 *
 
 *
+
 Topdon
 TC001
 thermal
@@ -432,6 +434,7 @@ capture
 *
 
 *
+
 Android
 RGB
 camera
@@ -452,6 +455,7 @@ annotations
 *
 
 *
+
 Simulation
 toggles
 **

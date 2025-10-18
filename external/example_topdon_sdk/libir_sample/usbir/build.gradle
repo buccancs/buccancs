@@ -5,10 +5,10 @@ plugins {
 android {
     namespace 'com.infisense.usbir'
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdkVer
+    rootProject
+            .ext
+            .android
+            .compileSdkVer
 
     defaultConfig {
         applicationId "com.infisense.usbir"
@@ -17,21 +17,21 @@ android {
                 .android
                 .minSdkVer
         targetSdk
-                rootProject
-                        .ext
-                        .android
-                        .targetSdkVer
+        rootProject
+                .ext
+                .android
+                .targetSdkVer
         versionCode
-                rootProject
-                        .ext
-                        .android
-                        .versionCodeUSBIR
+        rootProject
+                .ext
+                .android
+                .versionCodeUSBIR
         versionName
-                rootProject
-                        .ext
-                        .android
-                        .versionNameUSBIR +
-                        "${new Date().format(".yyMMddHH", TimeZone.getTimeZone("GMT+08:00"))}${isReleaseVersion.toBoolean() ? "" : debugVersionInfo}"
+        rootProject
+                .ext
+                .android
+                .versionNameUSBIR +
+                "${new Date().format(".yyMMddHH", TimeZone.getTimeZone("GMT+08:00"))}${isReleaseVersion.toBoolean() ? "" : debugVersionInfo}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
@@ -62,20 +62,20 @@ android {
             zipAlignEnabled true
             shrinkResources true
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
     buildFeatures {
@@ -85,10 +85,10 @@ android {
                 true
     }
     ndkVersion
-            rootProject
-                    .ext
-                    .android
-                    .ndkVersion
+    rootProject
+            .ext
+            .android
+            .ndkVersion
     android
             .applicationVariants
             .all {
@@ -106,39 +106,39 @@ android {
 
 dependencies {
     implementation
-            fileTree(
-                    dir: 'libs',
-                    include: ['*.jar', '*.aar']
-            )
+    fileTree(
+            dir: 'libs',
+            include: ['*.jar', '*.aar']
+    )
     implementation
-            roots
-                    .appcompat
+    roots
+            .appcompat
     implementation
-            roots
-                    .material
+    roots
+            .material
     testImplementation
-            roots
-                    .junit
+    roots
+            .junit
     androidTestImplementation
-            roots["ext-junit"]
+    roots["ext-junit"]
     androidTestImplementation
-            roots["espresso-core"]
+    roots["espresso-core"]
     implementation
-            roots
-                    .constraintlayout
+    roots
+            .constraintlayout
     implementation
-            roots["kotlin"]
+    roots["kotlin"]
     implementation
-            thirdFrame[
-                    "fastjson"
-            ]
+    thirdFrame[
+            "fastjson"
+    ]
     releaseImplementation
-            thirdFrame[
-                    "dokitx-no-op"
-            ]
+    thirdFrame[
+            "dokitx-no-op"
+    ]
     debugImplementation
-            thirdFrame[
-                    "dokitx"
-            ]
+    thirdFrame[
+            "dokitx"
+    ]
 
 }

@@ -11,6 +11,7 @@ devices
 onwards
 
 -
+
 Allow
 all
 requested
@@ -21,7 +22,9 @@ sure
 Bluetooth
 is
 enabled
+
 -
+
 Use
 the
 CONNECT
@@ -51,7 +54,9 @@ from
 the
 popup
 dialog
+
 -
+
 Low
 Noise
 Accelerometer

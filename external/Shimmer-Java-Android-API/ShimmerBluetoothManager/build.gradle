@@ -62,7 +62,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.17.1'
     implementation 'commons-lang:commons-lang:2.6'
     implementation
-            project(':ShimmerDriver')
+    project(':ShimmerDriver')
 
     testImplementation 'junit:junit:4.13.2'
 }

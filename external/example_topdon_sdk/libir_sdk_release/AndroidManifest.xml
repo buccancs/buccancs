@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.infisense.iruvc">
+    package="com.infisense.iruvc">
 
     <uses-sdk
-            android:minSdkVersion="23"
-            android:targetSdkVersion="26" />
+        android:minSdkVersion="23"
+        android:targetSdkVersion="26" />
 
 </manifest>

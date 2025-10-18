@@ -9,7 +9,7 @@ android {
     namespace =
         "com.shimmerresearch.androidinstrumentdriver"
     compileSdk =
-        35
+        36
 
     defaultConfig {
         minSdk =
@@ -92,16 +92,19 @@ android {
 }
 
 dependencies {
+    // Javax annotation
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+
     // Core dependencies from original Shimmer build - use API so they're exported
-    api("com.google.guava:guava:33.3.1-android")
+    api("com.google.guava:guava:33.5.0-android")
     api("java3d:vecmath:1.3.1")
-    api("androidx.appcompat:appcompat:1.7.0")
-    api("androidx.documentfile:documentfile:1.0.1")
+    api("androidx.appcompat:appcompat:1.7.1")
+    api("androidx.documentfile:documentfile:1.1.0")
     api("com.github.Jasonchenlijian:FastBle:2.4.0")
 
     // Apache Commons dependencies
-    api("org.apache.commons:commons-lang3:3.17.0")
-    api("commons-codec:commons-codec:1.17.1")
+    api("org.apache.commons:commons-lang3:3.19.0")
+    api("commons-codec:commons-codec:1.19.0")
 
     // Bolts framework (Facebook's task library)
     api("com.parse.bolts:bolts-tasks:1.4.0")

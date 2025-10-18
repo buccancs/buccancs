@@ -407,8 +407,7 @@ public class LineChartRenderer extends LineRadarRenderer {
         int currentEndIndex = indexInterval;
         int iterations = 0;
 
-        do
-        {
+        do {
             currentStartIndex = startingIndex + (iterations * indexInterval);
             currentEndIndex = currentStartIndex + indexInterval;
             currentEndIndex = currentEndIndex > endingIndex ? endingIndex : currentEndIndex;

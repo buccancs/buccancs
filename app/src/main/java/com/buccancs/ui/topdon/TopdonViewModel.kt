@@ -8,6 +8,7 @@ import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.TopdonPalette
+import com.buccancs.domain.model.TopdonDeviceState
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
@@ -59,7 +60,11 @@ class TopdonViewModel @Inject constructor(
                 paletteOptions = TopdonPalette.values()
                     .toList(),
                 superSamplingOptions = TopdonSuperSamplingFactor.values()
-                    .toList()
+                    .toList(),
+                previewStateCode = determinePreviewState(
+                    deviceState,
+                    previewFrame
+                )
             )
         }.stateIn(
             scope = viewModelScope,
@@ -184,6 +189,31 @@ class TopdonViewModel @Inject constructor(
         viewModelScope.launch { deviceRepository.stopRecording() }
     }
 
+    private fun determinePreviewState(
+        deviceState: TopdonDeviceState,
+        previewFrame: TopdonPreviewFrame?
+    ): ThermalUiStateCode =
+        when {
+            deviceState.lastError != null ->
+                ThermalUiStateCode.PREVIEW_ERROR
+
+            deviceState.scanning ||
+                    deviceState.device?.connectionStatus is ConnectionStatus.Connecting ->
+                ThermalUiStateCode.DEVICE_CONNECTING
+
+            deviceState.device?.connectionStatus is ConnectionStatus.Connected &&
+                    !deviceState.previewActive ->
+                ThermalUiStateCode.DEVICE_READY
+
+            deviceState.previewActive && previewFrame != null ->
+                ThermalUiStateCode.PREVIEW_STREAMING
+
+            deviceState.previewActive ->
+                ThermalUiStateCode.PREVIEW_BUFFERING
+
+            else -> ThermalUiStateCode.DEVICE_DISCONNECTED
+        }
+
     private fun SensorStreamStatus.toUiModel(): TopdonStreamStatusUi =
         TopdonStreamStatusUi(
             label = when (streamType) {
@@ -239,6 +269,7 @@ data class TopdonUiState(
     val connectionStatusLabel: String,
     val isConnected: Boolean,
     val previewActive: Boolean,
+    val previewStateCode: ThermalUiStateCode,
     val previewFrame: TopdonPreviewFrame?,
     val lastPreviewTimestamp: Instant?,
     val scanning: Boolean,
@@ -249,6 +280,14 @@ data class TopdonUiState(
     val superSamplingOptions: List<TopdonSuperSamplingFactor>,
     val isRecording: Boolean = false
 ) {
+    val previewStateSummary: String
+        get() = "#${previewStateCode.code} ${previewStateCode.label}"
+
+    val previewIsStreaming: Boolean
+        get() =
+            previewStateCode == ThermalUiStateCode.PREVIEW_STREAMING ||
+                    previewStateCode == ThermalUiStateCode.PREVIEW_RECORDING
+
     val autoConnectEnabled: Boolean
         get() = settings.autoConnectOnAttach
 
@@ -259,6 +298,7 @@ data class TopdonUiState(
                 connectionStatusLabel = "Disconnected",
                 isConnected = false,
                 previewActive = false,
+                previewStateCode = ThermalUiStateCode.DEVICE_DISCONNECTED,
                 previewFrame = null,
                 lastPreviewTimestamp = null,
                 scanning = false,

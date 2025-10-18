@@ -18,11 +18,13 @@ import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.PrimaryTabRow
@@ -35,6 +37,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -61,6 +64,7 @@ import com.buccancs.ui.theme.Spacing
 fun DevicesRoute(
     onOpenTopdon: (DeviceId) -> Unit,
     onOpenShimmer: (DeviceId) -> Unit,
+    onOpenRgbCamera: (DeviceId) -> Unit = {},
     viewModel: MainViewModel = hiltViewModel(),
     calibrationViewModel: CalibrationViewModel = hiltViewModel()
 ) {
@@ -89,7 +93,8 @@ fun DevicesRoute(
         onConnectDevice = viewModel::connectDevice,
         onDisconnectDevice = viewModel::disconnectDevice,
         onOpenTopdon = onOpenTopdon,
-        onOpenShimmer = onOpenShimmer
+        onOpenShimmer = onOpenShimmer,
+        onOpenRgbCamera = onOpenRgbCamera
     )
 }
 
@@ -104,11 +109,42 @@ fun DevicesScreen(
     onConnectDevice: (DeviceId) -> Unit,
     onDisconnectDevice: (DeviceId) -> Unit,
     onOpenTopdon: (DeviceId) -> Unit,
-    onOpenShimmer: (DeviceId) -> Unit
+    onOpenShimmer: (DeviceId) -> Unit,
+    onOpenRgbCamera: (DeviceId) -> Unit = {}
 ) {
     var selectedTab by remember {
         mutableIntStateOf(
             0
+        )
+    }
+
+    // Device scanner dialog state
+    var showScannerDialog by remember { mutableStateOf(false) }
+    val deviceScanner: com.buccancs.hardware.DeviceScannerService = 
+        androidx.hilt.navigation.compose.hiltViewModel<com.buccancs.ui.navigation.DeviceScannerViewModel>().deviceScanner
+    val scanState by deviceScanner.scanState.collectAsStateWithLifecycle()
+
+    // Show device scanner dialog
+    if (showScannerDialog) {
+        com.buccancs.ui.components.scanner.DeviceScannerDialog(
+            scanState = scanState,
+            onDismiss = { showScannerDialog = false },
+            onStartScan = { deviceScanner.startManualScan() },
+            onRequestUsbPermission = { device -> deviceScanner.requestUsbPermission(device.device) },
+            onDeviceSelected = { device ->
+                showScannerDialog = false
+                // Handle device selection based on type
+                when (device) {
+                    is com.buccancs.hardware.ScannedDevice.Usb -> {
+                        // USB device selected, could trigger connection flow
+                        android.util.Log.d("DevicesScreen", "USB device selected: ${device.name}")
+                    }
+                    is com.buccancs.hardware.ScannedDevice.Bluetooth -> {
+                        // Bluetooth device selected
+                        android.util.Log.d("DevicesScreen", "Bluetooth device selected: ${device.name}")
+                    }
+                }
+            }
         )
     }
 
@@ -120,6 +156,15 @@ fun DevicesScreen(
                     Text(
                         "Devices"
                     )
+                },
+                actions = {
+                    // Scan button
+                    IconButton(onClick = { showScannerDialog = true }) {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = "Scan for devices"
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors()
             )
@@ -200,6 +245,13 @@ fun DevicesScreen(
                                 onOpenShimmer = if (device.shimmer != null) {
                                     {
                                         onOpenShimmer(
+                                            device.id
+                                        )
+                                    }
+                                } else null,
+                                onOpenRgbCamera = if (device.typeLabel.contains("RGB", ignoreCase = true)) {
+                                    {
+                                        onOpenRgbCamera(
                                             device.id
                                         )
                                     }
@@ -287,7 +339,8 @@ private fun DeviceCard(
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
     onOpenTopdon: (() -> Unit)?,
-    onOpenShimmer: (() -> Unit)?
+    onOpenShimmer: (() -> Unit)?,
+    onOpenRgbCamera: (() -> Unit)? = null
 ) {
     SectionCard(
         modifier = Modifier.fillMaxWidth(),
@@ -481,6 +534,36 @@ private fun DeviceCard(
                     )
                     Text(
                         "Configure"
+                    )
+                }
+            }
+
+            onOpenRgbCamera?.let {
+                OutlinedButton(
+                    onClick = it,
+                    enabled = device.isConnected,
+                    modifier = Modifier
+                        .weight(
+                            1f
+                        )
+                        .defaultMinSize(
+                            minHeight = Dimensions.TouchTargetMinimum
+                        )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Camera,
+                        contentDescription = null,
+                        modifier = Modifier.size(
+                            Dimensions.IconSizeSmall
+                        )
+                    )
+                    Spacer(
+                        modifier = Modifier.width(
+                            Spacing.ExtraSmall
+                        )
+                    )
+                    Text(
+                        "View"
                     )
                 }
             }

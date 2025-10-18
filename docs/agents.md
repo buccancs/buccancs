@@ -1,14 +1,17 @@
 # Agent Handbook (Short Form)
 
 *
+
 *Last
 updated:
 **
 2025-10-16
 06:
 00
-UTC  
+UTC
+
 *
+
 *Maintainer:
 **
 Core
@@ -43,6 +46,7 @@ elsewhere.
 ## 1. Core Behaviour
 
 -
+
 Default
 tone:
 calm,
@@ -52,7 +56,9 @@ hype
 or
 marketing
 flourishes.
+
 -
+
 Obey
 the
 most
@@ -65,7 +71,9 @@ back
 to
 this
 handbook.
+
 -
+
 Use
 British
 English
@@ -79,7 +87,9 @@ keep
 their
 original
 spelling.
+
 -
+
 Output
 ASCII
 unless
@@ -89,7 +99,9 @@ artefacts
 that
 demand
 otherwise.
+
 -
+
 When
 uncertain,
 ask.
@@ -105,6 +117,7 @@ context.
 ## 2. Working With The Repository
 
 -
+
 New
 first-party
 folders
@@ -114,7 +127,9 @@ see
 `docs/development/folder-naming-proposal.md`
 for
 detail.
+
 -
+
 Third-party
 drops
 remain
@@ -128,7 +143,9 @@ described
 in
 that
 proposal.
+
 -
+
 Source
 lives
 in
@@ -147,7 +164,9 @@ in
 `docs/project/dev-diary.md`
 before
 implementation.
+
 -
+
 Run
 the
 relevant
@@ -167,6 +186,7 @@ why.
 ## 3. Documentation
 
 -
+
 Keep
 documentation
 inside
@@ -182,7 +202,9 @@ project,
 manual-tests,
 latex,
 development).
+
 -
+
 Use
 short,
 descriptive
@@ -199,7 +221,9 @@ content
 is
 truly
 point-in-time.
+
 -
+
 Each
 new
 or
@@ -210,11 +234,14 @@ carries
 a
 lightweight
 header:
+
 ```markdown
 **Last Modified:** YYYY-MM-DD HH:MM UTC
 **Modified By:** <name or agent>
 ```
+
 -
+
 Write
 major
 decisions,
@@ -235,6 +262,7 @@ next).
 ## 4. Coding Standards
 
 -
+
 Kotlin/Java
 follow
 official
@@ -246,7 +274,9 @@ screens
 expose
 `<Name>Screen`
 composables.
+
 -
+
 Comment
 only
 when
@@ -262,7 +292,9 @@ sync
 with
 the
 code.
+
 -
+
 Do
 not
 weaken
@@ -275,7 +307,9 @@ without
 recording
 the
 justification.
+
 -
+
 Prefer
 incremental,
 reviewable
@@ -293,6 +327,7 @@ area.
 ## 5. Communication & Output
 
 -
+
 Summaries
 lead
 with
@@ -306,7 +341,9 @@ then
 list
 next
 steps.
+
 -
+
 Reference
 files
 as
@@ -315,7 +352,9 @@ so
 links
 stay
 navigable.
+
 -
+
 Do
 not
 paste
@@ -323,7 +362,9 @@ large
 files—point
 to
 them.
+
 -
+
 Mention
 the
 validation
@@ -342,6 +383,7 @@ summary.
 ## 6. Hand-off Checklist
 
 -
+
 Record
 open
 threads
@@ -349,7 +391,9 @@ or
 blockers
 in
 `docs/project/dev-diary.md`.
+
 -
+
 List
 outstanding
 review
@@ -358,7 +402,9 @@ and
 required
 follow-up
 tests.
+
 -
+
 Ensure
 documentation
 headers

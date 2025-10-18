@@ -32,12 +32,14 @@ Update
 btComports:
 
 -
+
 Open
 the
 SendData.java
 file.
 
 -
+
 Replace "
 COM10"
 and "
@@ -66,12 +68,15 @@ Download
 LabRecorder:
 
 -
+
 Visit
 the
 LabRecorder
 GitHub
 repository: https://github.com/labstreaminglayer/App-LabRecorder/releases
+
 -
+
 Download
 the
 latest
@@ -89,7 +94,9 @@ Win_i386
 for
 Windows
 32-bit).
+
 -
+
 Extract
 the
 LabRecorder
@@ -103,13 +110,16 @@ Run
 SendData.java:
 
 -
+
 Compile
 and
 run
 the
 program
 SendData.java.
+
 -
+
 Make
 sure
 the
@@ -126,7 +136,9 @@ when
 the
 program
 started.
+
 -
+
 Please
 enable
 the
@@ -142,7 +154,9 @@ before
 starting
 the
 stream.
+
 -
+
 Click
 Start
 Streaming
@@ -155,6 +169,7 @@ Start
 LabRecorder:
 
 -
+
 Open
 the
 downloaded
@@ -169,6 +184,7 @@ Stream
 List:
 
 -
+
 If
 no
 streams
@@ -186,6 +202,7 @@ Select
 Stream:
 
 -
+
 Locate
 the
 stream
@@ -205,7 +222,9 @@ named
 something
 like "
 SendData_Device_Shimmer_Name_SensorType".
+
 -
+
 Click
 the
 checkbox
@@ -217,7 +236,9 @@ stream
 to
 select
 it.
+
 -
+
 Modality (
 %m)
 can
@@ -232,6 +253,7 @@ Start
 Recording:
 
 -
+
 Click
 the "
 Start"
@@ -244,7 +266,9 @@ recording
 the
 streaming
 data.
+
 -
+
 Make
 sure
 the
@@ -262,6 +286,7 @@ Stop
 Recording:
 
 -
+
 Once
 you're
 finished
@@ -276,6 +301,7 @@ Data
 Location:
 
 -
+
 By
 default,
 LabRecorder
@@ -329,12 +355,15 @@ Download
 SigViewer:
 
 -
+
 Visit
 the
 SigViewer
 GitHub
 repository: https://github.com/cbrnr/sigviewer?tab=readme-ov-file
+
 -
+
 Download
 the
 latest
@@ -347,7 +376,9 @@ system (
 Windows,
 macOS,
 Linux).
+
 -
+
 Install
 the
 SigViewer
@@ -360,6 +391,7 @@ Streamed
 Data:
 
 -
+
 In
 SigViewer,
 go
@@ -373,7 +405,9 @@ the
 Recorded
 Data
 Location.
+
 -
+
 The
 recorded
 data

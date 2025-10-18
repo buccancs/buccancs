@@ -152,6 +152,26 @@ dependencies {
         )
     )
     implementation(
+        project(
+            ":core"
+        )
+    )
+    implementation(
+        project(
+            ":domain"
+        )
+    )
+    implementation(
+        project(
+            ":thermal-topdon"
+        )
+    )
+    implementation(
+        project(
+            ":thermal-simulated"
+        )
+    )
+    implementation(
         composeBom
     )
     androidTestImplementation(

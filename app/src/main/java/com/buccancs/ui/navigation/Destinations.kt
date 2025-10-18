@@ -121,6 +121,26 @@ sealed class Screen(
             "topdon/guide"
         )
 
+    data object RgbCamera :
+        Screen(
+            "camera/{deviceId}"
+        ) {
+        fun createRoute(
+            deviceId: DeviceId
+        ) =
+            "camera/${deviceId.value}"
+    }
+
+    data object RgbCameraSettings :
+        Screen(
+            "camera/{deviceId}/settings"
+        ) {
+        fun createRoute(
+            deviceId: DeviceId
+        ) =
+            "camera/${deviceId.value}/settings"
+    }
+
     data object Shimmer :
         Screen(
             "shimmer"

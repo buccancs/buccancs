@@ -63,7 +63,9 @@ references.
 ## Automated Tests
 
 -
+
 *
+
 *Unit
 tests:
 **
@@ -102,8 +104,11 @@ up
 on
 congested
 networks.
+
 -
+
 *
+
 *Instrumentation
 tests:
 **
@@ -127,8 +132,11 @@ with
 the
 relevant
 toggles.
+
 -
+
 *
+
 *Static
 analysis:
 **
@@ -141,8 +149,11 @@ and
 Android
 lint
 baselines.
+
 -
+
 *
+
 *Continuous
 integration:
 **
@@ -188,6 +199,7 @@ or
 demonstrations.
 
 1.
+
 Prepare
 one
 Android
@@ -218,7 +230,9 @@ headroom
 on
 both
 endpoints.
+
 2.
+
 Launch
 the
 desktop
@@ -246,7 +260,9 @@ trigger
 at
 10
 ms).
+
 3.
+
 Start
 a
 short (
@@ -272,7 +288,9 @@ frame
 cadence
 track
 expectations.
+
 4.
+
 Stop
 the
 session
@@ -300,7 +318,9 @@ artefacts
 alongside
 storage
 usage.
+
 5.
+
 Record
 any
 anomalies (
@@ -361,6 +381,7 @@ wizard
 end-to-end:
 
 1.
+
 Launch
 the
 wizard,
@@ -371,7 +392,9 @@ and
 confirm
 UI
 toasts.
+
 2.
+
 Capture
 diverse
 poses
@@ -379,7 +402,9 @@ until
 progress
 reaches
 100%.
+
 3.
+
 Compute
 calibration
 and
@@ -388,7 +413,9 @@ RMS
 plus
 confidence
 labels.
+
 4.
+
 Verify
 `files/datastore/calibration_metrics.preferences_pb`
 updates
@@ -396,7 +423,9 @@ with
 the
 new
 metrics.
+
 5.
+
 Optionally
 reload
 cached
@@ -426,6 +455,7 @@ flow
 manually:
 
 1.
+
 Ensure
 each
 agent
@@ -435,7 +465,9 @@ in
 the
 desktop
 dashboard.
+
 2.
+
 For
 automated
 runs,
@@ -473,7 +505,9 @@ governs
 the
 capture
 window.
+
 3.
+
 After
 each
 run,
@@ -498,7 +532,9 @@ your
 own
 Python
 notebook).
+
 4.
+
 Inspect
 `performance_metrics.jsonl`
 for
@@ -510,7 +546,9 @@ updates
 or
 encoder
 activity.
+
 5.
+
 Capture
 observations
 in
@@ -530,6 +568,7 @@ network
 loss:
 
 1.
+
 Trigger
 an
 upload
@@ -545,7 +584,9 @@ to
 automate
 the
 sequence).
+
 2.
+
 Disable
 Wi-Fi
 and
@@ -562,7 +603,9 @@ in
 and
 the
 dashboard.
+
 3.
+
 Re-enable
 connectivity
 and
@@ -579,7 +622,9 @@ an
 incremented
 attempt
 counter.
+
 4.
+
 Ensure
 session
 manifests
@@ -594,7 +639,9 @@ recovery.
 ## Telemetry and Logs
 
 -
+
 *
+
 *Performance
 metrics:
 **
@@ -619,8 +666,11 @@ from
 the
 repository
 history.
+
 -
+
 *
+
 *Backlog
 telemetry:
 **
@@ -631,8 +681,11 @@ transitions
 for
 upload
 queues.
+
 -
+
 *
+
 *Frame /
 sensor
 cadence:
@@ -673,8 +726,11 @@ audit
 the
 registered
 events.
+
 -
+
 *
+
 *Cadence
 validation
 drill:
@@ -723,8 +779,11 @@ screenshot
 of
 the
 alert.
+
 -
+
 *
+
 *Upload
 recovery:
 **
@@ -737,8 +796,11 @@ failed
 attempts,
 and
 retries.
+
 -
+
 *
+
 *Session
 manifests:
 **
@@ -753,8 +815,11 @@ timestamps,
 and
 artefact
 URIs.
+
 -
+
 *
+
 *Desktop
 logs:
 **
@@ -773,6 +838,7 @@ traces.
 ## Troubleshooting Failures
 
 -
+
 If
 time
 synchronisation
@@ -792,7 +858,9 @@ network
 latency
 is
 stable.
+
 -
+
 Missing
 artefacts
 usually
@@ -809,7 +877,9 @@ and
 device
 free
 space.
+
 -
+
 Thermal
 preview
 hiccups
@@ -825,7 +895,9 @@ or
 swap
 USB
 ports.
+
 -
+
 For
 persistent
 upload

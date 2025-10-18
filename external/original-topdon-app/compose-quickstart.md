@@ -13,6 +13,7 @@ Jetpack
 Compose
 with
 Material
+
 3.
 
 ## Build Commands
@@ -49,43 +50,62 @@ app/src/main/java/com/topdon/tc001/
 ### Activities (All Compose)
 
 -
+
 `SplashActivity.kt` -
 App
 launch
 screen
+
 -
+
 `ClauseActivity.kt` -
 Terms
 acceptance
+
 -
+
 `MainActivity.kt` -
 Main
 container
+
 -
+
 `DeviceTypeActivity.kt` -
 Device
 selection
+
 -
+
 `PolicyActivity.kt` -
 Policy
 viewer
+
 -
+
 `VersionActivity.kt` -
 About
 screen
+
 -
+
 `MoreHelpActivity.kt` -
 Help
 guide
+
 -
+
 `PdfActivity.kt` -
 PDF
 manuals
+
 -
+
 `WebViewActivity.kt` -
 Web
 content
+
 -
+
 `IRGalleryEditActivity.kt` -
 Thermal
 editor
@@ -93,15 +113,20 @@ editor
 ### Theme System
 
 -
+
 `ui/theme/Color.kt` -
 Material
 3
 colours
+
 -
+
 `ui/theme/Type.kt` -
 Typography
 scale
+
 -
+
 `ui/theme/Theme.kt` -
 TopdonTheme
 composable
@@ -177,6 +202,7 @@ ARouter.getInstance()
 ### Add New Composable Screen
 
 1.
+
 Create
 composable
 function:
@@ -191,6 +217,7 @@ fun MyNewScreen() {
 ```
 
 2.
+
 Use
 in
 activity:
@@ -300,19 +327,27 @@ fun ScreenPreview() {
 ## Resources
 
 -
+
 *
+
 *Migration
 Guide:
 **
 `COMPOSE_MIGRATION_readme.md`
+
 -
+
 *
+
 *Detailed
 Report:
 **
 `/docs/project/TOPDON_COMPOSE_MIGRATION_SUMMARY_2025-10-16_0020.md`
+
 -
+
 *
+
 *Verification:
 **
 `/docs/project/TOPDON_MIGRATION_VERIFICATION_2025-10-16_0025.md`

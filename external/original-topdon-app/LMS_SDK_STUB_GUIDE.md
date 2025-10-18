@@ -37,6 +37,7 @@ SDK
 functionality.
 
 *
+
 *Location:
 **
 `libapp/src/main/java/com/topdon/lms/sdk/`
@@ -103,6 +104,7 @@ class LMS private constructor() {
 ```
 
 *
+
 *Usage:
 **
 
@@ -139,6 +141,7 @@ class HttpProxy private constructor() {
 ```
 
 *
+
 *Usage:
 **
 
@@ -230,30 +233,43 @@ ID
 mapping:
 
 -
+
 0 =
 English (
 default)
+
 -
+
 1 =
 Chinese (
 zh)
+
 -
+
 2 =
 Spanish (
 es)
+
 -
+
 3 =
 French (
 fr)
+
 -
+
 4 =
 German (
 de)
+
 -
+
 5 =
 Japanese (
 ja)
+
 -
+
 6 =
 Korean (
 ko)
@@ -342,6 +358,7 @@ class LmsLoadView @JvmOverloads constructor(
 ```
 
 *
+
 *XML
 Usage:
 **
@@ -365,7 +382,9 @@ these
 principles:
 
 1.
+
 *
+
 *No-op
 Operations:
 **
@@ -378,8 +397,11 @@ network/SDK
 operations
 do
 nothing
+
 2.
+
 *
+
 *Safe
 Returns:
 **
@@ -393,8 +415,11 @@ strings,
 nulls,
 success
 codes)
+
 3.
+
 *
+
 *Callback
 Invocation:
 **
@@ -407,8 +432,11 @@ data
 to
 prevent
 NPEs
+
 4.
+
 *
+
 *Error
 Simulation:
 **
@@ -432,13 +460,18 @@ they
 typically:
 
 -
+
 Return
 `LMS.SUCCESS` (
+
 0)
+
 for
 status
 codes
+
 -
+
 Return
 empty
 strings
@@ -446,7 +479,9 @@ or
 null
 for
 data
+
 -
+
 Invoke
 error
 callbacks
@@ -470,15 +505,20 @@ becomes
 available:
 
 1.
+
 *
+
 *Remove
 stub
 files
 **
 from
 `libapp/src/main/java/com/topdon/lms/sdk/`
+
 2.
+
 *
+
 *Add
 real
 SDK
@@ -487,36 +527,49 @@ AAR
 to
 `libapp/libs/`
 directory
+
 3.
+
 *
+
 *Update
 dependencies
 **
 in
 `libapp/build.gradle`:
+
 ```gradle
 dependencies {
     api files('libs/lms_sdk.aar')
 }
 ```
+
 4.
+
 *
+
 *Test
 all
 SDK
 integration
 points
 **
+
 5.
+
 *
+
 *Update
 initialization
 **
 in
 Application
 class
+
 6.
+
 *
+
 *Verify
 authentication
 flows
@@ -527,7 +580,9 @@ flows
 ## Known Limitations
 
 1.
+
 *
+
 *No
 Network
 Calls:
@@ -537,8 +592,11 @@ HTTP
 operations
 are
 stubbed
+
 2.
+
 *
+
 *No
 Authentication:
 **
@@ -549,8 +607,11 @@ or
 returns
 stub
 data
+
 3.
+
 *
+
 *No
 Cloud
 Sync:
@@ -559,16 +620,22 @@ User
 data
 not
 synchronized
+
 4.
+
 *
+
 *No
 Analytics:
 **
 Tracking/analytics
 not
 functional
+
 5.
+
 *
+
 *No
 Updates:
 **
@@ -591,6 +658,7 @@ Android/Kotlin
 libraries:
 
 -
+
 `android.content.Context`
 -
 `android.widget.Toast`
@@ -601,7 +669,9 @@ JSON
 parsing
 in
 ResponseBean)
+
 -
+
 Standard
 Kotlin
 stdlib
@@ -669,13 +739,16 @@ the
 stubs:
 
 1.
+
 Check
 that
 imports
 are
 correct:
 `import com.topdon.lms.sdk.*`
+
 2.
+
 Verify
 the
 stub
@@ -685,7 +758,9 @@ in
 the
 expected
 location
+
 3.
+
 Check
 for
 compilation
@@ -694,7 +769,9 @@ in
 the
 stub
 classes
+
 4.
+
 Ensure
 Java
 21
@@ -707,16 +784,21 @@ compilation
 ---
 
 *
+
 *Document
 Version:
 **
-1.0  
+1.0
+
 *
+
 *Last
 Updated:
 **
-2025-10-16  
+2025-10-16
+
 *
+
 *Status:
 **
 Production-ready

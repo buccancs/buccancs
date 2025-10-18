@@ -8,11 +8,11 @@ android {
 
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_11
+        JavaVersion
+                .VERSION_11
         targetCompatibility
-                JavaVersion
-                        .VERSION_11
+        JavaVersion
+                .VERSION_11
     }
 
     defaultConfig {
@@ -28,10 +28,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
 
@@ -52,7 +52,7 @@ android {
 
 dependencies {
     implementation
-            project(':ShimmerAndroidInstrumentDriver')
+    project(':ShimmerAndroidInstrumentDriver')
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 

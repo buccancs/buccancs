@@ -15,6 +15,7 @@ Shimmer2r
 Devices
 
 -
+
 Shimmer
 2R
 Accelerometer
@@ -28,7 +29,9 @@ the
 logcat
 when
 streaming
+
 -
+
 Note
 how
 writeEnabledSensors

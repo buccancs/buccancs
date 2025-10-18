@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.androidplot.Plot;
 import com.androidplot.ui.DynamicTableModel;
 import com.androidplot.ui.SizeLayoutType;
@@ -39,8 +41,6 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import pl.flex_it.androidplot.XYSeriesShimmer;
 
 /**
@@ -49,6 +49,7 @@ import pl.flex_it.androidplot.XYSeriesShimmer;
  */
 public class PlotFragment extends Fragment {
 
+    private static final String LOG_TAG = "PlotFragment";
     public static HashMap<String, List<Number>> mPlotDataMap = new HashMap<String, List<Number>>(4);
     public static HashMap<String, XYSeriesShimmer> mPlotSeriesMap = new HashMap<String, XYSeriesShimmer>(4);
     public static int X_AXIS_LENGTH = 500;
@@ -59,10 +60,7 @@ public class PlotFragment extends Fragment {
     static Context context;
     static LineAndPointFormatter lineAndPointFormatter1, lineAndPointFormatter2, lineAndPointFormatter3;
     private static ShimmerService shimmerService;
-    private static String LOG_TAG = "PlotFragment";
-    private static XYPlot dynamicPlot;
-    private static Paint LPFpaint;
-    private static Handler graphHandler = new Handler() {
+    private static final Handler graphHandler = new Handler() {
 
 
         public void handleMessage(Message msg) {
@@ -187,6 +185,8 @@ public class PlotFragment extends Fragment {
             }
         }
     };
+    private static XYPlot dynamicPlot;
+    private static Paint LPFpaint;
     Button signalsToPlotButton;
     private Paint transparentPaint, outlinePaint;
 
@@ -211,14 +211,14 @@ public class PlotFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         initPlot();
-        textViewDeviceName = (TextView) getView().findViewById(R.id.textViewDeviceName);
-        textViewDeviceState = (TextView) getView().findViewById(R.id.textViewDeviceState);
+        textViewDeviceName = getView().findViewById(R.id.textViewDeviceName);
+        textViewDeviceState = getView().findViewById(R.id.textViewDeviceState);
 
         super.onActivityCreated(savedInstanceState);
     }
 
     private void initPlot() {
-        dynamicPlot = (XYPlot) getView().findViewById(R.id.dynamicPlot);
+        dynamicPlot = getView().findViewById(R.id.dynamicPlot);
 
         dynamicPlot.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
         lineAndPointFormatter1 = new LineAndPointFormatter(Color.rgb(51, 153, 255), null, null);

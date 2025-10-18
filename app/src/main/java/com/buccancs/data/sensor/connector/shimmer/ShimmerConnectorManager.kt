@@ -1,7 +1,7 @@
 package com.buccancs.data.sensor.connector.shimmer
 
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.data.sensor.SensorStreamClient
+import com.buccancs.domain.sensor.SensorStreamClient
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.shimmer.InMemoryShimmerSettingsRepository

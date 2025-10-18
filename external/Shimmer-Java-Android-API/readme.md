@@ -8,10 +8,13 @@ with
 are
 
 *
+
 SensorMapsExample (
 ShimmerPCBasicExamples
 project)
+
 *
+
 ShimmerPCExample (
 ShimmerPCBasicExamples
 project)
@@ -30,6 +33,7 @@ Rev
 3.00
 
 -
+
 Change
 to
 Handler
@@ -41,6 +45,7 @@ MSGs
 | ~~Shimmer.MESSAGE_READ~~         | ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET  |
 
 -
+
 ~~
 Shimmer.MSG_STATE_FULLY_INITIALIZED~~,
 ~~
@@ -100,6 +105,7 @@ Rev
 2.11
 
 -
+
 3
 byte
 timestamp
@@ -112,6 +118,7 @@ Beta
 2.10)
 
 -
+
 fixes
 to
 MultiShimmerTemaplate
@@ -120,7 +127,9 @@ ShimmerGraphandLogService (
 A0
 and
 A7)
+
 -
+
 update
 to
 filter (
@@ -136,11 +145,14 @@ Beta
 2.9)
 
 -
+
 fix
 to
 shimmersetsamplingrate
 method
+
 -
+
 clean
 up
 to
@@ -155,10 +167,13 @@ Beta
 2.8)
 
 -
+
 updated
 filter/ecgtohr/ppgtohr
 algorithms
+
 -
+
 ecgtohr
 algorithm
 examples
@@ -169,7 +184,9 @@ Android)
 and
 ShimmerCapture (
 PC)
+
 -
+
 various
 bug
 fixes
@@ -177,7 +194,9 @@ to
 ShimmerCapture
 and
 ShimmerConnect
+
 -
+
 updates
 to
 GSR
@@ -190,28 +209,37 @@ Beta
 2.7)
 
 -
+
 support
 for
 LogAndStream
 Firmware
+
 -
+
 support
 for
 Baud
 Rate
 modification
+
 -
+
 support
 for
 reading
 the
 expansion
 board
+
 -
+
 minor
 bugs
 fixed
+
 -
+
 moved
 logging
 and
@@ -222,7 +250,9 @@ the
 Android
 Instrument
 Driver.
+
 -
+
 added
 functionalities
 for
@@ -233,17 +263,23 @@ July
 2014 (
 Beta
 2.6)
+
 -
+
 Support
 for
 Shimmer3
 bridge
 amplifier
+
 -
+
 added
 getExGConfiguration
 methods
+
 -
+
 New
 Shimmer
 initialize.
@@ -255,7 +291,9 @@ get
 FW
 Version ->
 Initialization
+
 -
+
 Firmware
 Version
 divide
@@ -267,7 +305,9 @@ and
 Minor
 Firmware
 Version
+
 -
+
 Firmware
 code
 added
@@ -281,7 +321,9 @@ in
 the
 different
 firmwares
+
 -
+
 Change
 Firmware
 Version
@@ -291,7 +333,9 @@ is
 Firmware
 Code
 checks
+
 -
+
 Configurable
 filter,
 see
@@ -304,19 +348,25 @@ Pass,
 Pass,
 4.Band
 Stop.
+
 -
+
 Sensor
 conflict
 handling
 for
 Shimmer3
+
 -
+
 Shimmer
 PPG->
 HR
 jar
 v0.4
+
 -
+
 Updated
 3dorientation
 to
@@ -333,17 +383,23 @@ if
 both
 are
 enabled
+
 -
+
 Added
 DataProcessing
 interface
+
 -
+
 Moved
 response
 timer
 to
 ShimmerBluetooth
+
 -
+
 Bug
 fix
 to
@@ -355,7 +411,9 @@ gerdavax
 library
 if
 needed
+
 -
+
 Added
 support
 for
@@ -370,6 +428,7 @@ Beta
 2.2)
 
 -
+
 Separate
 the
 drivers
@@ -396,6 +455,7 @@ Beta
 0.7)
 
 -
+
 a
 more
 accurate
@@ -413,7 +473,9 @@ with
 a
 linear
 one.
+
 -
+
 the
 state
 STATE_CONNECTED
@@ -427,7 +489,9 @@ MSG_STATE_FULLY_INITIALIZED
 as
 a
 replacement.
+
 -
+
 note
 that
 since
@@ -456,7 +520,9 @@ is
 less
 than
 desirable.
+
 -
+
 Battery
 voltage
 monitoring
@@ -469,7 +535,9 @@ guideline
 for
 further
 information.
+
 -
+
 Definition
 of
 the
@@ -492,7 +560,9 @@ the
 various
 instrument
 drivers
+
 -
+
 For
 further
 changes
@@ -520,6 +590,7 @@ Beta
 0.6)
 
 -
+
 Additional
 handler
 msgs
@@ -529,7 +600,9 @@ streaming
 has
 been
 added.
+
 -
+
 An
 optional
 AndroidBluetoothLibrary
@@ -565,7 +638,9 @@ using
 an
 aftermarket
 firmware.
+
 -
+
 The
 connect
 method
@@ -583,7 +658,9 @@ been
 updated
 as
 well.
+
 -
+
 Object
 Cluster
 now
@@ -594,7 +671,9 @@ id
 of
 the
 device
+
 -
+
 Stop
 Streaming
 Command
@@ -609,7 +688,9 @@ intermittently
 has
 been
 fixed.
+
 -
+
 createInsecureRfcommSocketToServiceRecord
 can
 be
@@ -648,7 +729,9 @@ for
 some
 Android
 devices.
+
 -
+
 the '
 Nan'
 bug
@@ -677,6 +760,7 @@ Beta
 0.5)
 
 -
+
 ShimmerGraph
 has
 been
@@ -707,6 +791,7 @@ Beta
 0.4)
 
 -
+
 Added
 com.shimmerresearch.tools
 which
@@ -720,7 +805,9 @@ onto
 the
 Android
 device)
+
 -
+
 Fixed
 a
 bug
@@ -735,6 +822,7 @@ Beta
 0.3b)
 
 -
+
 Added
 locks
 to
@@ -750,7 +838,9 @@ previous
 one
 is
 finished
+
 -
+
 Updated
 the
 command
@@ -764,6 +854,7 @@ Beta
 0.3)
 
 -
+
 Fix
 a
 bug
@@ -776,7 +867,9 @@ which
 was
 failing
 intermittently
+
 -
+
 Rename
 ShimmerHandleClass
 to
@@ -869,6 +962,7 @@ are
 met:
 
 *
+
 Redistributions
 of
 source
@@ -887,7 +981,9 @@ and
 the
 following
 disclaimer.
+
 *
+
 Redistributions
 in
 binary
@@ -916,7 +1012,9 @@ provided
 with
 the
 distribution.
+
 *
+
 Neither
 the
 name

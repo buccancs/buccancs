@@ -43,6 +43,7 @@ records.
 ## Mission
 
 -
+
 Capture
 GSR,
 thermal
@@ -60,7 +61,9 @@ across
 multiple
 Android
 devices.
+
 -
+
 Provide
 laboratory-grade
 session
@@ -75,7 +78,9 @@ can
 audit
 every
 run.
+
 -
+
 Underpin
 the
 associated
@@ -92,7 +97,9 @@ estimation.
 ## Platform Topology
 
 -
+
 *
+
 *Android
 agent (
 `app/`)
@@ -126,8 +133,11 @@ toggles
 for
 bench
 testing.
+
 -
+
 *
+
 *Desktop
 orchestrator (
 `desktop/`)
@@ -152,8 +162,11 @@ and
 surfaces
 health
 dashboards.
+
 -
+
 *
+
 *Shared
 protocol (
 `protocol/`)
@@ -170,8 +183,11 @@ and
 desktop
 modules
 aligned.
+
 -
+
 *
+
 *Supporting
 tooling (
 `shimmer/`,
@@ -197,6 +213,7 @@ workflows.
 ## Data Flow (Happy Path)
 
 1.
+
 Desktop
 opens
 a
@@ -208,7 +225,9 @@ timestamped
 directory
 and
 manifest.
+
 2.
+
 Android
 agents
 synchronise
@@ -225,7 +244,9 @@ enabled
 modalities
 in
 parallel.
+
 3.
+
 Low-bandwidth
 telemetry (
 for
@@ -247,7 +268,9 @@ audio)
 are
 buffered
 locally.
+
 4.
+
 When
 the
 session
@@ -267,7 +290,9 @@ retry
 and
 recovery
 logging.
+
 5.
+
 Desktop
 reconciliation
 verifies
@@ -284,176 +309,185 @@ complete.
 ## Hardware Integration Snapshot
 
 -
+
 *
+
 *What
 ships
 today
 **
-    -
-    Bluetooth
-    discovery
-    and
-    pairing
-    for
-    bonded
-    Shimmer3
-    devices
-    is
-    live,
-    with
-    real
-    MAC
-    addresses
-    surfaced
-    in
-    the
-    agent.
-    -
-    USB
-    enumeration
-    for
-    the
-    Topdon
-    TC001
-    works,
-    and
-    the
-    preview
-    pipeline
-    renders
-    frames
-    in
-    the
-    Compose
-    UI.
-    -
-    Simulation
-    clients
-    mirror
-    GSR,
-    thermal,
-    RGB,
-    and
-    audio
-    flows
-    so
-    the
-    orchestration
-    stack
-    can
-    be
-    exercised
-    without
-    physical
-    kit.
 -
+Bluetooth
+discovery
+and
+pairing
+for
+bonded
+Shimmer3
+devices
+is
+live,
+with
+real
+MAC
+addresses
+surfaced
+in
+the
+agent.
+-
+USB
+enumeration
+for
+the
+Topdon
+TC001
+works,
+and
+the
+preview
+pipeline
+renders
+frames
+in
+the
+Compose
+UI.
+-
+Simulation
+clients
+mirror
+GSR,
+thermal,
+RGB,
+and
+audio
+flows
+so
+the
+orchestration
+stack
+can
+be
+exercised
+without
+physical
+kit.
+
+-
+
 *
+
 *Still
 outstanding
 **
-    -
-    Streaming
-    real
-    Shimmer3
-    data
-    requires
-    wiring
-    `RealShimmerHardwareClient`
-    to
-    the
-    vendor
-    `ShimmerAndroidAPI`.
-    The
-    stub
-    currently
-    emits
-    synthetic
-    waveforms
-    so
-    the
-    rest
-    of
-    the
-    stack
-    remains
-    operable.
-    -
-    Thermal
-    capture
-    needs
-    the
-    remaining
-    Topdon
-    streaming
-    work
-    to
-    forward
-    preview
-    frames
-    into
-    the
-    recording
-    pipeline
-    and
-    apply
-    palette/calibration
-    metadata.
-    -
-    Hardware
-    lifecycle
-    management
-    needs
-    a
-    polish
-    pass
-    to
-    tighten
-    reconnection,
-    configuration,
-    and
-    error
-    recovery.
 -
+Streaming
+real
+Shimmer3
+data
+requires
+wiring
+`RealShimmerHardwareClient`
+to
+the
+vendor
+`ShimmerAndroidAPI`.
+The
+stub
+currently
+emits
+synthetic
+waveforms
+so
+the
+rest
+of
+the
+stack
+remains
+operable.
+-
+Thermal
+capture
+needs
+the
+remaining
+Topdon
+streaming
+work
+to
+forward
+preview
+frames
+into
+the
+recording
+pipeline
+and
+apply
+palette/calibration
+metadata.
+-
+Hardware
+lifecycle
+management
+needs
+a
+polish
+pass
+to
+tighten
+reconnection,
+configuration,
+and
+error
+recovery.
+
+-
+
 *
+
 *Workarounds
 **
-    -
-    The
-    Android
-    agent
-    exposes
-    a
-    simulation
-    toggle
-    so
-    sessions
-    can
-    run
-    end-to-end
-    without
-    devices.
-    -
-    Hardware
-    validation
-    drills
-    in
-    `docs/testing.md`
-    describe
-    how
-    to
-    stage
-    blended
-    simulation/physical
-    runs
-    while
-    the
-    integrations
-    firm
-    up.
+-
+The
+Android
+agent
+exposes
+a
+simulation
+toggle
+so
+sessions
+can
+run
+end-to-end
+without
+devices.
+-
+Hardware
+validation
+drills
+in
+`docs/testing.md`
+describe
+how
+to
+stage
+blended
+simulation/physical
+runs
+while
+the
+integrations
+firm
+up.
 
 ## Operational Capabilities
 
 -
+
 Multi-device
 coordination
 with
@@ -465,7 +499,9 @@ panes,
 and
 structured
 heartbeats.
+
 -
+
 NTP-style
 time
 synchronisation
@@ -479,7 +515,9 @@ ms
 drift
 between
 devices.
+
 -
+
 Session
 manifests
 describing
@@ -492,7 +530,9 @@ bookmarks,
 and
 storage
 usage.
+
 -
+
 Upload
 backlog
 monitoring,
@@ -504,7 +544,9 @@ and
 recovery
 logs (
 `upload_recovery.jsonl`).
+
 -
+
 Performance
 telemetry
 covering
@@ -517,7 +559,9 @@ storage
 headroom
 per
 agent.
+
 -
+
 Automation
 hooks
 for
@@ -533,6 +577,7 @@ scripts.
 ## Current Focus Areas
 
 -
+
 Finalise
 physical
 hardware
@@ -547,7 +592,9 @@ and
 the
 desktop
 orchestrator.
+
 -
+
 Restore
 paused
 automated
@@ -564,7 +611,9 @@ licence
 acceptance)
 are
 cleared.
+
 -
+
 Polish
 the
 Topdon

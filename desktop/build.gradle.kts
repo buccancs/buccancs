@@ -82,7 +82,7 @@ dependencies {
     )
 
     implementation(
-        "org.jmdns:jmdns:3.5.9"
+        "org.jmdns:jmdns:3.6.2"
     )
 
     implementation(
@@ -104,7 +104,7 @@ dependencies {
         libs.junit.junit
     )
     testImplementation(
-        "org.junit.platform:junit-platform-suite:1.10.2"
+        "org.junit.platform:junit-platform-suite:6.0.0"
     )
     testImplementation(
         libs.compose.ui.test.junit4

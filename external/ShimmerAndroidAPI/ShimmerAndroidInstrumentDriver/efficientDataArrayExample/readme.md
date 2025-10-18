@@ -19,6 +19,7 @@ the
 following:
 
 -
+
 New
 arrays
 data
@@ -64,7 +65,9 @@ retrieve
 data
 from
 it.
+
 -
+
 Disabling
 PC
 Timestamps -
@@ -102,7 +105,9 @@ on
 each
 byte
 received.
+
 -
+
 CSV
 file
 writing

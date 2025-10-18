@@ -13,6 +13,7 @@ support
 onwards
 
 -
+
 Set
 Shimmer3
 macAddress
@@ -21,7 +22,9 @@ be
 used
 in
 MainActivity
+
 -
+
 Run
 the
 example
@@ -39,7 +42,9 @@ Streaming
 with
 the
 device
+
 -
+
 Enable
 LN
 Accel
@@ -58,7 +63,9 @@ will
 be
 printed
 out
+
 -
+
 You
 will
 require
@@ -103,7 +110,9 @@ the
 latest
 supported
 FW.
+
 -
+
 Note
 that
 not

@@ -32,6 +32,7 @@ task.
 ## Core Guides
 
 -
+
 `system-overview.md` –
 Mission
 statement,
@@ -43,7 +44,9 @@ and
 hardware
 integration
 snapshot.
+
 -
+
 `requirements.md` –
 Functional
 and
@@ -53,7 +56,9 @@ with
 current
 delivery
 status.
+
 -
+
 `development.md` –
 Workstation
 provisioning,
@@ -67,7 +72,9 @@ usage,
 and
 writing
 standards.
+
 -
+
 `testing.md` –
 Automated
 coverage
@@ -84,6 +91,7 @@ recovery).
 ## Operating Rules & Planning
 
 -
+
 `../AGENTS.md` –
 Canonical
 contributor
@@ -95,7 +103,9 @@ automation
 or
 making
 changes.
+
 -
+
 `tasks/active-plan.md` –
 Current
 objective,
@@ -121,6 +131,7 @@ aligned.
 ## Tooling & Assets
 
 -
+
 `automation/` –
 PowerShell
 and
@@ -135,7 +146,9 @@ sessions (
 templates,
 queues,
 logs).
+
 -
+
 `docs/latex/` –
 Thesis
 chapters

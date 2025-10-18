@@ -65,9 +65,9 @@ publishing {
 dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.16'
     implementation
-            project(':ShimmerDriver')
+    project(':ShimmerDriver')
     implementation
-            project(':ShimmerBluetoothManager')
+    project(':ShimmerBluetoothManager')
     implementation 'com.parse.bolts:bolts-tasks:1.4.0'
 
     api 'io.github.java-native:jssc:2.9.6'

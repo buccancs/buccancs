@@ -18,10 +18,10 @@ kapt {
 android {
     namespace "com.topdon.module.user"
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdk
+    rootProject
+            .ext
+            .android
+            .compileSdk
 
     defaultConfig {
         minSdk rootProject
@@ -29,29 +29,29 @@ android {
                 .android
                 .minSdk
         targetSdk
-                rootProject
-                        .ext
-                        .android
-                        .targetSdk
+        rootProject
+                .ext
+                .android
+                .targetSdk
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
         targetCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
     }
     buildFeatures {
         viewBinding =
@@ -92,9 +92,9 @@ android {
 
 dependencies {
     implementation
-            project(':libapp')
+    project(':libapp')
     implementation
-            project(':libui')
+    project(':libui')
     kapt libs
             .arouter
             .compiler
@@ -106,7 +106,7 @@ dependencies {
                     'androidx.compose:compose-bom:2024.09.03'
             )
     implementation
-            composeBom
+    composeBom
 
     // Material 3
     implementation 'androidx.compose.material3:material3'

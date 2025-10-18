@@ -20,40 +20,40 @@ kapt {
 android {
     namespace 'com.csl.irCamera'
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdk
+    rootProject
+            .ext
+            .android
+            .compileSdk
     defaultConfig {
         applicationId
-                rootProject
-                        .ext
-                        .android
-                        .applicationId
+        rootProject
+                .ext
+                .android
+                .applicationId
         minSdk rootProject
                 .ext
                 .android
                 .minSdk
         targetSdk
-                rootProject
-                        .ext
-                        .android
-                        .targetSdk
+        rootProject
+                .ext
+                .android
+                .targetSdk
         versionCode
-                rootProject
-                        .ext
-                        .android
-                        .versionCode
+        rootProject
+                .ext
+                .android
+                .versionCode
         versionName
-                rootProject
-                        .ext
-                        .android
-                        .versionName
+        rootProject
+                .ext
+                .android
+                .versionName
         ndkVersion
-                rootProject
-                        .ext
-                        .android
-                        .ndkVersion
+        rootProject
+                .ext
+                .android
+                .ndkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -118,19 +118,19 @@ android {
             //signingConfig signingConfigs.debug // Disabled - no keystore
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android.txt'
+            ) ,
+            'proguard-rules.pro'
         }
         release {
             //signingConfig signingConfigs.release // Disabled - no keystore
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
 
@@ -146,11 +146,11 @@ android {
 
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
         targetCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
     }
     kotlinOptions {
         jvmTarget =
@@ -338,12 +338,12 @@ android {
                     "\"${rootProject.ext.appSecret.topInfraredCN10}\""
             )
             versionCode
-                    rootProject
-                            .ext
-                            .android
-                            .versionCode +
-                            getYearStr()
-                                    .toInteger() * 10000
+            rootProject
+                    .ext
+                    .android
+                    .versionCode +
+                    getYearStr()
+                            .toInteger() * 10000
             manifestPlaceholders =
                     [
                             app_name: "热视界",
@@ -571,27 +571,27 @@ def copyAab(
 
 dependencies {
     implementation
-            project(':component:pseudo')
+    project(':component:pseudo')
     implementation
-            project(':component:thermal-ir')
+    project(':component:thermal-ir')
     implementation
-            project(':component:thermal-lite')
+    project(':component:thermal-lite')
     //implementation project(':component:thermal04') // Removed - different device (not TC001)
     //implementation project(':component:thermal07') // Removed - different device (not TC001)
     implementation
-            project(':component:transfer')
+    project(':component:transfer')
     implementation
-            project(':component:user')
+    project(':component:user')
     implementation
-            project(':libapp')
+    project(':libapp')
     implementation
-            project(':libcom')
+    project(':libcom')
     implementation
-            project(':libir')
+    project(':libir')
     implementation
-            project(':libmenu')
+    project(':libmenu')
     implementation
-            project(':libui')
+    project(':libui')
 
     kapt libs
             .arouter
@@ -603,9 +603,9 @@ dependencies {
                     'androidx.compose:compose-bom:2024.09.03'
             )
     implementation
-            composeBom
+    composeBom
     androidTestImplementation
-            composeBom
+    composeBom
 
     // Material 3
     implementation 'androidx.compose.material3:material3'
@@ -638,31 +638,31 @@ dependencies {
 
     //     implementation libs.jsbridge // Web bridge not used
     implementation
-            libs
-                    .fastjson
+    libs
+            .fastjson
     implementation
-            libs
-                    .ucrop
+    libs
+            .ucrop
     //     implementation libs.app.update // Update feature removed
     implementation
-            libs
-                    .immersionbar
+    libs
+            .immersionbar
     implementation
-            libs
-                    .xpopup
+    libs
+            .xpopup
     implementation
-            libs
-                    .smartrefresh
-                    .kernel
+    libs
+            .smartrefresh
+            .kernel
     implementation
-            libs
-                    .smartrefresh
-                    .header
-                    .classics
+    libs
+            .smartrefresh
+            .header
+            .classics
     implementation
-            libs
-                    .wechat
-                    .sdk
+    libs
+            .wechat
+            .sdk
     //     implementation libs.umeng // Analytics removed.apm
     //     implementation libs.mobilisten // Analytics removed
     //implementation platform(libs.firebase.bom) // Firebase removed

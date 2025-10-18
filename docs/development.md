@@ -47,7 +47,9 @@ checklist.
 ## Prerequisites
 
 -
+
 *
+
 *Java:
 **
 JDK
@@ -58,8 +60,11 @@ accordingly;
 verify
 with
 `java -version`).
+
 -
+
 *
+
 *Android
 SDK:
 **
@@ -85,8 +90,11 @@ to
 unblock
 Gradle
 sync.
+
 -
+
 *
+
 *Gradle
 Wrapper:
 **
@@ -101,8 +109,11 @@ than
 a
 global
 install.
+
 -
+
 *
+
 *Android
 Studio /
 IntelliJ
@@ -114,8 +125,11 @@ editing
 and
 Compose
 previews.
+
 -
+
 *
+
 *Platform
 Tools:
 **
@@ -129,8 +143,11 @@ management
 and
 automation
 scripts.
+
 -
+
 *
+
 *Optional:
 **
 WSL
@@ -151,6 +168,7 @@ issues.
 ## Repository Setup
 
 1.
+
 Clone
 the
 repository
@@ -168,7 +186,9 @@ to
 update
 SDK
 artefacts.
+
 2.
+
 Copy
 or
 create
@@ -188,7 +208,9 @@ the
 canonical
 Windows
 path).
+
 3.
+
 Open
 the
 project
@@ -204,7 +226,9 @@ to
 import
 Gradle
 settings.
+
 4.
+
 For
 desktop
 development
@@ -267,7 +291,9 @@ variable.
 ## Running the Platform
 
 -
+
 *
+
 *Android
 agent:
 **
@@ -307,8 +333,11 @@ when
 hardware
 is
 absent.
+
 -
+
 *
+
 *Desktop
 orchestrator:
 **
@@ -336,8 +365,11 @@ avoid
 gRPC
 negotiation
 issues.
+
 -
+
 *
+
 *Sensor
 tooling:
 **
@@ -371,7 +403,9 @@ scripts.
 ## Troubleshooting
 
 -
+
 *
+
 *WSL
 Gradle
 failures:
@@ -398,8 +432,11 @@ can
 corrupt
 build
 caches.
+
 -
+
 *
+
 *Android
 SDK
 licences:
@@ -412,8 +449,11 @@ licence
 prompts,
 run
 `"%ANDROID_SDK_ROOT%/cmdline-tools/latest/bin/sdkmanager.bat" --licenses`.
+
 -
+
 *
+
 *Topdon
 driver:
 **
@@ -442,8 +482,11 @@ falls
 back
 to
 simulation.
+
 -
+
 *
+
 *Shimmer
 pairing:
 **
@@ -464,8 +507,11 @@ guard
 against
 invalid
 transitions.
+
 -
+
 *
+
 *Session
 storage:
 **
@@ -509,7 +555,9 @@ the
 keyboard.
 
 -
+
 *
+
 *PowerShell
 loop:
 **
@@ -535,8 +583,11 @@ writes
 transcripts
 to
 `automation/logs/`.
+
 -
+
 *
+
 *WSL/Linux
 loop:
 **
@@ -557,8 +608,11 @@ queues
 and
 pause
 files.
+
 -
+
 *
+
 *Queue &
 pause
 controls:
@@ -587,8 +641,11 @@ delete
 it
 to
 resume.
+
 -
+
 *
+
 *Command
 templates:
 **
@@ -620,8 +677,11 @@ so
 `docs/tasks/active-plan.md`
 stays
 authoritative.
+
 -
+
 *
+
 *First-run
 checklist:
 **
@@ -650,6 +710,7 @@ turns.
 ## Writing & Style Expectations
 
 -
+
 Write
 documentation,
 comments,
@@ -663,7 +724,9 @@ English (
 `optimise`,
 `colour`,
 `behaviour`).
+
 -
+
 Keep
 American
 spellings
@@ -679,7 +742,9 @@ JSON
 keys,
 protobuf
 fields).
+
 -
+
 Prefer
 the
 project
@@ -691,7 +756,9 @@ maintain
 concise,
 factual
 prose.
+
 -
+
 Configure
 spell-checkers (
 for

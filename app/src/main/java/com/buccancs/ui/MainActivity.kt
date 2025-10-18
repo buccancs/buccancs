@@ -1,30 +1,21 @@
 package com.buccancs.ui
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import android.util.Log
+import com.buccancs.ui.base.DeviceHostActivity
+import com.buccancs.ui.base.DeviceHostActivity.PermissionEducation
 import com.buccancs.ui.navigation.AppNavHost
 import com.buccancs.ui.theme.BuccancsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity :
-    ComponentActivity() {
-
-    private val permissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            // Handle permission results if needed
-        }
+    DeviceHostActivity() {
 
     override fun onCreate(
         savedInstanceState: Bundle?
@@ -36,8 +27,6 @@ class MainActivity :
             window,
             false
         )
-
-        requestRequiredPermissions()
 
         val composeView =
             ComposeView(
@@ -54,7 +43,7 @@ class MainActivity :
             }
         composeView.setContent {
             BuccancsTheme {
-                AppNavHost()
+                AppNavHost(usbAttachmentEvents = usbAttachmentEvents)
             }
         }
         setContentView(
@@ -62,84 +51,53 @@ class MainActivity :
         )
     }
 
-    private fun requestRequiredPermissions() {
-        val permissionsToRequest =
-            mutableListOf<String>()
-
-        // Bluetooth permissions (Android 12+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.BLUETOOTH_SCAN
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                permissionsToRequest.add(
-                    Manifest.permission.BLUETOOTH_SCAN
+    override val permissionEducation: List<PermissionEducation> =
+        listOf(
+            PermissionEducation(
+                Manifest.permission.BLUETOOTH_SCAN,
+                heading = "Bluetooth Scanning",
+                detail = "Required to discover nearby biometric sensors and thermal cameras."
+            ),
+            PermissionEducation(
+                Manifest.permission.BLUETOOTH_CONNECT,
+                heading = "Bluetooth Connection",
+                detail = "Needed to pair and maintain live telemetry with supported wearables."
+            ),
+            PermissionEducation(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                heading = "Location Access",
+                detail = "Android links Bluetooth discovery to location in order to protect privacy."
+            ),
+            PermissionEducation(
+                Manifest.permission.CAMERA,
+                heading = "Camera Access",
+                detail = "Enables RGB previews and thermal capture alignment."
+            ),
+            PermissionEducation(
+                Manifest.permission.RECORD_AUDIO,
+                heading = "Microphone Access",
+                detail = "Audio samples are captured alongside thermal data when available."
+            )
+        ) + if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            listOf(
+                PermissionEducation(
+                    Manifest.permission.POST_NOTIFICATIONS,
+                    heading = "Notifications",
+                    detail = "Allows the agent to surface device status and alerts even when minimised."
                 )
-            }
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.BLUETOOTH_CONNECT
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                permissionsToRequest.add(
-                    Manifest.permission.BLUETOOTH_CONNECT
-                )
-            }
-        }
-
-        // Location (required for Bluetooth scanning on older Android)
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            permissionsToRequest.add(
-                Manifest.permission.ACCESS_FINE_LOCATION
             )
+        } else {
+            emptyList()
         }
 
-        // Camera
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            permissionsToRequest.add(
-                Manifest.permission.CAMERA
-            )
+    override fun isRecognisedDevice(device: android.hardware.usb.UsbDevice): Boolean =
+        when (device.vendorId) {
+            11261, // TopDon
+            1003,  // Generic thermal cameras
+            3034,  // FLIR
+            1240 -> true // Seek Thermal
+            else -> false
         }
-
-        // Microphone
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            permissionsToRequest.add(
-                Manifest.permission.RECORD_AUDIO
-            )
-        }
-
-        // Notifications (Android 13+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                permissionsToRequest.add(
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
-            }
-        }
-
-        if (permissionsToRequest.isNotEmpty()) {
-            permissionLauncher.launch(
-                permissionsToRequest.toTypedArray()
-            )
-        }
-    }
 }
 
 private fun ComposeView.setTestTagsAsResourceIdCompat(

@@ -6,10 +6,10 @@ plugins {
 android {
     namespace 'com.topdon.transfer'
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdk
+    rootProject
+            .ext
+            .android
+            .compileSdk
 
     defaultConfig {
         minSdk rootProject
@@ -23,19 +23,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
         targetCompatibility
-                JavaVersion
-                        .VERSION_21
+        JavaVersion
+                .VERSION_21
     }
     buildFeatures {
         buildConfig =
@@ -72,5 +72,5 @@ android {
 
 dependencies {
     implementation
-            project(':libapp')
+    project(':libapp')
 }

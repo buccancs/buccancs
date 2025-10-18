@@ -242,9 +242,11 @@ AndroidManifest中监听USB设备的插拔，需要添加
 选项，后续步骤如下：
 
 -
+
 手机跟电脑连接同一个网络下;
 
 -
+
 使用usb线连接手机，并检查是否连接成功
 
 ```
@@ -254,6 +256,7 @@ nvmvsct46hor4xts        device
 ```
 
 -
+
 打开手机端口：
 adb
 tcpip
@@ -266,6 +269,7 @@ restarting in TCP mode port: 5555
 ```
 
 -
+
 查看手机ip地址：adb
 shell
 ip
@@ -283,6 +287,7 @@ C:\Users\zhao_>adb shell ip -f inet addr show wlan0
 ```
 
 -
+
 连接设备：adb
 connect
 192.xxx.xxx.xxx:
@@ -300,6 +305,7 @@ nvmvsct46hor4xts        device
 ```
 
 -
+
 拔掉usb线，并查看无线是否连接成功
 
 ```ruby
@@ -313,18 +319,22 @@ List of devices attached
 使用命令行的方式连接手机相对繁琐，用户可以选择使用AndroidStudio插件来简化该步骤，如下：
 
 -
+
 首先进入AndroidStudio设置里面的插件中，搜索adb
 wifi，下载一个下载量比较高的对应的插件。
 
 <img src="..\Common_Source\img\202010181317298.png" style="zoom:60%;" />
 
 -
+
 然后用usb连接电脑。
 
 -
+
 使用wifi插件点击connect
 
 -
+
 拔掉usb，即可用wifi进行调试。
 
 ## targetSdk版本设置
@@ -405,6 +415,7 @@ demo中的混淆配置。
 ### 解决方法
 
 -
+
 请先确认设备的OTG是否打开（在设置中搜索，部分设备的OTG默认是打开的且无法进行关闭操作，部分设备的OTG打开一段时间之后不用的话会自动关闭）
 -
 可以对比第三方的出图工具如“USB摄像头”来进行对比测试
@@ -412,7 +423,9 @@ demo中的混淆配置。
 部分设备出图不稳定需要调用
 `uvcCamera.setDefaultBandwidth`
 方法来设置带宽
+
 -
+
 检查您的模组设置的分辨率是否正确
 -
 部分手机须通过转接器连接模组，如果电缆过长，超过0.5米以上，有可能出现供电不足，导致数据传输不稳定，需要在转接器中间再加个USB集线器，增加供电，保证信号传输稳定。
@@ -453,6 +466,7 @@ public void onFrame(byte[] frame)
 ### 解决方法
 
 -
+
 请先进入"
 测试
 `USBMonitor`
@@ -462,11 +476,13 @@ public void onFrame(byte[] frame)
 对应的回调
 
 -
+
 如果没有进入回调，请检查您的
 `USBMonitor`
 注册是否执行
 
 -
+
 如果进入了回调，请跟踪调试是否请求了权限，位置：
 `IRUVC.java`
 文件中
@@ -482,11 +498,13 @@ public void onFrame(byte[] frame)
 的绘制线程
 
 -
+
 检查您是否在
 `USBMonitor`
 的回调中设置了设备过滤白名单
 
 -
+
 在targetSDK>
 =30的设备上，可能需要获取到
 `android.permission.CAMERA`
@@ -540,12 +558,14 @@ ONE这个app，插入FILR的设备，也无法正常的出图。
 ### 解决建议
 
 -
+
 第一种：设置targetSdk<
 28
 
 可以正常的出图
 
 -
+
 第二种：有某些特殊的需求，要求targetSdk>
 =28
 
@@ -558,6 +578,7 @@ Play
 Store上架的时候，可能会存在导致应用被下架的风险，请谨慎使用。
 
 -
+
 第三种：区分国内和国外渠道，国内渠道使用targetSdk<
 28，国外渠道使用targetSdk>
 =28
@@ -598,6 +619,7 @@ Store上架的时候，可能会存在导致应用被下架的风险，请谨慎
 ### 解决方法
 
 -
+
 原始的bitmap的宽高反掉了
 
 检查原始bitmap的宽高，如果反掉了则调换一下。
@@ -643,6 +665,7 @@ demo的时候日志中报错，如下：
 ### 问题描述
 
 -
+
 如何设置自动快门的开关及时间间隔？各个参数的含义？
 
 ### 解决方法
@@ -666,12 +689,15 @@ demo的时候日志中报错，如下：
 ### 解决方法
 
 自动增益切换适用于
+
 *
+
 *具有高低增益的模组
 **
 ，高增益和低增益的测温范围不同，当需要测温的物体不在当前增益的测温范围内时，开启该功能后会根据设置的参数判断是否满足切换的条件，满足的话会自动切换模组的增益状态，并回调。
 
 *
+
 *备注：部分单高增益的模组不适用。
 **
 
@@ -809,6 +835,7 @@ public int getPointTemperatureInfo(int pixelPointX, int pixelPointY, int[] tempe
 ## 部分手机上出现SurfaceView内容不展示问题
 
 *
+
 *说明：该部分业务逻辑非本SDK的使用相关，提供该问题示例为方便客户开发自己的上层应用。
 **
 
@@ -831,6 +858,7 @@ setZOrderOnTop(true);
 ## 部分三星手机录制视频相册找不到
 
 *
+
 *说明：该部分业务逻辑非本SDK的使用相关，提供该问题示例为方便客户开发自己的上层应用。
 **
 
@@ -845,6 +873,7 @@ setZOrderOnTop(true);
 ### 解决方法
 
 -
+
 对三星手机延时发送刷新相册广播
 
 ```java
@@ -862,6 +891,7 @@ setZOrderOnTop(true);
 ```
 
 -
+
 对三星手机使用多种刷新方式
 
 ```java
@@ -881,6 +911,7 @@ setZOrderOnTop(true);
 ## 版本【Version】1.3.7
 
 -
+
 修复一些bug；
 -
 区分不同的版本；
@@ -888,6 +919,7 @@ setZOrderOnTop(true);
 ## 版本【Version】1.3.6
 
 -
+
 调整页面逻辑，更加简洁高效；
 -
 更新libirtemp库到0.15.1
@@ -896,6 +928,7 @@ alpha版本；
 ## 版本【Version】1.3.5 2023-04-23
 
 -
+
 放开距离修正和环境变量修正的接口限制，使用固件版本作为唯一区分；
 -
 更新单点标定和两点标定的文档及注释;
@@ -905,10 +938,13 @@ alpha版本；
 ## 版本【Version】1.3.4
 
 -
+
 抽取测温修正函数到
 `IRUtils.java`
 工具类中，方便在不插入设备的情况下进行测温修正；
+
 -
+
 调整测温修正的逻辑，如果是
 `P2`
 模组则只需要执行
@@ -918,6 +954,7 @@ alpha版本；
 ## 版本【Version】1.3.3
 
 -
+
 增加DOKIT工具库，用于监测运行数据；
 -
 更新libirtemp库到最新版本；
@@ -929,6 +966,7 @@ alpha版本；
 ## 版本【Version】1.3.2 FC  2023-02-13
 
 -
+
 新增手动制造盲元接口addPseudoDeadPixel和相关文档；
 -
 新增自动盲元标定接口 ；
@@ -938,7 +976,9 @@ alpha版本；
 完善温度修正接口temperatureCorrection，兼容Tiny1c
 Tinybe
 MINI256；
+
 -
+
 中间出图问题修复；
 -
 新增伪彩获取接口，允许传入自定义伪彩列表；
@@ -952,6 +992,7 @@ MINI256；
 ## 版本【Version】1.3.1
 
 -
+
 完善多点标定接口；
 -
 新增多点标定后单点温度修正接口；
@@ -959,12 +1000,15 @@ MINI256；
 更新libirtemp
 0.13.1
 alpha库；
+
 -
+
 修复在部分android9.0手机上出现的surfaceView内容不展示的bug;
 
 ## 版本【Version】1.3.0
 
 -
+
 通过gradle.properties区分标准版本和定制版本；
 -
 新增标准版和定制版与固件匹配出图逻辑；
@@ -972,12 +1016,15 @@ alpha库；
 新增定制版接口
 `getCustomInfo`
 获取PID和VID；
+
 -
+
 增加AES-CBC-PKCS5Padding的加密和解密工具类；
 
 ## 版本【Version】1.2.9
 
 -
+
 添加模组出现伪彩反色的问题解析和解决办法；
 -
 调整算法中电子变倍的位置到最后；
@@ -997,7 +1044,9 @@ alpha库；
 库中
 `yuv422`
 数据获取伪彩的方法；
+
 -
+
 增加获取机芯中是否执行过停图命令的接口；
 -
 更新libirtemp库到最新分支；
@@ -1005,6 +1054,7 @@ alpha库；
 ## 版本【Version】1.2.8 FC  2022-11-04
 
 -
+
 多点标定SDK接口逻辑调整，增加参数，详见文档部分；
 -
 删除部分接口需要传入固件信息的参数，改为从底层获取；
@@ -1016,6 +1066,7 @@ alpha库；
 ## 版本【Version】1.2.7 FC  2022-11-01
 
 -
+
 增加多点标定的SDK，具体的使用方法见文档部分；
 -
 修改了SDK初始化的逻辑，先获取到设备分辨率列表再初始化SDK；
@@ -1027,12 +1078,15 @@ alpha库；
 ## 版本【Version】1.2.6  2022-10-18
 
 -
+
 优化demo布局，移除demo第三方库以及无用的代码
 
 -
+
 SDK新增SPI单光支持上层ISP算法功能以及演示demo
 
 -
+
 IRCMD支持
 `readPrivData`、
 `readKTData`、
@@ -1040,6 +1094,7 @@ IRCMD支持
 接口调用
 
 -
+
 UVCCamera支持
 `setCurVTemp`、
 `setTempCorrectParams`、
@@ -1054,6 +1109,7 @@ UVCCamera支持
 ## 版本【Version】1.2.3
 
 -
+
 固件版本>
 =3.05中，去除了机芯中设置环境变量的接口(
 `setPropTPDParams`
@@ -1067,6 +1123,7 @@ UVCCamera支持
 ## 版本【Version】1.2.1
 
 -
+
 LEVEL_DDE的档位仅支持0-4这5个档位，删除5和6两个档位
 -
 修改环境变量参数修正的输入温度单位为摄氏度
@@ -1085,20 +1142,27 @@ LEVEL_DDE的档位仅支持0-4这5个档位，删除5和6两个档位
 ------------------------------------------
 
 -
+
 增加SDK实现【Increase
 SDK
 implementation】
+
 -
+
 更新接口文档【Update
 interface
 documentation】
+
 -
+
 更新用户开发标定文档【Update
 user
 development
 calibration
 documents】
+
 -
+
 增加兼容性测试【Increase
 compatibility
 test】
@@ -1107,25 +1171,36 @@ test】
 ------------------------------------------
 
 -
+
 增加SDK实现【Increase
 SDK
 implementation】
+
 -
+
 自动增益切换【Automatic
 gain
 switching】
+
 -
+
 防灼烧保护【Anti-burn
 protection】
+
 -
+
 环境温度修正【Ambient
 temperature
 correction】
+
 -
+
 firmware
 升级【firmware
 upgrade】
+
 -
+
 升级libircmd的库【Upgrade
 libircmd
 library】
@@ -1134,22 +1209,28 @@ library】
 ------------------------------------------
 
 -
+
 release
 I2c
 cmd
+
 -
+
 Release
 spi
 接口【Release
 spi
 interface】
+
 -
+
 Tiny1C模组SDK接口【Tiny1C
 module
 SDK
 interface】
 
 -
+
 release
 USB
 接口【release

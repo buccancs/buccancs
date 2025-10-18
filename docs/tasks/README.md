@@ -11,6 +11,7 @@ this
 directory.
 
 -
+
 Use
 `active-plan.md`
 for
@@ -38,7 +39,9 @@ or
 recommended
 session
 assignments.
+
 -
+
 When
 a
 plan
@@ -58,7 +61,9 @@ starting
 the
 next
 plan.
+
 -
+
 Each
 task
 list

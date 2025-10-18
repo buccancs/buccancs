@@ -10,6 +10,8 @@ import com.buccancs.data.orchestration.GrpcChannelFactory
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.repository.OrchestratorConfigRepository
+import com.buccancs.domain.sensor.SensorStreamClient
+import com.buccancs.domain.sensor.SensorStreamEmitter
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,24 +23,6 @@ import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
-
-interface SensorStreamEmitter {
-    suspend fun emit(
-        timestampEpochMs: Long,
-        values: Map<String, Double>
-    )
-
-    suspend fun close()
-}
-
-interface SensorStreamClient {
-    suspend fun openStream(
-        sessionId: String,
-        deviceId: DeviceId,
-        streamId: String,
-        sampleRateHz: Double
-    ): SensorStreamEmitter
-}
 
 @Singleton
 class SensorStreamUploader @Inject constructor(

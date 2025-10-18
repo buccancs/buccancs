@@ -1,6 +1,13 @@
 package com.buccancs.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,6 +16,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TOPDON_TC001_DEVICE_ID
+import com.buccancs.hardware.DeviceScannerService
+import com.buccancs.ui.base.UsbDeviceAttachmentEvent
+import com.buccancs.ui.components.scanner.TopdonDevicePermissionDialog
 import com.buccancs.ui.devices.DevicesRoute
 import com.buccancs.ui.library.SessionDetailRoute
 import com.buccancs.ui.library.SessionLibraryRoute
@@ -22,11 +32,49 @@ import com.buccancs.ui.topdon.gallery.TopdonGalleryRoute
 import com.buccancs.ui.topdon.guide.ConnectionGuideRoute
 import com.buccancs.ui.topdon.settings.TopdonSettingsRoute
 import com.buccancs.ui.topdon.thermal.ThermalPreviewRoute
+import com.buccancs.ui.camera.RgbCameraRoute
+import com.buccancs.ui.camera.RgbCameraSettingsRoute
+import kotlinx.coroutines.flow.SharedFlow
+import javax.inject.Inject
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    usbAttachmentEvents: SharedFlow<UsbDeviceAttachmentEvent>? = null
 ) {
+    // State for Topdon device permission dialog
+    var showTopdonPermissionDialog by remember { mutableStateOf(false) }
+    var pendingTopdonDevice by remember { mutableStateOf<android.hardware.usb.UsbDevice?>(null) }
+
+    // Get device scanner service via Hilt
+    val deviceScanner: DeviceScannerService = hiltViewModel<DeviceScannerViewModel>().deviceScanner
+
+    // Listen for USB attachment events
+    LaunchedEffect(usbAttachmentEvents) {
+        usbAttachmentEvents?.collect { event ->
+            pendingTopdonDevice = event.device
+            showTopdonPermissionDialog = true
+        }
+    }
+
+    // Show Topdon permission dialog
+    if (showTopdonPermissionDialog && pendingTopdonDevice != null) {
+        val device = pendingTopdonDevice!!
+        TopdonDevicePermissionDialog(
+            deviceName = device.productName ?: "Topdon Thermal Camera",
+            vendorId = device.vendorId,
+            productId = device.productId,
+            onConfirm = {
+                deviceScanner.requestUsbPermission(device)
+                showTopdonPermissionDialog = false
+                pendingTopdonDevice = null
+            },
+            onDismiss = {
+                showTopdonPermissionDialog = false
+                pendingTopdonDevice = null
+            }
+        )
+    }
     AppScaffold(
         navController = navController,
         showBottomBar = true
@@ -64,6 +112,13 @@ fun AppNavHost(
                     onOpenShimmer = { deviceId ->
                         navController.navigate(
                             Screen.Shimmer.route
+                        )
+                    },
+                    onOpenRgbCamera = { deviceId ->
+                        navController.navigate(
+                            Screen.RgbCamera.createRoute(
+                                deviceId
+                            )
                         )
                     }
                 )
@@ -140,16 +195,16 @@ fun AppNavHost(
                 TopdonRoute(
                     deviceId = deviceId,
                     onNavigateUp = { navController.navigateUp() },
-                    onNavigateToThermalPreview = {
+                    onNavigateToThermalFullScreen = {
                         navController.navigate(
                             Screen.TopdonThermalPreview.createRoute(
                                 deviceId
                             )
                         )
                     },
-                    onNavigateToGallery = {
+                    onNavigateToGuide = {
                         navController.navigate(
-                            Screen.TopdonGallery.route
+                            Screen.TopdonConnectionGuide.route
                         )
                     },
                     onNavigateToSettings = {
@@ -157,9 +212,11 @@ fun AppNavHost(
                             Screen.TopdonSettings.route
                         )
                     },
-                    onNavigateToGuide = {
+                    onOpenGalleryDetail = { imageId ->
                         navController.navigate(
-                            Screen.TopdonConnectionGuide.route
+                            Screen.TopdonImageDetail.createRoute(
+                                imageId
+                            )
                         )
                     }
                 )
@@ -280,6 +337,51 @@ fun AppNavHost(
             ) {
                 ShimmerScreen(
                     onNavigateBack = { navController.navigateUp() }
+                )
+            }
+
+            composable(
+                route = "camera/{deviceId}",
+                arguments = listOf(
+                    navArgument("deviceId") {
+                        type = NavType.StringType
+                    }
+                ),
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) { backStackEntry ->
+                val deviceId = backStackEntry.arguments?.getString("deviceId")
+                    ?.let(::DeviceId) ?: DeviceId("android-rgb")
+                RgbCameraRoute(
+                    deviceId = deviceId,
+                    onNavigateUp = { navController.navigateUp() },
+                    onNavigateToSettings = {
+                        navController.navigate(
+                            Screen.RgbCameraSettings.createRoute(deviceId)
+                        )
+                    }
+                )
+            }
+
+            composable(
+                route = "camera/{deviceId}/settings",
+                arguments = listOf(
+                    navArgument("deviceId") {
+                        type = NavType.StringType
+                    }
+                ),
+                enterTransition = { MotionTransitions.slideInFromEnd() },
+                exitTransition = { MotionTransitions.fadeExit() },
+                popEnterTransition = { MotionTransitions.fadeEnter() },
+                popExitTransition = { MotionTransitions.slideOutToStart() }
+            ) { backStackEntry ->
+                val deviceId = backStackEntry.arguments?.getString("deviceId")
+                    ?.let(::DeviceId) ?: DeviceId("android-rgb")
+                RgbCameraSettingsRoute(
+                    deviceId = deviceId,
+                    onNavigateUp = { navController.navigateUp() }
                 )
             }
         }

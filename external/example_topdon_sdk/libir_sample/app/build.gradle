@@ -5,10 +5,10 @@ plugins {
 android {
     namespace 'com.infisense.ir'
     compileSdk
-            rootProject
-                    .ext
-                    .android
-                    .compileSdkVer
+    rootProject
+            .ext
+            .android
+            .compileSdkVer
 
     defaultConfig {
         applicationId "com.infisense.ir"
@@ -17,10 +17,10 @@ android {
                 .android
                 .minSdkVer
         targetSdk
-                rootProject
-                        .ext
-                        .android
-                        .targetSdkVer
+        rootProject
+                .ext
+                .android
+                .targetSdkVer
         versionCode 100
         versionName "1.0.0"
 
@@ -39,30 +39,30 @@ android {
             zipAlignEnabled false
             shrinkResources false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
             proguardFiles
-                    getDefaultProguardFile(
-                            'proguard-android-optimize.txt'
-                    ),
-                            'proguard-rules.pro'
+            getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ) ,
+            'proguard-rules.pro'
         }
     }
 
     compileOptions {
         sourceCompatibility
-                JavaVersion
-                        .VERSION_1_8
+        JavaVersion
+                .VERSION_1_8
         targetCompatibility
-                JavaVersion
-                        .VERSION_1_8
+        JavaVersion
+                .VERSION_1_8
     }
     dataBinding {
         enabled =
@@ -72,19 +72,19 @@ android {
 
 dependencies {
     implementation
-            roots
-                    .appcompat
+    roots
+            .appcompat
     implementation
-            roots
-                    .material
+    roots
+            .material
     testImplementation
-            roots
-                    .junit
+    roots
+            .junit
     androidTestImplementation
-            roots["ext-junit"]
+    roots["ext-junit"]
     androidTestImplementation
-            roots["espresso-core"]
+    roots["espresso-core"]
     implementation
-            roots
-                    .constraintlayout
+    roots
+            .constraintlayout
 }

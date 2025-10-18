@@ -10,6 +10,7 @@ Verisense
 devices
 
 -
+
 Set
 Verisense
 macAddress
@@ -18,7 +19,9 @@ be
 used
 in
 MainActivity
+
 -
+
 Pair
 to
 the
@@ -28,7 +31,9 @@ in
 Android
 Bluetooth
 settings
+
 -
+
 Run
 the
 example
