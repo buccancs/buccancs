@@ -1,6 +1,7 @@
 import org.gradle.accessors.dm.LibrariesForLibs
 import java.util.Locale
 
+val releaseRenderscriptOptimLevel by extra("")
 val libs = the<LibrariesForLibs>()
 
 plugins {
@@ -38,47 +39,45 @@ private data class ExternalProjectBuild(
 
 private val externalBuilds = listOf(
     // Temporarily disabled due to Gradle version conflict
-    // ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
+    ExternalProjectBuild("buildOriginalTopdonApp", "external/original-topdon-app"),
+    ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample"),
 
     // Shimmer SDK builds - now updated to Java 21
     ExternalProjectBuild(
         "buildShimmerBluetoothManager",
         "external/Shimmer-Java-Android-API/ShimmerBluetoothManager",
-        maxSupportedJavaMajor = 21
+        maxSupportedJavaMajor = 24
     ),
     ExternalProjectBuild(
         "buildShimmerDriver",
         "external/Shimmer-Java-Android-API/ShimmerDriver",
-        maxSupportedJavaMajor = 21
+        maxSupportedJavaMajor = 24
     ),
     ExternalProjectBuild(
         "buildShimmerDriverPC",
         "external/Shimmer-Java-Android-API/ShimmerDriverPC",
-        maxSupportedJavaMajor = 21
+        maxSupportedJavaMajor = 24
     ),
     ExternalProjectBuild(
         "buildShimmerTCP",
         "external/Shimmer-Java-Android-API/ShimmerTCP",
-        maxSupportedJavaMajor = 21
+        maxSupportedJavaMajor = 24
     ),
     ExternalProjectBuild(
         "buildShimmerPCBasicExamples",
         "external/Shimmer-Java-Android-API/ShimmerPCBasicExamples",
-        maxSupportedJavaMajor = 21
+        maxSupportedJavaMajor = 24
     ),
     ExternalProjectBuild(
         "buildShimmerLSL",
         "external/Shimmer-Java-Android-API/ShimmerLSL",
-        maxSupportedJavaMajor = 21
+        maxSupportedJavaMajor = 24
     ),
     ExternalProjectBuild(
         "buildJavaShimmerConnect",
         "external/Shimmer-Java-Android-API/JavaShimmerConnect",
-        maxSupportedJavaMajor = 21
+        maxSupportedJavaMajor = 24
     ),
-
-    // Topdon SDK sample - disabled temporarily due to Android SDK path and build complexity
-    // ExternalProjectBuild("buildTopdonLibirSample", "external/example_topdon_sdk/libir_sample")
 )
 
 private val usingWindowsWrapperExtension =
@@ -108,6 +107,7 @@ private fun findExternalJavaHome(project: Project, maxJavaMajor: Int?): File? {
     val osName = System.getProperty("os.name").lowercase(Locale.US)
     val defaultCandidates = buildList {
         if (osName.contains("windows")) {
+            add("C:\\Program Files\\Java\\jdk-24")
             add("C:\\Program Files\\Java\\jdk-21")
             add("C:\\Program Files\\Java\\jdk-17")
         } else {
