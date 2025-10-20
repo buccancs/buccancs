@@ -1,0 +1,4 @@
+[submodule "external/IRCamera"]
+	path = external/IRCamera
+	url = https://github.com/CoderCaiSL/IRCamera.git
+	branch = github-main_ircamera

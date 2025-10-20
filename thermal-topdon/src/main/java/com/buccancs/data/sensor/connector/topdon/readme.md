@@ -2,441 +2,131 @@
 
 ## Overview
 
-Complete
-integration
-of
-Topdon
-TC001
-thermal
-camera
-with
-preview
-streaming,
-photo
-capture,
-and
-video
-recording
-capabilities.
-Uses
-UVC
-protocol
-over
-USB-C
-for
-thermal
-frame
-acquisition.
+Complete integration of Topdon TC001 thermal camera with preview streaming,
+photo capture, and video recording capabilities. Uses UVC protocol over USB-C
+for thermal frame acquisition.
 
 ## Components
 
 ### TopdonThermalConnector.kt
 
-Main
-connector
-handling
-USB
-communication
-and
-thermal
-frame
-processing.
+Main connector handling USB communication and thermal frame processing.
 
-*
+- Features:
 
-*Features:
-**
+* USB UVC camera connection via USBMonitor
 
--
+* Real-time thermal frame capture at 25 FPS
 
-USB
-UVC
-camera
-connection
-via
-USBMonitor
+* Preview frame emission with 24 FPS throttling
 
--
+* Photo capture and video recording
 
-Real-time
-thermal
-frame
-capture
-at
-25
-FPS
+* Simulated mode for testing without hardware
 
--
+- Key Methods:
 
-Preview
-frame
-emission
-with
-24
-FPS
-throttling
+* `startPreview()` - Start preview frame streaming
 
--
+* `stopPreview()` - Stop preview streaming
 
-Photo
-capture
-and
-video
-recording
+* `emitPreviewFrame()` - Convert thermal data to TopdonPreviewFrame
 
--
+* `createSimulatedPreviewFrame()` - Generate test frames
 
-Simulated
-mode
-for
-testing
-without
-hardware
+- State Flows:
 
-*
+* `previewFrameFlow` - Emits TopdonPreviewFrame with thermal data
 
-*Key
-Methods:
-**
-
--
-
-`startPreview()` -
-Start
-preview
-frame
-streaming
-
--
-
-`stopPreview()` -
-Stop
-preview
-streaming
-
--
-
-`emitPreviewFrame()` -
-Convert
-thermal
-data
-to
-TopdonPreviewFrame
-
--
-
-`createSimulatedPreviewFrame()` -
-Generate
-test
-frames
-
-*
-
-*State
-Flows:
-**
-
--
-
-`previewFrameFlow` -
-Emits
-TopdonPreviewFrame
-with
-thermal
-data
-
--
-
-`previewRunningFlow` -
-Emits
-preview
-running
-state
+* `previewRunningFlow` - Emits preview running state
 
 ### TopdonConnectorManager.kt
 
-Multi-device
-manager
-coordinating
-multiple
-Topdon
-cameras.
+Multi-device manager coordinating multiple Topdon cameras.
 
-*
+- Features:
 
-*Features:
-**
+* Device management and lifecycle
 
--
+* Preview frame routing by device ID
 
-Device
-management
-and
-lifecycle
+* Photo capture with MediaStore integration
 
--
+* Video recording with session management
 
-Preview
-frame
-routing
-by
-device
-ID
+* Settings persistence per device
 
--
+- Key Methods:
 
-Photo
-capture
-with
-MediaStore
-integration
+* `previewFrame(deviceId)` - Get preview flow for device
 
--
+* `previewRunning(deviceId)` - Check if preview active
 
-Video
-recording
-with
-session
-management
+* `startPreview(deviceId)` - Start device preview
 
--
+* `stopPreview(deviceId)` - Stop device preview
 
-Settings
-persistence
-per
-device
+* `capturePhoto(deviceId)` - Save current frame to gallery
 
-*
+* `startRecording(deviceId)` - Begin thermal video recording
 
-*Key
-Methods:
-**
-
--
-
-`previewFrame(deviceId)` -
-Get
-preview
-flow
-for
-device
-
--
-
-`previewRunning(deviceId)` -
-Check
-if
-preview
-active
-
--
-
-`startPreview(deviceId)` -
-Start
-device
-preview
-
--
-
-`stopPreview(deviceId)` -
-Stop
-device
-preview
-
--
-
-`capturePhoto(deviceId)` -
-Save
-current
-frame
-to
-gallery
-
--
-
-`startRecording(deviceId)` -
-Begin
-thermal
-video
-recording
-
--
-
-`stopRecording(deviceId)` -
-Finalize
-thermal
-video
+* `stopRecording(deviceId)` - Finalize thermal video
 
 ### ThermalNormalizer.kt
 
-Temperature
-data
-processing
-and
-visualization.
+Temperature data processing and visualization.
 
-*
+- Features:
 
-*Features:
-**
+* Raw thermal data to celsius conversion
 
--
+* Temperature normalization (0-255 range)
 
-Raw
-thermal
-data
-to
-celsius
-conversion
+* Ironbow palette colorization
 
--
+* Bitmap creation for UI rendering
 
-Temperature
-normalization (
-0-255
-range)
+* Average temperature calculation
 
--
+- Key Methods:
 
-Ironbow
-palette
-colorization
+* `normalize(rawFrame)` - Extract temperature data
 
--
+* `createBitmapFromFrame(frame)` - Convert frame to bitmap
 
-Bitmap
-creation
-for
-UI
-rendering
+* `createBitmap(metrics, width, height)` - Render with palette
 
--
-
-Average
-temperature
-calculation
-
-*
-
-*Key
-Methods:
-**
-
--
-
-`normalize(rawFrame)` -
-Extract
-temperature
-data
-
--
-
-`createBitmapFromFrame(frame)` -
-Convert
-frame
-to
-bitmap
-
--
-
-`createBitmap(metrics, width, height)` -
-Render
-with
-palette
-
--
-
-`applyIronbowPalette(normalized)` -
-Color
-mapping
+* `applyIronbowPalette(normalized)` - Color mapping
 
 ### ThermalPreviewScreen.kt
 
-Compose
-UI
-for
-thermal
-display
-and
-interaction.
+Compose UI for thermal display and interaction.
 
-*
+- Features:
 
-*Features:
-**
+* Full-screen thermal preview
 
--
+* Real-time frame rendering
 
-Full-screen
-thermal
-preview
+* Temperature range overlay
 
--
+* Control panel with buttons
 
-Real-time
-frame
-rendering
+* Settings overlay
 
--
+* Connection state handling
 
-Temperature
-range
-overlay
+- Composables:
 
--
+* `ThermalPreviewRoute()` - Navigation entry point
 
-Control
-panel
-with
-buttons
+* `ThermalPreviewScreen()` - Main screen layout
 
--
+* `ThermalFrameDisplay()` - Frame rendering
 
-Settings
-overlay
+* `ThermalPreviewArea()` - Preview container
 
--
-
-Connection
-state
-handling
-
-*
-
-*Composables:
-**
-
--
-
-`ThermalPreviewRoute()` -
-Navigation
-entry
-point
-
--
-
-`ThermalPreviewScreen()` -
-Main
-screen
-layout
-
--
-
-`ThermalFrameDisplay()` -
-Frame
-rendering
-
--
-
-`ThermalPreviewArea()` -
-Preview
-container
-
--
-
-`ThermalControlPanel()` -
-Action
-buttons
+* `ThermalControlPanel()` - Action buttons
 
 ## Data Flow
 
@@ -493,112 +183,33 @@ User taps record
 
 ### Thermal Specifications
 
--
+- Resolution: 256x192 pixels
 
-Resolution:
-256x192
-pixels
+- Frame Rate: 25 FPS (camera), 24 FPS (preview throttle)
 
--
+- Data Format: 16-bit little-endian per pixel
 
-Frame
-Rate:
-25
-FPS (
-camera),
-24
-FPS (
-preview
-throttle)
+- Temperature Range: -20°C to 400°C
 
--
-
-Data
-Format:
-16-bit
-little-endian
-per
-pixel
-
--
-
-Temperature
-Range:
--20°C
-to
-400°C
-
--
-
-Temperature
-Formula:
-celsius = (
-raw /
-100.0) -
-273.15
+- Temperature Formula: celsius = (raw/100.0) - 273.15
 
 ### Performance
 
--
+- Frame Processing: ~ 5ms per frame
 
-Frame
-Processing: ~
-5ms
-per
-frame
+- Preview Throttle: 42ms (24 FPS)
 
--
+- Bitmap Creation: ~ 10ms per frame
 
-Preview
-Throttle:
-42ms (
-24
-FPS)
-
--
-
-Bitmap
-Creation: ~
-10ms
-per
-frame
-
--
-
-Memory
-per
-Frame: ~
-200KB (
-ARGB_8888)
+- Memory per Frame: ~ 200KB (ARGB_8888)
 
 ### File Formats
 
--
+- Photo: JPEG (95% quality) in MediaStore
 
-Photo:
-JPEG (
-95%
-quality)
-in
-MediaStore
+- Video: Raw thermal data (.raw) + metadata (.json)
 
--
-
-Video:
-Raw
-thermal
-data (
-.raw) +
-metadata (
-.json)
-
--
-
-Manifest:
-Session
-metadata
-with
-checksums
+- Manifest: Session metadata with checksums
 
 ## Usage
 
@@ -640,357 +251,122 @@ state.previewFrame?.let { frame ->
 
 ### Unit Tests
 
--
+- `TopdonThermalConnectorPreviewTest.kt` - Preview functionality
 
-`TopdonThermalConnectorPreviewTest.kt` -
-Preview
-functionality
-
--
-
-`ThermalNormalizerTest.kt` -
-Temperature
-processing
-and
-rendering
+- `ThermalNormalizerTest.kt` - Temperature processing and rendering
 
 ### Test Coverage
 
--
+- Frame throttling logic
 
-Frame
-throttling
-logic
+- Temperature conversion accuracy
 
--
+- Bitmap creation validation
 
-Temperature
-conversion
-accuracy
+- Payload size verification
 
--
-
-Bitmap
-creation
-validation
-
--
-
-Payload
-size
-verification
-
--
-
-Metrics
-calculation
+- Metrics calculation
 
 ### Manual Testing
 
-1.
+1. Enable thermal simulator: `viewModel.applySimulation(true)`
 
-Enable
-thermal
-simulator:
-`viewModel.applySimulation(true)`
+2. Start preview and verify simulated gradient
 
-2.
+3. Capture photo and check gallery
 
-Start
-preview
-and
-verify
-simulated
-gradient
-
-3.
-
-Capture
-photo
-and
-check
-gallery
-
-4.
-
-Start/stop
-recording
-and
-verify
-file
-created
+4. Start/stop recording and verify file created
 
 ### Hardware Testing
 
-1.
+1. Connect Topdon TC001 via USB-C
 
-Connect
-Topdon
-TC001
-via
-USB-C
+2. Grant USB permissions
 
-2.
+3. Start preview and verify thermal display
 
-Grant
-USB
-permissions
+4. Measure known temperature sources
 
-3.
-
-Start
-preview
-and
-verify
-thermal
-display
-
-4.
-
-Measure
-known
-temperature
-sources
-
-5.
-
-Validate
-against
-contact
-thermometer
+5. Validate against contact thermometer
 
 ## Troubleshooting
 
 ### No Preview Frames
 
--
+- Check USB connection and permissions
 
-Check
-USB
-connection
-and
-permissions
+- Verify camera detected: `usbManager.deviceList`
 
--
+- Check preview running: `state.previewActive`
 
-Verify
-camera
-detected:
-`usbManager.deviceList`
-
--
-
-Check
-preview
-running:
-`state.previewActive`
-
--
-
-Enable
-logs:
-`Log.d("TopdonConnector", ...)`
+- Enable logs: `Log.d("TopdonConnector",...)`
 
 ### Photo Capture Fails
 
--
+- Verify WRITE_EXTERNAL_STORAGE permission
 
-Verify
-WRITE_EXTERNAL_STORAGE
-permission
+- Check MediaStore API compatibility (Android 10+)
 
--
-
-Check
-MediaStore
-API
-compatibility (
-Android
-10+)
-
--
-
-Ensure
-preview
-frame
-available
+- Ensure preview frame available
 
 ### Performance Issues
 
--
+- Reduce preview FPS throttle (increase previewThrottleMs)
 
-Reduce
-preview
-FPS
-throttle (
-increase
-previewThrottleMs)
+- Check device CPU usage
 
--
+- Monitor memory with Android Profiler
 
-Check
-device
-CPU
-usage
-
--
-
-Monitor
-memory
-with
-Android
-Profiler
-
--
-
-Consider
-hardware
-acceleration
+- Consider hardware acceleration
 
 ### Temperature Inaccurate
 
--
+- Verify raw data format (16-bit LE)
 
-Verify
-raw
-data
-format (
-16-bit
-LE)
+- Check temperature formula: (raw/100.0) - 273.15
 
--
+- Validate against known temperature source
 
-Check
-temperature
-formula: (
-raw /
-100.0) -
-273.15
-
--
-
-Validate
-against
-known
-temperature
-source
-
--
-
-Check
-emissivity
-settings
+- Check emissivity settings
 
 ## Future Enhancements
 
 ### Phase 2 (8 hours)
 
--
+- Implement grayscale and rainbow palettes
 
-Implement
-grayscale
-and
-rainbow
-palettes
+- Apply super-sampling (2x, 4x)
 
--
+- Real-time settings updates
 
-Apply
-super-sampling (
-2x,
-4x)
-
--
-
-Real-time
-settings
-updates
-
--
-
-FPS
-adjustment
-feedback
+- FPS adjustment feedback
 
 ### Phase 3 (12 hours)
 
--
+- Spot temperature measurement
 
-Spot
-temperature
-measurement
+- Area/line measurement tools
 
--
+- Temperature tracking overlay
 
-Area/line
-measurement
-tools
-
--
-
-Temperature
-tracking
-overlay
-
--
-
-Touch
-interaction
-handling
+- Touch interaction handling
 
 ### Phase 4 (20 hours)
 
--
+- OpenGL rendering for 60 FPS
 
-OpenGL
-rendering
-for
-60
-FPS
+- GPU palette shaders
 
--
+- Hardware acceleration
 
-GPU
-palette
-shaders
-
--
-
-Hardware
-acceleration
-
--
-
-Smooth
-zoom/pan
-animations
+- Smooth zoom/pan animations
 
 ## References
 
--
+- Topdon SDK: `sdk/libs/topdon.aar`
 
-Topdon
-SDK:
-`sdk/libs/topdon.aar`
+- External App: `external/original-topdon-app/`
 
--
+- Platform overview (hardware summary): `docs/system-overview.md`
 
-External
-App:
-`external/original-topdon-app/`
-
--
-
-Platform
-overview (
-hardware
-summary):
-`docs/system-overview.md`
-
--
-
-Validation
-drills
-and
-troubleshooting:
-`docs/testing.md`
+- Validation drills and troubleshooting: `docs/testing.md`

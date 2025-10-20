@@ -1,11 +1,11 @@
 package com.buccancs.di
 
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
-import com.buccancs.domain.connector.SensorConnector
 import com.buccancs.data.sensor.connector.audio.MicrophoneConnector
 import com.buccancs.data.sensor.connector.camera.RgbCameraConnector
 import com.buccancs.data.sensor.connector.shimmer.ShimmerConnectorManager
 import com.buccancs.data.sensor.connector.topdon.TopdonConnectorManager
+import com.buccancs.domain.connector.SensorConnector
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

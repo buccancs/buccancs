@@ -302,7 +302,21 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
         syncimage.valid = false;
         binding.cameraView.stop();
         isrun = false;
-    }    private Handler mHandler = new Handler(Looper.myLooper()) {
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.w(TAG, "onDestroy");
+        super.onDestroy();
+        try {
+            imageThread.join();
+        } catch (
+                InterruptedException e) {
+            Log.e(TAG, "imageThread.join(): catch an interrupted exception");
+        }
+    }
+
+    private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -328,20 +342,6 @@ public class ImageOrTempDisplayActivity extends BaseActivity implements View.OnC
             }
         }
     };
-
-    @Override
-    protected void onDestroy() {
-        Log.w(TAG, "onDestroy");
-        super.onDestroy();
-        try {
-            imageThread.join();
-        } catch (
-                InterruptedException e) {
-            Log.e(TAG, "imageThread.join(): catch an interrupted exception");
-        }
-    }
-
-
 
 
 }

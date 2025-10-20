@@ -2,21 +2,59 @@
 <resources>
     <!-- USB device filters for thermal imaging cameras and other USB accessories -->
 
-    <!-- Generic USB thermal camera vendors -->
+    <!-- Topdon TC001 Thermal Camera (Primary devices from official IRCamera app) -->
+    <!-- Realtek-based TC001 enumerations -->
     <usb-device
-        product-id="0"
-        vendor-id="11261" />  <!-- TopDon -->
+        product-id="0x5840"
+        vendor-id="0x0BDA" />
     <usb-device
-        product-id="0"
-        vendor-id="1003" />   <!-- Generic thermal cameras -->
+        product-id="0x5830"
+        vendor-id="0x0BDA" />
+    
+    <!-- Infisense vendor (alternate TC001 enumeration) -->
     <usb-device
-        product-id="0"
-        vendor-id="3034" />   <!-- FLIR -->
+        product-id="17185"
+        vendor-id="13428" />
+    
+    <!-- Topdon direct vendor ID (0x3426 = 13350 decimal) -->
     <usb-device
-        product-id="0"
-        vendor-id="1240" />   <!-- Seek Thermal -->
+        product-id="0x0001"
+        vendor-id="0x3426" />
+    <usb-device
+        product-id="0x0002"
+        vendor-id="0x3426" />
+    <usb-device
+        product-id="0x0003"
+        vendor-id="0x3426" />
+    <usb-device
+        product-id="0x3901"
+        vendor-id="0x3426" />
 
-    <!-- Add more vendor/product IDs as needed -->
-    <!-- Format: vendor-id and product-id should be in decimal -->
-    <!-- Use product-id="0" to match all products from a vendor -->
+    <!-- Generic UVC (USB Video Class) devices -->
+    <!-- This catches UVC thermal cameras that don't enumerate with specific vendor IDs -->
+    <usb-device class="14" />  <!-- Video class -->
+    <usb-device
+        class="239"
+        subclass="2" />  <!-- UVC interface collection -->
+    
+    <!-- Android 9.0 compatibility -->
+    <usb-device
+        class="14"
+        subclass="9" />
+
+    <!-- Other thermal camera vendors (for future expansion) -->
+    <!-- FLIR -->
+    <usb-device
+        product-id="0"
+        vendor-id="3034" />
+    <!-- Seek Thermal -->
+    <usb-device
+        product-id="0"
+        vendor-id="1240" />
+
+    <!-- 
+        Note: Format can be either hex (0x...) or decimal
+        Use product-id="0" to match all products from a vendor
+        Topdon TC001 uses 0x0BDA (Realtek) or 0x3426 (Topdon) vendor IDs
+    -->
 </resources>

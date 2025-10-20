@@ -35,6 +35,8 @@ ehthumbs.db
 */.gradle/
 **/*/.gradle/
 .gradle-wrapper/
+.gradle-tmp/
+**/.gradle-tmp/
 .build-cache/
 .kotlin/
 gradle/wrapper/gradle-wrapper.jar

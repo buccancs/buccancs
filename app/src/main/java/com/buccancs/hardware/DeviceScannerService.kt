@@ -246,14 +246,19 @@ class DeviceScannerService @Inject constructor(
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.action) {
                     BluetoothDevice.ACTION_FOUND -> {
-                        val device: BluetoothDevice? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE, BluetoothDevice::class.java)
-                        } else {
-                            @Suppress("DEPRECATION")
-                            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                        }
+                        val device: BluetoothDevice? =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                intent.getParcelableExtra(
+                                    BluetoothDevice.EXTRA_DEVICE,
+                                    BluetoothDevice::class.java
+                                )
+                            } else {
+                                @Suppress("DEPRECATION")
+                                intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                            }
 
-                        val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE).toInt()
+                        val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE)
+                            .toInt()
 
                         device?.let { btDevice ->
                             val scannedDevice = ScannedDevice.Bluetooth(
@@ -266,14 +271,16 @@ class DeviceScannerService @Inject constructor(
 
                             // Update state with new device
                             val currentDevices = _scanState.value.bluetoothDevices.toMutableList()
-                            val existingIndex = currentDevices.indexOfFirst { it.address == btDevice.address }
+                            val existingIndex =
+                                currentDevices.indexOfFirst { it.address == btDevice.address }
                             if (existingIndex >= 0) {
                                 currentDevices[existingIndex] = scannedDevice
                             } else {
                                 currentDevices.add(scannedDevice)
                             }
 
-                            _scanState.value = _scanState.value.copy(bluetoothDevices = currentDevices)
+                            _scanState.value =
+                                _scanState.value.copy(bluetoothDevices = currentDevices)
 
                             scope.launch {
                                 _deviceEvents.emit(DeviceEvent.BluetoothDeviceFound(scannedDevice))
@@ -324,12 +331,16 @@ class DeviceScannerService @Inject constructor(
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.action) {
                     UsbManager.ACTION_USB_DEVICE_ATTACHED -> {
-                        val device: UsbDevice? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            intent.getParcelableExtra(UsbManager.EXTRA_DEVICE, UsbDevice::class.java)
-                        } else {
-                            @Suppress("DEPRECATION")
-                            intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
-                        }
+                        val device: UsbDevice? =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                intent.getParcelableExtra(
+                                    UsbManager.EXTRA_DEVICE,
+                                    UsbDevice::class.java
+                                )
+                            } else {
+                                @Suppress("DEPRECATION")
+                                intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+                            }
 
                         device?.let { usbDevice ->
                             scanUsbDevices()
@@ -350,12 +361,16 @@ class DeviceScannerService @Inject constructor(
                     }
 
                     UsbManager.ACTION_USB_DEVICE_DETACHED -> {
-                        val device: UsbDevice? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            intent.getParcelableExtra(UsbManager.EXTRA_DEVICE, UsbDevice::class.java)
-                        } else {
-                            @Suppress("DEPRECATION")
-                            intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
-                        }
+                        val device: UsbDevice? =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                intent.getParcelableExtra(
+                                    UsbManager.EXTRA_DEVICE,
+                                    UsbDevice::class.java
+                                )
+                            } else {
+                                @Suppress("DEPRECATION")
+                                intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+                            }
 
                         device?.let { usbDevice ->
                             scanUsbDevices()
@@ -367,14 +382,19 @@ class DeviceScannerService @Inject constructor(
                     }
 
                     ACTION_USB_PERMISSION -> {
-                        val device: UsbDevice? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            intent.getParcelableExtra(UsbManager.EXTRA_DEVICE, UsbDevice::class.java)
-                        } else {
-                            @Suppress("DEPRECATION")
-                            intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
-                        }
+                        val device: UsbDevice? =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                intent.getParcelableExtra(
+                                    UsbManager.EXTRA_DEVICE,
+                                    UsbDevice::class.java
+                                )
+                            } else {
+                                @Suppress("DEPRECATION")
+                                intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+                            }
 
-                        val granted = intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)
+                        val granted =
+                            intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)
 
                         device?.let { usbDevice ->
                             val scannedDevice = ScannedDevice.Usb(

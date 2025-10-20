@@ -5,12 +5,14 @@ import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.buccancs.di.ApplicationScope
+import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
@@ -58,6 +60,14 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
     private val previewFpsKey =
         intPreferencesKey(
             "preview_fps_limit"
+        )
+    private val emissivityKey =
+        doublePreferencesKey(
+            "emissivity"
+        )
+    private val gainModeKey =
+        stringPreferencesKey(
+            "gain_mode"
         )
 
     override val settings: StateFlow<TopdonSettings> =
@@ -118,6 +128,25 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
                 sanitized
         }
     }
+    
+    override suspend fun setEmissivity(
+        emissivity: Double
+    ) {
+        val clamped = emissivity.coerceIn(0.01, 1.0)
+        dataStore.edit { prefs ->
+            prefs[emissivityKey] =
+                clamped
+        }
+    }
+    
+    override suspend fun setGainMode(
+        mode: TopdonGainMode
+    ) {
+        dataStore.edit { prefs ->
+            prefs[gainModeKey] =
+                mode.name
+        }
+    }
 
     private fun Preferences.toSettings(): TopdonSettings {
         val autoConnect =
@@ -144,6 +173,20 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
         val fpsLimit =
             this[previewFpsKey]
                 ?: TopdonSettings.DEFAULT_PREVIEW_FPS_LIMIT
+        val emissivity =
+            this[emissivityKey]
+                ?: TopdonSettings.DEFAULT_EMISSIVITY
+        val gainModeName =
+            this[gainModeKey]
+        val gainMode =
+            gainModeName?.let {
+                runCatching {
+                    TopdonGainMode.valueOf(
+                        it
+                    )
+                }.getOrNull()
+            }
+                ?: TopdonSettings().gainMode
         return TopdonSettings(
             autoConnectOnAttach = autoConnect,
             palette = palette,
@@ -151,7 +194,9 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
             previewFpsLimit = fpsLimit.coerceIn(
                 MIN_FPS_LIMIT,
                 MAX_FPS_LIMIT
-            )
+            ),
+            emissivity = emissivity.coerceIn(0.01, 1.0),
+            gainMode = gainMode
         )
     }
 

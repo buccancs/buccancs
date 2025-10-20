@@ -1,0 +1,130 @@
+# --- Active profile to keep settings scoped to C:\dev\buccancs ---
+profile = "buccancs"
+
+# --- Model behavior (Responses API) ---
+model = "gpt-5-codex" # Primary coding model; other options include gpt-5, gpt-5o, o3, etc.
+model_provider = "openai" # Provider id from [model_providers]; change to custom key for other endpoints.
+model_context_window = 272000 # Hint Codex uses for available context; service clamps to backend ceiling.
+model_max_output_tokens = 131072 # Target output cap (service currently trims to ~16k).
+model_reasoning_effort = "high" # minimal|low|medium|high; higher spends more compute per turn.
+model_reasoning_summary = "detailed" # auto|concise|detailed|none; detailed gives fuller wrap-up text.
+model_reasoning_summary_format = "experimental" # none|experimental; experimental enables richer formatting.
+model_supports_reasoning_summaries = true # Force reasoning summaries even if provider omits support flag.
+model_verbosity = "high" # low|medium|high; high yields the most narrative explanation.
+
+# --- Safety rails (all disabled for maximum autonomy) ---
+approval_policy = "never" # untrusted|on-failure|on-request|never; never auto-approves everything.
+sandbox_mode = "danger-full-access" # read-only|workspace-write|danger-full-access; full disk + network.
+windows_wsl_setup_acknowledged = true # Suppresses WSL reminder banner on Windows hosts.
+experimental_use_exec_command_tool = true # Use experimental exec tool for richer command metadata.
+
+# --- Output UX ---
+file_opener = "vscode" # Controls clickable file URI scheme; options: vscode, vscode-insiders, windsurf, cursor, none.
+notify = ["powershell.exe", "-NoLogo", "-NoProfile", "-Command", "New-BurntToastNotification"] # Desktop toast command.
+
+# --- Tool availability toggles ---
+[tools]
+web_search = true # Enables native web_search tool (Responses web browsing).
+view_image = true # Allows attaching local images from workspace.
+
+# --- Feature flags (stable + experimental) ---
+[features]
+unified_exec = true # Route shell/tool calls through unified executor.
+streamable_shell = true # Stream command stdout/stderr live instead of waiting for completion.
+rmcp_client = true # Enable experimental MCP client discovery (remote MCP servers).
+plan_tool = true # Allow Codex to use the internal planning tool for multi-step tasks.
+apply_patch_freeform = true # Let Codex author arbitrary apply_patch hunks.
+view_image_tool = true # Mirror tools.view_image flag (CLI expects both).
+web_search_request = true # Alternative flag name for enabling web search.
+approve_all = true # Auto-approve every command without prompting.
+
+# --- Environment inheritance for spawned shells ---
+[shell_environment_policy]
+inherit = "all" # all|core|none; all passes every env var to tool processes.
+# include_only = ["PATH", "PATHEXT", "SystemRoot"] # Optional allow-list when inherit != "all".
+# set = { CODEX_ENV = "dev" } # Optional extra variables to inject.
+
+# --- History persistence ---
+[history]
+persistence = "save-all" # save-all|none; save-all keeps CLI transcripts under CODEX_HOME.
+# max_bytes = 0 # Reserved for future cap enforcement (currently ignored).
+
+# --- Project-wide doc ingestion (AGENTS.md helpers) ---
+project_doc_max_bytes = 131072 # Max bytes Codex reads from AGENTS.md-like guidance files.
+project_doc_refresh_interval_secs = 30 # Re-scan interval for project docs.
+project_doc_exclude = [
+  "**/build/**",
+  "**/dist/**",
+  "**/.cache/**",
+  "**/.gradle/**",
+  "**/.idea/**",
+  "**/node_modules/**",
+  "**/tmp/**",
+  "**/out/**",
+  "**/.git/**",
+] # Globs to skip when loading project docs.
+
+# --- Directory context auto-collection ---
+directory_context_max_bytes = 131072 # Bytes of directory listings Codex samples for context.
+directory_context_refresh_interval_secs = 30 # Refresh cadence in seconds.
+
+# --- Project trust (full disk entrusted) ---
+[projects."C:\\"]
+trust_level = "trusted" # Only value recognized today is "trusted".
+
+# --- Profile tuned for buccancs workspace ---
+[profiles.buccancs]
+model = "gpt-5-codex"
+model_provider = "openai"
+model_context_window = 272000
+model_max_output_tokens = 131072
+model_reasoning_effort = "high"
+model_reasoning_summary = "detailed"
+model_reasoning_summary_format = "experimental"
+model_supports_reasoning_summaries = true
+model_verbosity = "high"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+experimental_use_exec_command_tool = true
+file_opener = "vscode"
+notify = ["powershell.exe", "-NoLogo", "-NoProfile", "-Command", "New-BurntToastNotification"]
+
+[profiles.buccancs.tools]
+web_search = true
+view_image = true
+
+[profiles.buccancs.features]
+unified_exec = true
+streamable_shell = true
+rmcp_client = true
+plan_tool = true
+apply_patch_freeform = true
+view_image_tool = true
+web_search_request = true
+approve_all = true
+
+[profiles.buccancs.shell_environment_policy]
+inherit = "all"
+
+[profiles.buccancs.history]
+persistence = "save-all"
+
+# --- Optional / upcoming toggles (commented for reference) ---
+# instructions = "" # Deprecated top-level prompt injection; prefer AGENTS.md or experimental_instructions_file.
+# experimental_instructions_file = "C:\\dev\\buccancs\\docs\\codex_instructions.md" # Supply custom instructions file (experimental).
+# experimental_shell_trace = false # When true, emits verbose shell tracing output (work-in-progress).
+# experimental_use_exec_command_stream = false # Prototype streaming exec tool variant.
+# chatgpt_base_url = "https://chat.openai.com/backend-api" # Override ChatGPT auth endpoint.
+# experimental_use_local_shell = "pwsh" # Force a specific local shell binary.
+# model_reasoning_consistency = "default" # Placeholder for upcoming reasoning consistency controls.
+# sandbox_workspace_write.network_access = true # Use inside [sandbox_workspace_write] when sandbox_mode = "workspace-write".
+# sandbox_workspace_write.writable_roots = ["C:\\dev\\buccancs"] # Additional writable directories for workspace sandbox.
+# sandbox_workspace_write.exclude_tmpdir_env_var = false # Prevent inheriting %TMPDIR% in workspace sandbox.
+# sandbox_workspace_write.exclude_slash_tmp = false # Prevent /tmp from being writable in workspace sandbox.
+# tools.view_image_max_bytes = 10485760 # Future control for image upload size limits.
+# tools.web_search_region = "global" # Planned locale knob for search.
+# approve_all_timeout_secs = 0 # Potential future delay before auto approvals.
+
+[notice]
+hide_full_access_warning = true # Suppress warning banner when running without sandbox.
+

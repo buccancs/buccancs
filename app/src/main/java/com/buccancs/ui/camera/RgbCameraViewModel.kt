@@ -2,7 +2,6 @@ package com.buccancs.ui.camera
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
@@ -13,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,8 +33,11 @@ class RgbCameraViewModel @Inject constructor(
             sensorRepository.devices.collect { devices ->
                 val device = devices.firstOrNull { it.id == deviceId }
                 device?.let {
-                    val statuses = sensorRepository.streamStatuses.value.filter { it.deviceId == deviceId }
-                    updateFromDevice(it, statuses.firstOrNull { it.streamType == SensorStreamType.PREVIEW })
+                    val statuses =
+                        sensorRepository.streamStatuses.value.filter { it.deviceId == deviceId }
+                    updateFromDevice(
+                        it,
+                        statuses.firstOrNull { it.streamType == SensorStreamType.PREVIEW })
                 }
             }
         }
@@ -89,7 +90,10 @@ class RgbCameraViewModel @Inject constructor(
         _uiState.update { it.copy(errorMessage = null) }
     }
 
-    private fun updateFromDevice(device: SensorDevice, previewStatus: com.buccancs.domain.model.SensorStreamStatus?) {
+    private fun updateFromDevice(
+        device: SensorDevice,
+        previewStatus: com.buccancs.domain.model.SensorStreamStatus?
+    ) {
         val isConnected = device.connectionStatus is ConnectionStatus.Connected
         val previewActive = previewStatus?.isStreaming == true
         val frameRate = previewStatus?.frameRateFps?.toInt() ?: 30

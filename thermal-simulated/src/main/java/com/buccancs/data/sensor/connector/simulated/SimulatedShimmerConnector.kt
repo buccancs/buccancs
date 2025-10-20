@@ -3,8 +3,6 @@
 package com.buccancs.data.sensor.connector.simulated
 
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.domain.sensor.SensorStreamClient
-import com.buccancs.domain.sensor.SensorStreamEmitter
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
@@ -13,6 +11,8 @@ import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.sensor.SensorStreamClient
+import com.buccancs.domain.sensor.SensorStreamEmitter
 import com.buccancs.util.nowInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

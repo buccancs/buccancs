@@ -1,16 +1,5 @@
 # ShimmerPCBasicExamples
 
-There
-are
-a
-number
-of
-examples
+There are a number of examples
 
--
-
-ECGToHRExample
--
-PPGToHRExample
--
-SensorMapsExample
+- ECGToHRExample - PPGToHRExample - SensorMapsExample

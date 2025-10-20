@@ -11,7 +11,6 @@ import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.core.result.Result
 import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
-import com.buccancs.domain.time.TimeModelAdapter
 import com.buccancs.data.sensor.MetadataWriters
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
@@ -25,6 +24,7 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.time.TimeModelAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -2,7 +2,10 @@
 
 ## Executive Summary
 
-The IRCamera project is a sophisticated thermal imaging Android application with a **modular multi-flavor architecture** supporting multiple device types (TC001, TS004, TC007, HIK, Lite variants). It demonstrates enterprise-grade patterns for hardware integration, real-time data processing, and cross-module navigation.
+The IRCamera project is a sophisticated thermal imaging Android application with
+a **modular multi-flavor architecture** supporting multiple device types (TC001,
+TS004, TC007, HIK, Lite variants). It demonstrates enterprise-grade patterns for
+hardware integration, real-time data processing, and cross-module navigation.
 
 ---
 
@@ -56,12 +59,11 @@ app (Application Module)
 
 ### 1.2 Modularization Benefits
 
-**Achieved:**
-- **Device-specific builds**: Different thermal modules compiled per variant
-- **Feature isolation**: House inspection can be removed without breaking core
-- **Parallel development**: Teams work on `thermal-ir` vs `thermal07` independently
-- **Reduced build times**: Only changed modules recompile
-- **A/B testing**: Enable/disable features via module inclusion
+Achieved: - **Device-specific builds**: Different thermal modules compiled per
+variant - **Feature isolation**: House inspection can be removed without
+breaking core - **Parallel development**: Teams work on `thermal-ir` vs
+`thermal07` independently - **Reduced build times**: Only changed modules
+recompile - **A/B testing**: Enable/disable features via module inclusion
 
 ---
 
@@ -69,19 +71,18 @@ app (Application Module)
 
 ### 2.1 ARouter Deep Linking System
 
-**Why ARouter over Navigation Component:**
-- Cross-module navigation without direct dependencies
-- Runtime route discovery (no compile-time coupling)
-- Deep link support for external intents
-- Interceptors for permission/login gates
+Why ARouter over Navigation Component: - Cross-module navigation without direct
+dependencies - Runtime route discovery (no compile-time coupling) - Deep link
+support for external intents - Interceptors for permission/login gates
 
-**Route Configuration** (`RouterConfig.kt`):
+Route Configuration\*\* (`RouterConfig.kt`):
+
 ```kotlin
 object RouterConfig {
     private const val GROUP_APP = "app"
     private const val GROUP_IR = "ir"
     private const val GROUP_USER = "user"
-    
+
     const val MAIN = "/$GROUP_APP/main"
     const val IR_MAIN = "/$GROUP_IR/irMain"
     const val IR_THERMAL_07 = "/tc007/IRThermal07Activity"
@@ -89,7 +90,8 @@ object RouterConfig {
 }
 ```
 
-**Usage Pattern:**
+Usage Pattern:
+
 ```kotlin
 // Navigate to thermal imaging
 ARouter.getInstance()
@@ -103,7 +105,8 @@ ARouter.getInstance()
     .navigation(this, REQUEST_CODE)
 ```
 
-**Route Declaration:**
+Route Declaration:
+
 ```kotlin
 @Route(path = RouterConfig.IR_MAIN)
 class IRMainActivity : BaseActivity() {
@@ -113,11 +116,10 @@ class IRMainActivity : BaseActivity() {
 
 ### 2.2 Bottom Navigation Pattern
 
-**MainActivity & IRMainActivity** use identical patterns:
-- `ViewPager2` for smooth swipe transitions
-- Fragment adapters with `BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT`
-- State preservation via `offscreenPageLimit`
-- Tab selection state synchronized with ViewPager callbacks
+MainActivity & IRMainActivity\*\* use identical patterns: - `ViewPager2` for
+smooth swipe transitions - Fragment adapters with
+`BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT` - State preservation via
+`offscreenPageLimit` - Tab selection state synchronized with ViewPager callbacks
 
 ```kotlin
 view_page.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -134,11 +136,12 @@ private fun refreshTabSelect(index: Int) {
 }
 ```
 
-**Fragment State Management:**
+Fragment State Management:
+
 ```kotlin
-private class ViewPagerAdapter(activity: FragmentActivity, isTC007: Boolean) 
+private class ViewPagerAdapter(activity: FragmentActivity, isTC007: Boolean)
     : FragmentStateAdapter(activity) {
-    
+
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> IRGalleryTabFragment().apply {
@@ -159,7 +162,7 @@ private class ViewPagerAdapter(activity: FragmentActivity, isTC007: Boolean)
 
 ### 3.1 WebSocket Proxy Pattern
 
-**Single-Responsibility WebSocket Manager:**
+Single-Responsibility WebSocket Manager:
 
 ```kotlin
 class WebSocketProxy {
@@ -167,16 +170,16 @@ class WebSocketProxy {
         private const val TS004_URL = "ws://192.168.40.1:888"
         private const val TC007_URL = "ws://192.168.40.1:63206/v1/thermal/temp/template/data"
     }
-    
+
     private var currentSSID: String? = null
     private var mWsManager: WsManager? = null
     private var reconnectHandler = ReconnectHandler()
-    
+
     fun startWebSocket(ssid: String, network: Network? = null) {
         // Auto-detect device type from SSID
-        val url = if (ssid.startsWith(DeviceConfig.TS004_NAME_START)) 
+        val url = if (ssid.startsWith(DeviceConfig.TS004_NAME_START))
             TS004_URL else TC007_URL
-            
+
         mWsManager = WsManager.Builder()
             .client(getOKHttpClient())
             .wsUrl(url)
@@ -186,21 +189,21 @@ class WebSocketProxy {
 }
 ```
 
-**Key Features:**
-1. **Auto-reconnection**: 3 attempts with 3-second intervals
-2. **SSID-based routing**: Detects device type from WiFi name
-3. **Network binding**: Forces traffic through specific network interface
-4. **Heartbeat**: Prevents connection timeout with periodic pings
-5. **Frame parsing**: Binary frames for TC007, JSON for TS004
+Key Features: 1. **Auto-reconnection**: 3 attempts with 3-second intervals 2.
+**SSID-based routing**: Detects device type from WiFi name 3. **Network
+binding**: Forces traffic through specific network interface 4. **Heartbeat**:
+Prevents connection timeout with periodic pings 5. **Frame parsing**: Binary
+frames for TC007, JSON for TS004
 
-**Reconnection Strategy:**
+Reconnection Strategy:
+
 ```kotlin
 private class ReconnectHandler : Handler(Looper.getMainLooper()) {
     companion object {
         private const val MAX_RECONNECT_COUNT = 3
         private const val RECONNECT_MILLIS = 3000L
     }
-    
+
     fun handleFail(currentSSID: String) {
         if (reconnectCount < MAX_RECONNECT_COUNT) {
             getInstance().stopWebSocket()
@@ -217,7 +220,7 @@ private class ReconnectHandler : Handler(Looper.getMainLooper()) {
 
 ### 3.2 Repository Pattern for HTTP/REST
 
-**TS004Repository** demonstrates clean separation:
+TS004Repository\*\* demonstrates clean separation:
 
 ```kotlin
 object TS004Repository {
@@ -226,13 +229,13 @@ object TS004Repository {
             .retryOnConnectionFailure(false)
             .connectTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(OKLogInterceptor(false))
-        
+
         netWork?.socketFactory?.let {
             build.socketFactory(it) // Force network binding
         }
         return build.build()
     }
-    
+
     private fun getTS004Service(): TS004Service = Retrofit.Builder()
         .baseUrl("http://192.168.40.1:8080")
         .addConverterFactory(GsonConverterFactory.create())
@@ -242,10 +245,11 @@ object TS004Repository {
 }
 ```
 
-**Batch Download Pattern:**
+Batch Download Pattern:
+
 ```kotlin
 suspend fun downloadList(
-    dataMap: Map<String, File>, 
+    dataMap: Map<String, File>,
     listener: ((path: String, isSuccess: Boolean) -> Unit)
 ): Int {
     return withContext(Dispatchers.IO) {
@@ -268,20 +272,22 @@ suspend fun downloadList(
 
 ### 4.1 Settings Persistence Layers
 
-**SharedManager** (Always persisted):
+SharedManager\*\* (Always persisted):
+
 ```kotlin
 object SharedManager {
     var hasTS004: Boolean
         get() = SPUtils.getInstance().getBoolean("hasConnectTS004", false)
         set(value) = SPUtils.getInstance().put("hasConnectTS004", value)
-    
+
     var is04AutoSync: Boolean
         get() = SPUtils.getInstance().getBoolean("is04AutoSync", false)
         set(value) = SPUtils.getInstance().put("is04AutoSync", value)
 }
 ```
 
-**SaveSettingUtil** (Conditional - respects "Save Settings" toggle):
+SaveSettingUtil\*\* (Conditional - respects "Save Settings" toggle):
+
 ```kotlin
 object SaveSettingUtil {
     fun saveIRConfig(config: CameraIRConfig) {
@@ -293,14 +299,15 @@ object SaveSettingUtil {
 }
 ```
 
-**CameraLiveDateUtil** (Live session data):
+CameraLiveDateUtil\*\* (Live session data):
+
 ```kotlin
 // Singleton pattern for in-memory state
 object CameraLiveDateUtil {
     private var cameraConfig = CameraIRConfig()
-    
+
     val cameraIRConfigLiveDate = MutableLiveData<CameraIRConfig>()
-    
+
     fun savePseudoColorMode(mode: Int) {
         cameraConfig.pseudoColorMode = mode
         cameraIRConfigLiveDate.postValue(cameraConfig)
@@ -311,7 +318,8 @@ object CameraLiveDateUtil {
 
 ### 4.2 UI State Management
 
-**Numeric State Codes Pattern:**
+Numeric State Codes Pattern:
+
 ```kotlin
 // In RecyclerView adapter or custom view
 var cameraPreviewStats = 450  // 450=closed, 451=open
@@ -329,11 +337,9 @@ when (cameraPreviewStats) {
 }
 ```
 
-**Why this pattern:**
-- Survives configuration changes (saved in `onSaveInstanceState`)
-- Easy to serialize for debugging
-- No complex enum serialization
-- Numeric codes can be logged/tracked in analytics
+Why this pattern: - Survives configuration changes (saved in
+`onSaveInstanceState`) - Easy to serialize for debugging - No complex enum
+serialization - Numeric codes can be logged/tracked in analytics
 
 ---
 
@@ -343,18 +349,18 @@ when (cameraPreviewStats) {
 
 ```kotlin
 abstract class BaseActivity : RxAppCompatActivity() {
-    
+
     // 1. Lifecycle management
     protected abstract fun initContentView(): Int
     protected abstract fun initView()
     protected abstract fun initData()
-    
+
     // 2. Device connection callbacks
     protected open fun connected() {}
     protected open fun disConnected() {}
     protected open fun onSocketConnected(isTS004: Boolean) {}
     protected open fun onSocketDisConnected(isTS004: Boolean) {}
-    
+
     // 3. EventBus auto-registration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -362,17 +368,17 @@ abstract class BaseActivity : RxAppCompatActivity() {
             EventBus.getDefault().register(this)
         }
     }
-    
+
     // 4. Language/locale handling
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(
             AppLanguageUtils.attachBaseContext(
-                newBase, 
+                newBase,
                 SharedManager.getLanguage(newBase!!)
             )
         )
     }
-    
+
     // 5. Standardized loading dialogs
     private var loadingDialog: LoadingDialog? = null
     fun showLoadingDialog(@StringRes resId: Int = R.string.tip_loading) {
@@ -387,7 +393,8 @@ abstract class BaseActivity : RxAppCompatActivity() {
 
 ### 5.2 EventBus Integration
 
-**Global Event Delivery:**
+Global Event Delivery:
+
 ```kotlin
 @Subscribe(threadMode = ThreadMode.MAIN)
 fun getConnectState(event: DeviceConnectEvent) {
@@ -408,7 +415,8 @@ fun onSocketConnectState(event: SocketStateEvent) {
 }
 ```
 
-**Event Posting from Anywhere:**
+Event Posting from Anywhere:
+
 ```kotlin
 // From device layer
 EventBus.getDefault().post(DeviceConnectEvent(isConnect = true))
@@ -426,7 +434,8 @@ EventBus.getDefault().post(PDFEvent())
 
 ### 6.1 XXPermissions Library Pattern
 
-**Educational Permission Flow:**
+Educational Permission Flow:
+
 ```kotlin
 private fun checkCameraPermission() {
     if (!XXPermissions.isGranted(this, Permission.CAMERA)) {
@@ -454,7 +463,7 @@ private fun initCameraPermission() {
                     proceedWithFeature()
                 }
             }
-            
+
             override fun onDenied(permissions: List<String>, doNotAskAgain: Boolean) {
                 if (doNotAskAgain) {
                     // Show "Open Settings" dialog
@@ -472,7 +481,8 @@ private fun initCameraPermission() {
 
 ### 6.2 Dynamic Permission Lists
 
-**SDK-Aware Permission Requests:**
+SDK-Aware Permission Requests:
+
 ```kotlin
 private val permissionList by lazy {
     if (applicationInfo.targetSdkVersion >= 34) {
@@ -502,25 +512,24 @@ private val permissionList by lazy {
 
 ### 7.1 PopupWindow for Contextual Settings
 
-**Why PopupWindow over Dialog:**
-- Lighter weight (no window dimming)
-- Positioned relative to anchor view
-- Immediate visual feedback (e.g., seekbar changes reflect in real-time)
-- Doesn't interrupt flow like full dialog
+Why PopupWindow over Dialog: - Lighter weight (no window dimming) - Positioned
+relative to anchor view - Immediate visual feedback (e.g., seekbar changes
+reflect in real-time) - Doesn't interrupt flow like full dialog
 
-**Implementation Pattern:**
+Implementation Pattern:
+
 ```kotlin
 private fun setParamLevelContrast() {
     if (thermal_recycler.contrastStats == 431) {
         popupWindow?.dismiss()
         return
     }
-    
+
     thermal_recycler.contrastStats = 431
     popupWindow = PopupWindow(this)
     val contentView = LayoutInflater.from(this)
         .inflate(R.layout.layout_camera_seek_bar, null)
-    
+
     popupWindow?.apply {
         this.contentView = contentView
         isFocusable = false
@@ -529,28 +538,28 @@ private fun setParamLevelContrast() {
         height = WindowManager.LayoutParams.WRAP_CONTENT
         setBackgroundDrawable(ColorDrawable(0))
     }
-    
+
     // Setup SeekBar
     val seekBar = contentView.findViewById<CommSeekBar>(R.id.seek_bar)
     seekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         override fun onStopTrackingTouch(seekBar: SeekBar?) {
             val value = (seekBar!!.progress * 2.56f).toInt()
             ircmd?.setPropImageParams(
-                PropImageParams.IMAGE_PROP_LEVEL_CONTRAST, 
+                PropImageParams.IMAGE_PROP_LEVEL_CONTRAST,
                 value.toString()
             )
         }
     })
-    
+
     popupWindow?.setOnDismissListener {
         thermal_recycler.contrastStats = 430
     }
-    
+
     // Position above thermal view
     popupWindow?.showAsDropDown(
-        thermal_lay, 
-        0, 
-        getPopupWindowY(contentHeight), 
+        thermal_lay,
+        0,
+        getPopupWindowY(contentHeight),
         Gravity.NO_GRAVITY
     )
 }
@@ -558,13 +567,14 @@ private fun setParamLevelContrast() {
 
 ### 7.2 ViewStub Lazy Loading
 
-**Deferred Inflation Pattern:**
+Deferred Inflation Pattern:
+
 ```kotlin
 ViewStubUtils.showViewStub(view_stub_camera, true, callback = { view: View? ->
     view?.let {
         val recyclerView = it.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(this, 5)
-        
+
         val adapter = CameraItemAdapter(cameraItemBeanList)
         adapter.listener = { position, item ->
             handleCameraAction(item)
@@ -577,18 +587,17 @@ ViewStubUtils.showViewStub(view_stub_camera, true, callback = { view: View? ->
 ViewStubUtils.showViewStub(view_stub_camera, false, null)
 ```
 
-**Benefits:**
-- Initial layout inflation faster
-- Memory saved until feature used
-- Progressive feature disclosure
+Benefits: - Initial layout inflation faster - Memory saved until feature used -
+Progressive feature disclosure
 
 ### 7.3 Custom View Communication
 
-**Temperature Overlay Pattern:**
+Temperature Overlay Pattern:
+
 ```kotlin
 class TemperatureView : View {
     var listener: TempListener? = null
-    
+
     enum class RegionMode {
         REGION_MODE_POINT,
         REGION_MODE_LINE,
@@ -596,14 +605,14 @@ class TemperatureView : View {
         REGION_MODE_CENTER,
         REGION_MODE_CLEAN
     }
-    
+
     var temperatureRegionMode: RegionMode = REGION_MODE_CENTER
         set(value) {
             field = value
             clear()
             invalidate()
         }
-    
+
     fun setTemperature(tempBytes: ByteArray) {
         // Parse temperature data
         val result = calculateMinMax(tempBytes)
@@ -626,45 +635,48 @@ temperatureView.listener = TempListener { max, min, tempData ->
 
 ### 8.1 Lifecycle-Aware Coroutines
 
-**Best Practice Usage:**
+Best Practice Usage:
+
 ```kotlin
 lifecycleScope.launch {
     // Main thread by default
     showLoading()
-    
+
     val result = withContext(Dispatchers.IO) {
         // Background work
         repository.downloadFile(url, file)
     }
-    
+
     // Back to main thread automatically
     dismissLoading()
     handleResult(result)
 }
 ```
 
-**Structured Concurrency:**
+Structured Concurrency:
+
 ```kotlin
 lifecycleScope.launch {
     // Launch multiple parallel operations
-    val deferredVersion = async(Dispatchers.IO) { 
-        TS004Repository.getVersion() 
+    val deferredVersion = async(Dispatchers.IO) {
+        TS004Repository.getVersion()
     }
-    val deferredConfig = async(Dispatchers.IO) { 
-        configRepository.readConfig() 
+    val deferredConfig = async(Dispatchers.IO) {
+        configRepository.readConfig()
     }
-    
+
     // Wait for both
     val version = deferredVersion.await()
     val config = deferredConfig.await()
-    
+
     updateUI(version, config)
 }
 ```
 
 ### 8.2 Countdown/Timer Pattern
 
-**Reusable Countdown Extension:**
+Reusable Countdown Extension:
+
 ```kotlin
 fun countDownCoroutines(
     total: Int,
@@ -676,12 +688,12 @@ fun countDownCoroutines(
 ): Job {
     return scope.launch {
         onStart?.invoke()
-        
+
         repeat(total) { current ->
             onTick(current + 1)
             delay(interval)
         }
-        
+
         onFinish?.invoke()
     }
 }
@@ -704,7 +716,8 @@ autoJob.start()
 
 ### 9.1 Product Flavors
 
-**Multi-Market Strategy:**
+Multi-Market Strategy:
+
 ```gradle
 flavorDimensions 'app'
 
@@ -714,19 +727,19 @@ productFlavors {
         buildConfigField "String", "SOFT_CODE", "\"TC001\""
         manifestPlaceholders = [app_name: "TopInfrared"]
     }
-    
+
     prod {
         dimension 'app'
         buildConfigField "String", "SOFT_CODE", "\"TC001\""
         manifestPlaceholders = [app_name: "IRCamera"]
     }
-    
+
     prodTopdon {
         dimension 'app'
         targetSdk 27  // Android 10 compatibility
         buildConfigField "String", "SOFT_CODE", "\"TC001_10\""
     }
-    
+
     insideChina {
         dimension 'app'
         buildConfigField "int", "ENV_TYPE", "1"
@@ -736,7 +749,8 @@ productFlavors {
 }
 ```
 
-**Runtime Flavor Detection:**
+Runtime Flavor Detection:
+
 ```kotlin
 abstract class BaseApplication : Application() {
     abstract fun isDomestic(): Boolean
@@ -764,29 +778,29 @@ if (BaseApplication.instance.isDomestic()) {
 
 ### 10.1 Design Patterns Used
 
-| Pattern | Implementation | Benefit |
-|---------|---------------|---------|
-| **Singleton** | `WebSocketProxy`, `SharedManager`, repositories | Single source of truth |
-| **Repository** | `TS004Repository`, `TC007Repository` | Data layer abstraction |
-| **Observer** | EventBus, LiveData | Decoupled communication |
-| **Template Method** | `BaseActivity`, `BaseFragment` | Consistent lifecycle |
-| **Strategy** | Device-specific thermal modules | Pluggable algorithms |
-| **Proxy** | `WebSocketProxy` | Connection abstraction |
-| **Builder** | All dialog classes | Fluent API construction |
-| **Factory** | Fragment/Adapter creation | Centralized instantiation |
-| **State** | Numeric state codes | UI state management |
-| **Facade** | `DeviceTools`, `AlarmHelp` | Simplified interfaces |
+| Pattern | Implementation | Benefit | |---------|---------------|---------| |
+**Singleton** | `WebSocketProxy`, `SharedManager`, repositories | Single source
+of truth | | **Repository** | `TS004Repository`, `TC007Repository` | Data layer
+abstraction | | **Observer** | EventBus, LiveData | Decoupled communication | |
+**Template Method** | `BaseActivity`, `BaseFragment` | Consistent lifecycle | |
+**Strategy** | Device-specific thermal modules | Pluggable algorithms | |
+**Proxy** | `WebSocketProxy` | Connection abstraction | | **Builder** | All
+dialog classes | Fluent API construction | | **Factory** | Fragment/Adapter
+creation | Centralized instantiation | | **State** | Numeric state codes | UI
+state management | | **Facade** | `DeviceTools`, `AlarmHelp` | Simplified
+interfaces |
 
 ### 10.2 Architectural Principles
 
-**SOLID Compliance:**
-- ✅ **Single Responsibility**: Each module has clear domain (thermal processing, networking, UI)
-- ✅ **Open/Closed**: New device types added without modifying existing code
-- ✅ **Liskov Substitution**: All thermal activities extend `BaseIRActivity`
-- ✅ **Interface Segregation**: Repositories use focused interfaces (`TS004Service`)
-- ✅ **Dependency Inversion**: Activities depend on abstractions (`WebSocketProxy`, not OkHttp)
+SOLID Compliance: - ✅ **Single Responsibility**: Each module has clear domain
+(thermal processing, networking, UI) - ✅ **Open/Closed**: New device types
+added without modifying existing code - ✅ **Liskov Substitution**: All thermal
+activities extend `BaseIRActivity` - ✅ **Interface Segregation**: Repositories
+use focused interfaces (`TS004Service`) - ✅ **Dependency Inversion**:
+Activities depend on abstractions (`WebSocketProxy`, not OkHttp)
 
-**Clean Architecture Layers:**
+Clean Architecture Layers:
+
 ```
 ┌─────────────────────────────────────┐
 │  Presentation (Activities/Fragments) │
@@ -805,50 +819,34 @@ if (BaseApplication.instance.isDomestic()) {
 
 ### 11.1 Immediate Wins
 
-1. **ARouter Integration**: Adopt for cross-module navigation without tight coupling
-2. **BaseActivity Template**: Centralize device connection callbacks, permission flows
-3. **WebSocket Proxy Pattern**: Single manager for all device communication
-4. **SharedManager Pattern**: Type-safe SharedPreferences access
-5. **EventBus for Decoupling**: Replace intent-based broadcasts with EventBus
+5. **EventBus for Decoupling**: Replace intent-based broadcasts with
+   EventBus ### 11.2 Medium-Term Improvements
 
-### 11.2 Medium-Term Improvements
+6. **Lifecycle Coroutines**: Replace AsyncTask/Handlers with
+   `lifecycleScope` ### 11.3 Long-Term Architecture
 
-6. **ViewPager2 Navigation**: Migrate from manual fragment transactions
-7. **PopupWindow Menus**: Replace full-screen dialogs with contextual popups
-8. **Numeric State Codes**: Simplify UI state serialization
-9. **Repository Pattern**: Wrap all network/DB access in repositories
-10. **Lifecycle Coroutines**: Replace AsyncTask/Handlers with `lifecycleScope`
-
-### 11.3 Long-Term Architecture
-
-11. **Feature Modules**: Split monolithic app into dynamic feature modules
-12. **Hilt/Dagger**: Replace manual singleton management
-13. **Jetpack Compose**: Migrate complex custom views
-14. **Kotlin Flow**: Replace LiveData for reactive streams
-15. **MVI Architecture**: Unidirectional data flow for state management
-
----
+7. **MVI Architecture**: Unidirectional data flow for state management ---
 
 ## 12. Code Quality Observations
 
 ### 12.1 Strengths
 
-✅ **Modular Architecture**: Clear separation between device types  
-✅ **Defensive Programming**: Null checks, try-catch blocks  
-✅ **Internationalization**: Full i18n support with dynamic locale switching  
-✅ **Permission UX**: Educational dialogs before permission requests  
-✅ **Reconnection Logic**: Robust WebSocket recovery  
-✅ **State Preservation**: Survives configuration changes  
-✅ **Native Optimization**: Heavy lifting in C++ (.so libraries)  
+✅ **Modular Architecture**: Clear separation between device types ✅
+**Defensive Programming**: Null checks, try-catch blocks ✅
+**Internationalization**: Full i18n support with dynamic locale switching ✅
+**Permission UX**: Educational dialogs before permission requests ✅
+**Reconnection Logic**: Robust WebSocket recovery ✅ **State Preservation**:
+Survives configuration changes ✅ **Native Optimization**: Heavy lifting in C++
+(.so libraries)
 
 ### 12.2 Technical Debt
 
-⚠️ **Commented Code**: Large sections of IRThermalActivity commented out  
-⚠️ **Global State**: Some mutable static fields in singletons  
-⚠️ **Mixed Languages**: Java and Kotlin interop increases complexity  
-⚠️ **Deep Nesting**: Some 4-5 level deep coroutine launches  
-⚠️ **Magic Numbers**: Numeric state codes lack enum clarity  
-⚠️ **Fragment Communication**: Some parent-cast patterns instead of ViewModel sharing  
+⚠️ **Commented Code**: Large sections of IRThermalActivity commented out ⚠️
+**Global State**: Some mutable static fields in singletons ⚠️ **Mixed
+Languages**: Java and Kotlin interop increases complexity ⚠️ **Deep Nesting**:
+Some 4-5 level deep coroutine launches ⚠️ **Magic Numbers**: Numeric state codes
+lack enum clarity ⚠️ **Fragment Communication**: Some parent-cast patterns
+instead of ViewModel sharing
 
 ---
 
@@ -856,7 +854,8 @@ if (BaseApplication.instance.isDomestic()) {
 
 ### 13.1 Memory Management
 
-**Bitmap Recycling:**
+Bitmap Recycling:
+
 ```kotlin
 override fun onDestroy() {
     cameraViewBitmap?.recycle()
@@ -865,7 +864,8 @@ override fun onDestroy() {
 }
 ```
 
-**Synchronized Bitmap Access:**
+Synchronized Bitmap Access:
+
 ```kotlin
 val syncimage = SynchronizedBitmap()
 
@@ -877,7 +877,8 @@ synchronized(syncimage.dataLock) {
 
 ### 13.2 Native Integration
 
-**JNI for Heavy Lifting:**
+JNI for Heavy Lifting:
+
 ```kotlin
 // Kotlin calls native code
 LibIRProcess.getIRProcessVersion()
@@ -894,18 +895,17 @@ IRUtils.temperatureCorrection(...)
 
 ## Conclusion
 
-The IRCamera architecture demonstrates **enterprise-grade Android development** with:
-- Modular multi-device support
-- Sophisticated state management
-- Robust hardware communication
-- International market readiness
-- Performance-optimized rendering
+The IRCamera architecture demonstrates **enterprise-grade Android development**
+with: - Modular multi-device support - Sophisticated state management - Robust
+hardware communication - International market readiness - Performance-optimized
+rendering
 
-Key takeaways for your project:
-1. **Copy the BaseActivity pattern** for standardized lifecycle/permissions
-2. **Use ARouter** for scalable navigation
-3. **Adopt WebSocketProxy pattern** for device communication
-4. **Implement numeric state codes** for configuration survival
-5. **EventBus for global events** (connection state, settings changes)
+Key takeaways for your project: 1. **Copy the BaseActivity pattern** for
+standardized lifecycle/permissions 2. **Use ARouter** for scalable navigation 3.
+**Adopt WebSocketProxy pattern** for device communication 4. **Implement numeric
+state codes** for configuration survival 5. **EventBus for global events**
+(connection state, settings changes)
 
-This architecture has scaled to support 5+ device types, 2 market variants, and complex real-time thermal processing. The patterns are production-proven and worth adopting incrementally.
+This architecture has scaled to support 5+ device types, 2 market variants, and
+complex real-time thermal processing. The patterns are production-proven and
+worth adopting incrementally.

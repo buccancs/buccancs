@@ -393,11 +393,19 @@ internal class TopdonThermalConnector @Inject constructor(
                     TopdonPalette.GRAYSCALE -> Palette.Gray
                     TopdonPalette.IRONBOW -> Palette.Ironbow
                     TopdonPalette.RAINBOW -> Palette.Rainbow
+                    TopdonPalette.ARCTIC -> Palette.Arctic
                 },
-                emissivity = null,
-                distanceMeters = null,
-                autoShutter = settings.autoConnectOnAttach,
-                gainMode = GainMode.Auto,
+                emissivity = settings.emissivity,
+                distanceMeters = null,  // Not exposed in UI yet
+                autoShutter = when (settings.gainMode) {
+                    TopdonGainMode.AUTO -> true
+                    TopdonGainMode.HIGH, TopdonGainMode.LOW -> false
+                },
+                gainMode = when (settings.gainMode) {
+                    TopdonGainMode.AUTO -> GainMode.Auto
+                    TopdonGainMode.HIGH -> GainMode.High
+                    TopdonGainMode.LOW -> GainMode.Low
+                },
                 previewFpsLimit = settings.previewFpsLimit,
                 superSamplingFactor = settings.superSampling.multiplier
             )
@@ -410,7 +418,7 @@ internal class TopdonThermalConnector @Inject constructor(
                 .onFailure { error ->
                     Log.w(
                         logTag,
-                        "Failed to push Topdon settings: ${error.message}"
+                        "Failed to push Topdon settings to hardware: ${error.message}"
                     )
                 }
         }

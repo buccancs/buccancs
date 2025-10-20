@@ -3,12 +3,11 @@ package com.buccancs.ui
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.WindowCompat
-import android.util.Log
 import com.buccancs.ui.base.DeviceHostActivity
-import com.buccancs.ui.base.DeviceHostActivity.PermissionEducation
 import com.buccancs.ui.navigation.AppNavHost
 import com.buccancs.ui.theme.BuccancsTheme
 import dagger.hilt.android.AndroidEntryPoint

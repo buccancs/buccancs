@@ -70,15 +70,15 @@ public class Shimmer extends ShimmerBluetooth {
     transient private final BluetoothAdapter mAdapter;
     protected String mClassName = "Shimmer";
     transient List<Handler> mHandlerList = new ArrayList<Handler>();
-    private UUID mSPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private final UUID mSPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     transient private ConnectThread mConnectThread;
     transient private ConnectedThread mConnectedThread;
-    private boolean mDummy = false;
+    private final boolean mDummy = false;
     transient private LocalDevice localDevice;
     transient private DataInputStream mInStream;
     transient private OutputStream mmOutStream = null;
     transient private Context mContext;
-    private int mBluetoothLib = 0;
+    private final int mBluetoothLib = 0;
     transient private BluetoothAdapter mBluetoothAdapter = null;
     private boolean mContinuousStateUpdates = true;
 
@@ -323,7 +323,7 @@ public class Shimmer extends ShimmerBluetooth {
             } else
                 bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-            IntentFilter filter = new IntentFilter(bluetoothAdapter.ACTION_STATE_CHANGED);
+            IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
             filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
             mContext.registerReceiver(mReceiver, filter);
@@ -480,21 +480,7 @@ public class Shimmer extends ShimmerBluetooth {
             }
         }
 
-    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                String macAdd = device.getAddress();
-                if (macAdd.equals(mMyBluetoothAddress)) {
-                    connectionLost();
-                }
-            }
-        }
-    };
+    }
 
     @Override
     protected void processPacket() {
@@ -701,7 +687,21 @@ public class Shimmer extends ShimmerBluetooth {
             }
             size = newSize;
         }
-    }
+    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                String macAdd = device.getAddress();
+                if (macAdd.equals(mMyBluetoothAddress)) {
+                    connectionLost();
+                }
+            }
+        }
+    };
 
     @Override
     protected void clearSerialBuffer() {
@@ -775,7 +775,7 @@ public class Shimmer extends ShimmerBluetooth {
         Bundle bundle = new Bundle();
         bundle.putString(TOAST, "Device " + mMyBluetoothAddress + " is ready for Streaming");
         sendMsgToHandlerList(MESSAGE_TOAST, bundle);
-        if (mIsInitialised == false) {
+        if (!mIsInitialised) {
             mIsInitialised = true;
         }
         if (isSDLogging()) {
@@ -822,27 +822,13 @@ public class Shimmer extends ShimmerBluetooth {
 
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     public boolean getStreamingStatus() {
         return mIsStreaming;
     }
 
     public boolean getInstructionStatus() {
         boolean instructionStatus = false;
-        if (mTransactionCompleted == true) {
-            instructionStatus = true;
-        } else {
-            instructionStatus = false;
-        }
+        instructionStatus = mTransactionCompleted;
         return instructionStatus;
     }
 
@@ -856,11 +842,7 @@ public class Shimmer extends ShimmerBluetooth {
     protected boolean bytesAvailableToBeRead() {
 
         try {
-            if (mInStream.available() != 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return mInStream.available() != 0;
         } catch (
                 IOException e) {
             connectionLost();
@@ -868,6 +850,16 @@ public class Shimmer extends ShimmerBluetooth {
             return false;
         }
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     @Override
     protected int availableBytes() {
@@ -1087,6 +1079,27 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
+    @Override
+    protected void interpretDataPacketFormat(Object object,
+                                             COMMUNICATION_TYPE commType) {
+    }
+
+    @Override
+    public void createConfigBytesLayout() {
+        mConfigByteLayout = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), getHardwareVersion());
+    }
+
+    protected void finishOperation(BT_STATE currentOperation) {
+
+
+    }
+
+    @Override
+    protected void dockedStateChange() {
+
+
+    }
+
 	/*
 	public byte[] readBytes(int numberofBytes){
 		  byte[] b = new byte[numberofBytes];  
@@ -1108,27 +1121,6 @@ public class Shimmer extends ShimmerBluetooth {
 			   return b;
 		  }
 	}*/
-
-    @Override
-    protected void interpretDataPacketFormat(Object object,
-                                             COMMUNICATION_TYPE commType) {
-    }
-
-    @Override
-    public void createConfigBytesLayout() {
-        mConfigByteLayout = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), getHardwareVersion());
-    }
-
-    protected void finishOperation(BT_STATE currentOperation) {
-
-
-    }
-
-    @Override
-    protected void dockedStateChange() {
-
-
-    }
 
     @Override
     public boolean doesSensorKeyExist(int sensorKey) {
@@ -1339,7 +1331,6 @@ public class Shimmer extends ShimmerBluetooth {
                             IOException e1) {
                     }
 
-                return;
             }
         }
 
@@ -1368,7 +1359,6 @@ public class Shimmer extends ShimmerBluetooth {
             sendMsgToHandlerList(Shimmer.MESSAGE_DEVICE_NAME);
             while (!mIOThread.isAlive()) {
             }
-            ;
             Log.d(mClassName, "alive!!");
             initialize();
         }

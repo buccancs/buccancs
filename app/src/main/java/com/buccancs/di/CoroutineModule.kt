@@ -1,6 +1,5 @@
 package com.buccancs.di
 
-import com.buccancs.di.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -120,7 +120,7 @@ fun DevicesScreen(
 
     // Device scanner dialog state
     var showScannerDialog by remember { mutableStateOf(false) }
-    val deviceScanner: com.buccancs.hardware.DeviceScannerService = 
+    val deviceScanner: com.buccancs.hardware.DeviceScannerService =
         androidx.hilt.navigation.compose.hiltViewModel<com.buccancs.ui.navigation.DeviceScannerViewModel>().deviceScanner
     val scanState by deviceScanner.scanState.collectAsStateWithLifecycle()
 
@@ -139,9 +139,13 @@ fun DevicesScreen(
                         // USB device selected, could trigger connection flow
                         android.util.Log.d("DevicesScreen", "USB device selected: ${device.name}")
                     }
+
                     is com.buccancs.hardware.ScannedDevice.Bluetooth -> {
                         // Bluetooth device selected
-                        android.util.Log.d("DevicesScreen", "Bluetooth device selected: ${device.name}")
+                        android.util.Log.d(
+                            "DevicesScreen",
+                            "Bluetooth device selected: ${device.name}"
+                        )
                     }
                 }
             }
@@ -249,7 +253,11 @@ fun DevicesScreen(
                                         )
                                     }
                                 } else null,
-                                onOpenRgbCamera = if (device.typeLabel.contains("RGB", ignoreCase = true)) {
+                                onOpenRgbCamera = if (device.typeLabel.contains(
+                                        "RGB",
+                                        ignoreCase = true
+                                    )
+                                ) {
                                     {
                                         onOpenRgbCamera(
                                             device.id

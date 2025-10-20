@@ -82,7 +82,7 @@ private val externalBuilds =
             tasksToRun = listOf("assembleDebug"),
             maxSupportedJavaMajor = 21
         ),
-        
+
         // Temporarily disabled due to Gradle version conflict
         ExternalProjectBuild(
             "buildOriginalTopdonApp",

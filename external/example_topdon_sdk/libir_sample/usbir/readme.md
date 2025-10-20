@@ -9,15 +9,9 @@ SDK对应demo，主要用于SDK功能和接口调用展示，方便开发者熟�
 
 ## Step1
 
-在文件
-`IRUVC.java`
-中，
-`USBMonitor`
-监听设备连接，当插入USB设备的时候，会进入到
-`onAttach`
-回调，在其中进行设备pid过滤(
-用户可以设置自己的过滤白名单)
-，如果在白名单中，则进行权限申请。
+在文件 `IRUVC.java` 中， `USBMonitor`
+监听设备连接，当插入USB设备的时候，会进入到 `onAttach`
+回调，在其中进行设备pid过滤(用户可以设置自己的过滤白名单) ，如果在白名单中，则进行权限申请。
 
 ```java
 mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
@@ -57,13 +51,8 @@ mUSBMonitor = new USBMonitor(context, new USBMonitor.OnDeviceConnectListener() {
 
 ## Step2
 
-权限申请通过之后，会进入到Step1中
-`USBMonitor`
-类的
-`onConnect`
-回调，经过设备过滤和判断之后，会执行
-`openUVCCamera`
-函数来开启UVC并初始化：
+权限申请通过之后，会进入到Step1中 `USBMonitor` 类的 `onConnect`
+回调，经过设备过滤和判断之后，会执行 `openUVCCamera` 函数来开启UVC并初始化：
 
 ```java
 ...
@@ -86,9 +75,7 @@ ircmd = concreteIRCMDBuilder
 ...
 ```
 
-执行
-`startPreview`
-函数来出图：
+执行 `startPreview` 函数来出图：
 
 ```java
 ...
@@ -101,10 +88,7 @@ uvcCamera.onStartPreview();
 
 ## Step3
 
-出图之后，会进入到
-`IFrameCallback`
-回调函数
-`onFrame`
+出图之后，会进入到 `IFrameCallback` 回调函数 `onFrame`
 中，该函数会返回机芯中的红外和温度数据：
 
 ```java
@@ -118,9 +102,7 @@ iFrameCallback = new IFrameCallback() {
 
 ## Step4
 
-在文件
-`ImageThread.java`
-中把Step3中的红外数据进行格式转换：
+在文件 `ImageThread.java` 中把Step3中的红外数据进行格式转换：
 
 ```java
 ...
@@ -173,9 +155,7 @@ bitmap.copyPixelsFromBuffer(ByteBuffer.wrap(imageDst));
     android:layout_height="match_parent" />
 ```
 
-在
-`CameraView.java`
-中，线程中对图像进行放大到适应屏幕，然后使用Canvas绘制：
+在 `CameraView.java` 中，线程中对图像进行放大到适应屏幕，然后使用Canvas绘制：
 
 ```java
 Bitmap mScaledBitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
@@ -184,9 +164,7 @@ canvas.drawBitmap(mScaledBitmap, 0, 0, null);
 ...
 ```
 
-在
-`TemperatureView.java`
-中传递数据：
+在 `TemperatureView.java` 中传递数据：
 
 ```java
 ...
@@ -236,18 +214,11 @@ AndroidManifest中监听USB设备的插拔，需要添加
 
 可以使用命令行的方式连接手机，步骤如下：
 
-首先请确认在手机的设置中打开了<
-开发者选项>,<
-无线调试>,<USB安装>
-选项，后续步骤如下：
+首先请确认在手机的设置中打开了< 开发者选项>,< 无线调试>,<USB安装> 选项，后续步骤如下：
 
--
+- 手机跟电脑连接同一个网络下;
 
-手机跟电脑连接同一个网络下;
-
--
-
-使用usb线连接手机，并检查是否连接成功
+- 使用usb线连接手机，并检查是否连接成功
 
 ```
 C:\Users\zhao_>adb devices
@@ -255,29 +226,14 @@ List of devices attached
 nvmvsct46hor4xts        device
 ```
 
--
-
-打开手机端口：
-adb
-tcpip
-5555
-（默认是5555端口，可自己修改）
+- 打开手机端口： adb tcpip 5555 （默认是5555端口，可自己修改）
 
 ```
 C:\Users\zhao_>adb tcpip 5555
 restarting in TCP mode port: 5555
 ```
 
--
-
-查看手机ip地址：adb
-shell
-ip
--f
-inet
-addr
-show
-wlan0
+- 查看手机ip地址：adb shell ip -f inet addr show wlan0
 
 ```csharp
 C:\Users\zhao_>adb shell ip -f inet addr show wlan0
@@ -286,13 +242,7 @@ C:\Users\zhao_>adb shell ip -f inet addr show wlan0
        valid_lft forever preferred_lft forever
 ```
 
--
-
-连接设备：adb
-connect
-192.xxx.xxx.xxx:
-5555 (
-前面打印的手机ip地址)
+- 连接设备：adb connect 192.xxx.xxx.xxx: 5555 (前面打印的手机ip地址)
 
 ```
 C:\Users\zhao_>adb connect 192.168.2.21:5555
@@ -304,9 +254,7 @@ nvmvsct46hor4xts        device
 192.168.2.21:5555       device
 ```
 
--
-
-拔掉usb线，并查看无线是否连接成功
+- 拔掉usb线，并查看无线是否连接成功
 
 ```ruby
 C:\Users\zhao_>adb devices
@@ -318,34 +266,22 @@ List of devices attached
 
 使用命令行的方式连接手机相对繁琐，用户可以选择使用AndroidStudio插件来简化该步骤，如下：
 
--
-
-首先进入AndroidStudio设置里面的插件中，搜索adb
-wifi，下载一个下载量比较高的对应的插件。
+- 首先进入AndroidStudio设置里面的插件中，搜索adb
+  wifi，下载一个下载量比较高的对应的插件。
 
 <img src="..\Common_Source\img\202010181317298.png" style="zoom:60%;" />
 
--
+- 然后用usb连接电脑。
 
-然后用usb连接电脑。
+- 使用wifi插件点击connect
 
--
-
-使用wifi插件点击connect
-
--
-
-拔掉usb，即可用wifi进行调试。
+- 拔掉usb，即可用wifi进行调试。
 
 ## targetSdk版本设置
 
-targetSdk<
-28时可以正常的申请和获取USB设备权限
+targetSdk< 28时可以正常的申请和获取USB设备权限
 
-targetSdk>
-=28时需要授权
-`Manifest.permission.CAMERA`
-才可以获取USB设备权限
+targetSdk> =28时需要授权 `Manifest.permission.CAMERA` 才可以获取USB设备权限
 
 ### 原因分析
 
@@ -364,13 +300,12 @@ this.mUsbManager.requestPermission(device, this.mPermissionIntent);
 继续追踪
 
 ```java
-public void requestPermission(UsbDevice device, PendingIntent pi) 
+public void requestPermission(UsbDevice device, PendingIntent pi)
 ```
 
 ## 生成只包含指定ABI的apk
 
-SDK中提供的默认架构为：
-`arm64-v8a, armeabi-v7a, x86, x86_64`
+SDK中提供的默认架构为： `arm64-v8a, armeabi-v7a, x86, x86_64`
 
 ```css
 从NDK R17开始只支持`arm64-v8a, armeabi-v7a, x86, x86_64`这四种架构的so库：
@@ -401,8 +336,7 @@ android {
 -keep class com.infisense.iruvc.** { *; }
 ```
 
-具体的使用，请参考SDK
-demo中的混淆配置。
+具体的使用，请参考SDK demo中的混淆配置。
 
 # 问题解析
 
@@ -414,27 +348,16 @@ demo中的混淆配置。
 
 ### 解决方法
 
--
+- 请先确认设备的OTG是否打开（在设置中搜索，部分设备的OTG默认是打开的且无法进行关闭操作，部分设备的OTG打开一段时间之后不用的话会自动关闭） - 可以对比第三方的出图工具如“USB摄像头”来进行对比测试 - 部分设备出图不稳定需要调用
+  `uvcCamera.setDefaultBandwidth` 方法来设置带宽
 
-请先确认设备的OTG是否打开（在设置中搜索，部分设备的OTG默认是打开的且无法进行关闭操作，部分设备的OTG打开一段时间之后不用的话会自动关闭）
--
-可以对比第三方的出图工具如“USB摄像头”来进行对比测试
--
-部分设备出图不稳定需要调用
-`uvcCamera.setDefaultBandwidth`
-方法来设置带宽
-
--
-
-检查您的模组设置的分辨率是否正确
--
-部分手机须通过转接器连接模组，如果电缆过长，超过0.5米以上，有可能出现供电不足，导致数据传输不稳定，需要在转接器中间再加个USB集线器，增加供电，保证信号传输稳定。
+- 检查您的模组设置的分辨率是否正确 - 部分手机须通过转接器连接模组，如果电缆过长，超过0.5米以上，有可能出现供电不足，导致数据传输不稳定，需要在转接器中间再加个USB集线器，增加供电，保证信号传输稳定。
 
 ## 部分手机上出图一段时间后画面卡顿
 
 ### 问题描述
 
-部分手机如荣耀Play5T，荣耀畅玩20等手机，插入模组后出图一段时间，从模组返回的数据长度会发生变化，例如正常256*
+部分手机如荣耀Play5T，荣耀畅玩20等手机，插入模组后出图一段时间，从模组返回的数据长度会发生变化，例如正常256
 192分辨率的模组，
 
 ```java
@@ -452,7 +375,7 @@ public void onFrame(byte[] frame)
 				private int imageOrTempDataLength = 256 * 192 * 2; // 红外或温度的数据长度
 
 				...
-                    
+
                                                 System.arraycopy(frame, 0, imageSrc, 0, imageOrTempDataLength);
                 System.arraycopy(frame, imageOrTempDataLength, temperatureSrc, 0, imageOrTempDataLength);
 ```
@@ -465,56 +388,25 @@ public void onFrame(byte[] frame)
 
 ### 解决方法
 
--
+- 请先进入" 测试 `USBMonitor` 的简单连接" 这个页面，进行设备的插拔，查看是否进入
+  `USBMonitor` 对应的回调
 
-请先进入"
-测试
-`USBMonitor`
-的简单连接"
-这个页面，进行设备的插拔，查看是否进入
-`USBMonitor`
-对应的回调
+- 如果没有进入回调，请检查您的 `USBMonitor` 注册是否执行
 
--
+- 如果进入了回调，请跟踪调试是否请求了权限，位置： `IRUVC.java` 文件中
+  `mUSBMonitor.requestPermission(device);`，
 
-如果没有进入回调，请检查您的
-`USBMonitor`
-注册是否执行
-
--
-
-如果进入了回调，请跟踪调试是否请求了权限，位置：
-`IRUVC.java`
-文件中
-`mUSBMonitor.requestPermission(device);`，
-
-是否进入到了
-`IRUVC.java`
-文件中IFrameCallback的回调
+是否进入到了 `IRUVC.java` 文件中IFrameCallback的回调
 `public void onFrame(byte[] frame)`
 
-是否进入到了
-`CameraView.java`
-的绘制线程
+是否进入到了 `CameraView.java` 的绘制线程
 
--
+- 检查您是否在 `USBMonitor` 的回调中设置了设备过滤白名单
 
-检查您是否在
-`USBMonitor`
-的回调中设置了设备过滤白名单
-
--
-
-在targetSDK>
-=30的设备上，可能需要获取到
-`android.permission.CAMERA`
-权限之后UVC才能申请出图成功，否则会出现
-`mUSBMonitor.requestPermission(device);`
-申请权限之后，执行
-`onConnect`
-回调，然后迅速执行
-`onCancel`
-回调的现象。
+- 在targetSDK> =30的设备上，可能需要获取到 `android.permission.CAMERA`
+  权限之后UVC才能申请出图成功，否则会出现
+  `mUSBMonitor.requestPermission(device);` 申请权限之后，执行 `onConnect`
+  回调，然后迅速执行 `onCancel` 回调的现象。
 
 ### 问题描述
 
@@ -522,8 +414,7 @@ Tiny1BE模组转接后插入设备，无法出图。
 
 ### 解决方法
 
-经过多次转接之后可能会出现供电不足的情况，需要连接USB
-HUB加强供电，即可解决。
+经过多次转接之后可能会出现供电不足的情况，需要连接USB HUB加强供电，即可解决。
 
 ## targetSdk版本>=28，在部分的android10手机上不出图
 
@@ -539,49 +430,34 @@ UsbUserSettingsManager: Camera permission required for USB video class devices
 这个帖子有介绍，https://blog.csdn.net/wangchao1412/article/details/102837371，是系统层的问题并且没有更新补丁。
 
 https://github.com/saki4510t/UVCCamera/issues/535
-也提到即使授权Camera
-也没用，系统代码里面判断
+也提到即使授权Camera 也没用，系统代码里面判断
 `mUserContext.checkCallingPermission(android.Manifest.permission.CAMERA）`
 永远不成功。
 
 ### 问题验证
 
-经测试
-，该问题只在
-android10版本的手机上会出现，并且，三星和LG的android10手机可以正常出图，OPPO，小米，1+的android10手机无法正常出图。
+经测试 ，该问题只在 android10版本的手机上会出现，并且，三星和LG的android10手机可以正常出图，OPPO，小米，1+的android10手机无法正常出图。
 
-对比FLIR的设备，在红米9A(
-android10)
-设备上安装FLIR
+对比FLIR的设备，在红米9A(android10) 设备上安装FLIR
 ONE这个app，插入FILR的设备，也无法正常的出图。
 
 ### 解决建议
 
--
-
-第一种：设置targetSdk<
-28
+- 第一种：设置targetSdk< 28
 
 可以正常的出图
 
--
-
-第二种：有某些特殊的需求，要求targetSdk>
-=28
+- 第二种：有某些特殊的需求，要求targetSdk> =28
 
 可以正常的使用targetSdk>
 =28上架，然后在应用中判断用户使用的设备版本，如果是android10的设备，则通过打补丁或热修复或应用内升级的方式，修改targetSdk<
 28
 
-该种方案在Google
-Play
+该种方案在Google Play
 Store上架的时候，可能会存在导致应用被下架的风险，请谨慎使用。
 
--
-
-第三种：区分国内和国外渠道，国内渠道使用targetSdk<
-28，国外渠道使用targetSdk>
-=28
+- 第三种：区分国内和国外渠道，国内渠道使用targetSdk< 28，国外渠道使用targetSdk>
+  =28
 
 目前该问题只出现在国产手机的android10版本上，使用该方案可以部分的避免该问题。
 
@@ -605,8 +481,7 @@ Store上架的时候，可能会存在导致应用被下架的风险，请谨慎
 
 可能是测试的时候对着圈出来的图像的物体进行了锅盖标定。
 
-请对着均匀的温度面重新进行锅盖标定(
-标定完毕之后请重新做测温的二次标定)。
+请对着均匀的温度面重新进行锅盖标定(标定完毕之后请重新做测温的二次标定)。
 
 ## 录制视频出现条纹
 
@@ -618,15 +493,11 @@ Store上架的时候，可能会存在导致应用被下架的风险，请谨慎
 
 ### 解决方法
 
--
-
-原始的bitmap的宽高反掉了
+- 原始的bitmap的宽高反掉了
 
 检查原始bitmap的宽高，如果反掉了则调换一下。
 
--
-
-由于原始的画面如640x480的图片，为了适应屏幕进行缩放，如放大为884x663，这个时候画面在SurfaceView或TextureView中绘制是正常的，但是在进行视频编码的时候，编码器会自动的对奇数宽或高进行加一或减一转化为偶数的宽高，此时就会出现如上所示的条纹。
+- 由于原始的画面如640x480的图片，为了适应屏幕进行缩放，如放大为884x663，这个时候画面在SurfaceView或TextureView中绘制是正常的，但是在进行视频编码的时候，编码器会自动的对奇数宽或高进行加一或减一转化为偶数的宽高，此时就会出现如上所示的条纹。
 
 在把原始图像放大后，进行奇数宽高判断，如果为奇数，则加一或减一像素如884x664，然后再传递到视频编码器中。
 
@@ -634,8 +505,7 @@ Store上架的时候，可能会存在导致应用被下架的风险，请谨慎
 
 ### 问题描述
 
-如图所示，在编译运行SDK
-demo的时候日志中报错，如下：
+如图所示，在编译运行SDK demo的时候日志中报错，如下：
 
 <img src="..\Common_Source\img\20211220143532.png" />
 
@@ -643,8 +513,7 @@ demo的时候日志中报错，如下：
 
 `libusb3803_hub.so`
 为系统自带的so库，用于解决特定机型的问题，如遇找不到该so库的问题，可以注释掉代码中
-`Usbcontorl`
-类的对应调用。
+`Usbcontorl` 类的对应调用。
 
 ## 探测器响应率偏高或偏低
 
@@ -664,21 +533,12 @@ demo的时候日志中报错，如下：
 
 ### 问题描述
 
--
-
-如何设置自动快门的开关及时间间隔？各个参数的含义？
+- 如何设置自动快门的开关及时间间隔？各个参数的含义？
 
 ### 解决方法
 
-请参考
-`IRCMD`
-中的
-`setPropAutoShutterParameter`
-方法，具体参数及含义请在
-`doc`
-文件夹下
-`index.html`
-中查找
+请参考 `IRCMD` 中的 `setPropAutoShutterParameter` 方法，具体参数及含义请在 `doc`
+文件夹下 `index.html` 中查找
 
 ## 自动增益切换相关
 
@@ -690,16 +550,9 @@ demo的时候日志中报错，如下：
 
 自动增益切换适用于
 
-*
+- 具有高低增益的模组 ，高增益和低增益的测温范围不同，当需要测温的物体不在当前增益的测温范围内时，开启该功能后会根据设置的参数判断是否满足切换的条件，满足的话会自动切换模组的增益状态，并回调。
 
-*具有高低增益的模组
-**
-，高增益和低增益的测温范围不同，当需要测温的物体不在当前增益的测温范围内时，开启该功能后会根据设置的参数判断是否满足切换的条件，满足的话会自动切换模组的增益状态，并回调。
-
-*
-
-*备注：部分单高增益的模组不适用。
-**
+- 备注：部分单高增益的模组不适用。
 
 参数及调用方法如下：
 
@@ -768,9 +621,7 @@ if (auto_gain_switch) {
 
 #### 方式一：从机芯返回的温度数据中，获取温度信息
 
-使用到LibIRTemp类，使用方式见
-`TemperatureView.java`
-中
+使用到LibIRTemp类，使用方式见 `TemperatureView.java` 中
 
 具体如下：
 
@@ -778,8 +629,8 @@ if (auto_gain_switch) {
 ...
 private LibIRTemp irtemp;
 ...
-    
-irtemp = new LibIRTemp(imageWidth, imageHeight);  
+
+irtemp = new LibIRTemp(imageWidth, imageHeight);
 ...
 irtemp.setTempData(temperature);
 ...
@@ -791,15 +642,13 @@ irtemp.setTempData(temperature);
 public void setTempData(byte[] src)
 
 	    public TemperatureSampleResult getTemperatureOfLine(Line line)
-    
+
 	    public TemperatureSampleResult getTemperatureOfRect(Rect rect)
 ```
 
 #### 方式二：直接从机芯中获取温度信息
 
-使用到IRCMD类，使用方式见
-`PopupCalibration.java`
-中
+使用到IRCMD类，使用方式见 `PopupCalibration.java` 中
 
 具体如下：
 
@@ -810,7 +659,7 @@ public int getPointTemperatureInfo(int pixelPointX, int pixelPointY, int[] tempe
 
 	    public int getRectTemperatureInfo(int startPointX, int startPointY, int endPointX, int endPointY,
                                       int[] temperatureValue)
-    
+
 	    public int getCurrentFrameMaxAndMinTemperature(int[] temperatureValue)
 ```
 
@@ -818,38 +667,28 @@ public int getPointTemperatureInfo(int pixelPointX, int pixelPointY, int[] tempe
 
 ### 问题描述
 
-在调用
-`saveSpiConfig`
+在调用 `saveSpiConfig`
 接口保存配置信息的时候，模组突然拔掉或断电，重新上电之后，模组出现伪彩反色的情况。
 
 ### 解决方法
 
 出现该问题是因为CMD的命令为耗时操作，在保存数据的过程中突然断电会导致Flash数据混乱。所以在发送cmd命令的时候，需要等待命令执行完之后再进行其它的操作。
 
-出现该问题后，可以通过调用
-`restoreDefaultConfig`
-方法的
-`DEF_CFG_ALL`
+出现该问题后，可以通过调用 `restoreDefaultConfig` 方法的 `DEF_CFG_ALL`
 参数来恢复。
 
 ## 部分手机上出现SurfaceView内容不展示问题
 
-*
-
-*说明：该部分业务逻辑非本SDK的使用相关，提供该问题示例为方便客户开发自己的上层应用。
-**
+- 说明：该部分业务逻辑非本SDK的使用相关，提供该问题示例为方便客户开发自己的上层应用。
 
 ### 问题描述
 
-部分手机如小米mix2上会出现
-`SurefaceView`
+部分手机如小米mix2上会出现 `SurefaceView`
 内容如点线框画完之后不展示的问题，该问题是第三方系统厂商优化定制系统的原因，与SDK无关。
 
 ### 解决方法
 
-在
-`SurfaceView`
-的构造函数中添加如下代码：
+在 `SurfaceView` 的构造函数中添加如下代码：
 
 ```java
 setZOrderOnTop(true);
@@ -857,10 +696,7 @@ setZOrderOnTop(true);
 
 ## 部分三星手机录制视频相册找不到
 
-*
-
-*说明：该部分业务逻辑非本SDK的使用相关，提供该问题示例为方便客户开发自己的上层应用。
-**
+- 说明：该部分业务逻辑非本SDK的使用相关，提供该问题示例为方便客户开发自己的上层应用。
 
 ### 问题描述
 
@@ -872,9 +708,7 @@ setZOrderOnTop(true);
 
 ### 解决方法
 
--
-
-对三星手机延时发送刷新相册广播
+- 对三星手机延时发送刷新相册广播
 
 ```java
  Message message = new Message();
@@ -890,9 +724,7 @@ setZOrderOnTop(true);
         }
 ```
 
--
-
-对三星手机使用多种刷新方式
+- 对三星手机使用多种刷新方式
 
 ```java
    MediaScannerConnection.scanFile(Utils.getApp(), new String[]{path}, null, null);
@@ -910,329 +742,116 @@ setZOrderOnTop(true);
 
 ## 版本【Version】1.3.7
 
--
-
-修复一些bug；
--
-区分不同的版本；
+- 修复一些bug； - 区分不同的版本；
 
 ## 版本【Version】1.3.6
 
--
-
-调整页面逻辑，更加简洁高效；
--
-更新libirtemp库到0.15.1
-alpha版本；
+- 调整页面逻辑，更加简洁高效； - 更新libirtemp库到0.15.1 alpha版本；
 
 ## 版本【Version】1.3.5 2023-04-23
 
--
-
-放开距离修正和环境变量修正的接口限制，使用固件版本作为唯一区分；
--
-更新单点标定和两点标定的文档及注释;
--
-更新libirtemp库到0.15.0_alpha版本;
+- 放开距离修正和环境变量修正的接口限制，使用固件版本作为唯一区分； - 更新单点标定和两点标定的文档及注释; - 更新libirtemp库到0.15.0_alpha版本;
 
 ## 版本【Version】1.3.4
 
--
+- 抽取测温修正函数到 `IRUtils.java`
+  工具类中，方便在不插入设备的情况下进行测温修正；
 
-抽取测温修正函数到
-`IRUtils.java`
-工具类中，方便在不插入设备的情况下进行测温修正；
-
--
-
-调整测温修正的逻辑，如果是
-`P2`
-模组则只需要执行
-`step2`
-，添加使用说明；
+- 调整测温修正的逻辑，如果是 `P2` 模组则只需要执行 `step2` ，添加使用说明；
 
 ## 版本【Version】1.3.3
 
--
+- 增加DOKIT工具库，用于监测运行数据； - 更新libirtemp库到最新版本； - 更新temperatureCorrection方法实现； - 调整伪彩的提供方式，建议使用机芯伪彩或自定义伪彩；
 
-增加DOKIT工具库，用于监测运行数据；
--
-更新libirtemp库到最新版本；
--
-更新temperatureCorrection方法实现；
--
-调整伪彩的提供方式，建议使用机芯伪彩或自定义伪彩；
+## 版本【Version】1.3.2 FC 2023-02-13
 
-## 版本【Version】1.3.2 FC  2023-02-13
+- 新增手动制造盲元接口addPseudoDeadPixel和相关文档； - 新增自动盲元标定接口 ； - 完善新增盲元表和移除盲元表接口addDeadPixelPoint，removeDeadPixelPoint； - 完善温度修正接口temperatureCorrection，兼容Tiny1c
+  Tinybe MINI256；
 
--
-
-新增手动制造盲元接口addPseudoDeadPixel和相关文档；
--
-新增自动盲元标定接口 ；
--
-完善新增盲元表和移除盲元表接口addDeadPixelPoint，removeDeadPixelPoint；
--
-完善温度修正接口temperatureCorrection，兼容Tiny1c
-Tinybe
-MINI256；
-
--
-
-中间出图问题修复；
--
-新增伪彩获取接口，允许传入自定义伪彩列表；
--
-添加自定义等温尺功能；
--
-完善P2，Tiny1C，TinyBE，MINI640/384的PN,SN规则；
--
-解决固件升级失败后无法再次升级的问题;
+- 中间出图问题修复； - 新增伪彩获取接口，允许传入自定义伪彩列表； - 添加自定义等温尺功能； - 完善P2，Tiny1C，TinyBE，MINI640/384的PN,SN规则； - 解决固件升级失败后无法再次升级的问题;
 
 ## 版本【Version】1.3.1
 
--
+- 完善多点标定接口； - 新增多点标定后单点温度修正接口； - 更新libirtemp 0.13.1
+  alpha库；
 
-完善多点标定接口；
--
-新增多点标定后单点温度修正接口；
--
-更新libirtemp
-0.13.1
-alpha库；
-
--
-
-修复在部分android9.0手机上出现的surfaceView内容不展示的bug;
+- 修复在部分android9.0手机上出现的surfaceView内容不展示的bug;
 
 ## 版本【Version】1.3.0
 
--
+- 通过gradle.properties区分标准版本和定制版本； - 新增标准版和定制版与固件匹配出图逻辑； - 新增定制版接口
+  `getCustomInfo` 获取PID和VID；
 
-通过gradle.properties区分标准版本和定制版本；
--
-新增标准版和定制版与固件匹配出图逻辑；
--
-新增定制版接口
-`getCustomInfo`
-获取PID和VID；
-
--
-
-增加AES-CBC-PKCS5Padding的加密和解密工具类；
+- 增加AES-CBC-PKCS5Padding的加密和解密工具类；
 
 ## 版本【Version】1.2.9
 
--
+- 添加模组出现伪彩反色的问题解析和解决办法； - 调整算法中电子变倍的位置到最后； - 删除定制客户的特殊设备使用的供电命令； - 修改demo的targetSDK为26； - 删除demo中的第三方库依赖； - 添加SDK的混淆，在demo中配置混淆依赖； - 添加demo中模组插拔的监听逻辑； - 添加
+  `LibIRProcess` 库中 `yuv422` 数据获取伪彩的方法；
 
-添加模组出现伪彩反色的问题解析和解决办法；
--
-调整算法中电子变倍的位置到最后；
--
-删除定制客户的特殊设备使用的供电命令；
--
-修改demo的targetSDK为26；
--
-删除demo中的第三方库依赖；
--
-添加SDK的混淆，在demo中配置混淆依赖；
--
-添加demo中模组插拔的监听逻辑；
--
-添加
-`LibIRProcess`
-库中
-`yuv422`
-数据获取伪彩的方法；
+- 增加获取机芯中是否执行过停图命令的接口； - 更新libirtemp库到最新分支；
 
--
+## 版本【Version】1.2.8 FC 2022-11-04
 
-增加获取机芯中是否执行过停图命令的接口；
--
-更新libirtemp库到最新分支；
+- 多点标定SDK接口逻辑调整，增加参数，详见文档部分； - 删除部分接口需要传入固件信息的参数，改为从底层获取； - 简化demo中部分代码的执行逻辑， - 修复了存在的一些bug；
 
-## 版本【Version】1.2.8 FC  2022-11-04
+## 版本【Version】1.2.7 FC 2022-11-01
 
--
+- 增加多点标定的SDK，具体的使用方法见文档部分； - 修改了SDK初始化的逻辑，先获取到设备分辨率列表再初始化SDK； - 修改了部分接口的参数； - 修复了存在的一些bug；
 
-多点标定SDK接口逻辑调整，增加参数，详见文档部分；
--
-删除部分接口需要传入固件信息的参数，改为从底层获取；
--
-简化demo中部分代码的执行逻辑，
--
-修复了存在的一些bug；
+## 版本【Version】1.2.6 2022-10-18
 
-## 版本【Version】1.2.7 FC  2022-11-01
+- 优化demo布局，移除demo第三方库以及无用的代码
 
--
+- SDK新增SPI单光支持上层ISP算法功能以及演示demo
 
-增加多点标定的SDK，具体的使用方法见文档部分；
--
-修改了SDK初始化的逻辑，先获取到设备分辨率列表再初始化SDK；
--
-修改了部分接口的参数；
--
-修复了存在的一些bug；
+- IRCMD支持 `readPrivData`、 `readKTData`、 `readBTData` 接口调用
 
-## 版本【Version】1.2.6  2022-10-18
+- UVCCamera支持 `setCurVTemp`、 `setTempCorrectParams`、 `setEnvCorrectParams`、
+  `initIRISPModule`、 `setAGCStatus`、
 
--
-
-优化demo布局，移除demo第三方库以及无用的代码
-
--
-
-SDK新增SPI单光支持上层ISP算法功能以及演示demo
-
--
-
-IRCMD支持
-`readPrivData`、
-`readKTData`、
-`readBTData`
-接口调用
-
--
-
-UVCCamera支持
-`setCurVTemp`、
-`setTempCorrectParams`、
-`setEnvCorrectParams`、
-`initIRISPModule`、
-`setAGCStatus`、
-
-`setDDEStatus`、
-`setDenoiseStatus`
-接口调用
+`setDDEStatus`、 `setDenoiseStatus` 接口调用
 
 ## 版本【Version】1.2.3
 
--
-
-固件版本>
-=3.05中，去除了机芯中设置环境变量的接口(
-`setPropTPDParams`
-接口中的
-`CommonParams.PropTPDParams#TPD_PROP_DISTANCE`
-参数)
-，接口中添加固件版本信息
-`project_info`
-参数用以区分；
+- 固件版本> =3.05中，去除了机芯中设置环境变量的接口(`setPropTPDParams` 接口中的
+  `CommonParams.PropTPDParams#TPD_PROP_DISTANCE` 参数) ，接口中添加固件版本信息
+  `project_info` 参数用以区分；
 
 ## 版本【Version】1.2.1
 
--
+- LEVEL_DDE的档位仅支持0-4这5个档位，删除5和6两个档位 - 修改环境变量参数修正的输入温度单位为摄氏度 - 更新Libirparse类名为LibIRParse，更新Libirprocess类名为LibIRProcess，更新Libirtemp类名为LibIRTemp； - 对外提供统一的IRCMD类供调用，使用新的方法初始化IRCMD; - 修改LibIRParse，LibIRProcess，LibIRTemp，IRCMD中的方法名以符合命名规范； - 添加数据流模式切换示例demo - 调整测温二次修正算法
 
-LEVEL_DDE的档位仅支持0-4这5个档位，删除5和6两个档位
--
-修改环境变量参数修正的输入温度单位为摄氏度
--
-更新Libirparse类名为LibIRParse，更新Libirprocess类名为LibIRProcess，更新Libirtemp类名为LibIRTemp；
--
-对外提供统一的IRCMD类供调用，使用新的方法初始化IRCMD;
--
-修改LibIRParse，LibIRProcess，LibIRTemp，IRCMD中的方法名以符合命名规范；
--
-添加数据流模式切换示例demo
--
-调整测温二次修正算法
+版本【Version】1.2.0 2021-10-22 ------------------------------------------
 
-版本【Version】1.2.0  2021-10-22
-------------------------------------------
+- 增加SDK实现【Increase SDK implementation】
 
--
+- 更新接口文档【Update interface documentation】
 
-增加SDK实现【Increase
-SDK
-implementation】
+- 更新用户开发标定文档【Update user development calibration documents】
 
--
+- 增加兼容性测试【Increase compatibility test】
 
-更新接口文档【Update
-interface
-documentation】
+版本【Version】1.1.2 2021-07-22 ------------------------------------------
 
--
+- 增加SDK实现【Increase SDK implementation】
 
-更新用户开发标定文档【Update
-user
-development
-calibration
-documents】
+- 自动增益切换【Automatic gain switching】
 
--
+- 防灼烧保护【Anti-burn protection】
 
-增加兼容性测试【Increase
-compatibility
-test】
+- 环境温度修正【Ambient temperature correction】
 
-版本【Version】1.1.2  2021-07-22
-------------------------------------------
+- firmware 升级【firmware upgrade】
 
--
+- 升级libircmd的库【Upgrade libircmd library】
 
-增加SDK实现【Increase
-SDK
-implementation】
+版本【Version】1.0.5 2021-06-08 ------------------------------------------
 
--
+- release I2c cmd
 
-自动增益切换【Automatic
-gain
-switching】
+- Release spi 接口【Release spi interface】
 
--
+- Tiny1C模组SDK接口【Tiny1C module SDK interface】
 
-防灼烧保护【Anti-burn
-protection】
-
--
-
-环境温度修正【Ambient
-temperature
-correction】
-
--
-
-firmware
-升级【firmware
-upgrade】
-
--
-
-升级libircmd的库【Upgrade
-libircmd
-library】
-
-版本【Version】1.0.5  2021-06-08
-------------------------------------------
-
--
-
-release
-I2c
-cmd
-
--
-
-Release
-spi
-接口【Release
-spi
-interface】
-
--
-
-Tiny1C模组SDK接口【Tiny1C
-module
-SDK
-interface】
-
--
-
-release
-USB
-接口【release
-USB
-interface】
+- release USB 接口【release USB interface】

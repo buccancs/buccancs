@@ -1,5 +1,6 @@
 package com.buccancs.domain.repository
 
+import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface TopdonSettingsRepository {
     val settings: StateFlow<TopdonSettings>
+    
     suspend fun setAutoConnect(
         enabled: Boolean
     )
@@ -21,5 +23,13 @@ interface TopdonSettingsRepository {
 
     suspend fun setPreviewFpsLimit(
         limit: Int
+    )
+    
+    suspend fun setEmissivity(
+        emissivity: Double
+    )
+    
+    suspend fun setGainMode(
+        mode: TopdonGainMode
     )
 }

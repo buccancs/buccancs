@@ -65,7 +65,11 @@ fun ClockPanel(
                     append("Time synchronisation. ")
                     append("Offset ${status.offsetMillis} milliseconds. ")
                     append("Round trip ${status.roundTripMillis} milliseconds. ")
-                    append("Quality ${status.quality.name.lowercase().replaceFirstChar { it.uppercase() }}. ")
+                    append(
+                        "Quality ${
+                            status.quality.name.lowercase().replaceFirstChar { it.uppercase() }
+                        }. "
+                    )
                     append("Drift estimate ${formatDouble(status.driftEstimateMillisPerMinute)} milliseconds per minute. ")
                     append("Regression slope ${formatDouble(status.regressionSlopeMillisPerMinute)} milliseconds per minute. ")
                     append("Samples collected ${status.sampleCount}.")
@@ -108,7 +112,8 @@ fun ClockPanel(
                             modifier = Modifier.size(16.dp)
                         )
                         Text(
-                            text = status.quality.name.lowercase().replaceFirstChar { it.uppercase() },
+                            text = status.quality.name.lowercase()
+                                .replaceFirstChar { it.uppercase() },
                             style = MaterialTheme.typography.labelMedium,
                             color = qualityColor,
                             fontWeight = FontWeight.SemiBold,
@@ -220,12 +225,13 @@ fun ClockPanel(
                         modifier = Modifier.padding(Spacing.SmallMedium),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        history.takeLast(MAX_HISTORY_LINES).reversed().forEachIndexed { index, observation ->
-                            HistoryRow(
-                                observation = observation,
-                                modifier = Modifier.testTag("time-sync-history-$index")
-                            )
-                        }
+                        history.takeLast(MAX_HISTORY_LINES).reversed()
+                            .forEachIndexed { index, observation ->
+                                HistoryRow(
+                                    observation = observation,
+                                    modifier = Modifier.testTag("time-sync-history-$index")
+                                )
+                            }
                     }
                 }
             }

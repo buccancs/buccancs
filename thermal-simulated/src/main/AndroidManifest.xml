@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.buccancs.thermal.simulated" />
+<manifest package="com.buccancs.thermal.simulated" />

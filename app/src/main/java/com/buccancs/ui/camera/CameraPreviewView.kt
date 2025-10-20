@@ -37,11 +37,11 @@ fun CameraPreviewView(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    
-    val cameraManager = remember { 
-        context.getSystemService(android.content.Context.CAMERA_SERVICE) as CameraManager 
+
+    val cameraManager = remember {
+        context.getSystemService(android.content.Context.CAMERA_SERVICE) as CameraManager
     }
-    
+
     val cameraHelper = remember {
         Camera2PreviewHelper(cameraManager)
     }
@@ -52,10 +52,12 @@ fun CameraPreviewView(
                 Lifecycle.Event.ON_RESUME -> {
                     // Camera will be opened when TextureView is available
                 }
+
                 Lifecycle.Event.ON_PAUSE -> {
                     cameraHelper.stopPreview()
                     onPreviewStopped()
                 }
+
                 else -> {}
             }
         }
@@ -122,7 +124,7 @@ private class Camera2PreviewHelper(
     @SuppressLint("MissingPermission")
     suspend fun startPreview(surface: Surface, size: Size) {
         ensureHandler()
-        
+
         val cameraId = findBackCamera() ?: throw IllegalStateException("No back camera found")
         val device = openCamera(cameraId)
         cameraDevice = device
@@ -133,13 +135,20 @@ private class Camera2PreviewHelper(
                 object : CameraCaptureSession.StateCallback() {
                     override fun onConfigured(session: CameraCaptureSession) {
                         captureSession = session
-                        
-                        val request = device.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW).apply {
-                            addTarget(surface)
-                            set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
-                            set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-                            set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
-                        }.build()
+
+                        val request =
+                            device.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW).apply {
+                                addTarget(surface)
+                                set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
+                                set(
+                                    CaptureRequest.CONTROL_AF_MODE,
+                                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                                )
+                                set(
+                                    CaptureRequest.CONTROL_AE_MODE,
+                                    CaptureRequest.CONTROL_AE_MODE_ON
+                                )
+                            }.build()
 
                         try {
                             session.setRepeatingRequest(request, null, handler)
@@ -182,7 +191,8 @@ private class Camera2PreviewHelper(
     private fun findBackCamera(): String? {
         return cameraManager.cameraIdList.firstOrNull { id ->
             val characteristics = cameraManager.getCameraCharacteristics(id)
-            val facing = characteristics.get(android.hardware.camera2.CameraCharacteristics.LENS_FACING)
+            val facing =
+                characteristics.get(android.hardware.camera2.CameraCharacteristics.LENS_FACING)
             facing == android.hardware.camera2.CameraCharacteristics.LENS_FACING_BACK
         }
     }

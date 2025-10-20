@@ -1,5 +1,6 @@
 package com.buccancs.data.sensor.topdon
 
+import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
@@ -68,6 +69,29 @@ class InMemoryTopdonSettingsRepository(
             state.value =
                 state.value.copy(
                     previewFpsLimit = sanitized
+                )
+        }
+    }
+    
+    override suspend fun setEmissivity(
+        emissivity: Double
+    ) {
+        mutex.withLock {
+            val clamped = emissivity.coerceIn(0.01, 1.0)
+            state.value =
+                state.value.copy(
+                    emissivity = clamped
+                )
+        }
+    }
+    
+    override suspend fun setGainMode(
+        mode: TopdonGainMode
+    ) {
+        mutex.withLock {
+            state.value =
+                state.value.copy(
+                    gainMode = mode
                 )
         }
     }

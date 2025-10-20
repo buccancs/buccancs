@@ -2,21 +2,9 @@
 
 ## Overview
 
-Topdon
-TC001/TS004
-thermal
-camera
-app
-now
-uses
-Jetpack
-Compose
-with
-Material
+Topdon TC001/TS004 thermal camera app now uses Jetpack Compose with Material
 
-3.
-
-## Build Commands
+3. ## Build Commands
 
 ```bash
 # Debug build
@@ -49,87 +37,33 @@ app/src/main/java/com/topdon/tc001/
 
 ### Activities (All Compose)
 
--
+- `SplashActivity.kt` - App launch screen
 
-`SplashActivity.kt` -
-App
-launch
-screen
+- `ClauseActivity.kt` - Terms acceptance
 
--
+- `MainActivity.kt` - Main container
 
-`ClauseActivity.kt` -
-Terms
-acceptance
+- `DeviceTypeActivity.kt` - Device selection
 
--
+- `PolicyActivity.kt` - Policy viewer
 
-`MainActivity.kt` -
-Main
-container
+- `VersionActivity.kt` - About screen
 
--
+- `MoreHelpActivity.kt` - Help guide
 
-`DeviceTypeActivity.kt` -
-Device
-selection
+- `PdfActivity.kt` - PDF manuals
 
--
+- `WebViewActivity.kt` - Web content
 
-`PolicyActivity.kt` -
-Policy
-viewer
-
--
-
-`VersionActivity.kt` -
-About
-screen
-
--
-
-`MoreHelpActivity.kt` -
-Help
-guide
-
--
-
-`PdfActivity.kt` -
-PDF
-manuals
-
--
-
-`WebViewActivity.kt` -
-Web
-content
-
--
-
-`IRGalleryEditActivity.kt` -
-Thermal
-editor
+- `IRGalleryEditActivity.kt` - Thermal editor
 
 ### Theme System
 
--
+- `ui/theme/Color.kt` - Material 3 colours
 
-`ui/theme/Color.kt` -
-Material
-3
-colours
+- `ui/theme/Type.kt` - Typography scale
 
--
-
-`ui/theme/Type.kt` -
-Typography
-scale
-
--
-
-`ui/theme/Theme.kt` -
-TopdonTheme
-composable
+- `ui/theme/Theme.kt` - TopdonTheme composable
 
 ## Activity Pattern
 
@@ -139,7 +73,7 @@ class MyActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        
+
         setContent {
             TopdonTheme {
                 MyScreen(
@@ -179,10 +113,7 @@ private fun MyScreen(onNavigateUp: () -> Unit) {
 
 ## Navigation
 
-Using
-ARouter (
-modular
-navigation):
+Using ARouter (modular navigation):
 
 ```kotlin
 // Navigate to screen
@@ -201,11 +132,7 @@ ARouter.getInstance()
 
 ### Add New Composable Screen
 
-1.
-
-Create
-composable
-function:
+1. Create composable function:
 
 ```kotlin
 @Composable
@@ -216,11 +143,7 @@ fun MyNewScreen() {
 }
 ```
 
-2.
-
-Use
-in
-activity:
+2. Use in activity:
 
 ```kotlin
 setContent {
@@ -269,10 +192,7 @@ AndroidView(
 
 ## Dependencies
 
-Already
-configured
-in
-`app/build.gradle`:
+Already configured in `app/build.gradle`:
 
 ```gradle
 // Compose BOM
@@ -294,9 +214,7 @@ implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6'
 
 ### Compose Not Found
 
-Check
-`build.gradle`
-has:
+Check `build.gradle` has:
 
 ```gradle
 plugins {
@@ -310,9 +228,7 @@ buildFeatures {
 
 ### Preview Not Working
 
-Add
-preview
-function:
+Add preview function:
 
 ```kotlin
 @Preview(showBackground = true)
@@ -326,48 +242,14 @@ fun ScreenPreview() {
 
 ## Resources
 
--
+- Migration Guide: `COMPOSE_MIGRATION_readme.md`
 
-*
+- Detailed Report:
+  `/docs/project/TOPDON_COMPOSE_MIGRATION_SUMMARY_2025-10-16_0020.md`
 
-*Migration
-Guide:
-**
-`COMPOSE_MIGRATION_readme.md`
-
--
-
-*
-
-*Detailed
-Report:
-**
-`/docs/project/TOPDON_COMPOSE_MIGRATION_SUMMARY_2025-10-16_0020.md`
-
--
-
-*
-
-*Verification:
-**
-`/docs/project/TOPDON_MIGRATION_VERIFICATION_2025-10-16_0025.md`
+- Verification: `/docs/project/TOPDON_MIGRATION_VERIFICATION_2025-10-16_0025.md`
 
 ## Status
 
-✅
-Migration
-Complete (
-100%)  
-✅
-All
-Activities
-Converted  
-✅
-Material
-3
-Implemented  
-✅
-Production
-Ready
-
-
+✅ Migration Complete (100%) ✅ All Activities Converted ✅ Material 3
+Implemented ✅ Production Ready

@@ -8,8 +8,6 @@ import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
 import com.buccancs.core.result.toResult
 import com.buccancs.core.serialization.JsonConfig
-import com.buccancs.domain.sensor.SensorStreamClient
-import com.buccancs.domain.sensor.SensorStreamEmitter
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage
@@ -22,6 +20,8 @@ import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.ShimmerDeviceCandidate
 import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.ShimmerSettingsRepository
+import com.buccancs.domain.sensor.SensorStreamClient
+import com.buccancs.domain.sensor.SensorStreamEmitter
 import com.buccancs.hardware.shimmer.ShimmerHardwareClient
 import com.buccancs.hardware.shimmer.ShimmerHardwareDevice
 import com.buccancs.hardware.shimmer.ShimmerHardwareSettings

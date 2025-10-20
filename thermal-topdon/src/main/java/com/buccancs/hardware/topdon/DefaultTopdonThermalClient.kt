@@ -420,10 +420,7 @@ class DefaultTopdonThermalClient @Inject constructor(
     override suspend fun applySettings(
         settings: TopdonHardwareSettings
     ) {
-        settings.palette?.let {
-            currentPalette =
-                it
-        }
+        // Apply local settings (non-hardware)
         settings.previewFpsLimit?.let {
             previewFpsLimit =
                 it.coerceIn(
@@ -438,10 +435,198 @@ class DefaultTopdonThermalClient @Inject constructor(
                     4
                 )
         }
-        emitNotice(
-            "Applied Topdon settings: palette=$currentPalette fps=$previewFpsLimit superSampling=$superSampling",
-            TopdonNotice.Category.Info
-        )
+        
+        // Apply hardware settings via IRCMD
+        val cmd = ircmd
+        if (cmd != null && connectedDevice != null) {
+            // Palette
+            settings.palette?.let { palette ->
+                applyPalette(cmd, palette)
+            }
+            
+            // Emissivity
+            settings.emissivity?.let { emissivity ->
+                applyEmissivity(cmd, emissivity)
+            }
+            
+            // Distance (for temperature calculation)
+            settings.distanceMeters?.let { distance ->
+                applyDistance(cmd, distance)
+            }
+            
+            // Gain mode / shutter mode
+            settings.gainMode?.let { mode ->
+                applyGainMode(cmd, mode)
+            }
+            
+            // Auto shutter
+            settings.autoShutter?.let { auto ->
+                applyAutoShutter(cmd, auto)
+            }
+            
+            emitNotice(
+                "Applied hardware settings to TC001: palette=${settings.palette}, emissivity=${settings.emissivity}, gain=${settings.gainMode}",
+                TopdonNotice.Category.Info
+            )
+        } else {
+            emitNotice(
+                "Hardware settings requested but IRCMD not available (device=${connectedDevice != null}, ircmd=${cmd != null})",
+                TopdonNotice.Category.Warning
+            )
+        }
+        
+        // Update local palette tracking
+        settings.palette?.let {
+            currentPalette = it
+        }
+    }
+    
+    private suspend fun applyPalette(cmd: IRCMD, palette: Palette) {
+        withContext(Dispatchers.Main) {
+            try {
+                val paletteIndex = when (palette) {
+                    Palette.Ironbow -> 0
+                    Palette.Gray -> 1
+                    Palette.Rainbow -> 2
+                    Palette.Arctic -> 3
+                    Palette.Custom -> 4
+                }
+                
+                val result = runCatching {
+                    cmd.setPalette(paletteIndex) { resultCode ->
+                        if (resultCode == com.infisense.iruvc.ircmd.ResultCode.SUCCESS) {
+                            Log.d(logTag, "Palette changed to $palette (index=$paletteIndex)")
+                        } else {
+                            Log.w(logTag, "Palette change failed: $resultCode")
+                            emitNotice(
+                                "Failed to apply palette $palette: $resultCode",
+                                TopdonNotice.Category.Warning
+                            )
+                        }
+                    }
+                }
+                
+                result.onFailure { error ->
+                    Log.e(logTag, "Error applying palette", error)
+                    emitNotice(
+                        "Error applying palette: ${error.message}",
+                        TopdonNotice.Category.Warning
+                    )
+                }
+            } catch (t: Throwable) {
+                Log.e(logTag, "Exception applying palette", t)
+            }
+        }
+    }
+    
+    private suspend fun applyEmissivity(cmd: IRCMD, emissivity: Double) {
+        withContext(Dispatchers.Main) {
+            try {
+                val clamped = emissivity.coerceIn(0.01, 1.0)
+                
+                val result = runCatching {
+                    cmd.setEmissivity(clamped.toFloat()) { resultCode ->
+                        if (resultCode == com.infisense.iruvc.ircmd.ResultCode.SUCCESS) {
+                            Log.d(logTag, "Emissivity set to $clamped")
+                        } else {
+                            Log.w(logTag, "Emissivity change failed: $resultCode")
+                            emitNotice(
+                                "Failed to set emissivity to $clamped: $resultCode",
+                                TopdonNotice.Category.Warning
+                            )
+                        }
+                    }
+                }
+                
+                result.onFailure { error ->
+                    Log.e(logTag, "Error applying emissivity", error)
+                    emitNotice(
+                        "Error applying emissivity: ${error.message}",
+                        TopdonNotice.Category.Warning
+                    )
+                }
+            } catch (t: Throwable) {
+                Log.e(logTag, "Exception applying emissivity", t)
+            }
+        }
+    }
+    
+    private suspend fun applyDistance(cmd: IRCMD, distanceMeters: Double) {
+        withContext(Dispatchers.Main) {
+            try {
+                val clamped = distanceMeters.coerceIn(0.1, 100.0)
+                
+                val result = runCatching {
+                    cmd.setDistance(clamped.toFloat()) { resultCode ->
+                        if (resultCode == com.infisense.iruvc.ircmd.ResultCode.SUCCESS) {
+                            Log.d(logTag, "Distance set to $clamped meters")
+                        } else {
+                            Log.w(logTag, "Distance change failed: $resultCode")
+                        }
+                    }
+                }
+                
+                result.onFailure { error ->
+                    Log.e(logTag, "Error applying distance", error)
+                }
+            } catch (t: Throwable) {
+                Log.e(logTag, "Exception applying distance", t)
+            }
+        }
+    }
+    
+    private suspend fun applyGainMode(cmd: IRCMD, mode: GainMode) {
+        withContext(Dispatchers.Main) {
+            try {
+                val autoGain = mode == GainMode.Auto
+                
+                val result = runCatching {
+                    cmd.setShutterMode(autoGain) { resultCode ->
+                        if (resultCode == com.infisense.iruvc.ircmd.ResultCode.SUCCESS) {
+                            Log.d(logTag, "Gain mode set to $mode (auto=$autoGain)")
+                        } else {
+                            Log.w(logTag, "Gain mode change failed: $resultCode")
+                            emitNotice(
+                                "Failed to set gain mode to $mode: $resultCode",
+                                TopdonNotice.Category.Warning
+                            )
+                        }
+                    }
+                }
+                
+                result.onFailure { error ->
+                    Log.e(logTag, "Error applying gain mode", error)
+                    emitNotice(
+                        "Error applying gain mode: ${error.message}",
+                        TopdonNotice.Category.Warning
+                    )
+                }
+            } catch (t: Throwable) {
+                Log.e(logTag, "Exception applying gain mode", t)
+            }
+        }
+    }
+    
+    private suspend fun applyAutoShutter(cmd: IRCMD, auto: Boolean) {
+        withContext(Dispatchers.Main) {
+            try {
+                val result = runCatching {
+                    cmd.setShutterMode(auto) { resultCode ->
+                        if (resultCode == com.infisense.iruvc.ircmd.ResultCode.SUCCESS) {
+                            Log.d(logTag, "Auto shutter set to $auto")
+                        } else {
+                            Log.w(logTag, "Auto shutter change failed: $resultCode")
+                        }
+                    }
+                }
+                
+                result.onFailure { error ->
+                    Log.e(logTag, "Error applying auto shutter", error)
+                }
+            } catch (t: Throwable) {
+                Log.e(logTag, "Exception applying auto shutter", t)
+            }
+        }
     }
 
     override suspend fun startPreview(): Result<Unit> =
@@ -697,25 +882,45 @@ class DefaultTopdonThermalClient @Inject constructor(
         withContext(
             Dispatchers.Main
         ) {
+            // Create UVC camera with USB_TYPE_IR for thermal imaging
+            // This configures the SDK to expect raw thermal data format
             val camera =
                 ConcreateUVCBuilder()
                     .setUVCType(
-                        UVCType.USB_UVC
+                        UVCType.USB_TYPE_IR  // Changed from USB_UVC to match IRCamera pattern
+                    )
+                    .setCreateResultCallback(
+                        OnCreateResultCallback { result ->
+                            if (result != ResultCode.SUCCESS) {
+                                emitNotice(
+                                    "UVC camera creation failed: $result",
+                                    TopdonNotice.Category.Warning
+                                )
+                            } else {
+                                Log.d(logTag, "UVC camera created successfully")
+                            }
+                        }
                     )
                     .build()
             uvcCamera =
                 camera
+            
+            // Open the UVC camera with the control block
             camera.openUVCCamera(
                 ctrlBlock
             )
+            Log.d(logTag, "UVC camera opened for device: ${connectedDevice?.deviceName}")
+            
             configureCamera(
                 camera
             )
+            
+            // Initialize IRCMD for hardware control (palette, emissivity, etc.)
             try {
                 ircmd =
                     ConcreteIRCMDBuilder()
                         .setIrcmdType(
-                            IRCMDType.USB_IR_256_384
+                            IRCMDType.USB_IR_256_384  // TC001 native resolution
                         )
                         .setCreateResultCallback(
                             OnCreateResultCallback { result ->
@@ -724,6 +929,8 @@ class DefaultTopdonThermalClient @Inject constructor(
                                         "IRCMD init failed: $result",
                                         TopdonNotice.Category.Warning
                                     )
+                                } else {
+                                    Log.d(logTag, "IRCMD initialized successfully")
                                 }
                             })
                         .build()
@@ -817,6 +1024,22 @@ class DefaultTopdonThermalClient @Inject constructor(
         camera.setDefaultPreviewMaxFps(
             30
         )
+        
+        // Register data format for direct USB stream (as per IRCamera pattern)
+        // This tells the SDK to deliver raw thermal data directly
+        try {
+            camera.registerDataFormat(
+                CommonParams.DataFlowMode.USB_STREAM_DIRECT
+            )
+            Log.d(logTag, "Registered USB_STREAM_DIRECT data format")
+        } catch (t: Throwable) {
+            Log.w(logTag, "Failed to register data format: ${t.message}")
+            emitNotice(
+                "Data format registration failed - preview may not work: ${t.message}",
+                TopdonNotice.Category.Warning
+            )
+        }
+        
         val fallbackSizes =
             listOf(
                 FRAME_WIDTH to FRAME_HEIGHT,

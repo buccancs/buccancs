@@ -1,7 +1,6 @@
 package com.buccancs.data.sensor.connector.shimmer
 
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.domain.sensor.SensorStreamClient
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.shimmer.InMemoryShimmerSettingsRepository
@@ -18,6 +17,7 @@ import com.buccancs.domain.model.SessionArtifact
 import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.model.ShimmerSettings
 import com.buccancs.domain.repository.SensorHardwareConfigRepository
+import com.buccancs.domain.sensor.SensorStreamClient
 import com.buccancs.hardware.shimmer.ShimmerHardwareClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart

@@ -2,7 +2,6 @@ package com.buccancs.ui.topdon
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,10 +41,10 @@ import com.buccancs.ui.components.topdon.TopdonBackButton
 import com.buccancs.ui.components.topdon.TopdonButton
 import com.buccancs.ui.components.topdon.TopdonCenterAlignedTopAppBar
 import com.buccancs.ui.components.topdon.TopdonOutlinedButton
-import com.buccancs.ui.topdon.gallery.TopdonGalleryPane
-import com.buccancs.ui.topdon.thermal.ThermalPreviewPane
 import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.Spacing
+import com.buccancs.ui.topdon.gallery.TopdonGalleryPane
+import com.buccancs.ui.topdon.thermal.ThermalPreviewPane
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)

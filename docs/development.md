@@ -1,246 +1,54 @@
 # Development Guide
 
-Follow
-this
-guide
-to
-provision
-a
-workstation,
-build
-the
-modules,
-and
-exercise
-the
-platform
-during
-day-to-day
-development.
+Follow this guide to provision a workstation, build the modules, and exercise
+the platform during day-to-day development.
 
->
-Canonical
-contributor
-guidance
-now
-lives
-in
-`AGENTS.md`.
-Use
-this
-document
-for
-extended
-setup
->
-notes
-and
-troubleshooting
->
-detail
-that
-complement
-the
-ground-truth
-checklist.
+> Canonical contributor guidance now lives in `AGENTS.md`. Use this document for
+> extended setup > notes and troubleshooting > detail that complement the
+> ground-truth checklist.
 
 ## Prerequisites
 
--
+- Java: JDK 21 (set `JAVA_HOME` accordingly; verify with `java -version`).
 
-*
+- Android SDK: Platform 36 with build tools 36.1. Install via Android Studio or
+  the `sdkmanager`. Accept licences on every host to unblock Gradle sync.
 
-*Java:
-**
-JDK
-21 (
-set
-`JAVA_HOME`
-accordingly;
-verify
-with
-`java -version`).
+- Gradle Wrapper: Use the repository-provided wrapper (`gradlew`/ `gradlew.bat`)
+  rather than a global install.
 
--
+- Android Studio/IntelliJ IDEA: Recommended for editing and Compose previews.
 
-*
+- Platform Tools: `adb`, `grpcurl`, and `python3` for device management and
+  automation scripts.
 
-*Android
-SDK:
-**
-Platform
-36
-with
-build
-tools
-36.1.
-Install
-via
-Android
-Studio
-or
-the
-`sdkmanager`.
-Accept
-licences
-on
-every
-host
-to
-unblock
-Gradle
-sync.
-
--
-
-*
-
-*Gradle
-Wrapper:
-**
-Use
-the
-repository-provided
-wrapper (
-`gradlew`/
-`gradlew.bat`)
-rather
-than
-a
-global
-install.
-
--
-
-*
-
-*Android
-Studio /
-IntelliJ
-IDEA:
-**
-Recommended
-for
-editing
-and
-Compose
-previews.
-
--
-
-*
-
-*Platform
-Tools:
-**
-`adb`,
-`grpcurl`,
-and
-`python3`
-for
-device
-management
-and
-automation
-scripts.
-
--
-
-*
-
-*Optional:
-**
-WSL
-for
-scripting;
-run
-Gradle
-builds
-natively
-on
-Windows
-to
-avoid
-WSL
-filesystem
-issues.
+- Optional: WSL for scripting; run Gradle builds natively on Windows to avoid
+  WSL filesystem issues.
 
 ## Repository Setup
 
-1.
+1. Clone the repository and install the configured large-file storage tooling if
+   you intend to update SDK artefacts.
 
-Clone
-the
-repository
-and
-install
-the
-configured
-large-file
-storage
-tooling
-if
-you
-intend
-to
-update
-SDK
-artefacts.
+2. Prime git submodules so the external projects (for example, `external/IRCamera`)
+   are present locally:
 
-2.
+   ```powershell
+   git submodule update --init --recursive
+   ```
 
-Copy
-or
-create
-`local.properties`
-with
-`sdk.dir`
-pointing
-at
-your
-Android
-SDK
-location (
-already
-tracked
-for
-the
-canonical
-Windows
-path).
+3. Copy or create `local.properties` with `sdk.dir` pointing at your Android SDK
+   location (already tracked for the canonical Windows path).
 
-3.
+4. Open the project in Android Studio or IntelliJ; allow the IDE to import
+   Gradle settings.
 
-Open
-the
-project
-in
-Android
-Studio
-or
-IntelliJ;
-allow
-the
-IDE
-to
-import
-Gradle
-settings.
+5. For desktop development disable “Build on Save” to keep Gradle invocations
+   explicit.
 
-4.
-
-For
-desktop
-development
-disable
-“Build
-on
-Save”
-to
-keep
-Gradle
-invocations
-explicit.
+   > Windows contributors: run `git config core.longpaths true` once in this
+   > repository (or globally) to avoid path-length failures when dealing with
+   > external dependencies.
 
 ## Common Build Commands
 
@@ -264,509 +72,79 @@ gradlew.bat :desktop:run
 gradlew.bat :app:ktlintCheck
 ```
 
-On
-macOS/Linux
-use
-`./gradlew`
-with
-the
-same
-tasks.
-If
-Gradle
-fails
-to
-locate
-the
-Android
-SDK,
-revisit
-`local.properties`
-or
-the
-`ANDROID_HOME`
-environment
+On macOS/Linux use `./gradlew` with the same tasks. If Gradle fails to locate
+the Android SDK, revisit `local.properties` or the `ANDROID_HOME` environment
 variable.
 
 ## Running the Platform
 
--
+- Android agent: Deploy the debug APK to a device/emulator, grant camera,
+  microphone, and storage permissions, and connect required peripherals (Topdon
+  TC001 via USB-C, Shimmer3 via Bluetooth). Simulation toggles are available in
+  the app settings when hardware is absent.
 
-*
+- Desktop orchestrator: Execute `gradlew.bat:desktop:run`. The app discovers
+  agents via mDNS, displays status panels, and exposes session controls. Use
+  matching protobuf versions to avoid gRPC negotiation issues.
 
-*Android
-agent:
-**
-Deploy
-the
-debug
-APK
-to
-a
-device/emulator,
-grant
-camera,
-microphone,
-and
-storage
-permissions,
-and
-connect
-required
-peripherals (
-Topdon
-TC001
-via
-USB-C,
-Shimmer3
-via
-Bluetooth).
-Simulation
-toggles
-are
-available
-in
-the
-app
-settings
-when
-hardware
-is
-absent.
-
--
-
-*
-
-*Desktop
-orchestrator:
-**
-Execute
-`gradlew.bat :desktop:run`.
-The
-app
-discovers
-agents
-via
-mDNS,
-displays
-status
-panels,
-and
-exposes
-session
-controls.
-Use
-matching
-protobuf
-versions
-to
-avoid
-gRPC
-negotiation
-issues.
-
--
-
-*
-
-*Sensor
-tooling:
-**
-Utilities
-under
-`shimmer/`
-cover
-vendor
-workflows;
-tutorials
-for
-the
-removed
-`tools/`
-helpers
-can
-be
-recovered
-from
-the
-repository
-history
-if
-you
-need
-the
-original
-automation
-scripts.
+- Sensor tooling: Utilities under `shimmer/` cover vendor workflows; tutorials
+  for the removed `tools/` helpers can be recovered from the repository history
+  if you need the original automation scripts.
 
 ## Troubleshooting
 
--
+- WSL Gradle failures: Run builds from Windows PowerShell or Command Prompt. WSL
+  access to the Windows-hosted Android SDK is unreliable and can corrupt build
+  caches.
 
-*
+- Android SDK licences: If builds fail with licence prompts, run
+  `"%ANDROID_SDK_ROOT%/cmdline-tools/latest/bin/sdkmanager.bat" --licenses`.
 
-*WSL
-Gradle
-failures:
-**
-Run
-builds
-from
-Windows
-PowerShell
-or
-Command
-Prompt.
-WSL
-access
-to
-the
-Windows-hosted
-Android
-SDK
-is
-unreliable
-and
-can
-corrupt
-build
-caches.
+- Topdon driver: Ensure the Topdon TC001 helper driver is installed so Windows
+  exposes the camera to the Android device; without it the agent falls back to
+  simulation.
 
--
+- Shimmer pairing: Remove stale Bluetooth pairings before testing; the connector
+  enforces explicit state machines to guard against invalid transitions.
 
-*
-
-*Android
-SDK
-licences:
-**
-If
-builds
-fail
-with
-licence
-prompts,
-run
-`"%ANDROID_SDK_ROOT%/cmdline-tools/latest/bin/sdkmanager.bat" --licenses`.
-
--
-
-*
-
-*Topdon
-driver:
-**
-Ensure
-the
-Topdon
-TC001
-helper
-driver
-is
-installed
-so
-Windows
-exposes
-the
-camera
-to
-the
-Android
-device;
-without
-it
-the
-agent
-falls
-back
-to
-simulation.
-
--
-
-*
-
-*Shimmer
-pairing:
-**
-Remove
-stale
-Bluetooth
-pairings
-before
-testing;
-the
-connector
-enforces
-explicit
-state
-machines
-to
-guard
-against
-invalid
-transitions.
-
--
-
-*
-
-*Session
-storage:
-**
-Sessions
-are
-written
-under
-`DesktopApp/sessions/<session-id>` (
-configurable).
-Monitor
-disk
-space
-during
-long
-captures.
+- Session storage: Sessions are written under `DesktopApp/sessions/<session-id>`
+  (configurable). Monitor disk space during long captures.
 
 ## Automation Harness
 
-Use
-the
-automation
-harness
-when
-you
-need
-Copilot,
-Codex,
-or
-Gemini
-CLI
-sessions
-to
-maintain
-momentum
-whilst
-you
-are
-away
-from
-the
-keyboard.
+Use the automation harness when you need Copilot, Codex, or Gemini CLI sessions
+to maintain momentum whilst you are away from the keyboard.
 
--
+- PowerShell loop: `automation/auto_continue.ps1` executes the configured CLI
+  command, replays the default planning prompt, consumes queued prompt files
+  (oldest first), and writes transcripts to `automation/logs/`.
 
-*
+- WSL/Linux loop: `automation/auto_continue.sh` mirrors the PowerShell behaviour
+  with Bash-friendly switches so both shells can share queues and pause files.
 
-*PowerShell
-loop:
-**
-`automation/auto_continue.ps1`
-executes
-the
-configured
-CLI
-command,
-replays
-the
-default
-planning
-prompt,
-consumes
-queued
-prompt
-files (
-oldest
-first),
-and
-writes
-transcripts
-to
-`automation/logs/`.
+- Queue & pause controls: Drop UTF-8 text files into `automation/queue/` to
+  override the default prompt sequence. Create `automation/pause.txt` to halt
+  before the next prompt; delete it to resume.
 
--
+- Command templates: Update the harness arguments if you need to reuse an
+  existing session (for example, sending prompts into tmux). Always include the
+  repository planning reminder so `docs/tasks/active-plan.md` stays
+  authoritative.
 
-*
-
-*WSL/Linux
-loop:
-**
-`automation/auto_continue.sh`
-mirrors
-the
-PowerShell
-behaviour
-with
-Bash-friendly
-switches
-so
-both
-shells
-can
-share
-queues
-and
-pause
-files.
-
--
-
-*
-
-*Queue &
-pause
-controls:
-**
-Drop
-UTF-8
-text
-files
-into
-`automation/queue/`
-to
-override
-the
-default
-prompt
-sequence.
-Create
-`automation/pause.txt`
-to
-halt
-before
-the
-next
-prompt;
-delete
-it
-to
-resume.
-
--
-
-*
-
-*Command
-templates:
-**
-Update
-the
-harness
-arguments
-if
-you
-need
-to
-reuse
-an
-existing
-session (
-for
-example,
-sending
-prompts
-into
-tmux).
-Always
-include
-the
-repository
-planning
-reminder
-so
-`docs/tasks/active-plan.md`
-stays
-authoritative.
-
--
-
-*
-
-*First-run
-checklist:
-**
-Run
-`automation/configure_copilot_trust.ps1`
-once
-so
-Copilot
-trusts
-`C:\`,
-and
-keep
-CLI
-switches
-such
-as
-`--allow-all-paths`/
-`--allow-all-tools`
-in
-the
-template
-for
-unattended
-turns.
+- First-run checklist: Run `automation/configure_copilot_trust.ps1` once so
+  Copilot trusts `C:\`, and keep CLI switches such as `--allow-all-paths`/
+  `--allow-all-tools` in the template for unattended turns.
 
 ## Writing & Style Expectations
 
--
+- Write documentation, comments, and commit messages in British English
+  (`synchronise`, `optimise`, `colour`, `behaviour`).
 
-Write
-documentation,
-comments,
-and
-commit
-messages
-in
-British
-English (
-`synchronise`,
-`optimise`,
-`colour`,
-`behaviour`).
+- Keep American spellings only where APIs demand it (for example,
+  `setBackgroundColor`, JSON keys, protobuf fields).
 
--
+- Prefer the project date formats (`YYYY-MM-DD`) and maintain concise, factual
+  prose.
 
-Keep
-American
-spellings
-only
-where
-APIs
-demand
-it (
-for
-example,
-`setBackgroundColor`,
-JSON
-keys,
-protobuf
-fields).
-
--
-
-Prefer
-the
-project
-date
-formats (
-`YYYY-MM-DD`)
-and
-maintain
-concise,
-factual
-prose.
-
--
-
-Configure
-spell-checkers (
-for
-example,
-cSpell)
-for
-`en-GB`
-to
-avoid
-accidental
-regressions.
+- Configure spell-checkers (for example, cSpell) for `en-GB` to avoid accidental
+  regressions.

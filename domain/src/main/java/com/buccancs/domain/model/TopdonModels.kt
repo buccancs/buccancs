@@ -17,7 +17,14 @@ val SHIMMER_PRIMARY_DEVICE_ID: DeviceId =
 enum class TopdonPalette {
     GRAYSCALE,
     IRONBOW,
-    RAINBOW
+    RAINBOW,
+    ARCTIC
+}
+
+enum class TopdonGainMode {
+    AUTO,
+    HIGH,
+    LOW
 }
 
 enum class TopdonSuperSamplingFactor(
@@ -40,11 +47,13 @@ data class TopdonSettings(
     val autoConnectOnAttach: Boolean = true,
     val palette: TopdonPalette = TopdonPalette.GRAYSCALE,
     val superSampling: TopdonSuperSamplingFactor = TopdonSuperSamplingFactor.X2,
-    val previewFpsLimit: Int = DEFAULT_PREVIEW_FPS_LIMIT
+    val previewFpsLimit: Int = DEFAULT_PREVIEW_FPS_LIMIT,
+    val emissivity: Double = DEFAULT_EMISSIVITY,
+    val gainMode: TopdonGainMode = TopdonGainMode.AUTO
 ) {
     companion object {
-        const val DEFAULT_PREVIEW_FPS_LIMIT =
-            12
+        const val DEFAULT_PREVIEW_FPS_LIMIT = 12
+        const val DEFAULT_EMISSIVITY = 0.95  // Typical for human skin
     }
 }
 

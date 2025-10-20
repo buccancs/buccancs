@@ -7,8 +7,8 @@ import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
-import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonDeviceState
+import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor

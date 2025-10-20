@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -18,6 +17,8 @@ import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TOPDON_TC001_DEVICE_ID
 import com.buccancs.hardware.DeviceScannerService
 import com.buccancs.ui.base.UsbDeviceAttachmentEvent
+import com.buccancs.ui.camera.RgbCameraRoute
+import com.buccancs.ui.camera.RgbCameraSettingsRoute
 import com.buccancs.ui.components.scanner.TopdonDevicePermissionDialog
 import com.buccancs.ui.devices.DevicesRoute
 import com.buccancs.ui.library.SessionDetailRoute
@@ -32,10 +33,7 @@ import com.buccancs.ui.topdon.gallery.TopdonGalleryRoute
 import com.buccancs.ui.topdon.guide.ConnectionGuideRoute
 import com.buccancs.ui.topdon.settings.TopdonSettingsRoute
 import com.buccancs.ui.topdon.thermal.ThermalPreviewRoute
-import com.buccancs.ui.camera.RgbCameraRoute
-import com.buccancs.ui.camera.RgbCameraSettingsRoute
 import kotlinx.coroutines.flow.SharedFlow
-import javax.inject.Inject
 
 @Composable
 fun AppNavHost(

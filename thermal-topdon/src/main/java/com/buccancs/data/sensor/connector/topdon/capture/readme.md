@@ -1,36 +1,15 @@
 # Topdon TC001 Capture Utilities
 
-This
-package
-provides
-hardware
-integration
-utilities
-for
-the
-Topdon
-TC001
-thermal
-camera.
+This package provides hardware integration utilities for the Topdon TC001
+thermal camera.
 
 ## Components
 
 ### TopdonCaptureManager
 
-Manages
-photo
-capture
-and
-video
-recording
-for
-thermal
-frames.
+Manages photo capture and video recording for thermal frames.
 
-*
-
-*Usage:
-**
+- Usage:
 
 ```kotlin
 val captureManager = TopdonCaptureManager(context, deviceId)
@@ -52,18 +31,9 @@ val recordingResult = captureManager.stopRecording()
 
 ### TemperatureExtractor
 
-Extracts
-temperature
-data
-from
-YUV422
-thermal
-frames.
+Extracts temperature data from YUV422 thermal frames.
 
-*
-
-*Usage:
-**
+- Usage:
 
 ```kotlin
 // Full frame statistics
@@ -92,19 +62,9 @@ val areaStats = TemperatureExtractor.extractAreaTemperature(
 
 ### MeasurementProcessor
 
-Implements
-thermal
-measurement
-modes (
-spot,
-area,
-line,
-max/min).
+Implements thermal measurement modes (spot, area, line, max/min).
 
-*
-
-*Usage:
-**
+- Usage:
 
 ```kotlin
 // Spot measurement
@@ -135,94 +95,31 @@ println("Coldest: (${maxMin.minX}, ${maxMin.minY}) = ${maxMin.minTemp}°C")
 
 ## YUV422 Format
 
-The
-TC001
-camera
-outputs
-thermal
-data
-in
-YUV422
-format:
+The TC001 camera outputs thermal data in YUV422 format:
 
--
+- Pattern: Y0 U0 Y1 V0 (4 bytes for 2 pixels)
 
-Pattern:
-Y0
-U0
-Y1
-V0 (
-4
-bytes
-for
-2
-pixels)
+- Y channel contains temperature information (2 bytes per pixel)
 
--
-
-Y
-channel
-contains
-temperature
-information (
-2
-bytes
-per
-pixel)
-
--
-
-Temperature
-range:
--20°C
-to
-550°C
-mapped
-to
-Y
-values
-0-255
+- Temperature range: -20°C to 550°C mapped to Y values 0-255
 
 ## Output Files
 
-Photos:
-`/sdcard/Android/data/com.buccancs/files/Topdon/photos/`
+Photos: `/sdcard/Android/data/com.buccancs/files/Topdon/photos/`
 
--
+- THERMAL_yyyyMMdd_HHmmss.jpg - THERMAL_yyyyMMdd_HHmmss.jpg.json (metadata)
 
-THERMAL_yyyyMMdd_HHmmss.jpg
--
-THERMAL_yyyyMMdd_HHmmss.jpg.json (
-metadata)
+Videos: `/sdcard/Android/data/com.buccancs/files/Topdon/videos/`
 
-Videos:
-`/sdcard/Android/data/com.buccancs/files/Topdon/videos/`
-
--
-
-THERMAL_VIDEO_yyyyMMdd_HHmmss.raw
--
-THERMAL_VIDEO_yyyyMMdd_HHmmss.raw.json (
-metadata)
+- THERMAL_VIDEO_yyyyMMdd_HHmmss.raw - THERMAL_VIDEO_yyyyMMdd_HHmmss.raw.json
+  (metadata)
 
 ## Testing
 
-Unit
-tests:
-`app/src/test/.../capture/`
+Unit tests: `app/src/test/.../capture/`
 
--
+- TemperatureExtractorTest.kt - 8 tests
 
-TemperatureExtractorTest.kt -
-8
-tests
+- MeasurementProcessorTest.kt - 12 tests
 
--
-
-MeasurementProcessorTest.kt -
-12
-tests
-
-Run
-tests:
-`./gradlew test`
+Run tests: `./gradlew test`

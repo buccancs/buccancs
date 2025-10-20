@@ -181,7 +181,12 @@ private fun VideoSettingsCard(
 
         OutlinedTextField(
             value = state.videoFps,
-            onValueChange = { onFieldChanged(com.buccancs.domain.usecase.RgbCameraField.VIDEO_FPS, it) },
+            onValueChange = {
+                onFieldChanged(
+                    com.buccancs.domain.usecase.RgbCameraField.VIDEO_FPS,
+                    it
+                )
+            },
             label = { Text("Frame Rate (fps)") },
             supportingText = { Text("Recommended: 30 or 60 fps") },
             isError = state.errors.containsKey(com.buccancs.domain.usecase.RgbCameraField.VIDEO_FPS),
@@ -198,7 +203,12 @@ private fun VideoSettingsCard(
 
         OutlinedTextField(
             value = state.videoBitRate,
-            onValueChange = { onFieldChanged(com.buccancs.domain.usecase.RgbCameraField.VIDEO_BIT_RATE, it) },
+            onValueChange = {
+                onFieldChanged(
+                    com.buccancs.domain.usecase.RgbCameraField.VIDEO_BIT_RATE,
+                    it
+                )
+            },
             label = { Text("Bitrate (bps)") },
             supportingText = { Text("Higher bitrate = better quality, larger files") },
             isError = state.errors.containsKey(com.buccancs.domain.usecase.RgbCameraField.VIDEO_BIT_RATE),
@@ -290,7 +300,12 @@ private fun RawCaptureCard(
         if (state.rawEnabled) {
             OutlinedTextField(
                 value = state.rawIntervalMs,
-                onValueChange = { onFieldChanged(com.buccancs.domain.usecase.RgbCameraField.RAW_INTERVAL_MS, it) },
+                onValueChange = {
+                    onFieldChanged(
+                        com.buccancs.domain.usecase.RgbCameraField.RAW_INTERVAL_MS,
+                        it
+                    )
+                },
                 label = { Text("Capture interval (ms)") },
                 supportingText = { Text("Time between RAW captures") },
                 isError = state.errors.containsKey(com.buccancs.domain.usecase.RgbCameraField.RAW_INTERVAL_MS),
@@ -327,7 +342,12 @@ private fun CameraControlsCard(
 
         OutlinedTextField(
             value = state.exposureNs,
-            onValueChange = { onFieldChanged(com.buccancs.domain.usecase.RgbCameraField.EXPOSURE_NS, it) },
+            onValueChange = {
+                onFieldChanged(
+                    com.buccancs.domain.usecase.RgbCameraField.EXPOSURE_NS,
+                    it
+                )
+            },
             label = { Text("Exposure time (ns)") },
             supportingText = { Text("Optional: Manual exposure control") },
             isError = state.errors.containsKey(com.buccancs.domain.usecase.RgbCameraField.EXPOSURE_NS),
@@ -347,7 +367,12 @@ private fun CameraControlsCard(
 
         OutlinedTextField(
             value = state.focusMeters,
-            onValueChange = { onFieldChanged(com.buccancs.domain.usecase.RgbCameraField.FOCUS_METERS, it) },
+            onValueChange = {
+                onFieldChanged(
+                    com.buccancs.domain.usecase.RgbCameraField.FOCUS_METERS,
+                    it
+                )
+            },
             label = { Text("Focus distance (m)") },
             supportingText = { Text("Optional: Manual focus distance") },
             isError = state.errors.containsKey(com.buccancs.domain.usecase.RgbCameraField.FOCUS_METERS),
@@ -356,7 +381,8 @@ private fun CameraControlsCard(
         )
 
         var awbExpanded by remember { mutableStateOf(false) }
-        val awbOptions = listOf("auto", "incandescent", "fluorescent", "daylight", "cloudy", "shade")
+        val awbOptions =
+            listOf("auto", "incandescent", "fluorescent", "daylight", "cloudy", "shade")
 
         ExposedDropdownMenuBox(
             expanded = awbExpanded,
