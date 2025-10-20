@@ -22,9 +22,11 @@ platform. Use the map below to jump to the guide that matches your current task.
 - `../AGENTS.md` – Canonical contributor playbook; read before running
   automation or making changes.
 
-- `tasks/active-plan.md` – Current objective, acceptance criteria, risks, and
-  work streams. Update it as the goal evolves so automation and reviewers stay
-  aligned.
+- `tasks/active-plan.md` – Current multi-modal capture objective, acceptance
+  criteria, risks, and work streams. Update it as the goal evolves so automation
+  and reviewers stay aligned.
+- `tasks/topdon-integration-summary.md` – Completed TC001 hardware phases and
+  candidate follow-up items.
 
 ## Tooling & Assets
 
@@ -34,9 +36,13 @@ platform. Use the map below to jump to the guide that matches your current task.
 - `docs/latex/` – Thesis chapters and academic artefacts retained for research
   deliverables.
 
-- `ircamera-gradle-integration.md` & `ircamera-build-quickstart.md` – Reference
-  notes for the external IRCamera module (submodule sync, build entry points,
-  APK locations).
+- `ircamera-architecture-analysis.md` – Deep dive into the upstream Topdon app
+  architecture for inspiration.
+- `ircamera-topdon-reference.md` – Snapshot of official Topdon build targets,
+  Gradle settings, and module layout.
+- `ircamera-gradle-integration.md` & `ircamera-build-quickstart.md` – Build
+  notes for the external IRCamera module (submodule sync, entry points, APK
+  locations).
 
 ## Historical Material
 

@@ -9,6 +9,10 @@ Store active and archived task plans in this directory.
 - When a plan is completed, rename it to a dated archive (for example,
   `task-plan-2025-10-16-completion.md`) before starting the next plan.
 
+- Capture completed milestones in a sibling note (for example,
+  `topdon-integration-summary.md`) so historic context stays close without
+  bloating `active-plan.md`.
+
 - Each task list should be actionable by a single agent session and include any
   prerequisites, verification steps, and expected artefacts (code changes,
   tests, documentation).

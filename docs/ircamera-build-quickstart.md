@@ -32,4 +32,4 @@
 
 ## Status ✅ IRCamera successfully added to Gradle build system ✅ Task registered and ready to use ✅ Integrated with aggregate build tasks ✅ Documentation complete
 
-## See Also - Full documentation: `docs/ircamera-gradle-integration.md` - Architecture analysis: `IRCAMERA_ARCHITECTURE_ANALYSIS.md`
+## See Also - Full documentation: `docs/ircamera-gradle-integration.md` - Architecture analysis: `docs/ircamera-architecture-analysis.md`

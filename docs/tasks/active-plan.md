@@ -1,62 +1,74 @@
-# Active Task Plan: Documentation Consolidation
+# Active Task Plan: Multi-Modal Capture Interface
 
-- Created: 2025-10-18
-
-- Target completion: 2025-10-18
-
-- Status: 🟢 Completed
+- Created: 2025-10-20
+- Target completion: 2025-11-01
+- Status: 🟡 In progress
 
 ## Objective
 
-Prune the sprawling documentation set and replace it with a compact collection
-of living guides that cover platform essentials, day-to-day workflows, and
-validation drills without losing critical knowledge.
+Design and ship a unified capture experience that controls thermal (Topdon),
+RGB, and Shimmer sensors from a single screen. Build on the completed Topdon
+Phase 1 & 2 work and align with the `Topdon Integration Summary`.
 
 ## Acceptance Criteria
 
-1. Core documentation reduced to a curated set (`system-overview.md`,
-   `requirements.md`, `development.md`, `testing.md`, `index.md`, `agents.md`,
-   and `tasks/`).
-
-2. Key hardware, automation, and manual-test guidance folded into the surviving
-   documents.
-
-3. `docs/index.md` updated to reflect the streamlined layout and point at
-   supporting assets (automation harness, thesis material, active plan).
-
-4. Redundant directories (analysis, project diaries, deep-dive guides,
-   visualisations, etc.) removed from the repository.
-
-5. `docs/tasks/active-plan.md` rewritten to reflect the documentation work and
-   remain the authoritative planning artefact.
+1. Shared recording surface that can connect, preview, and start/stop capture
+   for IR + RGB + Shimmer simultaneously.
+2. Palette, emissivity, and gain settings surfaced within the unified view,
+   reusing the hardware APIs delivered in Phase 2.
+3. RGB preview upgraded with focus, zoom, exposure controls comparable to the
+   thermal UI.
+4. Shimmer panel exposes live waveform and connection diagnostics.
+5. Recording pipeline writes synchronized metadata for all modalities (frame
+   timestamps, sensor identifiers) ready for downstream analysis.
+6. Regression tests or scripted drills documented so future changes defend the
+   multi-modal contract.
 
 ## Task Breakdown
 
-- [x] Audit the `docs/` tree, label redundant folders, and decide which
-      knowledge must be preserved. - [x] Update `system-overview.md`,
-      `development.md`, and `testing.md` with merged content (hardware status,
-      automation harness usage, condensed manual drills). - [x] Refresh
-      `requirements.md` references and rebuild `docs/index.md` as the navigation
-      hub. - [x] Delete legacy documentation folders/files (`analysis/`,
-      `architecture/`, `automation/`, `project/`, historical guides, conversion
-      notes, etc.) to complete the prune. - [x] Capture this consolidation in
-      `docs/tasks/active-plan.md` and outline follow-up housekeeping.
+- [ ] UX design spike: refine the unified capture mock based on the design
+      notes below and produce final layouts with navigation + empty states.  
+- [ ] ViewModel architecture: define shared session state, recording control
+      actions, and error surfaces.  
+- [ ] RGB enhancements: extend camera connector with manual exposure/zoom plus
+      preview overlays.  
+- [ ] Shimmer telemetry: add waveform rendering and richer status indicators in
+      `ShimmerConnectorManager`.  
+- [ ] Capture pipeline: persist synchronized metadata and verify storage format
+      across warm/cold starts.  
+- [ ] Verification suite: document manual QA flow and add automated smoke tests
+      where feasible (e.g., simulated connectors).
 
-## Residual Risks & Follow-Up Ideas
+## Dependencies & Risks
 
 | Item | Notes | Owner |
-|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
-| Missing niche instructions | Some deep-dive reports now live only in Git
-history; restore on demand if research work resumes. | Team | | Automation deep
-dive | Advanced auto-continue docs were trimmed; recreate a focused guide if the
-harness evolves beyond the summary in `development.md`. | Automation | | Visual
-assets | Diagrams were removed alongside `visualizations/`; consider scripting
-exports from design tools if diagrams are still required. | Design |
+|------|-------|-------|
+| IRCMD coverage | Ensure new commands (auto shutter, calibration) remain stable; reuse helpers outlined in `Topdon Integration Summary`. | Thermal team |
+| Performance | Combined previews may strain low-end tablets; budget render and encoding costs early. | Mobile |
+| Storage layout | Multi-modal recordings will grow quickly; confirm retention policy with research team. | Product |
 
-## Next Actions
+## Reference Material
 
-1. Socialise the new structure with maintainers so personal notes move to
-   private archives instead of `docs/`.
+- `docs/tasks/topdon-integration-summary.md` – hardware capability baseline.
+- `docs/ircamera-architecture-analysis.md` – patterns to borrow from the
+  upstream Topdon app.
+- `docs/telemetry-ui-improvements.md` – prior Compose patterns for monitoring
+  dashboards.
+
+## Design Notes (carry-over from proposal)
+
+- Single screen tabs or segmented control to switch between combined preview,
+  settings, and recording history.  
+- Thermal preview retains palette/emissivity quick toggles; RGB preview adds
+  zoom/focus sliders; Shimmer panel shows live waveform and connection badges.  
+- Unified "Record All" control with per-sensor status indicators and capture
+  timers.  
+- Contextual tooltips to explain advanced thermal settings (gain, emissivity).
+
+## Next Checkpoint
+
+Schedule design + engineering review on 2025-10-24 to lock the unified UX and
+divide implementation tasks across teams.
 
 2. Reinstate a compact automation reference if new workflows surface.
 

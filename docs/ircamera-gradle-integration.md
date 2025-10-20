@@ -98,6 +98,10 @@ Topdon) 3. Add dependency relationships between main app and IRCamera modules 4.
 Extract IRCamera libraries as composite builds for direct integration 5.
 Automate APK signing configuration
 
-## Related Documentation - `IRCAMERA_ARCHITECTURE_ANALYSIS.md` - Detailed IRCamera architecture analysis - `external/IRCamera/README.md` - IRCamera project documentation (if available) - Main project build documentation
+## Related Documentation
+
+- `ircamera-architecture-analysis.md` – Detailed IRCamera architecture analysis.
+- `ircamera-topdon-reference.md` – Snapshot of official Topdon build targets.
+- `external/IRCamera/README.md` – Upstream project documentation (if present).
 
 ## Notes - IRCamera maintains its own version of dependencies - It uses older Android Gradle Plugin (7.1.3) and Kotlin (1.7.20) - The project uses Chinese Maven mirrors (Aliyun) for faster builds in China - Build is isolated - failures don't affect the main Buccancs project
