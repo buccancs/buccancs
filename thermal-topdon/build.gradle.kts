@@ -37,8 +37,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":thermal-simulated"))
     implementation(project(":storage"))
-
-    compileOnly("topdon:topdon@aar")
+    api(project(":topdon-runtime"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

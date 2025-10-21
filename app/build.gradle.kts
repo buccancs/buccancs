@@ -176,7 +176,6 @@ dependencies {
             ":storage"
         )
     )
-    runtimeOnly("topdon:topdon@aar")
     implementation(
         composeBom
     )

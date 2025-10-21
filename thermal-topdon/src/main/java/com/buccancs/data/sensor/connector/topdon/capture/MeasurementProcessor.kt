@@ -8,7 +8,7 @@ import kotlin.math.min
  * Processes thermal measurements for different modes
  * Implements spot, area, line, and max/min measurement calculations
  */
-internal object MeasurementProcessor {
+object MeasurementProcessor {
 
     /**
      * Spot measurement at single point

@@ -2,8 +2,8 @@ package com.buccancs.di
 
 import com.buccancs.data.preview.PreviewStreamClient
 import com.buccancs.data.preview.PreviewStreamUploader
-import com.buccancs.data.sensor.SensorStreamClient
 import com.buccancs.data.sensor.SensorStreamUploader
+import com.buccancs.domain.sensor.SensorStreamClient
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
