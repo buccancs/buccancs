@@ -1,0 +1,38 @@
+*** Begin Patch
+*** Update File: thermal-topdon/src/main/java/com/buccancs/data/sensor/topdon/DefaultTopdonDeviceRepository.kt
+@@
+-        val snapshotFlow =
+-            combine(
+-                sensorRepository.devices,
+-                sensorRepository.streamStatuses,
+-                previewRunningFlow,
+-                previewFrameFlow,
+-                activeDeviceId
+-            ) { devices, statuses, previewActive, frame, deviceId ->
+-                TopdonSnapshot(
+-                    deviceId = deviceId,
+-                    devices = devices,
+-                    statuses = statuses,
+-                    previewActive = previewActive,
+-                    frame = frame
+-                )
+-            }
++        val snapshotFlow =
++            combine(
++                sensorRepository.devices,
++                sensorRepository.streamStatuses,
++                previewRunningFlow,
++                previewFrameFlow,
++                calibrationFlow,
++                activeDeviceId
++            ) { devices, statuses, previewActive, frame, lastCalibration, deviceId ->
++                TopdonSnapshot(
++                    deviceId = deviceId,
++                    devices = devices,
++                    statuses = statuses,
++                    previewActive = previewActive,
++                    frame = frame,
++                    lastCalibration = lastCalibration
++                )
++            }
+*** End Patch

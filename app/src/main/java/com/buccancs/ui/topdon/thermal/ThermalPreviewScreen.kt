@@ -62,6 +62,7 @@ import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.topdon.ThermalUiStateCode
 import com.buccancs.ui.topdon.TopdonUiState
 import com.buccancs.ui.topdon.TopdonViewModel
+import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget
 import kotlin.math.roundToInt
 
 /**
@@ -102,7 +103,9 @@ fun ThermalPreviewRoute(
         onStopRecording = viewModel::stopRecording,
         onSelectPalette = viewModel::selectPalette,
         onSelectSuperSampling = viewModel::selectSuperSampling,
-        onUpdatePreviewFps = viewModel::updatePreviewFps
+        onUpdatePreviewFps = viewModel::updatePreviewFps,
+        onMeasurementModeSelected = viewModel::setMeasurementMode,
+        onMeasurementTargetChange = viewModel::updateMeasurementTarget
     )
 }
 
@@ -123,7 +126,9 @@ private fun ThermalPreviewScreen(
     onStopRecording: () -> Unit,
     onSelectPalette: (TopdonPalette) -> Unit,
     onSelectSuperSampling: (TopdonSuperSamplingFactor) -> Unit,
-    onUpdatePreviewFps: (Int) -> Unit
+    onUpdatePreviewFps: (Int) -> Unit,
+    onMeasurementModeSelected: (MeasurementMode) -> Unit,
+    onMeasurementTargetChange: (ThermalMeasurementTarget) -> Unit
 ) {
     val (previewIcon, chipContainer, chipLabelColour) =
         when (state.previewStateCode) {
@@ -171,11 +176,8 @@ private fun ThermalPreviewScreen(
                 )
         }
     var settingsExpanded by remember { mutableStateOf(false) }
-    var measurementMode by remember {
-        mutableStateOf(
-            MeasurementMode.SPOT
-        )
-    }
+    val measurementMode = state.measurementMode
+    val measurementTarget = state.measurementTarget
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -237,6 +239,9 @@ private fun ThermalPreviewScreen(
                     state = state,
                     onConnect = onConnect,
                     onRefresh = onRefresh,
+                    measurementMode = measurementMode,
+                    measurementTarget = measurementTarget,
+                    onMeasurementTargetChange = onMeasurementTargetChange,
                     modifier = Modifier.weight(
                         1f
                     )
@@ -245,10 +250,7 @@ private fun ThermalPreviewScreen(
                 ThermalControlPanel(
                     state = state,
                     measurementMode = measurementMode,
-                    onMeasurementModeSelected = {
-                        measurementMode =
-                            it
-                    },
+                    onMeasurementModeSelected = onMeasurementModeSelected,
                     onStartPreview = onStartPreview,
                     onStopPreview = onStopPreview,
                     onCapture = onCapture,
@@ -305,7 +307,9 @@ fun ThermalPreviewPane(
     onStopRecording: () -> Unit,
     onSelectPalette: (TopdonPalette) -> Unit,
     onSelectSuperSampling: (TopdonSuperSamplingFactor) -> Unit,
-    onUpdatePreviewFps: (Int) -> Unit
+    onUpdatePreviewFps: (Int) -> Unit,
+    onMeasurementModeSelected: (MeasurementMode) -> Unit,
+    onMeasurementTargetChange: (ThermalMeasurementTarget) -> Unit
 ) {
     val (previewIcon, chipContainer, chipLabelColour) =
         when (state.previewStateCode) {
@@ -353,7 +357,8 @@ fun ThermalPreviewPane(
                 )
         }
     var settingsExpanded by remember { mutableStateOf(false) }
-    var measurementMode by remember { mutableStateOf(MeasurementMode.SPOT) }
+    val measurementMode = state.measurementMode
+    val measurementTarget = state.measurementTarget
 
     Box(
         modifier = modifier
@@ -369,13 +374,16 @@ fun ThermalPreviewPane(
                 state = state,
                 onConnect = onConnect,
                 onRefresh = onRefresh,
+                measurementMode = measurementMode,
+                measurementTarget = measurementTarget,
+                onMeasurementTargetChange = onMeasurementTargetChange,
                 modifier = Modifier.weight(1f)
             )
 
             ThermalControlPanel(
                 state = state,
                 measurementMode = measurementMode,
-                onMeasurementModeSelected = { measurementMode = it },
+                onMeasurementModeSelected = onMeasurementModeSelected,
                 onStartPreview = onStartPreview,
                 onStopPreview = onStopPreview,
                 onCapture = onCapture,
@@ -534,6 +542,9 @@ private fun ThermalPreviewArea(
     state: TopdonUiState,
     onConnect: () -> Unit,
     onRefresh: () -> Unit,
+    measurementMode: MeasurementMode,
+    measurementTarget: ThermalMeasurementTarget,
+    onMeasurementTargetChange: (ThermalMeasurementTarget) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -594,6 +605,10 @@ private fun ThermalPreviewArea(
                 if (previewFrame != null) {
                     ThermalFrameDisplay(
                         frame = previewFrame,
+                        settings = state.settings,
+                        measurementMode = measurementMode,
+                        measurementTarget = measurementTarget,
+                        onSelectionChange = onMeasurementTargetChange,
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {

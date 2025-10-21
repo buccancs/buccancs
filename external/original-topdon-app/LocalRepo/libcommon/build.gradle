@@ -1,9 +1,7 @@
-configurations
-        .maybeCreate(
+configurations.maybeCreate(
                 "default"
         )
-artifacts
-        .add(
+artifacts.add(
                 "default",
                 file('libcommon_1.2.0_24052117.aar')
         )

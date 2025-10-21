@@ -1,9 +1,7 @@
-configurations
-        .maybeCreate(
+configurations.maybeCreate(
                 "default"
         )
-artifacts
-        .add(
+artifacts.add(
                 "default",
                 file('libAC020sdk_USB_IR_1.1.1_2408291439.aar')
         )

@@ -11,86 +11,49 @@ kapt {
     arguments {
         arg(
                 "AROUTER_MODULE_NAME",
-                project
-                        .getName()
+                project.getName()
         )
     }
 }
 
 android {
     namespace 'com.csl.irCamera'
-    compileSdk
-    rootProject
-            .ext
-            .android
-            .compileSdk
+    compileSdk rootProject.ext.android.compileSdk as Integer
+
     defaultConfig {
-        applicationId
-        rootProject
-                .ext
-                .android
-                .applicationId
-        minSdk rootProject
-                .ext
-                .android
-                .minSdk
-        targetSdk
-        rootProject
-                .ext
-                .android
-                .targetSdk
-        versionCode
-        rootProject
-                .ext
-                .android
-                .versionCode
-        versionName
-        rootProject
-                .ext
-                .android
-                .versionName
-        ndkVersion
-        rootProject
-                .ext
-                .android
-                .ndkVersion
+        applicationId rootProject.ext.android.applicationId
+        minSdk rootProject.ext.android.minSdk as Integer
+        targetSdk rootProject.ext.android.targetSdk as Integer
+        versionCode rootProject.ext.android.versionCode as Integer
+        versionName rootProject.ext.android.versionName
+        ndkVersion rootProject.ext.android.ndkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
             abiFilters "arm64-v8a"
         }
 
-        buildConfigField "String",
-                "VERSION_DATE",
-                "\"$dayStr\""
-        manifestPlaceholders =
-                [
-                        JPUSH_PKGNAME:
-                                applicationId,
-                        JPUSH_APPKEY : "cbd4eafc9049d751fc5a8c58",
-                        JPUSH_CHANNEL: "developer-default",
-                ]
+        buildConfigField "String", "VERSION_DATE", "\"$dayStr\""
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "cbd4eafc9049d751fc5a8c58",
+                JPUSH_CHANNEL: "developer-default",
+        ]
 
-        setProperty(
-                "archivesBaseName",
-                "TC001-v${versionName}.google"
-        )
+        setProperty("archivesBaseName", "TC001-v${versionName}.google")
     }
 
     bundle {
         language {
-            enableSplit =
-                    false
+            enableSplit = false
         }
     }
 
     buildFeatures {
-        buildConfig =
-                true
-        viewBinding =
-                true
-        compose =
-                true
+        buildConfig true
+        viewBinding true
+        compose true
+        dataBinding true
     }
 
     /*
@@ -112,50 +75,37 @@ android {
     }
     */
 
-
     buildTypes {
         debug {
             //signingConfig signingConfigs.debug // Disabled - no keystore
             minifyEnabled false
-            proguardFiles
-            getDefaultProguardFile(
-                    'proguard-android.txt'
-            ) ,
-            'proguard-rules.pro'
+            proguardFiles(
+                    getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+            )
         }
         release {
             //signingConfig signingConfigs.release // Disabled - no keystore
             minifyEnabled false
-            proguardFiles
-            getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            ) ,
-            'proguard-rules.pro'
+            proguardFiles(
+                    getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+            )
         }
     }
 
-    applicationVariants
-            .all {
-                variant
-                    ->
-                    versionApk(
-                            variant,
-                            defaultConfig
-                    )
-            }
+    applicationVariants.all { variant ->
+        versionApk(variant, defaultConfig)
+    }
 
     compileOptions {
-        sourceCompatibility
-        JavaVersion
-                .VERSION_21
-        targetCompatibility
-        JavaVersion
-                .VERSION_21
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget =
-                '21'
+        jvmTarget = '21'
     }
+
     packagingOptions {
         merge 'META-INF/LICENSE-notice.md'
         merge 'META-INF/LICENSE.md'
@@ -179,22 +129,13 @@ android {
         pickFirst 'lib/armeabi-v7a/liblog.so'
         doNotStrip "**/*.so"
     }
-    kotlinOptions {
-        jvmTarget =
-                '1.8'
-    }
-    buildFeatures {
-        dataBinding =
-                true
-    }
+
     flavorDimensions 'app'
 
     productFlavors {
         dev {
             dimension 'app'
-            buildConfigField "int",
-                    "ENV_TYPE",
-                    "0"
+            buildConfigField "int", "ENV_TYPE", "0"
             buildConfigField(
                     "String",
                     "SOFT_CODE",
@@ -338,12 +279,8 @@ android {
                     "\"${rootProject.ext.appSecret.topInfraredCN10}\""
             )
             versionCode
-            rootProject
-                    .ext
-                    .android
-                    .versionCode +
-                    getYearStr()
-                            .toInteger() * 10000
+            rootProject.ext.android.versionCode +
+                    getYearStr().toInteger() * 10000
             manifestPlaceholders =
                     [
                             app_name: "热视界",
@@ -353,97 +290,76 @@ android {
 }
 
 static def getYearStr() {
-    return new Date()
-            .format('yy')
+    return new Date().format('yy')
 }
 
 static def getDayStr() {
-    return new Date()
-            .format('yyMMdd')
+    return new Date().format('yyMMdd')
 }
 
 static def getTimeStr() {
-    return new Date()
-            .format('HHmm')
+    return new Date().format('HHmm')
 }
 
 def versionApk(
         variant,
         defaultConfig
 ) {
-    variant
-            .outputs
-            .all {
+    variant.outputs.all {
                 def appName = "TopInfrared.apk"
                 def nameStr = "TopInfrared_" +
-                        defaultConfig
-                                .versionName + "." +
+                        defaultConfig.versionName + "." +
                         dayStr
-                if (variant
-                        .name == "devDebug") {
+                if (variant.name == "devDebug") {
                     appName =
                             "TopInfrared-v" +
-                                    defaultConfig
-                                            .versionName + "-debug.apk"
+                                    defaultConfig.versionName + "-debug.apk"
                 } else if (
-                        variant
-                                .name == "devRelease") {
+                        variant.name == "devRelease") {
                     appName =
                             nameStr + "-release.apk"
                 } else if (
-                        variant
-                                .name == "betaDebug") {
+                        variant.name == "betaDebug") {
                     appName =
                             nameStr + "_beta_debug.apk"
                 } else if (
-                        variant
-                                .name == "betaRelease") {
+                        variant.name == "betaRelease") {
                     appName =
                             nameStr + "_beta.apk"
                 } else if (
-                        variant
-                                .name == "prodDebug") {
+                        variant.name == "prodDebug") {
                     appName =
                             nameStr + "_debug.apk"
                 } else if (
-                        variant
-                                .name == "prodRelease") {
+                        variant.name == "prodRelease") {
                     appName =
                             nameStr + ".apk"
                 } else if (
-                        variant
-                                .name == "prodTopdonDebug") {
+                        variant.name == "prodTopdonDebug") {
                     appName =
                             "TopInfrared_Android10_" +
-                                    defaultConfig
-                                            .versionName + "." +
+                                    defaultConfig.versionName + "." +
                                     dayStr + "_debug.apk"
                 } else if (
-                        variant
-                                .name == "prodTopdonRelease") {
+                        variant.name == "prodTopdonRelease") {
                     appName =
                             "TopInfrared_Android10_" +
-                                    defaultConfig
-                                            .versionName + "." +
+                                    defaultConfig.versionName + "." +
                                     dayStr + ".apk"
                 } else if (
-                        variant
-                                .name == "insideChinaDebug") {
+                        variant.name == "insideChinaDebug") {
                     appName =
                             nameStr + "_debug.apk"
                 } else if (
-                        variant
-                                .name == "insideChinaRelease") {
+                        variant.name == "insideChinaRelease") {
                     appName =
                             nameStr + ".apk"
                 } else if (
-                        variant
-                                .name == "prodTopdonInsideChinaDebug") {
+                        variant.name == "prodTopdonInsideChinaDebug") {
                     appName =
                             nameStr + "_debug.apk"
                 } else if (
-                        variant
-                                .name == "prodTopdonInsideChinaRelease") {
+                        variant.name == "prodTopdonInsideChinaRelease") {
                     appName =
                             nameStr + ".apk"
                 }
@@ -463,25 +379,20 @@ def copyApk(
         rename {
             String fileName
                 ->
-                if (flavor
-                        .contains(
+                if (flavor.contains(
                                 "Topdon"
                         )) {
-                    fileName
-                            .substring(
+                    fileName.substring(
                                     0,
-                                    fileName
-                                            .lastIndexOf(
+                                    fileName.lastIndexOf(
                                                     ".apk"
                                             )
                             ) + '_build' +
                             timeStr + '(Topdon).apk'
                 } else {
-                    fileName
-                            .substring(
+                    fileName.substring(
                                     0,
-                                    fileName
-                                            .lastIndexOf(
+                                    fileName.lastIndexOf(
                                                     ".apk"
                                             )
                             ) + '_build' +
@@ -501,11 +412,9 @@ def copyAab(
         rename {
             String fileName
                 ->
-                fileName
-                        .substring(
+                fileName.substring(
                                 0,
-                                fileName
-                                        .lastIndexOf(
+                                fileName.lastIndexOf(
                                                 ".google"
                                         )
                         ) + "." +
@@ -570,57 +479,47 @@ def copyAab(
 // }
 
 dependencies {
-    implementation
-    project(':component:pseudo')
-    implementation
-    project(':component:thermal-ir')
-    implementation
-    project(':component:thermal-lite')
+    implementation project(':component:pseudo')
+
+    implementation project(':component:thermal-ir')
+implementation project(':component:thermal-lite')
     //implementation project(':component:thermal04') // Removed - different device (not TC001)
     //implementation project(':component:thermal07') // Removed - different device (not TC001)
-    implementation
-    project(':component:transfer')
-    implementation
-    project(':component:user')
-    implementation
-    project(':libapp')
-    implementation
-    project(':libcom')
-    implementation
-    project(':libir')
-    implementation
-    project(':libmenu')
-    implementation
-    project(':libui')
-
-    kapt libs
-            .arouter
-            .compiler
+implementation project(':component:transfer')
+implementation project(':component:user')
+implementation project(':libapp')
+implementation project(':libcom')
+implementation project(':libir')
+implementation project(':libmenu')
+implementation project(':libui')
+kapt libs.arouter.compiler
 
     // Compose BOM
     def composeBom =
             platform(
                     'androidx.compose:compose-bom:2024.09.03'
             )
-    implementation
-    composeBom
-    androidTestImplementation
-    composeBom
+    implementation composeBom
+
+    androidTestImplementation composeBom
 
     // Material 3
     implementation 'androidx.compose.material3:material3'
+
     implementation 'androidx.compose.material3:material3-window-size-class'
 
     // Compose Foundation
     implementation 'androidx.compose.foundation:foundation'
+
     implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
+implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
     // Integration with Activities and ViewModels
     implementation 'androidx.activity:activity-compose:1.9.2'
+
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6'
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.6'
+implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.6'
 
     // Navigation
     implementation 'androidx.navigation:navigation-compose:2.8.2'
@@ -630,39 +529,22 @@ dependencies {
 
     // Accompanist (for system UI controller, pager, etc.)
     implementation 'com.google.accompanist:accompanist-systemuicontroller:0.36.0'
+
     implementation 'com.google.accompanist:accompanist-pager:0.36.0'
-    implementation 'com.google.accompanist:accompanist-pager-indicators:0.36.0'
+implementation 'com.google.accompanist:accompanist-pager-indicators:0.36.0'
 
     // Coil for image loading
     implementation 'io.coil-kt:coil-compose:2.7.0'
 
     //     implementation libs.jsbridge // Web bridge not used
-    implementation
-    libs
-            .fastjson
-    implementation
-    libs
-            .ucrop
+     implementation libs.fastjson
+implementation libs.ucrop
     //     implementation libs.app.update // Update feature removed
-    implementation
-    libs
-            .immersionbar
-    implementation
-    libs
-            .xpopup
-    implementation
-    libs
-            .smartrefresh
-            .kernel
-    implementation
-    libs
-            .smartrefresh
-            .header
-            .classics
-    implementation
-    libs
-            .wechat
-            .sdk
+     implementation libs.immersionbar
+implementation libs.xpopup
+implementation libs.smartrefresh.kernel
+implementation libs.smartrefresh.header.classics
+implementation libs.wechat.sdk
     //     implementation libs.umeng // Analytics removed.apm
     //     implementation libs.mobilisten // Analytics removed
     //implementation platform(libs.firebase.bom) // Firebase removed

@@ -9,30 +9,18 @@ kapt {
     arguments {
         arg(
                 "AROUTER_MODULE_NAME",
-                project
-                        .getName()
+                project.getName()
         )
     }
 }
 
 android {
     namespace "com.topdon.module.thermal.ir"
-    compileSdk
-    rootProject
-            .ext
-            .android
-            .compileSdk
+    compileSdk rootProject.ext.android.compileSdk
 
     defaultConfig {
-        minSdk rootProject
-                .ext
-                .android
-                .minSdk
-        targetSdk
-        rootProject
-                .ext
-                .android
-                .targetSdk
+        minSdk rootProject.ext.android.minSdk
+        targetSdk rootProject.ext.android.targetSdk
 
         buildConfigField "String",
                 "VERSION_NAME",
@@ -43,24 +31,15 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles
-            getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            ) ,
-            'proguard-rules.pro'
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
         }
     }
     compileOptions {
-        sourceCompatibility
-        JavaVersion
-                .VERSION_21
-        targetCompatibility
-        JavaVersion
-                .VERSION_21
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget =
-                '21'
+        jvmTarget = '21'
     }
     buildFeatures {
         buildConfig =
@@ -104,58 +83,47 @@ dependencies {
             ext: 'aar'
     )
 
-    implementation
-    project(':libapp')
-    implementation
-    project(':libcom')
-    implementation
-    project(':libir')
-    implementation
-    project(':libmenu')
-    implementation
-    project(':libui')
-    implementation
-    project(':component:pseudo')
+    implementation project(':libapp')
 
-    kapt libs
-            .arouter
-            .compiler
-    api libs
-            .lottie
-    api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'
 
-    api libs
-            .compass
-            .sense
-    api libs
-            .compass
-            .core
-    implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.1.4"
-    implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-exo_player2:v8.1.4"
-    implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv64:v8.1.4"
+    implementation project(':libcom')
+implementation project(':libir')
+implementation project(':libmenu')
+implementation project(':libui')
+implementation project(':component:pseudo')
+kapt libs.arouter.compiler
+api libs.lottie
+api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'
+api libs.compass.sense
+api libs.compass.core
+implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.1.4"
+implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-exo_player2:v8.1.4"
+implementation "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv64:v8.1.4"
 
     // Compose BOM
     def composeBom =
             platform(
                     'androidx.compose:compose-bom:2024.09.03'
             )
-    implementation
-    composeBom
+    implementation composeBom
 
     // Material 3
     implementation 'androidx.compose.material3:material3'
+
     implementation 'androidx.compose.material3:material3-window-size-class'
 
     // Compose Foundation
     implementation 'androidx.compose.foundation:foundation'
+
     implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
+implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
     // Integration with Activities and ViewModels
     implementation 'androidx.activity:activity-compose:1.9.2'
+
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6'
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.6'
+implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.6'
 
     // Material Icons Extended
     implementation 'androidx.compose.material:material-icons-extended'

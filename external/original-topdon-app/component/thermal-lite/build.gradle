@@ -8,8 +8,7 @@ kapt {
     arguments {
         arg(
                 "AROUTER_MODULE_NAME",
-                project
-                        .getName()
+                project.getName()
         )
     }
 }
@@ -18,22 +17,11 @@ android {
     namespace "com.example.thermal_lite"
     namespace =
             "com.example.thermal_lite"
-    compileSdk
-    rootProject
-            .ext
-            .android
-            .compileSdk
+    compileSdk rootProject.ext.android.compileSdk
 
     defaultConfig {
-        minSdk rootProject
-                .ext
-                .android
-                .minSdk
-        targetSdk
-        rootProject
-                .ext
-                .android
-                .targetSdk
+        minSdk rootProject.ext.android.minSdk
+        targetSdk rootProject.ext.android.targetSdk
 
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String",
@@ -44,24 +32,15 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles
-            getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            ) ,
-            'proguard-rules.pro'
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
         }
     }
     compileOptions {
-        sourceCompatibility
-        JavaVersion
-                .VERSION_21
-        targetCompatibility
-        JavaVersion
-                .VERSION_21
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget =
-                '21'
+        jvmTarget = '21'
     }
     buildFeatures {
         buildConfig =
@@ -101,25 +80,17 @@ dependencies {
             ext: 'aar'
     )
 
-    implementation
-    project(':libapp')
-    implementation
-    project(':libcom')
-    implementation
-    project(':libir')
-    implementation
-    project(':libmenu')
-    implementation
-    project(':libui')
-    implementation
-    project(':component:pseudo')
-    implementation
-    project(':component:thermal-ir')
+    implementation project(':libapp')
 
-    kapt libs
-            .arouter
-            .compiler
-    api(
+
+    implementation project(':libcom')
+implementation project(':libir')
+implementation project(':libmenu')
+implementation project(':libui')
+implementation project(':component:pseudo')
+implementation project(':component:thermal-ir')
+kapt libs.arouter.compiler
+api(
             project(
                     ":LocalRepo:libac020"
             )
@@ -135,22 +106,16 @@ dependencies {
             )
     )
     //api(project(":component:CommonComponent")) // Temporarily disabled
-    implementation(
-            libs
-                    .androidx
-                    .multidex
+implementation(
+            libs.androidx.multidex
     )
     implementation(
-            libs
-                    .androidx
-                    .material
+            libs.androidx.material
     )
 
-    api libs
-            .compass
-            .sense
-    api libs
-            .compass
-            .core
+    api libs.compass.sense
+
+
+    api libs.compass.core
 
 }

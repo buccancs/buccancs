@@ -56,6 +56,11 @@ interface TopdonThermalClient {
     /**
      * Start emitting preview frames without persisting them.
      */
+    suspend fun triggerManualCalibration(): Result<Unit>
+
+    /**
+     * Start emitting preview frames without persisting them.
+     */
     suspend fun startPreview(): Result<Unit>
 
     /**
@@ -140,6 +145,7 @@ data class TopdonHardwareSettings(
     val distanceMeters: Double?,
     val autoShutter: Boolean?,
     val gainMode: GainMode?,
+    val hdrEnabled: Boolean? = null,
     val previewFpsLimit: Int? = null,
     val superSamplingFactor: Int? = null,
 )

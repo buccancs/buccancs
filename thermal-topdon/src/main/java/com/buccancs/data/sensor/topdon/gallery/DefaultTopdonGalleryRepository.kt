@@ -12,9 +12,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import java.io.File
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.json.JSONObject
 
 @Singleton
 class DefaultTopdonGalleryRepository @Inject constructor(
@@ -224,33 +227,115 @@ class DefaultTopdonGalleryRepository @Inject constructor(
     }
 
     private fun loadMediaFromStorage() {
-        val imageFiles =
-            storageDir.listFiles { file ->
-                file.extension in listOf(
-                    "png",
-                    "jpg",
-                    "jpeg"
-                )
-            }
-                ?.toList()
-                ?: emptyList()
+        val discoveredImages =
+            storageDir.walkTopDown()
+                .filter { file ->
+                    file.isFile && file.extension.lowercase() in IMAGE_EXTENSIONS
+                }
+                .mapNotNull { file ->
+                    toThermalImage(file)
+                }
+                .sortedByDescending { it.timestamp }
+                .toList()
+
+        val discoveredVideos =
+            storageDir.walkTopDown()
+                .filter { file ->
+                    file.isFile && file.extension.lowercase() in VIDEO_EXTENSIONS
+                }
+                .mapNotNull { file ->
+                    toThermalVideo(file)
+                }
+                .sortedByDescending { it.timestamp }
+                .toList()
 
         images.value =
-            imageFiles.map { file ->
-                ThermalImage(
-                    id = file.nameWithoutExtension,
-                    filePath = file.absolutePath,
-                    timestamp = LocalDateTime.now(),
-                    width = 256,
-                    height = 192,
-                    palette = TopdonPalette.IRONBOW,
-                    superSampling = TopdonSuperSamplingFactor.X1,
-                    minTemperature = 20f,
-                    maxTemperature = 35f,
-                    avgTemperature = 27.5f,
-                    thumbnailPath = null,
-                    fileSize = file.length()
-                )
+            discoveredImages
+        videos.value =
+            discoveredVideos
+    }
+
+    private fun toThermalImage(file: File): ThermalImage? {
+        val metadataFile =
+            File(
+                file.parentFile,
+                "${file.name}.json"
+            )
+        val metadata =
+            runCatching { JSONObject(metadataFile.readText()) }.getOrNull()
+        val timestamp =
+            metadata?.optLong("timestamp")?.takeIf { it > 0 }
+                ?.let { Instant.ofEpochMilli(it) }
+                ?: Instant.ofEpochMilli(file.lastModified())
+        val palette =
+            metadata?.optString("palette")?.let { value ->
+                runCatching { TopdonPalette.valueOf(value) }.getOrNull()
             }
+                ?: TopdonPalette.IRONBOW
+        val superSampling =
+            metadata?.optInt("superSampling")?.let { multiplier ->
+                TopdonSuperSamplingFactor.fromMultiplier(multiplier)
+            }
+                ?: TopdonSuperSamplingFactor.X1
+        val minTemp = metadata?.optDouble("minTemp")?.toFloat() ?: 0f
+        val maxTemp = metadata?.optDouble("maxTemp")?.toFloat() ?: 0f
+        val avgTemp = metadata?.optDouble("avgTemp")?.toFloat() ?: 0f
+        val width = metadata?.optInt("width") ?: 256
+        val height = metadata?.optInt("height") ?: 192
+
+        return ThermalImage(
+            id = file.nameWithoutExtension,
+            filePath = file.absolutePath,
+            timestamp = LocalDateTime.ofInstant(
+                timestamp,
+                ZoneId.systemDefault()
+            ),
+            width = width,
+            height = height,
+            palette = palette,
+            superSampling = superSampling,
+            minTemperature = minTemp,
+            maxTemperature = maxTemp,
+            avgTemperature = avgTemp,
+            thumbnailPath = null,
+            fileSize = file.length()
+        )
+    }
+
+    private fun toThermalVideo(file: File): ThermalVideo? {
+        val metadataFile =
+            File(
+                file.parentFile,
+                "${file.name}.json"
+            )
+        val metadata =
+            runCatching { JSONObject(metadataFile.readText()) }.getOrNull()
+        val startTime =
+            metadata?.optLong("startTime")?.takeIf { it > 0 }
+                ?: file.lastModified()
+        val timestamp =
+            LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(startTime),
+                ZoneId.systemDefault()
+            )
+        val duration = metadata?.optLong("duration") ?: 0L
+        val frameCount = metadata?.optInt("frameCount") ?: 0
+
+        return ThermalVideo(
+            id = file.nameWithoutExtension,
+            filePath = file.absolutePath,
+            timestamp = timestamp,
+            duration = duration,
+            frameCount = frameCount,
+            thumbnailPath = null,
+            fileSize = file.length()
+        )
+    }
+
+    companion object {
+        private val IMAGE_EXTENSIONS =
+            setOf("jpg", "jpeg", "png")
+        private val VIDEO_EXTENSIONS =
+            setOf("raw")
     }
 }

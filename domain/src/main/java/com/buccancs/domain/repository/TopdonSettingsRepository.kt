@@ -3,6 +3,7 @@ package com.buccancs.domain.repository
 import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
+import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import kotlinx.coroutines.flow.StateFlow
 
@@ -31,5 +32,13 @@ interface TopdonSettingsRepository {
     
     suspend fun setGainMode(
         mode: TopdonGainMode
+    )
+
+    suspend fun setAutoShutter(
+        enabled: Boolean
+    )
+
+    suspend fun setDynamicRange(
+        range: TopdonDynamicRange
     )
 }

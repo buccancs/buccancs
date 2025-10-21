@@ -159,7 +159,9 @@ fun TopdonRoute(
                         onStopRecording = viewModel::stopRecording,
                         onSelectPalette = viewModel::selectPalette,
                         onSelectSuperSampling = viewModel::selectSuperSampling,
-                        onUpdatePreviewFps = viewModel::updatePreviewFps
+                        onUpdatePreviewFps = viewModel::updatePreviewFps,
+                        onMeasurementModeSelected = viewModel::setMeasurementMode,
+                        onMeasurementTargetChange = viewModel::updateMeasurementTarget
                     )
                 }
 

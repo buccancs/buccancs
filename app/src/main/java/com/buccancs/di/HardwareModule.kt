@@ -6,8 +6,6 @@ import android.hardware.camera2.CameraManager
 import android.hardware.usb.UsbManager
 import com.buccancs.hardware.shimmer.DefaultShimmerHardwareClient
 import com.buccancs.hardware.shimmer.ShimmerHardwareClient
-import com.buccancs.hardware.topdon.DefaultTopdonThermalClient
-import com.buccancs.hardware.topdon.TopdonThermalClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,10 +48,4 @@ object HardwareModule {
     ): ShimmerHardwareClient =
         impl
 
-    @Provides
-    @Singleton
-    fun provideTopdonThermalClient(
-        impl: DefaultTopdonThermalClient,
-    ): TopdonThermalClient =
-        impl
 }

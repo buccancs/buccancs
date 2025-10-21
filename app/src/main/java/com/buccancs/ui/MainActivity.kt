@@ -1,20 +1,34 @@
 package com.buccancs.ui
 
 import android.Manifest
+import android.content.Intent
+import android.hardware.usb.UsbConstants
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.WindowCompat
+import com.buccancs.hardware.shimmer.ShimmerAutoLaunchPreferences
 import com.buccancs.ui.base.DeviceHostActivity
+import com.buccancs.ui.base.ShimmerAutoLaunchDecision
+import com.buccancs.ui.base.ShimmerAutoLaunchEvent
+import com.buccancs.ui.base.ShimmerAutoLaunchMode
 import com.buccancs.ui.navigation.AppNavHost
 import com.buccancs.ui.theme.BuccancsTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 @AndroidEntryPoint
 class MainActivity :
     DeviceHostActivity() {
+
+    override val autoRequestUsbPermission: Boolean =
+        true
+
+    private val shimmerAutoLaunchEvents =
+        MutableSharedFlow<ShimmerAutoLaunchEvent>(extraBufferCapacity = 1)
 
     override fun onCreate(
         savedInstanceState: Bundle?
@@ -42,12 +56,23 @@ class MainActivity :
             }
         composeView.setContent {
             BuccancsTheme {
-                AppNavHost(usbAttachmentEvents = usbAttachmentEvents)
+                AppNavHost(
+                    usbAttachmentEvents = usbAttachmentEvents,
+                    shimmerAutoLaunchEvents = shimmerAutoLaunchEvents.asSharedFlow(),
+                    onShimmerAutoLaunchDecision = ::handleShimmerAutoLaunchDecision
+                )
             }
         }
         setContentView(
             composeView
         )
+
+        handleShimmerIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleShimmerIntent(intent)
     }
 
     override val permissionEducation: List<PermissionEducation> =
@@ -90,13 +115,81 @@ class MainActivity :
         }
 
     override fun isRecognisedDevice(device: android.hardware.usb.UsbDevice): Boolean =
-        when (device.vendorId) {
-            11261, // TopDon
-            1003,  // Generic thermal cameras
-            3034,  // FLIR
-            1240 -> true // Seek Thermal
-            else -> false
+        device.vendorId in SUPPORTED_USB_VENDOR_IDS ||
+            device.deviceClass == UsbConstants.USB_CLASS_VIDEO ||
+            (device.deviceClass == UsbConstants.USB_CLASS_MISC &&
+                device.deviceSubclass == USB_SUBCLASS_UVC_COLLECTION)
+
+    companion object {
+        private val SUPPORTED_USB_VENDOR_IDS =
+            setOf(
+                11261, // Legacy Topdon enumeration
+                1003,  // Generic thermal cameras (Atmel)
+                3034,  // Realtek bridge used by Topdon TC001
+                1240,  // Seek Thermal
+                13350, // Topdon vendor ID (0x3426)
+                13428  // Infisense alternate enumeration
+            )
+        private const val USB_SUBCLASS_UVC_COLLECTION =
+            2
+
+        const val ACTION_HANDLE_SHIMMER_AUTO_LAUNCH =
+            "com.buccancs.intent.SHIMMER_AUTO_LAUNCH"
+        const val EXTRA_SHIMMER_DEVICE_ADDRESS =
+            "extra_shimmer_device_address"
+        const val EXTRA_SHIMMER_DEVICE_NAME =
+            "extra_shimmer_device_name"
+        const val EXTRA_SHIMMER_AUTO_LAUNCH_MODE =
+            "extra_shimmer_auto_launch_mode"
+    }
+
+    private fun handleShimmerIntent(intent: Intent?) {
+        if (intent?.action != ACTION_HANDLE_SHIMMER_AUTO_LAUNCH) {
+            return
         }
+
+        val address =
+            intent.getStringExtra(EXTRA_SHIMMER_DEVICE_ADDRESS) ?: return
+        val name =
+            intent.getStringExtra(EXTRA_SHIMMER_DEVICE_NAME)
+        val mode =
+            intent.getStringExtra(EXTRA_SHIMMER_AUTO_LAUNCH_MODE)
+                ?.let {
+                    runCatching(ShimmerAutoLaunchMode::valueOf).getOrNull()
+                } ?: ShimmerAutoLaunchMode.ASK
+
+        shimmerAutoLaunchEvents.tryEmit(
+            ShimmerAutoLaunchEvent(
+                deviceAddress = address,
+                deviceName = name,
+                mode = mode
+            )
+        )
+
+        intent.action =
+            Intent.ACTION_MAIN
+        intent.removeExtra(EXTRA_SHIMMER_DEVICE_ADDRESS)
+        intent.removeExtra(EXTRA_SHIMMER_DEVICE_NAME)
+        intent.removeExtra(EXTRA_SHIMMER_AUTO_LAUNCH_MODE)
+    }
+
+    private fun handleShimmerAutoLaunchDecision(
+        event: ShimmerAutoLaunchEvent,
+        decision: ShimmerAutoLaunchDecision
+    ) {
+        val mode =
+            when (decision) {
+                ShimmerAutoLaunchDecision.ALWAYS_ALLOW -> ShimmerAutoLaunchPreferences.Mode.ALWAYS
+                ShimmerAutoLaunchDecision.ALLOW_ONCE -> ShimmerAutoLaunchPreferences.Mode.ASK
+                ShimmerAutoLaunchDecision.DENY -> ShimmerAutoLaunchPreferences.Mode.NEVER
+            }
+
+        ShimmerAutoLaunchPreferences.setMode(
+            this,
+            event.deviceAddress,
+            mode
+        )
+    }
 }
 
 private fun ComposeView.setTestTagsAsResourceIdCompat(

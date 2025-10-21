@@ -22,4 +22,5 @@ interface TopdonDeviceRepository {
     suspend fun capturePhoto()
     suspend fun startRecording()
     suspend fun stopRecording()
+    suspend fun triggerManualCalibration()
 }

@@ -13,7 +13,6 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.androidMinSdk.get().toInt()
-        targetSdk = libs.versions.androidTargetSdk.get().toInt()
     }
 
     buildFeatures {
@@ -37,8 +36,9 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":thermal-simulated"))
+    implementation(project(":storage"))
 
-    implementation(files("../sdk/libs/topdon.aar"))
+    compileOnly("topdon:topdon@aar")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

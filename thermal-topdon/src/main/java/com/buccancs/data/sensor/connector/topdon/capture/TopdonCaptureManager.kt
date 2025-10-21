@@ -2,10 +2,11 @@ package com.buccancs.data.sensor.connector.topdon.capture
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
+import com.buccancs.data.sensor.connector.topdon.ThermalNormalizer
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TopdonPreviewFrame
+import com.buccancs.domain.model.TopdonSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -19,7 +20,8 @@ import java.util.Locale
  */
 internal class TopdonCaptureManager(
     private val context: Context,
-    private val deviceId: DeviceId
+    private val deviceId: DeviceId,
+    private val normalizer: ThermalNormalizer
 ) {
     private val dateFormat =
         SimpleDateFormat(
@@ -33,7 +35,8 @@ internal class TopdonCaptureManager(
      * Capture current thermal frame as photo
      */
     suspend fun capturePhoto(
-        frame: TopdonPreviewFrame
+        frame: TopdonPreviewFrame,
+        settings: TopdonSettings
     ): Result<CaptureResult> =
         withContext(
             Dispatchers.IO
@@ -59,18 +62,12 @@ internal class TopdonCaptureManager(
                         filename
                     )
 
-                // Convert frame payload to bitmap
                 val bitmap =
-                    BitmapFactory.decodeByteArray(
-                        frame.payload,
-                        0,
-                        frame.payload.size
+                    normalizer.createBitmapFromFrame(
+                        frame = frame,
+                        palette = settings.palette,
+                        dynamicRange = settings.dynamicRange
                     )
-                        ?: return@withContext Result.failure(
-                            Exception(
-                                "Failed to decode thermal frame"
-                            )
-                        )
 
                 // Save as JPEG with metadata
                 FileOutputStream(
@@ -92,7 +89,8 @@ internal class TopdonCaptureManager(
                 val metadata =
                     buildCaptureMetadata(
                         frame,
-                        timestamp
+                        timestamp,
+                        settings
                     )
                 metadataFile.writeText(
                     metadata
@@ -291,11 +289,11 @@ internal class TopdonCaptureManager(
         subdir: String
     ): File {
         val baseDir =
-            context.getExternalFilesDir(
-                "Topdon"
+            context.getExternalFilesDir(null)?.resolve(
+                "BuccanCS/Thermal"
             )
                 ?: context.filesDir.resolve(
-                    "Topdon"
+                    "BuccanCS/Thermal"
                 )
         val dir =
             File(
@@ -310,7 +308,8 @@ internal class TopdonCaptureManager(
 
     private fun buildCaptureMetadata(
         frame: TopdonPreviewFrame,
-        timestamp: Long
+        timestamp: Long,
+        settings: TopdonSettings
     ): String {
         return """
             {
@@ -321,7 +320,9 @@ internal class TopdonCaptureManager(
                 "superSampling": ${frame.superSamplingFactor},
                 "minTemp": ${frame.minTemp},
                 "maxTemp": ${frame.maxTemp},
-                "avgTemp": ${frame.avgTemp}
+                "avgTemp": ${frame.avgTemp},
+                "palette": "${settings.palette}",
+                "dynamicRange": "${settings.dynamicRange}"
             }
         """.trimIndent()
     }

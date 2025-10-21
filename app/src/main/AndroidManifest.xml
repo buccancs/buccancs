@@ -172,6 +172,15 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
+        <!-- Auto-launch receiver for Shimmer Bluetooth sensors -->
+        <receiver
+            android:name=".hardware.shimmer.ShimmerAutoLaunchReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

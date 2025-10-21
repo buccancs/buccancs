@@ -43,6 +43,52 @@ apply from: "depend.gradle"
 task clean(
         type: Delete
 ) {
-    delete rootProject
-            .buildDir
+    delete rootProject.buildDir
+}
+
+subprojects { subproject ->
+    afterEvaluate { evaluatedProject ->
+        def androidExt = evaluatedProject.extensions.findByName("android")
+        if (androidExt == null) {
+            return
+        }
+
+        def androidConfig = rootProject.ext.android
+
+        if (androidExt.hasProperty("compileSdk")) {
+            androidExt.compileSdk = androidConfig.compileSdk as Integer
+        }
+
+        def defaultConfig = androidExt.defaultConfig
+        if (defaultConfig != null) {
+            defaultConfig.minSdk = androidConfig.minSdk as Integer
+            if (defaultConfig.hasProperty("targetSdk")) {
+                defaultConfig.targetSdk = androidConfig.targetSdk as Integer
+            }
+        }
+
+        def compileOptions = androidExt.compileOptions
+        if (compileOptions != null) {
+            compileOptions.sourceCompatibility = JavaVersion.VERSION_21
+            compileOptions.targetCompatibility = JavaVersion.VERSION_21
+        }
+
+        androidExt.buildTypes.each { buildType ->
+            if (buildType.name == "release") {
+                buildType.proguardFiles(
+                        androidExt.getDefaultProguardFile('proguard-android-optimize.txt'),
+                        'proguard-rules.pro'
+                )
+            } else if (buildType.name == "debug") {
+                buildType.proguardFiles(
+                        androidExt.getDefaultProguardFile('proguard-android.txt'),
+                        'proguard-rules.pro'
+                )
+            }
+        }
+
+        evaluatedProject.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            it.kotlinOptions.jvmTarget = '21'
+        }
+    }
 }

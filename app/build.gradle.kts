@@ -172,6 +172,12 @@ dependencies {
         )
     )
     implementation(
+        project(
+            ":storage"
+        )
+    )
+    runtimeOnly("topdon:topdon@aar")
+    implementation(
         composeBom
     )
     androidTestImplementation(
@@ -256,11 +262,6 @@ dependencies {
     implementation(
         project(
             ":shimmer"
-        )
-    )
-    implementation(
-        files(
-            "../sdk/libs/topdon.aar"
         )
     )
     implementation(

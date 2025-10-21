@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Instant
 
 @Singleton
 internal class DefaultTopdonDeviceRepository @Inject constructor(
@@ -50,7 +51,8 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
                 previewActive = false,
                 lastPreviewTimestamp = null,
                 scanning = false,
-                lastError = null
+                lastError = null,
+                lastCalibrationTimestamp = null
             )
         )
 
@@ -99,6 +101,25 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
                 false
             )
 
+    @OptIn(
+        ExperimentalCoroutinesApi::class
+    )
+    private val calibrationFlow: StateFlow<Instant?> =
+        activeDeviceId
+            .flatMapLatest { id ->
+                connectorManager.lastCalibration(
+                    id
+                )
+                    ?: flowOf(
+                        null
+                    )
+            }
+            .stateIn(
+                scope,
+                SharingStarted.Eagerly,
+                null
+            )
+
     override val deviceState: StateFlow<TopdonDeviceState> =
         deviceStateFlow.asStateFlow()
     override val previewFrame: StateFlow<TopdonPreviewFrame?> =
@@ -109,7 +130,8 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
         val devices: List<SensorDevice>,
         val statuses: List<SensorStreamStatus>,
         val previewActive: Boolean,
-        val frame: TopdonPreviewFrame?
+        val frame: TopdonPreviewFrame?,
+        val lastCalibration: Instant?
     )
 
     init {
@@ -119,14 +141,28 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
                 sensorRepository.streamStatuses,
                 previewRunningFlow,
                 previewFrameFlow,
+                calibrationFlow,
                 activeDeviceId
-            ) { devices, statuses, previewActive, frame, deviceId ->
+            ) { values ->
+                val devices =
+                    values[0] as List<SensorDevice>
+                val statuses =
+                    values[1] as List<SensorStreamStatus>
+                val previewActive =
+                    values[2] as Boolean
+                val frame =
+                    values[3] as TopdonPreviewFrame?
+                val lastCalibration =
+                    values[4] as Instant?
+                val deviceId =
+                    values[5] as DeviceId
                 TopdonSnapshot(
                     deviceId = deviceId,
                     devices = devices,
                     statuses = statuses,
                     previewActive = previewActive,
-                    frame = frame
+                    frame = frame,
+                    lastCalibration = lastCalibration
                 )
             }
         scope.launch(
@@ -157,7 +193,8 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
                             previewActive = snapshot.previewActive,
                             lastPreviewTimestamp = snapshot.frame?.timestamp,
                             scanning = scanningFlag,
-                            lastError = errorMessage
+                            lastError = errorMessage,
+                            lastCalibrationTimestamp = snapshot.lastCalibration
                         )
                 }
         }
@@ -357,5 +394,22 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
                 null
         }
     }
-}
+    override suspend fun triggerManualCalibration() {
+        errors.value =
+            null
+        val result =
+            connectorManager.triggerManualCalibration(
+                _activeDeviceId.value
+            )
+        when (result) {
+            is DeviceCommandResult.Rejected -> errors.value =
+                result.reason
 
+            is DeviceCommandResult.Failed -> errors.value =
+                result.error?.message
+
+            else -> errors.value =
+                null
+        }
+    }
+}

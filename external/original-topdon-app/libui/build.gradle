@@ -8,8 +8,7 @@ kapt {
     arguments {
         arg(
                 "AROUTER_MODULE_NAME",
-                project
-                        .getName()
+                project.getName()
         )
     }
 }
@@ -17,22 +16,11 @@ kapt {
 
 android {
     namespace "com.topdon.lib.ui"
-    compileSdk
-    rootProject
-            .ext
-            .android
-            .compileSdk
+    compileSdk rootProject.ext.android.compileSdk
 
     defaultConfig {
-        minSdk rootProject
-                .ext
-                .android
-                .minSdk
-        targetSdk
-        rootProject
-                .ext
-                .android
-                .targetSdk
+        minSdk rootProject.ext.android.minSdk
+        targetSdk rootProject.ext.android.targetSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,20 +28,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles
-            getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            ) ,
-            'proguard-rules.pro'
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
         }
     }
     compileOptions {
-        sourceCompatibility
-        JavaVersion
-                .VERSION_21
-        targetCompatibility
-        JavaVersion
-                .VERSION_21
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     buildFeatures {
         buildConfig =
@@ -61,8 +41,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget =
-                '21'
+        jvmTarget = '21'
     }
 
     flavorDimensions 'app'
@@ -89,12 +68,9 @@ android {
 }
 
 dependencies {
-    implementation
-    project(':libapp')
-    implementation
-    project(':libmenu')
+    implementation project(':libapp')
+
+    implementation project(':libmenu')
     //伪彩条用着 PseudoColorConfig
-    kapt libs
-            .arouter
-            .compiler
+    kapt libs.arouter.compiler
 }

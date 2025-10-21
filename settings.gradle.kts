@@ -45,6 +45,9 @@ dependencyResolutionManagement {
         maven(
             "https://jitpack.io"
         )
+        flatDir {
+            dirs("sdk/libs")
+        }
     }
 }
 

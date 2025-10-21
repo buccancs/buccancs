@@ -165,11 +165,11 @@ internal object MeasurementProcessor {
      * Find max/min temperature locations in frame
      */
     fun measureMaxMin(
-        yuvData: ByteArray,
+        frameData: ByteArray,
         width: Int,
         height: Int
     ): MaxMinMeasurement {
-        if (yuvData.isEmpty()) {
+        if (frameData.isEmpty() || width <= 0 || height <= 0) {
             return MaxMinMeasurement(
                 maxX = 0,
                 maxY = 0,
@@ -179,64 +179,19 @@ internal object MeasurementProcessor {
                 minTemp = 0f
             )
         }
-
-        var minValue =
-            255
-        var maxValue =
-            0
-        var minX =
-            0
-        var minY =
-            0
-        var maxX =
-            0
-        var maxY =
-            0
-
-        val pixelCount =
-            width * height
-        for (i in 0 until min(
-            pixelCount * 2,
-            yuvData.size
-        ) step 2) {
-            val yValue =
-                yuvData[i].toInt() and 0xFF
-            val pixelIndex =
-                i / 2
-            val x =
-                pixelIndex % width
-            val y =
-                pixelIndex / width
-
-            if (yValue < minValue) {
-                minValue =
-                    yValue
-                minX =
-                    x
-                minY =
-                    y
-            }
-            if (yValue > maxValue) {
-                maxValue =
-                    yValue
-                maxX =
-                    x
-                maxY =
-                    y
-            }
-        }
-
-        return MaxMinMeasurement(
-            maxX = maxX,
-            maxY = maxY,
-            maxTemp = yValueToTemperature(
-                maxValue
-            ),
-            minX = minX,
-            minY = minY,
-            minTemp = yValueToTemperature(
-                minValue
+        val result =
+            TemperatureExtractor.extractMaxMinLocations(
+                frameData,
+                width,
+                height
             )
+        return MaxMinMeasurement(
+            maxX = result.maxX,
+            maxY = result.maxY,
+            maxTemp = result.maxTemp,
+            minX = result.minX,
+            minY = result.minY,
+            minTemp = result.minTemp
         )
     }
 
@@ -291,17 +246,6 @@ internal object MeasurementProcessor {
         return points
     }
 
-    private fun yValueToTemperature(
-        yValue: Int
-    ): Float {
-        val minTemp =
-            -20f
-        val maxTemp =
-            550f
-        val range =
-            maxTemp - minTemp
-        return minTemp + (yValue / 255f) * range
-    }
 }
 
 /**

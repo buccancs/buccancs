@@ -7,9 +7,6 @@ import com.buccancs.data.orchestration.DataStoreOrchestratorConfigRepository
 import com.buccancs.data.sensor.DefaultSensorRepository
 import com.buccancs.data.sensor.config.DefaultSensorHardwareConfigRepository
 import com.buccancs.data.sensor.shimmer.DataStoreShimmerSettingsRepository
-import com.buccancs.data.sensor.topdon.DataStoreTopdonSettingsRepository
-import com.buccancs.data.sensor.topdon.DefaultTopdonDeviceRepository
-import com.buccancs.data.sensor.topdon.gallery.DefaultTopdonGalleryRepository
 import com.buccancs.data.transfer.DefaultSessionTransferRepository
 import com.buccancs.domain.repository.BookmarkRepository
 import com.buccancs.domain.repository.CalibrationRepository
@@ -19,9 +16,6 @@ import com.buccancs.domain.repository.SensorHardwareConfigRepository
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.repository.SessionTransferRepository
 import com.buccancs.domain.repository.ShimmerSettingsRepository
-import com.buccancs.domain.repository.TopdonDeviceRepository
-import com.buccancs.domain.repository.TopdonGalleryRepository
-import com.buccancs.domain.repository.TopdonSettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -81,21 +75,4 @@ abstract class RepositoryModule {
         impl: DataStoreShimmerSettingsRepository
     ): ShimmerSettingsRepository
 
-    @Binds
-    @Singleton
-    abstract fun bindTopdonSettingsRepository(
-        impl: DataStoreTopdonSettingsRepository
-    ): TopdonSettingsRepository
-
-    @Binds
-    @Singleton
-    internal abstract fun bindTopdonDeviceRepository(
-        impl: DefaultTopdonDeviceRepository
-    ): TopdonDeviceRepository
-
-    @Binds
-    @Singleton
-    internal abstract fun bindTopdonGalleryRepository(
-        impl: DefaultTopdonGalleryRepository
-    ): TopdonGalleryRepository
 }

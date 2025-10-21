@@ -740,6 +740,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return returnedBitmap;
     }
 
+    @android.annotation.SuppressLint("WrongThread")
     public boolean saveToPath(String title, String pathOnSD) {
 
         Bitmap b = getChartBitmap();
@@ -762,6 +763,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return true;
     }
 
+    @android.annotation.SuppressLint("WrongThread")
     public boolean saveToGallery(String fileName, String subFolderPath, String fileDescription, CompressFormat
             format, int quality) {
         if (quality < 0 || quality > 100)

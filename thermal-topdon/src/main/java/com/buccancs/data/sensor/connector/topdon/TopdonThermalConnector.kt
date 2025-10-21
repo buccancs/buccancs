@@ -8,8 +8,9 @@ import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
+import com.buccancs.data.sensor.connector.topdon.capture.TopdonCaptureManager
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
-import com.buccancs.data.storage.RecordingStorage
+import com.buccancs.data.sensor.connector.topdon.RecordingArtifactStorage
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
@@ -19,6 +20,8 @@ import com.buccancs.domain.model.SensorDeviceType
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.TopdonDynamicRange
+import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.model.TopdonSettings
@@ -48,6 +51,9 @@ import kotlin.time.Instant
 import com.buccancs.hardware.topdon.TopdonPreviewFrame as HardwarePreviewFrame
 import com.buccancs.hardware.topdon.TopdonThermalClient as HardwareClient
 
+private const val FRAME_WIDTH = 256
+private const val FRAME_HEIGHT = 192
+
 private fun defaultTopdonDevice(): SensorDevice =
     SensorDevice(
         id = DeviceId(
@@ -71,9 +77,10 @@ private fun defaultTopdonDevice(): SensorDevice =
 internal class TopdonThermalConnector @Inject constructor(
     @ApplicationScope private val appScope: CoroutineScope,
     private val hardwareClient: HardwareClient,
-    private val recordingStorage: RecordingStorage,
+    private val recordingStorage: RecordingArtifactStorage,
     artifactFactory: SimulatedArtifactFactory,
     private val settingsRepository: InMemoryTopdonSettingsRepository,
+    private val captureManager: TopdonCaptureManager?,
     initialDevice: SensorDevice = defaultTopdonDevice()
 ) : BaseSimulatedConnector(
     scope = appScope,
@@ -97,6 +104,13 @@ internal class TopdonThermalConnector @Inject constructor(
     val previewRunningFlow: StateFlow<Boolean> =
         previewRunningState.asStateFlow()
 
+    private val calibrationState =
+        MutableStateFlow<Instant?>(
+            null
+        )
+    val lastCalibrationFlow: StateFlow<Instant?> =
+        calibrationState.asStateFlow()
+
     private var streamingAnchor: RecordingSessionAnchor? =
         null
     private var currentSessionId: String? =
@@ -112,6 +126,8 @@ internal class TopdonThermalConnector @Inject constructor(
     private var thermalFrameCount: Long =
         0
     private var lastMetrics: TopdonTemperatureMetrics? =
+        null
+    private var streamStartTimestamp: Instant? =
         null
 
     private val pendingArtifacts =
@@ -275,6 +291,14 @@ internal class TopdonThermalConnector @Inject constructor(
             prepareThermalRecording(
                 anchor.sessionId
             )
+            captureManager?.let { manager ->
+                manager.startRecording(
+                    anchor.sessionId
+                )
+                    .getOrElse { error ->
+                        throw error
+                    }
+            }
             val request =
                 com.buccancs.hardware.topdon.TopdonStreamRequest(
                     sessionId = anchor.sessionId,
@@ -296,6 +320,20 @@ internal class TopdonThermalConnector @Inject constructor(
             clearRecordingState(
                 finalize = true
             )
+            captureManager?.stopRecording()
+                ?.onSuccess { recording ->
+                    Log.i(
+                        logTag,
+                        "Thermal recording saved (${recording.frameCount} frames, ${recording.durationMs} ms)"
+                    )
+                }
+                ?.onFailure { error ->
+                    Log.w(
+                        logTag,
+                        "Capture manager failed to finalize recording: ${error.message}",
+                        error
+                    )
+                }
         }.map { DeviceCommandResult.Accepted }
             .recover { error ->
                 Log.e(
@@ -308,6 +346,34 @@ internal class TopdonThermalConnector @Inject constructor(
                 )
             }
             .getOrThrow()
+    }
+
+    suspend fun triggerManualCalibration(): DeviceCommandResult {
+        if (isSimulationMode) {
+            calibrationState.value =
+                nowInstant()
+            return DeviceCommandResult.Accepted
+        }
+        val result =
+            hardwareClient.triggerManualCalibration()
+        return when (result) {
+            is Result.Success -> {
+                calibrationState.value =
+                    nowInstant()
+                DeviceCommandResult.Accepted
+            }
+
+            is Result.Failure -> {
+                Log.e(
+                    logTag,
+                    "Manual calibration failed: ${result.error.message}",
+                    result.error.toException()
+                )
+                DeviceCommandResult.Failed(
+                    result.error.toException()
+                )
+            }
+        }
     }
 
     suspend fun startPreview(): DeviceCommandResult {
@@ -397,14 +463,15 @@ internal class TopdonThermalConnector @Inject constructor(
                 },
                 emissivity = settings.emissivity,
                 distanceMeters = null,  // Not exposed in UI yet
-                autoShutter = when (settings.gainMode) {
-                    TopdonGainMode.AUTO -> true
-                    TopdonGainMode.HIGH, TopdonGainMode.LOW -> false
-                },
+                autoShutter = settings.autoShutterEnabled,
                 gainMode = when (settings.gainMode) {
                     TopdonGainMode.AUTO -> GainMode.Auto
                     TopdonGainMode.HIGH -> GainMode.High
                     TopdonGainMode.LOW -> GainMode.Low
+                },
+                hdrEnabled = when (settings.dynamicRange) {
+                    TopdonDynamicRange.STANDARD -> false
+                    TopdonDynamicRange.WIDE -> true
                 },
                 previewFpsLimit = settings.previewFpsLimit,
                 superSamplingFactor = settings.superSampling.multiplier
@@ -604,6 +671,10 @@ internal class TopdonThermalConnector @Inject constructor(
             event.metrics
         thermalFrameCount =
             event.frameCount
+        if (streamStartTimestamp == null) {
+            streamStartTimestamp =
+                timestamp
+        }
         if (payload != null) {
             writerLock.withLock {
                 try {
@@ -621,15 +692,39 @@ internal class TopdonThermalConnector @Inject constructor(
                     )
                 }
             }
+            if (captureManager?.isRecording() == true) {
+                val manager = captureManager
+                val previewFrame =
+                    TopdonPreviewFrame(
+                        timestamp = timestamp,
+                        width = FRAME_WIDTH,
+                        height = FRAME_HEIGHT,
+                        mimeType = "application/octet-stream",
+                        payload = payload,
+                        superSamplingFactor = currentSettings.superSampling.multiplier,
+                        minTemp = event.metrics.minCelsius.toFloat(),
+                        maxTemp = event.metrics.maxCelsius.toFloat(),
+                        avgTemp = event.metrics.avgCelsius.toFloat()
+                    )
+                appScope.launch {
+                    manager.recordFrame(previewFrame)
+                }
+            }
         }
+        val elapsed =
+            streamStartTimestamp?.let { timestamp - it }
+        val fps =
+            elapsed?.inWholeMilliseconds?.takeIf { it > 0 }?.let { millis ->
+                event.frameCount * 1000.0 / millis.toDouble()
+            }
         val thermalStatus =
             SensorStreamStatus(
                 deviceId = deviceId,
                 streamType = SensorStreamType.THERMAL_VIDEO,
                 sampleRateHz = null,
-                frameRateFps = 25.0,
+                frameRateFps = fps,
                 lastSampleTimestamp = timestamp,
-                bufferedDurationSeconds = 0.0,
+                bufferedDurationSeconds = elapsed?.inWholeMilliseconds?.div(1000.0) ?: 0.0,
                 isStreaming = true,
                 isSimulated = false
             )
@@ -650,6 +745,8 @@ internal class TopdonThermalConnector @Inject constructor(
                 previewStatus
             )
         if (event.endOfStream) {
+            streamStartTimestamp =
+                null
             clearRecordingState(
                 finalize = true
             )
@@ -814,6 +911,8 @@ internal class TopdonThermalConnector @Inject constructor(
         thermalFrameCount =
             0
         lastMetrics =
+            null
+        streamStartTimestamp =
             null
     }
 

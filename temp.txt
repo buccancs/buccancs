@@ -1,130 +1,939 @@
-# --- Active profile to keep settings scoped to C:\dev\buccancs ---
-profile = "buccancs"
+package com.buccancs.data.sensor.connector.topdon
 
-# --- Model behavior (Responses API) ---
-model = "gpt-5-codex" # Primary coding model; other options include gpt-5, gpt-5o, o3, etc.
-model_provider = "openai" # Provider id from [model_providers]; change to custom key for other endpoints.
-model_context_window = 272000 # Hint Codex uses for available context; service clamps to backend ceiling.
-model_max_output_tokens = 131072 # Target output cap (service currently trims to ~16k).
-model_reasoning_effort = "high" # minimal|low|medium|high; higher spends more compute per turn.
-model_reasoning_summary = "detailed" # auto|concise|detailed|none; detailed gives fuller wrap-up text.
-model_reasoning_summary_format = "experimental" # none|experimental; experimental enables richer formatting.
-model_supports_reasoning_summaries = true # Force reasoning summaries even if provider omits support flag.
-model_verbosity = "high" # low|medium|high; high yields the most narrative explanation.
+import android.net.Uri
+import android.util.Log
+import com.buccancs.core.result.DeviceCommandResult
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.recover
+import com.buccancs.core.result.resultOf
+import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
+import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
+import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
+import com.buccancs.data.storage.RecordingStorage
+import com.buccancs.di.ApplicationScope
+import com.buccancs.domain.model.ConnectionStatus
+import com.buccancs.domain.model.DeviceId
+import com.buccancs.domain.model.RecordingSessionAnchor
+import com.buccancs.domain.model.SensorDevice
+import com.buccancs.domain.model.SensorDeviceType
+import com.buccancs.domain.model.SensorStreamStatus
+import com.buccancs.domain.model.SensorStreamType
+import com.buccancs.domain.model.SessionArtifact
+import com.buccancs.domain.model.TopdonPalette
+import com.buccancs.domain.model.TopdonPreviewFrame
+import com.buccancs.domain.model.TopdonSettings
+import com.buccancs.domain.model.TopdonDynamicRange
+import com.buccancs.hardware.topdon.GainMode
+import com.buccancs.hardware.topdon.Palette
+import com.buccancs.hardware.topdon.TopdonHardwareSettings
+import com.buccancs.hardware.topdon.TopdonNotice
+import com.buccancs.hardware.topdon.TopdonStatus
+import com.buccancs.hardware.topdon.TopdonStreamEvent
+import com.buccancs.hardware.topdon.TopdonTemperatureMetrics
+import com.buccancs.util.nowInstant
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.security.MessageDigest
+import java.util.concurrent.locks.ReentrantLock
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.concurrent.withLock
+import kotlin.math.absoluteValue
+import kotlin.time.Instant
+import com.buccancs.hardware.topdon.TopdonPreviewFrame as HardwarePreviewFrame
+import com.buccancs.hardware.topdon.TopdonThermalClient as HardwareClient
 
-# --- Safety rails (all disabled for maximum autonomy) ---
-approval_policy = "never" # untrusted|on-failure|on-request|never; never auto-approves everything.
-sandbox_mode = "danger-full-access" # read-only|workspace-write|danger-full-access; full disk + network.
-windows_wsl_setup_acknowledged = true # Suppresses WSL reminder banner on Windows hosts.
-experimental_use_exec_command_tool = true # Use experimental exec tool for richer command metadata.
+private fun defaultTopdonDevice(): SensorDevice =
+    SensorDevice(
+        id = DeviceId(
+            "topdon-tc001"
+        ),
+        displayName = "Topdon TC001",
+        type = SensorDeviceType.TOPDON_TC001,
+        capabilities = setOf(
+            SensorStreamType.THERMAL_VIDEO,
+            SensorStreamType.PREVIEW
+        ),
+        connectionStatus = ConnectionStatus.Disconnected,
+        isSimulated = false,
+        attributes = mapOf(
+            "usb.vendorId" to "0x3426",
+            "usb.productId" to "0x0001"
+        )
+    )
 
-# --- Output UX ---
-file_opener = "vscode" # Controls clickable file URI scheme; options: vscode, vscode-insiders, windsurf, cursor, none.
-notify = ["powershell.exe", "-NoLogo", "-NoProfile", "-Command", "New-BurntToastNotification"] # Desktop toast command.
+@Singleton
+internal class TopdonThermalConnector @Inject constructor(
+    @ApplicationScope private val appScope: CoroutineScope,
+    private val hardwareClient: HardwareClient,
+    private val recordingStorage: RecordingStorage,
+    artifactFactory: SimulatedArtifactFactory,
+    private val settingsRepository: InMemoryTopdonSettingsRepository,
+    initialDevice: SensorDevice = defaultTopdonDevice()
+) : BaseSimulatedConnector(
+    scope = appScope,
+    artifactFactory = artifactFactory,
+    initialDevice = initialDevice
+) {
+    private val logTag =
+        "TopdonConnector"
 
-# --- Tool availability toggles ---
-[tools]
-web_search = true # Enables native web_search tool (Responses web browsing).
-view_image = true # Allows attaching local images from workspace.
+    private val previewFrameState =
+        MutableStateFlow<TopdonPreviewFrame?>(
+            null
+        )
+    val previewFrameFlow: StateFlow<TopdonPreviewFrame?> =
+        previewFrameState.asStateFlow()
 
-# --- Feature flags (stable + experimental) ---
-[features]
-unified_exec = true # Route shell/tool calls through unified executor.
-streamable_shell = true # Stream command stdout/stderr live instead of waiting for completion.
-rmcp_client = true # Enable experimental MCP client discovery (remote MCP servers).
-plan_tool = true # Allow Codex to use the internal planning tool for multi-step tasks.
-apply_patch_freeform = true # Let Codex author arbitrary apply_patch hunks.
-view_image_tool = true # Mirror tools.view_image flag (CLI expects both).
-web_search_request = true # Alternative flag name for enabling web search.
-approve_all = true # Auto-approve every command without prompting.
+    private val previewRunningState =
+        MutableStateFlow(
+            false
+        )
+    val previewRunningFlow: StateFlow<Boolean> =
+        previewRunningState.asStateFlow()
 
-# --- Environment inheritance for spawned shells ---
-[shell_environment_policy]
-inherit = "all" # all|core|none; all passes every env var to tool processes.
-# include_only = ["PATH", "PATHEXT", "SystemRoot"] # Optional allow-list when inherit != "all".
-# set = { CODEX_ENV = "dev" } # Optional extra variables to inject.
+    private val calibrationState =
+        MutableStateFlow<Instant?>(
+            null
+        )
+    val lastCalibrationFlow: StateFlow<Instant?> =
+        calibrationState.asStateFlow()
 
-# --- History persistence ---
-[history]
-persistence = "save-all" # save-all|none; save-all keeps CLI transcripts under CODEX_HOME.
-# max_bytes = 0 # Reserved for future cap enforcement (currently ignored).
+    private var streamingAnchor: RecordingSessionAnchor? =
+        null
+    private var currentSessionId: String? =
+        null
+    private var thermalFile: File? =
+        null
+    private var thermalStream: FileOutputStream? =
+        null
+    private var thermalDigest: MessageDigest? =
+        null
+    private var thermalBytes: Long =
+        0
+    private var thermalFrameCount: Long =
+        0
+    private var lastMetrics: TopdonTemperatureMetrics? =
+        null
+    private var streamStartTimestamp: Instant? =
+        null
 
-# --- Project-wide doc ingestion (AGENTS.md helpers) ---
-project_doc_max_bytes = 131072 # Max bytes Codex reads from AGENTS.md-like guidance files.
-project_doc_refresh_interval_secs = 30 # Re-scan interval for project docs.
-project_doc_exclude = [
-  "**/build/**",
-  "**/dist/**",
-  "**/.cache/**",
-  "**/.gradle/**",
-  "**/.idea/**",
-  "**/node_modules/**",
-  "**/tmp/**",
-  "**/out/**",
-  "**/.git/**",
-] # Globs to skip when loading project docs.
+    private val pendingArtifacts =
+        mutableListOf<Pair<String, SessionArtifact>>()
+    private val writerLock =
+        ReentrantLock()
 
-# --- Directory context auto-collection ---
-directory_context_max_bytes = 131072 # Bytes of directory listings Codex samples for context.
-directory_context_refresh_interval_secs = 30 # Refresh cadence in seconds.
+    private var currentSettings: TopdonSettings =
+        settingsRepository.settings.value
 
-# --- Project trust (full disk entrusted) ---
-[projects."C:\\"]
-trust_level = "trusted" # Only value recognized today is "trusted".
+    init {
+        appScope.launch {
+            settingsRepository.settings.collect { settings ->
+                currentSettings =
+                    settings
+                applyHardwareSettings(
+                    settings
+                )
+            }
+        }
+        appScope.launch {
+            hardwareClient.status.collect { status ->
+                handleHardwareStatus(
+                    status
+                )
+            }
+        }
+        appScope.launch {
+            hardwareClient.previewFrames.collect { frame ->
+                handlePreviewFrame(
+                    frame
+                )
+            }
+        }
+        appScope.launch {
+            hardwareClient.streamEvents.collect { event ->
+                handleStreamEvent(
+                    event
+                )
+            }
+        }
+        appScope.launch {
+            hardwareClient.notices.collect { notice ->
+                logHardwareNotice(
+                    notice
+                )
+            }
+        }
+    }
 
-# --- Profile tuned for buccancs workspace ---
-[profiles.buccancs]
-model = "gpt-5-codex"
-model_provider = "openai"
-model_context_window = 272000
-model_max_output_tokens = 131072
-model_reasoning_effort = "high"
-model_reasoning_summary = "detailed"
-model_reasoning_summary_format = "experimental"
-model_supports_reasoning_summaries = true
-model_verbosity = "high"
-approval_policy = "never"
-sandbox_mode = "danger-full-access"
-experimental_use_exec_command_tool = true
-file_opener = "vscode"
-notify = ["powershell.exe", "-NoLogo", "-NoProfile", "-Command", "New-BurntToastNotification"]
+    override suspend fun refreshInventory() {
+        if (isSimulationMode) {
+            super.refreshInventory()
+            return
+        }
+        hardwareClient.refreshInventory()
+    }
 
-[profiles.buccancs.tools]
-web_search = true
-view_image = true
+    override suspend fun applySimulation(
+        enabled: Boolean
+    ) {
+        if (enabled) {
+            performDisconnect()
+        }
+        super.applySimulation(
+            enabled
+        )
+    }
 
-[profiles.buccancs.features]
-unified_exec = true
-streamable_shell = true
-rmcp_client = true
-plan_tool = true
-apply_patch_freeform = true
-view_image_tool = true
-web_search_request = true
-approve_all = true
+    override suspend fun connect(): DeviceCommandResult {
+        if (isSimulationMode) {
+            return super.connect()
+        }
+        return resultOf { hardwareClient.connect() }
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(
+                    logTag,
+                    "Topdon connection failed: ${error.message}",
+                    error.cause
+                )
+                DeviceCommandResult.Failed(
+                    error.toException()
+                )
+            }
+            .getOrThrow()
+    }
 
-[profiles.buccancs.shell_environment_policy]
-inherit = "all"
+    override suspend fun disconnect(): DeviceCommandResult {
+        if (isSimulationMode) {
+            return super.disconnect()
+        }
+        return performDisconnect()
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(
+                    logTag,
+                    "Topdon disconnect failed: ${error.message}",
+                    error.cause
+                )
+                DeviceCommandResult.Failed(
+                    error.toException()
+                )
+            }
+            .getOrThrow()
+    }
 
-[profiles.buccancs.history]
-persistence = "save-all"
+    private suspend fun performDisconnect(): Result<Unit> =
+        resultOf {
+            runCatching { hardwareClient.stopStreaming() }
+            runCatching { hardwareClient.stopPreview() }
+            runCatching { hardwareClient.disconnect() }
+            clearRecordingState(
+                finalize = true
+            )
+            previewRunningState.value =
+                false
+        }
 
-# --- Optional / upcoming toggles (commented for reference) ---
-# instructions = "" # Deprecated top-level prompt injection; prefer AGENTS.md or experimental_instructions_file.
-# experimental_instructions_file = "C:\\dev\\buccancs\\docs\\codex_instructions.md" # Supply custom instructions file (experimental).
-# experimental_shell_trace = false # When true, emits verbose shell tracing output (work-in-progress).
-# experimental_use_exec_command_stream = false # Prototype streaming exec tool variant.
-# chatgpt_base_url = "https://chat.openai.com/backend-api" # Override ChatGPT auth endpoint.
-# experimental_use_local_shell = "pwsh" # Force a specific local shell binary.
-# model_reasoning_consistency = "default" # Placeholder for upcoming reasoning consistency controls.
-# sandbox_workspace_write.network_access = true # Use inside [sandbox_workspace_write] when sandbox_mode = "workspace-write".
-# sandbox_workspace_write.writable_roots = ["C:\\dev\\buccancs"] # Additional writable directories for workspace sandbox.
-# sandbox_workspace_write.exclude_tmpdir_env_var = false # Prevent inheriting %TMPDIR% in workspace sandbox.
-# sandbox_workspace_write.exclude_slash_tmp = false # Prevent /tmp from being writable in workspace sandbox.
-# tools.view_image_max_bytes = 10485760 # Future control for image upload size limits.
-# tools.web_search_region = "global" # Planned locale knob for search.
-# approve_all_timeout_secs = 0 # Potential future delay before auto approvals.
+    override suspend fun startStreaming(
+        anchor: RecordingSessionAnchor
+    ): DeviceCommandResult {
+        if (isSimulationMode) {
+            return super.startStreaming(
+                anchor
+            )
+        }
+        val status =
+            hardwareClient.status.value
+        if (status !is TopdonStatus.Connected && status !is TopdonStatus.Streaming) {
+            return DeviceCommandResult.Rejected(
+                "Topdon camera not connected."
+            )
+        }
+        return performStartStreaming(
+            anchor
+        )
+            .map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(
+                    logTag,
+                    "Start thermal streaming failed: ${error.message}",
+                    error.cause
+                )
+                clearRecordingState(
+                    finalize = true
+                )
+                DeviceCommandResult.Failed(
+                    error.toException()
+                )
+            }
+            .getOrThrow()
+    }
 
-[notice]
-hide_full_access_warning = true # Suppress warning banner when running without sandbox.
+    private suspend fun performStartStreaming(
+        anchor: RecordingSessionAnchor
+    ): Result<Unit> =
+        resultOf {
+            streamingAnchor =
+                anchor
+            prepareThermalRecording(
+                anchor.sessionId
+            )
+            val request =
+                com.buccancs.hardware.topdon.TopdonStreamRequest(
+                    sessionId = anchor.sessionId,
+                    destinationPath = thermalFile?.absolutePath
+                        ?: "",
+                    superSampling = currentSettings.superSampling.multiplier
+                )
+            hardwareClient.startStreaming(
+                request
+            )
+        }
 
+    override suspend fun stopStreaming(): DeviceCommandResult {
+        if (isSimulationMode) {
+            return super.stopStreaming()
+        }
+        return resultOf {
+            hardwareClient.stopStreaming()
+            clearRecordingState(
+                finalize = true
+            )
+        }.map { DeviceCommandResult.Accepted }
+            .recover { error ->
+                Log.e(
+                    logTag,
+                    "Stop thermal streaming failed: ${error.message}",
+                    error.cause
+                )
+                DeviceCommandResult.Failed(
+                    error.toException()
+                )
+            }
+            .getOrThrow()
+    }
+
+    suspend fun triggerManualCalibration(): DeviceCommandResult {
+        if (isSimulationMode) {
+            calibrationState.value =
+                nowInstant()
+            return DeviceCommandResult.Accepted
+        }
+        val result =
+            hardwareClient.triggerManualCalibration()
+        return when (result) {
+            is Result.Success -> {
+                calibrationState.value =
+                    nowInstant()
+                DeviceCommandResult.Accepted
+            }
+
+            is Result.Failure -> {
+                Log.e(
+                    logTag,
+                    "Manual calibration failed: ${result.error.message}",
+                    result.error.toException()
+                )
+                DeviceCommandResult.Failed(
+                    result.error.toException()
+                )
+            }
+        }
+    }
+
+    suspend fun startPreview(): DeviceCommandResult {
+        if (isSimulationMode) {
+            previewRunningState.value =
+                true
+            return DeviceCommandResult.Accepted
+        }
+        return hardwareClient.startPreview()
+            .map {
+                previewRunningState.value =
+                    true
+                DeviceCommandResult.Accepted
+            }
+            .recover { error ->
+                Log.e(
+                    logTag,
+                    "Start preview failed: ${error.message}",
+                    error.cause
+                )
+                DeviceCommandResult.Failed(
+                    error.toException()
+                )
+            }
+            .getOrThrow()
+    }
+
+    suspend fun stopPreview(): DeviceCommandResult {
+        if (isSimulationMode) {
+            previewRunningState.value =
+                false
+            return DeviceCommandResult.Accepted
+        }
+        return hardwareClient.stopPreview()
+            .map {
+                previewRunningState.value =
+                    false
+                DeviceCommandResult.Accepted
+            }
+            .recover { error ->
+                Log.e(
+                    logTag,
+                    "Stop preview failed: ${error.message}",
+                    error.cause
+                )
+                DeviceCommandResult.Failed(
+                    error.toException()
+                )
+            }
+            .getOrThrow()
+    }
+
+    override suspend fun collectArtifacts(
+        sessionId: String
+    ): List<SessionArtifact> {
+        if (isSimulationMode) {
+            return super.collectArtifacts(
+                sessionId
+            )
+        }
+        val artifacts =
+            mutableListOf<SessionArtifact>()
+        writerLock.withLock {
+            val iterator =
+                pendingArtifacts.iterator()
+            while (iterator.hasNext()) {
+                val (queuedSession, artifact) = iterator.next()
+                if (queuedSession == sessionId) {
+                    artifacts += artifact
+                    iterator.remove()
+                }
+            }
+        }
+        return artifacts
+    }
+
+    private fun applyHardwareSettings(
+        settings: TopdonSettings
+    ) {
+        val hardwareSettings =
+            TopdonHardwareSettings(
+                palette = when (settings.palette) {
+                    TopdonPalette.GRAYSCALE -> Palette.Gray
+                    TopdonPalette.IRONBOW -> Palette.Ironbow
+                    TopdonPalette.RAINBOW -> Palette.Rainbow
+                    TopdonPalette.ARCTIC -> Palette.Arctic
+                },
+                emissivity = settings.emissivity,
+                distanceMeters = null,  // Not exposed in UI yet
+                autoShutter = settings.autoShutterEnabled,
+                gainMode = when (settings.gainMode) {
+                    TopdonGainMode.AUTO -> GainMode.Auto
+                    TopdonGainMode.HIGH -> GainMode.High
+                    TopdonGainMode.LOW -> GainMode.Low
+                },
+                hdrEnabled = when (settings.dynamicRange) {
+                    TopdonDynamicRange.STANDARD -> false
+                    TopdonDynamicRange.WIDE -> true
+                },
+                previewFpsLimit = settings.previewFpsLimit,
+                superSamplingFactor = settings.superSampling.multiplier
+            )
+        appScope.launch {
+            runCatching {
+                hardwareClient.applySettings(
+                    hardwareSettings
+                )
+            }
+                .onFailure { error ->
+                    Log.w(
+                        logTag,
+                        "Failed to push Topdon settings to hardware: ${error.message}"
+                    )
+                }
+        }
+    }
+
+    private fun handleHardwareStatus(
+        status: TopdonStatus
+    ) {
+        when (status) {
+            TopdonStatus.Idle -> {
+                previewRunningState.value =
+                    false
+                statusState.value =
+                    emptyList()
+                deviceState.update { device ->
+                    device.copy(
+                        connectionStatus = ConnectionStatus.Disconnected,
+                        isSimulated = device.isSimulated && isSimulationMode
+                    )
+                }
+            }
+
+            is TopdonStatus.Attached -> {
+                previewRunningState.value =
+                    false
+                val attributes =
+                    mapOf(
+                        "usb.vendorId" to "0x${
+                            status.vendorId.toString(
+                                16
+                            )
+                        }",
+                        "usb.productId" to "0x${
+                            status.productId.toString(
+                                16
+                            )
+                        }",
+                        "usb.serialNumber" to (status.serialNumber
+                            ?: "")
+                    )
+                val connectionStatus =
+                    if (status.hasPermission) {
+                        ConnectionStatus.Connected(
+                            since = nowInstant(),
+                            batteryPercent = null,
+                            rssiDbm = null
+                        )
+                    } else {
+                        ConnectionStatus.Connecting
+                    }
+                deviceState.update { device ->
+                    device.copy(
+                        connectionStatus = connectionStatus,
+                        attributes = attributes,
+                        isSimulated = false
+                    )
+                }
+            }
+
+            is TopdonStatus.Connected -> {
+                previewRunningState.value =
+                    false
+                val attributes =
+                    mapOf(
+                        "usb.vendorId" to "0x${
+                            status.vendorId.toString(
+                                16
+                            )
+                        }",
+                        "usb.productId" to "0x${
+                            status.productId.toString(
+                                16
+                            )
+                        }",
+                        "usb.serialNumber" to (status.serialNumber
+                            ?: "")
+                    )
+                val since =
+                    Instant.fromEpochMilliseconds(
+                        status.sinceEpochMs
+                    )
+                deviceState.update { device ->
+                    device.copy(
+                        connectionStatus = ConnectionStatus.Connected(
+                            since = since,
+                            batteryPercent = null,
+                            rssiDbm = null
+                        ),
+                        attributes = attributes,
+                        isSimulated = false
+                    )
+                }
+            }
+
+            is TopdonStatus.Streaming -> {
+                val attributes =
+                    mapOf(
+                        "usb.vendorId" to "0x${
+                            status.vendorId.toString(
+                                16
+                            )
+                        }",
+                        "usb.productId" to "0x${
+                            status.productId.toString(
+                                16
+                            )
+                        }",
+                        "usb.serialNumber" to (status.serialNumber
+                            ?: "")
+                    )
+                val since =
+                    Instant.fromEpochMilliseconds(
+                        status.sinceEpochMs
+                    )
+                deviceState.update { device ->
+                    device.copy(
+                        connectionStatus = ConnectionStatus.Connected(
+                            since = since,
+                            batteryPercent = null,
+                            rssiDbm = null
+                        ),
+                        attributes = attributes,
+                        isSimulated = false
+                    )
+                }
+            }
+
+            is TopdonStatus.Error -> {
+                previewRunningState.value =
+                    false
+                Log.e(
+                    logTag,
+                    "Topdon hardware error: ${status.message} (recoverable=${status.recoverable})"
+                )
+                statusState.value =
+                    emptyList()
+                deviceState.update { device ->
+                    device.copy(
+                        connectionStatus = ConnectionStatus.Disconnected,
+                        isSimulated = false
+                    )
+                }
+            }
+        }
+    }
+
+    private fun handlePreviewFrame(
+        frame: HardwarePreviewFrame
+    ) {
+        val domainFrame =
+            TopdonPreviewFrame(
+                timestamp = Instant.fromEpochMilliseconds(
+                    frame.timestampEpochMs
+                ),
+                width = frame.width,
+                height = frame.height,
+                mimeType = frame.mimeType,
+                payload = frame.payload,
+                superSamplingFactor = frame.superSamplingFactor,
+                minTemp = frame.metrics.minCelsius.toFloat(),
+                maxTemp = frame.metrics.maxCelsius.toFloat(),
+                avgTemp = frame.metrics.avgCelsius.toFloat()
+            )
+        previewFrameState.value =
+            domainFrame
+        previewRunningState.value =
+            true
+        updatePreviewStatus(
+            domainFrame.timestamp
+        )
+    }
+
+    private fun handleStreamEvent(
+        event: TopdonStreamEvent
+    ) {
+        val payload =
+            event.payload
+        val timestamp =
+            Instant.fromEpochMilliseconds(
+                event.timestampEpochMs
+            )
+        lastMetrics =
+            event.metrics
+        thermalFrameCount =
+            event.frameCount
+        if (streamStartTimestamp == null) {
+            streamStartTimestamp =
+                timestamp
+        }
+        if (payload != null) {
+            writerLock.withLock {
+                try {
+                    thermalStream?.write(
+                        payload
+                    )
+                    thermalDigest?.update(
+                        payload
+                    )
+                    thermalBytes += payload.size
+                } catch (t: Throwable) {
+                    Log.w(
+                        logTag,
+                        "Failed to persist thermal payload: ${t.message}"
+                    )
+                }
+            }
+        }
+        val elapsed =
+            streamStartTimestamp?.let { timestamp - it }
+        val fps =
+            elapsed?.inWholeMilliseconds?.takeIf { it > 0 }?.let { millis ->
+                event.frameCount * 1000.0 / millis.toDouble()
+            }
+        val thermalStatus =
+            SensorStreamStatus(
+                deviceId = deviceId,
+                streamType = SensorStreamType.THERMAL_VIDEO,
+                sampleRateHz = null,
+                frameRateFps = fps,
+                lastSampleTimestamp = timestamp,
+                bufferedDurationSeconds = elapsed?.inWholeMilliseconds?.div(1000.0) ?: 0.0,
+                isStreaming = true,
+                isSimulated = false
+            )
+        val previewStatus =
+            SensorStreamStatus(
+                deviceId = deviceId,
+                streamType = SensorStreamType.PREVIEW,
+                sampleRateHz = null,
+                frameRateFps = currentSettings.previewFpsLimit.toDouble(),
+                lastSampleTimestamp = timestamp,
+                bufferedDurationSeconds = 0.0,
+                isStreaming = previewRunningState.value,
+                isSimulated = false
+            )
+        statusState.value =
+            listOf(
+                thermalStatus,
+                previewStatus
+            )
+        if (event.endOfStream) {
+            streamStartTimestamp =
+                null
+            clearRecordingState(
+                finalize = true
+            )
+        }
+    }
+
+    private fun updatePreviewStatus(
+        timestamp: Instant
+    ) {
+        val previewStatus =
+            SensorStreamStatus(
+                deviceId = deviceId,
+                streamType = SensorStreamType.PREVIEW,
+                sampleRateHz = null,
+                frameRateFps = currentSettings.previewFpsLimit.toDouble(),
+                lastSampleTimestamp = timestamp,
+                bufferedDurationSeconds = 0.0,
+                isStreaming = true,
+                isSimulated = false
+            )
+        val existing =
+            statusState.value.filterNot { it.streamType == SensorStreamType.PREVIEW }
+        statusState.value =
+            existing + previewStatus
+    }
+
+    private fun logHardwareNotice(
+        notice: TopdonNotice
+    ) {
+        val tag =
+            when (notice.category) {
+                TopdonNotice.Category.Info -> "info"
+                TopdonNotice.Category.Warning -> "warn"
+                TopdonNotice.Category.Error -> "error"
+            }
+        Log.i(
+            logTag,
+            "[hardware:$tag] ${notice.message}"
+        )
+    }
+
+    private suspend fun prepareThermalRecording(
+        sessionId: String
+    ) {
+        clearRecordingState(
+            finalize = true
+        )
+        writerLock.withLock {
+            val file =
+                recordingStorage.createArtifactFile(
+                    sessionId = sessionId,
+                    deviceId = deviceId.value,
+                    streamType = "thermal_video",
+                    timestampEpochMs = System.currentTimeMillis(),
+                    extension = "raw"
+                )
+            val digest =
+                MessageDigest.getInstance(
+                    "SHA-256"
+                )
+            thermalStream =
+                FileOutputStream(
+                    file
+                )
+            thermalDigest =
+                digest
+            thermalFile =
+                file
+            currentSessionId =
+                sessionId
+            thermalBytes =
+                0
+            thermalFrameCount =
+                0
+        }
+    }
+
+    private fun enqueueArtifact(
+        sessionId: String,
+        file: File,
+        digest: MessageDigest
+    ) {
+        val checksum =
+            digest.digest()
+        val metadata =
+            buildMap {
+                put(
+                    "frameCount",
+                    thermalFrameCount.toString()
+                )
+                put(
+                    "bytesCaptured",
+                    thermalBytes.toString()
+                )
+                lastMetrics?.let { metrics ->
+                    put(
+                        "minTempC",
+                        metrics.minCelsius.toString()
+                    )
+                    put(
+                        "maxTempC",
+                        metrics.maxCelsius.toString()
+                    )
+                    put(
+                        "avgTempC",
+                        metrics.avgCelsius.toString()
+                    )
+                }
+            }
+        val artifact =
+            SessionArtifact(
+                deviceId = deviceId,
+                streamType = SensorStreamType.THERMAL_VIDEO,
+                uri = Uri.fromFile(
+                    file
+                ),
+                file = file,
+                mimeType = "application/octet-stream",
+                sizeBytes = file.length(),
+                checksumSha256 = checksum,
+                metadata = metadata
+            )
+        pendingArtifacts += sessionId to artifact
+    }
+
+    private fun clearRecordingState(
+        finalize: Boolean
+    ) {
+        writerLock.withLock {
+            runCatching { thermalStream?.flush() }
+            runCatching { thermalStream?.close() }
+            thermalStream =
+                null
+        }
+        val sessionId =
+            currentSessionId
+        val file =
+            thermalFile
+        val digest =
+            thermalDigest
+        thermalDigest =
+            null
+        thermalFile =
+            null
+        currentSessionId =
+            null
+        if (!finalize) {
+            file?.delete()
+            return
+        }
+        if (file != null && sessionId != null && digest != null) {
+            enqueueArtifact(
+                sessionId,
+                file,
+                digest
+            )
+        } else {
+            file?.delete()
+        }
+        thermalBytes =
+            0
+        thermalFrameCount =
+            0
+        lastMetrics =
+            null
+        streamStartTimestamp =
+            null
+    }
+
+    override fun streamIntervalMs(): Long =
+        200L
+
+    override fun simulatedBatteryPercent(
+        device: SensorDevice
+    ): Int? =
+        null
+
+    override fun simulatedRssi(
+        device: SensorDevice
+    ): Int? =
+        null
+
+    override fun sampleStatuses(
+        timestamp: Instant,
+        frameCounter: Long,
+        anchor: RecordingSessionAnchor
+    ): List<SensorStreamStatus> {
+        val jitter =
+            ((frameCounter + deviceId.value.hashCode()).absoluteValue % 1000) / 10_000.0
+        val thermal =
+            SensorStreamStatus(
+                deviceId = deviceId,
+                streamType = SensorStreamType.THERMAL_VIDEO,
+                sampleRateHz = null,
+                frameRateFps = 25.0,
+                lastSampleTimestamp = timestamp,
+                bufferedDurationSeconds = simulatedBufferedSeconds(
+                    streamType = SensorStreamType.THERMAL_VIDEO,
+                    baseVideo = 0.6,
+                    baseSample = 0.0,
+                    randomizer = { jitter }
+                ),
+                isStreaming = true,
+                isSimulated = true
+            )
+        val preview =
+            SensorStreamStatus(
+                deviceId = deviceId,
+                streamType = SensorStreamType.PREVIEW,
+                sampleRateHz = null,
+                frameRateFps = currentSettings.previewFpsLimit.toDouble(),
+                lastSampleTimestamp = timestamp,
+                bufferedDurationSeconds = simulatedBufferedSeconds(
+                    streamType = SensorStreamType.PREVIEW,
+                    baseVideo = 0.3,
+                    baseSample = 0.0,
+                    randomizer = { jitter / 2 }
+                ),
+                isStreaming = true,
+                isSimulated = true
+            )
+        return listOf(
+            thermal,
+            preview
+        )
+    }
+
+    private companion object {
+        private const val ATTR_VENDOR_ID =
+            "usb.vendorId"
+        private const val ATTR_PRODUCT_ID =
+            "usb.productId"
+        private const val ATTR_SERIAL =
+            "usb.serialNumber"
+    }
+}

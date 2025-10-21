@@ -4,33 +4,18 @@ plugins {
 
 android {
     namespace 'com.infisense.ir'
-    compileSdk
-    rootProject
-            .ext
-            .android
-            .compileSdkVer
+    compileSdk rootProject.ext.android.compileSdkVer
 
     defaultConfig {
-        applicationId "com.infisense.ir"
-        minSdk rootProject
-                .ext
-                .android
-                .minSdkVer
-        targetSdk
-        rootProject
-                .ext
-                .android
-                .targetSdkVer
+        applicationId 'com.infisense.ir'
+        minSdk rootProject.ext.android.minSdkVer
+        targetSdk rootProject.ext.android.targetSdkVer
         versionCode 100
-        versionName "1.0.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionName '1.0.0'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         ndk {
-            abiFilters 'arm64-v8a',
-                    'armeabi',
-                    'armeabi-v7a'
+            abiFilters 'arm64-v8a', 'armeabi', 'armeabi-v7a'
         }
-
     }
 
     buildTypes {
@@ -38,53 +23,38 @@ android {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
-            proguardFiles
-            getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            ) ,
-            'proguard-rules.pro'
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
         }
         debug {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
-            proguardFiles
-            getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            ) ,
-            'proguard-rules.pro'
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
         }
     }
 
     compileOptions {
-        sourceCompatibility
-        JavaVersion
-                .VERSION_1_8
-        targetCompatibility
-        JavaVersion
-                .VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-    dataBinding {
-        enabled =
-                true
+
+    buildFeatures {
+        dataBinding true
     }
 }
 
 dependencies {
-    implementation
-    roots
-            .appcompat
-    implementation
-    roots
-            .material
-    testImplementation
-    roots
-            .junit
-    androidTestImplementation
-    roots["ext-junit"]
-    androidTestImplementation
-    roots["espresso-core"]
-    implementation
-    roots
-            .constraintlayout
+    implementation roots.appcompat
+    implementation roots.material
+    implementation roots.constraintlayout
+
+    testImplementation roots.junit
+    androidTestImplementation roots['ext-junit']
+    androidTestImplementation roots['espresso-core']
+}
+
+configurations.all {
+    resolutionStrategy.force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
+    resolutionStrategy.force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10'
+    resolutionStrategy.force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10'
 }

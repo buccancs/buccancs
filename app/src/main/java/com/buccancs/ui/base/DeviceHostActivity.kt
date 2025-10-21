@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,6 +34,9 @@ abstract class DeviceHostActivity : ComponentActivity() {
     val usbAttachmentEvents: SharedFlow<UsbDeviceAttachmentEvent> =
         _usbAttachmentEvents.asSharedFlow()
 
+    private val pendingUsbPermissionRequests =
+        mutableSetOf<String>()
+
     private val permissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
@@ -43,11 +47,21 @@ abstract class DeviceHostActivity : ComponentActivity() {
     private var educationPresented =
         false
 
+    /**
+     * Whether the host should immediately request permissions for recognised USB devices.
+     */
+    protected open val autoRequestUsbPermission: Boolean =
+        false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestRuntimePermissions()
         handleUsbIntent(intent)
         deviceScanner.startBackgroundScan(intervalMs = backgroundScanIntervalMs)
+
+        if (autoRequestUsbPermission) {
+            startAutoUsbPermissionWatcher()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -129,9 +143,16 @@ abstract class DeviceHostActivity : ComponentActivity() {
      * Called when an eligible USB device is attached.
      */
     protected open fun onDeviceAttached(device: UsbDevice) {
+        if (autoRequestUsbPermission) {
+            pendingUsbPermissionRequests.add(device.permissionKey())
+            deviceScanner.requestUsbPermission(device)
+        }
         lifecycleScope.launch {
             _usbAttachmentEvents.emit(
-                UsbDeviceAttachmentEvent(device)
+                UsbDeviceAttachmentEvent(
+                    device = device,
+                    autoRequestedPermission = autoRequestUsbPermission
+                )
             )
         }
     }
@@ -209,6 +230,41 @@ abstract class DeviceHostActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun startAutoUsbPermissionWatcher() {
+        lifecycleScope.launch {
+            deviceScanner.scanState.collectLatest { state ->
+                val recognisedWithoutPermission =
+                    state.usbDevices.filter { scanned ->
+                        isRecognisedDevice(scanned.device) && !scanned.hasPermission
+                    }
+
+                val activeKeys =
+                    recognisedWithoutPermission.map { scanned ->
+                        scanned.device.permissionKey()
+                    }.toSet()
+
+                recognisedWithoutPermission.forEach { scanned ->
+                    val key =
+                        scanned.device.permissionKey()
+                    if (pendingUsbPermissionRequests.add(key)) {
+                        deviceScanner.requestUsbPermission(scanned.device)
+                    }
+                }
+
+                pendingUsbPermissionRequests.retainAll(activeKeys)
+            }
+        }
+    }
+
+    private fun UsbDevice.permissionKey(): String =
+        buildString {
+            append(vendorId)
+            append(':')
+            append(productId)
+            append(':')
+            append(deviceName ?: "unknown")
+        }
 
     data class PermissionEducation(
         val permission: String,

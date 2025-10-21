@@ -5,8 +5,10 @@ import android.util.Log
 import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
+import com.buccancs.data.sensor.connector.topdon.ThermalNormalizer
+import com.buccancs.data.sensor.connector.topdon.capture.TopdonCaptureManager
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
-import com.buccancs.data.storage.RecordingStorage
+import com.buccancs.data.sensor.connector.topdon.RecordingArtifactStorage
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
@@ -36,13 +38,14 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Instant
 import kotlin.time.Instant.Companion.fromEpochMilliseconds
 
 @Singleton
 internal class TopdonConnectorManager @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     @ApplicationContext private val context: Context,
-    private val recordingStorage: RecordingStorage,
+    private val recordingStorage: RecordingArtifactStorage,
     private val thermalNormalizer: ThermalNormalizer,
     private val artifactFactory: SimulatedArtifactFactory,
     private val configRepository: SensorHardwareConfigRepository,
@@ -200,6 +203,12 @@ internal class TopdonConnectorManager @Inject constructor(
         return connectorCache[deviceId]?.previewRunningFlow
     }
 
+    fun lastCalibration(
+        deviceId: DeviceId
+    ): StateFlow<Instant?>? {
+        return connectorCache[deviceId]?.calibrationFlow
+    }
+
     suspend fun startPreview(
         deviceId: DeviceId
     ): DeviceCommandResult {
@@ -222,6 +231,17 @@ internal class TopdonConnectorManager @Inject constructor(
         return managed.connector.stopPreview()
     }
 
+    suspend fun triggerManualCalibration(
+        deviceId: DeviceId
+    ): DeviceCommandResult {
+        val managed =
+            connectorCache[deviceId]
+                ?: return DeviceCommandResult.Rejected(
+                    "Unknown Topdon device ${deviceId.value}"
+                )
+        return managed.connector.triggerManualCalibration()
+    }
+
     suspend fun capturePhoto(
         deviceId: DeviceId
     ): DeviceCommandResult {
@@ -236,71 +256,30 @@ internal class TopdonConnectorManager @Inject constructor(
                 ?: return DeviceCommandResult.Rejected(
                     "No preview frame available"
                 )
+        val activeSettings =
+            managed.settings.settings.value
 
-        return withContext(
-            Dispatchers.IO
-        ) {
-            try {
-                val contentResolver =
-                    context.contentResolver
-                val contentValues =
-                    android.content.ContentValues()
-                        .apply {
-                            put(
-                                android.provider.MediaStore.Images.Media.DISPLAY_NAME,
-                                "thermal_${System.currentTimeMillis()}.jpg"
-                            )
-                            put(
-                                android.provider.MediaStore.Images.Media.MIME_TYPE,
-                                "image/jpeg"
-                            )
-                            put(
-                                android.provider.MediaStore.Images.Media.RELATIVE_PATH,
-                                "Pictures/BuccanCS/Thermal"
-                            )
-                        }
-
-                val uri =
-                    contentResolver.insert(
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        contentValues
+        return withContext(Dispatchers.IO) {
+            managed.captureManager.capturePhoto(
+                frame = frame,
+                settings = activeSettings
+            ).fold(
+                onSuccess = { result ->
+                    Log.i(
+                        "TopdonConnectorManager",
+                        "Photo saved to ${result.file.absolutePath}"
                     )
-                        ?: return@withContext DeviceCommandResult.Failed(
-                            IllegalStateException(
-                                "Failed to create media store entry"
-                            )
-                        )
-
-                contentResolver.openOutputStream(
-                    uri
-                )
-                    ?.use { outputStream ->
-                        val bitmap =
-                            thermalNormalizer.createBitmapFromFrame(
-                                frame
-                            )
-                        bitmap.compress(
-                            android.graphics.Bitmap.CompressFormat.JPEG,
-                            95,
-                            outputStream
-                        )
-                    }
-
-                Log.i(
-                    "TopdonConnectorManager",
-                    "Photo saved to $uri"
-                )
-                DeviceCommandResult.Accepted
-            } catch (t: Throwable) {
-                Log.e(
-                    "TopdonConnectorManager",
-                    "Failed to capture photo",
-                    t
-                )
-                DeviceCommandResult.Failed(
-                    t
-                )
-            }
+                    DeviceCommandResult.Accepted
+                },
+                onFailure = { error ->
+                    Log.e(
+                        "TopdonConnectorManager",
+                        "Failed to capture photo",
+                        error
+                    )
+                    DeviceCommandResult.Failed(error)
+                }
+            )
         }
     }
 
@@ -460,6 +439,12 @@ internal class TopdonConnectorManager @Inject constructor(
                     entry
                 )
             )
+        val captureManager =
+            TopdonCaptureManager(
+                context = context,
+                deviceId = deviceId,
+                normalizer = thermalNormalizer
+            )
         val connector =
             TopdonThermalConnector(
                 appScope = scope,
@@ -467,6 +452,7 @@ internal class TopdonConnectorManager @Inject constructor(
                 recordingStorage = recordingStorage,
                 artifactFactory = artifactFactory,
                 settingsRepository = settings,
+                captureManager = captureManager,
                 initialDevice = device
             )
         val normalizedConfig =
@@ -567,7 +553,9 @@ internal class TopdonConnectorManager @Inject constructor(
                 configJob = configJob,
                 config = normalizedConfig,
                 previewFrameFlow = connector.previewFrameFlow,
-                previewRunningFlow = connector.previewRunningFlow
+                previewRunningFlow = connector.previewRunningFlow,
+                calibrationFlow = connector.lastCalibrationFlow,
+                captureManager = captureManager
             )
         managedRef =
             managed
@@ -730,7 +718,8 @@ internal class TopdonConnectorManager @Inject constructor(
         val configJob: Job,
         var config: TopdonDeviceConfig,
         val previewFrameFlow: StateFlow<TopdonPreviewFrame?>,
-        val previewRunningFlow: StateFlow<Boolean>
+        val previewRunningFlow: StateFlow<Boolean>,
+        val calibrationFlow: StateFlow<Instant?>,
+        val captureManager: TopdonCaptureManager
     )
 }
-

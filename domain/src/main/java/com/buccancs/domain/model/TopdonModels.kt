@@ -27,6 +27,11 @@ enum class TopdonGainMode {
     LOW
 }
 
+enum class TopdonDynamicRange {
+    STANDARD,
+    WIDE
+}
+
 enum class TopdonSuperSamplingFactor(
     val multiplier: Int
 ) {
@@ -49,7 +54,9 @@ data class TopdonSettings(
     val superSampling: TopdonSuperSamplingFactor = TopdonSuperSamplingFactor.X2,
     val previewFpsLimit: Int = DEFAULT_PREVIEW_FPS_LIMIT,
     val emissivity: Double = DEFAULT_EMISSIVITY,
-    val gainMode: TopdonGainMode = TopdonGainMode.AUTO
+    val gainMode: TopdonGainMode = TopdonGainMode.AUTO,
+    val autoShutterEnabled: Boolean = true,
+    val dynamicRange: TopdonDynamicRange = TopdonDynamicRange.STANDARD
 ) {
     companion object {
         const val DEFAULT_PREVIEW_FPS_LIMIT = 12
@@ -75,7 +82,8 @@ data class TopdonDeviceState(
     val previewActive: Boolean,
     val lastPreviewTimestamp: Instant?,
     val scanning: Boolean,
-    val lastError: String?
+    val lastError: String?,
+    val lastCalibrationTimestamp: Instant?
 )
 
 data class ThermalImage(

@@ -16,10 +16,14 @@ import androidx.navigation.navArgument
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.TOPDON_TC001_DEVICE_ID
 import com.buccancs.hardware.DeviceScannerService
+import com.buccancs.ui.base.ShimmerAutoLaunchDecision
+import com.buccancs.ui.base.ShimmerAutoLaunchEvent
+import com.buccancs.ui.base.ShimmerAutoLaunchMode
 import com.buccancs.ui.base.UsbDeviceAttachmentEvent
 import com.buccancs.ui.camera.RgbCameraRoute
 import com.buccancs.ui.camera.RgbCameraSettingsRoute
 import com.buccancs.ui.components.scanner.TopdonDevicePermissionDialog
+import com.buccancs.ui.components.shimmer.ShimmerAutoLaunchDialog
 import com.buccancs.ui.devices.DevicesRoute
 import com.buccancs.ui.library.SessionDetailRoute
 import com.buccancs.ui.library.SessionLibraryRoute
@@ -38,11 +42,14 @@ import kotlinx.coroutines.flow.SharedFlow
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController(),
-    usbAttachmentEvents: SharedFlow<UsbDeviceAttachmentEvent>? = null
+    usbAttachmentEvents: SharedFlow<UsbDeviceAttachmentEvent>? = null,
+    shimmerAutoLaunchEvents: SharedFlow<ShimmerAutoLaunchEvent>? = null,
+    onShimmerAutoLaunchDecision: ((ShimmerAutoLaunchEvent, ShimmerAutoLaunchDecision) -> Unit)? = null
 ) {
     // State for Topdon device permission dialog
     var showTopdonPermissionDialog by remember { mutableStateOf(false) }
     var pendingTopdonDevice by remember { mutableStateOf<android.hardware.usb.UsbDevice?>(null) }
+    var pendingShimmerAutoLaunchEvent by remember { mutableStateOf<ShimmerAutoLaunchEvent?>(null) }
 
     // Get device scanner service via Hilt
     val deviceScanner: DeviceScannerService = hiltViewModel<DeviceScannerViewModel>().deviceScanner
@@ -50,8 +57,31 @@ fun AppNavHost(
     // Listen for USB attachment events
     LaunchedEffect(usbAttachmentEvents) {
         usbAttachmentEvents?.collect { event ->
-            pendingTopdonDevice = event.device
-            showTopdonPermissionDialog = true
+            if (event.autoRequestedPermission) {
+                pendingTopdonDevice = null
+                showTopdonPermissionDialog = false
+            } else {
+                pendingTopdonDevice = event.device
+                showTopdonPermissionDialog = true
+            }
+        }
+    }
+
+    // Listen for Shimmer auto-launch events
+    LaunchedEffect(shimmerAutoLaunchEvents) {
+        shimmerAutoLaunchEvents?.collect { event ->
+            when (event.mode) {
+                ShimmerAutoLaunchMode.ASK -> {
+                    pendingShimmerAutoLaunchEvent = event
+                }
+
+                ShimmerAutoLaunchMode.ALWAYS -> {
+                    navController.navigate(Screen.Shimmer.route) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            }
         }
     }
 
@@ -70,6 +100,33 @@ fun AppNavHost(
             onDismiss = {
                 showTopdonPermissionDialog = false
                 pendingTopdonDevice = null
+            }
+        )
+    }
+
+    pendingShimmerAutoLaunchEvent?.let { event ->
+        ShimmerAutoLaunchDialog(
+            deviceName = event.deviceName,
+            onAllow = { always ->
+                val decision =
+                    if (always) {
+                        ShimmerAutoLaunchDecision.ALWAYS_ALLOW
+                    } else {
+                        ShimmerAutoLaunchDecision.ALLOW_ONCE
+                    }
+                onShimmerAutoLaunchDecision?.invoke(event, decision)
+                pendingShimmerAutoLaunchEvent = null
+                navController.navigate(Screen.Shimmer.route) {
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
+            onDeny = {
+                onShimmerAutoLaunchDecision?.invoke(
+                    event,
+                    ShimmerAutoLaunchDecision.DENY
+                )
+                pendingShimmerAutoLaunchEvent = null
             }
         )
     }

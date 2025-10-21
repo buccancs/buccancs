@@ -3,6 +3,7 @@ package com.buccancs.data.sensor.topdon
 import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
+import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import com.buccancs.domain.repository.TopdonSettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -92,6 +93,28 @@ class InMemoryTopdonSettingsRepository(
             state.value =
                 state.value.copy(
                     gainMode = mode
+                )
+        }
+    }
+
+    override suspend fun setAutoShutter(
+        enabled: Boolean
+    ) {
+        mutex.withLock {
+            state.value =
+                state.value.copy(
+                    autoShutterEnabled = enabled
+                )
+        }
+    }
+
+    override suspend fun setDynamicRange(
+        range: TopdonDynamicRange
+    ) {
+        mutex.withLock {
+            state.value =
+                state.value.copy(
+                    dynamicRange = range
                 )
         }
     }

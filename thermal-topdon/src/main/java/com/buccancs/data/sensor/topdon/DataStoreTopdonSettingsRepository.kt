@@ -14,6 +14,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
+import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import com.buccancs.domain.repository.TopdonSettingsRepository
@@ -68,6 +69,14 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
     private val gainModeKey =
         stringPreferencesKey(
             "gain_mode"
+        )
+    private val autoShutterKey =
+        booleanPreferencesKey(
+            "auto_shutter"
+        )
+    private val dynamicRangeKey =
+        stringPreferencesKey(
+            "dynamic_range"
         )
 
     override val settings: StateFlow<TopdonSettings> =
@@ -148,6 +157,24 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
         }
     }
 
+    override suspend fun setAutoShutter(
+        enabled: Boolean
+    ) {
+        dataStore.edit { prefs ->
+            prefs[autoShutterKey] =
+                enabled
+        }
+    }
+
+    override suspend fun setDynamicRange(
+        range: TopdonDynamicRange
+    ) {
+        dataStore.edit { prefs ->
+            prefs[dynamicRangeKey] =
+                range.name
+        }
+    }
+
     private fun Preferences.toSettings(): TopdonSettings {
         val autoConnect =
             this[autoConnectKey]
@@ -187,6 +214,17 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
                 }.getOrNull()
             }
                 ?: TopdonSettings().gainMode
+        val autoShutter =
+            this[autoShutterKey]
+                ?: TopdonSettings().autoShutterEnabled
+        val dynamicRangeName =
+            this[dynamicRangeKey]
+        val dynamicRange =
+            dynamicRangeName?.let {
+                runCatching {
+                    TopdonDynamicRange.valueOf(it)
+                }.getOrNull()
+            } ?: TopdonSettings().dynamicRange
         return TopdonSettings(
             autoConnectOnAttach = autoConnect,
             palette = palette,
@@ -196,7 +234,9 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
                 MAX_FPS_LIMIT
             ),
             emissivity = emissivity.coerceIn(0.01, 1.0),
-            gainMode = gainMode
+            gainMode = gainMode,
+            autoShutterEnabled = autoShutter,
+            dynamicRange = dynamicRange
         )
     }
 

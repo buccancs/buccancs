@@ -49,5 +49,5 @@ internal object SensorConnectorModule {
         manager: TopdonConnectorManager
     ): MultiDeviceConnector =
         manager
-}
 
+}

@@ -12,9 +12,16 @@ import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
+import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.repository.TopdonDeviceRepository
 import com.buccancs.domain.repository.TopdonSettingsRepository
+import com.buccancs.ui.components.topdon.MeasurementMode
+import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget
+import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Area
+import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Line
+import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Spot
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -36,13 +43,21 @@ class TopdonViewModel @Inject constructor(
         deviceRepository.previewFrame
     private val settingsFlow =
         settingsRepository.settings
+    private val measurementModeState =
+        MutableStateFlow(MeasurementMode.SPOT)
+    private val measurementTargetState =
+        MutableStateFlow<ThermalMeasurementTarget>(
+            Spot(DEFAULT_SPOT_X, DEFAULT_SPOT_Y)
+        )
 
     val uiState: StateFlow<TopdonUiState> =
         combine(
             streamState,
             previewFrames,
-            settingsFlow
-        ) { deviceState, previewFrame, settings ->
+            settingsFlow,
+            measurementModeState,
+            measurementTargetState
+        ) { deviceState, previewFrame, settings, measurementMode, measurementTarget ->
             TopdonUiState(
                 deviceLabel = deviceState.device?.displayName
                     ?: "Topdon TC001",
@@ -56,11 +71,17 @@ class TopdonViewModel @Inject constructor(
                 scanning = deviceState.scanning,
                 errorMessage = deviceState.lastError,
                 settings = settings,
+                lastCalibrationTimestamp = deviceState.lastCalibrationTimestamp,
                 streamStatuses = deviceState.statuses.map { it.toUiModel() },
                 paletteOptions = TopdonPalette.values()
                     .toList(),
                 superSamplingOptions = TopdonSuperSamplingFactor.values()
                     .toList(),
+                measurementMode = measurementMode,
+                measurementTarget = measurementTarget,
+                isRecording = deviceState.statuses.any { status ->
+                    status.streamType == SensorStreamType.THERMAL_VIDEO && status.isStreaming
+                },
                 previewStateCode = determinePreviewState(
                     deviceState,
                     previewFrame
@@ -163,6 +184,53 @@ class TopdonViewModel @Inject constructor(
         }
     }
 
+    fun setMeasurementMode(
+        mode: MeasurementMode
+    ) {
+        measurementModeState.value =
+            mode
+        measurementTargetState.value =
+            defaultTargetForMode(
+                mode
+            )
+    }
+
+    fun updateMeasurementTarget(
+        target: ThermalMeasurementTarget
+    ) {
+        measurementTargetState.value =
+            target.clampToFrame(
+                FRAME_WIDTH,
+                FRAME_HEIGHT
+            )
+    }
+
+    fun setAutoShutter(
+        enabled: Boolean
+    ) {
+        viewModelScope.launch {
+            settingsRepository.setAutoShutter(
+                enabled
+            )
+        }
+    }
+
+    fun setDynamicRange(
+        range: TopdonDynamicRange
+    ) {
+        viewModelScope.launch {
+            settingsRepository.setDynamicRange(
+                range
+            )
+        }
+    }
+
+    fun triggerManualCalibration() {
+        viewModelScope.launch {
+            deviceRepository.triggerManualCalibration()
+        }
+    }
+
     fun clearError() {
         viewModelScope.launch { deviceRepository.clearError() }
     }
@@ -261,7 +329,45 @@ class TopdonViewModel @Inject constructor(
     companion object {
         const val DEVICE_ID_KEY =
             "deviceId"
+        private const val FRAME_WIDTH = 256
+        private const val FRAME_HEIGHT = 192
+        private const val DEFAULT_SPOT_X = FRAME_WIDTH / 2
+        private const val DEFAULT_SPOT_Y = FRAME_HEIGHT / 2
+        private const val DEFAULT_AREA_HALF = 32
     }
+
+    private fun defaultTargetForMode(
+        mode: MeasurementMode
+    ): ThermalMeasurementTarget =
+        when (mode) {
+            MeasurementMode.SPOT ->
+                Spot(
+                    DEFAULT_SPOT_X,
+                    DEFAULT_SPOT_Y
+                )
+
+            MeasurementMode.AREA ->
+                Area(
+                    startX = (DEFAULT_SPOT_X - DEFAULT_AREA_HALF).coerceAtLeast(0),
+                    startY = (DEFAULT_SPOT_Y - DEFAULT_AREA_HALF).coerceAtLeast(0),
+                    endX = (DEFAULT_SPOT_X + DEFAULT_AREA_HALF).coerceAtMost(FRAME_WIDTH - 1),
+                    endY = (DEFAULT_SPOT_Y + DEFAULT_AREA_HALF).coerceAtMost(FRAME_HEIGHT - 1)
+                )
+
+            MeasurementMode.LINE ->
+                Line(
+                    startX = 0,
+                    startY = DEFAULT_SPOT_Y,
+                    endX = FRAME_WIDTH - 1,
+                    endY = DEFAULT_SPOT_Y
+                )
+
+            MeasurementMode.MAX_MIN ->
+                Spot(
+                    DEFAULT_SPOT_X,
+                    DEFAULT_SPOT_Y
+                )
+        }
 }
 
 data class TopdonUiState(
@@ -275,9 +381,12 @@ data class TopdonUiState(
     val scanning: Boolean,
     val errorMessage: String?,
     val settings: TopdonSettings,
+    val lastCalibrationTimestamp: Instant?,
     val streamStatuses: List<TopdonStreamStatusUi>,
     val paletteOptions: List<TopdonPalette>,
     val superSamplingOptions: List<TopdonSuperSamplingFactor>,
+    val measurementMode: MeasurementMode,
+    val measurementTarget: ThermalMeasurementTarget,
     val isRecording: Boolean = false
 ) {
     val previewStateSummary: String
@@ -304,11 +413,14 @@ data class TopdonUiState(
                 scanning = false,
                 errorMessage = null,
                 settings = TopdonSettings(),
+                lastCalibrationTimestamp = null,
                 streamStatuses = emptyList(),
                 paletteOptions = TopdonPalette.values()
                     .toList(),
                 superSamplingOptions = TopdonSuperSamplingFactor.values()
-                    .toList()
+                    .toList(),
+                measurementMode = MeasurementMode.SPOT,
+                measurementTarget = Spot(128, 96)
             )
     }
 }
