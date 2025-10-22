@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/widget/TintableCompoundDrawablesView.java
+// Size: 473 bytes
+// Modified: 2025-10-21 16:32:00.033598100 +0100
+
+package androidx.core.widget;
+
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+
+/* loaded from: classes.dex */
+public interface TintableCompoundDrawablesView {
+    ColorStateList getSupportCompoundDrawablesTintList();
+
+    PorterDuff.Mode getSupportCompoundDrawablesTintMode();
+
+    void setSupportCompoundDrawablesTintList(ColorStateList colorStateList);
+
+    void setSupportCompoundDrawablesTintMode(PorterDuff.Mode mode);
+}

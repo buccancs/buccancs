@@ -1,0 +1,445 @@
+package io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues;
+
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.PortableJvmInfo;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.Pow2;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.RangeUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+/* loaded from: classes3.dex */
+abstract class BaseMpscLinkedArrayQueue<E> extends BaseMpscLinkedArrayQueueColdProducerFields<E> implements MessagePassingQueue<E>, QueueProgressIndicators {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final int CONTINUE_TO_P_INDEX_CAS = 0;
+    private static final int QUEUE_FULL = 2;
+    private static final int QUEUE_RESIZE = 3;
+    private static final int RETRY = 1;
+    private static final Object JUMP = new Object();
+    private static final Object BUFFER_CONSUMED = new Object();
+
+    public BaseMpscLinkedArrayQueue(int i) {
+        RangeUtil.checkGreaterThanOrEqual(i, 2, "initialCapacity");
+        int iRoundToPowerOfTwo = Pow2.roundToPowerOfTwo(i);
+        long j = (iRoundToPowerOfTwo - 1) << 1;
+        E[] eArr = (E[]) UnsafeRefArrayAccess.allocateRefArray(iRoundToPowerOfTwo + 1);
+        this.producerBuffer = eArr;
+        this.producerMask = j;
+        this.consumerBuffer = eArr;
+        this.consumerMask = j;
+        soProducerLimit(j);
+    }
+
+    private static long nextArrayOffset(long j) {
+        return LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(j + 2, Long.MAX_VALUE);
+    }
+
+    protected abstract long availableInQueue(long j, long j2);
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public abstract int capacity();
+
+    protected abstract long getCurrentBufferCapacity(long j);
+
+    protected abstract int getNextBufferSize(E[] eArr);
+
+    @Override
+    // java.util.AbstractCollection, java.util.Collection, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int size() {
+        long jLvProducerIndex;
+        long jLvConsumerIndex;
+        long jLvConsumerIndex2 = lvConsumerIndex();
+        while (true) {
+            jLvProducerIndex = lvProducerIndex();
+            jLvConsumerIndex = lvConsumerIndex();
+            if (jLvConsumerIndex2 == jLvConsumerIndex) {
+                break;
+            }
+            jLvConsumerIndex2 = jLvConsumerIndex;
+        }
+        long j = (jLvProducerIndex - jLvConsumerIndex) >> 1;
+        if (j > 2147483647L) {
+            return Integer.MAX_VALUE;
+        }
+        return (int) j;
+    }
+
+    @Override
+    // java.util.AbstractCollection, java.util.Collection, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public boolean isEmpty() {
+        return lvConsumerIndex() == lvProducerIndex();
+    }
+
+    @Override // java.util.AbstractCollection
+    public String toString() {
+        return getClass().getName();
+    }
+
+    @Override
+    // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public boolean offer(E e) {
+        if (e == null) {
+            throw null;
+        }
+        while (true) {
+            long jLvProducerLimit = lvProducerLimit();
+            long jLvProducerIndex = lvProducerIndex();
+            if ((jLvProducerIndex & 1) != 1) {
+                long j = this.producerMask;
+                E[] eArr = this.producerBuffer;
+                if (jLvProducerLimit <= jLvProducerIndex) {
+                    int iOfferSlowPath = offerSlowPath(j, jLvProducerIndex, jLvProducerLimit);
+                    if (iOfferSlowPath == 1) {
+                        continue;
+                    } else {
+                        if (iOfferSlowPath == 2) {
+                            return false;
+                        }
+                        if (iOfferSlowPath == 3) {
+                            resize(j, eArr, jLvProducerIndex, e, null);
+                            return true;
+                        }
+                    }
+                }
+                if (casProducerIndex(jLvProducerIndex, 2 + jLvProducerIndex)) {
+                    UnsafeRefArrayAccess.soRefElement(eArr, LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(jLvProducerIndex, j), e);
+                    return true;
+                }
+            }
+        }
+    }
+
+    @Override
+    // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E poll() {
+        E[] eArr = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        long jModifiedCalcCircularRefElementOffset = LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j);
+        E e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, jModifiedCalcCircularRefElementOffset);
+        if (e == null) {
+            if (jLpConsumerIndex == lvProducerIndex()) {
+                return null;
+            }
+            do {
+                e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, jModifiedCalcCircularRefElementOffset);
+            } while (e == null);
+        }
+        if (e == JUMP) {
+            return newBufferPoll(nextBuffer(eArr, j), jLpConsumerIndex);
+        }
+        UnsafeRefArrayAccess.soRefElement(eArr, jModifiedCalcCircularRefElementOffset, null);
+        soConsumerIndex(jLpConsumerIndex + 2);
+        return e;
+    }
+
+    @Override
+    // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E peek() {
+        E[] eArr = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        long jModifiedCalcCircularRefElementOffset = LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j);
+        E e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, jModifiedCalcCircularRefElementOffset);
+        if (e == null && jLpConsumerIndex != lvProducerIndex()) {
+            do {
+                e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, jModifiedCalcCircularRefElementOffset);
+            } while (e == null);
+        }
+        return e == JUMP ? newBufferPeek(nextBuffer(eArr, j), jLpConsumerIndex) : e;
+    }
+
+    private int offerSlowPath(long j, long j2, long j3) {
+        long jLvConsumerIndex = lvConsumerIndex();
+        long currentBufferCapacity = getCurrentBufferCapacity(j) + jLvConsumerIndex;
+        if (currentBufferCapacity > j2) {
+            return !casProducerLimit(j3, currentBufferCapacity) ? 1 : 0;
+        }
+        if (availableInQueue(j2, jLvConsumerIndex) <= 0) {
+            return 2;
+        }
+        return casProducerIndex(j2, 1 + j2) ? 3 : 1;
+    }
+
+    private E[] nextBuffer(E[] eArr, long j) {
+        long jNextArrayOffset = nextArrayOffset(j);
+        E[] eArr2 = (E[]) ((Object[]) UnsafeRefArrayAccess.lvRefElement(eArr, jNextArrayOffset));
+        this.consumerBuffer = eArr2;
+        this.consumerMask = (LinkedArrayQueueUtil.length(eArr2) - 2) << 1;
+        UnsafeRefArrayAccess.soRefElement(eArr, jNextArrayOffset, BUFFER_CONSUMED);
+        return eArr2;
+    }
+
+    private E newBufferPoll(E[] eArr, long j) {
+        long jModifiedCalcCircularRefElementOffset = LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(j, this.consumerMask);
+        E e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, jModifiedCalcCircularRefElementOffset);
+        if (e == null) {
+            throw new IllegalStateException("new buffer must have at least one element");
+        }
+        UnsafeRefArrayAccess.soRefElement(eArr, jModifiedCalcCircularRefElementOffset, null);
+        soConsumerIndex(j + 2);
+        return e;
+    }
+
+    private E newBufferPeek(E[] eArr, long j) {
+        E e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(j, this.consumerMask));
+        if (e != null) {
+            return e;
+        }
+        throw new IllegalStateException("new buffer must have at least one element");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.QueueProgressIndicators
+    public long currentProducerIndex() {
+        return lvProducerIndex() / 2;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.QueueProgressIndicators
+    public long currentConsumerIndex() {
+        return lvConsumerIndex() / 2;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public boolean relaxedOffer(E e) {
+        return offer(e);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E relaxedPoll() {
+        E[] eArr = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        long jModifiedCalcCircularRefElementOffset = LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j);
+        E e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, jModifiedCalcCircularRefElementOffset);
+        if (e == null) {
+            return null;
+        }
+        if (e == JUMP) {
+            return newBufferPoll(nextBuffer(eArr, j), jLpConsumerIndex);
+        }
+        UnsafeRefArrayAccess.soRefElement(eArr, jModifiedCalcCircularRefElementOffset, null);
+        soConsumerIndex(jLpConsumerIndex + 2);
+        return e;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E relaxedPeek() {
+        E[] eArr = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        E e = (E) UnsafeRefArrayAccess.lvRefElement(eArr, LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j));
+        return e == JUMP ? newBufferPeek(nextBuffer(eArr, j), jLpConsumerIndex) : e;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int fill(MessagePassingQueue.Supplier<E> supplier) {
+        int iCapacity = capacity();
+        long j = 0;
+        do {
+            int iFill = fill(supplier, PortableJvmInfo.RECOMENDED_OFFER_BATCH);
+            if (iFill == 0) {
+                return (int) j;
+            }
+            j += iFill;
+        } while (j <= iCapacity);
+        return (int) j;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int fill(MessagePassingQueue.Supplier<E> supplier, int i) {
+        long j;
+        if (supplier == null) {
+            throw new IllegalArgumentException("supplier is null");
+        }
+        if (i < 0) {
+            throw new IllegalArgumentException("limit is negative:" + i);
+        }
+        if (i == 0) {
+            return 0;
+        }
+        while (true) {
+            long jLvProducerLimit = lvProducerLimit();
+            long jLvProducerIndex = lvProducerIndex();
+            if ((jLvProducerIndex & 1) != 1) {
+                long j2 = this.producerMask;
+                E[] eArr = this.producerBuffer;
+                long jMin = Math.min(jLvProducerLimit, (i * 2) + jLvProducerIndex);
+                if (jLvProducerIndex >= jLvProducerLimit) {
+                    int iOfferSlowPath = offerSlowPath(j2, jLvProducerIndex, jLvProducerLimit);
+                    if (iOfferSlowPath != 0 && iOfferSlowPath != 1) {
+                        if (iOfferSlowPath == 2) {
+                            return 0;
+                        }
+                        if (iOfferSlowPath == 3) {
+                            resize(j2, eArr, jLvProducerIndex, null, supplier);
+                            return 1;
+                        }
+                        j = jMin;
+                    }
+                } else {
+                    j = jMin;
+                }
+                if (casProducerIndex(jLvProducerIndex, j)) {
+                    int i2 = (int) ((j - jLvProducerIndex) / 2);
+                    for (int i3 = 0; i3 < i2; i3++) {
+                        UnsafeRefArrayAccess.soRefElement(eArr, LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset((i3 * 2) + jLvProducerIndex, j2), supplier.get());
+                    }
+                    return i2;
+                }
+            }
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public void fill(MessagePassingQueue.Supplier<E> supplier, MessagePassingQueue.WaitStrategy waitStrategy, MessagePassingQueue.ExitCondition exitCondition) {
+        MessagePassingQueueUtil.fill(this, supplier, waitStrategy, exitCondition);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int drain(MessagePassingQueue.Consumer<E> consumer) {
+        return drain(consumer, capacity());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int drain(MessagePassingQueue.Consumer<E> consumer, int i) {
+        return MessagePassingQueueUtil.drain(this, consumer, i);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public void drain(MessagePassingQueue.Consumer<E> consumer, MessagePassingQueue.WaitStrategy waitStrategy, MessagePassingQueue.ExitCondition exitCondition) {
+        MessagePassingQueueUtil.drain(this, consumer, waitStrategy, exitCondition);
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+    public Iterator<E> iterator() {
+        return new WeakIterator(this.consumerBuffer, lvConsumerIndex(), lvProducerIndex());
+    }
+
+    private void resize(long j, E[] eArr, long j2, E e, MessagePassingQueue.Supplier<E> supplier) {
+        int nextBufferSize = getNextBufferSize(eArr);
+        try {
+            E[] eArr2 = (E[]) UnsafeRefArrayAccess.allocateRefArray(nextBufferSize);
+            this.producerBuffer = eArr2;
+            long j3 = (nextBufferSize - 2) << 1;
+            this.producerMask = j3;
+            long jModifiedCalcCircularRefElementOffset = LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(j2, j);
+            long jModifiedCalcCircularRefElementOffset2 = LinkedArrayQueueUtil.modifiedCalcCircularRefElementOffset(j2, j3);
+            if (e == null) {
+                e = supplier.get();
+            }
+            UnsafeRefArrayAccess.soRefElement(eArr2, jModifiedCalcCircularRefElementOffset2, e);
+            UnsafeRefArrayAccess.soRefElement(eArr, nextArrayOffset(j), eArr2);
+            long jAvailableInQueue = availableInQueue(j2, lvConsumerIndex());
+            RangeUtil.checkPositive(jAvailableInQueue, "availableInQueue");
+            soProducerLimit(Math.min(j3, jAvailableInQueue) + j2);
+            soProducerIndex(j2 + 2);
+            UnsafeRefArrayAccess.soRefElement(eArr, jModifiedCalcCircularRefElementOffset, JUMP);
+        } catch (OutOfMemoryError e2) {
+            soProducerIndex(j2);
+            throw e2;
+        }
+    }
+
+    private static class WeakIterator<E> implements Iterator<E> {
+        private final long pIndex;
+        private E[] currentBuffer;
+        private int mask;
+        private E nextElement;
+        private long nextIndex;
+
+        WeakIterator(E[] eArr, long j, long j2) {
+            this.pIndex = j2 >> 1;
+            this.nextIndex = j >> 1;
+            setBuffer(eArr);
+            this.nextElement = getNext();
+        }
+
+        @Override // java.util.Iterator
+        public boolean hasNext() {
+            return this.nextElement != null;
+        }
+
+        @Override // java.util.Iterator
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
+
+        @Override // java.util.Iterator
+        public E next() {
+            E e = this.nextElement;
+            if (e == null) {
+                throw new NoSuchElementException();
+            }
+            this.nextElement = getNext();
+            return e;
+        }
+
+        private void setBuffer(E[] eArr) {
+            this.currentBuffer = eArr;
+            this.mask = LinkedArrayQueueUtil.length(eArr) - 2;
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x0055, code lost:
+
+            return null;
+         */
+        /* JADX WARN: Multi-variable type inference failed */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        private E getNext() {
+            /*
+                r7 = this;
+            L0:
+                long r0 = r7.nextIndex
+                long r2 = r7.pIndex
+                r4 = 0
+                int r5 = (r0 > r2 ? 1 : (r0 == r2 ? 0 : -1))
+                if (r5 >= 0) goto L55
+                r2 = 1
+                long r2 = r2 + r0
+                r7.nextIndex = r2
+                E[] r2 = r7.currentBuffer
+                int r3 = r7.mask
+                long r5 = (long) r3
+                long r5 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess.calcCircularRefElementOffset(r0, r5)
+                java.lang.Object r2 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess.lvRefElement(r2, r5)
+                if (r2 != 0) goto L1e
+                goto L0
+            L1e:
+                java.lang.Object r3 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueue.access$000()
+                if (r2 == r3) goto L25
+                return r2
+            L25:
+                int r2 = r7.mask
+                int r2 = r2 + 1
+                E[] r3 = r7.currentBuffer
+                long r5 = (long) r2
+                long r5 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess.calcRefElementOffset(r5)
+                java.lang.Object r2 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess.lvRefElement(r3, r5)
+                java.lang.Object r3 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueue.access$100()
+                if (r2 == r3) goto L55
+                if (r2 != 0) goto L3d
+                goto L55
+            L3d:
+                java.lang.Object[] r2 = (java.lang.Object[]) r2
+                java.lang.Object[] r2 = (java.lang.Object[]) r2
+                r7.setBuffer(r2)
+                E[] r2 = r7.currentBuffer
+                int r3 = r7.mask
+                long r3 = (long) r3
+                long r0 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess.calcCircularRefElementOffset(r0, r3)
+                java.lang.Object r0 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess.lvRefElement(r2, r0)
+                if (r0 != 0) goto L54
+                goto L0
+            L54:
+                return r0
+            L55:
+                return r4
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueue.WeakIterator.getNext():java.lang.Object");
+        }
+    }
+}

@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/TcpProtocolOptionsOrBuilder.java
+// Size: 223 bytes
+// Modified: 2025-10-21 16:32:00.309661000 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface TcpProtocolOptionsOrBuilder extends MessageOrBuilder {
+}

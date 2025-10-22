@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/crmf/Control.java
+// Size: 272 bytes
+// Modified: 2025-10-21 16:32:05.140809200 +0100
+
+package org.bouncycastle.cert.crmf;
+
+import org.bouncycastle.asn1.ASN1Encodable;
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+
+/* loaded from: classes5.dex */
+public interface Control {
+    ASN1ObjectIdentifier getType();
+
+    ASN1Encodable getValue();
+}

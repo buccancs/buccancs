@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/JsonIOException.java
+// Size: 416 bytes
+// Modified: 2025-10-21 16:32:00.807000200 +0100
+
+package com.google.gson;
+
+/* loaded from: classes.dex */
+public final class JsonIOException extends JsonParseException {
+    private static final long serialVersionUID = 1;
+
+    public JsonIOException(String str) {
+        super(str);
+    }
+
+    public JsonIOException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public JsonIOException(Throwable th) {
+        super(th);
+    }
+}

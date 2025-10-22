@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ipfilter/IpFilterRuleType.java
+// Size: 152 bytes
+// Modified: 2025-10-21 16:32:00.227713600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ipfilter;
+
+/* loaded from: classes3.dex */
+public enum IpFilterRuleType {
+    ACCEPT,
+    REJECT
+}

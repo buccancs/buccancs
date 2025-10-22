@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/GenericProgressiveFutureListener.java
+// Size: 357 bytes
+// Modified: 2025-10-21 16:32:03.395019100 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.ProgressiveFuture;
+
+/* loaded from: classes3.dex */
+public interface GenericProgressiveFutureListener<F extends ProgressiveFuture<?>> extends GenericFutureListener<F> {
+    void operationProgressed(F f, long j, long j2) throws Exception;
+}

@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/internal/tcnative/SSLPrivateKeyMethodSignTask.java
+// Size: 748 bytes
+// Modified: 2025-10-21 16:32:03.393018600 +0100
+
+package io.grpc.netty.shaded.io.netty.internal.tcnative;
+
+/* loaded from: classes3.dex */
+final class SSLPrivateKeyMethodSignTask extends SSLPrivateKeyMethodTask {
+    private final byte[] digest;
+    private final int signatureAlgorithm;
+
+    SSLPrivateKeyMethodSignTask(long j, int i, byte[] bArr, SSLPrivateKeyMethod sSLPrivateKeyMethod) {
+        super(j, sSLPrivateKeyMethod);
+        this.signatureAlgorithm = i;
+        this.digest = bArr;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.internal.tcnative.SSLPrivateKeyMethodTask
+    protected byte[] runTask(long j, SSLPrivateKeyMethod sSLPrivateKeyMethod) throws Exception {
+        return sSLPrivateKeyMethod.sign(j, this.signatureAlgorithm, this.digest);
+    }
+}

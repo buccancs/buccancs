@@ -1,0 +1,61 @@
+package io.grpc.xds.internal.sds.trust;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+/* loaded from: classes3.dex */
+public final class CertificateUtils {
+    private static CertificateFactory factory;
+
+    private CertificateUtils() {
+    }
+
+    private static synchronized void initInstance() throws CertificateException {
+        if (factory == null) {
+            factory = CertificateFactory.getInstance("X.509");
+        }
+    }
+
+    static X509Certificate[] toX509Certificates(File file) throws Exception {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        try {
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+            try {
+                X509Certificate[] x509Certificates = toX509Certificates(bufferedInputStream);
+                $closeResource(null, bufferedInputStream);
+                $closeResource(null, fileInputStream);
+                return x509Certificates;
+            } finally {
+            }
+        } finally {
+        }
+    }
+
+    private static /* synthetic */ void $closeResource(Throwable th, AutoCloseable autoCloseable) throws Exception {
+        if (th == null) {
+            autoCloseable.close();
+            return;
+        }
+        try {
+            autoCloseable.close();
+        } catch (Throwable th2) {
+            th.addSuppressed(th2);
+        }
+    }
+
+    static synchronized X509Certificate[] toX509Certificates(InputStream inputStream) throws IOException, CertificateException {
+        initInstance();
+        return (X509Certificate[]) factory.generateCertificates(inputStream).toArray(new X509Certificate[0]);
+    }
+
+    public static synchronized X509Certificate toX509Certificate(InputStream inputStream) throws IOException, CertificateException {
+        initInstance();
+        return (X509Certificate) factory.generateCertificate(inputStream);
+    }
+}

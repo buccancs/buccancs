@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/LongCounter.java
+// Size: 141 bytes
+// Modified: 2025-10-21 16:32:00.207635900 +0100
+
+package io.grpc.internal;
+
+/* loaded from: classes2.dex */
+public interface LongCounter {
+    void add(long j);
+
+    long value();
+}

@@ -1,0 +1,26 @@
+package io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues;
+
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeAccess;
+
+/* compiled from: BaseMpscLinkedArrayQueue.java */
+/* loaded from: classes3.dex */
+abstract class BaseMpscLinkedArrayQueueProducerFields<E> extends BaseMpscLinkedArrayQueuePad1<E> {
+    private static final long P_INDEX_OFFSET = UnsafeAccess.fieldOffset(BaseMpscLinkedArrayQueueProducerFields.class, "producerIndex");
+    private volatile long producerIndex;
+
+    BaseMpscLinkedArrayQueueProducerFields() {
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.IndexedQueueSizeUtil.IndexedQueue
+    public final long lvProducerIndex() {
+        return this.producerIndex;
+    }
+
+    final void soProducerIndex(long j) {
+        UnsafeAccess.UNSAFE.putOrderedLong(this, P_INDEX_OFFSET, j);
+    }
+
+    final boolean casProducerIndex(long j, long j2) {
+        return UnsafeAccess.UNSAFE.compareAndSwapLong(this, P_INDEX_OFFSET, j, j2);
+    }
+}

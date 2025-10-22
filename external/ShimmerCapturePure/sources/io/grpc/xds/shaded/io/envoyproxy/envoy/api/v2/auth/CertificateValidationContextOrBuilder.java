@@ -1,0 +1,87 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CertificateValidationContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.DataSourceOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringMatcherOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface CertificateValidationContextOrBuilder extends MessageOrBuilder {
+    boolean getAllowExpiredCertificate();
+
+    DataSource getCrl();
+
+    DataSourceOrBuilder getCrlOrBuilder();
+
+    StringMatcher getMatchSubjectAltNames(int i);
+
+    int getMatchSubjectAltNamesCount();
+
+    List<StringMatcher> getMatchSubjectAltNamesList();
+
+    StringMatcherOrBuilder getMatchSubjectAltNamesOrBuilder(int i);
+
+    List<? extends StringMatcherOrBuilder> getMatchSubjectAltNamesOrBuilderList();
+
+    BoolValue getRequireOcspStaple();
+
+    BoolValueOrBuilder getRequireOcspStapleOrBuilder();
+
+    BoolValue getRequireSignedCertificateTimestamp();
+
+    BoolValueOrBuilder getRequireSignedCertificateTimestampOrBuilder();
+
+    CertificateValidationContext.TrustChainVerification getTrustChainVerification();
+
+    int getTrustChainVerificationValue();
+
+    DataSource getTrustedCa();
+
+    DataSourceOrBuilder getTrustedCaOrBuilder();
+
+    String getVerifyCertificateHash(int i);
+
+    ByteString getVerifyCertificateHashBytes(int i);
+
+    int getVerifyCertificateHashCount();
+
+    /* renamed from: getVerifyCertificateHashList */
+    List<String> mo13464getVerifyCertificateHashList();
+
+    String getVerifyCertificateSpki(int i);
+
+    ByteString getVerifyCertificateSpkiBytes(int i);
+
+    int getVerifyCertificateSpkiCount();
+
+    /* renamed from: getVerifyCertificateSpkiList */
+    List<String> mo13465getVerifyCertificateSpkiList();
+
+    @Deprecated
+    String getVerifySubjectAltName(int i);
+
+    @Deprecated
+    ByteString getVerifySubjectAltNameBytes(int i);
+
+    @Deprecated
+    int getVerifySubjectAltNameCount();
+
+    @Deprecated
+        /* renamed from: getVerifySubjectAltNameList */
+    List<String> mo13466getVerifySubjectAltNameList();
+
+    boolean hasCrl();
+
+    boolean hasRequireOcspStaple();
+
+    boolean hasRequireSignedCertificateTimestamp();
+
+    boolean hasTrustedCa();
+}

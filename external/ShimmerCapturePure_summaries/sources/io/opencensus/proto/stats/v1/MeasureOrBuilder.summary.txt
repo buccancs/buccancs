@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/stats/v1/MeasureOrBuilder.java
+// Size: 520 bytes
+// Modified: 2025-10-21 16:32:02.842698600 +0100
+
+package io.opencensus.proto.stats.v1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.opencensus.proto.stats.v1.Measure;
+
+/* loaded from: classes4.dex */
+public interface MeasureOrBuilder extends MessageOrBuilder {
+    String getDescription();
+
+    ByteString getDescriptionBytes();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    Measure.Type getType();
+
+    int getTypeValue();
+
+    String getUnit();
+
+    ByteString getUnitBytes();
+}

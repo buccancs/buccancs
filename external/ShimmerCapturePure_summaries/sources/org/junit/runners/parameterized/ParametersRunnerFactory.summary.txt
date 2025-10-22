@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runners/parameterized/ParametersRunnerFactory.java
+// Size: 325 bytes
+// Modified: 2025-10-21 16:32:03.872162600 +0100
+
+package org.junit.runners.parameterized;
+
+import org.junit.runner.Runner;
+import org.junit.runners.model.InitializationError;
+
+/* loaded from: classes2.dex */
+public interface ParametersRunnerFactory {
+    Runner createRunnerForTestWithParameters(TestWithParameters testWithParameters) throws InitializationError;
+}

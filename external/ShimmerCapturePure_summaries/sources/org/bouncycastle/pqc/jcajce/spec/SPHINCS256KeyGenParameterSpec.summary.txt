@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/jcajce/spec/SPHINCS256KeyGenParameterSpec.java
+// Size: 618 bytes
+// Modified: 2025-10-21 16:32:00.671368300 +0100
+
+package org.bouncycastle.pqc.jcajce.spec;
+
+import java.security.spec.AlgorithmParameterSpec;
+
+/* loaded from: classes5.dex */
+public class SPHINCS256KeyGenParameterSpec implements AlgorithmParameterSpec {
+    public static final String SHA3_256 = "SHA3-256";
+    public static final String SHA512_256 = "SHA512-256";
+    private final String treeHash;
+
+    public SPHINCS256KeyGenParameterSpec() {
+        this(SHA512_256);
+    }
+
+    public SPHINCS256KeyGenParameterSpec(String str) {
+        this.treeHash = str;
+    }
+
+    public String getTreeDigest() {
+        return this.treeHash;
+    }
+}

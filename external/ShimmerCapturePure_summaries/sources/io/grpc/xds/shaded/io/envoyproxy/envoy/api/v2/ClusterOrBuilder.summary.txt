@@ -1,0 +1,337 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/ClusterOrBuilder.java
+// Size: 10243 bytes
+// Modified: 2025-10-21 16:32:14.829665700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.Any;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Struct;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Cluster;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.cluster.CircuitBreakers;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.cluster.CircuitBreakersOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.cluster.Filter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.cluster.FilterOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.cluster.OutlierDetection;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.cluster.OutlierDetectionOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Address;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.AddressOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.ConfigSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.ConfigSourceOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HealthCheck;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HealthCheckOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Http1ProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Http1ProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Http2ProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Http2ProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Metadata;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.MetadataOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.TransportSocket;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.TransportSocketOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.UpstreamHttpProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.UpstreamHttpProtocolOptionsOrBuilder;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public interface ClusterOrBuilder extends MessageOrBuilder {
+    @Deprecated
+    boolean containsExtensionProtocolOptions(String str);
+
+    boolean containsTypedExtensionProtocolOptions(String str);
+
+    String getAltStatName();
+
+    ByteString getAltStatNameBytes();
+
+    CircuitBreakers getCircuitBreakers();
+
+    CircuitBreakersOrBuilder getCircuitBreakersOrBuilder();
+
+    Duration getCleanupInterval();
+
+    DurationOrBuilder getCleanupIntervalOrBuilder();
+
+    boolean getCloseConnectionsOnHostHealthFailure();
+
+    Cluster.ClusterDiscoveryTypeCase getClusterDiscoveryTypeCase();
+
+    Cluster.CustomClusterType getClusterType();
+
+    Cluster.CustomClusterTypeOrBuilder getClusterTypeOrBuilder();
+
+    HttpProtocolOptions getCommonHttpProtocolOptions();
+
+    HttpProtocolOptionsOrBuilder getCommonHttpProtocolOptionsOrBuilder();
+
+    Cluster.CommonLbConfig getCommonLbConfig();
+
+    Cluster.CommonLbConfigOrBuilder getCommonLbConfigOrBuilder();
+
+    Duration getConnectTimeout();
+
+    DurationOrBuilder getConnectTimeoutOrBuilder();
+
+    Cluster.RefreshRate getDnsFailureRefreshRate();
+
+    Cluster.RefreshRateOrBuilder getDnsFailureRefreshRateOrBuilder();
+
+    Cluster.DnsLookupFamily getDnsLookupFamily();
+
+    int getDnsLookupFamilyValue();
+
+    Duration getDnsRefreshRate();
+
+    DurationOrBuilder getDnsRefreshRateOrBuilder();
+
+    Address getDnsResolvers(int i);
+
+    int getDnsResolversCount();
+
+    List<Address> getDnsResolversList();
+
+    AddressOrBuilder getDnsResolversOrBuilder(int i);
+
+    List<? extends AddressOrBuilder> getDnsResolversOrBuilderList();
+
+    boolean getDrainConnectionsOnHostRemoval();
+
+    Cluster.EdsClusterConfig getEdsClusterConfig();
+
+    Cluster.EdsClusterConfigOrBuilder getEdsClusterConfigOrBuilder();
+
+    @Deprecated
+    Map<String, Struct> getExtensionProtocolOptions();
+
+    @Deprecated
+    int getExtensionProtocolOptionsCount();
+
+    @Deprecated
+    Map<String, Struct> getExtensionProtocolOptionsMap();
+
+    @Deprecated
+    Struct getExtensionProtocolOptionsOrDefault(String str, Struct struct);
+
+    @Deprecated
+    Struct getExtensionProtocolOptionsOrThrow(String str);
+
+    Filter getFilters(int i);
+
+    int getFiltersCount();
+
+    List<Filter> getFiltersList();
+
+    FilterOrBuilder getFiltersOrBuilder(int i);
+
+    List<? extends FilterOrBuilder> getFiltersOrBuilderList();
+
+    HealthCheck getHealthChecks(int i);
+
+    int getHealthChecksCount();
+
+    List<HealthCheck> getHealthChecksList();
+
+    HealthCheckOrBuilder getHealthChecksOrBuilder(int i);
+
+    List<? extends HealthCheckOrBuilder> getHealthChecksOrBuilderList();
+
+    @Deprecated
+    Address getHosts(int i);
+
+    @Deprecated
+    int getHostsCount();
+
+    @Deprecated
+    List<Address> getHostsList();
+
+    @Deprecated
+    AddressOrBuilder getHostsOrBuilder(int i);
+
+    @Deprecated
+    List<? extends AddressOrBuilder> getHostsOrBuilderList();
+
+    Http2ProtocolOptions getHttp2ProtocolOptions();
+
+    Http2ProtocolOptionsOrBuilder getHttp2ProtocolOptionsOrBuilder();
+
+    Http1ProtocolOptions getHttpProtocolOptions();
+
+    Http1ProtocolOptionsOrBuilder getHttpProtocolOptionsOrBuilder();
+
+    Cluster.LbConfigCase getLbConfigCase();
+
+    Cluster.LbPolicy getLbPolicy();
+
+    int getLbPolicyValue();
+
+    Cluster.LbSubsetConfig getLbSubsetConfig();
+
+    Cluster.LbSubsetConfigOrBuilder getLbSubsetConfigOrBuilder();
+
+    Cluster.LeastRequestLbConfig getLeastRequestLbConfig();
+
+    Cluster.LeastRequestLbConfigOrBuilder getLeastRequestLbConfigOrBuilder();
+
+    ClusterLoadAssignment getLoadAssignment();
+
+    ClusterLoadAssignmentOrBuilder getLoadAssignmentOrBuilder();
+
+    LoadBalancingPolicy getLoadBalancingPolicy();
+
+    LoadBalancingPolicyOrBuilder getLoadBalancingPolicyOrBuilder();
+
+    ConfigSource getLrsServer();
+
+    ConfigSourceOrBuilder getLrsServerOrBuilder();
+
+    UInt32Value getMaxRequestsPerConnection();
+
+    UInt32ValueOrBuilder getMaxRequestsPerConnectionOrBuilder();
+
+    Metadata getMetadata();
+
+    MetadataOrBuilder getMetadataOrBuilder();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    Cluster.OriginalDstLbConfig getOriginalDstLbConfig();
+
+    Cluster.OriginalDstLbConfigOrBuilder getOriginalDstLbConfigOrBuilder();
+
+    OutlierDetection getOutlierDetection();
+
+    OutlierDetectionOrBuilder getOutlierDetectionOrBuilder();
+
+    UInt32Value getPerConnectionBufferLimitBytes();
+
+    UInt32ValueOrBuilder getPerConnectionBufferLimitBytesOrBuilder();
+
+    Cluster.ClusterProtocolSelection getProtocolSelection();
+
+    int getProtocolSelectionValue();
+
+    boolean getRespectDnsTtl();
+
+    Cluster.RingHashLbConfig getRingHashLbConfig();
+
+    Cluster.RingHashLbConfigOrBuilder getRingHashLbConfigOrBuilder();
+
+    @Deprecated
+    UpstreamTlsContext getTlsContext();
+
+    @Deprecated
+    UpstreamTlsContextOrBuilder getTlsContextOrBuilder();
+
+    boolean getTrackTimeoutBudgets();
+
+    TransportSocket getTransportSocket();
+
+    Cluster.TransportSocketMatch getTransportSocketMatches(int i);
+
+    int getTransportSocketMatchesCount();
+
+    List<Cluster.TransportSocketMatch> getTransportSocketMatchesList();
+
+    Cluster.TransportSocketMatchOrBuilder getTransportSocketMatchesOrBuilder(int i);
+
+    List<? extends Cluster.TransportSocketMatchOrBuilder> getTransportSocketMatchesOrBuilderList();
+
+    TransportSocketOrBuilder getTransportSocketOrBuilder();
+
+    Cluster.DiscoveryType getType();
+
+    int getTypeValue();
+
+    @Deprecated
+    Map<String, Any> getTypedExtensionProtocolOptions();
+
+    int getTypedExtensionProtocolOptionsCount();
+
+    Map<String, Any> getTypedExtensionProtocolOptionsMap();
+
+    Any getTypedExtensionProtocolOptionsOrDefault(String str, Any any);
+
+    Any getTypedExtensionProtocolOptionsOrThrow(String str);
+
+    BindConfig getUpstreamBindConfig();
+
+    BindConfigOrBuilder getUpstreamBindConfigOrBuilder();
+
+    UpstreamConnectionOptions getUpstreamConnectionOptions();
+
+    UpstreamConnectionOptionsOrBuilder getUpstreamConnectionOptionsOrBuilder();
+
+    UpstreamHttpProtocolOptions getUpstreamHttpProtocolOptions();
+
+    UpstreamHttpProtocolOptionsOrBuilder getUpstreamHttpProtocolOptionsOrBuilder();
+
+    boolean getUseTcpForDnsLookups();
+
+    boolean hasCircuitBreakers();
+
+    boolean hasCleanupInterval();
+
+    boolean hasClusterType();
+
+    boolean hasCommonHttpProtocolOptions();
+
+    boolean hasCommonLbConfig();
+
+    boolean hasConnectTimeout();
+
+    boolean hasDnsFailureRefreshRate();
+
+    boolean hasDnsRefreshRate();
+
+    boolean hasEdsClusterConfig();
+
+    boolean hasHttp2ProtocolOptions();
+
+    boolean hasHttpProtocolOptions();
+
+    boolean hasLbSubsetConfig();
+
+    boolean hasLeastRequestLbConfig();
+
+    boolean hasLoadAssignment();
+
+    boolean hasLoadBalancingPolicy();
+
+    boolean hasLrsServer();
+
+    boolean hasMaxRequestsPerConnection();
+
+    boolean hasMetadata();
+
+    boolean hasOriginalDstLbConfig();
+
+    boolean hasOutlierDetection();
+
+    boolean hasPerConnectionBufferLimitBytes();
+
+    boolean hasRingHashLbConfig();
+
+    @Deprecated
+    boolean hasTlsContext();
+
+    boolean hasTransportSocket();
+
+    boolean hasUpstreamBindConfig();
+
+    boolean hasUpstreamConnectionOptions();
+
+    boolean hasUpstreamHttpProtocolOptions();
+}

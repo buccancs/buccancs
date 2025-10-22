@@ -1,0 +1,1088 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class HttpProtocolOptions extends GeneratedMessageV3 implements HttpProtocolOptionsOrBuilder {
+    public static final int HEADERS_WITH_UNDERSCORES_ACTION_FIELD_NUMBER = 5;
+    public static final int IDLE_TIMEOUT_FIELD_NUMBER = 1;
+    public static final int MAX_CONNECTION_DURATION_FIELD_NUMBER = 3;
+    public static final int MAX_HEADERS_COUNT_FIELD_NUMBER = 2;
+    public static final int MAX_STREAM_DURATION_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private static final HttpProtocolOptions DEFAULT_INSTANCE = new HttpProtocolOptions();
+    private static final Parser<HttpProtocolOptions> PARSER = new AbstractParser<HttpProtocolOptions>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public HttpProtocolOptions m16151parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new HttpProtocolOptions(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private int headersWithUnderscoresAction_;
+    private Duration idleTimeout_;
+    private Duration maxConnectionDuration_;
+    private UInt32Value maxHeadersCount_;
+    private Duration maxStreamDuration_;
+    private byte memoizedIsInitialized;
+
+    private HttpProtocolOptions(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private HttpProtocolOptions() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.headersWithUnderscoresAction_ = 0;
+    }
+
+    private HttpProtocolOptions(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Duration.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Duration duration = this.idleTimeout_;
+                            builder = duration != null ? duration.toBuilder() : null;
+                            Duration message = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.idleTimeout_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.idleTimeout_ = builder.buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            UInt32Value uInt32Value = this.maxHeadersCount_;
+                            builder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                            UInt32Value message2 = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.maxHeadersCount_ = message2;
+                            if (builder != null) {
+                                builder.mergeFrom(message2);
+                                this.maxHeadersCount_ = builder.buildPartial();
+                            }
+                        } else if (tag == 26) {
+                            Duration duration2 = this.maxConnectionDuration_;
+                            builder = duration2 != null ? duration2.toBuilder() : null;
+                            Duration message3 = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.maxConnectionDuration_ = message3;
+                            if (builder != null) {
+                                builder.mergeFrom(message3);
+                                this.maxConnectionDuration_ = builder.buildPartial();
+                            }
+                        } else if (tag == 34) {
+                            Duration duration3 = this.maxStreamDuration_;
+                            builder = duration3 != null ? duration3.toBuilder() : null;
+                            Duration message4 = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.maxStreamDuration_ = message4;
+                            if (builder != null) {
+                                builder.mergeFrom(message4);
+                                this.maxStreamDuration_ = builder.buildPartial();
+                            }
+                        } else if (tag == 40) {
+                            this.headersWithUnderscoresAction_ = codedInputStream.readEnum();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static HttpProtocolOptions getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<HttpProtocolOptions> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ProtocolProto.internal_static_envoy_api_v2_core_HttpProtocolOptions_descriptor;
+    }
+
+    public static HttpProtocolOptions parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (HttpProtocolOptions) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static HttpProtocolOptions parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HttpProtocolOptions) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static HttpProtocolOptions parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (HttpProtocolOptions) PARSER.parseFrom(byteString);
+    }
+
+    public static HttpProtocolOptions parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HttpProtocolOptions) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static HttpProtocolOptions parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (HttpProtocolOptions) PARSER.parseFrom(bArr);
+    }
+
+    public static HttpProtocolOptions parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HttpProtocolOptions) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static HttpProtocolOptions parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static HttpProtocolOptions parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HttpProtocolOptions parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static HttpProtocolOptions parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HttpProtocolOptions parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static HttpProtocolOptions parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m16149toBuilder();
+    }
+
+    public static Builder newBuilder(HttpProtocolOptions httpProtocolOptions) {
+        return DEFAULT_INSTANCE.m16149toBuilder().mergeFrom(httpProtocolOptions);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public HttpProtocolOptions m16144getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public int getHeadersWithUnderscoresActionValue() {
+        return this.headersWithUnderscoresAction_;
+    }
+
+    public Parser<HttpProtocolOptions> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public boolean hasIdleTimeout() {
+        return this.idleTimeout_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public boolean hasMaxConnectionDuration() {
+        return this.maxConnectionDuration_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public boolean hasMaxHeadersCount() {
+        return this.maxHeadersCount_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public boolean hasMaxStreamDuration() {
+        return this.maxStreamDuration_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new HttpProtocolOptions();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ProtocolProto.internal_static_envoy_api_v2_core_HttpProtocolOptions_fieldAccessorTable.ensureFieldAccessorsInitialized(HttpProtocolOptions.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public Duration getIdleTimeout() {
+        Duration duration = this.idleTimeout_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public DurationOrBuilder getIdleTimeoutOrBuilder() {
+        return getIdleTimeout();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public Duration getMaxConnectionDuration() {
+        Duration duration = this.maxConnectionDuration_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public DurationOrBuilder getMaxConnectionDurationOrBuilder() {
+        return getMaxConnectionDuration();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public UInt32Value getMaxHeadersCount() {
+        UInt32Value uInt32Value = this.maxHeadersCount_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public UInt32ValueOrBuilder getMaxHeadersCountOrBuilder() {
+        return getMaxHeadersCount();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public Duration getMaxStreamDuration() {
+        Duration duration = this.maxStreamDuration_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public DurationOrBuilder getMaxStreamDurationOrBuilder() {
+        return getMaxStreamDuration();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+    public HeadersWithUnderscoresAction getHeadersWithUnderscoresAction() {
+        HeadersWithUnderscoresAction headersWithUnderscoresActionValueOf = HeadersWithUnderscoresAction.valueOf(this.headersWithUnderscoresAction_);
+        return headersWithUnderscoresActionValueOf == null ? HeadersWithUnderscoresAction.UNRECOGNIZED : headersWithUnderscoresActionValueOf;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.idleTimeout_ != null) {
+            codedOutputStream.writeMessage(1, getIdleTimeout());
+        }
+        if (this.maxHeadersCount_ != null) {
+            codedOutputStream.writeMessage(2, getMaxHeadersCount());
+        }
+        if (this.maxConnectionDuration_ != null) {
+            codedOutputStream.writeMessage(3, getMaxConnectionDuration());
+        }
+        if (this.maxStreamDuration_ != null) {
+            codedOutputStream.writeMessage(4, getMaxStreamDuration());
+        }
+        if (this.headersWithUnderscoresAction_ != HeadersWithUnderscoresAction.ALLOW.getNumber()) {
+            codedOutputStream.writeEnum(5, this.headersWithUnderscoresAction_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.idleTimeout_ != null ? CodedOutputStream.computeMessageSize(1, getIdleTimeout()) : 0;
+        if (this.maxHeadersCount_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getMaxHeadersCount());
+        }
+        if (this.maxConnectionDuration_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, getMaxConnectionDuration());
+        }
+        if (this.maxStreamDuration_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, getMaxStreamDuration());
+        }
+        if (this.headersWithUnderscoresAction_ != HeadersWithUnderscoresAction.ALLOW.getNumber()) {
+            iComputeMessageSize += CodedOutputStream.computeEnumSize(5, this.headersWithUnderscoresAction_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof HttpProtocolOptions)) {
+            return super.equals(obj);
+        }
+        HttpProtocolOptions httpProtocolOptions = (HttpProtocolOptions) obj;
+        if (hasIdleTimeout() != httpProtocolOptions.hasIdleTimeout()) {
+            return false;
+        }
+        if ((hasIdleTimeout() && !getIdleTimeout().equals(httpProtocolOptions.getIdleTimeout())) || hasMaxConnectionDuration() != httpProtocolOptions.hasMaxConnectionDuration()) {
+            return false;
+        }
+        if ((hasMaxConnectionDuration() && !getMaxConnectionDuration().equals(httpProtocolOptions.getMaxConnectionDuration())) || hasMaxHeadersCount() != httpProtocolOptions.hasMaxHeadersCount()) {
+            return false;
+        }
+        if ((!hasMaxHeadersCount() || getMaxHeadersCount().equals(httpProtocolOptions.getMaxHeadersCount())) && hasMaxStreamDuration() == httpProtocolOptions.hasMaxStreamDuration()) {
+            return (!hasMaxStreamDuration() || getMaxStreamDuration().equals(httpProtocolOptions.getMaxStreamDuration())) && this.headersWithUnderscoresAction_ == httpProtocolOptions.headersWithUnderscoresAction_ && this.unknownFields.equals(httpProtocolOptions.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasIdleTimeout()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getIdleTimeout().hashCode();
+        }
+        if (hasMaxConnectionDuration()) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getMaxConnectionDuration().hashCode();
+        }
+        if (hasMaxHeadersCount()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getMaxHeadersCount().hashCode();
+        }
+        if (hasMaxStreamDuration()) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getMaxStreamDuration().hashCode();
+        }
+        int iHashCode2 = (((((iHashCode * 37) + 5) * 53) + this.headersWithUnderscoresAction_) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16146newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16149toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum HeadersWithUnderscoresAction implements ProtocolMessageEnum {
+        ALLOW(0),
+        REJECT_REQUEST(1),
+        DROP_HEADER(2),
+        UNRECOGNIZED(-1);
+
+        public static final int ALLOW_VALUE = 0;
+        public static final int DROP_HEADER_VALUE = 2;
+        public static final int REJECT_REQUEST_VALUE = 1;
+        private static final Internal.EnumLiteMap<HeadersWithUnderscoresAction> internalValueMap = new Internal.EnumLiteMap<HeadersWithUnderscoresAction>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions.HeadersWithUnderscoresAction.1
+            public HeadersWithUnderscoresAction findValueByNumber(int i) {
+                return HeadersWithUnderscoresAction.forNumber(i);
+            }
+        };
+        private static final HeadersWithUnderscoresAction[] VALUES = values();
+        private final int value;
+
+        HeadersWithUnderscoresAction(int i) {
+            this.value = i;
+        }
+
+        public static HeadersWithUnderscoresAction forNumber(int i) {
+            if (i == 0) {
+                return ALLOW;
+            }
+            if (i == 1) {
+                return REJECT_REQUEST;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return DROP_HEADER;
+        }
+
+        public static Internal.EnumLiteMap<HeadersWithUnderscoresAction> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static HeadersWithUnderscoresAction valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) HttpProtocolOptions.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static HeadersWithUnderscoresAction valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements HttpProtocolOptionsOrBuilder {
+        private int headersWithUnderscoresAction_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> idleTimeoutBuilder_;
+        private Duration idleTimeout_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> maxConnectionDurationBuilder_;
+        private Duration maxConnectionDuration_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> maxHeadersCountBuilder_;
+        private UInt32Value maxHeadersCount_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> maxStreamDurationBuilder_;
+        private Duration maxStreamDuration_;
+
+        private Builder() {
+            this.headersWithUnderscoresAction_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.headersWithUnderscoresAction_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ProtocolProto.internal_static_envoy_api_v2_core_HttpProtocolOptions_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public int getHeadersWithUnderscoresActionValue() {
+            return this.headersWithUnderscoresAction_;
+        }
+
+        public Builder setHeadersWithUnderscoresActionValue(int i) {
+            this.headersWithUnderscoresAction_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public boolean hasIdleTimeout() {
+            return (this.idleTimeoutBuilder_ == null && this.idleTimeout_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public boolean hasMaxConnectionDuration() {
+            return (this.maxConnectionDurationBuilder_ == null && this.maxConnectionDuration_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public boolean hasMaxHeadersCount() {
+            return (this.maxHeadersCountBuilder_ == null && this.maxHeadersCount_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public boolean hasMaxStreamDuration() {
+            return (this.maxStreamDurationBuilder_ == null && this.maxStreamDuration_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ProtocolProto.internal_static_envoy_api_v2_core_HttpProtocolOptions_fieldAccessorTable.ensureFieldAccessorsInitialized(HttpProtocolOptions.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = HttpProtocolOptions.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16160clear() {
+            super.clear();
+            if (this.idleTimeoutBuilder_ == null) {
+                this.idleTimeout_ = null;
+            } else {
+                this.idleTimeout_ = null;
+                this.idleTimeoutBuilder_ = null;
+            }
+            if (this.maxConnectionDurationBuilder_ == null) {
+                this.maxConnectionDuration_ = null;
+            } else {
+                this.maxConnectionDuration_ = null;
+                this.maxConnectionDurationBuilder_ = null;
+            }
+            if (this.maxHeadersCountBuilder_ == null) {
+                this.maxHeadersCount_ = null;
+            } else {
+                this.maxHeadersCount_ = null;
+                this.maxHeadersCountBuilder_ = null;
+            }
+            if (this.maxStreamDurationBuilder_ == null) {
+                this.maxStreamDuration_ = null;
+            } else {
+                this.maxStreamDuration_ = null;
+                this.maxStreamDurationBuilder_ = null;
+            }
+            this.headersWithUnderscoresAction_ = 0;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ProtocolProto.internal_static_envoy_api_v2_core_HttpProtocolOptions_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HttpProtocolOptions m16173getDefaultInstanceForType() {
+            return HttpProtocolOptions.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HttpProtocolOptions m16154build() throws UninitializedMessageException {
+            HttpProtocolOptions httpProtocolOptionsM16156buildPartial = m16156buildPartial();
+            if (httpProtocolOptionsM16156buildPartial.isInitialized()) {
+                return httpProtocolOptionsM16156buildPartial;
+            }
+            throw newUninitializedMessageException(httpProtocolOptionsM16156buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HttpProtocolOptions m16156buildPartial() {
+            HttpProtocolOptions httpProtocolOptions = new HttpProtocolOptions(this);
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.idleTimeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                httpProtocolOptions.idleTimeout_ = this.idleTimeout_;
+            } else {
+                httpProtocolOptions.idleTimeout_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV32 = this.maxConnectionDurationBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                httpProtocolOptions.maxConnectionDuration_ = this.maxConnectionDuration_;
+            } else {
+                httpProtocolOptions.maxConnectionDuration_ = singleFieldBuilderV32.build();
+            }
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV33 = this.maxHeadersCountBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                httpProtocolOptions.maxHeadersCount_ = this.maxHeadersCount_;
+            } else {
+                httpProtocolOptions.maxHeadersCount_ = singleFieldBuilderV33.build();
+            }
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV34 = this.maxStreamDurationBuilder_;
+            if (singleFieldBuilderV34 == null) {
+                httpProtocolOptions.maxStreamDuration_ = this.maxStreamDuration_;
+            } else {
+                httpProtocolOptions.maxStreamDuration_ = singleFieldBuilderV34.build();
+            }
+            httpProtocolOptions.headersWithUnderscoresAction_ = this.headersWithUnderscoresAction_;
+            onBuilt();
+            return httpProtocolOptions;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16172clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16184setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16162clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16165clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16186setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16152addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16177mergeFrom(Message message) {
+            if (message instanceof HttpProtocolOptions) {
+                return mergeFrom((HttpProtocolOptions) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(HttpProtocolOptions httpProtocolOptions) {
+            if (httpProtocolOptions == HttpProtocolOptions.getDefaultInstance()) {
+                return this;
+            }
+            if (httpProtocolOptions.hasIdleTimeout()) {
+                mergeIdleTimeout(httpProtocolOptions.getIdleTimeout());
+            }
+            if (httpProtocolOptions.hasMaxConnectionDuration()) {
+                mergeMaxConnectionDuration(httpProtocolOptions.getMaxConnectionDuration());
+            }
+            if (httpProtocolOptions.hasMaxHeadersCount()) {
+                mergeMaxHeadersCount(httpProtocolOptions.getMaxHeadersCount());
+            }
+            if (httpProtocolOptions.hasMaxStreamDuration()) {
+                mergeMaxStreamDuration(httpProtocolOptions.getMaxStreamDuration());
+            }
+            if (httpProtocolOptions.headersWithUnderscoresAction_ != 0) {
+                setHeadersWithUnderscoresActionValue(httpProtocolOptions.getHeadersWithUnderscoresActionValue());
+            }
+            m16182mergeUnknownFields(httpProtocolOptions.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions.Builder m16178mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions.access$1000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions.Builder.m16178mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptions$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public Duration getIdleTimeout() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.idleTimeoutBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.idleTimeout_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setIdleTimeout(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.idleTimeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.idleTimeout_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setIdleTimeout(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.idleTimeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.idleTimeout_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeIdleTimeout(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.idleTimeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.idleTimeout_;
+                if (duration2 != null) {
+                    this.idleTimeout_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.idleTimeout_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearIdleTimeout() {
+            if (this.idleTimeoutBuilder_ == null) {
+                this.idleTimeout_ = null;
+                onChanged();
+            } else {
+                this.idleTimeout_ = null;
+                this.idleTimeoutBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getIdleTimeoutBuilder() {
+            onChanged();
+            return getIdleTimeoutFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public DurationOrBuilder getIdleTimeoutOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.idleTimeoutBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.idleTimeout_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getIdleTimeoutFieldBuilder() {
+            if (this.idleTimeoutBuilder_ == null) {
+                this.idleTimeoutBuilder_ = new SingleFieldBuilderV3<>(getIdleTimeout(), getParentForChildren(), isClean());
+                this.idleTimeout_ = null;
+            }
+            return this.idleTimeoutBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public Duration getMaxConnectionDuration() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxConnectionDurationBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.maxConnectionDuration_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setMaxConnectionDuration(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxConnectionDurationBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.maxConnectionDuration_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setMaxConnectionDuration(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxConnectionDurationBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.maxConnectionDuration_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMaxConnectionDuration(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxConnectionDurationBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.maxConnectionDuration_;
+                if (duration2 != null) {
+                    this.maxConnectionDuration_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.maxConnectionDuration_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearMaxConnectionDuration() {
+            if (this.maxConnectionDurationBuilder_ == null) {
+                this.maxConnectionDuration_ = null;
+                onChanged();
+            } else {
+                this.maxConnectionDuration_ = null;
+                this.maxConnectionDurationBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getMaxConnectionDurationBuilder() {
+            onChanged();
+            return getMaxConnectionDurationFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public DurationOrBuilder getMaxConnectionDurationOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxConnectionDurationBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.maxConnectionDuration_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getMaxConnectionDurationFieldBuilder() {
+            if (this.maxConnectionDurationBuilder_ == null) {
+                this.maxConnectionDurationBuilder_ = new SingleFieldBuilderV3<>(getMaxConnectionDuration(), getParentForChildren(), isClean());
+                this.maxConnectionDuration_ = null;
+            }
+            return this.maxConnectionDurationBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public UInt32Value getMaxHeadersCount() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxHeadersCountBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.maxHeadersCount_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setMaxHeadersCount(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxHeadersCountBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.maxHeadersCount_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setMaxHeadersCount(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxHeadersCountBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.maxHeadersCount_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMaxHeadersCount(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxHeadersCountBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.maxHeadersCount_;
+                if (uInt32Value2 != null) {
+                    this.maxHeadersCount_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.maxHeadersCount_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearMaxHeadersCount() {
+            if (this.maxHeadersCountBuilder_ == null) {
+                this.maxHeadersCount_ = null;
+                onChanged();
+            } else {
+                this.maxHeadersCount_ = null;
+                this.maxHeadersCountBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getMaxHeadersCountBuilder() {
+            onChanged();
+            return getMaxHeadersCountFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public UInt32ValueOrBuilder getMaxHeadersCountOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxHeadersCountBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.maxHeadersCount_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getMaxHeadersCountFieldBuilder() {
+            if (this.maxHeadersCountBuilder_ == null) {
+                this.maxHeadersCountBuilder_ = new SingleFieldBuilderV3<>(getMaxHeadersCount(), getParentForChildren(), isClean());
+                this.maxHeadersCount_ = null;
+            }
+            return this.maxHeadersCountBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public Duration getMaxStreamDuration() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxStreamDurationBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.maxStreamDuration_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setMaxStreamDuration(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxStreamDurationBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.maxStreamDuration_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setMaxStreamDuration(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxStreamDurationBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.maxStreamDuration_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMaxStreamDuration(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxStreamDurationBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.maxStreamDuration_;
+                if (duration2 != null) {
+                    this.maxStreamDuration_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.maxStreamDuration_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearMaxStreamDuration() {
+            if (this.maxStreamDurationBuilder_ == null) {
+                this.maxStreamDuration_ = null;
+                onChanged();
+            } else {
+                this.maxStreamDuration_ = null;
+                this.maxStreamDurationBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getMaxStreamDurationBuilder() {
+            onChanged();
+            return getMaxStreamDurationFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public DurationOrBuilder getMaxStreamDurationOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxStreamDurationBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.maxStreamDuration_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getMaxStreamDurationFieldBuilder() {
+            if (this.maxStreamDurationBuilder_ == null) {
+                this.maxStreamDurationBuilder_ = new SingleFieldBuilderV3<>(getMaxStreamDuration(), getParentForChildren(), isClean());
+                this.maxStreamDuration_ = null;
+            }
+            return this.maxStreamDurationBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HttpProtocolOptionsOrBuilder
+        public HeadersWithUnderscoresAction getHeadersWithUnderscoresAction() {
+            HeadersWithUnderscoresAction headersWithUnderscoresActionValueOf = HeadersWithUnderscoresAction.valueOf(this.headersWithUnderscoresAction_);
+            return headersWithUnderscoresActionValueOf == null ? HeadersWithUnderscoresAction.UNRECOGNIZED : headersWithUnderscoresActionValueOf;
+        }
+
+        public Builder setHeadersWithUnderscoresAction(HeadersWithUnderscoresAction headersWithUnderscoresAction) {
+            headersWithUnderscoresAction.getClass();
+            this.headersWithUnderscoresAction_ = headersWithUnderscoresAction.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearHeadersWithUnderscoresAction() {
+            this.headersWithUnderscoresAction_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16188setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16182mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

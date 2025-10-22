@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/builders/JUnit4Builder.java
+// Size: 439 bytes
+// Modified: 2025-10-21 16:32:08.495581500 +0100
+
+package org.junit.internal.builders;
+
+import org.junit.runner.Runner;
+import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.runners.model.RunnerBuilder;
+
+/* loaded from: classes2.dex */
+public class JUnit4Builder extends RunnerBuilder {
+    @Override // org.junit.runners.model.RunnerBuilder
+    public Runner runnerForClass(Class<?> cls) throws Throwable {
+        return new BlockJUnit4ClassRunner(cls);
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/trace/v1/RateLimitingSamplerOrBuilder.java
+// Size: 219 bytes
+// Modified: 2025-10-21 16:32:00.380160200 +0100
+
+package io.opencensus.proto.trace.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface RateLimitingSamplerOrBuilder extends MessageOrBuilder {
+    long getQps();
+}

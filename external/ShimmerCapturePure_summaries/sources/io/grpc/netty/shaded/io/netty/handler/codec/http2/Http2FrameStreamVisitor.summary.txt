@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/Http2FrameStreamVisitor.java
+// Size: 197 bytes
+// Modified: 2025-10-21 16:32:01.459006600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+/* loaded from: classes3.dex */
+public interface Http2FrameStreamVisitor {
+    boolean visit(Http2FrameStream http2FrameStream);
+}

@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalDecompressorRegistry.java
+// Size: 346 bytes
+// Modified: 2025-10-21 16:32:03.708111100 +0100
+
+package io.grpc;
+
+/* loaded from: classes2.dex */
+public final class InternalDecompressorRegistry {
+    private InternalDecompressorRegistry() {
+    }
+
+    public static byte[] getRawAdvertisedMessageEncodings(DecompressorRegistry decompressorRegistry) {
+        return decompressorRegistry.getRawAdvertisedMessageEncodings();
+    }
+}

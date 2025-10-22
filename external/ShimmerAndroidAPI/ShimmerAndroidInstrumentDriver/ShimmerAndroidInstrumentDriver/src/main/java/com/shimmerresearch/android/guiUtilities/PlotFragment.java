@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-
 import com.androidplot.Plot;
 import com.androidplot.ui.DynamicTableModel;
 import com.androidplot.ui.SizeLayoutType;
@@ -36,12 +34,11 @@ import com.shimmerresearch.driver.Configuration;
 import com.shimmerresearch.driver.ObjectCluster;
 import com.shimmerresearch.driverUtilities.ShimmerVerDetails;
 import com.shimmerresearch.tools.PlotManagerAndroid;
+import pl.flex_it.androidplot.XYSeriesShimmer;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
-
-import pl.flex_it.androidplot.XYSeriesShimmer;
 
 /**
  * A {@link Fragment} containing an {@link XYPlot}.

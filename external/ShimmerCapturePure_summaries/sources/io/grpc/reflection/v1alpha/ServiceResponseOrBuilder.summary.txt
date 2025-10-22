@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/reflection/v1alpha/ServiceResponseOrBuilder.java
+// Size: 290 bytes
+// Modified: 2025-10-21 16:32:00.472699900 +0100
+
+package io.grpc.reflection.v1alpha;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes3.dex */
+public interface ServiceResponseOrBuilder extends MessageOrBuilder {
+    String getName();
+
+    ByteString getNameBytes();
+}

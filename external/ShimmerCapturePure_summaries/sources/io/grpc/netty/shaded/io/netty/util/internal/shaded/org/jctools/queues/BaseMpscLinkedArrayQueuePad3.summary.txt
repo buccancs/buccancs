@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/shaded/org/jctools/queues/BaseMpscLinkedArrayQueuePad3.java
+// Size: 549 bytes
+// Modified: 2025-10-21 16:32:02.288021200 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues;
+
+/* compiled from: BaseMpscLinkedArrayQueue.java */
+/* loaded from: classes3.dex */
+abstract class BaseMpscLinkedArrayQueuePad3<E> extends BaseMpscLinkedArrayQueueConsumerFields<E> {
+    long p0;
+    long p1;
+    long p10;
+    long p11;
+    long p12;
+    long p13;
+    long p14;
+    long p15;
+    long p16;
+    long p17;
+    long p2;
+    long p3;
+    long p4;
+    long p5;
+    long p6;
+    long p7;
+
+    BaseMpscLinkedArrayQueuePad3() {
+    }
+}

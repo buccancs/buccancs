@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/lb/v1/InitialLoadBalanceRequestOrBuilder.java
+// Size: 287 bytes
+// Modified: 2025-10-21 16:32:00.220682400 +0100
+
+package io.grpc.lb.v1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface InitialLoadBalanceRequestOrBuilder extends MessageOrBuilder {
+    String getName();
+
+    ByteString getNameBytes();
+}

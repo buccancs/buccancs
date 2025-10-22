@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/internal/ZeroTimeClock.java
+// Size: 692 bytes
+// Modified: 2025-10-21 16:32:03.756787100 +0100
+
+package io.opencensus.internal;
+
+import io.opencensus.common.Clock;
+import io.opencensus.common.Timestamp;
+
+/* loaded from: classes4.dex */
+public final class ZeroTimeClock extends Clock {
+    private static final ZeroTimeClock INSTANCE = new ZeroTimeClock();
+    private static final Timestamp ZERO_TIMESTAMP = Timestamp.create(0, 0);
+
+    public static ZeroTimeClock getInstance() {
+        return INSTANCE;
+    }
+
+    @Override // io.opencensus.common.Clock
+    public Timestamp now() {
+        return ZERO_TIMESTAMP;
+    }
+
+    @Override // io.opencensus.common.Clock
+    public long nowNanos() {
+        return 0L;
+    }
+
+    private ZeroTimeClock() {
+    }
+}

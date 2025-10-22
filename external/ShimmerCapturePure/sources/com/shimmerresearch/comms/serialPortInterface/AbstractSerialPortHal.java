@@ -1,0 +1,62 @@
+package com.shimmerresearch.comms.serialPortInterface;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractSerialPortHal implements InterfaceSerialPortHal {
+    public static int SERIAL_PORT_TIMEOUT_2000 = 2000;
+    public static int SERIAL_PORT_TIMEOUT_500 = 500;
+    public int mSerialPortTimeout = SERIAL_PORT_TIMEOUT_500;
+    private String mConnectionHandle = "";
+    private transient List<ByteLevelDataCommListener> mByteLevelDataCommListener = new ArrayList();
+
+    public String getConnectionHandle() {
+        return this.mConnectionHandle;
+    }
+
+    public void setConnectionHandle(String str) {
+        this.mConnectionHandle = str;
+    }
+
+    @Override // com.shimmerresearch.comms.serialPortInterface.InterfaceSerialPortHal
+    public void setTimeout(int i) {
+        this.mSerialPortTimeout = i;
+    }
+
+    @Override // com.shimmerresearch.comms.serialPortInterface.InterfaceSerialPortHal
+    public void clearByteLevelDataCommListener() {
+        this.mByteLevelDataCommListener.clear();
+    }
+
+    @Override // com.shimmerresearch.comms.serialPortInterface.InterfaceSerialPortHal
+    public void eventDeviceConnected() {
+        if (this.mByteLevelDataCommListener.size() != 0) {
+            Iterator<ByteLevelDataCommListener> it2 = this.mByteLevelDataCommListener.iterator();
+            while (it2.hasNext()) {
+                it2.next().eventConnected();
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.serialPortInterface.InterfaceSerialPortHal
+    public void eventDeviceDisconnected() {
+        if (this.mByteLevelDataCommListener.size() != 0) {
+            Iterator<ByteLevelDataCommListener> it2 = this.mByteLevelDataCommListener.iterator();
+            while (it2.hasNext()) {
+                it2.next().eventDisconnected();
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.serialPortInterface.InterfaceSerialPortHal
+    public void addByteLevelDataCommListener(ByteLevelDataCommListener byteLevelDataCommListener) {
+        this.mByteLevelDataCommListener.add(byteLevelDataCommListener);
+    }
+
+    public static final class SHIMMER_UART_BAUD_RATES {
+        public static final int SHIMMER3_DOCKED = 115200;
+        public static final int SPAN = 230400;
+    }
+}

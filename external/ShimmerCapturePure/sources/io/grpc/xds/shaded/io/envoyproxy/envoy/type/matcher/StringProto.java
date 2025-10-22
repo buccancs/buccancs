@@ -1,0 +1,51 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import envoy.annotations.Deprecation;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+
+/* loaded from: classes4.dex */
+public final class StringProto {
+    static final Descriptors.Descriptor internal_static_envoy_type_matcher_ListStringMatcher_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_type_matcher_ListStringMatcher_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_type_matcher_StringMatcher_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_type_matcher_StringMatcher_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n\u001fenvoy/type/matcher/string.proto\u0012\u0012envoy.type.matcher\u001a\u001eenvoy/type/matcher/regex.proto\u001a#envoy/annotations/deprecation.proto\u001a\u001dudpa/annotations/status.proto\u001a\u0017validate/validate.proto\"æ\u0001\n\rStringMatcher\u0012\u000f\n\u0005exact\u0018\u0001 \u0001(\tH\u0000\u0012\u0019\n\u0006prefix\u0018\u0002 \u0001(\tB\u0007úB\u0004r\u0002 \u0001H\u0000\u0012\u0019\n\u0006suffix\u0018\u0003 \u0001(\tB\u0007úB\u0004r\u0002 \u0001H\u0000\u0012!\n\u0005regex\u0018\u0004 \u0001(\tB\u0010\u0018\u0001úB\u0005r\u0003(\u0080\b¸îòÒ\u0005\u0001H\u0000\u0012@\n\nsafe_regex\u0018\u0005 \u0001(\u000b2 .envoy.type.matcher.RegexMatcherB\búB\u0005\u008a\u0001\u0002\u0010\u0001H\u0000\u0012\u0013\n\u000bignore_case\u0018\u0006 \u0001(\bB\u0014\n\rmatch_pattern\u0012\u0003øB\u0001\"R\n\u0011ListStringMatcher\u0012=\n\bpatterns\u0018\u0001 \u0003(\u000b2!.envoy.type.matcher.StringMatcherB\búB\u0005\u0092\u0001\u0002\b\u0001B9\n io.envoyproxy.envoy.type.matcherB\u000bStringProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{RegexProto.getDescriptor(), Deprecation.getDescriptor(), Status.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_type_matcher_StringMatcher_descriptor = descriptor2;
+        internal_static_envoy_type_matcher_StringMatcher_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Exact", "Prefix", "Suffix", "Regex", "SafeRegex", "IgnoreCase", "MatchPattern"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_type_matcher_ListStringMatcher_descriptor = descriptor3;
+        internal_static_envoy_type_matcher_ListStringMatcher_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Patterns"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Deprecation.disallowedByDefault);
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        RegexProto.getDescriptor();
+        Deprecation.getDescriptor();
+        Status.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private StringProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

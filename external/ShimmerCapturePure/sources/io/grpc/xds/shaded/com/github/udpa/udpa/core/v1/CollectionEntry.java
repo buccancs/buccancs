@@ -1,0 +1,1492 @@
+package io.grpc.xds.shaded.com.github.udpa.udpa.core.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceLocator;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class CollectionEntry extends GeneratedMessageV3 implements CollectionEntryOrBuilder {
+    public static final int INLINE_ENTRY_FIELD_NUMBER = 2;
+    public static final int LOCATOR_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final CollectionEntry DEFAULT_INSTANCE = new CollectionEntry();
+    private static final Parser<CollectionEntry> PARSER = new AbstractParser<CollectionEntry>() { // from class: io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public CollectionEntry m10084parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new CollectionEntry(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private byte memoizedIsInitialized;
+    private int resourceSpecifierCase_;
+    private Object resourceSpecifier_;
+
+    private CollectionEntry(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.resourceSpecifierCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private CollectionEntry() {
+        this.resourceSpecifierCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private CollectionEntry(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                ResourceLocator.Builder builderM10221toBuilder = this.resourceSpecifierCase_ == 1 ? ((ResourceLocator) this.resourceSpecifier_).m10221toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(ResourceLocator.parser(), extensionRegistryLite);
+                                this.resourceSpecifier_ = message;
+                                if (builderM10221toBuilder != null) {
+                                    builderM10221toBuilder.mergeFrom((ResourceLocator) message);
+                                    this.resourceSpecifier_ = builderM10221toBuilder.m10228buildPartial();
+                                }
+                                this.resourceSpecifierCase_ = 1;
+                            } else if (tag == 18) {
+                                InlineEntry.Builder builderM10128toBuilder = this.resourceSpecifierCase_ == 2 ? ((InlineEntry) this.resourceSpecifier_).m10128toBuilder() : null;
+                                MessageLite message2 = codedInputStream.readMessage(InlineEntry.parser(), extensionRegistryLite);
+                                this.resourceSpecifier_ = message2;
+                                if (builderM10128toBuilder != null) {
+                                    builderM10128toBuilder.mergeFrom((InlineEntry) message2);
+                                    this.resourceSpecifier_ = builderM10128toBuilder.m10135buildPartial();
+                                }
+                                this.resourceSpecifierCase_ = 2;
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static CollectionEntry getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<CollectionEntry> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_descriptor;
+    }
+
+    public static CollectionEntry parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (CollectionEntry) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static CollectionEntry parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CollectionEntry) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static CollectionEntry parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (CollectionEntry) PARSER.parseFrom(byteString);
+    }
+
+    public static CollectionEntry parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CollectionEntry) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static CollectionEntry parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (CollectionEntry) PARSER.parseFrom(bArr);
+    }
+
+    public static CollectionEntry parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CollectionEntry) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static CollectionEntry parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static CollectionEntry parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CollectionEntry parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static CollectionEntry parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CollectionEntry parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static CollectionEntry parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m10082toBuilder();
+    }
+
+    public static Builder newBuilder(CollectionEntry collectionEntry) {
+        return DEFAULT_INSTANCE.m10082toBuilder().mergeFrom(collectionEntry);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public CollectionEntry m10077getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<CollectionEntry> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+    public boolean hasInlineEntry() {
+        return this.resourceSpecifierCase_ == 2;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+    public boolean hasLocator() {
+        return this.resourceSpecifierCase_ == 1;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new CollectionEntry();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(CollectionEntry.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+    public ResourceSpecifierCase getResourceSpecifierCase() {
+        return ResourceSpecifierCase.forNumber(this.resourceSpecifierCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+    public ResourceLocator getLocator() {
+        if (this.resourceSpecifierCase_ == 1) {
+            return (ResourceLocator) this.resourceSpecifier_;
+        }
+        return ResourceLocator.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+    public ResourceLocatorOrBuilder getLocatorOrBuilder() {
+        if (this.resourceSpecifierCase_ == 1) {
+            return (ResourceLocator) this.resourceSpecifier_;
+        }
+        return ResourceLocator.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+    public InlineEntry getInlineEntry() {
+        if (this.resourceSpecifierCase_ == 2) {
+            return (InlineEntry) this.resourceSpecifier_;
+        }
+        return InlineEntry.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+    public InlineEntryOrBuilder getInlineEntryOrBuilder() {
+        if (this.resourceSpecifierCase_ == 2) {
+            return (InlineEntry) this.resourceSpecifier_;
+        }
+        return InlineEntry.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.resourceSpecifierCase_ == 1) {
+            codedOutputStream.writeMessage(1, (ResourceLocator) this.resourceSpecifier_);
+        }
+        if (this.resourceSpecifierCase_ == 2) {
+            codedOutputStream.writeMessage(2, (InlineEntry) this.resourceSpecifier_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.resourceSpecifierCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (ResourceLocator) this.resourceSpecifier_) : 0;
+        if (this.resourceSpecifierCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (InlineEntry) this.resourceSpecifier_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof CollectionEntry)) {
+            return super.equals(obj);
+        }
+        CollectionEntry collectionEntry = (CollectionEntry) obj;
+        if (!getResourceSpecifierCase().equals(collectionEntry.getResourceSpecifierCase())) {
+            return false;
+        }
+        int i = this.resourceSpecifierCase_;
+        if (i == 1) {
+            if (!getLocator().equals(collectionEntry.getLocator())) {
+                return false;
+            }
+        } else if (i == 2 && !getInlineEntry().equals(collectionEntry.getInlineEntry())) {
+            return false;
+        }
+        return this.unknownFields.equals(collectionEntry.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        int i2 = this.resourceSpecifierCase_;
+        if (i2 == 1) {
+            i = ((iHashCode2 * 37) + 1) * 53;
+            iHashCode = getLocator().hashCode();
+        } else {
+            if (i2 == 2) {
+                i = ((iHashCode2 * 37) + 2) * 53;
+                iHashCode = getInlineEntry().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10079newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10082toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum ResourceSpecifierCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        LOCATOR(1),
+        INLINE_ENTRY(2),
+        RESOURCESPECIFIER_NOT_SET(0);
+
+        private final int value;
+
+        ResourceSpecifierCase(int i) {
+            this.value = i;
+        }
+
+        public static ResourceSpecifierCase forNumber(int i) {
+            if (i == 0) {
+                return RESOURCESPECIFIER_NOT_SET;
+            }
+            if (i == 1) {
+                return LOCATOR;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return INLINE_ENTRY;
+        }
+
+        @Deprecated
+        public static ResourceSpecifierCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public interface InlineEntryOrBuilder extends MessageOrBuilder {
+        String getName();
+
+        ByteString getNameBytes();
+
+        Any getResource();
+
+        AnyOrBuilder getResourceOrBuilder();
+
+        String getVersion();
+
+        ByteString getVersionBytes();
+
+        boolean hasResource();
+    }
+
+    public static final class InlineEntry extends GeneratedMessageV3 implements InlineEntryOrBuilder {
+        public static final int NAME_FIELD_NUMBER = 1;
+        public static final int RESOURCE_FIELD_NUMBER = 3;
+        public static final int VERSION_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final InlineEntry DEFAULT_INSTANCE = new InlineEntry();
+        private static final Parser<InlineEntry> PARSER = new AbstractParser<InlineEntry>() { // from class: io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntry.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public InlineEntry m10130parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new InlineEntry(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object name_;
+        private Any resource_;
+        private volatile Object version_;
+
+        private InlineEntry(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private InlineEntry() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.name_ = "";
+            this.version_ = "";
+        }
+
+        private InlineEntry(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.name_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                this.version_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 26) {
+                                Any any = this.resource_;
+                                Any.Builder builder = any != null ? any.toBuilder() : null;
+                                Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                                this.resource_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.resource_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static InlineEntry getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<InlineEntry> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_InlineEntry_descriptor;
+        }
+
+        public static InlineEntry parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (InlineEntry) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static InlineEntry parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (InlineEntry) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static InlineEntry parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (InlineEntry) PARSER.parseFrom(byteString);
+        }
+
+        public static InlineEntry parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (InlineEntry) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static InlineEntry parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (InlineEntry) PARSER.parseFrom(bArr);
+        }
+
+        public static InlineEntry parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (InlineEntry) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static InlineEntry parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static InlineEntry parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static InlineEntry parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static InlineEntry parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static InlineEntry parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static InlineEntry parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m10128toBuilder();
+        }
+
+        public static Builder newBuilder(InlineEntry inlineEntry) {
+            return DEFAULT_INSTANCE.m10128toBuilder().mergeFrom(inlineEntry);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public InlineEntry m10123getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<InlineEntry> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+        public boolean hasResource() {
+            return this.resource_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new InlineEntry();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_InlineEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(InlineEntry.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.name_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+        public String getVersion() {
+            Object obj = this.version_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.version_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+        public ByteString getVersionBytes() {
+            Object obj = this.version_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.version_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+        public Any getResource() {
+            Any any = this.resource_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+        public AnyOrBuilder getResourceOrBuilder() {
+            return getResource();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+            }
+            if (!getVersionBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 2, this.version_);
+            }
+            if (this.resource_ != null) {
+                codedOutputStream.writeMessage(3, getResource());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+            if (!getVersionBytes().isEmpty()) {
+                iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.version_);
+            }
+            if (this.resource_ != null) {
+                iComputeStringSize += CodedOutputStream.computeMessageSize(3, getResource());
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof InlineEntry)) {
+                return super.equals(obj);
+            }
+            InlineEntry inlineEntry = (InlineEntry) obj;
+            if (getName().equals(inlineEntry.getName()) && getVersion().equals(inlineEntry.getVersion()) && hasResource() == inlineEntry.hasResource()) {
+                return (!hasResource() || getResource().equals(inlineEntry.getResource())) && this.unknownFields.equals(inlineEntry.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode()) * 37) + 2) * 53) + getVersion().hashCode();
+            if (hasResource()) {
+                iHashCode = (((iHashCode * 37) + 3) * 53) + getResource().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10125newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10128toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements InlineEntryOrBuilder {
+            private Object name_;
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> resourceBuilder_;
+            private Any resource_;
+            private Object version_;
+
+            private Builder() {
+                this.name_ = "";
+                this.version_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.name_ = "";
+                this.version_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_InlineEntry_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+            public boolean hasResource() {
+                return (this.resourceBuilder_ == null && this.resource_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_InlineEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(InlineEntry.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = InlineEntry.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10139clear() {
+                super.clear();
+                this.name_ = "";
+                this.version_ = "";
+                if (this.resourceBuilder_ == null) {
+                    this.resource_ = null;
+                } else {
+                    this.resource_ = null;
+                    this.resourceBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_InlineEntry_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public InlineEntry m10152getDefaultInstanceForType() {
+                return InlineEntry.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public InlineEntry m10133build() throws UninitializedMessageException {
+                InlineEntry inlineEntryM10135buildPartial = m10135buildPartial();
+                if (inlineEntryM10135buildPartial.isInitialized()) {
+                    return inlineEntryM10135buildPartial;
+                }
+                throw newUninitializedMessageException(inlineEntryM10135buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public InlineEntry m10135buildPartial() {
+                InlineEntry inlineEntry = new InlineEntry(this);
+                inlineEntry.name_ = this.name_;
+                inlineEntry.version_ = this.version_;
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    inlineEntry.resource_ = this.resource_;
+                } else {
+                    inlineEntry.resource_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return inlineEntry;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10151clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10163setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10141clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10144clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10165setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10131addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m10156mergeFrom(Message message) {
+                if (message instanceof InlineEntry) {
+                    return mergeFrom((InlineEntry) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(InlineEntry inlineEntry) {
+                if (inlineEntry == InlineEntry.getDefaultInstance()) {
+                    return this;
+                }
+                if (!inlineEntry.getName().isEmpty()) {
+                    this.name_ = inlineEntry.name_;
+                    onChanged();
+                }
+                if (!inlineEntry.getVersion().isEmpty()) {
+                    this.version_ = inlineEntry.version_;
+                    onChanged();
+                }
+                if (inlineEntry.hasResource()) {
+                    mergeResource(inlineEntry.getResource());
+                }
+                m10161mergeUnknownFields(inlineEntry.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntry.Builder m10157mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntry.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry$InlineEntry r3 = (io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntry) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry$InlineEntry r4 = (io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntry) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntry.Builder.m10157mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry$InlineEntry$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+            public String getName() {
+                Object obj = this.name_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.name_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setName(String str) {
+                str.getClass();
+                this.name_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+            public ByteString getNameBytes() {
+                Object obj = this.name_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.name_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setNameBytes(ByteString byteString) {
+                byteString.getClass();
+                InlineEntry.checkByteStringIsUtf8(byteString);
+                this.name_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearName() {
+                this.name_ = InlineEntry.getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+            public String getVersion() {
+                Object obj = this.version_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.version_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setVersion(String str) {
+                str.getClass();
+                this.version_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+            public ByteString getVersionBytes() {
+                Object obj = this.version_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.version_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setVersionBytes(ByteString byteString) {
+                byteString.getClass();
+                InlineEntry.checkByteStringIsUtf8(byteString);
+                this.version_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearVersion() {
+                this.version_ = InlineEntry.getDefaultInstance().getVersion();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+            public Any getResource() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Any any = this.resource_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            public Builder setResource(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    any.getClass();
+                    this.resource_ = any;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(any);
+                }
+                return this;
+            }
+
+            public Builder setResource(Any.Builder builder) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.resource_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeResource(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Any any2 = this.resource_;
+                    if (any2 != null) {
+                        this.resource_ = Any.newBuilder(any2).mergeFrom(any).buildPartial();
+                    } else {
+                        this.resource_ = any;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(any);
+                }
+                return this;
+            }
+
+            public Builder clearResource() {
+                if (this.resourceBuilder_ == null) {
+                    this.resource_ = null;
+                    onChanged();
+                } else {
+                    this.resource_ = null;
+                    this.resourceBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Any.Builder getResourceBuilder() {
+                onChanged();
+                return getResourceFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.InlineEntryOrBuilder
+            public AnyOrBuilder getResourceOrBuilder() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Any any = this.resource_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getResourceFieldBuilder() {
+                if (this.resourceBuilder_ == null) {
+                    this.resourceBuilder_ = new SingleFieldBuilderV3<>(getResource(), getParentForChildren(), isClean());
+                    this.resource_ = null;
+                }
+                return this.resourceBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m10167setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m10161mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CollectionEntryOrBuilder {
+        private SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> inlineEntryBuilder_;
+        private SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> locatorBuilder_;
+        private int resourceSpecifierCase_;
+        private Object resourceSpecifier_;
+
+        private Builder() {
+            this.resourceSpecifierCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.resourceSpecifierCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+        public boolean hasInlineEntry() {
+            return this.resourceSpecifierCase_ == 2;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+        public boolean hasLocator() {
+            return this.resourceSpecifierCase_ == 1;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(CollectionEntry.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = CollectionEntry.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10093clear() {
+            super.clear();
+            this.resourceSpecifierCase_ = 0;
+            this.resourceSpecifier_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return CollectionEntryProto.internal_static_udpa_core_v1_CollectionEntry_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CollectionEntry m10106getDefaultInstanceForType() {
+            return CollectionEntry.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CollectionEntry m10087build() throws UninitializedMessageException {
+            CollectionEntry collectionEntryM10089buildPartial = m10089buildPartial();
+            if (collectionEntryM10089buildPartial.isInitialized()) {
+                return collectionEntryM10089buildPartial;
+            }
+            throw newUninitializedMessageException(collectionEntryM10089buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CollectionEntry m10089buildPartial() {
+            CollectionEntry collectionEntry = new CollectionEntry(this);
+            if (this.resourceSpecifierCase_ == 1) {
+                SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.locatorBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    collectionEntry.resourceSpecifier_ = this.resourceSpecifier_;
+                } else {
+                    collectionEntry.resourceSpecifier_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.resourceSpecifierCase_ == 2) {
+                SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> singleFieldBuilderV32 = this.inlineEntryBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    collectionEntry.resourceSpecifier_ = this.resourceSpecifier_;
+                } else {
+                    collectionEntry.resourceSpecifier_ = singleFieldBuilderV32.build();
+                }
+            }
+            collectionEntry.resourceSpecifierCase_ = this.resourceSpecifierCase_;
+            onBuilt();
+            return collectionEntry;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10105clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10117setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10095clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10098clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10119setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10085addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10110mergeFrom(Message message) {
+            if (message instanceof CollectionEntry) {
+                return mergeFrom((CollectionEntry) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(CollectionEntry collectionEntry) {
+            if (collectionEntry == CollectionEntry.getDefaultInstance()) {
+                return this;
+            }
+            int i = AnonymousClass2.$SwitchMap$com$github$udpa$udpa$core$v1$CollectionEntry$ResourceSpecifierCase[collectionEntry.getResourceSpecifierCase().ordinal()];
+            if (i == 1) {
+                mergeLocator(collectionEntry.getLocator());
+            } else if (i == 2) {
+                mergeInlineEntry(collectionEntry.getInlineEntry());
+            }
+            m10115mergeUnknownFields(collectionEntry.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.Builder m10111mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.access$1900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry r3 = (io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry r4 = (io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry.Builder.m10111mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+        public ResourceSpecifierCase getResourceSpecifierCase() {
+            return ResourceSpecifierCase.forNumber(this.resourceSpecifierCase_);
+        }
+
+        public Builder clearResourceSpecifier() {
+            this.resourceSpecifierCase_ = 0;
+            this.resourceSpecifier_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+        public ResourceLocator getLocator() {
+            SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.locatorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.resourceSpecifierCase_ == 1) {
+                    return (ResourceLocator) this.resourceSpecifier_;
+                }
+                return ResourceLocator.getDefaultInstance();
+            }
+            if (this.resourceSpecifierCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ResourceLocator.getDefaultInstance();
+        }
+
+        public Builder setLocator(ResourceLocator resourceLocator) {
+            SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.locatorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                resourceLocator.getClass();
+                this.resourceSpecifier_ = resourceLocator;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(resourceLocator);
+            }
+            this.resourceSpecifierCase_ = 1;
+            return this;
+        }
+
+        public Builder setLocator(ResourceLocator.Builder builder) {
+            SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.locatorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.resourceSpecifier_ = builder.m10226build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m10226build());
+            }
+            this.resourceSpecifierCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeLocator(ResourceLocator resourceLocator) {
+            SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.locatorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.resourceSpecifierCase_ != 1 || this.resourceSpecifier_ == ResourceLocator.getDefaultInstance()) {
+                    this.resourceSpecifier_ = resourceLocator;
+                } else {
+                    this.resourceSpecifier_ = ResourceLocator.newBuilder((ResourceLocator) this.resourceSpecifier_).mergeFrom(resourceLocator).m10228buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.resourceSpecifierCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(resourceLocator);
+                }
+                this.locatorBuilder_.setMessage(resourceLocator);
+            }
+            this.resourceSpecifierCase_ = 1;
+            return this;
+        }
+
+        public Builder clearLocator() {
+            SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.locatorBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.resourceSpecifierCase_ == 1) {
+                    this.resourceSpecifierCase_ = 0;
+                    this.resourceSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.resourceSpecifierCase_ == 1) {
+                this.resourceSpecifierCase_ = 0;
+                this.resourceSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ResourceLocator.Builder getLocatorBuilder() {
+            return getLocatorFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+        public ResourceLocatorOrBuilder getLocatorOrBuilder() {
+            SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3;
+            int i = this.resourceSpecifierCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.locatorBuilder_) != null) {
+                return (ResourceLocatorOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (ResourceLocator) this.resourceSpecifier_;
+            }
+            return ResourceLocator.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> getLocatorFieldBuilder() {
+            if (this.locatorBuilder_ == null) {
+                if (this.resourceSpecifierCase_ != 1) {
+                    this.resourceSpecifier_ = ResourceLocator.getDefaultInstance();
+                }
+                this.locatorBuilder_ = new SingleFieldBuilderV3<>((ResourceLocator) this.resourceSpecifier_, getParentForChildren(), isClean());
+                this.resourceSpecifier_ = null;
+            }
+            this.resourceSpecifierCase_ = 1;
+            onChanged();
+            return this.locatorBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+        public InlineEntry getInlineEntry() {
+            SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> singleFieldBuilderV3 = this.inlineEntryBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.resourceSpecifierCase_ == 2) {
+                    return (InlineEntry) this.resourceSpecifier_;
+                }
+                return InlineEntry.getDefaultInstance();
+            }
+            if (this.resourceSpecifierCase_ == 2) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return InlineEntry.getDefaultInstance();
+        }
+
+        public Builder setInlineEntry(InlineEntry inlineEntry) {
+            SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> singleFieldBuilderV3 = this.inlineEntryBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                inlineEntry.getClass();
+                this.resourceSpecifier_ = inlineEntry;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(inlineEntry);
+            }
+            this.resourceSpecifierCase_ = 2;
+            return this;
+        }
+
+        public Builder setInlineEntry(InlineEntry.Builder builder) {
+            SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> singleFieldBuilderV3 = this.inlineEntryBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.resourceSpecifier_ = builder.m10133build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m10133build());
+            }
+            this.resourceSpecifierCase_ = 2;
+            return this;
+        }
+
+        public Builder mergeInlineEntry(InlineEntry inlineEntry) {
+            SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> singleFieldBuilderV3 = this.inlineEntryBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.resourceSpecifierCase_ != 2 || this.resourceSpecifier_ == InlineEntry.getDefaultInstance()) {
+                    this.resourceSpecifier_ = inlineEntry;
+                } else {
+                    this.resourceSpecifier_ = InlineEntry.newBuilder((InlineEntry) this.resourceSpecifier_).mergeFrom(inlineEntry).m10135buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.resourceSpecifierCase_ == 2) {
+                    singleFieldBuilderV3.mergeFrom(inlineEntry);
+                }
+                this.inlineEntryBuilder_.setMessage(inlineEntry);
+            }
+            this.resourceSpecifierCase_ = 2;
+            return this;
+        }
+
+        public Builder clearInlineEntry() {
+            SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> singleFieldBuilderV3 = this.inlineEntryBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.resourceSpecifierCase_ == 2) {
+                    this.resourceSpecifierCase_ = 0;
+                    this.resourceSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.resourceSpecifierCase_ == 2) {
+                this.resourceSpecifierCase_ = 0;
+                this.resourceSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public InlineEntry.Builder getInlineEntryBuilder() {
+            return getInlineEntryFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder
+        public InlineEntryOrBuilder getInlineEntryOrBuilder() {
+            SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> singleFieldBuilderV3;
+            int i = this.resourceSpecifierCase_;
+            if (i == 2 && (singleFieldBuilderV3 = this.inlineEntryBuilder_) != null) {
+                return (InlineEntryOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 2) {
+                return (InlineEntry) this.resourceSpecifier_;
+            }
+            return InlineEntry.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<InlineEntry, InlineEntry.Builder, InlineEntryOrBuilder> getInlineEntryFieldBuilder() {
+            if (this.inlineEntryBuilder_ == null) {
+                if (this.resourceSpecifierCase_ != 2) {
+                    this.resourceSpecifier_ = InlineEntry.getDefaultInstance();
+                }
+                this.inlineEntryBuilder_ = new SingleFieldBuilderV3<>((InlineEntry) this.resourceSpecifier_, getParentForChildren(), isClean());
+                this.resourceSpecifier_ = null;
+            }
+            this.resourceSpecifierCase_ = 2;
+            onChanged();
+            return this.inlineEntryBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10121setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10115mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$com$github$udpa$udpa$core$v1$CollectionEntry$ResourceSpecifierCase;
+
+        static {
+            int[] iArr = new int[ResourceSpecifierCase.values().length];
+            $SwitchMap$com$github$udpa$udpa$core$v1$CollectionEntry$ResourceSpecifierCase = iArr;
+            try {
+                iArr[ResourceSpecifierCase.LOCATOR.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$com$github$udpa$udpa$core$v1$CollectionEntry$ResourceSpecifierCase[ResourceSpecifierCase.INLINE_ENTRY.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$com$github$udpa$udpa$core$v1$CollectionEntry$ResourceSpecifierCase[ResourceSpecifierCase.RESOURCESPECIFIER_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+        }
+    }
+}

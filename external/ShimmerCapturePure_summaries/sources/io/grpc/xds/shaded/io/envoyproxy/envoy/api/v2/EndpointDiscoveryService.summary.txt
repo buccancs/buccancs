@@ -1,0 +1,241 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/EndpointDiscoveryService.java
+// Size: 13214 bytes
+// Modified: 2025-10-21 16:32:08.828407700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.BlockingRpcChannel;
+import com.google.protobuf.BlockingService;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Message;
+import com.google.protobuf.RpcCallback;
+import com.google.protobuf.RpcChannel;
+import com.google.protobuf.RpcController;
+import com.google.protobuf.RpcUtil;
+import com.google.protobuf.Service;
+import com.google.protobuf.ServiceException;
+
+/* loaded from: classes3.dex */
+public abstract class EndpointDiscoveryService implements Service {
+
+    public interface BlockingInterface {
+        DeltaDiscoveryResponse deltaEndpoints(RpcController rpcController, DeltaDiscoveryRequest deltaDiscoveryRequest) throws ServiceException;
+
+        DiscoveryResponse fetchEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest) throws ServiceException;
+
+        DiscoveryResponse streamEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest) throws ServiceException;
+    }
+
+    public interface Interface {
+        void deltaEndpoints(RpcController rpcController, DeltaDiscoveryRequest deltaDiscoveryRequest, RpcCallback<DeltaDiscoveryResponse> rpcCallback);
+
+        void fetchEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback);
+
+        void streamEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback);
+    }
+
+    public abstract void deltaEndpoints(RpcController rpcController, DeltaDiscoveryRequest deltaDiscoveryRequest, RpcCallback<DeltaDiscoveryResponse> rpcCallback);
+
+    public abstract void fetchEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback);
+
+    public abstract void streamEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback);
+
+    protected EndpointDiscoveryService() {
+    }
+
+    public static Service newReflectiveService(final Interface r1) {
+        return new EndpointDiscoveryService() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService.1
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService
+            public void streamEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback) {
+                r1.streamEndpoints(rpcController, discoveryRequest, rpcCallback);
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService
+            public void deltaEndpoints(RpcController rpcController, DeltaDiscoveryRequest deltaDiscoveryRequest, RpcCallback<DeltaDiscoveryResponse> rpcCallback) {
+                r1.deltaEndpoints(rpcController, deltaDiscoveryRequest, rpcCallback);
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService
+            public void fetchEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback) {
+                r1.fetchEndpoints(rpcController, discoveryRequest, rpcCallback);
+            }
+        };
+    }
+
+    public static BlockingService newReflectiveBlockingService(final BlockingInterface blockingInterface) {
+        return new BlockingService() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService.2
+            public final Descriptors.ServiceDescriptor getDescriptorForType() {
+                return EndpointDiscoveryService.getDescriptor();
+            }
+
+            public final Message callBlockingMethod(Descriptors.MethodDescriptor methodDescriptor, RpcController rpcController, Message message) throws ServiceException {
+                if (methodDescriptor.getService() != EndpointDiscoveryService.getDescriptor()) {
+                    throw new IllegalArgumentException("Service.callBlockingMethod() given method descriptor for wrong service type.");
+                }
+                int index = methodDescriptor.getIndex();
+                if (index == 0) {
+                    return blockingInterface.streamEndpoints(rpcController, (DiscoveryRequest) message);
+                }
+                if (index == 1) {
+                    return blockingInterface.deltaEndpoints(rpcController, (DeltaDiscoveryRequest) message);
+                }
+                if (index == 2) {
+                    return blockingInterface.fetchEndpoints(rpcController, (DiscoveryRequest) message);
+                }
+                throw new AssertionError("Can't get here.");
+            }
+
+            public final Message getRequestPrototype(Descriptors.MethodDescriptor methodDescriptor) {
+                if (methodDescriptor.getService() != EndpointDiscoveryService.getDescriptor()) {
+                    throw new IllegalArgumentException("Service.getRequestPrototype() given method descriptor for wrong service type.");
+                }
+                int index = methodDescriptor.getIndex();
+                if (index == 0) {
+                    return DiscoveryRequest.getDefaultInstance();
+                }
+                if (index == 1) {
+                    return DeltaDiscoveryRequest.getDefaultInstance();
+                }
+                if (index == 2) {
+                    return DiscoveryRequest.getDefaultInstance();
+                }
+                throw new AssertionError("Can't get here.");
+            }
+
+            public final Message getResponsePrototype(Descriptors.MethodDescriptor methodDescriptor) {
+                if (methodDescriptor.getService() != EndpointDiscoveryService.getDescriptor()) {
+                    throw new IllegalArgumentException("Service.getResponsePrototype() given method descriptor for wrong service type.");
+                }
+                int index = methodDescriptor.getIndex();
+                if (index == 0) {
+                    return DiscoveryResponse.getDefaultInstance();
+                }
+                if (index == 1) {
+                    return DeltaDiscoveryResponse.getDefaultInstance();
+                }
+                if (index == 2) {
+                    return DiscoveryResponse.getDefaultInstance();
+                }
+                throw new AssertionError("Can't get here.");
+            }
+        };
+    }
+
+    public static final Descriptors.ServiceDescriptor getDescriptor() {
+        return (Descriptors.ServiceDescriptor) EdsProto.getDescriptor().getServices().get(0);
+    }
+
+    public final Descriptors.ServiceDescriptor getDescriptorForType() {
+        return getDescriptor();
+    }
+
+    public final void callMethod(Descriptors.MethodDescriptor methodDescriptor, RpcController rpcController, Message message, RpcCallback<Message> rpcCallback) {
+        if (methodDescriptor.getService() != getDescriptor()) {
+            throw new IllegalArgumentException("Service.callMethod() given method descriptor for wrong service type.");
+        }
+        int index = methodDescriptor.getIndex();
+        if (index == 0) {
+            streamEndpoints(rpcController, (DiscoveryRequest) message, RpcUtil.specializeCallback(rpcCallback));
+        } else if (index == 1) {
+            deltaEndpoints(rpcController, (DeltaDiscoveryRequest) message, RpcUtil.specializeCallback(rpcCallback));
+        } else {
+            if (index == 2) {
+                fetchEndpoints(rpcController, (DiscoveryRequest) message, RpcUtil.specializeCallback(rpcCallback));
+                return;
+            }
+            throw new AssertionError("Can't get here.");
+        }
+    }
+
+    public final Message getRequestPrototype(Descriptors.MethodDescriptor methodDescriptor) {
+        if (methodDescriptor.getService() != getDescriptor()) {
+            throw new IllegalArgumentException("Service.getRequestPrototype() given method descriptor for wrong service type.");
+        }
+        int index = methodDescriptor.getIndex();
+        if (index == 0) {
+            return DiscoveryRequest.getDefaultInstance();
+        }
+        if (index == 1) {
+            return DeltaDiscoveryRequest.getDefaultInstance();
+        }
+        if (index == 2) {
+            return DiscoveryRequest.getDefaultInstance();
+        }
+        throw new AssertionError("Can't get here.");
+    }
+
+    public final Message getResponsePrototype(Descriptors.MethodDescriptor methodDescriptor) {
+        if (methodDescriptor.getService() != getDescriptor()) {
+            throw new IllegalArgumentException("Service.getResponsePrototype() given method descriptor for wrong service type.");
+        }
+        int index = methodDescriptor.getIndex();
+        if (index == 0) {
+            return DiscoveryResponse.getDefaultInstance();
+        }
+        if (index == 1) {
+            return DeltaDiscoveryResponse.getDefaultInstance();
+        }
+        if (index == 2) {
+            return DiscoveryResponse.getDefaultInstance();
+        }
+        throw new AssertionError("Can't get here.");
+    }
+
+    public static Stub newStub(RpcChannel rpcChannel) {
+        return new Stub(rpcChannel);
+    }
+
+    public static final class Stub extends EndpointDiscoveryService implements Interface {
+        private final RpcChannel channel;
+
+        public RpcChannel getChannel() {
+            return this.channel;
+        }
+
+        private Stub(RpcChannel rpcChannel) {
+            this.channel = rpcChannel;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService
+        public void streamEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback) {
+            this.channel.callMethod((Descriptors.MethodDescriptor) getDescriptor().getMethods().get(0), rpcController, discoveryRequest, DiscoveryResponse.getDefaultInstance(), RpcUtil.generalizeCallback(rpcCallback, DiscoveryResponse.class, DiscoveryResponse.getDefaultInstance()));
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService
+        public void deltaEndpoints(RpcController rpcController, DeltaDiscoveryRequest deltaDiscoveryRequest, RpcCallback<DeltaDiscoveryResponse> rpcCallback) {
+            this.channel.callMethod((Descriptors.MethodDescriptor) getDescriptor().getMethods().get(1), rpcController, deltaDiscoveryRequest, DeltaDiscoveryResponse.getDefaultInstance(), RpcUtil.generalizeCallback(rpcCallback, DeltaDiscoveryResponse.class, DeltaDiscoveryResponse.getDefaultInstance()));
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService
+        public void fetchEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest, RpcCallback<DiscoveryResponse> rpcCallback) {
+            this.channel.callMethod((Descriptors.MethodDescriptor) getDescriptor().getMethods().get(2), rpcController, discoveryRequest, DiscoveryResponse.getDefaultInstance(), RpcUtil.generalizeCallback(rpcCallback, DiscoveryResponse.class, DiscoveryResponse.getDefaultInstance()));
+        }
+    }
+
+    public static BlockingInterface newBlockingStub(BlockingRpcChannel blockingRpcChannel) {
+        return new BlockingStub(blockingRpcChannel);
+    }
+
+    private static final class BlockingStub implements BlockingInterface {
+        private final BlockingRpcChannel channel;
+
+        private BlockingStub(BlockingRpcChannel blockingRpcChannel) {
+            this.channel = blockingRpcChannel;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService.BlockingInterface
+        public DiscoveryResponse streamEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest) throws ServiceException {
+            return this.channel.callBlockingMethod((Descriptors.MethodDescriptor) EndpointDiscoveryService.getDescriptor().getMethods().get(0), rpcController, discoveryRequest, DiscoveryResponse.getDefaultInstance());
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService.BlockingInterface
+        public DeltaDiscoveryResponse deltaEndpoints(RpcController rpcController, DeltaDiscoveryRequest deltaDiscoveryRequest) throws ServiceException {
+            return this.channel.callBlockingMethod((Descriptors.MethodDescriptor) EndpointDiscoveryService.getDescriptor().getMethods().get(1), rpcController, deltaDiscoveryRequest, DeltaDiscoveryResponse.getDefaultInstance());
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.EndpointDiscoveryService.BlockingInterface
+        public DiscoveryResponse fetchEndpoints(RpcController rpcController, DiscoveryRequest discoveryRequest) throws ServiceException {
+            return this.channel.callBlockingMethod((Descriptors.MethodDescriptor) EndpointDiscoveryService.getDescriptor().getMethods().get(2), rpcController, discoveryRequest, DiscoveryResponse.getDefaultInstance());
+        }
+    }
+}

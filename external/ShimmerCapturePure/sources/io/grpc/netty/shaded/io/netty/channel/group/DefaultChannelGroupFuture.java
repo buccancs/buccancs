@@ -1,0 +1,337 @@
+package io.grpc.netty.shaded.io.netty.channel.group;
+
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFutureListener;
+import io.grpc.netty.shaded.io.netty.util.concurrent.BlockingOperationException;
+import io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise;
+import io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutor;
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+import io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener;
+import io.grpc.netty.shaded.io.netty.util.concurrent.ImmediateEventExecutor;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+final class DefaultChannelGroupFuture extends DefaultPromise<Void> implements ChannelGroupFuture {
+    private final ChannelFutureListener childListener;
+    private final Map<Channel, ChannelFuture> futures;
+    private final ChannelGroup group;
+    private int failureCount;
+    private int successCount;
+
+    DefaultChannelGroupFuture(ChannelGroup channelGroup, Collection<ChannelFuture> collection, EventExecutor eventExecutor) {
+        super(eventExecutor);
+        this.childListener = new ChannelFutureListener() { // from class: io.grpc.netty.shaded.io.netty.channel.group.DefaultChannelGroupFuture.1
+            static final /* synthetic */ boolean $assertionsDisabled = false;
+
+            @Override // io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                boolean z;
+                boolean zIsSuccess = channelFuture.isSuccess();
+                synchronized (DefaultChannelGroupFuture.this) {
+                    if (zIsSuccess) {
+                        DefaultChannelGroupFuture.access$008(DefaultChannelGroupFuture.this);
+                    } else {
+                        DefaultChannelGroupFuture.access$108(DefaultChannelGroupFuture.this);
+                    }
+                    z = DefaultChannelGroupFuture.this.successCount + DefaultChannelGroupFuture.this.failureCount == DefaultChannelGroupFuture.this.futures.size();
+                }
+                if (z) {
+                    if (DefaultChannelGroupFuture.this.failureCount <= 0) {
+                        DefaultChannelGroupFuture.this.setSuccess0();
+                        return;
+                    }
+                    ArrayList arrayList = new ArrayList(DefaultChannelGroupFuture.this.failureCount);
+                    for (ChannelFuture channelFuture2 : DefaultChannelGroupFuture.this.futures.values()) {
+                        if (!channelFuture2.isSuccess()) {
+                            arrayList.add(new DefaultEntry(channelFuture2.channel(), channelFuture2.cause()));
+                        }
+                    }
+                    DefaultChannelGroupFuture.this.setFailure0(new ChannelGroupException(arrayList));
+                }
+            }
+        };
+        this.group = (ChannelGroup) ObjectUtil.checkNotNull(channelGroup, "group");
+        ObjectUtil.checkNotNull(collection, "futures");
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        for (ChannelFuture channelFuture : collection) {
+            linkedHashMap.put(channelFuture.channel(), channelFuture);
+        }
+        Map<Channel, ChannelFuture> mapUnmodifiableMap = Collections.unmodifiableMap(linkedHashMap);
+        this.futures = mapUnmodifiableMap;
+        Iterator<ChannelFuture> it2 = mapUnmodifiableMap.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().addListener((GenericFutureListener<? extends Future<? super Void>>) this.childListener);
+        }
+        if (this.futures.isEmpty()) {
+            setSuccess0();
+        }
+    }
+
+    DefaultChannelGroupFuture(ChannelGroup channelGroup, Map<Channel, ChannelFuture> map, EventExecutor eventExecutor) {
+        super(eventExecutor);
+        this.childListener = new ChannelFutureListener() { // from class: io.grpc.netty.shaded.io.netty.channel.group.DefaultChannelGroupFuture.1
+            static final /* synthetic */ boolean $assertionsDisabled = false;
+
+            @Override // io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                boolean z;
+                boolean zIsSuccess = channelFuture.isSuccess();
+                synchronized (DefaultChannelGroupFuture.this) {
+                    if (zIsSuccess) {
+                        DefaultChannelGroupFuture.access$008(DefaultChannelGroupFuture.this);
+                    } else {
+                        DefaultChannelGroupFuture.access$108(DefaultChannelGroupFuture.this);
+                    }
+                    z = DefaultChannelGroupFuture.this.successCount + DefaultChannelGroupFuture.this.failureCount == DefaultChannelGroupFuture.this.futures.size();
+                }
+                if (z) {
+                    if (DefaultChannelGroupFuture.this.failureCount <= 0) {
+                        DefaultChannelGroupFuture.this.setSuccess0();
+                        return;
+                    }
+                    ArrayList arrayList = new ArrayList(DefaultChannelGroupFuture.this.failureCount);
+                    for (ChannelFuture channelFuture2 : DefaultChannelGroupFuture.this.futures.values()) {
+                        if (!channelFuture2.isSuccess()) {
+                            arrayList.add(new DefaultEntry(channelFuture2.channel(), channelFuture2.cause()));
+                        }
+                    }
+                    DefaultChannelGroupFuture.this.setFailure0(new ChannelGroupException(arrayList));
+                }
+            }
+        };
+        this.group = channelGroup;
+        Map<Channel, ChannelFuture> mapUnmodifiableMap = Collections.unmodifiableMap(map);
+        this.futures = mapUnmodifiableMap;
+        Iterator<ChannelFuture> it2 = mapUnmodifiableMap.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().addListener((GenericFutureListener<? extends Future<? super Void>>) this.childListener);
+        }
+        if (this.futures.isEmpty()) {
+            setSuccess0();
+        }
+    }
+
+    static /* synthetic */ int access$008(DefaultChannelGroupFuture defaultChannelGroupFuture) {
+        int i = defaultChannelGroupFuture.successCount;
+        defaultChannelGroupFuture.successCount = i + 1;
+        return i;
+    }
+
+    static /* synthetic */ int access$108(DefaultChannelGroupFuture defaultChannelGroupFuture) {
+        int i = defaultChannelGroupFuture.failureCount;
+        defaultChannelGroupFuture.failureCount = i + 1;
+        return i;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.group.ChannelGroupFuture
+    public ChannelGroup group() {
+        return this.group;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.group.ChannelGroupFuture
+    public ChannelFuture find(Channel channel) {
+        return this.futures.get(channel);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.group.ChannelGroupFuture, java.lang.Iterable
+    public Iterator<ChannelFuture> iterator() {
+        return this.futures.values().iterator();
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:8:0x000f  */
+    @Override // io.grpc.netty.shaded.io.netty.channel.group.ChannelGroupFuture
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public synchronized boolean isPartialSuccess() {
+        /*
+            r2 = this;
+            monitor-enter(r2)
+            int r0 = r2.successCount     // Catch: java.lang.Throwable -> L12
+            if (r0 == 0) goto Lf
+            java.util.Map<io.grpc.netty.shaded.io.netty.channel.Channel, io.grpc.netty.shaded.io.netty.channel.ChannelFuture> r1 = r2.futures     // Catch: java.lang.Throwable -> L12
+            int r1 = r1.size()     // Catch: java.lang.Throwable -> L12
+            if (r0 == r1) goto Lf
+            r0 = 1
+            goto L10
+        Lf:
+            r0 = 0
+        L10:
+            monitor-exit(r2)
+            return r0
+        L12:
+            r0 = move-exception
+            monitor-exit(r2)
+            throw r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.channel.group.DefaultChannelGroupFuture.isPartialSuccess():boolean");
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:8:0x000f  */
+    @Override // io.grpc.netty.shaded.io.netty.channel.group.ChannelGroupFuture
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public synchronized boolean isPartialFailure() {
+        /*
+            r2 = this;
+            monitor-enter(r2)
+            int r0 = r2.failureCount     // Catch: java.lang.Throwable -> L12
+            if (r0 == 0) goto Lf
+            java.util.Map<io.grpc.netty.shaded.io.netty.channel.Channel, io.grpc.netty.shaded.io.netty.channel.ChannelFuture> r1 = r2.futures     // Catch: java.lang.Throwable -> L12
+            int r1 = r1.size()     // Catch: java.lang.Throwable -> L12
+            if (r0 == r1) goto Lf
+            r0 = 1
+            goto L10
+        Lf:
+            r0 = 0
+        L10:
+            monitor-exit(r2)
+            return r0
+        L12:
+            r0 = move-exception
+            monitor-exit(r2)
+            throw r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.channel.group.DefaultChannelGroupFuture.isPartialFailure():boolean");
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> addListener(GenericFutureListener<? extends Future<? super Void>> genericFutureListener) {
+        super.addListener((GenericFutureListener) genericFutureListener);
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> addListeners(GenericFutureListener<? extends Future<? super Void>>... genericFutureListenerArr) {
+        super.addListeners((GenericFutureListener[]) genericFutureListenerArr);
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> removeListener(GenericFutureListener<? extends Future<? super Void>> genericFutureListener) {
+        super.removeListener((GenericFutureListener) genericFutureListener);
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> removeListeners(GenericFutureListener<? extends Future<? super Void>>... genericFutureListenerArr) {
+        super.removeListeners((GenericFutureListener[]) genericFutureListenerArr);
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> await() throws InterruptedException {
+        super.await();
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> awaitUninterruptibly() {
+        super.awaitUninterruptibly();
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> syncUninterruptibly() throws Throwable {
+        super.syncUninterruptibly();
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public Future<Void> sync() throws Throwable {
+        super.sync();
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Future
+    public ChannelGroupException cause() {
+        return (ChannelGroupException) super.cause();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void setSuccess0() {
+        super.setSuccess((DefaultChannelGroupFuture) null);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void setFailure0(ChannelGroupException channelGroupException) {
+        super.setFailure((Throwable) channelGroupException);
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Promise
+    public DefaultChannelGroupFuture setSuccess(Void r1) {
+        throw new IllegalStateException();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Promise
+    public boolean trySuccess(Void r1) {
+        throw new IllegalStateException();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Promise, io.grpc.netty.shaded.io.netty.channel.ChannelPromise
+    public DefaultChannelGroupFuture setFailure(Throwable th) {
+        throw new IllegalStateException();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise, io.grpc.netty.shaded.io.netty.util.concurrent.Promise
+    public boolean tryFailure(Throwable th) {
+        throw new IllegalStateException();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise
+    protected void checkDeadLock() {
+        EventExecutor eventExecutorExecutor = executor();
+        if (eventExecutorExecutor != null && eventExecutorExecutor != ImmediateEventExecutor.INSTANCE && eventExecutorExecutor.inEventLoop()) {
+            throw new BlockingOperationException();
+        }
+    }
+
+    private static final class DefaultEntry<K, V> implements Map.Entry<K, V> {
+        private final K key;
+        private final V value;
+
+        DefaultEntry(K k, V v) {
+            this.key = k;
+            this.value = v;
+        }
+
+        @Override // java.util.Map.Entry
+        public K getKey() {
+            return this.key;
+        }
+
+        @Override // java.util.Map.Entry
+        public V getValue() {
+            return this.value;
+        }
+
+        @Override // java.util.Map.Entry
+        public V setValue(V v) {
+            throw new UnsupportedOperationException("read-only");
+        }
+    }
+}

@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/j2objc/annotations/Property.java
+// Size: 372 bytes
+// Modified: 2025-10-21 16:32:00.231729200 +0100
+
+package com.google.j2objc.annotations;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.SOURCE)
+/* loaded from: classes.dex */
+public @interface Property {
+    String value() default "";
+}

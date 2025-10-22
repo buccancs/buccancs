@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/CMSEncryptedGenerator.java
+// Size: 427 bytes
+// Modified: 2025-10-21 16:32:01.812723100 +0100
+
+package org.bouncycastle.cms;
+
+/* loaded from: classes5.dex */
+public class CMSEncryptedGenerator {
+    protected CMSAttributeTableGenerator unprotectedAttributeGenerator = null;
+
+    protected CMSEncryptedGenerator() {
+    }
+
+    public void setUnprotectedAttributeGenerator(CMSAttributeTableGenerator cMSAttributeTableGenerator) {
+        this.unprotectedAttributeGenerator = cMSAttributeTableGenerator;
+    }
+}

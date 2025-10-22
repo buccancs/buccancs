@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/Deframer.java
+// Size: 439 bytes
+// Modified: 2025-10-21 16:32:03.150920300 +0100
+
+package io.grpc.internal;
+
+import io.grpc.Decompressor;
+
+/* loaded from: classes2.dex */
+public interface Deframer {
+    void close();
+
+    void closeWhenComplete();
+
+    void deframe(ReadableBuffer readableBuffer);
+
+    void request(int i);
+
+    void setDecompressor(Decompressor decompressor);
+
+    void setFullStreamDecompressor(GzipInflatingBuffer gzipInflatingBuffer);
+
+    void setMaxInboundMessageSize(int i);
+}

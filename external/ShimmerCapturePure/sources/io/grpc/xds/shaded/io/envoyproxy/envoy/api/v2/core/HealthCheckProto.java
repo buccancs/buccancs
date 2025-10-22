@@ -1,0 +1,101 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.DurationProto;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import com.google.protobuf.WrappersProto;
+import envoy.annotations.Deprecation;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.cookie.CookieHeaderNames;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.HttpProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.RangeProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import org.apache.http.HttpHeaders;
+import udpa.annotations.Migrate;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class HealthCheckProto {
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_CustomHealthCheck_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_CustomHealthCheck_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_GrpcHealthCheck_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_GrpcHealthCheck_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_HttpHealthCheck_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_HttpHealthCheck_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_Payload_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_Payload_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_RedisHealthCheck_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_RedisHealthCheck_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_TcpHealthCheck_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_TcpHealthCheck_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_TlsOptions_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_TlsOptions_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_core_HealthCheck_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_core_HealthCheck_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n$envoy/api/v2/core/health_check.proto\u0012\u0011envoy.api.v2.core\u001a\u001cenvoy/api/v2/core/base.proto\u001a,envoy/api/v2/core/event_service_config.proto\u001a\u0015envoy/type/http.proto\u001a\u001fenvoy/type/matcher/string.proto\u001a\u0016envoy/type/range.proto\u001a\u0019google/protobuf/any.proto\u001a\u001egoogle/protobuf/duration.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001egoogle/protobuf/wrappers.proto\u001a#envoy/annotations/deprecation.proto\u001a\u001eudpa/annotations/migrate.proto\u001a\u001dudpa/annotations/status.proto\u001a\u0017validate/validate.proto\"\u0080\u0012\n\u000bHealthCheck\u00126\n\u0007timeout\u0018\u0001 \u0001(\u000b2\u0019.google.protobuf.DurationB\núB\u0007ª\u0001\u0004\b\u0001*\u0000\u00127\n\binterval\u0018\u0002 \u0001(\u000b2\u0019.google.protobuf.DurationB\núB\u0007ª\u0001\u0004\b\u0001*\u0000\u00121\n\u000einitial_jitter\u0018\u0014 \u0001(\u000b2\u0019.google.protobuf.Duration\u00122\n\u000finterval_jitter\u0018\u0003 \u0001(\u000b2\u0019.google.protobuf.Duration\u0012\u001f\n\u0017interval_jitter_percent\u0018\u0012 \u0001(\r\u0012C\n\u0013unhealthy_threshold\u0018\u0004 \u0001(\u000b2\u001c.google.protobuf.UInt32ValueB\búB\u0005\u008a\u0001\u0002\u0010\u0001\u0012A\n\u0011healthy_threshold\u0018\u0005 \u0001(\u000b2\u001c.google.protobuf.UInt32ValueB\búB\u0005\u008a\u0001\u0002\u0010\u0001\u0012.\n\balt_port\u0018\u0006 \u0001(\u000b2\u001c.google.protobuf.UInt32Value\u00124\n\u0010reuse_connection\u0018\u0007 \u0001(\u000b2\u001a.google.protobuf.BoolValue\u0012K\n\u0011http_health_check\u0018\b \u0001(\u000b2..envoy.api.v2.core.HealthCheck.HttpHealthCheckH\u0000\u0012I\n\u0010tcp_health_check\u0018\t \u0001(\u000b2-.envoy.api.v2.core.HealthCheck.TcpHealthCheckH\u0000\u0012K\n\u0011grpc_health_check\u0018\u000b \u0001(\u000b2..envoy.api.v2.core.HealthCheck.GrpcHealthCheckH\u0000\u0012O\n\u0013custom_health_check\u0018\r \u0001(\u000b20.envoy.api.v2.core.HealthCheck.CustomHealthCheckH\u0000\u0012@\n\u0013no_traffic_interval\u0018\f \u0001(\u000b2\u0019.google.protobuf.DurationB\búB\u0005ª\u0001\u0002*\u0000\u0012?\n\u0012unhealthy_interval\u0018\u000e \u0001(\u000b2\u0019.google.protobuf.DurationB\búB\u0005ª\u0001\u0002*\u0000\u0012D\n\u0017unhealthy_edge_interval\u0018\u000f \u0001(\u000b2\u0019.google.protobuf.DurationB\búB\u0005ª\u0001\u0002*\u0000\u0012B\n\u0015healthy_edge_interval\u0018\u0010 \u0001(\u000b2\u0019.google.protobuf.DurationB\búB\u0005ª\u0001\u0002*\u0000\u0012\u0016\n\u000eevent_log_path\u0018\u0011 \u0001(\t\u0012<\n\revent_service\u0018\u0016 \u0001(\u000b2%.envoy.api.v2.core.EventServiceConfig\u0012(\n always_log_health_check_failures\u0018\u0013 \u0001(\b\u0012>\n\u000btls_options\u0018\u0015 \u0001(\u000b2).envoy.api.v2.core.HealthCheck.TlsOptions\u001aD\n\u0007Payload\u0012\u0017\n\u0004text\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001H\u0000\u0012\u0010\n\u0006binary\u0018\u0002 \u0001(\fH\u0000B\u000e\n\u0007payload\u0012\u0003øB\u0001\u001a\u0086\u0004\n\u000fHttpHealthCheck\u0012\f\n\u0004host\u0018\u0001 \u0001(\t\u0012\u0015\n\u0004path\u0018\u0002 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u00124\n\u0004send\u0018\u0003 \u0001(\u000b2&.envoy.api.v2.core.HealthCheck.Payload\u00127\n\u0007receive\u0018\u0004 \u0001(\u000b2&.envoy.api.v2.core.HealthCheck.Payload\u0012\u0018\n\fservice_name\u0018\u0005 \u0001(\tB\u0002\u0018\u0001\u0012O\n\u0016request_headers_to_add\u0018\u0006 \u0003(\u000b2$.envoy.api.v2.core.HeaderValueOptionB\túB\u0006\u0092\u0001\u0003\u0010è\u0007\u0012!\n\u0019request_headers_to_remove\u0018\b \u0003(\t\u0012\u001b\n\tuse_http2\u0018\u0007 \u0001(\bB\b\u0018\u0001¸îòÒ\u0005\u0001\u00121\n\u0011expected_statuses\u0018\t \u0003(\u000b2\u0016.envoy.type.Int64Range\u0012@\n\u0011codec_client_type\u0018\n \u0001(\u000e2\u001b.envoy.type.CodecClientTypeB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u0012?\n\u0014service_name_matcher\u0018\u000b \u0001(\u000b2!.envoy.type.matcher.StringMatcher\u001a\u007f\n\u000eTcpHealthCheck\u00124\n\u0004send\u0018\u0001 \u0001(\u000b2&.envoy.api.v2.core.HealthCheck.Payload\u00127\n\u0007receive\u0018\u0002 \u0003(\u000b2&.envoy.api.v2.core.HealthCheck.Payload\u001a\u001f\n\u0010RedisHealthCheck\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\t\u001a:\n\u000fGrpcHealthCheck\u0012\u0014\n\fservice_name\u0018\u0001 \u0001(\t\u0012\u0011\n\tauthority\u0018\u0002 \u0001(\t\u001a\u0096\u0001\n\u0011CustomHealthCheck\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012-\n\u0006config\u0018\u0002 \u0001(\u000b2\u0017.google.protobuf.StructB\u0002\u0018\u0001H\u0000\u0012,\n\ftyped_config\u0018\u0003 \u0001(\u000b2\u0014.google.protobuf.AnyH\u0000B\r\n\u000bconfig_type\u001a$\n\nTlsOptions\u0012\u0016\n\u000ealpn_protocols\u0018\u0001 \u0003(\tB\u0015\n\u000ehealth_checker\u0012\u0003øB\u0001J\u0004\b\n\u0010\u000b*`\n\fHealthStatus\u0012\u000b\n\u0007UNKNOWN\u0010\u0000\u0012\u000b\n\u0007HEALTHY\u0010\u0001\u0012\r\n\tUNHEALTHY\u0010\u0002\u0012\f\n\bDRAINING\u0010\u0003\u0012\u000b\n\u0007TIMEOUT\u0010\u0004\u0012\f\n\bDEGRADED\u0010\u0005BY\n\u001fio.envoyproxy.envoy.api.v2.coreB\u0010HealthCheckProtoP\u0001ò\u0098þ\u008f\u0005\u0016\u0012\u0014envoy.config.core.v3º\u0080ÈÑ\u0006\u0002\u0010\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{BaseProto.getDescriptor(), EventServiceConfigProto.getDescriptor(), HttpProto.getDescriptor(), StringProto.getDescriptor(), RangeProto.getDescriptor(), AnyProto.getDescriptor(), DurationProto.getDescriptor(), StructProto.getDescriptor(), WrappersProto.getDescriptor(), Deprecation.getDescriptor(), Migrate.getDescriptor(), Status.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_api_v2_core_HealthCheck_descriptor = descriptor2;
+        internal_static_envoy_api_v2_core_HealthCheck_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{HttpHeaders.TIMEOUT, "Interval", "InitialJitter", "IntervalJitter", "IntervalJitterPercent", "UnhealthyThreshold", "HealthyThreshold", "AltPort", "ReuseConnection", "HttpHealthCheck", "TcpHealthCheck", "GrpcHealthCheck", "CustomHealthCheck", "NoTrafficInterval", "UnhealthyInterval", "UnhealthyEdgeInterval", "HealthyEdgeInterval", "EventLogPath", "EventService", "AlwaysLogHealthCheckFailures", "TlsOptions", "HealthChecker"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_envoy_api_v2_core_HealthCheck_Payload_descriptor = descriptor3;
+        internal_static_envoy_api_v2_core_HealthCheck_Payload_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Text", "Binary", "Payload"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(1);
+        internal_static_envoy_api_v2_core_HealthCheck_HttpHealthCheck_descriptor = descriptor4;
+        internal_static_envoy_api_v2_core_HealthCheck_HttpHealthCheck_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Host", CookieHeaderNames.PATH, "Send", "Receive", "ServiceName", "RequestHeadersToAdd", "RequestHeadersToRemove", "UseHttp2", "ExpectedStatuses", "CodecClientType", "ServiceNameMatcher"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(2);
+        internal_static_envoy_api_v2_core_HealthCheck_TcpHealthCheck_descriptor = descriptor5;
+        internal_static_envoy_api_v2_core_HealthCheck_TcpHealthCheck_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"Send", "Receive"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(3);
+        internal_static_envoy_api_v2_core_HealthCheck_RedisHealthCheck_descriptor = descriptor6;
+        internal_static_envoy_api_v2_core_HealthCheck_RedisHealthCheck_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Key"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(4);
+        internal_static_envoy_api_v2_core_HealthCheck_GrpcHealthCheck_descriptor = descriptor7;
+        internal_static_envoy_api_v2_core_HealthCheck_GrpcHealthCheck_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"ServiceName", "Authority"});
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(5);
+        internal_static_envoy_api_v2_core_HealthCheck_CustomHealthCheck_descriptor = descriptor8;
+        internal_static_envoy_api_v2_core_HealthCheck_CustomHealthCheck_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[]{"Name", "Config", "TypedConfig", "ConfigType"});
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(6);
+        internal_static_envoy_api_v2_core_HealthCheck_TlsOptions_descriptor = descriptor9;
+        internal_static_envoy_api_v2_core_HealthCheck_TlsOptions_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"AlpnProtocols"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Deprecation.disallowedByDefault);
+        extensionRegistryNewInstance.add(Migrate.fileMigrate);
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        BaseProto.getDescriptor();
+        EventServiceConfigProto.getDescriptor();
+        HttpProto.getDescriptor();
+        StringProto.getDescriptor();
+        RangeProto.getDescriptor();
+        AnyProto.getDescriptor();
+        DurationProto.getDescriptor();
+        StructProto.getDescriptor();
+        WrappersProto.getDescriptor();
+        Deprecation.getDescriptor();
+        Migrate.getDescriptor();
+        Status.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private HealthCheckProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

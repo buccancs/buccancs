@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/search/AbstractSearchProcessorFactory.java
+// Size: 488 bytes
+// Modified: 2025-10-21 16:32:04.928651600 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer.search;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractSearchProcessorFactory implements SearchProcessorFactory {
+    public static KmpSearchProcessorFactory newKmpSearchProcessorFactory(byte[] bArr) {
+        return new KmpSearchProcessorFactory(bArr);
+    }
+
+    public static BitapSearchProcessorFactory newBitapSearchProcessorFactory(byte[] bArr) {
+        return new BitapSearchProcessorFactory(bArr);
+    }
+}

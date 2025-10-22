@@ -1,0 +1,96 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyHeaderBlockZlibEncoder.java
+// Size: 3718 bytes
+// Modified: 2025-10-21 16:32:10.590674400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import androidx.constraintlayout.core.motion.utils.TypedValues;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
+import java.util.zip.Deflater;
+
+/* loaded from: classes3.dex */
+class SpdyHeaderBlockZlibEncoder extends SpdyHeaderBlockRawEncoder {
+    private final Deflater compressor;
+    private boolean finished;
+
+    SpdyHeaderBlockZlibEncoder(SpdyVersion spdyVersion, int i) {
+        super(spdyVersion);
+        if (i < 0 || i > 9) {
+            throw new IllegalArgumentException("compressionLevel: " + i + " (expected: 0-9)");
+        }
+        Deflater deflater = new Deflater(i);
+        this.compressor = deflater;
+        deflater.setDictionary(SpdyCodecUtil.SPDY_DICT);
+    }
+
+    private int setInput(ByteBuf byteBuf) {
+        int i = byteBuf.readableBytes();
+        if (byteBuf.hasArray()) {
+            this.compressor.setInput(byteBuf.array(), byteBuf.arrayOffset() + byteBuf.readerIndex(), i);
+        } else {
+            byte[] bArr = new byte[i];
+            byteBuf.getBytes(byteBuf.readerIndex(), bArr);
+            this.compressor.setInput(bArr, 0, i);
+        }
+        return i;
+    }
+
+    private ByteBuf encode(ByteBufAllocator byteBufAllocator, int i) {
+        ByteBuf byteBufHeapBuffer = byteBufAllocator.heapBuffer(i);
+        while (compressInto(byteBufHeapBuffer)) {
+            try {
+                byteBufHeapBuffer.ensureWritable(byteBufHeapBuffer.capacity() << 1);
+            } catch (Throwable th) {
+                byteBufHeapBuffer.release();
+                throw th;
+            }
+        }
+        return byteBufHeapBuffer;
+    }
+
+    private boolean compressInto(ByteBuf byteBuf) {
+        int iDeflate;
+        byte[] bArrArray = byteBuf.array();
+        int iArrayOffset = byteBuf.arrayOffset() + byteBuf.writerIndex();
+        int iWritableBytes = byteBuf.writableBytes();
+        if (PlatformDependent.javaVersion() >= 7) {
+            iDeflate = this.compressor.deflate(bArrArray, iArrayOffset, iWritableBytes, 2);
+        } else {
+            iDeflate = this.compressor.deflate(bArrArray, iArrayOffset, iWritableBytes);
+        }
+        byteBuf.writerIndex(byteBuf.writerIndex() + iDeflate);
+        return iDeflate == iWritableBytes;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockRawEncoder, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockEncoder
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, SpdyHeadersFrame spdyHeadersFrame) throws Exception {
+        if (spdyHeadersFrame == null) {
+            throw new IllegalArgumentException(TypedValues.AttributesType.S_FRAME);
+        }
+        if (this.finished) {
+            return Unpooled.EMPTY_BUFFER;
+        }
+        ByteBuf byteBufEncode = super.encode(byteBufAllocator, spdyHeadersFrame);
+        try {
+            if (!byteBufEncode.isReadable()) {
+                return Unpooled.EMPTY_BUFFER;
+            }
+            return encode(byteBufAllocator, setInput(byteBufEncode));
+        } finally {
+            byteBufEncode.release();
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockRawEncoder, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockEncoder
+    public void end() {
+        if (this.finished) {
+            return;
+        }
+        this.finished = true;
+        this.compressor.end();
+        super.end();
+    }
+}

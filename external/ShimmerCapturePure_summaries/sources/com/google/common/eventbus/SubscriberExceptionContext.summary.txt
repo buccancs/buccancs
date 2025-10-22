@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/eventbus/SubscriberExceptionContext.java
+// Size: 1038 bytes
+// Modified: 2025-10-21 16:32:02.104767600 +0100
+
+package com.google.common.eventbus;
+
+import com.google.common.base.Preconditions;
+import java.lang.reflect.Method;
+
+/* loaded from: classes.dex */
+public class SubscriberExceptionContext {
+    private final Object event;
+    private final EventBus eventBus;
+    private final Object subscriber;
+    private final Method subscriberMethod;
+
+    public Object getEvent() {
+        return this.event;
+    }
+
+    public EventBus getEventBus() {
+        return this.eventBus;
+    }
+
+    public Object getSubscriber() {
+        return this.subscriber;
+    }
+
+    public Method getSubscriberMethod() {
+        return this.subscriberMethod;
+    }
+
+    SubscriberExceptionContext(EventBus eventBus, Object obj, Object obj2, Method method) {
+        this.eventBus = (EventBus) Preconditions.checkNotNull(eventBus);
+        this.event = Preconditions.checkNotNull(obj);
+        this.subscriber = Preconditions.checkNotNull(obj2);
+        this.subscriberMethod = (Method) Preconditions.checkNotNull(method);
+    }
+}

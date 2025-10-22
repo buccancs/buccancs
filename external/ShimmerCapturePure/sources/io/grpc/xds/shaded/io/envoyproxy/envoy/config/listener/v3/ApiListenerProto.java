@@ -1,0 +1,43 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes6.dex */
+public final class ApiListenerProto {
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_ApiListener_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_ApiListener_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n+envoy/config/listener/v3/api_listener.proto\u0012\u0018envoy.config.listener.v3\u001a\u0019google/protobuf/any.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\"f\n\u000bApiListener\u0012*\n\fapi_listener\u0018\u0001 \u0001(\u000b2\u0014.google.protobuf.Any:+\u009aÅ\u0088\u001e&\n$envoy.config.listener.v2.ApiListenerBD\n&io.envoyproxy.envoy.config.listener.v3B\u0010ApiListenerProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{AnyProto.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_listener_v3_ApiListener_descriptor = descriptor2;
+        internal_static_envoy_config_listener_v3_ApiListener_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"ApiListener"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        AnyProto.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+    }
+
+    private ApiListenerProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

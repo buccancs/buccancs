@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/serialization/CachingClassResolver.java
+// Size: 867 bytes
+// Modified: 2025-10-21 16:32:00.851718200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.serialization;
+
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+class CachingClassResolver implements ClassResolver {
+    private final Map<String, Class<?>> classCache;
+    private final ClassResolver delegate;
+
+    CachingClassResolver(ClassResolver classResolver, Map<String, Class<?>> map) {
+        this.delegate = classResolver;
+        this.classCache = map;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.serialization.ClassResolver
+    public Class<?> resolve(String str) throws ClassNotFoundException {
+        Class<?> cls = this.classCache.get(str);
+        if (cls != null) {
+            return cls;
+        }
+        Class<?> clsResolve = this.delegate.resolve(str);
+        this.classCache.put(str, clsResolve);
+        return clsResolve;
+    }
+}

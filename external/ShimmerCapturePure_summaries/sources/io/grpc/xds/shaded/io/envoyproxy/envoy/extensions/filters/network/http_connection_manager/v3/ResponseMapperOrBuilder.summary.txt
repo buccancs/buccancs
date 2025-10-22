@@ -1,0 +1,55 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/extensions/filters/network/http_connection_manager/v3/ResponseMapperOrBuilder.java
+// Size: 1862 bytes
+// Modified: 2025-10-21 16:32:07.874512300 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSourceOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HeaderValueOption;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HeaderValueOptionOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SubstitutionFormatString;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SubstitutionFormatStringOrBuilder;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface ResponseMapperOrBuilder extends MessageOrBuilder {
+    DataSource getBody();
+
+    SubstitutionFormatString getBodyFormatOverride();
+
+    SubstitutionFormatStringOrBuilder getBodyFormatOverrideOrBuilder();
+
+    DataSourceOrBuilder getBodyOrBuilder();
+
+    AccessLogFilter getFilter();
+
+    AccessLogFilterOrBuilder getFilterOrBuilder();
+
+    HeaderValueOption getHeadersToAdd(int i);
+
+    int getHeadersToAddCount();
+
+    List<HeaderValueOption> getHeadersToAddList();
+
+    HeaderValueOptionOrBuilder getHeadersToAddOrBuilder(int i);
+
+    List<? extends HeaderValueOptionOrBuilder> getHeadersToAddOrBuilderList();
+
+    UInt32Value getStatusCode();
+
+    UInt32ValueOrBuilder getStatusCodeOrBuilder();
+
+    boolean hasBody();
+
+    boolean hasBodyFormatOverride();
+
+    boolean hasFilter();
+
+    boolean hasStatusCode();
+}

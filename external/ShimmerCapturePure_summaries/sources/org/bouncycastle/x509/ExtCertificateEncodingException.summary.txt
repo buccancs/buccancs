@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/x509/ExtCertificateEncodingException.java
+// Size: 460 bytes
+// Modified: 2025-10-21 16:32:00.660337400 +0100
+
+package org.bouncycastle.x509;
+
+import java.security.cert.CertificateEncodingException;
+
+/* loaded from: classes5.dex */
+class ExtCertificateEncodingException extends CertificateEncodingException {
+    Throwable cause;
+
+    ExtCertificateEncodingException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

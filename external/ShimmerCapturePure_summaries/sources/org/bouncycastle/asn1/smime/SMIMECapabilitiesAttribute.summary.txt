@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/smime/SMIMECapabilitiesAttribute.java
+// Size: 485 bytes
+// Modified: 2025-10-21 16:32:10.991479300 +0100
+
+package org.bouncycastle.asn1.smime;
+
+import org.bouncycastle.asn1.DERSequence;
+import org.bouncycastle.asn1.DERSet;
+import org.bouncycastle.asn1.cms.Attribute;
+
+/* loaded from: classes5.dex */
+public class SMIMECapabilitiesAttribute extends Attribute {
+    public SMIMECapabilitiesAttribute(SMIMECapabilityVector sMIMECapabilityVector) {
+        super(SMIMEAttributes.smimeCapabilities, new DERSet(new DERSequence(sMIMECapabilityVector.toASN1EncodableVector())));
+    }
+}

@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/profileinstaller/ProfileInstallReceiver$$ExternalSyntheticLambda0.java
+// Size: 394 bytes
+// Modified: 2025-10-21 16:32:00.104930600 +0100
+
+package androidx.profileinstaller;
+
+import java.util.concurrent.Executor;
+
+/* compiled from: D8$$SyntheticClass */
+/* loaded from: classes.dex */
+public final /* synthetic */ class ProfileInstallReceiver$$ExternalSyntheticLambda0 implements Executor {
+    @Override // java.util.concurrent.Executor
+    public final void execute(Runnable runnable) {
+        runnable.run();
+    }
+}

@@ -1,0 +1,510 @@
+package io.grpc.xds.shaded.com.google.security.meshca.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class MeshCertificateResponse extends GeneratedMessageV3 implements MeshCertificateResponseOrBuilder {
+    public static final int CERT_CHAIN_FIELD_NUMBER = 1;
+    private static final MeshCertificateResponse DEFAULT_INSTANCE = new MeshCertificateResponse();
+    private static final Parser<MeshCertificateResponse> PARSER = new AbstractParser<MeshCertificateResponse>() { // from class: io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public MeshCertificateResponse m11565parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new MeshCertificateResponse(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private LazyStringList certChain_;
+    private byte memoizedIsInitialized;
+
+    private MeshCertificateResponse(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private MeshCertificateResponse() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.certChain_ = LazyStringArrayList.EMPTY;
+    }
+
+    private MeshCertificateResponse(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if (!(z2 & true)) {
+                                this.certChain_ = new LazyStringArrayList();
+                                z2 |= true;
+                            }
+                            this.certChain_.add(stringRequireUtf8);
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.certChain_ = this.certChain_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static MeshCertificateResponse getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<MeshCertificateResponse> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return MeshCaProto.internal_static_google_security_meshca_v1_MeshCertificateResponse_descriptor;
+    }
+
+    public static MeshCertificateResponse parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (MeshCertificateResponse) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static MeshCertificateResponse parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (MeshCertificateResponse) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static MeshCertificateResponse parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (MeshCertificateResponse) PARSER.parseFrom(byteString);
+    }
+
+    public static MeshCertificateResponse parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (MeshCertificateResponse) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static MeshCertificateResponse parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (MeshCertificateResponse) PARSER.parseFrom(bArr);
+    }
+
+    public static MeshCertificateResponse parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (MeshCertificateResponse) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static MeshCertificateResponse parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static MeshCertificateResponse parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static MeshCertificateResponse parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static MeshCertificateResponse parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static MeshCertificateResponse parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static MeshCertificateResponse parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m11563toBuilder();
+    }
+
+    public static Builder newBuilder(MeshCertificateResponse meshCertificateResponse) {
+        return DEFAULT_INSTANCE.m11563toBuilder().mergeFrom(meshCertificateResponse);
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+    /* renamed from: getCertChainList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo11557getCertChainList() {
+        return this.certChain_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public MeshCertificateResponse m11558getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<MeshCertificateResponse> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new MeshCertificateResponse();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return MeshCaProto.internal_static_google_security_meshca_v1_MeshCertificateResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(MeshCertificateResponse.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+    public int getCertChainCount() {
+        return this.certChain_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+    public String getCertChain(int i) {
+        return (String) this.certChain_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+    public ByteString getCertChainBytes(int i) {
+        return this.certChain_.getByteString(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        for (int i = 0; i < this.certChain_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.certChain_.getRaw(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.certChain_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.certChain_.getRaw(i2));
+        }
+        int size = iComputeStringSizeNoTag + mo11557getCertChainList().size() + this.unknownFields.getSerializedSize();
+        this.memoizedSize = size;
+        return size;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof MeshCertificateResponse)) {
+            return super.equals(obj);
+        }
+        MeshCertificateResponse meshCertificateResponse = (MeshCertificateResponse) obj;
+        return mo11557getCertChainList().equals(meshCertificateResponse.mo11557getCertChainList()) && this.unknownFields.equals(meshCertificateResponse.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getCertChainCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + mo11557getCertChainList().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m11560newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m11563toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements MeshCertificateResponseOrBuilder {
+        private int bitField0_;
+        private LazyStringList certChain_;
+
+        private Builder() {
+            this.certChain_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.certChain_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return MeshCaProto.internal_static_google_security_meshca_v1_MeshCertificateResponse_descriptor;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return MeshCaProto.internal_static_google_security_meshca_v1_MeshCertificateResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(MeshCertificateResponse.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = MeshCertificateResponse.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11574clear() {
+            super.clear();
+            this.certChain_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return MeshCaProto.internal_static_google_security_meshca_v1_MeshCertificateResponse_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public MeshCertificateResponse m11587getDefaultInstanceForType() {
+            return MeshCertificateResponse.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public MeshCertificateResponse m11568build() throws UninitializedMessageException {
+            MeshCertificateResponse meshCertificateResponseM11570buildPartial = m11570buildPartial();
+            if (meshCertificateResponseM11570buildPartial.isInitialized()) {
+                return meshCertificateResponseM11570buildPartial;
+            }
+            throw newUninitializedMessageException(meshCertificateResponseM11570buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public MeshCertificateResponse m11570buildPartial() {
+            MeshCertificateResponse meshCertificateResponse = new MeshCertificateResponse(this);
+            if ((this.bitField0_ & 1) != 0) {
+                this.certChain_ = this.certChain_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            meshCertificateResponse.certChain_ = this.certChain_;
+            onBuilt();
+            return meshCertificateResponse;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11586clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11598setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11576clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11579clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11600setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11566addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11591mergeFrom(Message message) {
+            if (message instanceof MeshCertificateResponse) {
+                return mergeFrom((MeshCertificateResponse) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(MeshCertificateResponse meshCertificateResponse) {
+            if (meshCertificateResponse == MeshCertificateResponse.getDefaultInstance()) {
+                return this;
+            }
+            if (!meshCertificateResponse.certChain_.isEmpty()) {
+                if (this.certChain_.isEmpty()) {
+                    this.certChain_ = meshCertificateResponse.certChain_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureCertChainIsMutable();
+                    this.certChain_.addAll(meshCertificateResponse.certChain_);
+                }
+                onChanged();
+            }
+            m11596mergeUnknownFields(meshCertificateResponse.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse.Builder m11592mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse r3 = (io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse r4 = (io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse.Builder.m11592mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse$Builder");
+        }
+
+        private void ensureCertChainIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.certChain_ = new LazyStringArrayList(this.certChain_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+        /* renamed from: getCertChainList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo11557getCertChainList() {
+            return this.certChain_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+        public int getCertChainCount() {
+            return this.certChain_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+        public String getCertChain(int i) {
+            return (String) this.certChain_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponseOrBuilder
+        public ByteString getCertChainBytes(int i) {
+            return this.certChain_.getByteString(i);
+        }
+
+        public Builder setCertChain(int i, String str) {
+            str.getClass();
+            ensureCertChainIsMutable();
+            this.certChain_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addCertChain(String str) {
+            str.getClass();
+            ensureCertChainIsMutable();
+            this.certChain_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllCertChain(Iterable<String> iterable) {
+            ensureCertChainIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.certChain_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearCertChain() {
+            this.certChain_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addCertChainBytes(ByteString byteString) {
+            byteString.getClass();
+            MeshCertificateResponse.checkByteStringIsUtf8(byteString);
+            ensureCertChainIsMutable();
+            this.certChain_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m11602setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m11596mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

@@ -1,0 +1,41 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/testing/AbstractClientTransportFactoryTest.java
+// Size: 1736 bytes
+// Modified: 2025-10-21 16:32:06.335017700 +0100
+
+package io.grpc.internal.testing;
+
+import io.grpc.ChannelLogger;
+import io.grpc.internal.ClientTransportFactory;
+import java.net.InetSocketAddress;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+/* loaded from: classes2.dex */
+public abstract class AbstractClientTransportFactoryTest {
+    protected abstract ClientTransportFactory newClientTransportFactory();
+
+    @Test
+    public void multipleCallsToCloseShouldNotThrow() {
+        ClientTransportFactory clientTransportFactoryNewClientTransportFactory = newClientTransportFactory();
+        clientTransportFactoryNewClientTransportFactory.close();
+        clientTransportFactoryNewClientTransportFactory.close();
+        clientTransportFactoryNewClientTransportFactory.close();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void newClientTransportAfterCloseShouldThrow() {
+        ClientTransportFactory clientTransportFactoryNewClientTransportFactory = newClientTransportFactory();
+        clientTransportFactoryNewClientTransportFactory.close();
+        clientTransportFactoryNewClientTransportFactory.newClientTransport(new InetSocketAddress("localhost", 12345), new ClientTransportFactory.ClientTransportOptions(), new ChannelLogger() { // from class: io.grpc.internal.testing.AbstractClientTransportFactoryTest.1
+            @Override // io.grpc.ChannelLogger
+            public void log(ChannelLogger.ChannelLogLevel channelLogLevel, String str) {
+            }
+
+            @Override // io.grpc.ChannelLogger
+            public void log(ChannelLogger.ChannelLogLevel channelLogLevel, String str, Object... objArr) {
+            }
+        });
+    }
+}

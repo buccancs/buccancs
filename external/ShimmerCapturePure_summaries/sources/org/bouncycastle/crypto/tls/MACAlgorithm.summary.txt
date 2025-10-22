@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/MACAlgorithm.java
+// Size: 446 bytes
+// Modified: 2025-10-21 16:32:00.587767800 +0100
+
+package org.bouncycastle.crypto.tls;
+
+/* loaded from: classes5.dex */
+public class MACAlgorithm {
+    public static final int _null = 0;
+    public static final int hmac_md5 = 1;
+    public static final int hmac_sha1 = 2;
+    public static final int hmac_sha256 = 3;
+    public static final int hmac_sha384 = 4;
+    public static final int hmac_sha512 = 5;
+    public static final int md5 = 1;
+    public static final int sha = 2;
+}

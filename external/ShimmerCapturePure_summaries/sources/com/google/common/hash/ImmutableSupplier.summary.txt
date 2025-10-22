@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/hash/ImmutableSupplier.java
+// Size: 232 bytes
+// Modified: 2025-10-21 16:32:01.295344200 +0100
+
+package com.google.common.hash;
+
+import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.Immutable;
+
+@Immutable
+/* loaded from: classes.dex */
+interface ImmutableSupplier<T> extends Supplier<T> {
+}

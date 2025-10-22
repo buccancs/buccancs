@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/annotation/experimental/R.java
+// Size: 130 bytes
+// Modified: 2025-10-21 16:32:00.032598900 +0100
+
+package androidx.annotation.experimental;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

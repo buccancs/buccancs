@@ -1,0 +1,1136 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Locality;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.LocalityOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LbEndpoint;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public final class LocalityLbEndpoints extends GeneratedMessageV3 implements LocalityLbEndpointsOrBuilder {
+    public static final int LB_ENDPOINTS_FIELD_NUMBER = 2;
+    public static final int LOAD_BALANCING_WEIGHT_FIELD_NUMBER = 3;
+    public static final int LOCALITY_FIELD_NUMBER = 1;
+    public static final int PRIORITY_FIELD_NUMBER = 5;
+    public static final int PROXIMITY_FIELD_NUMBER = 6;
+    private static final long serialVersionUID = 0;
+    private static final LocalityLbEndpoints DEFAULT_INSTANCE = new LocalityLbEndpoints();
+    private static final Parser<LocalityLbEndpoints> PARSER = new AbstractParser<LocalityLbEndpoints>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public LocalityLbEndpoints m17354parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new LocalityLbEndpoints(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private List<LbEndpoint> lbEndpoints_;
+    private UInt32Value loadBalancingWeight_;
+    private Locality locality_;
+    private byte memoizedIsInitialized;
+    private int priority_;
+    private UInt32Value proximity_;
+
+    private LocalityLbEndpoints(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private LocalityLbEndpoints() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.lbEndpoints_ = Collections.emptyList();
+    }
+
+    private LocalityLbEndpoints(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Locality.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Locality locality = this.locality_;
+                            builder = locality != null ? locality.m16242toBuilder() : null;
+                            Locality locality2 = (Locality) codedInputStream.readMessage(Locality.parser(), extensionRegistryLite);
+                            this.locality_ = locality2;
+                            if (builder != null) {
+                                builder.mergeFrom(locality2);
+                                this.locality_ = builder.m16249buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            if (!(z2 & true)) {
+                                this.lbEndpoints_ = new ArrayList();
+                                z2 |= true;
+                            }
+                            this.lbEndpoints_.add(codedInputStream.readMessage(LbEndpoint.parser(), extensionRegistryLite));
+                        } else if (tag == 26) {
+                            UInt32Value uInt32Value = this.loadBalancingWeight_;
+                            builder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                            UInt32Value message = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.loadBalancingWeight_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.loadBalancingWeight_ = builder.buildPartial();
+                            }
+                        } else if (tag == 40) {
+                            this.priority_ = codedInputStream.readUInt32();
+                        } else if (tag == 50) {
+                            UInt32Value uInt32Value2 = this.proximity_;
+                            builder = uInt32Value2 != null ? uInt32Value2.toBuilder() : null;
+                            UInt32Value message2 = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.proximity_ = message2;
+                            if (builder != null) {
+                                builder.mergeFrom(message2);
+                                this.proximity_ = builder.buildPartial();
+                            }
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.lbEndpoints_ = Collections.unmodifiableList(this.lbEndpoints_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static LocalityLbEndpoints getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<LocalityLbEndpoints> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return EndpointComponentsProto.internal_static_envoy_api_v2_endpoint_LocalityLbEndpoints_descriptor;
+    }
+
+    public static LocalityLbEndpoints parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (LocalityLbEndpoints) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static LocalityLbEndpoints parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LocalityLbEndpoints) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static LocalityLbEndpoints parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (LocalityLbEndpoints) PARSER.parseFrom(byteString);
+    }
+
+    public static LocalityLbEndpoints parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LocalityLbEndpoints) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static LocalityLbEndpoints parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (LocalityLbEndpoints) PARSER.parseFrom(bArr);
+    }
+
+    public static LocalityLbEndpoints parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LocalityLbEndpoints) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static LocalityLbEndpoints parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static LocalityLbEndpoints parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static LocalityLbEndpoints parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static LocalityLbEndpoints parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static LocalityLbEndpoints parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static LocalityLbEndpoints parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m17352toBuilder();
+    }
+
+    public static Builder newBuilder(LocalityLbEndpoints localityLbEndpoints) {
+        return DEFAULT_INSTANCE.m17352toBuilder().mergeFrom(localityLbEndpoints);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public LocalityLbEndpoints m17347getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public List<LbEndpoint> getLbEndpointsList() {
+        return this.lbEndpoints_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public List<? extends LbEndpointOrBuilder> getLbEndpointsOrBuilderList() {
+        return this.lbEndpoints_;
+    }
+
+    public Parser<LocalityLbEndpoints> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public int getPriority() {
+        return this.priority_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public boolean hasLoadBalancingWeight() {
+        return this.loadBalancingWeight_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public boolean hasLocality() {
+        return this.locality_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public boolean hasProximity() {
+        return this.proximity_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new LocalityLbEndpoints();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return EndpointComponentsProto.internal_static_envoy_api_v2_endpoint_LocalityLbEndpoints_fieldAccessorTable.ensureFieldAccessorsInitialized(LocalityLbEndpoints.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public Locality getLocality() {
+        Locality locality = this.locality_;
+        return locality == null ? Locality.getDefaultInstance() : locality;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public LocalityOrBuilder getLocalityOrBuilder() {
+        return getLocality();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public int getLbEndpointsCount() {
+        return this.lbEndpoints_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public LbEndpoint getLbEndpoints(int i) {
+        return this.lbEndpoints_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public LbEndpointOrBuilder getLbEndpointsOrBuilder(int i) {
+        return this.lbEndpoints_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public UInt32Value getLoadBalancingWeight() {
+        UInt32Value uInt32Value = this.loadBalancingWeight_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public UInt32ValueOrBuilder getLoadBalancingWeightOrBuilder() {
+        return getLoadBalancingWeight();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public UInt32Value getProximity() {
+        UInt32Value uInt32Value = this.proximity_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+    public UInt32ValueOrBuilder getProximityOrBuilder() {
+        return getProximity();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.locality_ != null) {
+            codedOutputStream.writeMessage(1, getLocality());
+        }
+        for (int i = 0; i < this.lbEndpoints_.size(); i++) {
+            codedOutputStream.writeMessage(2, this.lbEndpoints_.get(i));
+        }
+        if (this.loadBalancingWeight_ != null) {
+            codedOutputStream.writeMessage(3, getLoadBalancingWeight());
+        }
+        int i2 = this.priority_;
+        if (i2 != 0) {
+            codedOutputStream.writeUInt32(5, i2);
+        }
+        if (this.proximity_ != null) {
+            codedOutputStream.writeMessage(6, getProximity());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.locality_ != null ? CodedOutputStream.computeMessageSize(1, getLocality()) : 0;
+        for (int i2 = 0; i2 < this.lbEndpoints_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, this.lbEndpoints_.get(i2));
+        }
+        if (this.loadBalancingWeight_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, getLoadBalancingWeight());
+        }
+        int i3 = this.priority_;
+        if (i3 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt32Size(5, i3);
+        }
+        if (this.proximity_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(6, getProximity());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof LocalityLbEndpoints)) {
+            return super.equals(obj);
+        }
+        LocalityLbEndpoints localityLbEndpoints = (LocalityLbEndpoints) obj;
+        if (hasLocality() != localityLbEndpoints.hasLocality()) {
+            return false;
+        }
+        if ((hasLocality() && !getLocality().equals(localityLbEndpoints.getLocality())) || !getLbEndpointsList().equals(localityLbEndpoints.getLbEndpointsList()) || hasLoadBalancingWeight() != localityLbEndpoints.hasLoadBalancingWeight()) {
+            return false;
+        }
+        if ((!hasLoadBalancingWeight() || getLoadBalancingWeight().equals(localityLbEndpoints.getLoadBalancingWeight())) && getPriority() == localityLbEndpoints.getPriority() && hasProximity() == localityLbEndpoints.hasProximity()) {
+            return (!hasProximity() || getProximity().equals(localityLbEndpoints.getProximity())) && this.unknownFields.equals(localityLbEndpoints.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasLocality()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getLocality().hashCode();
+        }
+        if (getLbEndpointsCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getLbEndpointsList().hashCode();
+        }
+        if (hasLoadBalancingWeight()) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getLoadBalancingWeight().hashCode();
+        }
+        int priority = (((iHashCode * 37) + 5) * 53) + getPriority();
+        if (hasProximity()) {
+            priority = (((priority * 37) + 6) * 53) + getProximity().hashCode();
+        }
+        int iHashCode2 = (priority * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m17349newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m17352toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LocalityLbEndpointsOrBuilder {
+        private int bitField0_;
+        private RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> lbEndpointsBuilder_;
+        private List<LbEndpoint> lbEndpoints_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> loadBalancingWeightBuilder_;
+        private UInt32Value loadBalancingWeight_;
+        private SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> localityBuilder_;
+        private Locality locality_;
+        private int priority_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> proximityBuilder_;
+        private UInt32Value proximity_;
+
+        private Builder() {
+            this.lbEndpoints_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.lbEndpoints_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return EndpointComponentsProto.internal_static_envoy_api_v2_endpoint_LocalityLbEndpoints_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public int getPriority() {
+            return this.priority_;
+        }
+
+        public Builder setPriority(int i) {
+            this.priority_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public boolean hasLoadBalancingWeight() {
+            return (this.loadBalancingWeightBuilder_ == null && this.loadBalancingWeight_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public boolean hasLocality() {
+            return (this.localityBuilder_ == null && this.locality_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public boolean hasProximity() {
+            return (this.proximityBuilder_ == null && this.proximity_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return EndpointComponentsProto.internal_static_envoy_api_v2_endpoint_LocalityLbEndpoints_fieldAccessorTable.ensureFieldAccessorsInitialized(LocalityLbEndpoints.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (LocalityLbEndpoints.alwaysUseFieldBuilders) {
+                getLbEndpointsFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17363clear() {
+            super.clear();
+            if (this.localityBuilder_ == null) {
+                this.locality_ = null;
+            } else {
+                this.locality_ = null;
+                this.localityBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.lbEndpoints_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            if (this.loadBalancingWeightBuilder_ == null) {
+                this.loadBalancingWeight_ = null;
+            } else {
+                this.loadBalancingWeight_ = null;
+                this.loadBalancingWeightBuilder_ = null;
+            }
+            this.priority_ = 0;
+            if (this.proximityBuilder_ == null) {
+                this.proximity_ = null;
+            } else {
+                this.proximity_ = null;
+                this.proximityBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return EndpointComponentsProto.internal_static_envoy_api_v2_endpoint_LocalityLbEndpoints_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LocalityLbEndpoints m17376getDefaultInstanceForType() {
+            return LocalityLbEndpoints.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LocalityLbEndpoints m17357build() throws UninitializedMessageException {
+            LocalityLbEndpoints localityLbEndpointsM17359buildPartial = m17359buildPartial();
+            if (localityLbEndpointsM17359buildPartial.isInitialized()) {
+                return localityLbEndpointsM17359buildPartial;
+            }
+            throw newUninitializedMessageException(localityLbEndpointsM17359buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LocalityLbEndpoints m17359buildPartial() {
+            LocalityLbEndpoints localityLbEndpoints = new LocalityLbEndpoints(this);
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                localityLbEndpoints.locality_ = this.locality_;
+            } else {
+                localityLbEndpoints.locality_ = singleFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.lbEndpoints_ = Collections.unmodifiableList(this.lbEndpoints_);
+                    this.bitField0_ &= -2;
+                }
+                localityLbEndpoints.lbEndpoints_ = this.lbEndpoints_;
+            } else {
+                localityLbEndpoints.lbEndpoints_ = repeatedFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV32 = this.loadBalancingWeightBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                localityLbEndpoints.loadBalancingWeight_ = this.loadBalancingWeight_;
+            } else {
+                localityLbEndpoints.loadBalancingWeight_ = singleFieldBuilderV32.build();
+            }
+            localityLbEndpoints.priority_ = this.priority_;
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV33 = this.proximityBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                localityLbEndpoints.proximity_ = this.proximity_;
+            } else {
+                localityLbEndpoints.proximity_ = singleFieldBuilderV33.build();
+            }
+            onBuilt();
+            return localityLbEndpoints;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17375clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17387setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17365clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17368clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17389setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17355addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17380mergeFrom(Message message) {
+            if (message instanceof LocalityLbEndpoints) {
+                return mergeFrom((LocalityLbEndpoints) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(LocalityLbEndpoints localityLbEndpoints) {
+            if (localityLbEndpoints == LocalityLbEndpoints.getDefaultInstance()) {
+                return this;
+            }
+            if (localityLbEndpoints.hasLocality()) {
+                mergeLocality(localityLbEndpoints.getLocality());
+            }
+            if (this.lbEndpointsBuilder_ == null) {
+                if (!localityLbEndpoints.lbEndpoints_.isEmpty()) {
+                    if (this.lbEndpoints_.isEmpty()) {
+                        this.lbEndpoints_ = localityLbEndpoints.lbEndpoints_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureLbEndpointsIsMutable();
+                        this.lbEndpoints_.addAll(localityLbEndpoints.lbEndpoints_);
+                    }
+                    onChanged();
+                }
+            } else if (!localityLbEndpoints.lbEndpoints_.isEmpty()) {
+                if (!this.lbEndpointsBuilder_.isEmpty()) {
+                    this.lbEndpointsBuilder_.addAllMessages(localityLbEndpoints.lbEndpoints_);
+                } else {
+                    this.lbEndpointsBuilder_.dispose();
+                    this.lbEndpointsBuilder_ = null;
+                    this.lbEndpoints_ = localityLbEndpoints.lbEndpoints_;
+                    this.bitField0_ &= -2;
+                    this.lbEndpointsBuilder_ = LocalityLbEndpoints.alwaysUseFieldBuilders ? getLbEndpointsFieldBuilder() : null;
+                }
+            }
+            if (localityLbEndpoints.hasLoadBalancingWeight()) {
+                mergeLoadBalancingWeight(localityLbEndpoints.getLoadBalancingWeight());
+            }
+            if (localityLbEndpoints.getPriority() != 0) {
+                setPriority(localityLbEndpoints.getPriority());
+            }
+            if (localityLbEndpoints.hasProximity()) {
+                mergeProximity(localityLbEndpoints.getProximity());
+            }
+            m17385mergeUnknownFields(localityLbEndpoints.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints.Builder m17381mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints.access$1100()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints.Builder.m17381mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public Locality getLocality() {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Locality locality = this.locality_;
+            return locality == null ? Locality.getDefaultInstance() : locality;
+        }
+
+        public Builder setLocality(Locality locality) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                locality.getClass();
+                this.locality_ = locality;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(locality);
+            }
+            return this;
+        }
+
+        public Builder setLocality(Locality.Builder builder) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.locality_ = builder.m16247build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m16247build());
+            }
+            return this;
+        }
+
+        public Builder mergeLocality(Locality locality) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Locality locality2 = this.locality_;
+                if (locality2 != null) {
+                    this.locality_ = Locality.newBuilder(locality2).mergeFrom(locality).m16249buildPartial();
+                } else {
+                    this.locality_ = locality;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(locality);
+            }
+            return this;
+        }
+
+        public Builder clearLocality() {
+            if (this.localityBuilder_ == null) {
+                this.locality_ = null;
+                onChanged();
+            } else {
+                this.locality_ = null;
+                this.localityBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Locality.Builder getLocalityBuilder() {
+            onChanged();
+            return getLocalityFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public LocalityOrBuilder getLocalityOrBuilder() {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (LocalityOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Locality locality = this.locality_;
+            return locality == null ? Locality.getDefaultInstance() : locality;
+        }
+
+        private SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> getLocalityFieldBuilder() {
+            if (this.localityBuilder_ == null) {
+                this.localityBuilder_ = new SingleFieldBuilderV3<>(getLocality(), getParentForChildren(), isClean());
+                this.locality_ = null;
+            }
+            return this.localityBuilder_;
+        }
+
+        private void ensureLbEndpointsIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.lbEndpoints_ = new ArrayList(this.lbEndpoints_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public List<LbEndpoint> getLbEndpointsList() {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.lbEndpoints_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public int getLbEndpointsCount() {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.lbEndpoints_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public LbEndpoint getLbEndpoints(int i) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.lbEndpoints_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setLbEndpoints(int i, LbEndpoint lbEndpoint) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                lbEndpoint.getClass();
+                ensureLbEndpointsIsMutable();
+                this.lbEndpoints_.set(i, lbEndpoint);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, lbEndpoint);
+            }
+            return this;
+        }
+
+        public Builder setLbEndpoints(int i, LbEndpoint.Builder builder) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLbEndpointsIsMutable();
+                this.lbEndpoints_.set(i, builder.m17311build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m17311build());
+            }
+            return this;
+        }
+
+        public Builder addLbEndpoints(LbEndpoint lbEndpoint) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                lbEndpoint.getClass();
+                ensureLbEndpointsIsMutable();
+                this.lbEndpoints_.add(lbEndpoint);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(lbEndpoint);
+            }
+            return this;
+        }
+
+        public Builder addLbEndpoints(int i, LbEndpoint lbEndpoint) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                lbEndpoint.getClass();
+                ensureLbEndpointsIsMutable();
+                this.lbEndpoints_.add(i, lbEndpoint);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, lbEndpoint);
+            }
+            return this;
+        }
+
+        public Builder addLbEndpoints(LbEndpoint.Builder builder) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLbEndpointsIsMutable();
+                this.lbEndpoints_.add(builder.m17311build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m17311build());
+            }
+            return this;
+        }
+
+        public Builder addLbEndpoints(int i, LbEndpoint.Builder builder) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLbEndpointsIsMutable();
+                this.lbEndpoints_.add(i, builder.m17311build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m17311build());
+            }
+            return this;
+        }
+
+        public Builder addAllLbEndpoints(Iterable<? extends LbEndpoint> iterable) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLbEndpointsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.lbEndpoints_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearLbEndpoints() {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.lbEndpoints_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeLbEndpoints(int i) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLbEndpointsIsMutable();
+                this.lbEndpoints_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public LbEndpoint.Builder getLbEndpointsBuilder(int i) {
+            return getLbEndpointsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public LbEndpointOrBuilder getLbEndpointsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.lbEndpoints_.get(i);
+            }
+            return (LbEndpointOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public List<? extends LbEndpointOrBuilder> getLbEndpointsOrBuilderList() {
+            RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> repeatedFieldBuilderV3 = this.lbEndpointsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.lbEndpoints_);
+        }
+
+        public LbEndpoint.Builder addLbEndpointsBuilder() {
+            return getLbEndpointsFieldBuilder().addBuilder(LbEndpoint.getDefaultInstance());
+        }
+
+        public LbEndpoint.Builder addLbEndpointsBuilder(int i) {
+            return getLbEndpointsFieldBuilder().addBuilder(i, LbEndpoint.getDefaultInstance());
+        }
+
+        public List<LbEndpoint.Builder> getLbEndpointsBuilderList() {
+            return getLbEndpointsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<LbEndpoint, LbEndpoint.Builder, LbEndpointOrBuilder> getLbEndpointsFieldBuilder() {
+            if (this.lbEndpointsBuilder_ == null) {
+                this.lbEndpointsBuilder_ = new RepeatedFieldBuilderV3<>(this.lbEndpoints_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.lbEndpoints_ = null;
+            }
+            return this.lbEndpointsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public UInt32Value getLoadBalancingWeight() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.loadBalancingWeightBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.loadBalancingWeight_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setLoadBalancingWeight(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.loadBalancingWeightBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.loadBalancingWeight_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setLoadBalancingWeight(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.loadBalancingWeightBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.loadBalancingWeight_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeLoadBalancingWeight(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.loadBalancingWeightBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.loadBalancingWeight_;
+                if (uInt32Value2 != null) {
+                    this.loadBalancingWeight_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.loadBalancingWeight_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearLoadBalancingWeight() {
+            if (this.loadBalancingWeightBuilder_ == null) {
+                this.loadBalancingWeight_ = null;
+                onChanged();
+            } else {
+                this.loadBalancingWeight_ = null;
+                this.loadBalancingWeightBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getLoadBalancingWeightBuilder() {
+            onChanged();
+            return getLoadBalancingWeightFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public UInt32ValueOrBuilder getLoadBalancingWeightOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.loadBalancingWeightBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.loadBalancingWeight_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getLoadBalancingWeightFieldBuilder() {
+            if (this.loadBalancingWeightBuilder_ == null) {
+                this.loadBalancingWeightBuilder_ = new SingleFieldBuilderV3<>(getLoadBalancingWeight(), getParentForChildren(), isClean());
+                this.loadBalancingWeight_ = null;
+            }
+            return this.loadBalancingWeightBuilder_;
+        }
+
+        public Builder clearPriority() {
+            this.priority_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public UInt32Value getProximity() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.proximityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.proximity_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setProximity(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.proximityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.proximity_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setProximity(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.proximityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.proximity_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeProximity(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.proximityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.proximity_;
+                if (uInt32Value2 != null) {
+                    this.proximity_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.proximity_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearProximity() {
+            if (this.proximityBuilder_ == null) {
+                this.proximity_ = null;
+                onChanged();
+            } else {
+                this.proximity_ = null;
+                this.proximityBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getProximityBuilder() {
+            onChanged();
+            return getProximityFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder
+        public UInt32ValueOrBuilder getProximityOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.proximityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.proximity_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getProximityFieldBuilder() {
+            if (this.proximityBuilder_ == null) {
+                this.proximityBuilder_ = new SingleFieldBuilderV3<>(getProximity(), getParentForChildren(), isClean());
+                this.proximity_ = null;
+            }
+            return this.proximityBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m17391setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m17385mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

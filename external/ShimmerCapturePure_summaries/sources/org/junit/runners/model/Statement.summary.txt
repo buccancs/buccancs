@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runners/model/Statement.java
+// Size: 162 bytes
+// Modified: 2025-10-21 16:32:00.729896600 +0100
+
+package org.junit.runners.model;
+
+/* loaded from: classes2.dex */
+public abstract class Statement {
+    public abstract void evaluate() throws Throwable;
+}

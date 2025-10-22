@@ -1,0 +1,53 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Metadata;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.MetadataOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TransportSocket;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TransportSocketOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface FilterChainOrBuilder extends MessageOrBuilder {
+    FilterChainMatch getFilterChainMatch();
+
+    FilterChainMatchOrBuilder getFilterChainMatchOrBuilder();
+
+    Filter getFilters(int i);
+
+    int getFiltersCount();
+
+    List<Filter> getFiltersList();
+
+    FilterOrBuilder getFiltersOrBuilder(int i);
+
+    List<? extends FilterOrBuilder> getFiltersOrBuilderList();
+
+    Metadata getMetadata();
+
+    MetadataOrBuilder getMetadataOrBuilder();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    TransportSocket getTransportSocket();
+
+    TransportSocketOrBuilder getTransportSocketOrBuilder();
+
+    BoolValue getUseProxyProto();
+
+    BoolValueOrBuilder getUseProxyProtoOrBuilder();
+
+    boolean hasFilterChainMatch();
+
+    boolean hasMetadata();
+
+    boolean hasTransportSocket();
+
+    boolean hasUseProxyProto();
+}

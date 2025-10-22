@@ -1,0 +1,114 @@
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.CallOptions;
+import io.grpc.ClientStreamTracer;
+import io.grpc.Metadata;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.util.ForwardingClientStreamTracer;
+import io.grpc.xds.shaded.com.github.udpa.udpa.data.orca.v1.OrcaLoadReport;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+abstract class OrcaPerRequestUtil {
+    private static final ClientStreamTracer NOOP_CLIENT_STREAM_TRACER = new ClientStreamTracer() { // from class: io.grpc.xds.OrcaPerRequestUtil.1
+    };
+    private static final ClientStreamTracer.Factory NOOP_CLIENT_STREAM_TRACER_FACTORY = new ClientStreamTracer.Factory() { // from class: io.grpc.xds.OrcaPerRequestUtil.2
+        @Override // io.grpc.ClientStreamTracer.Factory
+        public ClientStreamTracer newClientStreamTracer(ClientStreamTracer.StreamInfo streamInfo, Metadata metadata) {
+            return OrcaPerRequestUtil.NOOP_CLIENT_STREAM_TRACER;
+        }
+    };
+    private static final OrcaPerRequestUtil DEFAULT_INSTANCE = new OrcaPerRequestUtil() { // from class: io.grpc.xds.OrcaPerRequestUtil.3
+        @Override // io.grpc.xds.OrcaPerRequestUtil
+        public ClientStreamTracer.Factory newOrcaClientStreamTracerFactory(OrcaPerRequestReportListener orcaPerRequestReportListener) {
+            return newOrcaClientStreamTracerFactory(OrcaPerRequestUtil.NOOP_CLIENT_STREAM_TRACER_FACTORY, orcaPerRequestReportListener);
+        }
+
+        @Override // io.grpc.xds.OrcaPerRequestUtil
+        public ClientStreamTracer.Factory newOrcaClientStreamTracerFactory(ClientStreamTracer.Factory factory, OrcaPerRequestReportListener orcaPerRequestReportListener) {
+            return new OrcaReportingTracerFactory(factory, orcaPerRequestReportListener);
+        }
+    };
+
+    OrcaPerRequestUtil() {
+    }
+
+    public static OrcaPerRequestUtil getInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public abstract ClientStreamTracer.Factory newOrcaClientStreamTracerFactory(ClientStreamTracer.Factory factory, OrcaPerRequestReportListener orcaPerRequestReportListener);
+
+    public abstract ClientStreamTracer.Factory newOrcaClientStreamTracerFactory(OrcaPerRequestReportListener orcaPerRequestReportListener);
+
+    public interface OrcaPerRequestReportListener {
+        void onLoadReport(OrcaLoadReport orcaLoadReport);
+    }
+
+    static final class OrcaReportingTracerFactory extends ClientStreamTracer.Factory {
+        static final Metadata.Key<OrcaLoadReport> ORCA_ENDPOINT_LOAD_METRICS_KEY = Metadata.Key.of("x-endpoint-load-metrics-bin", ProtoUtils.metadataMarshaller(OrcaLoadReport.getDefaultInstance()));
+        private static final CallOptions.Key<OrcaReportBroker> ORCA_REPORT_BROKER_KEY = CallOptions.Key.create("internal-orca-report-broker");
+        private final ClientStreamTracer.Factory delegate;
+        private final OrcaPerRequestReportListener listener;
+
+        OrcaReportingTracerFactory(ClientStreamTracer.Factory factory, OrcaPerRequestReportListener orcaPerRequestReportListener) {
+            this.delegate = (ClientStreamTracer.Factory) Preconditions.checkNotNull(factory, "delegate");
+            this.listener = (OrcaPerRequestReportListener) Preconditions.checkNotNull(orcaPerRequestReportListener, "listener");
+        }
+
+        @Override // io.grpc.ClientStreamTracer.Factory
+        public ClientStreamTracer newClientStreamTracer(ClientStreamTracer.StreamInfo streamInfo, Metadata metadata) {
+            boolean z;
+            CallOptions callOptions = streamInfo.getCallOptions();
+            CallOptions.Key<OrcaReportBroker> key = ORCA_REPORT_BROKER_KEY;
+            final OrcaReportBroker orcaReportBroker = (OrcaReportBroker) callOptions.getOption(key);
+            if (orcaReportBroker == null) {
+                orcaReportBroker = new OrcaReportBroker();
+                streamInfo = streamInfo.toBuilder().setCallOptions(streamInfo.getCallOptions().withOption(key, orcaReportBroker)).build();
+                z = true;
+            } else {
+                z = false;
+            }
+            orcaReportBroker.addListener(this.listener);
+            final ClientStreamTracer clientStreamTracerNewClientStreamTracer = this.delegate.newClientStreamTracer(streamInfo, metadata);
+            return z ? new ForwardingClientStreamTracer() { // from class: io.grpc.xds.OrcaPerRequestUtil.OrcaReportingTracerFactory.1
+                @Override // io.grpc.util.ForwardingClientStreamTracer
+                protected ClientStreamTracer delegate() {
+                    return clientStreamTracerNewClientStreamTracer;
+                }
+
+                @Override // io.grpc.util.ForwardingClientStreamTracer, io.grpc.ClientStreamTracer
+                public void inboundTrailers(Metadata metadata2) {
+                    OrcaLoadReport orcaLoadReport = (OrcaLoadReport) metadata2.get(OrcaReportingTracerFactory.ORCA_ENDPOINT_LOAD_METRICS_KEY);
+                    if (orcaLoadReport != null) {
+                        orcaReportBroker.onReport(orcaLoadReport);
+                    }
+                    delegate().inboundTrailers(metadata2);
+                }
+            } : clientStreamTracerNewClientStreamTracer;
+        }
+    }
+
+    private static final class OrcaReportBroker {
+        private final List<OrcaPerRequestReportListener> listeners;
+
+        private OrcaReportBroker() {
+            this.listeners = new ArrayList();
+        }
+
+        void addListener(OrcaPerRequestReportListener orcaPerRequestReportListener) {
+            this.listeners.add(orcaPerRequestReportListener);
+        }
+
+        void onReport(OrcaLoadReport orcaLoadReport) {
+            Iterator<OrcaPerRequestReportListener> it2 = this.listeners.iterator();
+            while (it2.hasNext()) {
+                it2.next().onLoadReport(orcaLoadReport);
+            }
+        }
+    }
+}

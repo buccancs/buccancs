@@ -1,0 +1,261 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.protobuf.Descriptors;
+import io.grpc.BindableService;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.MethodDescriptor;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServiceDescriptor;
+import io.grpc.protobuf.ProtoFileDescriptorSupplier;
+import io.grpc.protobuf.ProtoMethodDescriptorSupplier;
+import io.grpc.protobuf.ProtoServiceDescriptorSupplier;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.stub.AbstractAsyncStub;
+import io.grpc.stub.AbstractBlockingStub;
+import io.grpc.stub.AbstractFutureStub;
+import io.grpc.stub.AbstractStub;
+import io.grpc.stub.ClientCalls;
+import io.grpc.stub.ServerCalls;
+import io.grpc.stub.StreamObserver;
+
+/* loaded from: classes3.dex */
+public final class ScopedRoutesDiscoveryServiceGrpc {
+    public static final String SERVICE_NAME = "envoy.api.v2.ScopedRoutesDiscoveryService";
+    private static final int METHODID_DELTA_SCOPED_ROUTES = 2;
+    private static final int METHODID_FETCH_SCOPED_ROUTES = 0;
+    private static final int METHODID_STREAM_SCOPED_ROUTES = 1;
+    private static volatile MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> getDeltaScopedRoutesMethod;
+    private static volatile MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getFetchScopedRoutesMethod;
+    private static volatile MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getStreamScopedRoutesMethod;
+    private static volatile ServiceDescriptor serviceDescriptor;
+
+    private ScopedRoutesDiscoveryServiceGrpc() {
+    }
+
+    public static MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getStreamScopedRoutesMethod() {
+        MethodDescriptor<DiscoveryRequest, DiscoveryResponse> methodDescriptorBuild = getStreamScopedRoutesMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ScopedRoutesDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getStreamScopedRoutesMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "StreamScopedRoutes")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new ScopedRoutesDiscoveryServiceMethodDescriptorSupplier("StreamScopedRoutes")).build();
+                    getStreamScopedRoutesMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> getDeltaScopedRoutesMethod() {
+        MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> methodDescriptorBuild = getDeltaScopedRoutesMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ScopedRoutesDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getDeltaScopedRoutesMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "DeltaScopedRoutes")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DeltaDiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DeltaDiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new ScopedRoutesDiscoveryServiceMethodDescriptorSupplier("DeltaScopedRoutes")).build();
+                    getDeltaScopedRoutesMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getFetchScopedRoutesMethod() {
+        MethodDescriptor<DiscoveryRequest, DiscoveryResponse> methodDescriptorBuild = getFetchScopedRoutesMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ScopedRoutesDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getFetchScopedRoutesMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "FetchScopedRoutes")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new ScopedRoutesDiscoveryServiceMethodDescriptorSupplier("FetchScopedRoutes")).build();
+                    getFetchScopedRoutesMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static ScopedRoutesDiscoveryServiceStub newStub(Channel channel) {
+        return (ScopedRoutesDiscoveryServiceStub) ScopedRoutesDiscoveryServiceStub.newStub(new AbstractStub.StubFactory<ScopedRoutesDiscoveryServiceStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ScopedRoutesDiscoveryServiceGrpc.1
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ScopedRoutesDiscoveryServiceStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ScopedRoutesDiscoveryServiceStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ScopedRoutesDiscoveryServiceBlockingStub newBlockingStub(Channel channel) {
+        return (ScopedRoutesDiscoveryServiceBlockingStub) ScopedRoutesDiscoveryServiceBlockingStub.newStub(new AbstractStub.StubFactory<ScopedRoutesDiscoveryServiceBlockingStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ScopedRoutesDiscoveryServiceGrpc.2
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ScopedRoutesDiscoveryServiceBlockingStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ScopedRoutesDiscoveryServiceBlockingStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ScopedRoutesDiscoveryServiceFutureStub newFutureStub(Channel channel) {
+        return (ScopedRoutesDiscoveryServiceFutureStub) ScopedRoutesDiscoveryServiceFutureStub.newStub(new AbstractStub.StubFactory<ScopedRoutesDiscoveryServiceFutureStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ScopedRoutesDiscoveryServiceGrpc.3
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ScopedRoutesDiscoveryServiceFutureStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ScopedRoutesDiscoveryServiceFutureStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ServiceDescriptor getServiceDescriptor() {
+        ServiceDescriptor serviceDescriptorBuild = serviceDescriptor;
+        if (serviceDescriptorBuild == null) {
+            synchronized (ScopedRoutesDiscoveryServiceGrpc.class) {
+                serviceDescriptorBuild = serviceDescriptor;
+                if (serviceDescriptorBuild == null) {
+                    serviceDescriptorBuild = ServiceDescriptor.newBuilder(SERVICE_NAME).setSchemaDescriptor(new ScopedRoutesDiscoveryServiceFileDescriptorSupplier()).addMethod(getStreamScopedRoutesMethod()).addMethod(getDeltaScopedRoutesMethod()).addMethod(getFetchScopedRoutesMethod()).build();
+                    serviceDescriptor = serviceDescriptorBuild;
+                }
+            }
+        }
+        return serviceDescriptorBuild;
+    }
+
+    public static abstract class ScopedRoutesDiscoveryServiceImplBase implements BindableService {
+        public StreamObserver<DiscoveryRequest> streamScopedRoutes(StreamObserver<DiscoveryResponse> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(ScopedRoutesDiscoveryServiceGrpc.getStreamScopedRoutesMethod(), streamObserver);
+        }
+
+        public StreamObserver<DeltaDiscoveryRequest> deltaScopedRoutes(StreamObserver<DeltaDiscoveryResponse> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(ScopedRoutesDiscoveryServiceGrpc.getDeltaScopedRoutesMethod(), streamObserver);
+        }
+
+        public void fetchScopedRoutes(DiscoveryRequest discoveryRequest, StreamObserver<DiscoveryResponse> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ScopedRoutesDiscoveryServiceGrpc.getFetchScopedRoutesMethod(), streamObserver);
+        }
+
+        @Override // io.grpc.BindableService
+        public final ServerServiceDefinition bindService() {
+            return ServerServiceDefinition.builder(ScopedRoutesDiscoveryServiceGrpc.getServiceDescriptor()).addMethod(ScopedRoutesDiscoveryServiceGrpc.getStreamScopedRoutesMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 1))).addMethod(ScopedRoutesDiscoveryServiceGrpc.getDeltaScopedRoutesMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 2))).addMethod(ScopedRoutesDiscoveryServiceGrpc.getFetchScopedRoutesMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 0))).build();
+        }
+    }
+
+    public static final class ScopedRoutesDiscoveryServiceStub extends AbstractAsyncStub<ScopedRoutesDiscoveryServiceStub> {
+        private ScopedRoutesDiscoveryServiceStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ScopedRoutesDiscoveryServiceStub build(Channel channel, CallOptions callOptions) {
+            return new ScopedRoutesDiscoveryServiceStub(channel, callOptions);
+        }
+
+        public StreamObserver<DiscoveryRequest> streamScopedRoutes(StreamObserver<DiscoveryResponse> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(ScopedRoutesDiscoveryServiceGrpc.getStreamScopedRoutesMethod(), getCallOptions()), streamObserver);
+        }
+
+        public StreamObserver<DeltaDiscoveryRequest> deltaScopedRoutes(StreamObserver<DeltaDiscoveryResponse> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(ScopedRoutesDiscoveryServiceGrpc.getDeltaScopedRoutesMethod(), getCallOptions()), streamObserver);
+        }
+
+        public void fetchScopedRoutes(DiscoveryRequest discoveryRequest, StreamObserver<DiscoveryResponse> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ScopedRoutesDiscoveryServiceGrpc.getFetchScopedRoutesMethod(), getCallOptions()), discoveryRequest, streamObserver);
+        }
+    }
+
+    public static final class ScopedRoutesDiscoveryServiceBlockingStub extends AbstractBlockingStub<ScopedRoutesDiscoveryServiceBlockingStub> {
+        private ScopedRoutesDiscoveryServiceBlockingStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ScopedRoutesDiscoveryServiceBlockingStub build(Channel channel, CallOptions callOptions) {
+            return new ScopedRoutesDiscoveryServiceBlockingStub(channel, callOptions);
+        }
+
+        public DiscoveryResponse fetchScopedRoutes(DiscoveryRequest discoveryRequest) {
+            return (DiscoveryResponse) ClientCalls.blockingUnaryCall(getChannel(), ScopedRoutesDiscoveryServiceGrpc.getFetchScopedRoutesMethod(), getCallOptions(), discoveryRequest);
+        }
+    }
+
+    public static final class ScopedRoutesDiscoveryServiceFutureStub extends AbstractFutureStub<ScopedRoutesDiscoveryServiceFutureStub> {
+        private ScopedRoutesDiscoveryServiceFutureStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ScopedRoutesDiscoveryServiceFutureStub build(Channel channel, CallOptions callOptions) {
+            return new ScopedRoutesDiscoveryServiceFutureStub(channel, callOptions);
+        }
+
+        public ListenableFuture<DiscoveryResponse> fetchScopedRoutes(DiscoveryRequest discoveryRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ScopedRoutesDiscoveryServiceGrpc.getFetchScopedRoutesMethod(), getCallOptions()), discoveryRequest);
+        }
+    }
+
+    private static final class MethodHandlers<Req, Resp> implements ServerCalls.UnaryMethod<Req, Resp>, ServerCalls.ServerStreamingMethod<Req, Resp>, ServerCalls.ClientStreamingMethod<Req, Resp>, ServerCalls.BidiStreamingMethod<Req, Resp> {
+        private final int methodId;
+        private final ScopedRoutesDiscoveryServiceImplBase serviceImpl;
+
+        MethodHandlers(ScopedRoutesDiscoveryServiceImplBase scopedRoutesDiscoveryServiceImplBase, int i) {
+            this.serviceImpl = scopedRoutesDiscoveryServiceImplBase;
+            this.methodId = i;
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override
+        // io.grpc.stub.ServerCalls.UnaryMethod, io.grpc.stub.ServerCalls.UnaryRequestMethod, io.grpc.stub.ServerCalls.ServerStreamingMethod
+        public void invoke(Req req, StreamObserver<Resp> streamObserver) {
+            if (this.methodId == 0) {
+                this.serviceImpl.fetchScopedRoutes((DiscoveryRequest) req, streamObserver);
+                return;
+            }
+            throw new AssertionError();
+        }
+
+        @Override
+        // io.grpc.stub.ServerCalls.ClientStreamingMethod, io.grpc.stub.ServerCalls.StreamingRequestMethod, io.grpc.stub.ServerCalls.BidiStreamingMethod
+        public StreamObserver<Req> invoke(StreamObserver<Resp> streamObserver) {
+            int i = this.methodId;
+            if (i == 1) {
+                return (StreamObserver<Req>) this.serviceImpl.streamScopedRoutes(streamObserver);
+            }
+            if (i == 2) {
+                return (StreamObserver<Req>) this.serviceImpl.deltaScopedRoutes(streamObserver);
+            }
+            throw new AssertionError();
+        }
+    }
+
+    private static abstract class ScopedRoutesDiscoveryServiceBaseDescriptorSupplier implements ProtoFileDescriptorSupplier, ProtoServiceDescriptorSupplier {
+        ScopedRoutesDiscoveryServiceBaseDescriptorSupplier() {
+        }
+
+        @Override // io.grpc.protobuf.ProtoFileDescriptorSupplier
+        public Descriptors.FileDescriptor getFileDescriptor() {
+            return SrdsProto.getDescriptor();
+        }
+
+        @Override // io.grpc.protobuf.ProtoServiceDescriptorSupplier
+        public Descriptors.ServiceDescriptor getServiceDescriptor() {
+            return getFileDescriptor().findServiceByName("ScopedRoutesDiscoveryService");
+        }
+    }
+
+    private static final class ScopedRoutesDiscoveryServiceFileDescriptorSupplier extends ScopedRoutesDiscoveryServiceBaseDescriptorSupplier {
+        ScopedRoutesDiscoveryServiceFileDescriptorSupplier() {
+        }
+    }
+
+    private static final class ScopedRoutesDiscoveryServiceMethodDescriptorSupplier extends ScopedRoutesDiscoveryServiceBaseDescriptorSupplier implements ProtoMethodDescriptorSupplier {
+        private final String methodName;
+
+        ScopedRoutesDiscoveryServiceMethodDescriptorSupplier(String str) {
+            this.methodName = str;
+        }
+
+        @Override // io.grpc.protobuf.ProtoMethodDescriptorSupplier
+        public Descriptors.MethodDescriptor getMethodDescriptor() {
+            return getServiceDescriptor().findMethodByName(this.methodName);
+        }
+    }
+}

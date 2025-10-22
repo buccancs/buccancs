@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/optimization/linear/LinearOptimizer.java
+// Size: 809 bytes
+// Modified: 2025-10-21 16:32:05.154292200 +0100
+
+package org.apache.commons.math.optimization.linear;
+
+import java.util.Collection;
+import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealPointValuePair;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/linear/LinearOptimizer.class */
+public interface LinearOptimizer {
+    void setMaxIterations(int i);
+
+    int getMaxIterations();
+
+    int getIterations();
+
+    RealPointValuePair optimize(LinearObjectiveFunction linearObjectiveFunction, Collection<LinearConstraint> collection, GoalType goalType, boolean z) throws OptimizationException;
+}

@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/SkippingStreamCipher.java
+// Size: 150 bytes
+// Modified: 2025-10-21 16:32:02.911902800 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface SkippingStreamCipher extends StreamCipher, SkippingCipher {
+}

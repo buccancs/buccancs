@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/CharToByteConverter.java
+// Size: 171 bytes
+// Modified: 2025-10-21 16:32:00.601805500 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface CharToByteConverter {
+    byte[] convert(char[] cArr);
+
+    String getType();
+}

@@ -1,9 +1,9 @@
 package com.buccancs.data.sensor.topdon
 
+import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
-import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import com.buccancs.domain.repository.TopdonSettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -73,7 +73,7 @@ class InMemoryTopdonSettingsRepository(
                 )
         }
     }
-    
+
     override suspend fun setEmissivity(
         emissivity: Double
     ) {
@@ -85,7 +85,7 @@ class InMemoryTopdonSettingsRepository(
                 )
         }
     }
-    
+
     override suspend fun setGainMode(
         mode: TopdonGainMode
     ) {

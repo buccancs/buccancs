@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/junit/framework/Protectable.java
+// Size: 134 bytes
+// Modified: 2025-10-21 16:32:00.491781800 +0100
+
+package junit.framework;
+
+/* loaded from: classes4.dex */
+public interface Protectable {
+    void protect() throws Throwable;
+}

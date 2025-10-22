@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/logging/JdkLoggerFactory.java
+// Size: 548 bytes
+// Modified: 2025-10-21 16:32:05.402233900 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.logging;
+
+import java.util.logging.Logger;
+
+/* loaded from: classes3.dex */
+public class JdkLoggerFactory extends InternalLoggerFactory {
+    public static final InternalLoggerFactory INSTANCE = new JdkLoggerFactory();
+
+    @Deprecated
+    public JdkLoggerFactory() {
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory
+    public InternalLogger newInstance(String str) {
+        return new JdkLogger(Logger.getLogger(str));
+    }
+}

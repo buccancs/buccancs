@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/ct/SerializationException.java
+// Size: 424 bytes
+// Modified: 2025-10-21 16:32:00.700656600 +0100
+
+package org.conscrypt.ct;
+
+/* loaded from: classes5.dex */
+public class SerializationException extends Exception {
+    public SerializationException() {
+    }
+
+    public SerializationException(String str) {
+        super(str);
+    }
+
+    public SerializationException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public SerializationException(Throwable th) {
+        super(th);
+    }
+}

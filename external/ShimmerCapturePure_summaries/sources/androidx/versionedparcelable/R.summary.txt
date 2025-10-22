@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/versionedparcelable/R.java
+// Size: 126 bytes
+// Modified: 2025-10-21 16:32:00.023553800 +0100
+
+package androidx.versionedparcelable;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

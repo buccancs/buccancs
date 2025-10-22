@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/ConsumingQueueIterator.java
+// Size: 792 bytes
+// Modified: 2025-10-21 16:32:04.385477200 +0100
+
+package com.google.common.collect;
+
+import com.google.common.base.Preconditions;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Queue;
+
+/* loaded from: classes.dex */
+class ConsumingQueueIterator<T> extends AbstractIterator<T> {
+    private final Queue<T> queue;
+
+    ConsumingQueueIterator(T... tArr) {
+        ArrayDeque arrayDeque = new ArrayDeque(tArr.length);
+        this.queue = arrayDeque;
+        Collections.addAll(arrayDeque, tArr);
+    }
+
+    ConsumingQueueIterator(Queue<T> queue) {
+        this.queue = (Queue) Preconditions.checkNotNull(queue);
+    }
+
+    @Override // com.google.common.collect.AbstractIterator
+    public T computeNext() {
+        return this.queue.isEmpty() ? endOfData() : this.queue.remove();
+    }
+}

@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/content/pm/ShortcutInfoChangeListener.java
+// Size: 488 bytes
+// Modified: 2025-10-21 16:32:05.055705600 +0100
+
+package androidx.core.content.pm;
+
+import java.util.List;
+
+/* loaded from: classes.dex */
+public abstract class ShortcutInfoChangeListener {
+    public void onAllShortcutsRemoved() {
+    }
+
+    public void onShortcutAdded(List<ShortcutInfoCompat> list) {
+    }
+
+    public void onShortcutRemoved(List<String> list) {
+    }
+
+    public void onShortcutUpdated(List<ShortcutInfoCompat> list) {
+    }
+
+    public void onShortcutUsageReported(List<String> list) {
+    }
+}

@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/internal/InternalFutures.java
+// Size: 372 bytes
+// Modified: 2025-10-21 16:32:00.805493700 +0100
+
+package com.google.common.util.concurrent.internal;
+
+/* loaded from: classes.dex */
+public final class InternalFutures {
+    public static Throwable tryInternalFastPathGetFailure(InternalFutureFailureAccess internalFutureFailureAccess) {
+        return internalFutureFailureAccess.tryInternalFastPathGetFailure();
+    }
+
+    private InternalFutures() {
+    }
+}

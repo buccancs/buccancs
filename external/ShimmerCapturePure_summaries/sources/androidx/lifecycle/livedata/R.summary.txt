@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/livedata/R.java
+// Size: 125 bytes
+// Modified: 2025-10-21 16:31:59.997022400 +0100
+
+package androidx.lifecycle.livedata;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

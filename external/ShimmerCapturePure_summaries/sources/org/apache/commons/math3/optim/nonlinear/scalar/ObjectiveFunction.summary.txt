@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/nonlinear/scalar/ObjectiveFunction.java
+// Size: 560 bytes
+// Modified: 2025-10-21 16:32:01.781296800 +0100
+
+package org.apache.commons.math3.optim.nonlinear.scalar;
+
+import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.optim.OptimizationData;
+
+/* loaded from: classes5.dex */
+public class ObjectiveFunction implements OptimizationData {
+    private final MultivariateFunction function;
+
+    public MultivariateFunction getObjectiveFunction() {
+        return this.function;
+    }
+
+    public ObjectiveFunction(MultivariateFunction multivariateFunction) {
+        this.function = multivariateFunction;
+    }
+}

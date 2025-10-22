@@ -1,0 +1,115 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/certprovider/CertProviderServerSslContextProvider.java
+// Size: 6945 bytes
+// Modified: 2025-10-21 16:32:12.943799100 +0100
+
+package io.grpc.xds.internal.certprovider;
+
+import com.google.common.base.Preconditions;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
+import io.grpc.xds.Bootstrapper;
+import io.grpc.xds.EnvoyServerProtoData;
+import io.grpc.xds.internal.sds.trust.SdsTrustManagerFactory;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Node;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext;
+import java.io.IOException;
+import java.security.cert.CertStoreException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public final class CertProviderServerSslContextProvider extends CertProviderSslContextProvider {
+    private CertProviderServerSslContextProvider(Node node, Map<String, Bootstrapper.CertificateProviderInfo> map, CommonTlsContext.CertificateProviderInstance certificateProviderInstance, CommonTlsContext.CertificateProviderInstance certificateProviderInstance2, CertificateValidationContext certificateValidationContext, EnvoyServerProtoData.DownstreamTlsContext downstreamTlsContext, CertificateProviderStore certificateProviderStore) {
+        super(node, map, (CommonTlsContext.CertificateProviderInstance) Preconditions.checkNotNull(certificateProviderInstance, "Server SSL requires certInstance"), certificateProviderInstance2, certificateValidationContext, downstreamTlsContext, certificateProviderStore);
+    }
+
+    @Override // io.grpc.xds.internal.sds.DynamicSslContextProvider
+    protected final SslContextBuilder getSslContextBuilder(CertificateValidationContext certificateValidationContext) throws IOException, CertificateException, CertStoreException {
+        SslContextBuilder sslContextBuilderForServer = SslContextBuilder.forServer(this.savedKey, this.savedCertChain);
+        setClientAuthValues(sslContextBuilderForServer, isMtls() ? new SdsTrustManagerFactory((X509Certificate[]) this.savedTrustedRoots.toArray(new X509Certificate[0]), certificateValidationContext) : null);
+        return GrpcSslContexts.configure(sslContextBuilderForServer);
+    }
+
+    public static final class Factory {
+        private static final Factory DEFAULT_INSTANCE = new Factory(CertificateProviderStore.getInstance());
+        private final CertificateProviderStore certificateProviderStore;
+
+        public static Factory getInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Factory(CertificateProviderStore certificateProviderStore) {
+            this.certificateProviderStore = certificateProviderStore;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0050  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.internal.certprovider.CertProviderServerSslContextProvider getProvider(io.grpc.xds.EnvoyServerProtoData.DownstreamTlsContext r13, io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Node r14, java.util.Map<java.lang.String, io.grpc.xds.Bootstrapper.CertificateProviderInfo> r15) {
+            /*
+                r12 = this;
+                java.lang.String r0 = "downstreamTlsContext"
+                com.google.common.base.Preconditions.checkNotNull(r13, r0)
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext r0 = r13.getCommonTlsContext()
+                boolean r1 = r0.hasCombinedValidationContext()
+                r2 = 0
+                if (r1 == 0) goto L2e
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext$CombinedCertificateValidationContext r1 = r0.getCombinedValidationContext()
+                boolean r3 = r1.hasValidationContextCertificateProviderInstance()
+                if (r3 == 0) goto L1f
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext$CertificateProviderInstance r3 = r1.getValidationContextCertificateProviderInstance()
+                goto L20
+            L1f:
+                r3 = r2
+            L20:
+                boolean r4 = r1.hasDefaultValidationContext()
+                if (r4 == 0) goto L2b
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext r1 = r1.getDefaultValidationContext()
+                goto L2c
+            L2b:
+                r1 = r2
+            L2c:
+                r8 = r1
+                goto L39
+            L2e:
+                boolean r1 = r0.hasValidationContextCertificateProviderInstance()
+                if (r1 == 0) goto L3b
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext$CertificateProviderInstance r3 = r0.getValidationContextCertificateProviderInstance()
+                r8 = r2
+            L39:
+                r7 = r3
+                goto L4a
+            L3b:
+                boolean r1 = r0.hasValidationContext()
+                if (r1 == 0) goto L48
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext r1 = r0.getValidationContext()
+                r8 = r1
+                r7 = r2
+                goto L4a
+            L48:
+                r7 = r2
+                r8 = r7
+            L4a:
+                boolean r1 = r0.hasTlsCertificateCertificateProviderInstance()
+                if (r1 == 0) goto L54
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext$CertificateProviderInstance r2 = r0.getTlsCertificateCertificateProviderInstance()
+            L54:
+                r6 = r2
+                io.grpc.xds.internal.certprovider.CertProviderServerSslContextProvider r0 = new io.grpc.xds.internal.certprovider.CertProviderServerSslContextProvider
+                io.grpc.xds.internal.certprovider.CertificateProviderStore r10 = r12.certificateProviderStore
+                r11 = 0
+                r3 = r0
+                r4 = r14
+                r5 = r15
+                r9 = r13
+                r3.<init>(r4, r5, r6, r7, r8, r9, r10)
+                return r0
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.internal.certprovider.CertProviderServerSslContextProvider.Factory.getProvider(io.grpc.xds.EnvoyServerProtoData$DownstreamTlsContext, io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Node, java.util.Map):io.grpc.xds.internal.certprovider.CertProviderServerSslContextProvider");
+        }
+    }
+}

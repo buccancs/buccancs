@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/ProtocolNegotiator.java
+// Size: 309 bytes
+// Modified: 2025-10-21 16:32:01.442968300 +0100
+
+package io.grpc.netty;
+
+import io.netty.channel.ChannelHandler;
+import io.netty.util.AsciiString;
+
+/* loaded from: classes2.dex */
+interface ProtocolNegotiator {
+    void close();
+
+    ChannelHandler newHandler(GrpcHttp2ConnectionHandler grpcHttp2ConnectionHandler);
+
+    AsciiString scheme();
+}

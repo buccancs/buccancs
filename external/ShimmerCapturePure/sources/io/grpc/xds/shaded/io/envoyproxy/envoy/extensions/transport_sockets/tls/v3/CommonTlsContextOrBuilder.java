@@ -1,0 +1,89 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext;
+
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface CommonTlsContextOrBuilder extends MessageOrBuilder {
+    String getAlpnProtocols(int i);
+
+    ByteString getAlpnProtocolsBytes(int i);
+
+    int getAlpnProtocolsCount();
+
+    /* renamed from: getAlpnProtocolsList */
+    List<String> mo31646getAlpnProtocolsList();
+
+    CommonTlsContext.CombinedCertificateValidationContext getCombinedValidationContext();
+
+    CommonTlsContext.CombinedCertificateValidationContextOrBuilder getCombinedValidationContextOrBuilder();
+
+    CommonTlsContext.CertificateProvider getTlsCertificateCertificateProvider();
+
+    CommonTlsContext.CertificateProviderInstance getTlsCertificateCertificateProviderInstance();
+
+    CommonTlsContext.CertificateProviderInstanceOrBuilder getTlsCertificateCertificateProviderInstanceOrBuilder();
+
+    CommonTlsContext.CertificateProviderOrBuilder getTlsCertificateCertificateProviderOrBuilder();
+
+    SdsSecretConfig getTlsCertificateSdsSecretConfigs(int i);
+
+    int getTlsCertificateSdsSecretConfigsCount();
+
+    List<SdsSecretConfig> getTlsCertificateSdsSecretConfigsList();
+
+    SdsSecretConfigOrBuilder getTlsCertificateSdsSecretConfigsOrBuilder(int i);
+
+    List<? extends SdsSecretConfigOrBuilder> getTlsCertificateSdsSecretConfigsOrBuilderList();
+
+    TlsCertificate getTlsCertificates(int i);
+
+    int getTlsCertificatesCount();
+
+    List<TlsCertificate> getTlsCertificatesList();
+
+    TlsCertificateOrBuilder getTlsCertificatesOrBuilder(int i);
+
+    List<? extends TlsCertificateOrBuilder> getTlsCertificatesOrBuilderList();
+
+    TlsParameters getTlsParams();
+
+    TlsParametersOrBuilder getTlsParamsOrBuilder();
+
+    CertificateValidationContext getValidationContext();
+
+    CommonTlsContext.CertificateProvider getValidationContextCertificateProvider();
+
+    CommonTlsContext.CertificateProviderInstance getValidationContextCertificateProviderInstance();
+
+    CommonTlsContext.CertificateProviderInstanceOrBuilder getValidationContextCertificateProviderInstanceOrBuilder();
+
+    CommonTlsContext.CertificateProviderOrBuilder getValidationContextCertificateProviderOrBuilder();
+
+    CertificateValidationContextOrBuilder getValidationContextOrBuilder();
+
+    SdsSecretConfig getValidationContextSdsSecretConfig();
+
+    SdsSecretConfigOrBuilder getValidationContextSdsSecretConfigOrBuilder();
+
+    CommonTlsContext.ValidationContextTypeCase getValidationContextTypeCase();
+
+    boolean hasCombinedValidationContext();
+
+    boolean hasTlsCertificateCertificateProvider();
+
+    boolean hasTlsCertificateCertificateProviderInstance();
+
+    boolean hasTlsParams();
+
+    boolean hasValidationContext();
+
+    boolean hasValidationContextCertificateProvider();
+
+    boolean hasValidationContextCertificateProviderInstance();
+
+    boolean hasValidationContextSdsSecretConfig();
+}

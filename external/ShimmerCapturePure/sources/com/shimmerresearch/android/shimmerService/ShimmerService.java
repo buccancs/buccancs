@@ -1,0 +1,994 @@
+package com.shimmerresearch.android.shimmerService;
+
+import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Binder;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.util.Log;
+import android.widget.Toast;
+import com.shimmerresearch.algorithms.Filter;
+import com.shimmerresearch.android.Shimmer;
+import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid;
+import com.shimmerresearch.biophysicalprocessing.ECGtoHRAdaptive;
+import com.shimmerresearch.biophysicalprocessing.PPGtoHRAlgorithm;
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.driver.CallbackObject;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.FormatCluster;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.BluetoothDeviceDetails;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.tools.Logging;
+import com.shimmerresearch.tools.PlotManagerAndroid;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class ShimmerService extends Service {
+    private static final String TAG = "ShimmerService";
+    private final IBinder mBinder = new LocalBinder();
+    public PlotManagerAndroid mPlotManager;
+    public Logging shimmerLog1 = null;
+    public HashMap<String, Object> mMultiShimmer = new HashMap<>(7);
+    public HashMap<String, Logging> mLogShimmer = new HashMap<>(7);
+    public String mLogFileName = "Default";
+    public Uri mFileURI = null;
+    public ContentResolver mResolver = null;
+    public Context mContext = null;
+    public FILE_TYPE mLoggingFileType = FILE_TYPE.CSV;
+    protected ShimmerBluetoothManagerAndroid btManager;
+    protected Handler mHandlerGraph = null;
+    ECGtoHRAdaptive mECGtoHR;
+    Filter mFilter;
+    Filter mHPFilterECG;
+    Filter mLPFilterECG;
+    PPGtoHRAlgorithm mPPGtoHR;
+    double[] mLPFc = {5.0d};
+    private boolean mEnableLogging = false;
+    private String mLogFolderName = "ShimmerCapture";
+    private BluetoothAdapter mBluetoothAdapter = null;
+    private List<Handler> mHandlerList = new ArrayList();
+    private boolean mGraphing = false;
+    private double[] mLPFcECG = {51.2d};
+    private double[] mHPFcECG = {0.5d};
+    private int mNumberOfBeatsToAvg = 2;
+    private int mNumberOfBeatsToAvgECG = 2;
+    private int mECGTrainingInterval = 10;
+    private boolean mPPGtoHREnabled = false;
+    private boolean mECGtoHREnabled = false;
+    private boolean mConvertGSRtoSiemens = true;
+    private String mPPGtoHRSignalName = Configuration.Shimmer3.ObjectClusterSensorName.INT_EXP_ADC_A13;
+    private String mECGtoHRSignalName = Configuration.Shimmer3.ObjectClusterSensorName.ECG_LA_RA_24BIT;
+    public final Handler mHandler = new Handler() { // from class: com.shimmerresearch.android.shimmerService.ShimmerService.1
+        @Override // android.os.Handler
+        public void handleMessage(Message message) throws IOException {
+            Iterator it2 = ShimmerService.this.mHandlerList.iterator();
+            while (it2.hasNext()) {
+                ((Handler) it2.next()).obtainMessage(message.what, message.arg1, message.arg2, message.obj).sendToTarget();
+            }
+            int i = message.what;
+            if (i == 0) {
+                ShimmerService.this.handleMsgStateChange(message);
+                return;
+            }
+            if (i == 1) {
+                ShimmerService.this.handleNotificationMsg(message);
+                return;
+            }
+            if (i == 2) {
+                ShimmerService.this.handleMsgDataPacket(message);
+                return;
+            }
+            if (i == 9) {
+                String string = message.getData().getString("Bluetooth Address");
+                if (message.getData().getBoolean("Stop Streaming")) {
+                    ShimmerService.this.closeAndRemoveFile(string);
+                    return;
+                }
+                return;
+            }
+            if (i == 13) {
+                ShimmerService.this.mHandlerGraph.obtainMessage(13, message.arg1, message.arg2).sendToTarget();
+            } else {
+                if (i != 999) {
+                    return;
+                }
+                Log.d("toast", message.getData().getString("toast"));
+                Toast.makeText(ShimmerService.this.getApplicationContext(), message.getData().getString("toast"), 0).show();
+                message.getData().getString("toast").equals("Device connection was lost");
+            }
+        }
+    };
+
+    public void enableGraphingHandler(boolean z) {
+        this.mGraphing = z;
+    }
+
+    public ShimmerBluetoothManagerAndroid getBluetoothManager() {
+        return this.btManager;
+    }
+
+    public boolean getEnableLogging() {
+        return this.mEnableLogging;
+    }
+
+    public void setEnableLogging(boolean z) {
+        this.mEnableLogging = z;
+        Log.d(ShimmerDevice.DEFAULT_SHIMMER_NAME, "Logging :" + Boolean.toString(this.mEnableLogging));
+    }
+
+    public Handler getGraphHandler() {
+        return this.mHandlerGraph;
+    }
+
+    public void setGraphHandler(Handler handler) {
+        this.mHandlerGraph = handler;
+    }
+
+    public Handler getHandler() {
+        return this.mHandler;
+    }
+
+    public String getLogFolderName() {
+        return this.mLogFolderName;
+    }
+
+    public void setLogFolderName(String str) {
+        this.mLogFolderName = str;
+    }
+
+    public PlotManagerAndroid getPlotManager() {
+        return this.mPlotManager;
+    }
+
+    public void handleNotificationMsg(Message message) {
+    }
+
+    public boolean isECGtoHREnabled() {
+        return this.mECGtoHREnabled;
+    }
+
+    public boolean isGSRtoSiemensEnabled() {
+        return this.mConvertGSRtoSiemens;
+    }
+
+    public boolean isPPGtoHREnabled() {
+        return this.mPPGtoHREnabled;
+    }
+
+    @Override // android.app.Service
+    public IBinder onBind(Intent intent) {
+        return this.mBinder;
+    }
+
+    public void setECGtoHRSignal(String str) {
+        this.mECGtoHRSignalName = str;
+    }
+
+    public void setLoggingFileType(FILE_TYPE file_type) {
+        this.mLoggingFileType = file_type;
+    }
+
+    public void setLoggingName(String str) {
+        this.mLogFileName = str;
+    }
+
+    public void setPPGtoHRSignal(String str) {
+        this.mPPGtoHRSignalName = str;
+    }
+
+    @Override // android.app.Service
+    public void onCreate() {
+        Toast.makeText(this, "Shimmer Service Created", 1).show();
+        Log.d(TAG, "onCreate");
+        try {
+            this.btManager = new ShimmerBluetoothManagerAndroid(this, this.mHandler);
+        } catch (Exception e) {
+            Log.e(TAG, "ERROR! " + e);
+            Toast.makeText(this, "Error! Could not create Bluetooth Manager!", 1).show();
+        }
+    }
+
+    @Override // android.app.Service
+    public void onDestroy() {
+        Toast.makeText(this, "Shimmer Service Stopped", 1).show();
+        Log.d(TAG, "onDestroy");
+        this.btManager.disconnectAllDevices();
+    }
+
+    public void disconnectAllDevices() {
+        this.btManager.disconnectAllDevices();
+        this.mMultiShimmer.clear();
+        this.mLogShimmer.clear();
+    }
+
+    @Override // android.app.Service
+    public int onStartCommand(Intent intent, int i, int i2) {
+        Log.d("LocalService", "Received start id " + i2 + ": " + intent);
+        return 2;
+    }
+
+    @Override // android.app.Service
+    public void onStart(Intent intent, int i) {
+        Toast.makeText(this, "My Service Started", 1).show();
+        Log.d(TAG, "onStart");
+    }
+
+    public void enablePPGtoHR(String str, boolean z) {
+        if (z) {
+            double samplingRate = getSamplingRate(str);
+            this.mPPGtoHR = new PPGtoHRAlgorithm(samplingRate, this.mNumberOfBeatsToAvg, true);
+            try {
+                this.mFilter = new Filter(Filter.LOW_PASS, samplingRate, this.mLPFc);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        this.mPPGtoHREnabled = z;
+    }
+
+    public void enableECGtoHR(String str, boolean z) {
+        if (z) {
+            double samplingRate = getSamplingRate(str);
+            this.mECGtoHR = new ECGtoHRAdaptive(samplingRate);
+            try {
+                this.mLPFilterECG = new Filter(Filter.LOW_PASS, samplingRate, this.mLPFcECG);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                this.mHPFilterECG = new Filter(Filter.HIGH_PASS, samplingRate, this.mHPFcECG);
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        this.mECGtoHREnabled = z;
+    }
+
+    public void connectShimmer(String str, Context context) {
+        this.btManager.connectShimmerThroughBTAddress(str, "", context);
+    }
+
+    public void connectShimmer(String str, String str2, Context context) {
+        this.btManager.connectShimmerThroughBTAddress(str, str2, context);
+    }
+
+    public void connectShimmer(String str, String str2, ShimmerBluetoothManagerAndroid.BT_TYPE bt_type, Context context) {
+        if (str2 != null && str2.contains("Verisense")) {
+            this.btManager.connectVerisenseDevice(new BluetoothDeviceDetails("", str, str2));
+        } else {
+            this.btManager.connectShimmerThroughBTAddress(str, str2, bt_type);
+        }
+    }
+
+    public void connectShimmer(String str) {
+        this.btManager.connectShimmerThroughBTAddress(str);
+    }
+
+    public void onStop() {
+        Toast.makeText(this, "My Service Stopped", 1).show();
+        Log.d(TAG, "onDestroy");
+        this.btManager.disconnectAllDevices();
+    }
+
+    @Deprecated
+    public void toggleAllLEDS() {
+        this.btManager.toggleAllLEDS();
+    }
+
+    @Deprecated
+    public void toggleLED(String str) {
+        this.btManager.toggleLED(str);
+    }
+
+    public void clickToggle() {
+        this.btManager.toggleAllLEDS();
+    }
+
+    public void handleMsgDataPacket(Message message) throws IOException {
+        Logging logging;
+        FormatCluster formatClusterReturnFormatCluster;
+        FormatCluster formatClusterReturnFormatCluster2;
+        FormatCluster formatClusterReturnFormatCluster3;
+        if (message.obj instanceof ObjectCluster) {
+            ObjectCluster objectCluster = (ObjectCluster) message.obj;
+            if (this.mPPGtoHREnabled && (formatClusterReturnFormatCluster3 = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(this.mPPGtoHRSignalName), ChannelDetails.CHANNEL_TYPE.CAL.toString())) != null) {
+                double dFilterData = formatClusterReturnFormatCluster3.mData;
+                try {
+                    dFilterData = this.mFilter.filterData(dFilterData);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                double dPpgToHrConversion = this.mPPGtoHR.ppgToHrConversion(dFilterData, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP), ChannelDetails.CHANNEL_TYPE.CAL.toString()).mData);
+                System.out.print("Heart Rate: " + Integer.toString((int) dPpgToHrConversion) + StringUtils.LF);
+                objectCluster.addData(Configuration.Shimmer3.ObjectClusterSensorName.PPG_TO_HR, ChannelDetails.CHANNEL_TYPE.CAL, Configuration.CHANNEL_UNITS.BEATS_PER_MINUTE, dPpgToHrConversion);
+            }
+            if (this.mECGtoHREnabled && (formatClusterReturnFormatCluster2 = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(this.mECGtoHRSignalName), ChannelDetails.CHANNEL_TYPE.CAL.toString())) != null) {
+                double dFilterData2 = formatClusterReturnFormatCluster2.mData;
+                try {
+                    dFilterData2 = this.mHPFilterECG.filterData(this.mLPFilterECG.filterData(dFilterData2));
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+                double dEcgToHrConversion = this.mECGtoHR.ecgToHrConversion(dFilterData2, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.TIMESTAMP), ChannelDetails.CHANNEL_TYPE.CAL.toString()).mData);
+                System.out.print("Heart Rate: " + Integer.toString((int) dEcgToHrConversion) + StringUtils.LF);
+                objectCluster.addData(Configuration.Shimmer3.GuiLabelSensors.ECG_TO_HR, ChannelDetails.CHANNEL_TYPE.CAL, Configuration.CHANNEL_UNITS.BEATS_PER_MINUTE, dEcgToHrConversion);
+            }
+            if (this.mConvertGSRtoSiemens && (formatClusterReturnFormatCluster = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(Configuration.Shimmer3.ObjectClusterSensorName.GSR_RESISTANCE), ChannelDetails.CHANNEL_TYPE.CAL.toString())) != null) {
+                objectCluster.addData(Configuration.Shimmer3.ObjectClusterSensorName.GSR_CONDUCTANCE, ChannelDetails.CHANNEL_TYPE.CAL, "microSiemens", (1.0d / (formatClusterReturnFormatCluster.mData * 1000.0d)) * 1000000.0d);
+            }
+            try {
+                this.mPlotManager.filterDataAndPlot((ObjectCluster) message.obj);
+            } catch (Exception e3) {
+                e3.printStackTrace();
+            }
+            objectCluster.removeAll("Batt_Percentage");
+            objectCluster.removeAll("Packet_Reception_Rate_Trial");
+            objectCluster.removeAll("Packet_Reception_Rate_Current");
+            objectCluster.removeAll(Configuration.Shimmer3.ObjectClusterSensorName.SYSTEM_TIMESTAMP);
+            if (this.mEnableLogging) {
+                Logging logging2 = this.mLogShimmer.get(objectCluster.getMacAddress());
+                this.shimmerLog1 = logging2;
+                if (logging2 != null) {
+                    logging2.logData(objectCluster);
+                } else {
+                    char[] charArray = objectCluster.getMacAddress().toCharArray();
+                    if (this.mLogFileName.equals("Default")) {
+                        Uri uri = this.mFileURI;
+                        if (uri == null) {
+                            logging = new Logging(fromMilisecToDate(System.currentTimeMillis()) + " Device" + charArray[12] + charArray[13] + charArray[15] + charArray[16], UtilVerisenseDriver.CSV_DELIMITER, this.mLogFolderName, this.mLoggingFileType);
+                        } else {
+                            logging = new Logging(uri, this.mContext, fromMilisecToDate(System.currentTimeMillis()) + " Device" + charArray[12] + charArray[13] + charArray[15] + charArray[16], UtilVerisenseDriver.CSV_DELIMITER, this.mLogFolderName, this.mLoggingFileType);
+                        }
+                    } else {
+                        Uri uri2 = this.mFileURI;
+                        if (uri2 == null) {
+                            logging = new Logging(fromMilisecToDate(System.currentTimeMillis()) + this.mLogFileName, UtilVerisenseDriver.CSV_DELIMITER, this.mLogFolderName, this.mLoggingFileType);
+                        } else {
+                            logging = new Logging(uri2, this.mContext, fromMilisecToDate(System.currentTimeMillis()) + this.mLogFileName, UtilVerisenseDriver.CSV_DELIMITER, this.mLogFolderName, this.mLoggingFileType);
+                        }
+                    }
+                    this.mLogShimmer.remove(objectCluster.getMacAddress());
+                    if (this.mLogShimmer.get(objectCluster.getMacAddress()) == null) {
+                        this.mLogShimmer.put(objectCluster.getMacAddress(), logging);
+                    }
+                }
+            }
+            if (this.mGraphing) {
+                this.mHandlerGraph.obtainMessage(2, objectCluster).sendToTarget();
+            }
+        }
+    }
+
+    public void handleMsgStateChange(Message message) throws IOException {
+        String macAddress;
+        ShimmerBluetooth.BT_STATE bt_state;
+        String shimmerName;
+        Intent intent = new Intent("com.shimmerresearch.service.ShimmerService");
+        Log.d("ShimmerGraph", "Sending");
+        Handler handler = this.mHandlerGraph;
+        if (handler != null) {
+            handler.obtainMessage(message.what, message.arg1, -1, message.obj).sendToTarget();
+        }
+        if (message.arg1 == 5) {
+            closeAndRemoveFile(((ObjectCluster) message.obj).getMacAddress());
+            return;
+        }
+        if (message.obj instanceof ObjectCluster) {
+            bt_state = ((ObjectCluster) message.obj).mState;
+            macAddress = ((ObjectCluster) message.obj).getMacAddress();
+            shimmerName = ((ObjectCluster) message.obj).getShimmerName();
+        } else {
+            macAddress = "";
+            if (message.obj instanceof CallbackObject) {
+                bt_state = ((CallbackObject) message.obj).mState;
+                shimmerName = "";
+                macAddress = ((CallbackObject) message.obj).mBluetoothAddress;
+            } else {
+                bt_state = null;
+                shimmerName = "";
+            }
+        }
+        switch (AnonymousClass2.$SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE[bt_state.ordinal()]) {
+            case 1:
+                ShimmerDevice shimmerDeviceBtConnectedFromMac = this.btManager.getShimmerDeviceBtConnectedFromMac(macAddress);
+                this.mMultiShimmer.remove(macAddress);
+                if (this.mMultiShimmer.get(macAddress) == null) {
+                    this.mMultiShimmer.put(macAddress, shimmerDeviceBtConnectedFromMac);
+                }
+                intent.putExtra("ShimmerBluetoothAddress", macAddress);
+                intent.putExtra("ShimmerDeviceName", shimmerName);
+                intent.putExtra("ShimmerState", ShimmerBluetooth.BT_STATE.CONNECTED);
+                sendBroadcast(intent);
+                break;
+            case 2:
+                intent.putExtra("ShimmerBluetoothAddress", macAddress);
+                intent.putExtra("ShimmerDeviceName", shimmerName);
+                intent.putExtra("ShimmerState", ShimmerBluetooth.BT_STATE.CONNECTING);
+                sendBroadcast(intent);
+                break;
+            case 3:
+                intent.putExtra("ShimmerBluetoothAddress", macAddress);
+                intent.putExtra("ShimmerDeviceName", shimmerName);
+                intent.putExtra("ShimmerState", ShimmerBluetooth.BT_STATE.STREAMING);
+                sendBroadcast(intent);
+                break;
+            case 4:
+                intent.putExtra("ShimmerBluetoothAddress", macAddress);
+                intent.putExtra("ShimmerDeviceName", shimmerName);
+                intent.putExtra("ShimmerState", ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING);
+                sendBroadcast(intent);
+                break;
+            case 5:
+                ShimmerDevice shimmerDeviceBtConnectedFromMac2 = this.btManager.getShimmerDeviceBtConnectedFromMac(macAddress);
+                this.mMultiShimmer.remove(macAddress);
+                if (this.mMultiShimmer.get(macAddress) == null) {
+                    this.mMultiShimmer.put(macAddress, shimmerDeviceBtConnectedFromMac2);
+                }
+                Log.d(ShimmerDevice.DEFAULT_SHIMMER_NAME, ((ObjectCluster) message.obj).getMacAddress() + "  " + ((ObjectCluster) message.obj).getShimmerName());
+                intent.putExtra("ShimmerBluetoothAddress", ((ObjectCluster) message.obj).getMacAddress());
+                intent.putExtra("ShimmerDeviceName", ((ObjectCluster) message.obj).getShimmerName());
+                intent.putExtra("ShimmerState", ShimmerBluetooth.BT_STATE.SDLOGGING);
+                sendBroadcast(intent);
+                break;
+            case 6:
+                this.btManager.removeShimmerDeviceBtConnected(macAddress);
+                intent.putExtra("ShimmerBluetoothAddress", macAddress);
+                intent.putExtra("ShimmerDeviceName", shimmerName);
+                intent.putExtra("ShimmerState", ShimmerBluetooth.BT_STATE.DISCONNECTED);
+                sendBroadcast(intent);
+                break;
+        }
+    }
+
+    public void stopStreamingAllDevices() {
+        this.btManager.stopStreamingAllDevices();
+    }
+
+    public void startStreamingAllDevices() {
+        this.btManager.startStreamingAllDevices();
+    }
+
+    public void setEnableLogging(boolean z, FILE_TYPE file_type) {
+        setEnableLogging(z);
+        this.mLoggingFileType = file_type;
+    }
+
+    public void setEnableLogging(boolean z, FILE_TYPE file_type, String str) {
+        setEnableLogging(z, file_type);
+        this.mLogFolderName = str;
+    }
+
+    public void setAllSampingRate(double d) {
+        Iterator<Object> it2 = this.mMultiShimmer.values().iterator();
+        while (it2.hasNext()) {
+            Shimmer shimmer = (Shimmer) it2.next();
+            if (shimmer.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.CONNECTED || shimmer.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.SDLOGGING) {
+                shimmer.writeShimmerAndSensorsSamplingRate(d);
+                if (this.mPPGtoHREnabled) {
+                    this.mPPGtoHR = new PPGtoHRAlgorithm(d, this.mNumberOfBeatsToAvg, true);
+                    try {
+                        this.mFilter = new Filter(Filter.LOW_PASS, d, this.mLPFc);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (this.mECGtoHREnabled) {
+                    this.mECGtoHR = new ECGtoHRAdaptive(d);
+                    try {
+                        this.mLPFilterECG = new Filter(Filter.LOW_PASS, d, this.mLPFcECG);
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                    try {
+                        this.mHPFilterECG = new Filter(Filter.HIGH_PASS, d, this.mHPFcECG);
+                    } catch (Exception e3) {
+                        e3.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    @Deprecated
+    public void setAllAccelRange(int i) {
+        this.btManager.setAllAccelRange(i);
+    }
+
+    @Deprecated
+    public void setAllGSRRange(int i) {
+        this.btManager.setAllGSRRange(i);
+    }
+
+    @Deprecated
+    public void setAllEnabledSensors(int i) {
+        this.btManager.setAllEnabledSensors(i);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0081  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public void setEnabledSensors(long r11, java.lang.String r13) {
+        /*
+            r10 = this;
+            java.util.HashMap<java.lang.String, java.lang.Object> r0 = r10.mMultiShimmer
+            java.util.Collection r0 = r0.values()
+            java.util.Iterator r0 = r0.iterator()
+        La:
+            boolean r1 = r0.hasNext()
+            if (r1 == 0) goto L87
+            java.lang.Object r1 = r0.next()
+            com.shimmerresearch.android.Shimmer r1 = (com.shimmerresearch.android.Shimmer) r1
+            com.shimmerresearch.bluetooth.ShimmerBluetooth$BT_STATE r2 = r1.getBluetoothRadioState()
+            com.shimmerresearch.bluetooth.ShimmerBluetooth$BT_STATE r3 = com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE.CONNECTED
+            if (r2 == r3) goto L26
+            com.shimmerresearch.bluetooth.ShimmerBluetooth$BT_STATE r2 = r1.getBluetoothRadioState()
+            com.shimmerresearch.bluetooth.ShimmerBluetooth$BT_STATE r3 = com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE.SDLOGGING
+            if (r2 != r3) goto La
+        L26:
+            java.lang.String r2 = r1.getBluetoothAddress()
+            boolean r2 = r2.equals(r13)
+            if (r2 == 0) goto La
+            r2 = 1048576(0x100000, double:5.180654E-318)
+            long r2 = r2 & r11
+            r4 = 0
+            r5 = 0
+            int r7 = (r2 > r5 ? 1 : (r2 == r5 ? 0 : -1))
+            if (r7 <= 0) goto L43
+            r2 = 524288(0x80000, double:2.590327E-318)
+            long r2 = r2 & r11
+            int r7 = (r2 > r5 ? 1 : (r2 == r5 ? 0 : -1))
+            if (r7 > 0) goto L54
+        L43:
+            r2 = 16
+            long r2 = r2 & r11
+            int r7 = (r2 > r5 ? 1 : (r2 == r5 ? 0 : -1))
+            if (r7 <= 0) goto L52
+            r2 = 8
+            long r2 = r2 & r11
+            int r7 = (r2 > r5 ? 1 : (r2 == r5 ? 0 : -1))
+            if (r7 <= 0) goto L52
+            goto L54
+        L52:
+            r10.mECGtoHREnabled = r4
+        L54:
+            int r2 = r1.getInternalExpPower()
+            r3 = 1
+            if (r2 != r3) goto L81
+            r7 = 1024(0x400, double:5.06E-321)
+            long r7 = r7 & r11
+            int r2 = (r7 > r5 ? 1 : (r7 == r5 ? 0 : -1))
+            if (r2 > 0) goto L83
+            r7 = 512(0x200, double:2.53E-321)
+            long r7 = r7 & r11
+            int r2 = (r7 > r5 ? 1 : (r7 == r5 ? 0 : -1))
+            if (r2 <= 0) goto L6b
+            r2 = 1
+            goto L6c
+        L6b:
+            r2 = 0
+        L6c:
+            r7 = 256(0x100, double:1.265E-321)
+            long r7 = r7 & r11
+            int r9 = (r7 > r5 ? 1 : (r7 == r5 ? 0 : -1))
+            if (r9 <= 0) goto L74
+            goto L75
+        L74:
+            r3 = 0
+        L75:
+            r2 = r2 | r3
+            if (r2 != 0) goto L83
+            r2 = 8388608(0x800000, double:4.144523E-317)
+            long r2 = r2 & r11
+            int r7 = (r2 > r5 ? 1 : (r2 == r5 ? 0 : -1))
+            if (r7 <= 0) goto L81
+            goto L83
+        L81:
+            r10.mPPGtoHREnabled = r4
+        L83:
+            r1.writeEnabledSensors(r11)
+            goto La
+        L87:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.android.shimmerService.ShimmerService.setEnabledSensors(long, java.lang.String):void");
+    }
+
+    @Deprecated
+    public void writePMux(String str, int i) {
+        this.btManager.writePMux(str, i);
+    }
+
+    @Deprecated
+    public void write5VReg(String str, int i) {
+        this.btManager.write5VReg(str, i);
+    }
+
+    @Deprecated
+    public List<String[]> getListofEnabledSensorSignals(String str) {
+        new ArrayList();
+        return this.btManager.getListofEnabledSensorSignals(str);
+    }
+
+    @Deprecated
+    public long getEnabledSensors(String str) {
+        return this.btManager.getEnabledSensors(str);
+    }
+
+    public void writeSamplingRate(String str, double d) {
+        Iterator<Object> it2 = this.mMultiShimmer.values().iterator();
+        while (it2.hasNext()) {
+            Shimmer shimmer = (Shimmer) it2.next();
+            if (shimmer.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.CONNECTED || shimmer.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.SDLOGGING) {
+                if (shimmer.getBluetoothAddress().equals(str)) {
+                    shimmer.writeShimmerAndSensorsSamplingRate(d);
+                    if (this.mPPGtoHREnabled) {
+                        this.mPPGtoHR = new PPGtoHRAlgorithm(d, this.mNumberOfBeatsToAvg, true);
+                        try {
+                            this.mFilter = new Filter(Filter.LOW_PASS, d, this.mLPFc);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (this.mECGtoHREnabled) {
+                        this.mECGtoHR = new ECGtoHRAdaptive(d);
+                        try {
+                            this.mLPFilterECG = new Filter(Filter.LOW_PASS, d, this.mLPFcECG);
+                        } catch (Exception e2) {
+                            e2.printStackTrace();
+                        }
+                        try {
+                            this.mHPFilterECG = new Filter(Filter.HIGH_PASS, d, this.mHPFcECG);
+                        } catch (Exception e3) {
+                            e3.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Deprecated
+    public void writeAccelRange(String str, int i) {
+        this.btManager.writeAccelRange(str, i);
+    }
+
+    @Deprecated
+    public void writeGyroRange(String str, int i) {
+        this.btManager.writeGyroRange(str, i);
+    }
+
+    @Deprecated
+    public void writePressureResolution(String str, int i) {
+        this.btManager.writePressureResolution(str, i);
+    }
+
+    @Deprecated
+    public void writeMagRange(String str, int i) {
+        this.btManager.writeMagRange(str, i);
+    }
+
+    @Deprecated
+    public void writeGSRRange(String str, int i) {
+        this.btManager.writeGSRRange(str, i);
+    }
+
+    @Deprecated
+    public double getSamplingRate(String str) {
+        return this.btManager.getSamplingRate(str);
+    }
+
+    @Deprecated
+    public int getAccelRange(String str) {
+        return this.btManager.getAccelRange(str);
+    }
+
+    @Deprecated
+    public ShimmerBluetooth.BT_STATE getShimmerState(String str) {
+        ShimmerBluetooth.BT_STATE bt_state = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        return this.btManager.getShimmerState(str);
+    }
+
+    @Deprecated
+    public int getGSRRange(String str) {
+        return this.btManager.getGSRRange(str);
+    }
+
+    @Deprecated
+    public int get5VReg(String str) {
+        return this.btManager.get5VReg(str);
+    }
+
+    @Deprecated
+    public boolean isLowPowerMagEnabled(String str) {
+        return this.btManager.isLowPowerMagEnabled(str);
+    }
+
+    @Deprecated
+    public int getpmux(String str) {
+        return this.btManager.getpmux(str);
+    }
+
+    public void startStreaming(String str) throws Exception {
+        this.btManager.startStreaming(str);
+    }
+
+    @Deprecated
+    public void startLogging(String str) {
+        this.btManager.startLogging(str);
+    }
+
+    @Deprecated
+    public void stopLogging(String str) {
+        this.btManager.stopLogging(str);
+    }
+
+    @Deprecated
+    public void startLogAndStreaming(String str) {
+        this.btManager.startLoggingAndStreaming(str);
+    }
+
+    @Deprecated
+    public long sensorConflictCheckandCorrection(String str, long j, int i) {
+        return this.btManager.sensorConflictCheckandCorrection(str, j, i);
+    }
+
+    @Deprecated
+    public List<String> getListofEnabledSensors(String str) {
+        return this.btManager.getListofEnabledSensors(str);
+    }
+
+    @Deprecated
+    public boolean bluetoothAddressComparator(String str, String str2) {
+        return this.btManager.bluetoothAddressComparator(str, str2);
+    }
+
+    public void stopStreaming(String str) throws Exception {
+        this.btManager.stopStreaming(str);
+    }
+
+    @Deprecated
+    public void setBlinkLEDCMD(String str) {
+        this.btManager.setBlinkLEDCMD(str);
+    }
+
+    @Deprecated
+    public void enableLowPowerMag(String str, boolean z) {
+        this.btManager.enableLowPowerMag(str, z);
+    }
+
+    @Deprecated
+    public void setBattLimitWarning(String str, double d) {
+        this.btManager.setBattLimitWarning(str, d);
+    }
+
+    @Deprecated
+    public double getBattLimitWarning(String str) {
+        return this.btManager.getBattLimitWarning(str);
+    }
+
+    @Deprecated
+    public double getPacketReceptionRate(String str) {
+        return this.btManager.getPacketReceptionRate(str);
+    }
+
+    public void disconnectShimmer(String str) throws IOException {
+        Iterator<Object> it2 = this.mMultiShimmer.values().iterator();
+        while (it2.hasNext()) {
+            Shimmer shimmer = (Shimmer) it2.next();
+            if (shimmer.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.CONNECTED || shimmer.getBluetoothRadioState() == ShimmerBluetooth.BT_STATE.SDLOGGING) {
+                if (shimmer.getBluetoothAddress().equals(str)) {
+                    shimmer.stop();
+                }
+            }
+        }
+        this.mLogShimmer.remove(str);
+        this.mMultiShimmer.remove(str);
+    }
+
+    public void addHandlerToList(Handler handler) {
+        this.mHandlerList.add(handler);
+    }
+
+    @Deprecated
+    public boolean DevicesConnected(String str) {
+        return this.btManager.DevicesConnected(str);
+    }
+
+    @Deprecated
+    public boolean DeviceIsLogging(String str) {
+        return this.btManager.DeviceIsLogging(str);
+    }
+
+    @Deprecated
+    public boolean DeviceIsStreaming(String str) {
+        return this.btManager.DeviceIsStreaming(str);
+    }
+
+    public void closeAndRemoveFile(String str) throws IOException {
+        if (this.mLogShimmer.get(str) != null) {
+            this.mLogShimmer.get(str).closeFile();
+            try {
+                MediaScannerConnection.scanFile(this, new String[]{this.mLogShimmer.get(str).getAbsoluteName()}, null, null);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            this.mLogShimmer.remove(str);
+        }
+    }
+
+    @Deprecated
+    public String getFWVersion(String str) {
+        return this.btManager.getFWVersion(str);
+    }
+
+    @Deprecated
+    public int getShimmerVersion(String str) {
+        return this.btManager.getShimmerVersion(str);
+    }
+
+    public ShimmerDevice getShimmer(String str) {
+        return this.btManager.getShimmer(str);
+    }
+
+    public void test() {
+        Log.d("ShimmerTest", "Test");
+    }
+
+    public boolean isEXGUsingTestSignal24Configuration(String str) {
+        return ((Shimmer) this.mMultiShimmer.get(str)).isEXGUsingTestSignal24Configuration();
+    }
+
+    public boolean isEXGUsingTestSignal16Configuration(String str) {
+        return ((Shimmer) this.mMultiShimmer.get(str)).isEXGUsingTestSignal16Configuration();
+    }
+
+    public boolean isEXGUsingECG24Configuration(String str) {
+        return ((Shimmer) this.mMultiShimmer.get(str)).isEXGUsingECG24Configuration();
+    }
+
+    public boolean isEXGUsingECG16Configuration(String str) {
+        return ((Shimmer) this.mMultiShimmer.get(str)).isEXGUsingECG16Configuration();
+    }
+
+    public boolean isEXGUsingEMG24Configuration(String str) {
+        return ((Shimmer) this.mMultiShimmer.get(str)).isEXGUsingEMG24Configuration();
+    }
+
+    public boolean isEXGUsingEMG16Configuration(String str) {
+        return ((Shimmer) this.mMultiShimmer.get(str)).isEXGUsingEMG16Configuration();
+    }
+
+    @Deprecated
+    public void writeEXGSetting(String str, int i) {
+        this.btManager.writeEXGSetting(str, i);
+    }
+
+    private String fromMilisecToDate(long j) {
+        return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(j));
+    }
+
+    @Deprecated
+    public boolean isUsingLogAndStreamFW(String str) {
+        return this.btManager.isUsingLogAndStreamFW(str);
+    }
+
+    @Deprecated
+    public void readStatusLogAndStream(String str) throws IOException {
+        this.btManager.readStatusLogAndStream(str);
+    }
+
+    @Deprecated
+    public boolean isSensing(String str) {
+        return this.btManager.isSensing(str);
+    }
+
+    @Deprecated
+    public boolean isDocked(String str) {
+        return this.btManager.isDocked(str);
+    }
+
+    public List<ShimmerDevice> getListOfConnectedDevices() {
+        return this.btManager.getListOfConnectedDevices();
+    }
+
+    public void configureShimmer(ShimmerDevice shimmerDevice) {
+        this.btManager.configureShimmer(shimmerDevice);
+    }
+
+    public void configureShimmers(List<ShimmerDevice> list) {
+        this.btManager.configureShimmers(list);
+    }
+
+    public void createNewBluetoothManager() {
+        try {
+            this.btManager = new ShimmerBluetoothManagerAndroid(this, this.mHandler);
+        } catch (Exception e) {
+            Log.e(TAG, "ERROR! " + e);
+            Toast.makeText(this, "Error! Could not create Bluetooth Manager!", 1).show();
+        }
+    }
+
+    public enum FILE_TYPE {
+        DAT("dat", 0),
+        CSV("csv", 1);
+
+        private String fileName;
+        private int fileTypeOrder;
+
+        FILE_TYPE(String str, int i) {
+            this.fileName = str;
+            this.fileTypeOrder = i;
+        }
+
+        public int getFileTypeOrder() {
+            return this.fileTypeOrder;
+        }
+
+        public String getName() {
+            return this.fileName;
+        }
+    }
+
+    /* renamed from: com.shimmerresearch.android.shimmerService.ShimmerService$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE;
+
+        static {
+            int[] iArr = new int[ShimmerBluetooth.BT_STATE.values().length];
+            $SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE = iArr;
+            try {
+                iArr[ShimmerBluetooth.BT_STATE.CONNECTED.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE[ShimmerBluetooth.BT_STATE.CONNECTING.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE[ShimmerBluetooth.BT_STATE.STREAMING.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE[ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE[ShimmerBluetooth.BT_STATE.SDLOGGING.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$com$shimmerresearch$bluetooth$ShimmerBluetooth$BT_STATE[ShimmerBluetooth.BT_STATE.DISCONNECTED.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+        }
+    }
+
+    public class LocalBinder extends Binder {
+        public LocalBinder() {
+        }
+
+        public ShimmerService getService() {
+            return ShimmerService.this;
+        }
+    }
+}

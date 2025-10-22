@@ -1,0 +1,140 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Struct;
+import com.google.protobuf.StructOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HealthCheck;
+
+/* loaded from: classes6.dex */
+public interface HealthCheckOrBuilder extends MessageOrBuilder {
+    UInt32Value getAltPort();
+
+    UInt32ValueOrBuilder getAltPortOrBuilder();
+
+    boolean getAlwaysLogHealthCheckFailures();
+
+    HealthCheck.CustomHealthCheck getCustomHealthCheck();
+
+    HealthCheck.CustomHealthCheckOrBuilder getCustomHealthCheckOrBuilder();
+
+    String getEventLogPath();
+
+    ByteString getEventLogPathBytes();
+
+    EventServiceConfig getEventService();
+
+    EventServiceConfigOrBuilder getEventServiceOrBuilder();
+
+    HealthCheck.GrpcHealthCheck getGrpcHealthCheck();
+
+    HealthCheck.GrpcHealthCheckOrBuilder getGrpcHealthCheckOrBuilder();
+
+    HealthCheck.HealthCheckerCase getHealthCheckerCase();
+
+    Duration getHealthyEdgeInterval();
+
+    DurationOrBuilder getHealthyEdgeIntervalOrBuilder();
+
+    UInt32Value getHealthyThreshold();
+
+    UInt32ValueOrBuilder getHealthyThresholdOrBuilder();
+
+    HealthCheck.HttpHealthCheck getHttpHealthCheck();
+
+    HealthCheck.HttpHealthCheckOrBuilder getHttpHealthCheckOrBuilder();
+
+    Duration getInitialJitter();
+
+    DurationOrBuilder getInitialJitterOrBuilder();
+
+    Duration getInterval();
+
+    Duration getIntervalJitter();
+
+    DurationOrBuilder getIntervalJitterOrBuilder();
+
+    int getIntervalJitterPercent();
+
+    DurationOrBuilder getIntervalOrBuilder();
+
+    Duration getNoTrafficInterval();
+
+    DurationOrBuilder getNoTrafficIntervalOrBuilder();
+
+    BoolValue getReuseConnection();
+
+    BoolValueOrBuilder getReuseConnectionOrBuilder();
+
+    HealthCheck.TcpHealthCheck getTcpHealthCheck();
+
+    HealthCheck.TcpHealthCheckOrBuilder getTcpHealthCheckOrBuilder();
+
+    Duration getTimeout();
+
+    DurationOrBuilder getTimeoutOrBuilder();
+
+    HealthCheck.TlsOptions getTlsOptions();
+
+    HealthCheck.TlsOptionsOrBuilder getTlsOptionsOrBuilder();
+
+    Struct getTransportSocketMatchCriteria();
+
+    StructOrBuilder getTransportSocketMatchCriteriaOrBuilder();
+
+    Duration getUnhealthyEdgeInterval();
+
+    DurationOrBuilder getUnhealthyEdgeIntervalOrBuilder();
+
+    Duration getUnhealthyInterval();
+
+    DurationOrBuilder getUnhealthyIntervalOrBuilder();
+
+    UInt32Value getUnhealthyThreshold();
+
+    UInt32ValueOrBuilder getUnhealthyThresholdOrBuilder();
+
+    boolean hasAltPort();
+
+    boolean hasCustomHealthCheck();
+
+    boolean hasEventService();
+
+    boolean hasGrpcHealthCheck();
+
+    boolean hasHealthyEdgeInterval();
+
+    boolean hasHealthyThreshold();
+
+    boolean hasHttpHealthCheck();
+
+    boolean hasInitialJitter();
+
+    boolean hasInterval();
+
+    boolean hasIntervalJitter();
+
+    boolean hasNoTrafficInterval();
+
+    boolean hasReuseConnection();
+
+    boolean hasTcpHealthCheck();
+
+    boolean hasTimeout();
+
+    boolean hasTlsOptions();
+
+    boolean hasTransportSocketMatchCriteria();
+
+    boolean hasUnhealthyEdgeInterval();
+
+    boolean hasUnhealthyInterval();
+
+    boolean hasUnhealthyThreshold();
+}

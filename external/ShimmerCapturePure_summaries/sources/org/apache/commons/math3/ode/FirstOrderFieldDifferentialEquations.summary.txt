@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ode/FirstOrderFieldDifferentialEquations.java
+// Size: 328 bytes
+// Modified: 2025-10-21 16:32:01.780297700 +0100
+
+package org.apache.commons.math3.ode;
+
+import org.apache.commons.math3.RealFieldElement;
+
+/* loaded from: classes5.dex */
+public interface FirstOrderFieldDifferentialEquations<T extends RealFieldElement<T>> {
+    T[] computeDerivatives(T t, T[] tArr);
+
+    int getDimension();
+
+    void init(T t, T[] tArr, T t2);
+}

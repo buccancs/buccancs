@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/widget/EmptyWidget.java
+// Size: 511 bytes
+// Modified: 2025-10-21 16:32:05.050705700 +0100
+
+package com.androidplot.ui.widget;
+
+import android.graphics.Canvas;
+import android.graphics.RectF;
+import com.androidplot.exception.PlotRenderException;
+import com.androidplot.ui.SizeMetrics;
+
+/* loaded from: classes.dex */
+public class EmptyWidget extends Widget {
+    @Override // com.androidplot.ui.widget.Widget
+    protected void doOnDraw(Canvas canvas, RectF rectF) throws PlotRenderException {
+    }
+
+    public EmptyWidget(SizeMetrics sizeMetrics) {
+        super(sizeMetrics);
+    }
+}

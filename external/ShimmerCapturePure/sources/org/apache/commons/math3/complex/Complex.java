@@ -1,0 +1,414 @@
+package org.apache.commons.math3.complex;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math3.util.Precision;
+
+/* loaded from: classes5.dex */
+public class Complex implements FieldElement<Complex>, Serializable {
+    public static final Complex I = new Complex(0.0d, 1.0d);
+    public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
+    public static final Complex INF = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Complex ONE = new Complex(1.0d, 0.0d);
+    public static final Complex ZERO = new Complex(0.0d, 0.0d);
+    private static final long serialVersionUID = -6195664516687396620L;
+    private final double imaginary;
+    private final transient boolean isInfinite;
+    private final transient boolean isNaN;
+    private final double real;
+
+    public Complex(double d) {
+        this(d, 0.0d);
+    }
+
+    public Complex(double d, double d2) {
+        this.real = d;
+        this.imaginary = d2;
+        boolean z = false;
+        boolean z2 = Double.isNaN(d) || Double.isNaN(d2);
+        this.isNaN = z2;
+        if (!z2 && (Double.isInfinite(d) || Double.isInfinite(d2))) {
+            z = true;
+        }
+        this.isInfinite = z;
+    }
+
+    public static boolean equals(Complex complex, Complex complex2, int i) {
+        return Precision.equals(complex.real, complex2.real, i) && Precision.equals(complex.imaginary, complex2.imaginary, i);
+    }
+
+    public static boolean equals(Complex complex, Complex complex2) {
+        return equals(complex, complex2, 1);
+    }
+
+    public static boolean equals(Complex complex, Complex complex2, double d) {
+        return Precision.equals(complex.real, complex2.real, d) && Precision.equals(complex.imaginary, complex2.imaginary, d);
+    }
+
+    public static boolean equalsWithRelativeTolerance(Complex complex, Complex complex2, double d) {
+        return Precision.equalsWithRelativeTolerance(complex.real, complex2.real, d) && Precision.equalsWithRelativeTolerance(complex.imaginary, complex2.imaginary, d);
+    }
+
+    public static Complex valueOf(double d, double d2) {
+        return (Double.isNaN(d) || Double.isNaN(d2)) ? NaN : new Complex(d, d2);
+    }
+
+    public static Complex valueOf(double d) {
+        return Double.isNaN(d) ? NaN : new Complex(d);
+    }
+
+    public double getImaginary() {
+        return this.imaginary;
+    }
+
+    public double getReal() {
+        return this.real;
+    }
+
+    public boolean isInfinite() {
+        return this.isInfinite;
+    }
+
+    public boolean isNaN() {
+        return this.isNaN;
+    }
+
+    public double abs() {
+        if (this.isNaN) {
+            return Double.NaN;
+        }
+        if (isInfinite()) {
+            return Double.POSITIVE_INFINITY;
+        }
+        if (FastMath.abs(this.real) < FastMath.abs(this.imaginary)) {
+            double d = this.imaginary;
+            if (d == 0.0d) {
+                return FastMath.abs(this.real);
+            }
+            double d2 = this.real / d;
+            return FastMath.abs(d) * FastMath.sqrt((d2 * d2) + 1.0d);
+        }
+        double d3 = this.real;
+        if (d3 == 0.0d) {
+            return FastMath.abs(this.imaginary);
+        }
+        double d4 = this.imaginary / d3;
+        return FastMath.abs(d3) * FastMath.sqrt((d4 * d4) + 1.0d);
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Complex add(Complex complex) throws NullArgumentException {
+        MathUtils.checkNotNull(complex);
+        return (this.isNaN || complex.isNaN) ? NaN : createComplex(this.real + complex.getReal(), this.imaginary + complex.getImaginary());
+    }
+
+    public Complex add(double d) {
+        return (this.isNaN || Double.isNaN(d)) ? NaN : createComplex(this.real + d, this.imaginary);
+    }
+
+    public Complex conjugate() {
+        return this.isNaN ? NaN : createComplex(this.real, -this.imaginary);
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Complex divide(Complex complex) throws NullArgumentException {
+        MathUtils.checkNotNull(complex);
+        if (this.isNaN || complex.isNaN) {
+            return NaN;
+        }
+        double real = complex.getReal();
+        double imaginary = complex.getImaginary();
+        if (real == 0.0d && imaginary == 0.0d) {
+            return NaN;
+        }
+        if (complex.isInfinite() && !isInfinite()) {
+            return ZERO;
+        }
+        if (FastMath.abs(real) < FastMath.abs(imaginary)) {
+            double d = real / imaginary;
+            double d2 = (real * d) + imaginary;
+            double d3 = this.real;
+            double d4 = this.imaginary;
+            return createComplex(((d3 * d) + d4) / d2, ((d4 * d) - d3) / d2);
+        }
+        double d5 = imaginary / real;
+        double d6 = (imaginary * d5) + real;
+        double d7 = this.imaginary;
+        double d8 = this.real;
+        return createComplex(((d7 * d5) + d8) / d6, (d7 - (d8 * d5)) / d6);
+    }
+
+    public Complex divide(double d) {
+        if (this.isNaN || Double.isNaN(d)) {
+            return NaN;
+        }
+        if (d == 0.0d) {
+            return NaN;
+        }
+        if (Double.isInfinite(d)) {
+            return !isInfinite() ? ZERO : NaN;
+        }
+        return createComplex(this.real / d, this.imaginary / d);
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Complex reciprocal() {
+        if (this.isNaN) {
+            return NaN;
+        }
+        double d = this.real;
+        if (d == 0.0d && this.imaginary == 0.0d) {
+            return INF;
+        }
+        if (this.isInfinite) {
+            return ZERO;
+        }
+        if (FastMath.abs(d) < FastMath.abs(this.imaginary)) {
+            double d2 = this.real;
+            double d3 = this.imaginary;
+            double d4 = d2 / d3;
+            double d5 = 1.0d / ((d2 * d4) + d3);
+            return createComplex(d4 * d5, -d5);
+        }
+        double d6 = this.imaginary;
+        double d7 = this.real;
+        double d8 = d6 / d7;
+        double d9 = 1.0d / ((d6 * d8) + d7);
+        return createComplex(d9, (-d9) * d8);
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Complex)) {
+            return false;
+        }
+        Complex complex = (Complex) obj;
+        return complex.isNaN ? this.isNaN : MathUtils.equals(this.real, complex.real) && MathUtils.equals(this.imaginary, complex.imaginary);
+    }
+
+    public int hashCode() {
+        if (this.isNaN) {
+            return 7;
+        }
+        return ((MathUtils.hash(this.imaginary) * 17) + MathUtils.hash(this.real)) * 37;
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Complex multiply(Complex complex) throws NullArgumentException {
+        MathUtils.checkNotNull(complex);
+        if (this.isNaN || complex.isNaN) {
+            return NaN;
+        }
+        if (Double.isInfinite(this.real) || Double.isInfinite(this.imaginary) || Double.isInfinite(complex.real) || Double.isInfinite(complex.imaginary)) {
+            return INF;
+        }
+        double d = this.real;
+        double d2 = complex.real;
+        double d3 = this.imaginary;
+        double d4 = complex.imaginary;
+        return createComplex((d * d2) - (d3 * d4), (d * d4) + (d3 * d2));
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Complex multiply(int i) {
+        if (this.isNaN) {
+            return NaN;
+        }
+        if (Double.isInfinite(this.real) || Double.isInfinite(this.imaginary)) {
+            return INF;
+        }
+        double d = i;
+        return createComplex(this.real * d, this.imaginary * d);
+    }
+
+    public Complex multiply(double d) {
+        return (this.isNaN || Double.isNaN(d)) ? NaN : (Double.isInfinite(this.real) || Double.isInfinite(this.imaginary) || Double.isInfinite(d)) ? INF : createComplex(this.real * d, this.imaginary * d);
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Complex negate() {
+        return this.isNaN ? NaN : createComplex(-this.real, -this.imaginary);
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Complex subtract(Complex complex) throws NullArgumentException {
+        MathUtils.checkNotNull(complex);
+        return (this.isNaN || complex.isNaN) ? NaN : createComplex(this.real - complex.getReal(), this.imaginary - complex.getImaginary());
+    }
+
+    public Complex subtract(double d) {
+        return (this.isNaN || Double.isNaN(d)) ? NaN : createComplex(this.real - d, this.imaginary);
+    }
+
+    public Complex acos() {
+        if (this.isNaN) {
+            return NaN;
+        }
+        Complex complexSqrt1z = sqrt1z();
+        Complex complex = I;
+        return add(complexSqrt1z.multiply(complex)).log().multiply(complex.negate());
+    }
+
+    public Complex asin() {
+        if (this.isNaN) {
+            return NaN;
+        }
+        Complex complexSqrt1z = sqrt1z();
+        Complex complex = I;
+        return complexSqrt1z.add(multiply(complex)).log().multiply(complex.negate());
+    }
+
+    public Complex atan() {
+        if (this.isNaN) {
+            return NaN;
+        }
+        Complex complex = I;
+        return add(complex).divide(complex.subtract(this)).log().multiply(complex.divide(createComplex(2.0d, 0.0d)));
+    }
+
+    public Complex cos() {
+        return this.isNaN ? NaN : createComplex(FastMath.cos(this.real) * FastMath.cosh(this.imaginary), (-FastMath.sin(this.real)) * FastMath.sinh(this.imaginary));
+    }
+
+    public Complex cosh() {
+        return this.isNaN ? NaN : createComplex(FastMath.cosh(this.real) * FastMath.cos(this.imaginary), FastMath.sinh(this.real) * FastMath.sin(this.imaginary));
+    }
+
+    public Complex exp() {
+        if (this.isNaN) {
+            return NaN;
+        }
+        double dExp = FastMath.exp(this.real);
+        return createComplex(FastMath.cos(this.imaginary) * dExp, dExp * FastMath.sin(this.imaginary));
+    }
+
+    public Complex log() {
+        return this.isNaN ? NaN : createComplex(FastMath.log(abs()), FastMath.atan2(this.imaginary, this.real));
+    }
+
+    public Complex pow(Complex complex) throws NullArgumentException {
+        MathUtils.checkNotNull(complex);
+        return log().multiply(complex).exp();
+    }
+
+    public Complex pow(double d) {
+        return log().multiply(d).exp();
+    }
+
+    public Complex sin() {
+        return this.isNaN ? NaN : createComplex(FastMath.sin(this.real) * FastMath.cosh(this.imaginary), FastMath.cos(this.real) * FastMath.sinh(this.imaginary));
+    }
+
+    public Complex sinh() {
+        return this.isNaN ? NaN : createComplex(FastMath.sinh(this.real) * FastMath.cos(this.imaginary), FastMath.cosh(this.real) * FastMath.sin(this.imaginary));
+    }
+
+    public Complex sqrt() {
+        if (this.isNaN) {
+            return NaN;
+        }
+        double d = this.real;
+        if (d == 0.0d && this.imaginary == 0.0d) {
+            return createComplex(0.0d, 0.0d);
+        }
+        double dSqrt = FastMath.sqrt((FastMath.abs(d) + abs()) / 2.0d);
+        if (this.real >= 0.0d) {
+            return createComplex(dSqrt, this.imaginary / (2.0d * dSqrt));
+        }
+        return createComplex(FastMath.abs(this.imaginary) / (2.0d * dSqrt), FastMath.copySign(1.0d, this.imaginary) * dSqrt);
+    }
+
+    public Complex sqrt1z() {
+        return createComplex(1.0d, 0.0d).subtract(multiply(this)).sqrt();
+    }
+
+    public Complex tan() {
+        if (this.isNaN || Double.isInfinite(this.real)) {
+            return NaN;
+        }
+        double d = this.imaginary;
+        if (d > 20.0d) {
+            return createComplex(0.0d, 1.0d);
+        }
+        if (d < -20.0d) {
+            return createComplex(0.0d, -1.0d);
+        }
+        double d2 = this.real * 2.0d;
+        double d3 = d * 2.0d;
+        double dCos = FastMath.cos(d2) + FastMath.cosh(d3);
+        return createComplex(FastMath.sin(d2) / dCos, FastMath.sinh(d3) / dCos);
+    }
+
+    public Complex tanh() {
+        if (this.isNaN || Double.isInfinite(this.imaginary)) {
+            return NaN;
+        }
+        double d = this.real;
+        if (d > 20.0d) {
+            return createComplex(1.0d, 0.0d);
+        }
+        if (d < -20.0d) {
+            return createComplex(-1.0d, 0.0d);
+        }
+        double d2 = d * 2.0d;
+        double d3 = this.imaginary * 2.0d;
+        double dCosh = FastMath.cosh(d2) + FastMath.cos(d3);
+        return createComplex(FastMath.sinh(d2) / dCosh, FastMath.sin(d3) / dCosh);
+    }
+
+    public double getArgument() {
+        return FastMath.atan2(getImaginary(), getReal());
+    }
+
+    public List<Complex> nthRoot(int i) throws NotPositiveException {
+        if (i <= 0) {
+            throw new NotPositiveException(LocalizedFormats.CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N, Integer.valueOf(i));
+        }
+        ArrayList arrayList = new ArrayList();
+        if (this.isNaN) {
+            arrayList.add(NaN);
+            return arrayList;
+        }
+        if (isInfinite()) {
+            arrayList.add(INF);
+            return arrayList;
+        }
+        double d = i;
+        double dPow = FastMath.pow(abs(), 1.0d / d);
+        double argument = getArgument() / d;
+        double d2 = 6.283185307179586d / d;
+        for (int i2 = 0; i2 < i; i2++) {
+            arrayList.add(createComplex(FastMath.cos(argument) * dPow, FastMath.sin(argument) * dPow));
+            argument += d2;
+        }
+        return arrayList;
+    }
+
+    protected Complex createComplex(double d, double d2) {
+        return new Complex(d, d2);
+    }
+
+    protected final Object readResolve() {
+        return createComplex(this.real, this.imaginary);
+    }
+
+    @Override // org.apache.commons.math3.FieldElement
+    public Field<Complex> getField() {
+        return ComplexField.getInstance();
+    }
+
+    public String toString() {
+        return "(" + this.real + ", " + this.imaginary + ")";
+    }
+}

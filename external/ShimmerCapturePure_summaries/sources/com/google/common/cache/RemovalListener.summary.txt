@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/cache/RemovalListener.java
+// Size: 181 bytes
+// Modified: 2025-10-21 16:32:03.109581300 +0100
+
+package com.google.common.cache;
+
+/* loaded from: classes.dex */
+public interface RemovalListener<K, V> {
+    void onRemoval(RemovalNotification<K, V> removalNotification);
+}

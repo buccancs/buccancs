@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/data/BleConnectStateParameter.java
+// Size: 535 bytes
+// Modified: 2025-10-21 16:32:00.074266700 +0100
+
+package com.clj.fastble.data;
+
+/* loaded from: classes.dex */
+public class BleConnectStateParameter {
+    private boolean isActive;
+    private int status;
+
+    public int getStatus() {
+        return this.status;
+    }
+
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    public void setActive(boolean z) {
+        this.isActive = z;
+    }
+
+    public void setStatus(int i) {
+        this.status = i;
+    }
+
+    public BleConnectStateParameter(int i) {
+        this.status = i;
+    }
+}

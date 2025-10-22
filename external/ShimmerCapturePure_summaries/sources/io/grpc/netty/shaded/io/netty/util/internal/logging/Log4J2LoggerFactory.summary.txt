@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/logging/Log4J2LoggerFactory.java
+// Size: 581 bytes
+// Modified: 2025-10-21 16:32:05.227730400 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.logging;
+
+import org.apache.logging.log4j.LogManager;
+
+/* loaded from: classes3.dex */
+public final class Log4J2LoggerFactory extends InternalLoggerFactory {
+    public static final InternalLoggerFactory INSTANCE = new Log4J2LoggerFactory();
+
+    @Deprecated
+    public Log4J2LoggerFactory() {
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory
+    public InternalLogger newInstance(String str) {
+        return new Log4J2Logger(LogManager.getLogger(str));
+    }
+}

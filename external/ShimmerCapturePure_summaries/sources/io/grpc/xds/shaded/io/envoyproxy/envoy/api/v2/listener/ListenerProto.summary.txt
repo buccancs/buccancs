@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/listener/ListenerProto.java
+// Size: 1391 bytes
+// Modified: 2025-10-21 16:32:04.623822700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import udpa.annotations.Status;
+
+/* loaded from: classes5.dex */
+public final class ListenerProto {
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n$envoy/api/v2/listener/listener.proto\u0012\u0015envoy.api.v2.listener\u001a\u001dudpa/annotations/status.proto\u001a/envoy/api/v2/listener/listener_components.protoBj\n#io.envoyproxy.envoy.api.v2.listenerB\rListenerProtoP\u0001ª\u0002\u0017Envoy.Api.V2.ListenerNSê\u0002\u0017Envoy.Api.V2.ListenerNSP\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{Status.getDescriptor(), ListenerComponentsProto.getDescriptor()});
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private ListenerProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Status.getDescriptor();
+        ListenerComponentsProto.getDescriptor();
+    }
+}

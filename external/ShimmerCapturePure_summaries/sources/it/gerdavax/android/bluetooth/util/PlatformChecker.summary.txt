@@ -1,0 +1,43 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/it/gerdavax/android/bluetooth/util/PlatformChecker.java
+// Size: 1559 bytes
+// Modified: 2025-10-21 16:32:00.370011900 +0100
+
+package it.gerdavax.android.bluetooth.util;
+
+import android.os.Build;
+
+/* loaded from: classes4.dex */
+public class PlatformChecker {
+    private static final int ANDROID_1_0 = 1;
+    private static final int ANDROID_1_1 = 2;
+    private static final int ANDROID_1_5 = 3;
+    private static final int ANDROID_1_6 = 4;
+    private static final String TAG = "BluetoothAPI";
+
+    private PlatformChecker() {
+    }
+
+    public static boolean isThisPlatformSupported() throws NumberFormatException {
+        printPlatformDescription();
+        int i = Integer.parseInt(Build.VERSION.SDK);
+        return i != 1 && (i == 2 || i == 3);
+    }
+
+    public static void printPlatformDescription() {
+        System.out.println("Android Bluetooth API - Platform checker");
+        System.out.println("SDK: " + Build.VERSION.SDK);
+        System.out.println("Board: " + Build.BOARD);
+        System.out.println("Brand: " + Build.BRAND);
+        System.out.println("Device: " + Build.DEVICE);
+        System.out.println("Display: " + Build.DISPLAY);
+        System.out.println("Fingerprint: " + Build.FINGERPRINT);
+        System.out.println("Host: " + Build.HOST);
+        System.out.println("ID: " + Build.ID);
+        System.out.println("Model: " + Build.MODEL);
+        System.out.println("Product: " + Build.PRODUCT);
+        System.out.println("Tags: " + Build.TAGS);
+        System.out.println("Time: " + Build.TIME);
+        System.out.println("Type: " + Build.TYPE);
+        System.out.println("User: " + Build.USER);
+    }
+}

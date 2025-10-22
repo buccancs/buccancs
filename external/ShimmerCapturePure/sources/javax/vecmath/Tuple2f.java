@@ -1,0 +1,269 @@
+package javax.vecmath;
+
+import java.io.Serializable;
+
+/* loaded from: classes4.dex */
+public abstract class Tuple2f implements Serializable, Cloneable {
+    static final long serialVersionUID = 9011180388985266884L;
+    public float x;
+    public float y;
+
+    public Tuple2f(float f, float f2) {
+        this.x = f;
+        this.y = f2;
+    }
+
+    public Tuple2f(float[] fArr) {
+        this.x = fArr[0];
+        this.y = fArr[1];
+    }
+
+    public Tuple2f(Tuple2f tuple2f) {
+        this.x = tuple2f.x;
+        this.y = tuple2f.y;
+    }
+
+    public Tuple2f(Tuple2d tuple2d) {
+        this.x = (float) tuple2d.x;
+        this.y = (float) tuple2d.y;
+    }
+
+    public Tuple2f() {
+        this.x = 0.0f;
+        this.y = 0.0f;
+    }
+
+    public final void clamp(float f, float f2) {
+        float f3 = this.x;
+        if (f3 > f2) {
+            this.x = f2;
+        } else if (f3 < f) {
+            this.x = f;
+        }
+        float f4 = this.y;
+        if (f4 > f2) {
+            this.y = f2;
+        } else if (f4 < f) {
+            this.y = f;
+        }
+    }
+
+    public final void clampMax(float f) {
+        if (this.x > f) {
+            this.x = f;
+        }
+        if (this.y > f) {
+            this.y = f;
+        }
+    }
+
+    public final void clampMin(float f) {
+        if (this.x < f) {
+            this.x = f;
+        }
+        if (this.y < f) {
+            this.y = f;
+        }
+    }
+
+    public final void negate() {
+        this.x = -this.x;
+        this.y = -this.y;
+    }
+
+    public final void scale(float f) {
+        this.x *= f;
+        this.y *= f;
+    }
+
+    public final void set(float f, float f2) {
+        this.x = f;
+        this.y = f2;
+    }
+
+    public final void set(float[] fArr) {
+        this.x = fArr[0];
+        this.y = fArr[1];
+    }
+
+    public final void set(Tuple2f tuple2f) {
+        this.x = tuple2f.x;
+        this.y = tuple2f.y;
+    }
+
+    public final void set(Tuple2d tuple2d) {
+        this.x = (float) tuple2d.x;
+        this.y = (float) tuple2d.y;
+    }
+
+    public final void get(float[] fArr) {
+        fArr[0] = this.x;
+        fArr[1] = this.y;
+    }
+
+    public final void add(Tuple2f tuple2f, Tuple2f tuple2f2) {
+        this.x = tuple2f.x + tuple2f2.x;
+        this.y = tuple2f.y + tuple2f2.y;
+    }
+
+    public final void add(Tuple2f tuple2f) {
+        this.x += tuple2f.x;
+        this.y += tuple2f.y;
+    }
+
+    public final void sub(Tuple2f tuple2f, Tuple2f tuple2f2) {
+        this.x = tuple2f.x - tuple2f2.x;
+        this.y = tuple2f.y - tuple2f2.y;
+    }
+
+    public final void sub(Tuple2f tuple2f) {
+        this.x -= tuple2f.x;
+        this.y -= tuple2f.y;
+    }
+
+    public final void negate(Tuple2f tuple2f) {
+        this.x = -tuple2f.x;
+        this.y = -tuple2f.y;
+    }
+
+    public final void scale(float f, Tuple2f tuple2f) {
+        this.x = tuple2f.x * f;
+        this.y = f * tuple2f.y;
+    }
+
+    public final void scaleAdd(float f, Tuple2f tuple2f, Tuple2f tuple2f2) {
+        this.x = (tuple2f.x * f) + tuple2f2.x;
+        this.y = (f * tuple2f.y) + tuple2f2.y;
+    }
+
+    public final void scaleAdd(float f, Tuple2f tuple2f) {
+        this.x = (this.x * f) + tuple2f.x;
+        this.y = (f * this.y) + tuple2f.y;
+    }
+
+    public int hashCode() {
+        long jFloatToIntBits = ((Float.floatToIntBits(this.x) + 31) * 31) + Float.floatToIntBits(this.y);
+        return (int) (jFloatToIntBits ^ (jFloatToIntBits >> 32));
+    }
+
+    public boolean equals(Tuple2f tuple2f) {
+        try {
+            if (this.x == tuple2f.x) {
+                return this.y == tuple2f.y;
+            }
+            return false;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean equals(Object obj) {
+        try {
+            Tuple2f tuple2f = (Tuple2f) obj;
+            if (this.x == tuple2f.x) {
+                return this.y == tuple2f.y;
+            }
+            return false;
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean epsilonEquals(Tuple2f tuple2f, float f) {
+        float f2 = this.x - tuple2f.x;
+        if (f2 < 0.0f) {
+            f2 = -f2;
+        }
+        if (f2 > f) {
+            return false;
+        }
+        float f3 = this.y - tuple2f.y;
+        if (f3 < 0.0f) {
+            f3 = -f3;
+        }
+        return f3 <= f;
+    }
+
+    public String toString() {
+        return new StringBuffer("(").append(this.x).append(", ").append(this.y).append(")").toString();
+    }
+
+    public final void clamp(float f, float f2, Tuple2f tuple2f) {
+        float f3 = tuple2f.x;
+        if (f3 > f2) {
+            this.x = f2;
+        } else if (f3 < f) {
+            this.x = f;
+        } else {
+            this.x = f3;
+        }
+        float f4 = tuple2f.y;
+        if (f4 > f2) {
+            this.y = f2;
+        } else if (f4 < f) {
+            this.y = f;
+        } else {
+            this.y = f4;
+        }
+    }
+
+    public final void clampMin(float f, Tuple2f tuple2f) {
+        float f2 = tuple2f.x;
+        if (f2 < f) {
+            this.x = f;
+        } else {
+            this.x = f2;
+        }
+        float f3 = tuple2f.y;
+        if (f3 < f) {
+            this.y = f;
+        } else {
+            this.y = f3;
+        }
+    }
+
+    public final void clampMax(float f, Tuple2f tuple2f) {
+        float f2 = tuple2f.x;
+        if (f2 > f) {
+            this.x = f;
+        } else {
+            this.x = f2;
+        }
+        float f3 = tuple2f.y;
+        if (f3 > f) {
+            this.y = f;
+        } else {
+            this.y = f3;
+        }
+    }
+
+    public final void absolute(Tuple2f tuple2f) {
+        this.x = Math.abs(tuple2f.x);
+        this.y = Math.abs(tuple2f.y);
+    }
+
+    public final void absolute() {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+    }
+
+    public final void interpolate(Tuple2f tuple2f, Tuple2f tuple2f2, float f) {
+        float f2 = 1.0f - f;
+        this.x = (tuple2f.x * f2) + (tuple2f2.x * f);
+        this.y = (f2 * tuple2f.y) + (f * tuple2f2.y);
+    }
+
+    public final void interpolate(Tuple2f tuple2f, float f) {
+        float f2 = 1.0f - f;
+        this.x = (this.x * f2) + (tuple2f.x * f);
+        this.y = (f2 * this.y) + (f * tuple2f.y);
+    }
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException unused) {
+            throw new InternalError();
+        }
+    }
+}

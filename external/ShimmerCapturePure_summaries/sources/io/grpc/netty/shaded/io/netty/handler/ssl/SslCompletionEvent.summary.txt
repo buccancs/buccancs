@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ssl/SslCompletionEvent.java
+// Size: 832 bytes
+// Modified: 2025-10-21 16:32:00.863738900 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class SslCompletionEvent {
+    private final Throwable cause;
+
+    public final Throwable cause() {
+        return this.cause;
+    }
+
+    public final boolean isSuccess() {
+        return this.cause == null;
+    }
+
+    SslCompletionEvent() {
+        this.cause = null;
+    }
+
+    SslCompletionEvent(Throwable th) {
+        this.cause = (Throwable) ObjectUtil.checkNotNull(th, "cause");
+    }
+
+    public String toString() {
+        Throwable thCause = cause();
+        if (thCause == null) {
+            return getClass().getSimpleName() + "(SUCCESS)";
+        }
+        return getClass().getSimpleName() + '(' + thCause + ')';
+    }
+}

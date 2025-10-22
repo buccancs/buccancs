@@ -1,0 +1,267 @@
+package com.shimmerresearch.verisense.payloaddesign;
+
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.sensors.AbstractSensor;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class DataBlockDetails implements Serializable {
+    private static final long serialVersionUID = -3695586952435188960L;
+    public int dataBlockStartByteIndexInFile;
+    public int dataBlockStartByteIndexInPayload;
+    public int dataPacketSize;
+    public DATABLOCK_SENSOR_ID datablockSensorId;
+    public List<AbstractSensor.SENSORS> listOfSensorClassKeys;
+    public int qtySensorDataBytesInDatablock;
+    public DATA_BLOCK_SPLIT_PART splitDataBlockPart;
+    private int dataBlockIndexInPayload;
+    private boolean firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap;
+    private boolean firstUnsplitDataBlockAfterMiddayMidnightTransition;
+    private ObjectCluster[] ojcArray;
+    private int payloadIndex;
+    private int sampleCount;
+    private double samplingRate;
+    private VerisenseTimeDetails timeDetailsRwc;
+    private VerisenseTimeDetails timeDetailsUcClock;
+    private double timestampDiffInS;
+
+    public DataBlockDetails(DATABLOCK_SENSOR_ID datablock_sensor_id, int i, int i2, List<AbstractSensor.SENSORS> list, int i3, int i4) {
+        this.timeDetailsRwc = new VerisenseTimeDetails();
+        this.timeDetailsUcClock = new VerisenseTimeDetails();
+        this.dataBlockIndexInPayload = Integer.MIN_VALUE;
+        this.payloadIndex = Integer.MIN_VALUE;
+        this.ojcArray = null;
+        this.splitDataBlockPart = DATA_BLOCK_SPLIT_PART.NOT_SPLIT;
+        this.firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = false;
+        this.firstUnsplitDataBlockAfterMiddayMidnightTransition = false;
+        this.datablockSensorId = datablock_sensor_id;
+        this.listOfSensorClassKeys = list;
+        setDataBlockIndexInPayload(i2);
+        this.payloadIndex = i;
+        this.dataBlockStartByteIndexInFile = i3;
+        this.dataBlockStartByteIndexInPayload = i4;
+    }
+
+    public DataBlockDetails(DATABLOCK_SENSOR_ID datablock_sensor_id, int i, int i2, List<AbstractSensor.SENSORS> list, int i3, int i4, long j, boolean z) {
+        this(datablock_sensor_id, i, i2, list, i3, i4);
+        (z ? getTimeDetailsUcClock() : getTimeDetailsRwc()).setEndTimeTicks(j);
+    }
+
+    public static DataBlockDetails recombineDataBlockDetailsForContinuityCheck(DataBlockDetails dataBlockDetails, DataBlockDetails dataBlockDetails2) {
+        DataBlockDetails dataBlockDetails3 = new DataBlockDetails(dataBlockDetails.datablockSensorId, dataBlockDetails.getPayloadIndex(), dataBlockDetails.getDataBlockIndexInPayload(), dataBlockDetails.getListOfSensorClassKeys(), dataBlockDetails.dataBlockStartByteIndexInFile, dataBlockDetails.dataBlockIndexInPayload);
+        dataBlockDetails3.setMetadata(dataBlockDetails.qtySensorDataBytesInDatablock + dataBlockDetails2.qtySensorDataBytesInDatablock, dataBlockDetails.dataPacketSize, dataBlockDetails.samplingRate);
+        VerisenseTimeDetails timeDetailsRwc = dataBlockDetails3.getTimeDetailsRwc();
+        timeDetailsRwc.setStartTimeMs(dataBlockDetails.getTimeDetailsRwc().getStartTimeMs());
+        timeDetailsRwc.setEndTimeMs(dataBlockDetails2.getTimeDetailsRwc().getEndTimeMs());
+        return dataBlockDetails3;
+    }
+
+    public void calculateTimestampDiffInS() {
+        this.timestampDiffInS = 1.0d / this.samplingRate;
+    }
+
+    public int getDataBlockIndexInPayload() {
+        return this.dataBlockIndexInPayload;
+    }
+
+    public void setDataBlockIndexInPayload(int i) {
+        this.dataBlockIndexInPayload = i;
+    }
+
+    public List<AbstractSensor.SENSORS> getListOfSensorClassKeys() {
+        return this.listOfSensorClassKeys;
+    }
+
+    public ObjectCluster[] getOjcArray() {
+        return this.ojcArray;
+    }
+
+    public int getPayloadIndex() {
+        return this.payloadIndex;
+    }
+
+    public int getSampleCount() {
+        return this.sampleCount;
+    }
+
+    public void setSampleCount(int i) {
+        this.sampleCount = i;
+        calculateTimestampDiffInS();
+        setupOjcArray(i);
+    }
+
+    public double getSamplingRate() {
+        return this.samplingRate;
+    }
+
+    public void setSamplingRate(double d) {
+        this.samplingRate = d;
+    }
+
+    public VerisenseTimeDetails getTimeDetailsRwc() {
+        return this.timeDetailsRwc;
+    }
+
+    public VerisenseTimeDetails getTimeDetailsUcClock() {
+        return this.timeDetailsUcClock;
+    }
+
+    public double getTimestampDiffInS() {
+        return this.timestampDiffInS;
+    }
+
+    public boolean isFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap() {
+        return this.firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap;
+    }
+
+    public boolean isFirstUnsplitDataBlockAfterMiddayMidnightTransition() {
+        return this.firstUnsplitDataBlockAfterMiddayMidnightTransition;
+    }
+
+    public void setFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap() {
+        this.firstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap = true;
+    }
+
+    public void setFirstUnsplitDataBlockAfterMiddayMidnightTransition() {
+        this.firstUnsplitDataBlockAfterMiddayMidnightTransition = true;
+    }
+
+    public void setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART data_block_split_part) {
+        this.splitDataBlockPart = data_block_split_part;
+    }
+
+    public void setMetadata(int i, int i2, double d) {
+        this.qtySensorDataBytesInDatablock = i;
+        this.dataPacketSize = i2;
+        setSamplingRate(d);
+        calculateSampleCount();
+    }
+
+    public void setRwcEndTimeMinutesAndCalculateTimings(long j) {
+        setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(j, false);
+    }
+
+    public void setUcClockEndTimeMinutesAndCalculateTimings(long j) {
+        setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(j, true);
+    }
+
+    public void setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(long j, boolean z) {
+        VerisenseTimeDetails timeDetailsUcClock = z ? getTimeDetailsUcClock() : getTimeDetailsRwc();
+        timeDetailsUcClock.setEndTimeMinutes(j);
+        timeDetailsUcClock.calculateEndTimeMs();
+        timeDetailsUcClock.calculateAndSetStartTimeMs(getSampleCount(), getTimestampDiffInS());
+    }
+
+    public void calculateSampleCount() {
+        setSampleCount(this.qtySensorDataBytesInDatablock / this.dataPacketSize);
+    }
+
+    public void setSampleCountAndUpdateDataBlockSize(int i) {
+        setSampleCount(this.ojcArray.length);
+        this.qtySensorDataBytesInDatablock = this.dataPacketSize * i;
+    }
+
+    public double getEndTimeRwcMs() {
+        return this.timeDetailsRwc.getEndTimeMs();
+    }
+
+    public double getStartTimeRwcMs() {
+        return this.timeDetailsRwc.getStartTimeMs();
+    }
+
+    public String generateDebugStr() {
+        return this.listOfSensorClassKeys + " -> PayloadIndex=" + getPayloadIndex() + ", DataBlockIndexInPayload=" + getDataBlockIndexInPayload() + ", Time [Start=" + this.timeDetailsRwc.getStartTimeStr() + ", End=" + this.timeDetailsRwc.getEndTimeStr() + "], Samples=" + getSampleCount() + " @ " + this.samplingRate + "Hz]";
+    }
+
+    public void setUcClockOrRwcEndTimeMinutesFromSubsequentDataBlock(DataBlockDetails dataBlockDetails, boolean z) {
+        VerisenseTimeDetails timeDetailsUcClock = z ? dataBlockDetails.getTimeDetailsUcClock() : dataBlockDetails.getTimeDetailsRwc();
+        VerisenseTimeDetails timeDetailsUcClock2 = z ? getTimeDetailsUcClock() : getTimeDetailsRwc();
+        long endTimeMinutes = timeDetailsUcClock.getEndTimeMinutes();
+        if (timeDetailsUcClock2.getEndTimeTicks() > timeDetailsUcClock.getEndTimeTicks()) {
+            endTimeMinutes--;
+        }
+        setUcClockOrRwcClockEndTimeMinutesAndCalculateTimings(endTimeMinutes, z);
+    }
+
+    public void setupOjcArray(int i) {
+        this.ojcArray = new ObjectCluster[i];
+    }
+
+    public void setOjcArrayAtIndex(int i, ObjectCluster objectCluster) {
+        this.ojcArray[i] = objectCluster;
+    }
+
+    public DataBlockDetails deepClone() throws IOException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            new ObjectOutputStream(byteArrayOutputStream).writeObject(this);
+            return (DataBlockDetails) new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray())).readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+
+    public void splitAndEndBeforeSampleIndex(int i, double d, double d2) {
+        ObjectCluster[] objectClusterArr = new ObjectCluster[i];
+        System.arraycopy(this.ojcArray, 0, objectClusterArr, 0, i);
+        this.ojcArray = objectClusterArr;
+        getTimeDetailsRwc().setEndTimeMs(d);
+        if (!Double.isNaN(d2)) {
+            getTimeDetailsUcClock().setEndTimeMs(d2);
+        }
+        setSampleCountAndUpdateDataBlockSize(this.ojcArray.length);
+        setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART.FIRST_PART_OF_SPLIT_DATA_BLOCK);
+    }
+
+    public void splitAndStartAtSampleIndex(int i, double d, double d2) {
+        ObjectCluster[] objectClusterArr = this.ojcArray;
+        int length = objectClusterArr.length - i;
+        ObjectCluster[] objectClusterArr2 = new ObjectCluster[length];
+        System.arraycopy(objectClusterArr, i, objectClusterArr2, 0, length);
+        this.ojcArray = objectClusterArr2;
+        getTimeDetailsRwc().setStartTimeMs(d);
+        if (!Double.isNaN(d2)) {
+            getTimeDetailsUcClock().setStartTimeMs(d2);
+        }
+        setSampleCountAndUpdateDataBlockSize(this.ojcArray.length);
+        setSplitDataBlockPart(DATA_BLOCK_SPLIT_PART.SECOND_PART_OF_SPLIT_DATA_BLOCK);
+    }
+
+    public boolean isFirstPartOfSplitDataBlock() {
+        return this.splitDataBlockPart == DATA_BLOCK_SPLIT_PART.FIRST_PART_OF_SPLIT_DATA_BLOCK;
+    }
+
+    public boolean isSecondPartOfSplitDataBlock() {
+        return this.splitDataBlockPart == DATA_BLOCK_SPLIT_PART.SECOND_PART_OF_SPLIT_DATA_BLOCK;
+    }
+
+    public boolean isResultOfSplitAtMiddayOrMidnight() {
+        return isSecondPartOfSplitDataBlock() || isFirstUnsplitDataBlockAfterMiddayMidnightTransition();
+    }
+
+    public enum DATABLOCK_SENSOR_ID {
+        NONE,
+        ADC,
+        ACCEL_1,
+        GYRO_ACCEL2,
+        PPG,
+        BIOZ
+    }
+
+    public enum DATA_BLOCK_SPLIT_PART {
+        NOT_SPLIT,
+        FIRST_PART_OF_SPLIT_DATA_BLOCK,
+        SECOND_PART_OF_SPLIT_DATA_BLOCK
+    }
+}

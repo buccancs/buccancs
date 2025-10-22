@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyVersion.java
+// Size: 455 bytes
+// Modified: 2025-10-21 16:32:00.296703400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+/* loaded from: classes3.dex */
+public enum SpdyVersion {
+    SPDY_3_1(3, 1);
+
+    private final int minorVersion;
+    private final int version;
+
+    int getMinorVersion() {
+        return this.minorVersion;
+    }
+
+    int getVersion() {
+        return this.version;
+    }
+
+    SpdyVersion(int i, int i2) {
+        this.version = i;
+        this.minorVersion = i2;
+    }
+}

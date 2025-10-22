@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/operator/bc/SEEDUtil.java
+// Size: 389 bytes
+// Modified: 2025-10-21 16:32:06.809718600 +0100
+
+package org.bouncycastle.operator.bc;
+
+import org.bouncycastle.asn1.kisa.KISAObjectIdentifiers;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
+
+/* loaded from: classes5.dex */
+class SEEDUtil {
+    SEEDUtil() {
+    }
+
+    static AlgorithmIdentifier determineKeyEncAlg() {
+        return new AlgorithmIdentifier(KISAObjectIdentifiers.id_npki_app_cmsSeed_wrap);
+    }
+}

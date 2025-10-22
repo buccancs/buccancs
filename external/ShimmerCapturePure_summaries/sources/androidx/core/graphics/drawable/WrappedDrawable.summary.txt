@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/graphics/drawable/WrappedDrawable.java
+// Size: 248 bytes
+// Modified: 2025-10-21 16:32:00.179001500 +0100
+
+package androidx.core.graphics.drawable;
+
+import android.graphics.drawable.Drawable;
+
+/* loaded from: classes.dex */
+public interface WrappedDrawable {
+    Drawable getWrappedDrawable();
+
+    void setWrappedDrawable(Drawable drawable);
+}

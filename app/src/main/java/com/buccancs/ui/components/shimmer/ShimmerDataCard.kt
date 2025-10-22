@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import com.buccancs.ui.components.SectionCard
 import com.buccancs.ui.theme.Spacing
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun ShimmerDataCard(

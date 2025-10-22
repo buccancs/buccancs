@@ -1,0 +1,45 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/random/UnitSphereRandomVectorGenerator.java
+// Size: 1415 bytes
+// Modified: 2025-10-21 16:32:03.820109700 +0100
+
+package org.apache.commons.math.random;
+
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/UnitSphereRandomVectorGenerator.class */
+public class UnitSphereRandomVectorGenerator implements RandomVectorGenerator {
+    private final RandomGenerator rand;
+    private final int dimension;
+
+    public UnitSphereRandomVectorGenerator(int dimension, RandomGenerator rand) {
+        this.dimension = dimension;
+        this.rand = rand;
+    }
+
+    public UnitSphereRandomVectorGenerator(int dimension) {
+        this(dimension, new MersenneTwister());
+    }
+
+    @Override // org.apache.commons.math.random.RandomVectorGenerator
+    public double[] nextVector() {
+        double normSq;
+        double[] v = new double[this.dimension];
+        do {
+            normSq = 0.0d;
+            for (int i = 0; i < this.dimension; i++) {
+                double comp = (2.0d * this.rand.nextDouble()) - 1.0d;
+                v[i] = comp;
+                normSq += comp * comp;
+            }
+        } while (normSq > 1.0d);
+        double f = 1.0d / FastMath.sqrt(normSq);
+        for (int i2 = 0; i2 < this.dimension; i2++) {
+            int i3 = i2;
+            v[i3] = v[i3] * f;
+        }
+        return v;
+    }
+}

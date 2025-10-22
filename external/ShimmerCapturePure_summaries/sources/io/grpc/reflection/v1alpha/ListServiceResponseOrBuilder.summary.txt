@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/reflection/v1alpha/ListServiceResponseOrBuilder.java
+// Size: 473 bytes
+// Modified: 2025-10-21 16:32:03.170259600 +0100
+
+package io.grpc.reflection.v1alpha;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface ListServiceResponseOrBuilder extends MessageOrBuilder {
+    ServiceResponse getService(int i);
+
+    int getServiceCount();
+
+    List<ServiceResponse> getServiceList();
+
+    ServiceResponseOrBuilder getServiceOrBuilder(int i);
+
+    List<? extends ServiceResponseOrBuilder> getServiceOrBuilderList();
+}

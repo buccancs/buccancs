@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalInstrumented.java
+// Size: 225 bytes
+// Modified: 2025-10-21 16:32:03.125617000 +0100
+
+package io.grpc;
+
+import com.google.common.util.concurrent.ListenableFuture;
+
+/* loaded from: classes2.dex */
+public interface InternalInstrumented<T> extends InternalWithLogId {
+    ListenableFuture<T> getStats();
+}

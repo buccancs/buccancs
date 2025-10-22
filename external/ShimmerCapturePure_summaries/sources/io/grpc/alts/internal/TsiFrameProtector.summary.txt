@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/alts/internal/TsiFrameProtector.java
+// Size: 661 bytes
+// Modified: 2025-10-21 16:32:04.508632500 +0100
+
+package io.grpc.alts.internal;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import java.security.GeneralSecurityException;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface TsiFrameProtector {
+
+    public interface Consumer<T> {
+        void accept(T t);
+    }
+
+    void destroy();
+
+    void protectFlush(List<ByteBuf> list, Consumer<ByteBuf> consumer, ByteBufAllocator byteBufAllocator) throws GeneralSecurityException;
+
+    void unprotect(ByteBuf byteBuf, List<Object> list, ByteBufAllocator byteBufAllocator) throws GeneralSecurityException;
+}

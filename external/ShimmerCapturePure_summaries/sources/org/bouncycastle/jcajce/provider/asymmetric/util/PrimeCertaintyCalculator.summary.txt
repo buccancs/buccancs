@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jcajce/provider/asymmetric/util/PrimeCertaintyCalculator.java
+// Size: 355 bytes
+// Modified: 2025-10-21 16:32:00.613832600 +0100
+
+package org.bouncycastle.jcajce.provider.asymmetric.util;
+
+/* loaded from: classes5.dex */
+public class PrimeCertaintyCalculator {
+    private PrimeCertaintyCalculator() {
+    }
+
+    public static int getDefaultCertainty(int i) {
+        if (i <= 1024) {
+            return 80;
+        }
+        return (((i - 1) / 1024) * 16) + 96;
+    }
+}

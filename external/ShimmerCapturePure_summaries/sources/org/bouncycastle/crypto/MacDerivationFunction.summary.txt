@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/MacDerivationFunction.java
+// Size: 160 bytes
+// Modified: 2025-10-21 16:32:03.298037900 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface MacDerivationFunction extends DerivationFunction {
+    Mac getMac();
+}

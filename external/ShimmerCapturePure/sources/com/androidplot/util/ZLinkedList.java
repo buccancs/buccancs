@@ -1,0 +1,52 @@
+package com.androidplot.util;
+
+import java.util.LinkedList;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public class ZLinkedList<Type> extends LinkedList<Type> implements ZIndexable<Type> {
+    private ListOrganizer<Type> a = new ListOrganizer<>(this);
+
+    @Override // com.androidplot.util.ZIndexable
+    public boolean moveToTop(Type type) {
+        return this.a.moveToTop(type);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public boolean moveAbove(Type type, Type type2) {
+        return this.a.moveAbove(type, type2);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public boolean moveBeneath(Type type, Type type2) {
+        return this.a.moveBeneath(type, type2);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public boolean moveToBottom(Type type) {
+        return this.a.moveToBottom(type);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public boolean moveUp(Type type) {
+        return this.a.moveUp(type);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public boolean moveDown(Type type) {
+        return this.a.moveDown(type);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public List<Type> elements() {
+        return this.a.elements();
+    }
+
+    public void addToBottom(Type type) {
+        this.a.addToBottom(type);
+    }
+
+    public void addToTop(Type type) {
+        this.a.addToTop(type);
+    }
+}

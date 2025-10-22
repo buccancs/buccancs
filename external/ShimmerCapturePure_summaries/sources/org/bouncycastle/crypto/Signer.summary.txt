@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/Signer.java
+// Size: 382 bytes
+// Modified: 2025-10-21 16:32:00.989598800 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface Signer {
+    byte[] generateSignature() throws DataLengthException, CryptoException;
+
+    void init(boolean z, CipherParameters cipherParameters);
+
+    void reset();
+
+    void update(byte b);
+
+    void update(byte[] bArr, int i, int i2);
+
+    boolean verifySignature(byte[] bArr);
+}

@@ -1,0 +1,76 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/analysis/integration/RombergIntegrator.java
+// Size: 3268 bytes
+// Modified: 2025-10-21 16:32:09.159823100 +0100
+
+package org.apache.commons.math.analysis.integration;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/integration/RombergIntegrator.class */
+public class RombergIntegrator extends UnivariateRealIntegratorImpl {
+    @Deprecated
+    public RombergIntegrator(UnivariateRealFunction f) {
+        super(f, 32);
+    }
+
+    public RombergIntegrator() {
+        super(32);
+    }
+
+    @Override // org.apache.commons.math.analysis.integration.UnivariateRealIntegrator
+    @Deprecated
+    public double integrate(double min, double max) throws FunctionEvaluationException, MaxIterationsExceededException, IllegalArgumentException {
+        return integrate(this.f, min, max);
+    }
+
+    @Override // org.apache.commons.math.analysis.integration.UnivariateRealIntegrator
+    public double integrate(UnivariateRealFunction f, double min, double max) throws FunctionEvaluationException, MaxIterationsExceededException, IllegalArgumentException {
+        int m = this.maximalIterationCount + 1;
+        double[] previousRow = new double[m];
+        double[] currentRow = new double[m];
+        clearResult();
+        verifyInterval(min, max);
+        verifyIterationCount();
+        TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
+        currentRow[0] = qtrap.stage(f, min, max, 0);
+        double olds = currentRow[0];
+        for (int i = 1; i <= this.maximalIterationCount; i++) {
+            double[] tmpRow = previousRow;
+            previousRow = currentRow;
+            currentRow = tmpRow;
+            currentRow[0] = qtrap.stage(f, min, max, i);
+            for (int j = 1; j <= i; j++) {
+                double r = (1 << (2 * j)) - 1;
+                double tIJm1 = currentRow[j - 1];
+                currentRow[j] = tIJm1 + ((tIJm1 - previousRow[j - 1]) / r);
+            }
+            double s = currentRow[i];
+            if (i >= this.minimalIterationCount) {
+                double delta = FastMath.abs(s - olds);
+                double rLimit = this.relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5d;
+                if (delta <= rLimit || delta <= this.absoluteAccuracy) {
+                    setResult(s, i);
+                    return this.result;
+                }
+            }
+            olds = s;
+        }
+        throw new MaxIterationsExceededException(this.maximalIterationCount);
+    }
+
+    @Override // org.apache.commons.math.analysis.integration.UnivariateRealIntegratorImpl
+    protected void verifyIterationCount() throws IllegalArgumentException {
+        super.verifyIterationCount();
+        if (this.maximalIterationCount > 32) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INVALID_ITERATIONS_LIMITS, 0, 32);
+        }
+    }
+}

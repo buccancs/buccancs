@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/motion/widget/MotionInterpolator.java
+// Size: 353 bytes
+// Modified: 2025-10-21 16:31:59.928478700 +0100
+
+package androidx.constraintlayout.motion.widget;
+
+import android.view.animation.Interpolator;
+
+/* loaded from: classes.dex */
+public abstract class MotionInterpolator implements Interpolator {
+    @Override // android.animation.TimeInterpolator
+    public abstract float getInterpolation(float f);
+
+    public abstract float getVelocity();
+}

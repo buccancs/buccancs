@@ -1,0 +1,702 @@
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.channelz.v1.Server;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public final class GetServersResponse extends GeneratedMessageV3 implements GetServersResponseOrBuilder {
+    public static final int END_FIELD_NUMBER = 2;
+    public static final int SERVER_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final GetServersResponse DEFAULT_INSTANCE = new GetServersResponse();
+    private static final Parser<GetServersResponse> PARSER = new AbstractParser<GetServersResponse>() { // from class: io.grpc.channelz.v1.GetServersResponse.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public GetServersResponse m8092parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new GetServersResponse(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private boolean end_;
+    private byte memoizedIsInitialized;
+    private List<Server> server_;
+
+    private GetServersResponse(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private GetServersResponse() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.server_ = Collections.emptyList();
+    }
+
+    private GetServersResponse(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            if (!(z2 & true)) {
+                                this.server_ = new ArrayList();
+                                z2 |= true;
+                            }
+                            this.server_.add(codedInputStream.readMessage(Server.parser(), extensionRegistryLite));
+                        } else if (tag == 16) {
+                            this.end_ = codedInputStream.readBool();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.server_ = Collections.unmodifiableList(this.server_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static GetServersResponse getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<GetServersResponse> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_GetServersResponse_descriptor;
+    }
+
+    public static GetServersResponse parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (GetServersResponse) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static GetServersResponse parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GetServersResponse) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static GetServersResponse parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (GetServersResponse) PARSER.parseFrom(byteString);
+    }
+
+    public static GetServersResponse parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GetServersResponse) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static GetServersResponse parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (GetServersResponse) PARSER.parseFrom(bArr);
+    }
+
+    public static GetServersResponse parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GetServersResponse) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static GetServersResponse parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static GetServersResponse parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static GetServersResponse parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static GetServersResponse parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static GetServersResponse parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static GetServersResponse parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m8090toBuilder();
+    }
+
+    public static Builder newBuilder(GetServersResponse getServersResponse) {
+        return DEFAULT_INSTANCE.m8090toBuilder().mergeFrom(getServersResponse);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public GetServersResponse m8085getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+    public boolean getEnd() {
+        return this.end_;
+    }
+
+    public Parser<GetServersResponse> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+    public List<Server> getServerList() {
+        return this.server_;
+    }
+
+    @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+    public List<? extends ServerOrBuilder> getServerOrBuilderList() {
+        return this.server_;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new GetServersResponse();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_GetServersResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(GetServersResponse.class, Builder.class);
+    }
+
+    @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+    public int getServerCount() {
+        return this.server_.size();
+    }
+
+    @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+    public Server getServer(int i) {
+        return this.server_.get(i);
+    }
+
+    @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+    public ServerOrBuilder getServerOrBuilder(int i) {
+        return this.server_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        for (int i = 0; i < this.server_.size(); i++) {
+            codedOutputStream.writeMessage(1, this.server_.get(i));
+        }
+        boolean z = this.end_;
+        if (z) {
+            codedOutputStream.writeBool(2, z);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeBoolSize = 0;
+        for (int i2 = 0; i2 < this.server_.size(); i2++) {
+            iComputeBoolSize += CodedOutputStream.computeMessageSize(1, this.server_.get(i2));
+        }
+        boolean z = this.end_;
+        if (z) {
+            iComputeBoolSize += CodedOutputStream.computeBoolSize(2, z);
+        }
+        int serializedSize = iComputeBoolSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof GetServersResponse)) {
+            return super.equals(obj);
+        }
+        GetServersResponse getServersResponse = (GetServersResponse) obj;
+        return getServerList().equals(getServersResponse.getServerList()) && getEnd() == getServersResponse.getEnd() && this.unknownFields.equals(getServersResponse.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getServerCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getServerList().hashCode();
+        }
+        int iHashBoolean = (((((iHashCode * 37) + 2) * 53) + Internal.hashBoolean(getEnd())) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashBoolean;
+        return iHashBoolean;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m8087newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m8090toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements GetServersResponseOrBuilder {
+        private int bitField0_;
+        private boolean end_;
+        private RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> serverBuilder_;
+        private List<Server> server_;
+
+        private Builder() {
+            this.server_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.server_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_GetServersResponse_descriptor;
+        }
+
+        @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+        public boolean getEnd() {
+            return this.end_;
+        }
+
+        public Builder setEnd(boolean z) {
+            this.end_ = z;
+            onChanged();
+            return this;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_GetServersResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(GetServersResponse.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (GetServersResponse.alwaysUseFieldBuilders) {
+                getServerFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8101clear() {
+            super.clear();
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.server_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            this.end_ = false;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_GetServersResponse_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GetServersResponse m8114getDefaultInstanceForType() {
+            return GetServersResponse.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GetServersResponse m8095build() throws UninitializedMessageException {
+            GetServersResponse getServersResponseM8097buildPartial = m8097buildPartial();
+            if (getServersResponseM8097buildPartial.isInitialized()) {
+                return getServersResponseM8097buildPartial;
+            }
+            throw newUninitializedMessageException(getServersResponseM8097buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GetServersResponse m8097buildPartial() {
+            GetServersResponse getServersResponse = new GetServersResponse(this);
+            int i = this.bitField0_;
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((i & 1) != 0) {
+                    this.server_ = Collections.unmodifiableList(this.server_);
+                    this.bitField0_ &= -2;
+                }
+                getServersResponse.server_ = this.server_;
+            } else {
+                getServersResponse.server_ = repeatedFieldBuilderV3.build();
+            }
+            getServersResponse.end_ = this.end_;
+            onBuilt();
+            return getServersResponse;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8113clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8125setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8103clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8106clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8127setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8093addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8118mergeFrom(Message message) {
+            if (message instanceof GetServersResponse) {
+                return mergeFrom((GetServersResponse) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(GetServersResponse getServersResponse) {
+            if (getServersResponse == GetServersResponse.getDefaultInstance()) {
+                return this;
+            }
+            if (this.serverBuilder_ == null) {
+                if (!getServersResponse.server_.isEmpty()) {
+                    if (this.server_.isEmpty()) {
+                        this.server_ = getServersResponse.server_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureServerIsMutable();
+                        this.server_.addAll(getServersResponse.server_);
+                    }
+                    onChanged();
+                }
+            } else if (!getServersResponse.server_.isEmpty()) {
+                if (!this.serverBuilder_.isEmpty()) {
+                    this.serverBuilder_.addAllMessages(getServersResponse.server_);
+                } else {
+                    this.serverBuilder_.dispose();
+                    this.serverBuilder_ = null;
+                    this.server_ = getServersResponse.server_;
+                    this.bitField0_ &= -2;
+                    this.serverBuilder_ = GetServersResponse.alwaysUseFieldBuilders ? getServerFieldBuilder() : null;
+                }
+            }
+            if (getServersResponse.getEnd()) {
+                setEnd(getServersResponse.getEnd());
+            }
+            m8123mergeUnknownFields(getServersResponse.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.channelz.v1.GetServersResponse.Builder m8119mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.channelz.v1.GetServersResponse.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.channelz.v1.GetServersResponse r3 = (io.grpc.channelz.v1.GetServersResponse) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.channelz.v1.GetServersResponse r4 = (io.grpc.channelz.v1.GetServersResponse) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.GetServersResponse.Builder.m8119mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.GetServersResponse$Builder");
+        }
+
+        private void ensureServerIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.server_ = new ArrayList(this.server_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+        public List<Server> getServerList() {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.server_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+        public int getServerCount() {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.server_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+        public Server getServer(int i) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.server_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setServer(int i, Server server) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                server.getClass();
+                ensureServerIsMutable();
+                this.server_.set(i, server);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, server);
+            }
+            return this;
+        }
+
+        public Builder setServer(int i, Server.Builder builder) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureServerIsMutable();
+                this.server_.set(i, builder.m8555build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m8555build());
+            }
+            return this;
+        }
+
+        public Builder addServer(Server server) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                server.getClass();
+                ensureServerIsMutable();
+                this.server_.add(server);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(server);
+            }
+            return this;
+        }
+
+        public Builder addServer(int i, Server server) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                server.getClass();
+                ensureServerIsMutable();
+                this.server_.add(i, server);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, server);
+            }
+            return this;
+        }
+
+        public Builder addServer(Server.Builder builder) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureServerIsMutable();
+                this.server_.add(builder.m8555build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m8555build());
+            }
+            return this;
+        }
+
+        public Builder addServer(int i, Server.Builder builder) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureServerIsMutable();
+                this.server_.add(i, builder.m8555build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m8555build());
+            }
+            return this;
+        }
+
+        public Builder addAllServer(Iterable<? extends Server> iterable) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureServerIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.server_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearServer() {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.server_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeServer(int i) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureServerIsMutable();
+                this.server_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public Server.Builder getServerBuilder(int i) {
+            return getServerFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+        public ServerOrBuilder getServerOrBuilder(int i) {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.server_.get(i);
+            }
+            return (ServerOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.GetServersResponseOrBuilder
+        public List<? extends ServerOrBuilder> getServerOrBuilderList() {
+            RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> repeatedFieldBuilderV3 = this.serverBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.server_);
+        }
+
+        public Server.Builder addServerBuilder() {
+            return getServerFieldBuilder().addBuilder(Server.getDefaultInstance());
+        }
+
+        public Server.Builder addServerBuilder(int i) {
+            return getServerFieldBuilder().addBuilder(i, Server.getDefaultInstance());
+        }
+
+        public List<Server.Builder> getServerBuilderList() {
+            return getServerFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<Server, Server.Builder, ServerOrBuilder> getServerFieldBuilder() {
+            if (this.serverBuilder_ == null) {
+                this.serverBuilder_ = new RepeatedFieldBuilderV3<>(this.server_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.server_ = null;
+            }
+            return this.serverBuilder_;
+        }
+
+        public Builder clearEnd() {
+            this.end_ = false;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m8129setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m8123mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

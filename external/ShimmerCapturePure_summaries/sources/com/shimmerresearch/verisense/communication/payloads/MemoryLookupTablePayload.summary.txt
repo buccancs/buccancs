@@ -1,0 +1,148 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/communication/payloads/MemoryLookupTablePayload.java
+// Size: 5520 bytes
+// Modified: 2025-10-21 16:32:04.584196100 +0100
+
+package com.shimmerresearch.verisense.communication.payloads;
+
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class MemoryLookupTablePayload extends AbstractPayload {
+    private long head;
+    private boolean headTailReceived;
+    List<MemoryBankDetails> listOfMemoryBankDetails = new ArrayList();
+    private long tail;
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public byte[] generatePayloadContents() {
+        return null;
+    }
+
+    public enum BANK_STATUS {
+        ZERO(""),
+        FULL("Full"),
+        TO_DEL("2Del"),
+        EMPTY("Emty"),
+        BAD("Bad"),
+        NUSE("NUse");
+
+        private String description;
+
+        BANK_STATUS(String str) {
+            this.description = str;
+        }
+
+        public static BANK_STATUS getBankStatus(int i) {
+            for (BANK_STATUS bank_status : values()) {
+                if (bank_status.ordinal() == i) {
+                    return bank_status;
+                }
+            }
+            return null;
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public boolean parsePayloadContents(byte[] bArr) {
+        this.payloadContents = bArr;
+        int i = 0;
+        this.isSuccess = false;
+        this.listOfMemoryBankDetails.clear();
+        if (bArr.length == 50692) {
+            this.tail = parseByteArrayAtIndex(bArr, 0, ChannelDetails.CHANNEL_DATA_TYPE.UINT16);
+            this.head = parseByteArrayAtIndex(bArr, 2, ChannelDetails.CHANNEL_DATA_TYPE.UINT16);
+            this.headTailReceived = true;
+            i = 4;
+        } else {
+            this.headTailReceived = false;
+        }
+        while (i < bArr.length) {
+            byte b = bArr[i];
+            int i2 = i + 1;
+            if (i2 == bArr.length) {
+                System.out.println("This can't be parsed " + i2 + StringUtils.SPACE + bArr.length);
+            } else {
+                this.listOfMemoryBankDetails.add(new MemoryBankDetails(b, parseByteArrayAtIndex(bArr, i2, ChannelDetails.CHANNEL_DATA_TYPE.UINT16)));
+            }
+            i += 3;
+        }
+        this.isSuccess = true;
+        return this.isSuccess;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public String generateDebugString() {
+        StringBuilder sb = new StringBuilder("Long-term flash:\n");
+        int i = 0;
+        for (int i2 = 0; i2 < this.listOfMemoryBankDetails.size(); i2 += 8) {
+            if (i2 == 16384) {
+                sb.append("\nShort-term flash 1:\n");
+            } else if (i2 == 16640) {
+                sb.append("\nShort-term flash 2:\n");
+            }
+            MemoryBankDetails memoryBankDetails = this.listOfMemoryBankDetails.get(i2);
+            sb.append(i + "->");
+            for (int i3 = 0; i3 < 8; i3++) {
+                sb.append("[");
+                sb.append(i2);
+                sb.append(", ");
+                BANK_STATUS bankStatus = BANK_STATUS.getBankStatus(memoryBankDetails.getBankStatus());
+                sb.append(bankStatus == null ? Byte.valueOf(memoryBankDetails.getBankStatus()) : bankStatus.description);
+                sb.append(", ");
+                sb.append(memoryBankDetails.payloadIndex);
+                sb.append("]");
+            }
+            sb.append(StringUtils.LF);
+            i++;
+        }
+        sb.append(StringUtils.LF);
+        sb.append(generateSummaryTableString());
+        return sb.toString();
+    }
+
+    public String generateSummaryTableString() {
+        HashMap map = new HashMap();
+        int i = 0;
+        for (MemoryBankDetails memoryBankDetails : this.listOfMemoryBankDetails) {
+            map.put(Byte.valueOf(memoryBankDetails.getBankStatus()), Integer.valueOf(((Integer) map.getOrDefault(Byte.valueOf(memoryBankDetails.getBankStatus()), 0)).intValue() + 1));
+            if (memoryBankDetails.isWaitingToBeWrittenToFlash()) {
+                i++;
+            }
+        }
+        StringBuilder sb = new StringBuilder("Summary table:\n");
+        for (Map.Entry entry : map.entrySet()) {
+            BANK_STATUS bankStatus = BANK_STATUS.getBankStatus(((Byte) entry.getKey()).byteValue());
+            sb.append(bankStatus == null ? entry.getKey() : bankStatus.description);
+            sb.append(",\tCount=" + entry.getValue() + StringUtils.LF);
+        }
+        sb.append("Qty banks waiting to be written from RAM to EEPROM (i.e., '*') = " + i + StringUtils.LF);
+        if (this.headTailReceived) {
+            sb.append("Current Tail Location = Bank Idx " + this.tail + StringUtils.LF);
+            sb.append("Current Head Location = Bank Idx " + this.head + StringUtils.LF);
+        }
+        return sb.toString();
+    }
+
+    public class MemoryBankDetails {
+        private long payloadIndex;
+        private byte statusByte;
+
+        public byte getBankStatus() {
+            return (byte) (this.statusByte & 127);
+        }
+
+        public boolean isWaitingToBeWrittenToFlash() {
+            return (this.statusByte & 128) == 128;
+        }
+
+        public MemoryBankDetails(byte b, long j) {
+            this.statusByte = b;
+            this.payloadIndex = j;
+        }
+    }
+}

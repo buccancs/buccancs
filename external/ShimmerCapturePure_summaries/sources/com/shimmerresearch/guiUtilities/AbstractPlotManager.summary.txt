@@ -1,0 +1,243 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/guiUtilities/AbstractPlotManager.java
+// Size: 9935 bytes
+// Modified: 2025-10-21 16:32:03.952000300 +0100
+
+package com.shimmerresearch.guiUtilities;
+
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractPlotManager {
+    public static List<int[]> mListofTraceColorsDefault = Collections.synchronizedList(new ArrayList());
+    public PLOT_LINE_STYLE mDefaultLineStyle;
+    public List<int[]> mListOfTraceColorsCurrentlyUsed;
+    public List<String[]> mListofPropertiestoPlot;
+    protected HashMap<String, String[]> mMapofXAxis;
+    protected HashMap<String, Double> mMapofXAxisGeneratedValue;
+
+    public List<String[]> getListOfProperties() {
+        return this.mListofPropertiestoPlot;
+    }
+
+    public List<int[]> getListofColors() {
+        return this.mListOfTraceColorsCurrentlyUsed;
+    }
+
+    public PLOT_LINE_STYLE getPlotLineStyle() {
+        return this.mDefaultLineStyle;
+    }
+
+    public void setPlotLineStyle(PLOT_LINE_STYLE plot_line_style) {
+        this.mDefaultLineStyle = plot_line_style;
+    }
+
+    public abstract void setTraceLineStyleAll(PLOT_LINE_STYLE plot_line_style);
+
+    public enum PLOT_LINE_STYLE {
+        CONTINUOUS("Joint Line"),
+        INDIVIDUAL_POINTS("Points"),
+        DOTTED("Dotted"),
+        DASHED("Dashed"),
+        BAR("Bar"),
+        FILL("Fill");
+
+        private String mGuiOptionString;
+
+        public String getGuiOptionString() {
+            return this.mGuiOptionString;
+        }
+
+        PLOT_LINE_STYLE(String str) {
+            this.mGuiOptionString = str;
+        }
+    }
+
+    public AbstractPlotManager() {
+        this.mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList());
+        this.mMapofXAxis = new HashMap<>();
+        this.mMapofXAxisGeneratedValue = new HashMap<>();
+        this.mListOfTraceColorsCurrentlyUsed = Collections.synchronizedList(new ArrayList());
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerOrange);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourBrown);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourCyanAqua);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourPurple);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourMaroon);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourGreen);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerGrey);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerBlue);
+        this.mDefaultLineStyle = PLOT_LINE_STYLE.CONTINUOUS;
+    }
+
+    public AbstractPlotManager(List<String[]> list) {
+        this.mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList());
+        this.mMapofXAxis = new HashMap<>();
+        this.mMapofXAxisGeneratedValue = new HashMap<>();
+        this.mListOfTraceColorsCurrentlyUsed = Collections.synchronizedList(new ArrayList());
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerOrange);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourBrown);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourCyanAqua);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourPurple);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourMaroon);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourGreen);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerGrey);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerBlue);
+        this.mDefaultLineStyle = PLOT_LINE_STYLE.CONTINUOUS;
+        this.mListofPropertiestoPlot = list;
+        this.mListOfTraceColorsCurrentlyUsed = generateRandomColorList(list.size());
+    }
+
+    public AbstractPlotManager(List<String[]> list, List<int[]> list2) {
+        this.mListofPropertiestoPlot = Collections.synchronizedList(new ArrayList());
+        this.mMapofXAxis = new HashMap<>();
+        this.mMapofXAxisGeneratedValue = new HashMap<>();
+        this.mListOfTraceColorsCurrentlyUsed = Collections.synchronizedList(new ArrayList());
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerOrange);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourBrown);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourCyanAqua);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourPurple);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourMaroon);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourGreen);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerGrey);
+        mListofTraceColorsDefault.add(UtilShimmer.SHIMMER_DEFAULT_COLOURS.colourShimmerBlue);
+        this.mDefaultLineStyle = PLOT_LINE_STYLE.CONTINUOUS;
+        this.mListofPropertiestoPlot = list;
+        this.mListOfTraceColorsCurrentlyUsed = list2;
+    }
+
+    protected void removeSignal(int i) {
+        this.mListofPropertiestoPlot.remove(i);
+        if (this.mListOfTraceColorsCurrentlyUsed.size() > i) {
+            this.mListOfTraceColorsCurrentlyUsed.remove(i);
+        }
+    }
+
+    protected void removeAllSignals() {
+        this.mListofPropertiestoPlot.clear();
+        this.mListOfTraceColorsCurrentlyUsed.clear();
+    }
+
+    protected void removeCollectionOfSignal(List<String[]> list, List<int[]> list2) {
+        this.mListofPropertiestoPlot.removeAll(list);
+        this.mListOfTraceColorsCurrentlyUsed.removeAll(list2);
+    }
+
+    protected void addSignalGenerateRandomColor(String[] strArr) {
+        addSignalAndUseFixedColor(strArr, generateRandomColor());
+    }
+
+    protected void addSignalAndUseFixedColor(String[] strArr, int[] iArr) {
+        addSignal(strArr);
+        this.mListOfTraceColorsCurrentlyUsed.add(iArr);
+    }
+
+    protected void addSignalUseDefaultColors(String[] strArr) {
+        int[] iArr;
+        boolean z;
+        addSignal(strArr);
+        if (this.mListOfTraceColorsCurrentlyUsed.size() > 0) {
+            synchronized (mListofTraceColorsDefault) {
+                iArr = null;
+                for (int[] iArr2 : mListofTraceColorsDefault) {
+                    synchronized (this.mListOfTraceColorsCurrentlyUsed) {
+                        z = false;
+                        for (int[] iArr3 : this.mListOfTraceColorsCurrentlyUsed) {
+                            if (iArr2[0] == iArr3[0] && iArr2[1] == iArr3[1] && iArr2[2] == iArr3[2]) {
+                                z = true;
+                            }
+                        }
+                    }
+                    if (!z) {
+                        iArr = iArr2;
+                    }
+                }
+            }
+        } else {
+            iArr = mListofTraceColorsDefault.get(0);
+        }
+        if (iArr != null) {
+            this.mListOfTraceColorsCurrentlyUsed.add(iArr);
+        } else {
+            this.mListOfTraceColorsCurrentlyUsed.add(generateRandomColor());
+        }
+    }
+
+    protected void addSignal(String[] strArr) {
+        this.mListofPropertiestoPlot.add(strArr);
+    }
+
+    protected void addSignalandColor(String[] strArr, int[] iArr) {
+        addSignalAndUseFixedColor(strArr, iArr);
+    }
+
+    public void addXAxis(String[] strArr) {
+        this.mMapofXAxis.put(strArr[0], strArr);
+    }
+
+    public boolean checkIfPropertyExist(String[] strArr) {
+        String str;
+        synchronized (this.mListofPropertiestoPlot) {
+            for (String[] strArr2 : this.mListofPropertiestoPlot) {
+                int length = 4;
+                if (strArr.length <= 4) {
+                    length = strArr.length;
+                }
+                boolean z = true;
+                for (int i = 0; i < length; i++) {
+                    String str2 = strArr2[i];
+                    if (str2 == null && strArr[i] == null) {
+                        z = true;
+                    } else if (str2 == null || (str = strArr[i]) == null || !str2.equals(str)) {
+                        z = false;
+                    }
+                }
+                if (z) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public static int[] generateRandomColor() {
+        Random random = new Random();
+        return new int[]{random.nextInt(256), random.nextInt(256), random.nextInt(256)};
+    }
+
+    protected static List<int[]> generateRandomColorList(int i) {
+        ArrayList arrayList = new ArrayList();
+        for (int i2 = 0; i2 < i; i2++) {
+            arrayList.add(generateRandomColor());
+        }
+        return arrayList;
+    }
+
+    public static String joinChannelStringArray(String[] strArr) {
+        if (strArr.length <= 4) {
+            int length = strArr.length;
+        }
+        String str = "";
+        for (int i = 0; i < strArr.length; i++) {
+            if (i == 0) {
+                str = strArr[i];
+            } else {
+                str = str + StringUtils.SPACE + strArr[i];
+            }
+        }
+        return str;
+    }
+
+    public void setTraceLineStyleAll(String str) {
+        for (PLOT_LINE_STYLE plot_line_style : PLOT_LINE_STYLE.values()) {
+            if (plot_line_style.getGuiOptionString().equals(str)) {
+                setTraceLineStyleAll(plot_line_style);
+                return;
+            }
+        }
+    }
+}

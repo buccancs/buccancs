@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/pool/ChannelPoolHandler.java
+// Size: 373 bytes
+// Modified: 2025-10-21 16:32:05.377240100 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.pool;
+
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+
+/* loaded from: classes3.dex */
+public interface ChannelPoolHandler {
+    void channelAcquired(Channel channel) throws Exception;
+
+    void channelCreated(Channel channel) throws Exception;
+
+    void channelReleased(Channel channel) throws Exception;
+}

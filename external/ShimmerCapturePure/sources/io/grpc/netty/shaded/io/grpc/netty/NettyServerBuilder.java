@@ -1,0 +1,392 @@
+package io.grpc.netty.shaded.io.grpc.netty;
+
+import com.google.common.base.Preconditions;
+import io.grpc.ServerStreamTracer;
+import io.grpc.internal.AbstractServerImplBuilder;
+import io.grpc.internal.FixedObjectPool;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.internal.KeepAliveManager;
+import io.grpc.internal.ObjectPool;
+import io.grpc.internal.SharedResourcePool;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFactory;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOption;
+import io.grpc.netty.shaded.io.netty.channel.EventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.ReflectiveChannelFactory;
+import io.grpc.netty.shaded.io.netty.channel.ServerChannel;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
+
+import java.io.File;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nullable;
+import javax.net.ssl.SSLException;
+
+/* loaded from: classes2.dex */
+public final class NettyServerBuilder extends AbstractServerImplBuilder<NettyServerBuilder> {
+    public static final int DEFAULT_FLOW_CONTROL_WINDOW = 1048576;
+    static final long MAX_CONNECTION_AGE_GRACE_NANOS_INFINITE = Long.MAX_VALUE;
+    static final long MAX_CONNECTION_AGE_NANOS_DISABLED = Long.MAX_VALUE;
+    static final long MAX_CONNECTION_IDLE_NANOS_DISABLED = Long.MAX_VALUE;
+    private static final long MIN_KEEPALIVE_TIME_NANO = TimeUnit.MILLISECONDS.toNanos(1);
+    private static final long MIN_KEEPALIVE_TIMEOUT_NANO = TimeUnit.MICROSECONDS.toNanos(499);
+    private static final long MIN_MAX_CONNECTION_IDLE_NANO = TimeUnit.SECONDS.toNanos(1);
+    private static final long MIN_MAX_CONNECTION_AGE_NANO = TimeUnit.SECONDS.toNanos(1);
+    private static final long AS_LARGE_AS_INFINITE = TimeUnit.DAYS.toNanos(1000);
+    private static final ObjectPool<? extends EventLoopGroup> DEFAULT_BOSS_EVENT_LOOP_GROUP_POOL = SharedResourcePool.forResource(Utils.DEFAULT_BOSS_EVENT_LOOP_GROUP);
+    private static final ObjectPool<? extends EventLoopGroup> DEFAULT_WORKER_EVENT_LOOP_GROUP_POOL = SharedResourcePool.forResource(Utils.DEFAULT_WORKER_EVENT_LOOP_GROUP);
+    private final Map<ChannelOption<?>, Object> channelOptions;
+    private final Map<ChannelOption<?>, Object> childChannelOptions;
+    private final List<SocketAddress> listenAddresses;
+    private boolean autoFlowControl;
+    private ObjectPool<? extends EventLoopGroup> bossEventLoopGroupPool;
+    private ChannelFactory<? extends ServerChannel> channelFactory;
+    private int flowControlWindow;
+    private boolean forceHeapBuffer;
+    private long keepAliveTimeInNanos;
+    private long keepAliveTimeoutInNanos;
+    private int maxConcurrentCallsPerConnection;
+    private long maxConnectionAgeGraceInNanos;
+    private long maxConnectionAgeInNanos;
+    private long maxConnectionIdleInNanos;
+    private int maxHeaderListSize;
+    private int maxMessageSize;
+    private long permitKeepAliveTimeInNanos;
+    private boolean permitKeepAliveWithoutCalls;
+    private ProtocolNegotiator protocolNegotiator;
+    private SslContext sslContext;
+    private ObjectPool<? extends EventLoopGroup> workerEventLoopGroupPool;
+
+    @CheckReturnValue
+    private NettyServerBuilder(int i) {
+        ArrayList arrayList = new ArrayList();
+        this.listenAddresses = arrayList;
+        this.channelFactory = Utils.DEFAULT_SERVER_CHANNEL_FACTORY;
+        this.channelOptions = new HashMap();
+        this.childChannelOptions = new HashMap();
+        this.bossEventLoopGroupPool = DEFAULT_BOSS_EVENT_LOOP_GROUP_POOL;
+        this.workerEventLoopGroupPool = DEFAULT_WORKER_EVENT_LOOP_GROUP_POOL;
+        this.maxConcurrentCallsPerConnection = Integer.MAX_VALUE;
+        this.autoFlowControl = true;
+        this.flowControlWindow = 1048576;
+        this.maxMessageSize = 4194304;
+        this.maxHeaderListSize = 8192;
+        this.keepAliveTimeInNanos = GrpcUtil.DEFAULT_SERVER_KEEPALIVE_TIME_NANOS;
+        this.keepAliveTimeoutInNanos = GrpcUtil.DEFAULT_SERVER_KEEPALIVE_TIMEOUT_NANOS;
+        this.maxConnectionIdleInNanos = Long.MAX_VALUE;
+        this.maxConnectionAgeInNanos = Long.MAX_VALUE;
+        this.maxConnectionAgeGraceInNanos = Long.MAX_VALUE;
+        this.permitKeepAliveTimeInNanos = TimeUnit.MINUTES.toNanos(5L);
+        arrayList.add(new InetSocketAddress(i));
+    }
+
+    @CheckReturnValue
+    private NettyServerBuilder(SocketAddress socketAddress) {
+        ArrayList arrayList = new ArrayList();
+        this.listenAddresses = arrayList;
+        this.channelFactory = Utils.DEFAULT_SERVER_CHANNEL_FACTORY;
+        this.channelOptions = new HashMap();
+        this.childChannelOptions = new HashMap();
+        this.bossEventLoopGroupPool = DEFAULT_BOSS_EVENT_LOOP_GROUP_POOL;
+        this.workerEventLoopGroupPool = DEFAULT_WORKER_EVENT_LOOP_GROUP_POOL;
+        this.maxConcurrentCallsPerConnection = Integer.MAX_VALUE;
+        this.autoFlowControl = true;
+        this.flowControlWindow = 1048576;
+        this.maxMessageSize = 4194304;
+        this.maxHeaderListSize = 8192;
+        this.keepAliveTimeInNanos = GrpcUtil.DEFAULT_SERVER_KEEPALIVE_TIME_NANOS;
+        this.keepAliveTimeoutInNanos = GrpcUtil.DEFAULT_SERVER_KEEPALIVE_TIMEOUT_NANOS;
+        this.maxConnectionIdleInNanos = Long.MAX_VALUE;
+        this.maxConnectionAgeInNanos = Long.MAX_VALUE;
+        this.maxConnectionAgeGraceInNanos = Long.MAX_VALUE;
+        this.permitKeepAliveTimeInNanos = TimeUnit.MINUTES.toNanos(5L);
+        arrayList.add(socketAddress);
+    }
+
+    @CheckReturnValue
+    public static NettyServerBuilder forPort(int i) {
+        return new NettyServerBuilder(i);
+    }
+
+    @CheckReturnValue
+    public static NettyServerBuilder forAddress(SocketAddress socketAddress) {
+        return new NettyServerBuilder(socketAddress);
+    }
+
+    public NettyServerBuilder permitKeepAliveWithoutCalls(boolean z) {
+        this.permitKeepAliveWithoutCalls = z;
+        return this;
+    }
+
+    public final NettyServerBuilder protocolNegotiator(@Nullable ProtocolNegotiator protocolNegotiator) {
+        this.protocolNegotiator = protocolNegotiator;
+        return this;
+    }
+
+    void setForceHeapBuffer(boolean z) {
+        this.forceHeapBuffer = z;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    public NettyServerBuilder addListenAddress(SocketAddress socketAddress) {
+        this.listenAddresses.add(Preconditions.checkNotNull(socketAddress, "listenAddress"));
+        return this;
+    }
+
+    public NettyServerBuilder channelType(Class<? extends ServerChannel> cls) {
+        Preconditions.checkNotNull(cls, "channelType");
+        return channelFactory(new ReflectiveChannelFactory(cls));
+    }
+
+    public NettyServerBuilder channelFactory(ChannelFactory<? extends ServerChannel> channelFactory) {
+        this.channelFactory = (ChannelFactory) Preconditions.checkNotNull(channelFactory, "channelFactory");
+        return this;
+    }
+
+    public <T> NettyServerBuilder withOption(ChannelOption<T> channelOption, T t) {
+        this.channelOptions.put(channelOption, t);
+        return this;
+    }
+
+    public <T> NettyServerBuilder withChildOption(ChannelOption<T> channelOption, T t) {
+        this.childChannelOptions.put(channelOption, t);
+        return this;
+    }
+
+    public NettyServerBuilder bossEventLoopGroup(EventLoopGroup eventLoopGroup) {
+        if (eventLoopGroup != null) {
+            return bossEventLoopGroupPool(new FixedObjectPool(eventLoopGroup));
+        }
+        return bossEventLoopGroupPool(DEFAULT_BOSS_EVENT_LOOP_GROUP_POOL);
+    }
+
+    NettyServerBuilder bossEventLoopGroupPool(ObjectPool<? extends EventLoopGroup> objectPool) {
+        this.bossEventLoopGroupPool = (ObjectPool) Preconditions.checkNotNull(objectPool, "bossEventLoopGroupPool");
+        return this;
+    }
+
+    public NettyServerBuilder workerEventLoopGroup(EventLoopGroup eventLoopGroup) {
+        if (eventLoopGroup != null) {
+            return workerEventLoopGroupPool(new FixedObjectPool(eventLoopGroup));
+        }
+        return workerEventLoopGroupPool(DEFAULT_WORKER_EVENT_LOOP_GROUP_POOL);
+    }
+
+    NettyServerBuilder workerEventLoopGroupPool(ObjectPool<? extends EventLoopGroup> objectPool) {
+        this.workerEventLoopGroupPool = (ObjectPool) Preconditions.checkNotNull(objectPool, "workerEventLoopGroupPool");
+        return this;
+    }
+
+    public NettyServerBuilder sslContext(SslContext sslContext) {
+        if (sslContext != null) {
+            Preconditions.checkArgument(sslContext.isServer(), "Client SSL context can not be used for server");
+            GrpcSslContexts.ensureAlpnAndH2Enabled(sslContext.applicationProtocolNegotiator());
+        }
+        this.sslContext = sslContext;
+        return this;
+    }
+
+    @Override // io.grpc.internal.AbstractServerImplBuilder
+    protected void setTracingEnabled(boolean z) {
+        super.setTracingEnabled(z);
+    }
+
+    @Override // io.grpc.internal.AbstractServerImplBuilder
+    protected void setStatsEnabled(boolean z) {
+        super.setStatsEnabled(z);
+    }
+
+    @Override // io.grpc.internal.AbstractServerImplBuilder
+    protected void setStatsRecordStartedRpcs(boolean z) {
+        super.setStatsRecordStartedRpcs(z);
+    }
+
+    @Override // io.grpc.internal.AbstractServerImplBuilder
+    protected void setStatsRecordRealTimeMetrics(boolean z) {
+        super.setStatsRecordRealTimeMetrics(z);
+    }
+
+    public NettyServerBuilder maxConcurrentCallsPerConnection(int i) {
+        Preconditions.checkArgument(i > 0, "max must be positive: %s", i);
+        this.maxConcurrentCallsPerConnection = i;
+        return this;
+    }
+
+    public NettyServerBuilder initialFlowControlWindow(int i) {
+        Preconditions.checkArgument(i > 0, "initialFlowControlWindow must be positive");
+        this.flowControlWindow = i;
+        this.autoFlowControl = true;
+        return this;
+    }
+
+    public NettyServerBuilder flowControlWindow(int i) {
+        Preconditions.checkArgument(i > 0, "flowControlWindow must be positive: %s", i);
+        this.flowControlWindow = i;
+        this.autoFlowControl = false;
+        return this;
+    }
+
+    @Deprecated
+    public NettyServerBuilder maxMessageSize(int i) {
+        return maxInboundMessageSize(i);
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public NettyServerBuilder maxInboundMessageSize(int i) {
+        Preconditions.checkArgument(i >= 0, "bytes must be non-negative: %s", i);
+        this.maxMessageSize = i;
+        return this;
+    }
+
+    @Deprecated
+    public NettyServerBuilder maxHeaderListSize(int i) {
+        return maxInboundMetadataSize(i);
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public NettyServerBuilder maxInboundMetadataSize(int i) {
+        Preconditions.checkArgument(i > 0, "maxInboundMetadataSize must be positive: %s", i);
+        this.maxHeaderListSize = i;
+        return this;
+    }
+
+    public NettyServerBuilder keepAliveTime(long j, TimeUnit timeUnit) {
+        Preconditions.checkArgument(j > 0, "keepalive time must be positive：%s", j);
+        long nanos = timeUnit.toNanos(j);
+        this.keepAliveTimeInNanos = nanos;
+        long jClampKeepAliveTimeInNanos = KeepAliveManager.clampKeepAliveTimeInNanos(nanos);
+        this.keepAliveTimeInNanos = jClampKeepAliveTimeInNanos;
+        if (jClampKeepAliveTimeInNanos >= AS_LARGE_AS_INFINITE) {
+            this.keepAliveTimeInNanos = Long.MAX_VALUE;
+        }
+        long j2 = this.keepAliveTimeInNanos;
+        long j3 = MIN_KEEPALIVE_TIME_NANO;
+        if (j2 < j3) {
+            this.keepAliveTimeInNanos = j3;
+        }
+        return this;
+    }
+
+    public NettyServerBuilder keepAliveTimeout(long j, TimeUnit timeUnit) {
+        Preconditions.checkArgument(j > 0, "keepalive timeout must be positive: %s", j);
+        long nanos = timeUnit.toNanos(j);
+        this.keepAliveTimeoutInNanos = nanos;
+        long jClampKeepAliveTimeoutInNanos = KeepAliveManager.clampKeepAliveTimeoutInNanos(nanos);
+        this.keepAliveTimeoutInNanos = jClampKeepAliveTimeoutInNanos;
+        long j2 = MIN_KEEPALIVE_TIMEOUT_NANO;
+        if (jClampKeepAliveTimeoutInNanos < j2) {
+            this.keepAliveTimeoutInNanos = j2;
+        }
+        return this;
+    }
+
+    public NettyServerBuilder maxConnectionIdle(long j, TimeUnit timeUnit) {
+        Preconditions.checkArgument(j > 0, "max connection idle must be positive: %s", j);
+        long nanos = timeUnit.toNanos(j);
+        this.maxConnectionIdleInNanos = nanos;
+        if (nanos >= AS_LARGE_AS_INFINITE) {
+            this.maxConnectionIdleInNanos = Long.MAX_VALUE;
+        }
+        long j2 = this.maxConnectionIdleInNanos;
+        long j3 = MIN_MAX_CONNECTION_IDLE_NANO;
+        if (j2 < j3) {
+            this.maxConnectionIdleInNanos = j3;
+        }
+        return this;
+    }
+
+    public NettyServerBuilder maxConnectionAge(long j, TimeUnit timeUnit) {
+        Preconditions.checkArgument(j > 0, "max connection age must be positive: %s", j);
+        long nanos = timeUnit.toNanos(j);
+        this.maxConnectionAgeInNanos = nanos;
+        if (nanos >= AS_LARGE_AS_INFINITE) {
+            this.maxConnectionAgeInNanos = Long.MAX_VALUE;
+        }
+        long j2 = this.maxConnectionAgeInNanos;
+        long j3 = MIN_MAX_CONNECTION_AGE_NANO;
+        if (j2 < j3) {
+            this.maxConnectionAgeInNanos = j3;
+        }
+        return this;
+    }
+
+    public NettyServerBuilder maxConnectionAgeGrace(long j, TimeUnit timeUnit) {
+        Preconditions.checkArgument(j >= 0, "max connection age grace must be non-negative: %s", j);
+        long nanos = timeUnit.toNanos(j);
+        this.maxConnectionAgeGraceInNanos = nanos;
+        if (nanos >= AS_LARGE_AS_INFINITE) {
+            this.maxConnectionAgeGraceInNanos = Long.MAX_VALUE;
+        }
+        return this;
+    }
+
+    public NettyServerBuilder permitKeepAliveTime(long j, TimeUnit timeUnit) {
+        Preconditions.checkArgument(j >= 0, "permit keepalive time must be non-negative: %s", j);
+        this.permitKeepAliveTimeInNanos = timeUnit.toNanos(j);
+        return this;
+    }
+
+    @Override // io.grpc.internal.AbstractServerImplBuilder
+    @CheckReturnValue
+    protected List<NettyServer> buildTransportServers(List<? extends ServerStreamTracer.Factory> list) {
+        NettyServerBuilder nettyServerBuilder = this;
+        assertEventLoopsAndChannelType();
+        ProtocolNegotiator protocolNegotiatorServerPlaintext = nettyServerBuilder.protocolNegotiator;
+        if (protocolNegotiatorServerPlaintext == null) {
+            SslContext sslContext = nettyServerBuilder.sslContext;
+            if (sslContext != null) {
+                protocolNegotiatorServerPlaintext = ProtocolNegotiators.serverTls(sslContext, getExecutorPool());
+            } else {
+                protocolNegotiatorServerPlaintext = ProtocolNegotiators.serverPlaintext();
+            }
+        }
+        ArrayList arrayList = new ArrayList(nettyServerBuilder.listenAddresses.size());
+        Iterator<SocketAddress> it2 = nettyServerBuilder.listenAddresses.iterator();
+        while (it2.hasNext()) {
+            ArrayList arrayList2 = arrayList;
+            arrayList2.add(new NettyServer(it2.next(), nettyServerBuilder.channelFactory, nettyServerBuilder.channelOptions, nettyServerBuilder.childChannelOptions, nettyServerBuilder.bossEventLoopGroupPool, nettyServerBuilder.workerEventLoopGroupPool, nettyServerBuilder.forceHeapBuffer, protocolNegotiatorServerPlaintext, list, getTransportTracerFactory(), nettyServerBuilder.maxConcurrentCallsPerConnection, nettyServerBuilder.autoFlowControl, nettyServerBuilder.flowControlWindow, nettyServerBuilder.maxMessageSize, nettyServerBuilder.maxHeaderListSize, nettyServerBuilder.keepAliveTimeInNanos, nettyServerBuilder.keepAliveTimeoutInNanos, nettyServerBuilder.maxConnectionIdleInNanos, nettyServerBuilder.maxConnectionAgeInNanos, nettyServerBuilder.maxConnectionAgeGraceInNanos, nettyServerBuilder.permitKeepAliveWithoutCalls, nettyServerBuilder.permitKeepAliveTimeInNanos, getChannelz()));
+            arrayList = arrayList2;
+            protocolNegotiatorServerPlaintext = protocolNegotiatorServerPlaintext;
+            nettyServerBuilder = this;
+        }
+        return Collections.unmodifiableList(arrayList);
+    }
+
+    void assertEventLoopsAndChannelType() {
+        boolean z = true;
+        boolean z2 = (this.channelFactory == Utils.DEFAULT_SERVER_CHANNEL_FACTORY || this.bossEventLoopGroupPool == DEFAULT_BOSS_EVENT_LOOP_GROUP_POOL || this.workerEventLoopGroupPool == DEFAULT_WORKER_EVENT_LOOP_GROUP_POOL) ? false : true;
+        boolean z3 = this.channelFactory == Utils.DEFAULT_SERVER_CHANNEL_FACTORY && this.bossEventLoopGroupPool == DEFAULT_BOSS_EVENT_LOOP_GROUP_POOL && this.workerEventLoopGroupPool == DEFAULT_WORKER_EVENT_LOOP_GROUP_POOL;
+        if (!z2 && !z3) {
+            z = false;
+        }
+        Preconditions.checkState(z, "All of BossEventLoopGroup, WorkerEventLoopGroup and ChannelType should be provided or neither should be");
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public NettyServerBuilder useTransportSecurity(File file, File file2) {
+        try {
+            this.sslContext = GrpcSslContexts.forServer(file, file2).build();
+            return this;
+        } catch (SSLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public NettyServerBuilder useTransportSecurity(InputStream inputStream, InputStream inputStream2) {
+        try {
+            this.sslContext = GrpcSslContexts.forServer(inputStream, inputStream2).build();
+            return this;
+        } catch (SSLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

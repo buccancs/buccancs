@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/FormatFeature.java
+// Size: 196 bytes
+// Modified: 2025-10-21 16:32:00.045041800 +0100
+
+package com.fasterxml.jackson.core;
+
+/* loaded from: classes.dex */
+public interface FormatFeature {
+    boolean enabledByDefault();
+
+    boolean enabledIn(int i);
+
+    int getMask();
+}

@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ssl/NotSslRecordException.java
+// Size: 580 bytes
+// Modified: 2025-10-21 16:32:00.249779800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import javax.net.ssl.SSLException;
+
+/* loaded from: classes3.dex */
+public class NotSslRecordException extends SSLException {
+    private static final long serialVersionUID = -4316784434770656841L;
+
+    public NotSslRecordException() {
+        super("");
+    }
+
+    public NotSslRecordException(String str) {
+        super(str);
+    }
+
+    public NotSslRecordException(Throwable th) {
+        super(th);
+    }
+
+    public NotSslRecordException(String str, Throwable th) {
+        super(str, th);
+    }
+}

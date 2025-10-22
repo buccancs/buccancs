@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/generators/DHBasicKeyPairGenerator.java
+// Size: 1655 bytes
+// Modified: 2025-10-21 16:32:07.891569200 +0100
+
+package org.bouncycastle.crypto.generators;
+
+import java.math.BigInteger;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
+import org.bouncycastle.crypto.KeyGenerationParameters;
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+import org.bouncycastle.crypto.params.DHKeyGenerationParameters;
+import org.bouncycastle.crypto.params.DHParameters;
+import org.bouncycastle.crypto.params.DHPrivateKeyParameters;
+import org.bouncycastle.crypto.params.DHPublicKeyParameters;
+
+/* loaded from: classes5.dex */
+public class DHBasicKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+    private DHKeyGenerationParameters param;
+
+    @Override // org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator
+    public AsymmetricCipherKeyPair generateKeyPair() {
+        DHKeyGeneratorHelper dHKeyGeneratorHelper = DHKeyGeneratorHelper.INSTANCE;
+        DHParameters parameters = this.param.getParameters();
+        BigInteger bigIntegerCalculatePrivate = dHKeyGeneratorHelper.calculatePrivate(parameters, this.param.getRandom());
+        return new AsymmetricCipherKeyPair((AsymmetricKeyParameter) new DHPublicKeyParameters(dHKeyGeneratorHelper.calculatePublic(parameters, bigIntegerCalculatePrivate), parameters), (AsymmetricKeyParameter) new DHPrivateKeyParameters(bigIntegerCalculatePrivate, parameters));
+    }
+
+    @Override // org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator
+    public void init(KeyGenerationParameters keyGenerationParameters) {
+        this.param = (DHKeyGenerationParameters) keyGenerationParameters;
+    }
+}

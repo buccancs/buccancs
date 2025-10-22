@@ -1,0 +1,147 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLog;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Address;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.AddressOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Metadata;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.MetadataOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SocketOption;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SocketOptionOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TrafficDirection;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.Listener;
+
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface ListenerOrBuilder extends MessageOrBuilder {
+    AccessLog getAccessLog(int i);
+
+    int getAccessLogCount();
+
+    List<AccessLog> getAccessLogList();
+
+    AccessLogOrBuilder getAccessLogOrBuilder(int i);
+
+    List<? extends AccessLogOrBuilder> getAccessLogOrBuilderList();
+
+    Address getAddress();
+
+    AddressOrBuilder getAddressOrBuilder();
+
+    ApiListener getApiListener();
+
+    ApiListenerOrBuilder getApiListenerOrBuilder();
+
+    Listener.ConnectionBalanceConfig getConnectionBalanceConfig();
+
+    Listener.ConnectionBalanceConfigOrBuilder getConnectionBalanceConfigOrBuilder();
+
+    boolean getContinueOnListenerFiltersTimeout();
+
+    Listener.DeprecatedV1 getDeprecatedV1();
+
+    Listener.DeprecatedV1OrBuilder getDeprecatedV1OrBuilder();
+
+    Listener.DrainType getDrainType();
+
+    int getDrainTypeValue();
+
+    FilterChain getFilterChains(int i);
+
+    int getFilterChainsCount();
+
+    List<FilterChain> getFilterChainsList();
+
+    FilterChainOrBuilder getFilterChainsOrBuilder(int i);
+
+    List<? extends FilterChainOrBuilder> getFilterChainsOrBuilderList();
+
+    BoolValue getFreebind();
+
+    BoolValueOrBuilder getFreebindOrBuilder();
+
+    ListenerFilter getListenerFilters(int i);
+
+    int getListenerFiltersCount();
+
+    List<ListenerFilter> getListenerFiltersList();
+
+    ListenerFilterOrBuilder getListenerFiltersOrBuilder(int i);
+
+    List<? extends ListenerFilterOrBuilder> getListenerFiltersOrBuilderList();
+
+    Duration getListenerFiltersTimeout();
+
+    DurationOrBuilder getListenerFiltersTimeoutOrBuilder();
+
+    Metadata getMetadata();
+
+    MetadataOrBuilder getMetadataOrBuilder();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    UInt32Value getPerConnectionBufferLimitBytes();
+
+    UInt32ValueOrBuilder getPerConnectionBufferLimitBytesOrBuilder();
+
+    boolean getReusePort();
+
+    SocketOption getSocketOptions(int i);
+
+    int getSocketOptionsCount();
+
+    List<SocketOption> getSocketOptionsList();
+
+    SocketOptionOrBuilder getSocketOptionsOrBuilder(int i);
+
+    List<? extends SocketOptionOrBuilder> getSocketOptionsOrBuilderList();
+
+    UInt32Value getTcpFastOpenQueueLength();
+
+    UInt32ValueOrBuilder getTcpFastOpenQueueLengthOrBuilder();
+
+    TrafficDirection getTrafficDirection();
+
+    int getTrafficDirectionValue();
+
+    BoolValue getTransparent();
+
+    BoolValueOrBuilder getTransparentOrBuilder();
+
+    UdpListenerConfig getUdpListenerConfig();
+
+    UdpListenerConfigOrBuilder getUdpListenerConfigOrBuilder();
+
+    boolean hasAddress();
+
+    boolean hasApiListener();
+
+    boolean hasConnectionBalanceConfig();
+
+    boolean hasDeprecatedV1();
+
+    boolean hasFreebind();
+
+    boolean hasListenerFiltersTimeout();
+
+    boolean hasMetadata();
+
+    boolean hasPerConnectionBufferLimitBytes();
+
+    boolean hasTcpFastOpenQueueLength();
+
+    boolean hasTransparent();
+
+    boolean hasUdpListenerConfig();
+}

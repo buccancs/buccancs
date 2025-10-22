@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/BackoffPolicy.java
+// Size: 203 bytes
+// Modified: 2025-10-21 16:32:00.196082700 +0100
+
+package io.grpc.internal;
+
+/* loaded from: classes2.dex */
+public interface BackoffPolicy {
+
+    public interface Provider {
+        BackoffPolicy get();
+    }
+
+    long nextBackoffNanos();
+}

@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/collections/ArraysUtilJVM.java
+// Size: 261 bytes
+// Modified: 2025-10-21 16:32:00.520369000 +0100
+
+package kotlin.collections;
+
+import java.util.Arrays;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+class ArraysUtilJVM {
+    ArraysUtilJVM() {
+    }
+
+    static <T> List<T> asList(T[] tArr) {
+        return Arrays.asList(tArr);
+    }
+}

@@ -1,0 +1,309 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/stream/ChunkedWriteHandler.java
+// Size: 12960 bytes
+// Modified: 2025-10-21 16:32:13.142212600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.stream;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelProgressivePromise;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory;
+import java.nio.channels.ClosedChannelException;
+import java.util.ArrayDeque;
+import java.util.Queue;
+
+/* loaded from: classes3.dex */
+public class ChunkedWriteHandler extends ChannelDuplexHandler {
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance((Class<?>) ChunkedWriteHandler.class);
+    private volatile ChannelHandlerContext ctx;
+    private final Queue<PendingWrite> queue = new ArrayDeque();
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandler
+    public void handlerAdded(ChannelHandlerContext channelHandlerContext) throws Exception {
+        this.ctx = channelHandlerContext;
+    }
+
+    public ChunkedWriteHandler() {
+    }
+
+    @Deprecated
+    public ChunkedWriteHandler(int i) {
+        if (i > 0) {
+            return;
+        }
+        throw new IllegalArgumentException("maxPendingWrites: " + i + " (expected: > 0)");
+    }
+
+    public void resumeTransfer() {
+        final ChannelHandlerContext channelHandlerContext = this.ctx;
+        if (channelHandlerContext == null) {
+            return;
+        }
+        if (channelHandlerContext.executor().inEventLoop()) {
+            resumeTransfer0(channelHandlerContext);
+        } else {
+            channelHandlerContext.executor().execute(new Runnable() { // from class: io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    ChunkedWriteHandler.this.resumeTransfer0(channelHandlerContext);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void resumeTransfer0(ChannelHandlerContext channelHandlerContext) {
+        try {
+            doFlush(channelHandlerContext);
+        } catch (Exception e) {
+            logger.warn("Unexpected exception while sending chunks.", (Throwable) e);
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void write(ChannelHandlerContext channelHandlerContext, Object obj, ChannelPromise channelPromise) throws Exception {
+        this.queue.add(new PendingWrite(obj, channelPromise));
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void flush(ChannelHandlerContext channelHandlerContext) throws Exception {
+        doFlush(channelHandlerContext);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+    public void channelInactive(ChannelHandlerContext channelHandlerContext) throws Exception {
+        doFlush(channelHandlerContext);
+        channelHandlerContext.fireChannelInactive();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+    public void channelWritabilityChanged(ChannelHandlerContext channelHandlerContext) throws Exception {
+        if (channelHandlerContext.channel().isWritable()) {
+            doFlush(channelHandlerContext);
+        }
+        channelHandlerContext.fireChannelWritabilityChanged();
+    }
+
+    private void discard(Throwable th) {
+        while (true) {
+            PendingWrite pendingWritePoll = this.queue.poll();
+            if (pendingWritePoll == null) {
+                return;
+            }
+            Object obj = pendingWritePoll.msg;
+            if (obj instanceof ChunkedInput) {
+                ChunkedInput chunkedInput = (ChunkedInput) obj;
+                try {
+                    boolean zIsEndOfInput = chunkedInput.isEndOfInput();
+                    long length = chunkedInput.length();
+                    closeInput(chunkedInput);
+                    if (!zIsEndOfInput) {
+                        if (th == null) {
+                            th = new ClosedChannelException();
+                        }
+                        pendingWritePoll.fail(th);
+                    } else {
+                        pendingWritePoll.success(length);
+                    }
+                } catch (Exception e) {
+                    closeInput(chunkedInput);
+                    pendingWritePoll.fail(e);
+                    InternalLogger internalLogger = logger;
+                    if (internalLogger.isWarnEnabled()) {
+                        internalLogger.warn("ChunkedInput failed", (Throwable) e);
+                    }
+                }
+            } else {
+                if (th == null) {
+                    th = new ClosedChannelException();
+                }
+                pendingWritePoll.fail(th);
+            }
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:64:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void doFlush(io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext r10) {
+        /*
+            r9 = this;
+            io.grpc.netty.shaded.io.netty.channel.Channel r0 = r10.channel()
+            boolean r1 = r0.isActive()
+            r2 = 0
+            if (r1 != 0) goto Lf
+            r9.discard(r2)
+            return
+        Lf:
+            io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator r1 = r10.alloc()
+            r3 = 1
+            r4 = 1
+        L15:
+            boolean r5 = r0.isWritable()
+            if (r5 == 0) goto Lb6
+            java.util.Queue<io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$PendingWrite> r5 = r9.queue
+            java.lang.Object r5 = r5.peek()
+            io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$PendingWrite r5 = (io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler.PendingWrite) r5
+            if (r5 != 0) goto L27
+            goto Lb6
+        L27:
+            io.grpc.netty.shaded.io.netty.channel.ChannelPromise r6 = r5.promise
+            boolean r6 = r6.isDone()
+            if (r6 == 0) goto L35
+            java.util.Queue<io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$PendingWrite> r5 = r9.queue
+            r5.remove()
+            goto L15
+        L35:
+            java.lang.Object r6 = r5.msg
+            boolean r7 = r6 instanceof io.grpc.netty.shaded.io.netty.handler.stream.ChunkedInput
+            if (r7 == 0) goto L9d
+            io.grpc.netty.shaded.io.netty.handler.stream.ChunkedInput r6 = (io.grpc.netty.shaded.io.netty.handler.stream.ChunkedInput) r6
+            java.lang.Object r7 = r6.readChunk(r1)     // Catch: java.lang.Throwable -> L8b
+            boolean r6 = r6.isEndOfInput()     // Catch: java.lang.Throwable -> L88
+            if (r7 != 0) goto L4d
+            r8 = r6 ^ 1
+            if (r8 == 0) goto L4d
+            goto Lb6
+        L4d:
+            if (r7 != 0) goto L51
+            io.grpc.netty.shaded.io.netty.buffer.ByteBuf r7 = io.grpc.netty.shaded.io.netty.buffer.Unpooled.EMPTY_BUFFER
+        L51:
+            io.grpc.netty.shaded.io.netty.channel.ChannelFuture r4 = r10.writeAndFlush(r7)
+            if (r6 == 0) goto L6f
+            java.util.Queue<io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$PendingWrite> r6 = r9.queue
+            r6.remove()
+            boolean r6 = r4.isDone()
+            if (r6 == 0) goto L66
+            handleEndOfInputFuture(r4, r5)
+            goto L86
+        L66:
+            io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$2 r6 = new io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$2
+            r6.<init>()
+            r4.addListener(r6)
+            goto L86
+        L6f:
+            boolean r6 = r0.isWritable()
+            r6 = r6 ^ r3
+            boolean r7 = r4.isDone()
+            if (r7 == 0) goto L7e
+            r9.handleFuture(r4, r5, r6)
+            goto L86
+        L7e:
+            io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$3 r7 = new io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$3
+            r7.<init>()
+            r4.addListener(r7)
+        L86:
+            r4 = 0
+            goto La8
+        L88:
+            r0 = move-exception
+            r2 = r7
+            goto L8c
+        L8b:
+            r0 = move-exception
+        L8c:
+            java.util.Queue<io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$PendingWrite> r1 = r9.queue
+            r1.remove()
+            if (r2 == 0) goto L96
+            io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil.release(r2)
+        L96:
+            closeInput(r6)
+            r5.fail(r0)
+            goto Lb6
+        L9d:
+            java.util.Queue<io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler$PendingWrite> r4 = r9.queue
+            r4.remove()
+            io.grpc.netty.shaded.io.netty.channel.ChannelPromise r4 = r5.promise
+            r10.write(r6, r4)
+            r4 = 1
+        La8:
+            boolean r5 = r0.isActive()
+            if (r5 != 0) goto L15
+            java.nio.channels.ClosedChannelException r0 = new java.nio.channels.ClosedChannelException
+            r0.<init>()
+            r9.discard(r0)
+        Lb6:
+            if (r4 == 0) goto Lbb
+            r10.flush()
+        Lbb:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.handler.stream.ChunkedWriteHandler.doFlush(io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext):void");
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void handleEndOfInputFuture(ChannelFuture channelFuture, PendingWrite pendingWrite) {
+        ChunkedInput chunkedInput = (ChunkedInput) pendingWrite.msg;
+        if (!channelFuture.isSuccess()) {
+            closeInput(chunkedInput);
+            pendingWrite.fail(channelFuture.cause());
+            return;
+        }
+        long jProgress = chunkedInput.progress();
+        long length = chunkedInput.length();
+        closeInput(chunkedInput);
+        pendingWrite.progress(jProgress, length);
+        pendingWrite.success(length);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void handleFuture(ChannelFuture channelFuture, PendingWrite pendingWrite, boolean z) {
+        ChunkedInput chunkedInput = (ChunkedInput) pendingWrite.msg;
+        if (!channelFuture.isSuccess()) {
+            closeInput(chunkedInput);
+            pendingWrite.fail(channelFuture.cause());
+            return;
+        }
+        pendingWrite.progress(chunkedInput.progress(), chunkedInput.length());
+        if (z && channelFuture.channel().isWritable()) {
+            resumeTransfer();
+        }
+    }
+
+    private static void closeInput(ChunkedInput<?> chunkedInput) {
+        try {
+            chunkedInput.close();
+        } catch (Throwable th) {
+            if (logger.isWarnEnabled()) {
+                logger.warn("Failed to close a chunked input.", th);
+            }
+        }
+    }
+
+    private static final class PendingWrite {
+        final Object msg;
+        final ChannelPromise promise;
+
+        PendingWrite(Object obj, ChannelPromise channelPromise) {
+            this.msg = obj;
+            this.promise = channelPromise;
+        }
+
+        void fail(Throwable th) {
+            ReferenceCountUtil.release(this.msg);
+            this.promise.tryFailure(th);
+        }
+
+        void success(long j) {
+            if (this.promise.isDone()) {
+                return;
+            }
+            progress(j, j);
+            this.promise.trySuccess();
+        }
+
+        void progress(long j, long j2) {
+            ChannelPromise channelPromise = this.promise;
+            if (channelPromise instanceof ChannelProgressivePromise) {
+                ((ChannelProgressivePromise) channelPromise).tryProgress(j, j2);
+            }
+        }
+    }
+}

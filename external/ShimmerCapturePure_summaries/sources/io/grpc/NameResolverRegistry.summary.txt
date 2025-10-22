@@ -1,0 +1,130 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/NameResolverRegistry.java
+// Size: 5487 bytes
+// Modified: 2025-10-21 16:32:06.827283700 +0100
+
+package io.grpc;
+
+import androidx.core.os.EnvironmentCompat;
+import com.google.common.base.Preconditions;
+import io.grpc.NameResolver;
+import io.grpc.ServiceProviders;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public final class NameResolverRegistry {
+    private static NameResolverRegistry instance;
+    private static final Logger logger = Logger.getLogger(NameResolverRegistry.class.getName());
+    private final NameResolver.Factory factory = new NameResolverFactory();
+    private final LinkedHashSet<NameResolverProvider> allProviders = new LinkedHashSet<>();
+    private List<NameResolverProvider> effectiveProviders = Collections.emptyList();
+
+    public NameResolver.Factory asFactory() {
+        return this.factory;
+    }
+
+    public synchronized void register(NameResolverProvider nameResolverProvider) {
+        addProvider(nameResolverProvider);
+        refreshProviders();
+    }
+
+    private synchronized void addProvider(NameResolverProvider nameResolverProvider) {
+        Preconditions.checkArgument(nameResolverProvider.isAvailable(), "isAvailable() returned false");
+        this.allProviders.add(nameResolverProvider);
+    }
+
+    public synchronized void deregister(NameResolverProvider nameResolverProvider) {
+        this.allProviders.remove(nameResolverProvider);
+        refreshProviders();
+    }
+
+    private synchronized void refreshProviders() {
+        ArrayList arrayList = new ArrayList(this.allProviders);
+        Collections.sort(arrayList, Collections.reverseOrder(new Comparator<NameResolverProvider>() { // from class: io.grpc.NameResolverRegistry.1
+            @Override // java.util.Comparator
+            public int compare(NameResolverProvider nameResolverProvider, NameResolverProvider nameResolverProvider2) {
+                return nameResolverProvider.priority() - nameResolverProvider2.priority();
+            }
+        }));
+        this.effectiveProviders = Collections.unmodifiableList(arrayList);
+    }
+
+    public static synchronized NameResolverRegistry getDefaultRegistry() {
+        if (instance == null) {
+            List<NameResolverProvider> listLoadAll = ServiceProviders.loadAll(NameResolverProvider.class, getHardCodedClasses(), NameResolverProvider.class.getClassLoader(), new NameResolverPriorityAccessor());
+            if (listLoadAll.isEmpty()) {
+                logger.warning("No NameResolverProviders found via ServiceLoader, including for DNS. This is probably due to a broken build. If using ProGuard, check your configuration");
+            }
+            instance = new NameResolverRegistry();
+            for (NameResolverProvider nameResolverProvider : listLoadAll) {
+                logger.fine("Service loader found " + nameResolverProvider);
+                if (nameResolverProvider.isAvailable()) {
+                    instance.addProvider(nameResolverProvider);
+                }
+            }
+            instance.refreshProviders();
+        }
+        return instance;
+    }
+
+    synchronized List<NameResolverProvider> providers() {
+        return this.effectiveProviders;
+    }
+
+    static List<Class<?>> getHardCodedClasses() {
+        ArrayList arrayList = new ArrayList();
+        try {
+            arrayList.add(Class.forName("io.grpc.internal.DnsNameResolverProvider"));
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.FINE, "Unable to find DNS NameResolver", (Throwable) e);
+        }
+        return Collections.unmodifiableList(arrayList);
+    }
+
+    private final class NameResolverFactory extends NameResolver.Factory {
+        private NameResolverFactory() {
+        }
+
+        @Override // io.grpc.NameResolver.Factory
+        @Nullable
+        public NameResolver newNameResolver(URI uri, NameResolver.Args args) {
+            Iterator<NameResolverProvider> it2 = NameResolverRegistry.this.providers().iterator();
+            while (it2.hasNext()) {
+                NameResolver nameResolverNewNameResolver = it2.next().newNameResolver(uri, args);
+                if (nameResolverNewNameResolver != null) {
+                    return nameResolverNewNameResolver;
+                }
+            }
+            return null;
+        }
+
+        @Override // io.grpc.NameResolver.Factory
+        public String getDefaultScheme() {
+            List<NameResolverProvider> listProviders = NameResolverRegistry.this.providers();
+            return listProviders.isEmpty() ? EnvironmentCompat.MEDIA_UNKNOWN : listProviders.get(0).getDefaultScheme();
+        }
+    }
+
+    private static final class NameResolverPriorityAccessor implements ServiceProviders.PriorityAccessor<NameResolverProvider> {
+        private NameResolverPriorityAccessor() {
+        }
+
+        @Override // io.grpc.ServiceProviders.PriorityAccessor
+        public boolean isAvailable(NameResolverProvider nameResolverProvider) {
+            return nameResolverProvider.isAvailable();
+        }
+
+        @Override // io.grpc.ServiceProviders.PriorityAccessor
+        public int getPriority(NameResolverProvider nameResolverProvider) {
+            return nameResolverProvider.priority();
+        }
+    }
+}

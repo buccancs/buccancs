@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/Http2FrameStreamEvent.java
+// Size: 923 bytes
+// Modified: 2025-10-21 16:32:01.460013900 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+/* loaded from: classes3.dex */
+public final class Http2FrameStreamEvent {
+    private final Http2FrameStream stream;
+    private final Type type;
+
+    enum Type {
+        State,
+        Writability
+    }
+
+    public Http2FrameStream stream() {
+        return this.stream;
+    }
+
+    public Type type() {
+        return this.type;
+    }
+
+    private Http2FrameStreamEvent(Http2FrameStream http2FrameStream, Type type) {
+        this.stream = http2FrameStream;
+        this.type = type;
+    }
+
+    static Http2FrameStreamEvent stateChanged(Http2FrameStream http2FrameStream) {
+        return new Http2FrameStreamEvent(http2FrameStream, Type.State);
+    }
+
+    static Http2FrameStreamEvent writabilityChanged(Http2FrameStream http2FrameStream) {
+        return new Http2FrameStreamEvent(http2FrameStream, Type.Writability);
+    }
+}

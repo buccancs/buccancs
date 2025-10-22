@@ -1,0 +1,115 @@
+package io.opencensus.proto.metrics.v1;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.TimestampProto;
+import com.google.protobuf.WrappersProto;
+import io.opencensus.proto.resource.v1.ResourceProto;
+
+/* loaded from: classes4.dex */
+public final class MetricsProto {
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_AttachmentsEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_AttachmentsEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_DistributionValue_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_DistributionValue_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_LabelKey_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_LabelKey_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_LabelValue_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_LabelValue_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_MetricDescriptor_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_MetricDescriptor_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_Metric_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_Metric_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_Point_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_Point_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_ValueAtPercentile_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_ValueAtPercentile_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_SummaryValue_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_SummaryValue_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_metrics_v1_TimeSeries_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_metrics_v1_TimeSeries_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor;
+
+    static {
+        Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n)opencensus/proto/metrics/v1/metrics.proto\u0012\u001bopencensus.proto.metrics.v1\u001a\u001fgoogle/protobuf/timestamp.proto\u001a\u001egoogle/protobuf/wrappers.proto\u001a+opencensus/proto/resource/v1/resource.proto\"É\u0001\n\u0006Metric\u0012H\n\u0011metric_descriptor\u0018\u0001 \u0001(\u000b2-.opencensus.proto.metrics.v1.MetricDescriptor\u0012;\n\ntimeseries\u0018\u0002 \u0003(\u000b2'.opencensus.proto.metrics.v1.TimeSeries\u00128\n\bresource\u0018\u0003 \u0001(\u000b2&.opencensus.proto.resource.v1.Resource\"ì\u0002\n\u0010MetricDescriptor\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\u0012\u0013\n\u000bdescription\u0018\u0002 \u0001(\t\u0012\f\n\u0004unit\u0018\u0003 \u0001(\t\u0012@\n\u0004type\u0018\u0004 \u0001(\u000e22.opencensus.proto.metrics.v1.MetricDescriptor.Type\u00129\n\nlabel_keys\u0018\u0005 \u0003(\u000b2%.opencensus.proto.metrics.v1.LabelKey\"©\u0001\n\u0004Type\u0012\u000f\n\u000bUNSPECIFIED\u0010\u0000\u0012\u000f\n\u000bGAUGE_INT64\u0010\u0001\u0012\u0010\n\fGAUGE_DOUBLE\u0010\u0002\u0012\u0016\n\u0012GAUGE_DISTRIBUTION\u0010\u0003\u0012\u0014\n\u0010CUMULATIVE_INT64\u0010\u0004\u0012\u0015\n\u0011CUMULATIVE_DOUBLE\u0010\u0005\u0012\u001b\n\u0017CUMULATIVE_DISTRIBUTION\u0010\u0006\u0012\u000b\n\u0007SUMMARY\u0010\u0007\",\n\bLabelKey\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\t\u0012\u0013\n\u000bdescription\u0018\u0002 \u0001(\t\"´\u0001\n\nTimeSeries\u00123\n\u000fstart_timestamp\u0018\u0001 \u0001(\u000b2\u001a.google.protobuf.Timestamp\u0012=\n\flabel_values\u0018\u0002 \u0003(\u000b2'.opencensus.proto.metrics.v1.LabelValue\u00122\n\u0006points\u0018\u0003 \u0003(\u000b2\".opencensus.proto.metrics.v1.Point\".\n\nLabelValue\u0012\r\n\u0005value\u0018\u0001 \u0001(\t\u0012\u0011\n\thas_value\u0018\u0002 \u0001(\b\"\u0080\u0002\n\u0005Point\u0012-\n\ttimestamp\u0018\u0001 \u0001(\u000b2\u001a.google.protobuf.Timestamp\u0012\u0015\n\u000bint64_value\u0018\u0002 \u0001(\u0003H\u0000\u0012\u0016\n\fdouble_value\u0018\u0003 \u0001(\u0001H\u0000\u0012L\n\u0012distribution_value\u0018\u0004 \u0001(\u000b2..opencensus.proto.metrics.v1.DistributionValueH\u0000\u0012B\n\rsummary_value\u0018\u0005 \u0001(\u000b2).opencensus.proto.metrics.v1.SummaryValueH\u0000B\u0007\n\u0005value\"Â\u0005\n\u0011DistributionValue\u0012\r\n\u0005count\u0018\u0001 \u0001(\u0003\u0012\u000b\n\u0003sum\u0018\u0002 \u0001(\u0001\u0012 \n\u0018sum_of_squared_deviation\u0018\u0003 \u0001(\u0001\u0012T\n\u000ebucket_options\u0018\u0004 \u0001(\u000b2<.opencensus.proto.metrics.v1.DistributionValue.BucketOptions\u0012F\n\u0007buckets\u0018\u0005 \u0003(\u000b25.opencensus.proto.metrics.v1.DistributionValue.Bucket\u001a\u008e\u0001\n\rBucketOptions\u0012Y\n\bexplicit\u0018\u0001 \u0001(\u000b2E.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.ExplicitH\u0000\u001a\u001a\n\bExplicit\u0012\u000e\n\u0006bounds\u0018\u0001 \u0003(\u0001B\u0006\n\u0004type\u001ab\n\u0006Bucket\u0012\r\n\u0005count\u0018\u0001 \u0001(\u0003\u0012I\n\bexemplar\u0018\u0002 \u0001(\u000b27.opencensus.proto.metrics.v1.DistributionValue.Exemplar\u001aÛ\u0001\n\bExemplar\u0012\r\n\u0005value\u0018\u0001 \u0001(\u0001\u0012-\n\ttimestamp\u0018\u0002 \u0001(\u000b2\u001a.google.protobuf.Timestamp\u0012]\n\u000battachments\u0018\u0003 \u0003(\u000b2H.opencensus.proto.metrics.v1.DistributionValue.Exemplar.AttachmentsEntry\u001a2\n\u0010AttachmentsEntry\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\t\u0012\r\n\u0005value\u0018\u0002 \u0001(\t:\u00028\u0001\"¨\u0003\n\fSummaryValue\u0012*\n\u0005count\u0018\u0001 \u0001(\u000b2\u001b.google.protobuf.Int64Value\u0012)\n\u0003sum\u0018\u0002 \u0001(\u000b2\u001c.google.protobuf.DoubleValue\u0012D\n\bsnapshot\u0018\u0003 \u0001(\u000b22.opencensus.proto.metrics.v1.SummaryValue.Snapshot\u001aú\u0001\n\bSnapshot\u0012*\n\u0005count\u0018\u0001 \u0001(\u000b2\u001b.google.protobuf.Int64Value\u0012)\n\u0003sum\u0018\u0002 \u0001(\u000b2\u001c.google.protobuf.DoubleValue\u0012_\n\u0011percentile_values\u0018\u0003 \u0003(\u000b2D.opencensus.proto.metrics.v1.SummaryValue.Snapshot.ValueAtPercentile\u001a6\n\u0011ValueAtPercentile\u0012\u0012\n\npercentile\u0018\u0001 \u0001(\u0001\u0012\r\n\u0005value\u0018\u0002 \u0001(\u0001Bv\n\u001eio.opencensus.proto.metrics.v1B\fMetricsProtoP\u0001ZDgithub.com/census-instrumentation/opencensus-proto/gen-go/metrics/v1b\u0006proto3"}, new Descriptors.FileDescriptor[]{TimestampProto.getDescriptor(), WrappersProto.getDescriptor(), ResourceProto.getDescriptor()}, new Descriptors.FileDescriptor.InternalDescriptorAssigner() { // from class: io.opencensus.proto.metrics.v1.MetricsProto.1
+            public ExtensionRegistry assignDescriptors(Descriptors.FileDescriptor fileDescriptor) {
+                Descriptors.FileDescriptor unused = MetricsProto.descriptor = fileDescriptor;
+                return null;
+            }
+        });
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_opencensus_proto_metrics_v1_Metric_descriptor = descriptor2;
+        internal_static_opencensus_proto_metrics_v1_Metric_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"MetricDescriptor", "Timeseries", "Resource"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_opencensus_proto_metrics_v1_MetricDescriptor_descriptor = descriptor3;
+        internal_static_opencensus_proto_metrics_v1_MetricDescriptor_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Name", "Description", "Unit", "Type", "LabelKeys"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_opencensus_proto_metrics_v1_LabelKey_descriptor = descriptor4;
+        internal_static_opencensus_proto_metrics_v1_LabelKey_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Key", "Description"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_opencensus_proto_metrics_v1_TimeSeries_descriptor = descriptor5;
+        internal_static_opencensus_proto_metrics_v1_TimeSeries_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"StartTimestamp", "LabelValues", "Points"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(4);
+        internal_static_opencensus_proto_metrics_v1_LabelValue_descriptor = descriptor6;
+        internal_static_opencensus_proto_metrics_v1_LabelValue_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Value", "HasValue"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(5);
+        internal_static_opencensus_proto_metrics_v1_Point_descriptor = descriptor7;
+        internal_static_opencensus_proto_metrics_v1_Point_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"Timestamp", "Int64Value", "DoubleValue", "DistributionValue", "SummaryValue", "Value"});
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(6);
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_descriptor = descriptor8;
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[]{"Count", "Sum", "SumOfSquaredDeviation", "BucketOptions", "Buckets"});
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(0);
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_descriptor = descriptor9;
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"Explicit", "Type"});
+        Descriptors.Descriptor descriptor10 = (Descriptors.Descriptor) descriptor9.getNestedTypes().get(0);
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_descriptor = descriptor10;
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor10, new String[]{"Bounds"});
+        Descriptors.Descriptor descriptor11 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(1);
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_descriptor = descriptor11;
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor11, new String[]{"Count", "Exemplar"});
+        Descriptors.Descriptor descriptor12 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(2);
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_descriptor = descriptor12;
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor12, new String[]{"Value", "Timestamp", "Attachments"});
+        Descriptors.Descriptor descriptor13 = (Descriptors.Descriptor) descriptor12.getNestedTypes().get(0);
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_AttachmentsEntry_descriptor = descriptor13;
+        internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_AttachmentsEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor13, new String[]{"Key", "Value"});
+        Descriptors.Descriptor descriptor14 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(7);
+        internal_static_opencensus_proto_metrics_v1_SummaryValue_descriptor = descriptor14;
+        internal_static_opencensus_proto_metrics_v1_SummaryValue_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor14, new String[]{"Count", "Sum", "Snapshot"});
+        Descriptors.Descriptor descriptor15 = (Descriptors.Descriptor) descriptor14.getNestedTypes().get(0);
+        internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_descriptor = descriptor15;
+        internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor15, new String[]{"Count", "Sum", "PercentileValues"});
+        Descriptors.Descriptor descriptor16 = (Descriptors.Descriptor) descriptor15.getNestedTypes().get(0);
+        internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_ValueAtPercentile_descriptor = descriptor16;
+        internal_static_opencensus_proto_metrics_v1_SummaryValue_Snapshot_ValueAtPercentile_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor16, new String[]{"Percentile", "Value"});
+        TimestampProto.getDescriptor();
+        WrappersProto.getDescriptor();
+        ResourceProto.getDescriptor();
+    }
+
+    private MetricsProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

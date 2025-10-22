@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/DefaultChannelHandlerContext.java
+// Size: 729 bytes
+// Modified: 2025-10-21 16:32:12.105260300 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutor;
+
+/* loaded from: classes3.dex */
+final class DefaultChannelHandlerContext extends AbstractChannelHandlerContext {
+    private final ChannelHandler handler;
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext
+    public ChannelHandler handler() {
+        return this.handler;
+    }
+
+    DefaultChannelHandlerContext(DefaultChannelPipeline defaultChannelPipeline, EventExecutor eventExecutor, String str, ChannelHandler channelHandler) {
+        super(defaultChannelPipeline, eventExecutor, str, channelHandler.getClass());
+        this.handler = channelHandler;
+    }
+}

@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/auth/TlsSessionTicketKeysOrBuilder.java
+// Size: 614 bytes
+// Modified: 2025-10-21 16:32:03.401164400 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.DataSourceOrBuilder;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface TlsSessionTicketKeysOrBuilder extends MessageOrBuilder {
+    DataSource getKeys(int i);
+
+    int getKeysCount();
+
+    List<DataSource> getKeysList();
+
+    DataSourceOrBuilder getKeysOrBuilder(int i);
+
+    List<? extends DataSourceOrBuilder> getKeysOrBuilderList();
+}

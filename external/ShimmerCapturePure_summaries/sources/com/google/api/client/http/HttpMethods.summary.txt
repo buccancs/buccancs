@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/HttpMethods.java
+// Size: 585 bytes
+// Modified: 2025-10-21 16:32:00.097918000 +0100
+
+package com.google.api.client.http;
+
+/* loaded from: classes.dex */
+public final class HttpMethods {
+    public static final String CONNECT = "CONNECT";
+    public static final String DELETE = "DELETE";
+    public static final String GET = "GET";
+    public static final String HEAD = "HEAD";
+    public static final String OPTIONS = "OPTIONS";
+    public static final String PATCH = "PATCH";
+    public static final String POST = "POST";
+    public static final String PUT = "PUT";
+    public static final String TRACE = "TRACE";
+
+    private HttpMethods() {
+    }
+}

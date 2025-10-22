@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/accesslog/v3/HeaderFilterOrBuilder.java
+// Size: 499 bytes
+// Modified: 2025-10-21 16:32:05.474483800 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.HeaderMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.HeaderMatcherOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface HeaderFilterOrBuilder extends MessageOrBuilder {
+    HeaderMatcher getHeader();
+
+    HeaderMatcherOrBuilder getHeaderOrBuilder();
+
+    boolean hasHeader();
+}

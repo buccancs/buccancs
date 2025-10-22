@@ -1,0 +1,6 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/testing/json/webtoken/package-info.java
+// Size: 56 bytes
+// Modified: 2025-10-21 16:32:00.097918000 +0100
+
+package com.google.api.client.testing.json.webtoken;
+

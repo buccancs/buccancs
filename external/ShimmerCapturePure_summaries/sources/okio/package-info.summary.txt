@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/okio/package-info.java
+// Size: 107 bytes
+// Modified: 2025-10-21 16:32:02.844697600 +0100
+
+@ParametersAreNonnullByDefault
+package okio;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+

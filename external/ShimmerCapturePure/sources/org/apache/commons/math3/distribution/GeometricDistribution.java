@@ -1,0 +1,99 @@
+package org.apache.commons.math3.distribution;
+
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class GeometricDistribution extends AbstractIntegerDistribution {
+    private static final long serialVersionUID = 20130507;
+    private final double log1mProbabilityOfSuccess;
+    private final double logProbabilityOfSuccess;
+    private final double probabilityOfSuccess;
+
+    public GeometricDistribution(double d) {
+        this(new Well19937c(), d);
+    }
+
+    public GeometricDistribution(RandomGenerator randomGenerator, double d) {
+        super(randomGenerator);
+        if (d <= 0.0d || d > 1.0d) {
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_RANGE_LEFT, Double.valueOf(d), 0, 1);
+        }
+        this.probabilityOfSuccess = d;
+        this.logProbabilityOfSuccess = FastMath.log(d);
+        this.log1mProbabilityOfSuccess = FastMath.log1p(-d);
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalMean() {
+        double d = this.probabilityOfSuccess;
+        return (1.0d - d) / d;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalVariance() {
+        double d = this.probabilityOfSuccess;
+        return (1.0d - d) / (d * d);
+    }
+
+    public double getProbabilityOfSuccess() {
+        return this.probabilityOfSuccess;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportLowerBound() {
+        return 0;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportUpperBound() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public boolean isSupportConnected() {
+        return true;
+    }
+
+    @Override // org.apache.commons.math3.distribution.AbstractIntegerDistribution
+    public double logProbability(int i) {
+        if (i < 0) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        return (i * this.log1mProbabilityOfSuccess) + this.logProbabilityOfSuccess;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double probability(int i) {
+        if (i < 0) {
+            return 0.0d;
+        }
+        return FastMath.exp(this.log1mProbabilityOfSuccess * i) * this.probabilityOfSuccess;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double cumulativeProbability(int i) {
+        if (i < 0) {
+            return 0.0d;
+        }
+        return -FastMath.expm1(this.log1mProbabilityOfSuccess * (i + 1));
+    }
+
+    @Override
+    // org.apache.commons.math3.distribution.AbstractIntegerDistribution, org.apache.commons.math3.distribution.IntegerDistribution
+    public int inverseCumulativeProbability(double d) throws OutOfRangeException {
+        if (d < 0.0d || d > 1.0d) {
+            throw new OutOfRangeException(Double.valueOf(d), 0, 1);
+        }
+        if (d == 1.0d) {
+            return Integer.MAX_VALUE;
+        }
+        if (d == 0.0d) {
+            return 0;
+        }
+        return Math.max(0, (int) Math.ceil((FastMath.log1p(-d) / this.log1mProbabilityOfSuccess) - 1.0d));
+    }
+}

@@ -1,0 +1,159 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/WeightedTargetLoadBalancer.java
+// Size: 7896 bytes
+// Modified: 2025-10-21 16:32:12.519048400 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import io.grpc.ConnectivityState;
+import io.grpc.InternalLogId;
+import io.grpc.LoadBalancer;
+import io.grpc.Status;
+import io.grpc.util.ForwardingLoadBalancerHelper;
+import io.grpc.util.GracefulSwitchLoadBalancer;
+import io.grpc.xds.WeightedRandomPicker;
+import io.grpc.xds.WeightedTargetLoadBalancerProvider;
+import io.grpc.xds.XdsLogger;
+import io.grpc.xds.XdsSubchannelPickers;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class WeightedTargetLoadBalancer extends LoadBalancer {
+    private final LoadBalancer.Helper helper;
+    private final XdsLogger logger;
+    private final Map<String, GracefulSwitchLoadBalancer> childBalancers = new HashMap();
+    private final Map<String, ChildHelper> childHelpers = new HashMap();
+    private Map<String, WeightedTargetLoadBalancerProvider.WeightedPolicySelection> targets = ImmutableMap.of();
+
+    @Override // io.grpc.LoadBalancer
+    public boolean canHandleEmptyAddressListFromNameResolution() {
+        return true;
+    }
+
+    WeightedTargetLoadBalancer(LoadBalancer.Helper helper) {
+        this.helper = helper;
+        XdsLogger xdsLoggerWithLogId = XdsLogger.withLogId(InternalLogId.allocate("weighted-target-lb", helper.getAuthority()));
+        this.logger = xdsLoggerWithLogId;
+        xdsLoggerWithLogId.log(XdsLogger.XdsLogLevel.INFO, "Created");
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void handleResolvedAddresses(LoadBalancer.ResolvedAddresses resolvedAddresses) {
+        this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received resolution result: {0}", resolvedAddresses);
+        Object loadBalancingPolicyConfig = resolvedAddresses.getLoadBalancingPolicyConfig();
+        Preconditions.checkNotNull(loadBalancingPolicyConfig, "missing weighted_target lb config");
+        Map<String, WeightedTargetLoadBalancerProvider.WeightedPolicySelection> map = ((WeightedTargetLoadBalancerProvider.WeightedTargetConfig) loadBalancingPolicyConfig).targets;
+        for (String str : map.keySet()) {
+            WeightedTargetLoadBalancerProvider.WeightedPolicySelection weightedPolicySelection = map.get(str);
+            if (!this.targets.containsKey(str)) {
+                ChildHelper childHelper = new ChildHelper();
+                GracefulSwitchLoadBalancer gracefulSwitchLoadBalancer = new GracefulSwitchLoadBalancer(childHelper);
+                gracefulSwitchLoadBalancer.switchTo(weightedPolicySelection.policySelection.getProvider());
+                this.childHelpers.put(str, childHelper);
+                this.childBalancers.put(str, gracefulSwitchLoadBalancer);
+            } else if (!weightedPolicySelection.policySelection.getProvider().equals(this.targets.get(str).policySelection.getProvider())) {
+                this.childBalancers.get(str).switchTo(weightedPolicySelection.policySelection.getProvider());
+            }
+        }
+        this.targets = map;
+        for (String str2 : map.keySet()) {
+            this.childBalancers.get(str2).handleResolvedAddresses(resolvedAddresses.toBuilder().setAddresses(AddressFilter.filter(resolvedAddresses.getAddresses(), str2)).setLoadBalancingPolicyConfig(this.targets.get(str2).policySelection.getConfig()).build());
+        }
+        for (String str3 : this.childBalancers.keySet()) {
+            if (!this.targets.containsKey(str3)) {
+                this.childBalancers.get(str3).shutdown();
+            }
+        }
+        this.childBalancers.keySet().retainAll(this.targets.keySet());
+        this.childHelpers.keySet().retainAll(this.targets.keySet());
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void handleNameResolutionError(Status status) {
+        this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Received name resolution error: {0}", status);
+        if (this.childBalancers.isEmpty()) {
+            this.helper.updateBalancingState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(status));
+        }
+        Iterator<GracefulSwitchLoadBalancer> it2 = this.childBalancers.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().handleNameResolutionError(status);
+        }
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void shutdown() {
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Shutdown");
+        Iterator<GracefulSwitchLoadBalancer> it2 = this.childBalancers.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().shutdown();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateOverallBalancingState() {
+        LoadBalancer.SubchannelPicker weightedRandomPicker;
+        ArrayList arrayList = new ArrayList();
+        ConnectivityState connectivityStateAggregateState = null;
+        for (String str : this.targets.keySet()) {
+            ChildHelper childHelper = this.childHelpers.get(str);
+            ConnectivityState connectivityState = childHelper.currentState;
+            connectivityStateAggregateState = aggregateState(connectivityStateAggregateState, connectivityState);
+            if (ConnectivityState.READY == connectivityState) {
+                arrayList.add(new WeightedRandomPicker.WeightedChildPicker(this.targets.get(str).weight, childHelper.currentPicker));
+            }
+        }
+        if (arrayList.isEmpty()) {
+            if (connectivityStateAggregateState == ConnectivityState.TRANSIENT_FAILURE) {
+                weightedRandomPicker = new XdsSubchannelPickers.ErrorPicker(Status.UNAVAILABLE);
+            } else {
+                weightedRandomPicker = XdsSubchannelPickers.BUFFER_PICKER;
+            }
+        } else {
+            weightedRandomPicker = new WeightedRandomPicker(arrayList);
+        }
+        if (connectivityStateAggregateState != null) {
+            this.helper.updateBalancingState(connectivityStateAggregateState, weightedRandomPicker);
+        }
+    }
+
+    @Nullable
+    private static ConnectivityState aggregateState(@Nullable ConnectivityState connectivityState, ConnectivityState connectivityState2) {
+        if (connectivityState == null) {
+            return connectivityState2;
+        }
+        if (connectivityState == ConnectivityState.READY || connectivityState2 == ConnectivityState.READY) {
+            return ConnectivityState.READY;
+        }
+        if (connectivityState == ConnectivityState.CONNECTING || connectivityState2 == ConnectivityState.CONNECTING) {
+            return ConnectivityState.CONNECTING;
+        }
+        return (connectivityState == ConnectivityState.IDLE || connectivityState2 == ConnectivityState.IDLE) ? ConnectivityState.IDLE : connectivityState;
+    }
+
+    private final class ChildHelper extends ForwardingLoadBalancerHelper {
+        LoadBalancer.SubchannelPicker currentPicker;
+        ConnectivityState currentState;
+
+        private ChildHelper() {
+            this.currentState = ConnectivityState.CONNECTING;
+            this.currentPicker = XdsSubchannelPickers.BUFFER_PICKER;
+        }
+
+        @Override // io.grpc.util.ForwardingLoadBalancerHelper, io.grpc.LoadBalancer.Helper
+        public void updateBalancingState(ConnectivityState connectivityState, LoadBalancer.SubchannelPicker subchannelPicker) {
+            this.currentState = connectivityState;
+            this.currentPicker = subchannelPicker;
+            WeightedTargetLoadBalancer.this.updateOverallBalancingState();
+        }
+
+        @Override // io.grpc.util.ForwardingLoadBalancerHelper
+        protected LoadBalancer.Helper delegate() {
+            return WeightedTargetLoadBalancer.this.helper;
+        }
+    }
+}

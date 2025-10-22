@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/Supplier.java
+// Size: 116 bytes
+// Modified: 2025-10-21 16:32:00.146745900 +0100
+
+package com.google.common.base;
+
+/* loaded from: classes.dex */
+public interface Supplier<T> {
+    T get();
+}

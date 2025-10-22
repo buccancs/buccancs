@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/Throwables.java
+// Size: 385 bytes
+// Modified: 2025-10-21 16:32:00.695135100 +0100
+
+package org.junit.internal;
+
+/* loaded from: classes2.dex */
+public final class Throwables {
+    private Throwables() {
+    }
+
+    public static Exception rethrowAsException(Throwable th) throws Exception {
+        rethrow(th);
+        return null;
+    }
+
+    private static <T extends Throwable> void rethrow(Throwable th) throws Throwable {
+        throw th;
+    }
+}

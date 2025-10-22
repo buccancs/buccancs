@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/WebSocket07FrameEncoder.java
+// Size: 255 bytes
+// Modified: 2025-10-21 16:32:06.436947600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx;
+
+/* loaded from: classes3.dex */
+public class WebSocket07FrameEncoder extends WebSocket08FrameEncoder {
+    public WebSocket07FrameEncoder(boolean z) {
+        super(z);
+    }
+}

@@ -1,0 +1,86 @@
+package org.apache.commons.math.stat.clustering;
+
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+
+import java.io.Serializable;
+import java.util.Collection;
+
+import org.apache.commons.math.util.MathUtils;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/clustering/EuclideanIntegerPoint.class */
+public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>, Serializable {
+    private static final long serialVersionUID = 3946024775784901369L;
+    private final int[] point;
+
+    public EuclideanIntegerPoint(int[] point) {
+        this.point = point;
+    }
+
+    public int[] getPoint() {
+        return this.point;
+    }
+
+    @Override // org.apache.commons.math.stat.clustering.Clusterable
+    public double distanceFrom(EuclideanIntegerPoint p) {
+        return MathUtils.distance(this.point, p.getPoint());
+    }
+
+    /* JADX WARN: Can't rename method to resolve collision */
+    @Override // org.apache.commons.math.stat.clustering.Clusterable
+    public EuclideanIntegerPoint centroidOf(Collection<EuclideanIntegerPoint> points) {
+        int[] centroid = new int[getPoint().length];
+        for (EuclideanIntegerPoint p : points) {
+            for (int i = 0; i < centroid.length; i++) {
+                int i2 = i;
+                centroid[i2] = centroid[i2] + p.getPoint()[i];
+            }
+        }
+        for (int i3 = 0; i3 < centroid.length; i3++) {
+            int i4 = i3;
+            centroid[i4] = centroid[i4] / points.size();
+        }
+        return new EuclideanIntegerPoint(centroid);
+    }
+
+    public boolean equals(Object other) {
+        if (!(other instanceof EuclideanIntegerPoint)) {
+            return false;
+        }
+        int[] otherPoint = ((EuclideanIntegerPoint) other).getPoint();
+        if (this.point.length != otherPoint.length) {
+            return false;
+        }
+        for (int i = 0; i < this.point.length; i++) {
+            if (this.point[i] != otherPoint[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int hashCode() {
+        int hashCode = 0;
+        int[] arr$ = this.point;
+        for (int i : arr$) {
+            Integer i2 = Integer.valueOf(i);
+            hashCode += (i2.hashCode() * 13) + 7;
+        }
+        return hashCode;
+    }
+
+    public String toString() {
+        StringBuilder buff = new StringBuilder("(");
+        int[] coordinates = getPoint();
+        for (int i = 0; i < coordinates.length; i++) {
+            buff.append(coordinates[i]);
+            if (i < coordinates.length - 1) {
+                buff.append(UtilVerisenseDriver.CSV_DELIMITER);
+            }
+        }
+        buff.append(")");
+        return buff.toString();
+    }
+}

@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/cluster/v3/ClusterCollectionOrBuilder.java
+// Size: 499 bytes
+// Modified: 2025-10-21 16:32:04.793192500 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntry;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface ClusterCollectionOrBuilder extends MessageOrBuilder {
+    CollectionEntry getEntries();
+
+    CollectionEntryOrBuilder getEntriesOrBuilder();
+
+    boolean hasEntries();
+}

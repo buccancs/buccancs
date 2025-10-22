@@ -1,0 +1,242 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/health/v1/HealthGrpc.java
+// Size: 12227 bytes
+// Modified: 2025-10-21 16:32:12.881095100 +0100
+
+package io.grpc.health.v1;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.protobuf.Descriptors;
+import io.grpc.BindableService;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.MethodDescriptor;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServiceDescriptor;
+import io.grpc.protobuf.ProtoFileDescriptorSupplier;
+import io.grpc.protobuf.ProtoMethodDescriptorSupplier;
+import io.grpc.protobuf.ProtoServiceDescriptorSupplier;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.stub.AbstractAsyncStub;
+import io.grpc.stub.AbstractBlockingStub;
+import io.grpc.stub.AbstractFutureStub;
+import io.grpc.stub.AbstractStub;
+import io.grpc.stub.ClientCalls;
+import io.grpc.stub.ServerCalls;
+import io.grpc.stub.StreamObserver;
+import java.util.Iterator;
+
+/* loaded from: classes2.dex */
+public final class HealthGrpc {
+    private static final int METHODID_CHECK = 0;
+    private static final int METHODID_WATCH = 1;
+    public static final String SERVICE_NAME = "grpc.health.v1.Health";
+    private static volatile MethodDescriptor<HealthCheckRequest, HealthCheckResponse> getCheckMethod;
+    private static volatile MethodDescriptor<HealthCheckRequest, HealthCheckResponse> getWatchMethod;
+    private static volatile ServiceDescriptor serviceDescriptor;
+
+    private HealthGrpc() {
+    }
+
+    public static MethodDescriptor<HealthCheckRequest, HealthCheckResponse> getCheckMethod() {
+        MethodDescriptor<HealthCheckRequest, HealthCheckResponse> methodDescriptorBuild = getCheckMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (HealthGrpc.class) {
+                methodDescriptorBuild = getCheckMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "Check")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(HealthCheckRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(HealthCheckResponse.getDefaultInstance())).setSchemaDescriptor(new HealthMethodDescriptorSupplier("Check")).build();
+                    getCheckMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<HealthCheckRequest, HealthCheckResponse> getWatchMethod() {
+        MethodDescriptor<HealthCheckRequest, HealthCheckResponse> methodDescriptorBuild = getWatchMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (HealthGrpc.class) {
+                methodDescriptorBuild = getWatchMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.SERVER_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "Watch")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(HealthCheckRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(HealthCheckResponse.getDefaultInstance())).setSchemaDescriptor(new HealthMethodDescriptorSupplier("Watch")).build();
+                    getWatchMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static HealthStub newStub(Channel channel) {
+        return (HealthStub) HealthStub.newStub(new AbstractStub.StubFactory<HealthStub>() { // from class: io.grpc.health.v1.HealthGrpc.1
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public HealthStub newStub(Channel channel2, CallOptions callOptions) {
+                return new HealthStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static HealthBlockingStub newBlockingStub(Channel channel) {
+        return (HealthBlockingStub) HealthBlockingStub.newStub(new AbstractStub.StubFactory<HealthBlockingStub>() { // from class: io.grpc.health.v1.HealthGrpc.2
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public HealthBlockingStub newStub(Channel channel2, CallOptions callOptions) {
+                return new HealthBlockingStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static HealthFutureStub newFutureStub(Channel channel) {
+        return (HealthFutureStub) HealthFutureStub.newStub(new AbstractStub.StubFactory<HealthFutureStub>() { // from class: io.grpc.health.v1.HealthGrpc.3
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public HealthFutureStub newStub(Channel channel2, CallOptions callOptions) {
+                return new HealthFutureStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static abstract class HealthImplBase implements BindableService {
+        public void check(HealthCheckRequest healthCheckRequest, StreamObserver<HealthCheckResponse> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(HealthGrpc.getCheckMethod(), streamObserver);
+        }
+
+        public void watch(HealthCheckRequest healthCheckRequest, StreamObserver<HealthCheckResponse> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(HealthGrpc.getWatchMethod(), streamObserver);
+        }
+
+        @Override // io.grpc.BindableService
+        public final ServerServiceDefinition bindService() {
+            return ServerServiceDefinition.builder(HealthGrpc.getServiceDescriptor()).addMethod(HealthGrpc.getCheckMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 0))).addMethod(HealthGrpc.getWatchMethod(), ServerCalls.asyncServerStreamingCall(new MethodHandlers(this, 1))).build();
+        }
+    }
+
+    public static final class HealthStub extends AbstractAsyncStub<HealthStub> {
+        private HealthStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public HealthStub build(Channel channel, CallOptions callOptions) {
+            return new HealthStub(channel, callOptions);
+        }
+
+        public void check(HealthCheckRequest healthCheckRequest, StreamObserver<HealthCheckResponse> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(HealthGrpc.getCheckMethod(), getCallOptions()), healthCheckRequest, streamObserver);
+        }
+
+        public void watch(HealthCheckRequest healthCheckRequest, StreamObserver<HealthCheckResponse> streamObserver) {
+            ClientCalls.asyncServerStreamingCall(getChannel().newCall(HealthGrpc.getWatchMethod(), getCallOptions()), healthCheckRequest, streamObserver);
+        }
+    }
+
+    public static final class HealthBlockingStub extends AbstractBlockingStub<HealthBlockingStub> {
+        private HealthBlockingStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public HealthBlockingStub build(Channel channel, CallOptions callOptions) {
+            return new HealthBlockingStub(channel, callOptions);
+        }
+
+        public HealthCheckResponse check(HealthCheckRequest healthCheckRequest) {
+            return (HealthCheckResponse) ClientCalls.blockingUnaryCall(getChannel(), HealthGrpc.getCheckMethod(), getCallOptions(), healthCheckRequest);
+        }
+
+        public Iterator<HealthCheckResponse> watch(HealthCheckRequest healthCheckRequest) {
+            return ClientCalls.blockingServerStreamingCall(getChannel(), HealthGrpc.getWatchMethod(), getCallOptions(), healthCheckRequest);
+        }
+    }
+
+    public static final class HealthFutureStub extends AbstractFutureStub<HealthFutureStub> {
+        private HealthFutureStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public HealthFutureStub build(Channel channel, CallOptions callOptions) {
+            return new HealthFutureStub(channel, callOptions);
+        }
+
+        public ListenableFuture<HealthCheckResponse> check(HealthCheckRequest healthCheckRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(HealthGrpc.getCheckMethod(), getCallOptions()), healthCheckRequest);
+        }
+    }
+
+    private static final class MethodHandlers<Req, Resp> implements ServerCalls.UnaryMethod<Req, Resp>, ServerCalls.ServerStreamingMethod<Req, Resp>, ServerCalls.ClientStreamingMethod<Req, Resp>, ServerCalls.BidiStreamingMethod<Req, Resp> {
+        private final int methodId;
+        private final HealthImplBase serviceImpl;
+
+        MethodHandlers(HealthImplBase healthImplBase, int i) {
+            this.serviceImpl = healthImplBase;
+            this.methodId = i;
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override // io.grpc.stub.ServerCalls.UnaryMethod, io.grpc.stub.ServerCalls.UnaryRequestMethod, io.grpc.stub.ServerCalls.ServerStreamingMethod
+        public void invoke(Req req, StreamObserver<Resp> streamObserver) {
+            int i = this.methodId;
+            if (i == 0) {
+                this.serviceImpl.check((HealthCheckRequest) req, streamObserver);
+            } else {
+                if (i == 1) {
+                    this.serviceImpl.watch((HealthCheckRequest) req, streamObserver);
+                    return;
+                }
+                throw new AssertionError();
+            }
+        }
+
+        @Override // io.grpc.stub.ServerCalls.ClientStreamingMethod, io.grpc.stub.ServerCalls.StreamingRequestMethod, io.grpc.stub.ServerCalls.BidiStreamingMethod
+        public StreamObserver<Req> invoke(StreamObserver<Resp> streamObserver) {
+            throw new AssertionError();
+        }
+    }
+
+    private static abstract class HealthBaseDescriptorSupplier implements ProtoFileDescriptorSupplier, ProtoServiceDescriptorSupplier {
+        HealthBaseDescriptorSupplier() {
+        }
+
+        @Override // io.grpc.protobuf.ProtoFileDescriptorSupplier
+        public Descriptors.FileDescriptor getFileDescriptor() {
+            return HealthProto.getDescriptor();
+        }
+
+        @Override // io.grpc.protobuf.ProtoServiceDescriptorSupplier
+        public Descriptors.ServiceDescriptor getServiceDescriptor() {
+            return getFileDescriptor().findServiceByName("Health");
+        }
+    }
+
+    private static final class HealthFileDescriptorSupplier extends HealthBaseDescriptorSupplier {
+        HealthFileDescriptorSupplier() {
+        }
+    }
+
+    private static final class HealthMethodDescriptorSupplier extends HealthBaseDescriptorSupplier implements ProtoMethodDescriptorSupplier {
+        private final String methodName;
+
+        HealthMethodDescriptorSupplier(String str) {
+            this.methodName = str;
+        }
+
+        @Override // io.grpc.protobuf.ProtoMethodDescriptorSupplier
+        public Descriptors.MethodDescriptor getMethodDescriptor() {
+            return getServiceDescriptor().findMethodByName(this.methodName);
+        }
+    }
+
+    public static ServiceDescriptor getServiceDescriptor() {
+        ServiceDescriptor serviceDescriptorBuild = serviceDescriptor;
+        if (serviceDescriptorBuild == null) {
+            synchronized (HealthGrpc.class) {
+                serviceDescriptorBuild = serviceDescriptor;
+                if (serviceDescriptorBuild == null) {
+                    serviceDescriptorBuild = ServiceDescriptor.newBuilder(SERVICE_NAME).setSchemaDescriptor(new HealthFileDescriptorSupplier()).addMethod(getCheckMethod()).addMethod(getWatchMethod()).build();
+                    serviceDescriptor = serviceDescriptorBuild;
+                }
+            }
+        }
+        return serviceDescriptorBuild;
+    }
+}

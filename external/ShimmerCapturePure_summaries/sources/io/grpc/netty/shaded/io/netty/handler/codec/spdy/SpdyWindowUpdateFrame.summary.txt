@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyWindowUpdateFrame.java
+// Size: 313 bytes
+// Modified: 2025-10-21 16:32:00.858738800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+/* loaded from: classes3.dex */
+public interface SpdyWindowUpdateFrame extends SpdyFrame {
+    int deltaWindowSize();
+
+    SpdyWindowUpdateFrame setDeltaWindowSize(int i);
+
+    SpdyWindowUpdateFrame setStreamId(int i);
+
+    int streamId();
+}

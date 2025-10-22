@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/ForwardingIterator.java
+// Size: 664 bytes
+// Modified: 2025-10-21 16:32:00.796959800 +0100
+
+package com.google.common.collect;
+
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+public abstract class ForwardingIterator<T> extends ForwardingObject implements Iterator<T> {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.common.collect.ForwardingObject
+    public abstract Iterator<T> delegate();
+
+    protected ForwardingIterator() {
+    }
+
+    @Override // java.util.Iterator
+    public boolean hasNext() {
+        return delegate().hasNext();
+    }
+
+    public T next() {
+        return delegate().next();
+    }
+
+    public void remove() {
+        delegate().remove();
+    }
+}

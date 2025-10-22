@@ -1,0 +1,161 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/util/IntegerSequence.java
+// Size: 5436 bytes
+// Modified: 2025-10-21 16:32:05.593518900 +0100
+
+package org.apache.commons.math3.util;
+
+import java.util.Iterator;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.ZeroException;
+
+/* loaded from: classes5.dex */
+public class IntegerSequence {
+    private IntegerSequence() {
+    }
+
+    public static Range range(int i, int i2) {
+        return range(i, i2, 1);
+    }
+
+    public static Range range(int i, int i2, int i3) {
+        return new Range(i, i2, i3);
+    }
+
+    public static class Range implements Iterable<Integer> {
+        private final int max;
+        private final int size;
+        private final int start;
+        private final int step;
+
+        public int size() {
+            return this.size;
+        }
+
+        public Range(int i, int i2, int i3) {
+            this.start = i;
+            this.max = i2;
+            this.step = i3;
+            int i4 = ((i2 - i) / i3) + 1;
+            this.size = i4 < 0 ? 0 : i4;
+        }
+
+        @Override // java.lang.Iterable
+        public Iterator<Integer> iterator() {
+            return Incrementor.create().withStart(this.start).withMaximalCount(this.max + (this.step > 0 ? 1 : -1)).withIncrement(this.step);
+        }
+    }
+
+    public static class Incrementor implements Iterator<Integer> {
+        private static final MaxCountExceededCallback CALLBACK = new MaxCountExceededCallback() { // from class: org.apache.commons.math3.util.IntegerSequence.Incrementor.1
+            @Override // org.apache.commons.math3.util.IntegerSequence.Incrementor.MaxCountExceededCallback
+            public void trigger(int i) throws MaxCountExceededException {
+                throw new MaxCountExceededException(Integer.valueOf(i));
+            }
+        };
+        private int count;
+        private final int increment;
+        private final int init;
+        private final MaxCountExceededCallback maxCountCallback;
+        private final int maximalCount;
+
+        public interface MaxCountExceededCallback {
+            void trigger(int i) throws MaxCountExceededException;
+        }
+
+        public boolean canIncrement(int i) {
+            int i2 = this.count;
+            int i3 = this.increment;
+            int i4 = i2 + (i * i3);
+            if (i3 < 0) {
+                if (i4 > this.maximalCount) {
+                    return true;
+                }
+            } else if (i4 < this.maximalCount) {
+                return true;
+            }
+            return false;
+        }
+
+        public int getCount() {
+            return this.count;
+        }
+
+        public int getMaximalCount() {
+            return this.maximalCount;
+        }
+
+        private Incrementor(int i, int i2, int i3, MaxCountExceededCallback maxCountExceededCallback) throws NullArgumentException {
+            this.count = 0;
+            if (maxCountExceededCallback == null) {
+                throw new NullArgumentException();
+            }
+            this.init = i;
+            this.maximalCount = i2;
+            this.increment = i3;
+            this.maxCountCallback = maxCountExceededCallback;
+            this.count = i;
+        }
+
+        public static Incrementor create() {
+            return new Incrementor(0, 0, 1, CALLBACK);
+        }
+
+        public Incrementor withStart(int i) {
+            return new Incrementor(i, this.maximalCount, this.increment, this.maxCountCallback);
+        }
+
+        public Incrementor withMaximalCount(int i) {
+            return new Incrementor(this.init, i, this.increment, this.maxCountCallback);
+        }
+
+        public Incrementor withIncrement(int i) {
+            if (i == 0) {
+                throw new ZeroException();
+            }
+            return new Incrementor(this.init, this.maximalCount, i, this.maxCountCallback);
+        }
+
+        public Incrementor withCallback(MaxCountExceededCallback maxCountExceededCallback) {
+            return new Incrementor(this.init, this.maximalCount, this.increment, maxCountExceededCallback);
+        }
+
+        public boolean canIncrement() {
+            return canIncrement(1);
+        }
+
+        public void increment(int i) throws MaxCountExceededException {
+            if (i <= 0) {
+                throw new NotStrictlyPositiveException(Integer.valueOf(i));
+            }
+            if (!canIncrement(0)) {
+                this.maxCountCallback.trigger(this.maximalCount);
+            }
+            this.count += i * this.increment;
+        }
+
+        public void increment() throws MaxCountExceededException {
+            increment(1);
+        }
+
+        @Override // java.util.Iterator
+        public boolean hasNext() {
+            return canIncrement(0);
+        }
+
+        /* JADX WARN: Can't rename method to resolve collision */
+        @Override // java.util.Iterator
+        public Integer next() throws MaxCountExceededException {
+            int i = this.count;
+            increment();
+            return Integer.valueOf(i);
+        }
+
+        @Override // java.util.Iterator
+        public void remove() {
+            throw new MathUnsupportedOperationException();
+        }
+    }
+}

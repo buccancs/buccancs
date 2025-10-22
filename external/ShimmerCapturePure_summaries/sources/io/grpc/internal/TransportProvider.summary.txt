@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/TransportProvider.java
+// Size: 194 bytes
+// Modified: 2025-10-21 16:32:04.915088300 +0100
+
+package io.grpc.internal;
+
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+interface TransportProvider {
+    @Nullable
+    ClientTransport obtainActiveTransport();
+}

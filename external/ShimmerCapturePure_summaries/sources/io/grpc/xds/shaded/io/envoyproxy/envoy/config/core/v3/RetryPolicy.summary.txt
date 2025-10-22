@@ -1,0 +1,667 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/RetryPolicy.java
+// Size: 33184 bytes
+// Modified: 2025-10-21 16:32:05.435283800 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BackoffStrategy;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes6.dex */
+public final class RetryPolicy extends GeneratedMessageV3 implements RetryPolicyOrBuilder {
+    public static final int NUM_RETRIES_FIELD_NUMBER = 2;
+    public static final int RETRY_BACK_OFF_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private byte memoizedIsInitialized;
+    private UInt32Value numRetries_;
+    private BackoffStrategy retryBackOff_;
+    private static final RetryPolicy DEFAULT_INSTANCE = new RetryPolicy();
+    private static final Parser<RetryPolicy> PARSER = new AbstractParser<RetryPolicy>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public RetryPolicy m23879parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new RetryPolicy(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static RetryPolicy getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<RetryPolicy> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public RetryPolicy m23872getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<RetryPolicy> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+    public boolean hasNumRetries() {
+        return this.numRetries_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+    public boolean hasRetryBackOff() {
+        return this.retryBackOff_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private RetryPolicy(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private RetryPolicy() {
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new RetryPolicy();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private RetryPolicy(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        BackoffStrategy.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            BackoffStrategy backoffStrategy = this.retryBackOff_;
+                            builder = backoffStrategy != null ? backoffStrategy.m21615toBuilder() : null;
+                            BackoffStrategy backoffStrategy2 = (BackoffStrategy) codedInputStream.readMessage(BackoffStrategy.parser(), extensionRegistryLite);
+                            this.retryBackOff_ = backoffStrategy2;
+                            if (builder != null) {
+                                builder.mergeFrom(backoffStrategy2);
+                                this.retryBackOff_ = builder.m21622buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            UInt32Value uInt32Value = this.numRetries_;
+                            builder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                            UInt32Value message = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.numRetries_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.numRetries_ = builder.buildPartial();
+                            }
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return BaseProto.internal_static_envoy_config_core_v3_RetryPolicy_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return BaseProto.internal_static_envoy_config_core_v3_RetryPolicy_fieldAccessorTable.ensureFieldAccessorsInitialized(RetryPolicy.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+    public BackoffStrategy getRetryBackOff() {
+        BackoffStrategy backoffStrategy = this.retryBackOff_;
+        return backoffStrategy == null ? BackoffStrategy.getDefaultInstance() : backoffStrategy;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+    public BackoffStrategyOrBuilder getRetryBackOffOrBuilder() {
+        return getRetryBackOff();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+    public UInt32Value getNumRetries() {
+        UInt32Value uInt32Value = this.numRetries_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+    public UInt32ValueOrBuilder getNumRetriesOrBuilder() {
+        return getNumRetries();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.retryBackOff_ != null) {
+            codedOutputStream.writeMessage(1, getRetryBackOff());
+        }
+        if (this.numRetries_ != null) {
+            codedOutputStream.writeMessage(2, getNumRetries());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.retryBackOff_ != null ? CodedOutputStream.computeMessageSize(1, getRetryBackOff()) : 0;
+        if (this.numRetries_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getNumRetries());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof RetryPolicy)) {
+            return super.equals(obj);
+        }
+        RetryPolicy retryPolicy = (RetryPolicy) obj;
+        if (hasRetryBackOff() != retryPolicy.hasRetryBackOff()) {
+            return false;
+        }
+        if ((!hasRetryBackOff() || getRetryBackOff().equals(retryPolicy.getRetryBackOff())) && hasNumRetries() == retryPolicy.hasNumRetries()) {
+            return (!hasNumRetries() || getNumRetries().equals(retryPolicy.getNumRetries())) && this.unknownFields.equals(retryPolicy.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasRetryBackOff()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getRetryBackOff().hashCode();
+        }
+        if (hasNumRetries()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getNumRetries().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    public static RetryPolicy parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (RetryPolicy) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static RetryPolicy parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RetryPolicy) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static RetryPolicy parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (RetryPolicy) PARSER.parseFrom(byteString);
+    }
+
+    public static RetryPolicy parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RetryPolicy) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static RetryPolicy parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (RetryPolicy) PARSER.parseFrom(bArr);
+    }
+
+    public static RetryPolicy parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RetryPolicy) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static RetryPolicy parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static RetryPolicy parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RetryPolicy parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static RetryPolicy parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RetryPolicy parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static RetryPolicy parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m23874newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m23877toBuilder();
+    }
+
+    public static Builder newBuilder(RetryPolicy retryPolicy) {
+        return DEFAULT_INSTANCE.m23877toBuilder().mergeFrom(retryPolicy);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m23877toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RetryPolicyOrBuilder {
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> numRetriesBuilder_;
+        private UInt32Value numRetries_;
+        private SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> retryBackOffBuilder_;
+        private BackoffStrategy retryBackOff_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+        public boolean hasNumRetries() {
+            return (this.numRetriesBuilder_ == null && this.numRetries_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+        public boolean hasRetryBackOff() {
+            return (this.retryBackOffBuilder_ == null && this.retryBackOff_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return BaseProto.internal_static_envoy_config_core_v3_RetryPolicy_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return BaseProto.internal_static_envoy_config_core_v3_RetryPolicy_fieldAccessorTable.ensureFieldAccessorsInitialized(RetryPolicy.class, Builder.class);
+        }
+
+        private Builder() {
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = RetryPolicy.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23888clear() {
+            super.clear();
+            if (this.retryBackOffBuilder_ == null) {
+                this.retryBackOff_ = null;
+            } else {
+                this.retryBackOff_ = null;
+                this.retryBackOffBuilder_ = null;
+            }
+            if (this.numRetriesBuilder_ == null) {
+                this.numRetries_ = null;
+            } else {
+                this.numRetries_ = null;
+                this.numRetriesBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return BaseProto.internal_static_envoy_config_core_v3_RetryPolicy_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RetryPolicy m23901getDefaultInstanceForType() {
+            return RetryPolicy.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RetryPolicy m23882build() throws UninitializedMessageException {
+            RetryPolicy retryPolicyM23884buildPartial = m23884buildPartial();
+            if (retryPolicyM23884buildPartial.isInitialized()) {
+                return retryPolicyM23884buildPartial;
+            }
+            throw newUninitializedMessageException(retryPolicyM23884buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RetryPolicy m23884buildPartial() {
+            RetryPolicy retryPolicy = new RetryPolicy(this);
+            SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> singleFieldBuilderV3 = this.retryBackOffBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                retryPolicy.retryBackOff_ = this.retryBackOff_;
+            } else {
+                retryPolicy.retryBackOff_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV32 = this.numRetriesBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                retryPolicy.numRetries_ = this.numRetries_;
+            } else {
+                retryPolicy.numRetries_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return retryPolicy;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23900clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23912setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23890clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23893clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23914setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23880addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23905mergeFrom(Message message) {
+            if (message instanceof RetryPolicy) {
+                return mergeFrom((RetryPolicy) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(RetryPolicy retryPolicy) {
+            if (retryPolicy == RetryPolicy.getDefaultInstance()) {
+                return this;
+            }
+            if (retryPolicy.hasRetryBackOff()) {
+                mergeRetryBackOff(retryPolicy.getRetryBackOff());
+            }
+            if (retryPolicy.hasNumRetries()) {
+                mergeNumRetries(retryPolicy.getNumRetries());
+            }
+            m23910mergeUnknownFields(retryPolicy.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy.Builder m23906mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy.Builder.m23906mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicy$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+        public BackoffStrategy getRetryBackOff() {
+            SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> singleFieldBuilderV3 = this.retryBackOffBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BackoffStrategy backoffStrategy = this.retryBackOff_;
+            return backoffStrategy == null ? BackoffStrategy.getDefaultInstance() : backoffStrategy;
+        }
+
+        public Builder setRetryBackOff(BackoffStrategy backoffStrategy) {
+            SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> singleFieldBuilderV3 = this.retryBackOffBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                backoffStrategy.getClass();
+                this.retryBackOff_ = backoffStrategy;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(backoffStrategy);
+            }
+            return this;
+        }
+
+        public Builder setRetryBackOff(BackoffStrategy.Builder builder) {
+            SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> singleFieldBuilderV3 = this.retryBackOffBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.retryBackOff_ = builder.m21620build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21620build());
+            }
+            return this;
+        }
+
+        public Builder mergeRetryBackOff(BackoffStrategy backoffStrategy) {
+            SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> singleFieldBuilderV3 = this.retryBackOffBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BackoffStrategy backoffStrategy2 = this.retryBackOff_;
+                if (backoffStrategy2 != null) {
+                    this.retryBackOff_ = BackoffStrategy.newBuilder(backoffStrategy2).mergeFrom(backoffStrategy).m21622buildPartial();
+                } else {
+                    this.retryBackOff_ = backoffStrategy;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(backoffStrategy);
+            }
+            return this;
+        }
+
+        public Builder clearRetryBackOff() {
+            if (this.retryBackOffBuilder_ == null) {
+                this.retryBackOff_ = null;
+                onChanged();
+            } else {
+                this.retryBackOff_ = null;
+                this.retryBackOffBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BackoffStrategy.Builder getRetryBackOffBuilder() {
+            onChanged();
+            return getRetryBackOffFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+        public BackoffStrategyOrBuilder getRetryBackOffOrBuilder() {
+            SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> singleFieldBuilderV3 = this.retryBackOffBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (BackoffStrategyOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BackoffStrategy backoffStrategy = this.retryBackOff_;
+            return backoffStrategy == null ? BackoffStrategy.getDefaultInstance() : backoffStrategy;
+        }
+
+        private SingleFieldBuilderV3<BackoffStrategy, BackoffStrategy.Builder, BackoffStrategyOrBuilder> getRetryBackOffFieldBuilder() {
+            if (this.retryBackOffBuilder_ == null) {
+                this.retryBackOffBuilder_ = new SingleFieldBuilderV3<>(getRetryBackOff(), getParentForChildren(), isClean());
+                this.retryBackOff_ = null;
+            }
+            return this.retryBackOffBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+        public UInt32Value getNumRetries() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.numRetriesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.numRetries_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setNumRetries(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.numRetriesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.numRetries_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setNumRetries(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.numRetriesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.numRetries_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeNumRetries(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.numRetriesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.numRetries_;
+                if (uInt32Value2 != null) {
+                    this.numRetries_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.numRetries_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearNumRetries() {
+            if (this.numRetriesBuilder_ == null) {
+                this.numRetries_ = null;
+                onChanged();
+            } else {
+                this.numRetries_ = null;
+                this.numRetriesBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getNumRetriesBuilder() {
+            onChanged();
+            return getNumRetriesFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RetryPolicyOrBuilder
+        public UInt32ValueOrBuilder getNumRetriesOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.numRetriesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.numRetries_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getNumRetriesFieldBuilder() {
+            if (this.numRetriesBuilder_ == null) {
+                this.numRetriesBuilder_ = new SingleFieldBuilderV3<>(getNumRetries(), getParentForChildren(), isClean());
+                this.numRetries_ = null;
+            }
+            return this.numRetriesBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m23916setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m23910mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

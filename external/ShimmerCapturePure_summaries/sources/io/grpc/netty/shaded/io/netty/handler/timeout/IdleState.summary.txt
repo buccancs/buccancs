@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/timeout/IdleState.java
+// Size: 169 bytes
+// Modified: 2025-10-21 16:32:00.267112300 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.timeout;
+
+/* loaded from: classes3.dex */
+public enum IdleState {
+    READER_IDLE,
+    WRITER_IDLE,
+    ALL_IDLE
+}

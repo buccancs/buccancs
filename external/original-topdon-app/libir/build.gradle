@@ -92,7 +92,7 @@ dependencies {
     api 'com.conghuahuadan:superlayout:1.1.0'
 
     implementation project(':libapp')
-api(
+    api(
             project(
                     ":LocalRepo:libcommon"
             )

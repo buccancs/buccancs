@@ -1,0 +1,339 @@
+package javax.vecmath;
+
+import java.io.Serializable;
+
+/* loaded from: classes4.dex */
+public abstract class Tuple3f implements Serializable, Cloneable {
+    static final long serialVersionUID = 5019834619484343712L;
+    public float x;
+    public float y;
+    public float z;
+
+    public Tuple3f(float f, float f2, float f3) {
+        this.x = f;
+        this.y = f2;
+        this.z = f3;
+    }
+
+    public Tuple3f(float[] fArr) {
+        this.x = fArr[0];
+        this.y = fArr[1];
+        this.z = fArr[2];
+    }
+
+    public Tuple3f(Tuple3f tuple3f) {
+        this.x = tuple3f.x;
+        this.y = tuple3f.y;
+        this.z = tuple3f.z;
+    }
+
+    public Tuple3f(Tuple3d tuple3d) {
+        this.x = (float) tuple3d.x;
+        this.y = (float) tuple3d.y;
+        this.z = (float) tuple3d.z;
+    }
+
+    public Tuple3f() {
+        this.x = 0.0f;
+        this.y = 0.0f;
+        this.z = 0.0f;
+    }
+
+    public final void clamp(float f, float f2) {
+        float f3 = this.x;
+        if (f3 > f2) {
+            this.x = f2;
+        } else if (f3 < f) {
+            this.x = f;
+        }
+        float f4 = this.y;
+        if (f4 > f2) {
+            this.y = f2;
+        } else if (f4 < f) {
+            this.y = f;
+        }
+        float f5 = this.z;
+        if (f5 > f2) {
+            this.z = f2;
+        } else if (f5 < f) {
+            this.z = f;
+        }
+    }
+
+    public final void clampMax(float f) {
+        if (this.x > f) {
+            this.x = f;
+        }
+        if (this.y > f) {
+            this.y = f;
+        }
+        if (this.z > f) {
+            this.z = f;
+        }
+    }
+
+    public final void clampMin(float f) {
+        if (this.x < f) {
+            this.x = f;
+        }
+        if (this.y < f) {
+            this.y = f;
+        }
+        if (this.z < f) {
+            this.z = f;
+        }
+    }
+
+    public final void negate() {
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+    }
+
+    public final void scale(float f) {
+        this.x *= f;
+        this.y *= f;
+        this.z *= f;
+    }
+
+    public final void set(float f, float f2, float f3) {
+        this.x = f;
+        this.y = f2;
+        this.z = f3;
+    }
+
+    public String toString() {
+        return new StringBuffer("(").append(this.x).append(", ").append(this.y).append(", ").append(this.z).append(")").toString();
+    }
+
+    public final void set(float[] fArr) {
+        this.x = fArr[0];
+        this.y = fArr[1];
+        this.z = fArr[2];
+    }
+
+    public final void set(Tuple3f tuple3f) {
+        this.x = tuple3f.x;
+        this.y = tuple3f.y;
+        this.z = tuple3f.z;
+    }
+
+    public final void set(Tuple3d tuple3d) {
+        this.x = (float) tuple3d.x;
+        this.y = (float) tuple3d.y;
+        this.z = (float) tuple3d.z;
+    }
+
+    public final void get(float[] fArr) {
+        fArr[0] = this.x;
+        fArr[1] = this.y;
+        fArr[2] = this.z;
+    }
+
+    public final void get(Tuple3f tuple3f) {
+        tuple3f.x = this.x;
+        tuple3f.y = this.y;
+        tuple3f.z = this.z;
+    }
+
+    public final void add(Tuple3f tuple3f, Tuple3f tuple3f2) {
+        this.x = tuple3f.x + tuple3f2.x;
+        this.y = tuple3f.y + tuple3f2.y;
+        this.z = tuple3f.z + tuple3f2.z;
+    }
+
+    public final void add(Tuple3f tuple3f) {
+        this.x += tuple3f.x;
+        this.y += tuple3f.y;
+        this.z += tuple3f.z;
+    }
+
+    public final void sub(Tuple3f tuple3f, Tuple3f tuple3f2) {
+        this.x = tuple3f.x - tuple3f2.x;
+        this.y = tuple3f.y - tuple3f2.y;
+        this.z = tuple3f.z - tuple3f2.z;
+    }
+
+    public final void sub(Tuple3f tuple3f) {
+        this.x -= tuple3f.x;
+        this.y -= tuple3f.y;
+        this.z -= tuple3f.z;
+    }
+
+    public final void negate(Tuple3f tuple3f) {
+        this.x = -tuple3f.x;
+        this.y = -tuple3f.y;
+        this.z = -tuple3f.z;
+    }
+
+    public final void scale(float f, Tuple3f tuple3f) {
+        this.x = tuple3f.x * f;
+        this.y = tuple3f.y * f;
+        this.z = f * tuple3f.z;
+    }
+
+    public final void scaleAdd(float f, Tuple3f tuple3f, Tuple3f tuple3f2) {
+        this.x = (tuple3f.x * f) + tuple3f2.x;
+        this.y = (tuple3f.y * f) + tuple3f2.y;
+        this.z = (f * tuple3f.z) + tuple3f2.z;
+    }
+
+    public final void scaleAdd(float f, Tuple3f tuple3f) {
+        this.x = (this.x * f) + tuple3f.x;
+        this.y = (this.y * f) + tuple3f.y;
+        this.z = (f * this.z) + tuple3f.z;
+    }
+
+    public boolean equals(Tuple3f tuple3f) {
+        try {
+            if (this.x == tuple3f.x && this.y == tuple3f.y) {
+                return this.z == tuple3f.z;
+            }
+            return false;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean equals(Object obj) {
+        try {
+            Tuple3f tuple3f = (Tuple3f) obj;
+            if (this.x == tuple3f.x && this.y == tuple3f.y) {
+                return this.z == tuple3f.z;
+            }
+            return false;
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean epsilonEquals(Tuple3f tuple3f, float f) {
+        float f2 = this.x - tuple3f.x;
+        if (f2 < 0.0f) {
+            f2 = -f2;
+        }
+        if (f2 > f) {
+            return false;
+        }
+        float f3 = this.y - tuple3f.y;
+        if (f3 < 0.0f) {
+            f3 = -f3;
+        }
+        if (f3 > f) {
+            return false;
+        }
+        float f4 = this.z - tuple3f.z;
+        if (f4 < 0.0f) {
+            f4 = -f4;
+        }
+        return f4 <= f;
+    }
+
+    public int hashCode() {
+        long jFloatToIntBits = ((((Float.floatToIntBits(this.x) + 31) * 31) + Float.floatToIntBits(this.y)) * 31) + Float.floatToIntBits(this.z);
+        return (int) (jFloatToIntBits ^ (jFloatToIntBits >> 32));
+    }
+
+    public final void clamp(float f, float f2, Tuple3f tuple3f) {
+        float f3 = tuple3f.x;
+        if (f3 > f2) {
+            this.x = f2;
+        } else if (f3 < f) {
+            this.x = f;
+        } else {
+            this.x = f3;
+        }
+        float f4 = tuple3f.y;
+        if (f4 > f2) {
+            this.y = f2;
+        } else if (f4 < f) {
+            this.y = f;
+        } else {
+            this.y = f4;
+        }
+        float f5 = tuple3f.z;
+        if (f5 > f2) {
+            this.z = f2;
+        } else if (f5 < f) {
+            this.z = f;
+        } else {
+            this.z = f5;
+        }
+    }
+
+    public final void clampMin(float f, Tuple3f tuple3f) {
+        float f2 = tuple3f.x;
+        if (f2 < f) {
+            this.x = f;
+        } else {
+            this.x = f2;
+        }
+        float f3 = tuple3f.y;
+        if (f3 < f) {
+            this.y = f;
+        } else {
+            this.y = f3;
+        }
+        float f4 = tuple3f.z;
+        if (f4 < f) {
+            this.z = f;
+        } else {
+            this.z = f4;
+        }
+    }
+
+    public final void clampMax(float f, Tuple3f tuple3f) {
+        float f2 = tuple3f.x;
+        if (f2 > f) {
+            this.x = f;
+        } else {
+            this.x = f2;
+        }
+        float f3 = tuple3f.y;
+        if (f3 > f) {
+            this.y = f;
+        } else {
+            this.y = f3;
+        }
+        float f4 = tuple3f.z;
+        if (f4 > f) {
+            this.z = f;
+        } else {
+            this.z = f4;
+        }
+    }
+
+    public final void absolute(Tuple3f tuple3f) {
+        this.x = Math.abs(tuple3f.x);
+        this.y = Math.abs(tuple3f.y);
+        this.z = Math.abs(tuple3f.z);
+    }
+
+    public final void absolute() {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        this.z = Math.abs(this.z);
+    }
+
+    public final void interpolate(Tuple3f tuple3f, Tuple3f tuple3f2, float f) {
+        float f2 = 1.0f - f;
+        this.x = (tuple3f.x * f2) + (tuple3f2.x * f);
+        this.y = (tuple3f.y * f2) + (tuple3f2.y * f);
+        this.z = (f2 * tuple3f.z) + (f * tuple3f2.z);
+    }
+
+    public final void interpolate(Tuple3f tuple3f, float f) {
+        float f2 = 1.0f - f;
+        this.x = (this.x * f2) + (tuple3f.x * f);
+        this.y = (this.y * f2) + (tuple3f.y * f);
+        this.z = (f2 * this.z) + (f * tuple3f.z);
+    }
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException unused) {
+            throw new InternalError();
+        }
+    }
+}

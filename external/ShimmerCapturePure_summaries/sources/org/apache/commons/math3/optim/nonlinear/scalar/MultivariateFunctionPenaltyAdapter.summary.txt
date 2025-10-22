@@ -1,0 +1,74 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/nonlinear/scalar/MultivariateFunctionPenaltyAdapter.java
+// Size: 2845 bytes
+// Modified: 2025-10-21 16:32:07.889569500 +0100
+
+package org.apache.commons.math3.optim.nonlinear.scalar;
+
+import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathUtils;
+
+/* loaded from: classes5.dex */
+public class MultivariateFunctionPenaltyAdapter implements MultivariateFunction {
+    private final MultivariateFunction bounded;
+    private final double[] lower;
+    private final double offset;
+    private final double[] scale;
+    private final double[] upper;
+
+    public MultivariateFunctionPenaltyAdapter(MultivariateFunction multivariateFunction, double[] dArr, double[] dArr2, double d, double[] dArr3) throws NullArgumentException {
+        MathUtils.checkNotNull(dArr);
+        MathUtils.checkNotNull(dArr2);
+        MathUtils.checkNotNull(dArr3);
+        if (dArr.length != dArr2.length) {
+            throw new DimensionMismatchException(dArr.length, dArr2.length);
+        }
+        if (dArr.length != dArr3.length) {
+            throw new DimensionMismatchException(dArr.length, dArr3.length);
+        }
+        for (int i = 0; i < dArr.length; i++) {
+            if (dArr2[i] < dArr[i]) {
+                throw new NumberIsTooSmallException(Double.valueOf(dArr2[i]), Double.valueOf(dArr[i]), true);
+            }
+        }
+        this.bounded = multivariateFunction;
+        this.lower = (double[]) dArr.clone();
+        this.upper = (double[]) dArr2.clone();
+        this.offset = d;
+        this.scale = (double[]) dArr3.clone();
+    }
+
+    @Override // org.apache.commons.math3.analysis.MultivariateFunction
+    public double value(double[] dArr) {
+        double d;
+        int i = 0;
+        while (i < this.scale.length) {
+            double d2 = dArr[i];
+            if (d2 < this.lower[i] || d2 > this.upper[i]) {
+                double dSqrt = 0.0d;
+                while (true) {
+                    double[] dArr2 = this.scale;
+                    if (i >= dArr2.length) {
+                        return this.offset + dSqrt;
+                    }
+                    double d3 = dArr[i];
+                    double d4 = this.lower[i];
+                    if (d3 < d4) {
+                        d = dArr2[i] * (d4 - d3);
+                    } else {
+                        double d5 = this.upper[i];
+                        d = d3 > d5 ? dArr2[i] * (d3 - d5) : 0.0d;
+                    }
+                    dSqrt += FastMath.sqrt(d);
+                    i++;
+                }
+            } else {
+                i++;
+            }
+        }
+        return this.bounded.value(dArr);
+    }
+}

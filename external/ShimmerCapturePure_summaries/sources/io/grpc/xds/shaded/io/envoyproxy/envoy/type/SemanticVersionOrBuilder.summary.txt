@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/type/SemanticVersionOrBuilder.java
+// Size: 289 bytes
+// Modified: 2025-10-21 16:32:00.434525700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface SemanticVersionOrBuilder extends MessageOrBuilder {
+    int getMajorNumber();
+
+    int getMinorNumber();
+
+    int getPatch();
+}

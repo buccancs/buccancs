@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.pointer.consume
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
@@ -33,12 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.buccancs.data.sensor.connector.topdon.ThermalNormalizer
-import com.buccancs.data.sensor.connector.topdon.capture.MeasurementProcessor
-import com.buccancs.data.sensor.connector.topdon.capture.MaxMinMeasurement
 import com.buccancs.data.sensor.connector.topdon.capture.AreaMeasurement
 import com.buccancs.data.sensor.connector.topdon.capture.LineMeasurement
+import com.buccancs.data.sensor.connector.topdon.capture.MaxMinMeasurement
+import com.buccancs.data.sensor.connector.topdon.capture.MeasurementProcessor
 import com.buccancs.data.sensor.connector.topdon.capture.SpotMeasurement
+import com.buccancs.data.sensor.connector.topdon.ThermalNormalizer
 import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
@@ -46,14 +45,12 @@ import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.ui.components.topdon.MeasurementMode
 import com.buccancs.ui.components.topdon.TopdonTemperatureCrosshair
 import com.buccancs.ui.components.topdon.TopdonTemperatureRange
-import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Area
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Line
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Spot
-import com.buccancs.ui.topdon.thermal.clampToFrame
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Locale
+import java.util.*
 import kotlin.math.roundToInt
 
 @Composable
@@ -331,6 +328,9 @@ fun ThermalFrameDisplay(
             }
         }
 
+        val primaryColor = MaterialTheme.colorScheme.primary
+        val primaryFillColor = primaryColor.copy(alpha = 0.25f)
+
         Canvas(modifier = Modifier.matchParentSize()) {
             if (containerSize.width == 0 || containerSize.height == 0) return@Canvas
             when (val target = appliedTarget) {
@@ -342,12 +342,12 @@ fun ThermalFrameDisplay(
                     val rectHeight = bottomRight.y - topLeft.y
                     if (rectWidth > 0f && rectHeight > 0f) {
                         drawRect(
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.25f),
+                            color = primaryFillColor,
                             topLeft = Offset(topLeft.x, topLeft.y),
                             size = androidx.compose.ui.geometry.Size(rectWidth, rectHeight)
                         )
                         drawRect(
-                            color = MaterialTheme.colorScheme.primary,
+                            color = primaryColor,
                             topLeft = Offset(topLeft.x, topLeft.y),
                             size = androidx.compose.ui.geometry.Size(rectWidth, rectHeight),
                             style = Stroke(width = 2.dp.toPx())
@@ -359,7 +359,7 @@ fun ThermalFrameDisplay(
                     val start = target.startToOffset(containerSize, frame.width, frame.height)
                     val end = target.endToOffset(containerSize, frame.width, frame.height)
                     drawLine(
-                        color = MaterialTheme.colorScheme.primary,
+                        color = primaryColor,
                         start = start,
                         end = end,
                         strokeWidth = 3.dp.toPx()
@@ -445,7 +445,7 @@ private data class MeasurementBundle(
                 startY = (height / 2) - 24,
                 endX = (width / 2) + 24,
                 endY = (height / 2) + 24
-            ).clampToFrame(width, height).normalized().ensureSpan(width, height)
+            ).clampToFrame(width, height).let { (it as Area).normalized().ensureSpan(width, height) }
 
             val spotTarget = when (clampedSelection) {
                 is Spot -> clampedSelection
@@ -650,4 +650,3 @@ private fun MaxMinMeasurement.minToOffset(
     frameWidth: Int,
     frameHeight: Int
 ): Offset = Spot(minX, minY).toOffset(containerSize, frameWidth, frameHeight)
-*** End of File

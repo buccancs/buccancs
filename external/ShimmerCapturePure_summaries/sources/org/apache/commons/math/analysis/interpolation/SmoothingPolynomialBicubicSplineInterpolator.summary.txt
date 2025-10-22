@@ -1,0 +1,85 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.java
+// Size: 3622 bytes
+// Modified: 2025-10-21 16:32:10.786945600 +0100
+
+package org.apache.commons.math.analysis.interpolation;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.optimization.fitting.PolynomialFitter;
+import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
+import org.apache.commons.math.util.MathUtils;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.class */
+public class SmoothingPolynomialBicubicSplineInterpolator extends BicubicSplineInterpolator {
+    private final PolynomialFitter xFitter;
+    private final PolynomialFitter yFitter;
+
+    public SmoothingPolynomialBicubicSplineInterpolator() {
+        this(3);
+    }
+
+    public SmoothingPolynomialBicubicSplineInterpolator(int degree) {
+        this(degree, degree);
+    }
+
+    public SmoothingPolynomialBicubicSplineInterpolator(int xDegree, int yDegree) {
+        this.xFitter = new PolynomialFitter(xDegree, new GaussNewtonOptimizer(false));
+        this.yFitter = new PolynomialFitter(yDegree, new GaussNewtonOptimizer(false));
+    }
+
+    @Override // org.apache.commons.math.analysis.interpolation.BicubicSplineInterpolator, org.apache.commons.math.analysis.interpolation.BivariateRealGridInterpolator
+    public BicubicSplineInterpolatingFunction interpolate(double[] xval, double[] yval, double[][] fval) throws MathException {
+        if (xval.length == 0 || yval.length == 0 || fval.length == 0) {
+            throw new NoDataException();
+        }
+        if (xval.length != fval.length) {
+            throw new DimensionMismatchException(xval.length, fval.length);
+        }
+        int xLen = xval.length;
+        int yLen = yval.length;
+        for (int i = 0; i < xLen; i++) {
+            if (fval[i].length != yLen) {
+                throw new DimensionMismatchException(fval[i].length, yLen);
+            }
+        }
+        MathUtils.checkOrder(xval);
+        MathUtils.checkOrder(yval);
+        PolynomialFunction[] yPolyX = new PolynomialFunction[yLen];
+        for (int j = 0; j < yLen; j++) {
+            this.xFitter.clearObservations();
+            for (int i2 = 0; i2 < xLen; i2++) {
+                this.xFitter.addObservedPoint(1.0d, xval[i2], fval[i2][j]);
+            }
+            yPolyX[j] = this.xFitter.fit();
+        }
+        double[][] fval_1 = new double[xLen][yLen];
+        for (int j2 = 0; j2 < yLen; j2++) {
+            PolynomialFunction f = yPolyX[j2];
+            for (int i3 = 0; i3 < xLen; i3++) {
+                fval_1[i3][j2] = f.value(xval[i3]);
+            }
+        }
+        PolynomialFunction[] xPolyY = new PolynomialFunction[xLen];
+        for (int i4 = 0; i4 < xLen; i4++) {
+            this.yFitter.clearObservations();
+            for (int j3 = 0; j3 < yLen; j3++) {
+                this.yFitter.addObservedPoint(1.0d, yval[j3], fval_1[i4][j3]);
+            }
+            xPolyY[i4] = this.yFitter.fit();
+        }
+        double[][] fval_2 = new double[xLen][yLen];
+        for (int i5 = 0; i5 < xLen; i5++) {
+            PolynomialFunction f2 = xPolyY[i5];
+            for (int j4 = 0; j4 < yLen; j4++) {
+                fval_2[i5][j4] = f2.value(yval[j4]);
+            }
+        }
+        return super.interpolate(xval, yval, fval_2);
+    }
+}

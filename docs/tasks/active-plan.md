@@ -27,25 +27,25 @@ Phase 1 & 2 work and align with the `Topdon Integration Summary`.
 ## Task Breakdown
 
 - [ ] UX design spike: refine the unified capture mock based on the design
-      notes below and produce final layouts with navigation + empty states.  
+  notes below and produce final layouts with navigation + empty states.
 - [ ] ViewModel architecture: define shared session state, recording control
-      actions, and error surfaces.  
+  actions, and error surfaces.
 - [ ] RGB enhancements: extend camera connector with manual exposure/zoom plus
-      preview overlays.  
+  preview overlays.
 - [ ] Shimmer telemetry: add waveform rendering and richer status indicators in
-      `ShimmerConnectorManager`.  
+  `ShimmerConnectorManager`.
 - [ ] Capture pipeline: persist synchronized metadata and verify storage format
-      across warm/cold starts.  
+  across warm/cold starts.
 - [ ] Verification suite: document manual QA flow and add automated smoke tests
-      where feasible (e.g., simulated connectors).
+  where feasible (e.g., simulated connectors).
 
 ## Dependencies & Risks
 
-| Item | Notes | Owner |
-|------|-------|-------|
+| Item           | Notes                                                                                                                  | Owner        |
+|----------------|------------------------------------------------------------------------------------------------------------------------|--------------|
 | IRCMD coverage | Ensure new commands (auto shutter, calibration) remain stable; reuse helpers outlined in `Topdon Integration Summary`. | Thermal team |
-| Performance | Combined previews may strain low-end tablets; budget render and encoding costs early. | Mobile |
-| Storage layout | Multi-modal recordings will grow quickly; confirm retention policy with research team. | Product |
+| Performance    | Combined previews may strain low-end tablets; budget render and encoding costs early.                                  | Mobile       |
+| Storage layout | Multi-modal recordings will grow quickly; confirm retention policy with research team.                                 | Product      |
 
 ## Reference Material
 
@@ -58,11 +58,11 @@ Phase 1 & 2 work and align with the `Topdon Integration Summary`.
 ## Design Notes (carry-over from proposal)
 
 - Single screen tabs or segmented control to switch between combined preview,
-  settings, and recording history.  
+  settings, and recording history.
 - Thermal preview retains palette/emissivity quick toggles; RGB preview adds
-  zoom/focus sliders; Shimmer panel shows live waveform and connection badges.  
+  zoom/focus sliders; Shimmer panel shows live waveform and connection badges.
 - Unified "Record All" control with per-sensor status indicators and capture
-  timers.  
+  timers.
 - Contextual tooltips to explain advanced thermal settings (gain, emissivity).
 
 ## Next Checkpoint

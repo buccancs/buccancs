@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/SocksCmdType.java
+// Size: 714 bytes
+// Modified: 2025-10-21 16:32:00.258104400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+/* loaded from: classes3.dex */
+public enum SocksCmdType {
+    CONNECT((byte) 1),
+    BIND((byte) 2),
+    UDP((byte) 3),
+    UNKNOWN((byte) -1);
+
+    private final byte b;
+
+    public byte byteValue() {
+        return this.b;
+    }
+
+    SocksCmdType(byte b) {
+        this.b = b;
+    }
+
+    @Deprecated
+    public static SocksCmdType fromByte(byte b) {
+        return valueOf(b);
+    }
+
+    public static SocksCmdType valueOf(byte b) {
+        for (SocksCmdType socksCmdType : values()) {
+            if (socksCmdType.b == b) {
+                return socksCmdType;
+            }
+        }
+        return UNKNOWN;
+    }
+}

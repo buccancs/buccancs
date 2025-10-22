@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/io/StreamOverflowException.java
+// Size: 242 bytes
+// Modified: 2025-10-21 16:32:00.680940800 +0100
+
+package org.bouncycastle.util.io;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public class StreamOverflowException extends IOException {
+    public StreamOverflowException(String str) {
+        super(str);
+    }
+}

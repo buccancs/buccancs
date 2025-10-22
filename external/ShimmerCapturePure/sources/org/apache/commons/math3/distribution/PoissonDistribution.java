@@ -1,0 +1,135 @@
+package org.apache.commons.math3.distribution;
+
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.special.Gamma;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class PoissonDistribution extends AbstractIntegerDistribution {
+    public static final double DEFAULT_EPSILON = 1.0E-12d;
+    public static final int DEFAULT_MAX_ITERATIONS = 10000000;
+    private static final long serialVersionUID = -3349935121172596109L;
+    private final double epsilon;
+    private final ExponentialDistribution exponential;
+    private final int maxIterations;
+    private final double mean;
+    private final NormalDistribution normal;
+
+    public PoissonDistribution(double d) throws NotStrictlyPositiveException {
+        this(d, 1.0E-12d, 10000000);
+    }
+
+    public PoissonDistribution(double d, double d2, int i) throws NotStrictlyPositiveException {
+        this(new Well19937c(), d, d2, i);
+    }
+
+    public PoissonDistribution(RandomGenerator randomGenerator, double d, double d2, int i) throws NotStrictlyPositiveException {
+        super(randomGenerator);
+        if (d <= 0.0d) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, Double.valueOf(d));
+        }
+        this.mean = d;
+        this.epsilon = d2;
+        this.maxIterations = i;
+        this.normal = new NormalDistribution(randomGenerator, d, FastMath.sqrt(d), 1.0E-9d);
+        this.exponential = new ExponentialDistribution(randomGenerator, 1.0d, 1.0E-9d);
+    }
+
+    public PoissonDistribution(double d, double d2) throws NotStrictlyPositiveException {
+        this(d, d2, 10000000);
+    }
+
+    public PoissonDistribution(double d, int i) {
+        this(d, 1.0E-12d, i);
+    }
+
+    public double getMean() {
+        return this.mean;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportLowerBound() {
+        return 0;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportUpperBound() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public boolean isSupportConnected() {
+        return true;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double probability(int i) {
+        double dLogProbability = logProbability(i);
+        if (dLogProbability == Double.NEGATIVE_INFINITY) {
+            return 0.0d;
+        }
+        return FastMath.exp(dLogProbability);
+    }
+
+    @Override // org.apache.commons.math3.distribution.AbstractIntegerDistribution
+    public double logProbability(int i) {
+        if (i < 0 || i == Integer.MAX_VALUE) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        if (i == 0) {
+            return -this.mean;
+        }
+        double d = i;
+        return (((-SaddlePointExpansion.getStirlingError(d)) - SaddlePointExpansion.getDeviancePart(d, this.mean)) - (FastMath.log(6.283185307179586d) * 0.5d)) - (FastMath.log(d) * 0.5d);
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double cumulativeProbability(int i) {
+        if (i < 0) {
+            return 0.0d;
+        }
+        if (i == Integer.MAX_VALUE) {
+            return 1.0d;
+        }
+        return Gamma.regularizedGammaQ(i + 1.0d, this.mean, this.epsilon, this.maxIterations);
+    }
+
+    public double normalApproximateProbability(int i) {
+        return this.normal.cumulativeProbability(i + 0.5d);
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalMean() {
+        return getMean();
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalVariance() {
+        return getMean();
+    }
+
+    @Override
+    // org.apache.commons.math3.distribution.AbstractIntegerDistribution, org.apache.commons.math3.distribution.IntegerDistribution
+    public int sample() {
+        return (int) FastMath.min(nextPoisson(this.mean), 2147483647L);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0149, code lost:
+    
+        r3 = r3 + r11;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private long nextPoisson(double r40) throws org.apache.commons.math3.exception.NotPositiveException {
+        /*
+            Method dump skipped, instructions count: 367
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.distribution.PoissonDistribution.nextPoisson(double):long");
+    }
+}

@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/ConvergingAlgorithm.java
+// Size: 681 bytes
+// Modified: 2025-10-21 16:32:00.483725100 +0100
+
+package org.apache.commons.math;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+@Deprecated
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ConvergingAlgorithm.class */
+public interface ConvergingAlgorithm {
+    void setMaximalIterationCount(int i);
+
+    int getMaximalIterationCount();
+
+    void resetMaximalIterationCount();
+
+    void setAbsoluteAccuracy(double d);
+
+    double getAbsoluteAccuracy();
+
+    void resetAbsoluteAccuracy();
+
+    void setRelativeAccuracy(double d);
+
+    double getRelativeAccuracy();
+
+    void resetRelativeAccuracy();
+
+    int getIterationCount();
+}

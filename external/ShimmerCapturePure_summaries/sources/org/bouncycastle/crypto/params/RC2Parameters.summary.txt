@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/params/RC2Parameters.java
+// Size: 447 bytes
+// Modified: 2025-10-21 16:32:01.831769700 +0100
+
+package org.bouncycastle.crypto.params;
+
+/* loaded from: classes5.dex */
+public class RC2Parameters extends KeyParameter {
+    private int bits;
+
+    public RC2Parameters(byte[] bArr) {
+        this(bArr, bArr.length > 128 ? 1024 : bArr.length * 8);
+    }
+
+    public RC2Parameters(byte[] bArr, int i) {
+        super(bArr);
+        this.bits = i;
+    }
+
+    public int getEffectiveKeyBits() {
+        return this.bits;
+    }
+}

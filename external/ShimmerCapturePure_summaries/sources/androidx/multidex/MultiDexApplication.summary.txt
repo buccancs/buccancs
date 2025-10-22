@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/multidex/MultiDexApplication.java
+// Size: 378 bytes
+// Modified: 2025-10-21 16:32:01.182244700 +0100
+
+package androidx.multidex;
+
+import android.app.Application;
+import android.content.Context;
+
+/* loaded from: classes.dex */
+public class MultiDexApplication extends Application {
+    @Override // android.content.ContextWrapper
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(this);
+    }
+}

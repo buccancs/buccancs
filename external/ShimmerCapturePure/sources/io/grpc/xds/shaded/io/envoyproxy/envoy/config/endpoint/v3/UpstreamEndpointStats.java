@@ -1,0 +1,1113 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.Struct;
+import com.google.protobuf.StructOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Address;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.AddressOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.EndpointLoadMetricStats;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public final class UpstreamEndpointStats extends GeneratedMessageV3 implements UpstreamEndpointStatsOrBuilder {
+    public static final int ADDRESS_FIELD_NUMBER = 1;
+    public static final int LOAD_METRIC_STATS_FIELD_NUMBER = 5;
+    public static final int METADATA_FIELD_NUMBER = 6;
+    public static final int TOTAL_ERROR_REQUESTS_FIELD_NUMBER = 4;
+    public static final int TOTAL_ISSUED_REQUESTS_FIELD_NUMBER = 7;
+    public static final int TOTAL_REQUESTS_IN_PROGRESS_FIELD_NUMBER = 3;
+    public static final int TOTAL_SUCCESSFUL_REQUESTS_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final UpstreamEndpointStats DEFAULT_INSTANCE = new UpstreamEndpointStats();
+    private static final Parser<UpstreamEndpointStats> PARSER = new AbstractParser<UpstreamEndpointStats>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public UpstreamEndpointStats m24987parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new UpstreamEndpointStats(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private Address address_;
+    private List<EndpointLoadMetricStats> loadMetricStats_;
+    private byte memoizedIsInitialized;
+    private Struct metadata_;
+    private long totalErrorRequests_;
+    private long totalIssuedRequests_;
+    private long totalRequestsInProgress_;
+    private long totalSuccessfulRequests_;
+
+    private UpstreamEndpointStats(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private UpstreamEndpointStats() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.loadMetricStats_ = Collections.emptyList();
+    }
+
+    private UpstreamEndpointStats(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Address.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Address address = this.address_;
+                            builder = address != null ? address.m21428toBuilder() : null;
+                            Address address2 = (Address) codedInputStream.readMessage(Address.parser(), extensionRegistryLite);
+                            this.address_ = address2;
+                            if (builder != null) {
+                                builder.mergeFrom(address2);
+                                this.address_ = builder.m21435buildPartial();
+                            }
+                        } else if (tag == 16) {
+                            this.totalSuccessfulRequests_ = codedInputStream.readUInt64();
+                        } else if (tag == 24) {
+                            this.totalRequestsInProgress_ = codedInputStream.readUInt64();
+                        } else if (tag == 32) {
+                            this.totalErrorRequests_ = codedInputStream.readUInt64();
+                        } else if (tag == 42) {
+                            if (!(z2 & true)) {
+                                this.loadMetricStats_ = new ArrayList();
+                                z2 |= true;
+                            }
+                            this.loadMetricStats_.add(codedInputStream.readMessage(EndpointLoadMetricStats.parser(), extensionRegistryLite));
+                        } else if (tag == 50) {
+                            Struct struct = this.metadata_;
+                            builder = struct != null ? struct.toBuilder() : null;
+                            Struct message = codedInputStream.readMessage(Struct.parser(), extensionRegistryLite);
+                            this.metadata_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.metadata_ = builder.buildPartial();
+                            }
+                        } else if (tag == 56) {
+                            this.totalIssuedRequests_ = codedInputStream.readUInt64();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.loadMetricStats_ = Collections.unmodifiableList(this.loadMetricStats_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static UpstreamEndpointStats getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<UpstreamEndpointStats> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return LoadReportProto.internal_static_envoy_config_endpoint_v3_UpstreamEndpointStats_descriptor;
+    }
+
+    public static UpstreamEndpointStats parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (UpstreamEndpointStats) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static UpstreamEndpointStats parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamEndpointStats) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static UpstreamEndpointStats parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (UpstreamEndpointStats) PARSER.parseFrom(byteString);
+    }
+
+    public static UpstreamEndpointStats parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamEndpointStats) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static UpstreamEndpointStats parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (UpstreamEndpointStats) PARSER.parseFrom(bArr);
+    }
+
+    public static UpstreamEndpointStats parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamEndpointStats) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static UpstreamEndpointStats parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static UpstreamEndpointStats parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpstreamEndpointStats parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static UpstreamEndpointStats parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpstreamEndpointStats parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static UpstreamEndpointStats parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m24985toBuilder();
+    }
+
+    public static Builder newBuilder(UpstreamEndpointStats upstreamEndpointStats) {
+        return DEFAULT_INSTANCE.m24985toBuilder().mergeFrom(upstreamEndpointStats);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public UpstreamEndpointStats m24980getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public List<EndpointLoadMetricStats> getLoadMetricStatsList() {
+        return this.loadMetricStats_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public List<? extends EndpointLoadMetricStatsOrBuilder> getLoadMetricStatsOrBuilderList() {
+        return this.loadMetricStats_;
+    }
+
+    public Parser<UpstreamEndpointStats> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public long getTotalErrorRequests() {
+        return this.totalErrorRequests_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public long getTotalIssuedRequests() {
+        return this.totalIssuedRequests_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public long getTotalRequestsInProgress() {
+        return this.totalRequestsInProgress_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public long getTotalSuccessfulRequests() {
+        return this.totalSuccessfulRequests_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public boolean hasAddress() {
+        return this.address_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public boolean hasMetadata() {
+        return this.metadata_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new UpstreamEndpointStats();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return LoadReportProto.internal_static_envoy_config_endpoint_v3_UpstreamEndpointStats_fieldAccessorTable.ensureFieldAccessorsInitialized(UpstreamEndpointStats.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public Address getAddress() {
+        Address address = this.address_;
+        return address == null ? Address.getDefaultInstance() : address;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public AddressOrBuilder getAddressOrBuilder() {
+        return getAddress();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public Struct getMetadata() {
+        Struct struct = this.metadata_;
+        return struct == null ? Struct.getDefaultInstance() : struct;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public StructOrBuilder getMetadataOrBuilder() {
+        return getMetadata();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public int getLoadMetricStatsCount() {
+        return this.loadMetricStats_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public EndpointLoadMetricStats getLoadMetricStats(int i) {
+        return this.loadMetricStats_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+    public EndpointLoadMetricStatsOrBuilder getLoadMetricStatsOrBuilder(int i) {
+        return this.loadMetricStats_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.address_ != null) {
+            codedOutputStream.writeMessage(1, getAddress());
+        }
+        long j = this.totalSuccessfulRequests_;
+        if (j != 0) {
+            codedOutputStream.writeUInt64(2, j);
+        }
+        long j2 = this.totalRequestsInProgress_;
+        if (j2 != 0) {
+            codedOutputStream.writeUInt64(3, j2);
+        }
+        long j3 = this.totalErrorRequests_;
+        if (j3 != 0) {
+            codedOutputStream.writeUInt64(4, j3);
+        }
+        for (int i = 0; i < this.loadMetricStats_.size(); i++) {
+            codedOutputStream.writeMessage(5, this.loadMetricStats_.get(i));
+        }
+        if (this.metadata_ != null) {
+            codedOutputStream.writeMessage(6, getMetadata());
+        }
+        long j4 = this.totalIssuedRequests_;
+        if (j4 != 0) {
+            codedOutputStream.writeUInt64(7, j4);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.address_ != null ? CodedOutputStream.computeMessageSize(1, getAddress()) : 0;
+        long j = this.totalSuccessfulRequests_;
+        if (j != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(2, j);
+        }
+        long j2 = this.totalRequestsInProgress_;
+        if (j2 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(3, j2);
+        }
+        long j3 = this.totalErrorRequests_;
+        if (j3 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(4, j3);
+        }
+        for (int i2 = 0; i2 < this.loadMetricStats_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, this.loadMetricStats_.get(i2));
+        }
+        if (this.metadata_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(6, getMetadata());
+        }
+        long j4 = this.totalIssuedRequests_;
+        if (j4 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(7, j4);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof UpstreamEndpointStats)) {
+            return super.equals(obj);
+        }
+        UpstreamEndpointStats upstreamEndpointStats = (UpstreamEndpointStats) obj;
+        if (hasAddress() != upstreamEndpointStats.hasAddress()) {
+            return false;
+        }
+        if ((!hasAddress() || getAddress().equals(upstreamEndpointStats.getAddress())) && hasMetadata() == upstreamEndpointStats.hasMetadata()) {
+            return (!hasMetadata() || getMetadata().equals(upstreamEndpointStats.getMetadata())) && getTotalSuccessfulRequests() == upstreamEndpointStats.getTotalSuccessfulRequests() && getTotalRequestsInProgress() == upstreamEndpointStats.getTotalRequestsInProgress() && getTotalErrorRequests() == upstreamEndpointStats.getTotalErrorRequests() && getTotalIssuedRequests() == upstreamEndpointStats.getTotalIssuedRequests() && getLoadMetricStatsList().equals(upstreamEndpointStats.getLoadMetricStatsList()) && this.unknownFields.equals(upstreamEndpointStats.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasAddress()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getAddress().hashCode();
+        }
+        if (hasMetadata()) {
+            iHashCode = (((iHashCode * 37) + 6) * 53) + getMetadata().hashCode();
+        }
+        int iHashLong = (((((((((((((((iHashCode * 37) + 2) * 53) + Internal.hashLong(getTotalSuccessfulRequests())) * 37) + 3) * 53) + Internal.hashLong(getTotalRequestsInProgress())) * 37) + 4) * 53) + Internal.hashLong(getTotalErrorRequests())) * 37) + 7) * 53) + Internal.hashLong(getTotalIssuedRequests());
+        if (getLoadMetricStatsCount() > 0) {
+            iHashLong = (((iHashLong * 37) + 5) * 53) + getLoadMetricStatsList().hashCode();
+        }
+        int iHashCode2 = (iHashLong * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m24982newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m24985toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements UpstreamEndpointStatsOrBuilder {
+        private SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> addressBuilder_;
+        private Address address_;
+        private int bitField0_;
+        private RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> loadMetricStatsBuilder_;
+        private List<EndpointLoadMetricStats> loadMetricStats_;
+        private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> metadataBuilder_;
+        private Struct metadata_;
+        private long totalErrorRequests_;
+        private long totalIssuedRequests_;
+        private long totalRequestsInProgress_;
+        private long totalSuccessfulRequests_;
+
+        private Builder() {
+            this.loadMetricStats_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.loadMetricStats_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return LoadReportProto.internal_static_envoy_config_endpoint_v3_UpstreamEndpointStats_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public long getTotalErrorRequests() {
+            return this.totalErrorRequests_;
+        }
+
+        public Builder setTotalErrorRequests(long j) {
+            this.totalErrorRequests_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public long getTotalIssuedRequests() {
+            return this.totalIssuedRequests_;
+        }
+
+        public Builder setTotalIssuedRequests(long j) {
+            this.totalIssuedRequests_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public long getTotalRequestsInProgress() {
+            return this.totalRequestsInProgress_;
+        }
+
+        public Builder setTotalRequestsInProgress(long j) {
+            this.totalRequestsInProgress_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public long getTotalSuccessfulRequests() {
+            return this.totalSuccessfulRequests_;
+        }
+
+        public Builder setTotalSuccessfulRequests(long j) {
+            this.totalSuccessfulRequests_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public boolean hasAddress() {
+            return (this.addressBuilder_ == null && this.address_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public boolean hasMetadata() {
+            return (this.metadataBuilder_ == null && this.metadata_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return LoadReportProto.internal_static_envoy_config_endpoint_v3_UpstreamEndpointStats_fieldAccessorTable.ensureFieldAccessorsInitialized(UpstreamEndpointStats.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (UpstreamEndpointStats.alwaysUseFieldBuilders) {
+                getLoadMetricStatsFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24996clear() {
+            super.clear();
+            if (this.addressBuilder_ == null) {
+                this.address_ = null;
+            } else {
+                this.address_ = null;
+                this.addressBuilder_ = null;
+            }
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            this.totalSuccessfulRequests_ = 0L;
+            this.totalRequestsInProgress_ = 0L;
+            this.totalErrorRequests_ = 0L;
+            this.totalIssuedRequests_ = 0L;
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.loadMetricStats_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return LoadReportProto.internal_static_envoy_config_endpoint_v3_UpstreamEndpointStats_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamEndpointStats m25009getDefaultInstanceForType() {
+            return UpstreamEndpointStats.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamEndpointStats m24990build() throws UninitializedMessageException {
+            UpstreamEndpointStats upstreamEndpointStatsM24992buildPartial = m24992buildPartial();
+            if (upstreamEndpointStatsM24992buildPartial.isInitialized()) {
+                return upstreamEndpointStatsM24992buildPartial;
+            }
+            throw newUninitializedMessageException(upstreamEndpointStatsM24992buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamEndpointStats m24992buildPartial() {
+            UpstreamEndpointStats upstreamEndpointStats = new UpstreamEndpointStats(this);
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.addressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                upstreamEndpointStats.address_ = this.address_;
+            } else {
+                upstreamEndpointStats.address_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV32 = this.metadataBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                upstreamEndpointStats.metadata_ = this.metadata_;
+            } else {
+                upstreamEndpointStats.metadata_ = singleFieldBuilderV32.build();
+            }
+            upstreamEndpointStats.totalSuccessfulRequests_ = this.totalSuccessfulRequests_;
+            upstreamEndpointStats.totalRequestsInProgress_ = this.totalRequestsInProgress_;
+            upstreamEndpointStats.totalErrorRequests_ = this.totalErrorRequests_;
+            upstreamEndpointStats.totalIssuedRequests_ = this.totalIssuedRequests_;
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.loadMetricStats_ = Collections.unmodifiableList(this.loadMetricStats_);
+                    this.bitField0_ &= -2;
+                }
+                upstreamEndpointStats.loadMetricStats_ = this.loadMetricStats_;
+            } else {
+                upstreamEndpointStats.loadMetricStats_ = repeatedFieldBuilderV3.build();
+            }
+            onBuilt();
+            return upstreamEndpointStats;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25008clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25020setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24998clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25001clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25022setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24988addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25013mergeFrom(Message message) {
+            if (message instanceof UpstreamEndpointStats) {
+                return mergeFrom((UpstreamEndpointStats) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(UpstreamEndpointStats upstreamEndpointStats) {
+            if (upstreamEndpointStats == UpstreamEndpointStats.getDefaultInstance()) {
+                return this;
+            }
+            if (upstreamEndpointStats.hasAddress()) {
+                mergeAddress(upstreamEndpointStats.getAddress());
+            }
+            if (upstreamEndpointStats.hasMetadata()) {
+                mergeMetadata(upstreamEndpointStats.getMetadata());
+            }
+            if (upstreamEndpointStats.getTotalSuccessfulRequests() != 0) {
+                setTotalSuccessfulRequests(upstreamEndpointStats.getTotalSuccessfulRequests());
+            }
+            if (upstreamEndpointStats.getTotalRequestsInProgress() != 0) {
+                setTotalRequestsInProgress(upstreamEndpointStats.getTotalRequestsInProgress());
+            }
+            if (upstreamEndpointStats.getTotalErrorRequests() != 0) {
+                setTotalErrorRequests(upstreamEndpointStats.getTotalErrorRequests());
+            }
+            if (upstreamEndpointStats.getTotalIssuedRequests() != 0) {
+                setTotalIssuedRequests(upstreamEndpointStats.getTotalIssuedRequests());
+            }
+            if (this.loadMetricStatsBuilder_ == null) {
+                if (!upstreamEndpointStats.loadMetricStats_.isEmpty()) {
+                    if (this.loadMetricStats_.isEmpty()) {
+                        this.loadMetricStats_ = upstreamEndpointStats.loadMetricStats_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureLoadMetricStatsIsMutable();
+                        this.loadMetricStats_.addAll(upstreamEndpointStats.loadMetricStats_);
+                    }
+                    onChanged();
+                }
+            } else if (!upstreamEndpointStats.loadMetricStats_.isEmpty()) {
+                if (!this.loadMetricStatsBuilder_.isEmpty()) {
+                    this.loadMetricStatsBuilder_.addAllMessages(upstreamEndpointStats.loadMetricStats_);
+                } else {
+                    this.loadMetricStatsBuilder_.dispose();
+                    this.loadMetricStatsBuilder_ = null;
+                    this.loadMetricStats_ = upstreamEndpointStats.loadMetricStats_;
+                    this.bitField0_ &= -2;
+                    this.loadMetricStatsBuilder_ = UpstreamEndpointStats.alwaysUseFieldBuilders ? getLoadMetricStatsFieldBuilder() : null;
+                }
+            }
+            m25018mergeUnknownFields(upstreamEndpointStats.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats.Builder m25014mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats.access$1300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats.Builder.m25014mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStats$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public Address getAddress() {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.addressBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Address address = this.address_;
+            return address == null ? Address.getDefaultInstance() : address;
+        }
+
+        public Builder setAddress(Address address) {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.addressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                address.getClass();
+                this.address_ = address;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(address);
+            }
+            return this;
+        }
+
+        public Builder setAddress(Address.Builder builder) {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.addressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.address_ = builder.m21433build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21433build());
+            }
+            return this;
+        }
+
+        public Builder mergeAddress(Address address) {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.addressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Address address2 = this.address_;
+                if (address2 != null) {
+                    this.address_ = Address.newBuilder(address2).mergeFrom(address).m21435buildPartial();
+                } else {
+                    this.address_ = address;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(address);
+            }
+            return this;
+        }
+
+        public Builder clearAddress() {
+            if (this.addressBuilder_ == null) {
+                this.address_ = null;
+                onChanged();
+            } else {
+                this.address_ = null;
+                this.addressBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Address.Builder getAddressBuilder() {
+            onChanged();
+            return getAddressFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public AddressOrBuilder getAddressOrBuilder() {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.addressBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (AddressOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Address address = this.address_;
+            return address == null ? Address.getDefaultInstance() : address;
+        }
+
+        private SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> getAddressFieldBuilder() {
+            if (this.addressBuilder_ == null) {
+                this.addressBuilder_ = new SingleFieldBuilderV3<>(getAddress(), getParentForChildren(), isClean());
+                this.address_ = null;
+            }
+            return this.addressBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public Struct getMetadata() {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Struct struct = this.metadata_;
+            return struct == null ? Struct.getDefaultInstance() : struct;
+        }
+
+        public Builder setMetadata(Struct struct) {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                struct.getClass();
+                this.metadata_ = struct;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(struct);
+            }
+            return this;
+        }
+
+        public Builder setMetadata(Struct.Builder builder) {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.metadata_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMetadata(Struct struct) {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Struct struct2 = this.metadata_;
+                if (struct2 != null) {
+                    this.metadata_ = Struct.newBuilder(struct2).mergeFrom(struct).buildPartial();
+                } else {
+                    this.metadata_ = struct;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(struct);
+            }
+            return this;
+        }
+
+        public Builder clearMetadata() {
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+                onChanged();
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Struct.Builder getMetadataBuilder() {
+            onChanged();
+            return getMetadataFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public StructOrBuilder getMetadataOrBuilder() {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Struct struct = this.metadata_;
+            return struct == null ? Struct.getDefaultInstance() : struct;
+        }
+
+        private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> getMetadataFieldBuilder() {
+            if (this.metadataBuilder_ == null) {
+                this.metadataBuilder_ = new SingleFieldBuilderV3<>(getMetadata(), getParentForChildren(), isClean());
+                this.metadata_ = null;
+            }
+            return this.metadataBuilder_;
+        }
+
+        public Builder clearTotalSuccessfulRequests() {
+            this.totalSuccessfulRequests_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTotalRequestsInProgress() {
+            this.totalRequestsInProgress_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTotalErrorRequests() {
+            this.totalErrorRequests_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTotalIssuedRequests() {
+            this.totalIssuedRequests_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        private void ensureLoadMetricStatsIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.loadMetricStats_ = new ArrayList(this.loadMetricStats_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public List<EndpointLoadMetricStats> getLoadMetricStatsList() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.loadMetricStats_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public int getLoadMetricStatsCount() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.loadMetricStats_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public EndpointLoadMetricStats getLoadMetricStats(int i) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.loadMetricStats_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setLoadMetricStats(int i, EndpointLoadMetricStats endpointLoadMetricStats) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                endpointLoadMetricStats.getClass();
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.set(i, endpointLoadMetricStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, endpointLoadMetricStats);
+            }
+            return this;
+        }
+
+        public Builder setLoadMetricStats(int i, EndpointLoadMetricStats.Builder builder) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.set(i, builder.m24852build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m24852build());
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(EndpointLoadMetricStats endpointLoadMetricStats) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                endpointLoadMetricStats.getClass();
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(endpointLoadMetricStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(endpointLoadMetricStats);
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(int i, EndpointLoadMetricStats endpointLoadMetricStats) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                endpointLoadMetricStats.getClass();
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(i, endpointLoadMetricStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, endpointLoadMetricStats);
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(EndpointLoadMetricStats.Builder builder) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(builder.m24852build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m24852build());
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(int i, EndpointLoadMetricStats.Builder builder) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(i, builder.m24852build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m24852build());
+            }
+            return this;
+        }
+
+        public Builder addAllLoadMetricStats(Iterable<? extends EndpointLoadMetricStats> iterable) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.loadMetricStats_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearLoadMetricStats() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.loadMetricStats_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeLoadMetricStats(int i) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public EndpointLoadMetricStats.Builder getLoadMetricStatsBuilder(int i) {
+            return getLoadMetricStatsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public EndpointLoadMetricStatsOrBuilder getLoadMetricStatsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.loadMetricStats_.get(i);
+            }
+            return (EndpointLoadMetricStatsOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.UpstreamEndpointStatsOrBuilder
+        public List<? extends EndpointLoadMetricStatsOrBuilder> getLoadMetricStatsOrBuilderList() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.loadMetricStats_);
+        }
+
+        public EndpointLoadMetricStats.Builder addLoadMetricStatsBuilder() {
+            return getLoadMetricStatsFieldBuilder().addBuilder(EndpointLoadMetricStats.getDefaultInstance());
+        }
+
+        public EndpointLoadMetricStats.Builder addLoadMetricStatsBuilder(int i) {
+            return getLoadMetricStatsFieldBuilder().addBuilder(i, EndpointLoadMetricStats.getDefaultInstance());
+        }
+
+        public List<EndpointLoadMetricStats.Builder> getLoadMetricStatsBuilderList() {
+            return getLoadMetricStatsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> getLoadMetricStatsFieldBuilder() {
+            if (this.loadMetricStatsBuilder_ == null) {
+                this.loadMetricStatsBuilder_ = new RepeatedFieldBuilderV3<>(this.loadMetricStats_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.loadMetricStats_ = null;
+            }
+            return this.loadMetricStatsBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m25024setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m25018mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

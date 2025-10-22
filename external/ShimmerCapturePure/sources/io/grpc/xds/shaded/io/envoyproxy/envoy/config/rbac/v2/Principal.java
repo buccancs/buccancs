@@ -1,0 +1,3466 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.CidrRange;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.CidrRangeOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.MetadataMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.MetadataMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.PathMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.PathMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringMatcherOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public final class Principal extends GeneratedMessageV3 implements PrincipalOrBuilder {
+    public static final int AND_IDS_FIELD_NUMBER = 1;
+    public static final int ANY_FIELD_NUMBER = 3;
+    public static final int AUTHENTICATED_FIELD_NUMBER = 4;
+    public static final int DIRECT_REMOTE_IP_FIELD_NUMBER = 10;
+    public static final int HEADER_FIELD_NUMBER = 6;
+    public static final int METADATA_FIELD_NUMBER = 7;
+    public static final int NOT_ID_FIELD_NUMBER = 8;
+    public static final int OR_IDS_FIELD_NUMBER = 2;
+    public static final int REMOTE_IP_FIELD_NUMBER = 11;
+    public static final int SOURCE_IP_FIELD_NUMBER = 5;
+    public static final int URL_PATH_FIELD_NUMBER = 9;
+    private static final long serialVersionUID = 0;
+    private static final Principal DEFAULT_INSTANCE = new Principal();
+    private static final Parser<Principal> PARSER = new AbstractParser<Principal>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Principal m27623parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Principal(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private int identifierCase_;
+    private Object identifier_;
+    private byte memoizedIsInitialized;
+
+    private Principal(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.identifierCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Principal() {
+        this.identifierCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Principal(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        switch (tag) {
+                            case 0:
+                                z = true;
+                            case 10:
+                                Set.Builder builderM27713toBuilder = this.identifierCase_ == 1 ? ((Set) this.identifier_).m27713toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(Set.parser(), extensionRegistryLite);
+                                this.identifier_ = message;
+                                if (builderM27713toBuilder != null) {
+                                    builderM27713toBuilder.mergeFrom((Set) message);
+                                    this.identifier_ = builderM27713toBuilder.m27720buildPartial();
+                                }
+                                this.identifierCase_ = 1;
+                            case 18:
+                                Set.Builder builderM27713toBuilder2 = this.identifierCase_ == 2 ? ((Set) this.identifier_).m27713toBuilder() : null;
+                                MessageLite message2 = codedInputStream.readMessage(Set.parser(), extensionRegistryLite);
+                                this.identifier_ = message2;
+                                if (builderM27713toBuilder2 != null) {
+                                    builderM27713toBuilder2.mergeFrom((Set) message2);
+                                    this.identifier_ = builderM27713toBuilder2.m27720buildPartial();
+                                }
+                                this.identifierCase_ = 2;
+                            case 24:
+                                this.identifierCase_ = 3;
+                                this.identifier_ = Boolean.valueOf(codedInputStream.readBool());
+                            case 34:
+                                Authenticated.Builder builderM27629toBuilder = this.identifierCase_ == 4 ? ((Authenticated) this.identifier_).m27629toBuilder() : null;
+                                MessageLite message3 = codedInputStream.readMessage(Authenticated.parser(), extensionRegistryLite);
+                                this.identifier_ = message3;
+                                if (builderM27629toBuilder != null) {
+                                    builderM27629toBuilder.mergeFrom((Authenticated) message3);
+                                    this.identifier_ = builderM27629toBuilder.m27636buildPartial();
+                                }
+                                this.identifierCase_ = 4;
+                            case 42:
+                                CidrRange.Builder builderM14582toBuilder = this.identifierCase_ == 5 ? ((CidrRange) this.identifier_).m14582toBuilder() : null;
+                                MessageLite message4 = codedInputStream.readMessage(CidrRange.parser(), extensionRegistryLite);
+                                this.identifier_ = message4;
+                                if (builderM14582toBuilder != null) {
+                                    builderM14582toBuilder.mergeFrom((CidrRange) message4);
+                                    this.identifier_ = builderM14582toBuilder.m14589buildPartial();
+                                }
+                                this.identifierCase_ = 5;
+                            case 50:
+                                HeaderMatcher.Builder builderM18047toBuilder = this.identifierCase_ == 6 ? ((HeaderMatcher) this.identifier_).m18047toBuilder() : null;
+                                MessageLite message5 = codedInputStream.readMessage(HeaderMatcher.parser(), extensionRegistryLite);
+                                this.identifier_ = message5;
+                                if (builderM18047toBuilder != null) {
+                                    builderM18047toBuilder.mergeFrom((HeaderMatcher) message5);
+                                    this.identifier_ = builderM18047toBuilder.m18054buildPartial();
+                                }
+                                this.identifierCase_ = 6;
+                            case 58:
+                                MetadataMatcher.Builder builderM33229toBuilder = this.identifierCase_ == 7 ? ((MetadataMatcher) this.identifier_).m33228toBuilder() : null;
+                                MessageLite message6 = codedInputStream.readMessage(MetadataMatcher.parser(), extensionRegistryLite);
+                                this.identifier_ = message6;
+                                if (builderM33229toBuilder != null) {
+                                    builderM33229toBuilder.mergeFrom((MetadataMatcher) message6);
+                                    this.identifier_ = builderM33229toBuilder.m33235buildPartial();
+                                }
+                                this.identifierCase_ = 7;
+                            case 66:
+                                Builder builderM27621toBuilder = this.identifierCase_ == 8 ? ((Principal) this.identifier_).m27621toBuilder() : null;
+                                MessageLite message7 = codedInputStream.readMessage(parser(), extensionRegistryLite);
+                                this.identifier_ = message7;
+                                if (builderM27621toBuilder != null) {
+                                    builderM27621toBuilder.mergeFrom((Principal) message7);
+                                    this.identifier_ = builderM27621toBuilder.m27674buildPartial();
+                                }
+                                this.identifierCase_ = 8;
+                            case 74:
+                                PathMatcher.Builder builderM33320toBuilder = this.identifierCase_ == 9 ? ((PathMatcher) this.identifier_).m33320toBuilder() : null;
+                                MessageLite message8 = codedInputStream.readMessage(PathMatcher.parser(), extensionRegistryLite);
+                                this.identifier_ = message8;
+                                if (builderM33320toBuilder != null) {
+                                    builderM33320toBuilder.mergeFrom((PathMatcher) message8);
+                                    this.identifier_ = builderM33320toBuilder.m33327buildPartial();
+                                }
+                                this.identifierCase_ = 9;
+                            case 82:
+                                CidrRange.Builder builderM14582toBuilder2 = this.identifierCase_ == 10 ? ((CidrRange) this.identifier_).m14582toBuilder() : null;
+                                MessageLite message9 = codedInputStream.readMessage(CidrRange.parser(), extensionRegistryLite);
+                                this.identifier_ = message9;
+                                if (builderM14582toBuilder2 != null) {
+                                    builderM14582toBuilder2.mergeFrom((CidrRange) message9);
+                                    this.identifier_ = builderM14582toBuilder2.m14589buildPartial();
+                                }
+                                this.identifierCase_ = 10;
+                            case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                                CidrRange.Builder builderM14582toBuilder3 = this.identifierCase_ == 11 ? ((CidrRange) this.identifier_).m14582toBuilder() : null;
+                                MessageLite message10 = codedInputStream.readMessage(CidrRange.parser(), extensionRegistryLite);
+                                this.identifier_ = message10;
+                                if (builderM14582toBuilder3 != null) {
+                                    builderM14582toBuilder3.mergeFrom((CidrRange) message10);
+                                    this.identifier_ = builderM14582toBuilder3.m14589buildPartial();
+                                }
+                                this.identifierCase_ = 11;
+                            default:
+                                if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    z = true;
+                                }
+                        }
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Principal getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Principal> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return RbacProto.internal_static_envoy_config_rbac_v2_Principal_descriptor;
+    }
+
+    public static Principal parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Principal) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Principal parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Principal) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Principal parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Principal) PARSER.parseFrom(byteString);
+    }
+
+    public static Principal parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Principal) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Principal parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Principal) PARSER.parseFrom(bArr);
+    }
+
+    public static Principal parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Principal) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Principal parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Principal parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Principal parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Principal parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Principal parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Principal parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m27621toBuilder();
+    }
+
+    public static Builder newBuilder(Principal principal) {
+        return DEFAULT_INSTANCE.m27621toBuilder().mergeFrom(principal);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Principal m27616getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Principal> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasAndIds() {
+        return this.identifierCase_ == 1;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasAuthenticated() {
+        return this.identifierCase_ == 4;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasDirectRemoteIp() {
+        return this.identifierCase_ == 10;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasHeader() {
+        return this.identifierCase_ == 6;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasMetadata() {
+        return this.identifierCase_ == 7;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasNotId() {
+        return this.identifierCase_ == 8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasOrIds() {
+        return this.identifierCase_ == 2;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasRemoteIp() {
+        return this.identifierCase_ == 11;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    @Deprecated
+    public boolean hasSourceIp() {
+        return this.identifierCase_ == 5;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean hasUrlPath() {
+        return this.identifierCase_ == 9;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Principal();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return RbacProto.internal_static_envoy_config_rbac_v2_Principal_fieldAccessorTable.ensureFieldAccessorsInitialized(Principal.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public IdentifierCase getIdentifierCase() {
+        return IdentifierCase.forNumber(this.identifierCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public Set getAndIds() {
+        if (this.identifierCase_ == 1) {
+            return (Set) this.identifier_;
+        }
+        return Set.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public SetOrBuilder getAndIdsOrBuilder() {
+        if (this.identifierCase_ == 1) {
+            return (Set) this.identifier_;
+        }
+        return Set.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public Set getOrIds() {
+        if (this.identifierCase_ == 2) {
+            return (Set) this.identifier_;
+        }
+        return Set.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public SetOrBuilder getOrIdsOrBuilder() {
+        if (this.identifierCase_ == 2) {
+            return (Set) this.identifier_;
+        }
+        return Set.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public boolean getAny() {
+        if (this.identifierCase_ == 3) {
+            return ((Boolean) this.identifier_).booleanValue();
+        }
+        return false;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public Authenticated getAuthenticated() {
+        if (this.identifierCase_ == 4) {
+            return (Authenticated) this.identifier_;
+        }
+        return Authenticated.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public AuthenticatedOrBuilder getAuthenticatedOrBuilder() {
+        if (this.identifierCase_ == 4) {
+            return (Authenticated) this.identifier_;
+        }
+        return Authenticated.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    @Deprecated
+    public CidrRange getSourceIp() {
+        if (this.identifierCase_ == 5) {
+            return (CidrRange) this.identifier_;
+        }
+        return CidrRange.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    @Deprecated
+    public CidrRangeOrBuilder getSourceIpOrBuilder() {
+        if (this.identifierCase_ == 5) {
+            return (CidrRange) this.identifier_;
+        }
+        return CidrRange.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public CidrRange getDirectRemoteIp() {
+        if (this.identifierCase_ == 10) {
+            return (CidrRange) this.identifier_;
+        }
+        return CidrRange.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public CidrRangeOrBuilder getDirectRemoteIpOrBuilder() {
+        if (this.identifierCase_ == 10) {
+            return (CidrRange) this.identifier_;
+        }
+        return CidrRange.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public CidrRange getRemoteIp() {
+        if (this.identifierCase_ == 11) {
+            return (CidrRange) this.identifier_;
+        }
+        return CidrRange.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public CidrRangeOrBuilder getRemoteIpOrBuilder() {
+        if (this.identifierCase_ == 11) {
+            return (CidrRange) this.identifier_;
+        }
+        return CidrRange.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public HeaderMatcher getHeader() {
+        if (this.identifierCase_ == 6) {
+            return (HeaderMatcher) this.identifier_;
+        }
+        return HeaderMatcher.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public HeaderMatcherOrBuilder getHeaderOrBuilder() {
+        if (this.identifierCase_ == 6) {
+            return (HeaderMatcher) this.identifier_;
+        }
+        return HeaderMatcher.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public PathMatcher getUrlPath() {
+        if (this.identifierCase_ == 9) {
+            return (PathMatcher) this.identifier_;
+        }
+        return PathMatcher.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public PathMatcherOrBuilder getUrlPathOrBuilder() {
+        if (this.identifierCase_ == 9) {
+            return (PathMatcher) this.identifier_;
+        }
+        return PathMatcher.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public MetadataMatcher getMetadata() {
+        if (this.identifierCase_ == 7) {
+            return (MetadataMatcher) this.identifier_;
+        }
+        return MetadataMatcher.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public MetadataMatcherOrBuilder getMetadataOrBuilder() {
+        if (this.identifierCase_ == 7) {
+            return (MetadataMatcher) this.identifier_;
+        }
+        return MetadataMatcher.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public Principal getNotId() {
+        if (this.identifierCase_ == 8) {
+            return (Principal) this.identifier_;
+        }
+        return getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+    public PrincipalOrBuilder getNotIdOrBuilder() {
+        if (this.identifierCase_ == 8) {
+            return (Principal) this.identifier_;
+        }
+        return getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.identifierCase_ == 1) {
+            codedOutputStream.writeMessage(1, (Set) this.identifier_);
+        }
+        if (this.identifierCase_ == 2) {
+            codedOutputStream.writeMessage(2, (Set) this.identifier_);
+        }
+        if (this.identifierCase_ == 3) {
+            codedOutputStream.writeBool(3, ((Boolean) this.identifier_).booleanValue());
+        }
+        if (this.identifierCase_ == 4) {
+            codedOutputStream.writeMessage(4, (Authenticated) this.identifier_);
+        }
+        if (this.identifierCase_ == 5) {
+            codedOutputStream.writeMessage(5, (CidrRange) this.identifier_);
+        }
+        if (this.identifierCase_ == 6) {
+            codedOutputStream.writeMessage(6, (HeaderMatcher) this.identifier_);
+        }
+        if (this.identifierCase_ == 7) {
+            codedOutputStream.writeMessage(7, (MetadataMatcher) this.identifier_);
+        }
+        if (this.identifierCase_ == 8) {
+            codedOutputStream.writeMessage(8, (Principal) this.identifier_);
+        }
+        if (this.identifierCase_ == 9) {
+            codedOutputStream.writeMessage(9, (PathMatcher) this.identifier_);
+        }
+        if (this.identifierCase_ == 10) {
+            codedOutputStream.writeMessage(10, (CidrRange) this.identifier_);
+        }
+        if (this.identifierCase_ == 11) {
+            codedOutputStream.writeMessage(11, (CidrRange) this.identifier_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.identifierCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (Set) this.identifier_) : 0;
+        if (this.identifierCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (Set) this.identifier_);
+        }
+        if (this.identifierCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(3, ((Boolean) this.identifier_).booleanValue());
+        }
+        if (this.identifierCase_ == 4) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, (Authenticated) this.identifier_);
+        }
+        if (this.identifierCase_ == 5) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, (CidrRange) this.identifier_);
+        }
+        if (this.identifierCase_ == 6) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(6, (HeaderMatcher) this.identifier_);
+        }
+        if (this.identifierCase_ == 7) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(7, (MetadataMatcher) this.identifier_);
+        }
+        if (this.identifierCase_ == 8) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(8, (Principal) this.identifier_);
+        }
+        if (this.identifierCase_ == 9) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(9, (PathMatcher) this.identifier_);
+        }
+        if (this.identifierCase_ == 10) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(10, (CidrRange) this.identifier_);
+        }
+        if (this.identifierCase_ == 11) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(11, (CidrRange) this.identifier_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Principal)) {
+            return super.equals(obj);
+        }
+        Principal principal = (Principal) obj;
+        if (!getIdentifierCase().equals(principal.getIdentifierCase())) {
+            return false;
+        }
+        switch (this.identifierCase_) {
+            case 1:
+                if (!getAndIds().equals(principal.getAndIds())) {
+                    return false;
+                }
+                break;
+            case 2:
+                if (!getOrIds().equals(principal.getOrIds())) {
+                    return false;
+                }
+                break;
+            case 3:
+                if (getAny() != principal.getAny()) {
+                    return false;
+                }
+                break;
+            case 4:
+                if (!getAuthenticated().equals(principal.getAuthenticated())) {
+                    return false;
+                }
+                break;
+            case 5:
+                if (!getSourceIp().equals(principal.getSourceIp())) {
+                    return false;
+                }
+                break;
+            case 6:
+                if (!getHeader().equals(principal.getHeader())) {
+                    return false;
+                }
+                break;
+            case 7:
+                if (!getMetadata().equals(principal.getMetadata())) {
+                    return false;
+                }
+                break;
+            case 8:
+                if (!getNotId().equals(principal.getNotId())) {
+                    return false;
+                }
+                break;
+            case 9:
+                if (!getUrlPath().equals(principal.getUrlPath())) {
+                    return false;
+                }
+                break;
+            case 10:
+                if (!getDirectRemoteIp().equals(principal.getDirectRemoteIp())) {
+                    return false;
+                }
+                break;
+            case 11:
+                if (!getRemoteIp().equals(principal.getRemoteIp())) {
+                    return false;
+                }
+                break;
+        }
+        return this.unknownFields.equals(principal.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        switch (this.identifierCase_) {
+            case 1:
+                i = ((iHashCode2 * 37) + 1) * 53;
+                iHashCode = getAndIds().hashCode();
+                break;
+            case 2:
+                i = ((iHashCode2 * 37) + 2) * 53;
+                iHashCode = getOrIds().hashCode();
+                break;
+            case 3:
+                i = ((iHashCode2 * 37) + 3) * 53;
+                iHashCode = Internal.hashBoolean(getAny());
+                break;
+            case 4:
+                i = ((iHashCode2 * 37) + 4) * 53;
+                iHashCode = getAuthenticated().hashCode();
+                break;
+            case 5:
+                i = ((iHashCode2 * 37) + 5) * 53;
+                iHashCode = getSourceIp().hashCode();
+                break;
+            case 6:
+                i = ((iHashCode2 * 37) + 6) * 53;
+                iHashCode = getHeader().hashCode();
+                break;
+            case 7:
+                i = ((iHashCode2 * 37) + 7) * 53;
+                iHashCode = getMetadata().hashCode();
+                break;
+            case 8:
+                i = ((iHashCode2 * 37) + 8) * 53;
+                iHashCode = getNotId().hashCode();
+                break;
+            case 9:
+                i = ((iHashCode2 * 37) + 9) * 53;
+                iHashCode = getUrlPath().hashCode();
+                break;
+            case 10:
+                i = ((iHashCode2 * 37) + 10) * 53;
+                iHashCode = getDirectRemoteIp().hashCode();
+                break;
+            case 11:
+                i = ((iHashCode2 * 37) + 11) * 53;
+                iHashCode = getRemoteIp().hashCode();
+                break;
+            default:
+                int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m27618newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m27621toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    /* loaded from: classes4.dex */
+    public enum IdentifierCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        AND_IDS(1),
+        OR_IDS(2),
+        ANY(3),
+        AUTHENTICATED(4),
+        SOURCE_IP(5),
+        DIRECT_REMOTE_IP(10),
+        REMOTE_IP(11),
+        HEADER(6),
+        URL_PATH(9),
+        METADATA(7),
+        NOT_ID(8),
+        IDENTIFIER_NOT_SET(0);
+
+        private final int value;
+
+        IdentifierCase(int i) {
+            this.value = i;
+        }
+
+        public static IdentifierCase forNumber(int i) {
+            switch (i) {
+                case 0:
+                    return IDENTIFIER_NOT_SET;
+                case 1:
+                    return AND_IDS;
+                case 2:
+                    return OR_IDS;
+                case 3:
+                    return ANY;
+                case 4:
+                    return AUTHENTICATED;
+                case 5:
+                    return SOURCE_IP;
+                case 6:
+                    return HEADER;
+                case 7:
+                    return METADATA;
+                case 8:
+                    return NOT_ID;
+                case 9:
+                    return URL_PATH;
+                case 10:
+                    return DIRECT_REMOTE_IP;
+                case 11:
+                    return REMOTE_IP;
+                default:
+                    return null;
+            }
+        }
+
+        @Deprecated
+        public static IdentifierCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public interface AuthenticatedOrBuilder extends MessageOrBuilder {
+        StringMatcher getPrincipalName();
+
+        StringMatcherOrBuilder getPrincipalNameOrBuilder();
+
+        boolean hasPrincipalName();
+    }
+
+    /* loaded from: classes4.dex */
+    public interface SetOrBuilder extends MessageOrBuilder {
+        Principal getIds(int i);
+
+        int getIdsCount();
+
+        List<Principal> getIdsList();
+
+        PrincipalOrBuilder getIdsOrBuilder(int i);
+
+        List<? extends PrincipalOrBuilder> getIdsOrBuilderList();
+    }
+
+    /* loaded from: classes4.dex */
+    public static final class Set extends GeneratedMessageV3 implements SetOrBuilder {
+        public static final int IDS_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final Set DEFAULT_INSTANCE = new Set();
+        private static final Parser<Set> PARSER = new AbstractParser<Set>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Set.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Set m27715parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Set(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private List<Principal> ids_;
+        private byte memoizedIsInitialized;
+
+        private Set(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Set() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.ids_ = Collections.emptyList();
+        }
+
+        private Set(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                if (!(z2 & true)) {
+                                    this.ids_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.ids_.add(codedInputStream.readMessage(Principal.parser(), extensionRegistryLite));
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.ids_ = Collections.unmodifiableList(this.ids_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Set getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Set> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Set_descriptor;
+        }
+
+        public static Set parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Set) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Set parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Set) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Set parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Set) PARSER.parseFrom(byteString);
+        }
+
+        public static Set parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Set) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Set parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Set) PARSER.parseFrom(bArr);
+        }
+
+        public static Set parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Set) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Set parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Set parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Set parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Set parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Set parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Set parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m27713toBuilder();
+        }
+
+        public static Builder newBuilder(Set set) {
+            return DEFAULT_INSTANCE.m27713toBuilder().mergeFrom(set);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Set m27708getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+        public List<Principal> getIdsList() {
+            return this.ids_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+        public List<? extends PrincipalOrBuilder> getIdsOrBuilderList() {
+            return this.ids_;
+        }
+
+        public Parser<Set> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new Set();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Set_fieldAccessorTable.ensureFieldAccessorsInitialized(Set.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+        public int getIdsCount() {
+            return this.ids_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+        public Principal getIds(int i) {
+            return this.ids_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+        public PrincipalOrBuilder getIdsOrBuilder(int i) {
+            return this.ids_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            for (int i = 0; i < this.ids_.size(); i++) {
+                codedOutputStream.writeMessage(1, this.ids_.get(i));
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = 0;
+            for (int i2 = 0; i2 < this.ids_.size(); i2++) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(1, this.ids_.get(i2));
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Set)) {
+                return super.equals(obj);
+            }
+            Set set = (Set) obj;
+            return getIdsList().equals(set.getIdsList()) && this.unknownFields.equals(set.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (getIdsCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getIdsList().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27710newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27713toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements SetOrBuilder {
+            private int bitField0_;
+            private RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> idsBuilder_;
+            private List<Principal> ids_;
+
+            private Builder() {
+                this.ids_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.ids_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Set_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Set_fieldAccessorTable.ensureFieldAccessorsInitialized(Set.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (Set.alwaysUseFieldBuilders) {
+                    getIdsFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27724clear() {
+                super.clear();
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.ids_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Set_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Set m27737getDefaultInstanceForType() {
+                return Set.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Set m27718build() throws UninitializedMessageException {
+                Set setM27720buildPartial = m27720buildPartial();
+                if (setM27720buildPartial.isInitialized()) {
+                    return setM27720buildPartial;
+                }
+                throw newUninitializedMessageException(setM27720buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Set m27720buildPartial() {
+                Set set = new Set(this);
+                int i = this.bitField0_;
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((i & 1) != 0) {
+                        this.ids_ = Collections.unmodifiableList(this.ids_);
+                        this.bitField0_ &= -2;
+                    }
+                    set.ids_ = this.ids_;
+                } else {
+                    set.ids_ = repeatedFieldBuilderV3.build();
+                }
+                onBuilt();
+                return set;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27736clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27748setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27726clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27729clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27750setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27716addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27741mergeFrom(Message message) {
+                if (message instanceof Set) {
+                    return mergeFrom((Set) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Set set) {
+                if (set == Set.getDefaultInstance()) {
+                    return this;
+                }
+                if (this.idsBuilder_ == null) {
+                    if (!set.ids_.isEmpty()) {
+                        if (this.ids_.isEmpty()) {
+                            this.ids_ = set.ids_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureIdsIsMutable();
+                            this.ids_.addAll(set.ids_);
+                        }
+                        onChanged();
+                    }
+                } else if (!set.ids_.isEmpty()) {
+                    if (!this.idsBuilder_.isEmpty()) {
+                        this.idsBuilder_.addAllMessages(set.ids_);
+                    } else {
+                        this.idsBuilder_.dispose();
+                        this.idsBuilder_ = null;
+                        this.ids_ = set.ids_;
+                        this.bitField0_ &= -2;
+                        this.idsBuilder_ = Set.alwaysUseFieldBuilders ? getIdsFieldBuilder() : null;
+                    }
+                }
+                m27746mergeUnknownFields(set.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Set.Builder m27742mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Set.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$Set r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Set) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$Set r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Set) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Set.Builder.m27742mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$Set$Builder");
+            }
+
+            private void ensureIdsIsMutable() {
+                if ((this.bitField0_ & 1) == 0) {
+                    this.ids_ = new ArrayList(this.ids_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+            public List<Principal> getIdsList() {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.ids_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+            public int getIdsCount() {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.ids_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+            public Principal getIds(int i) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.ids_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setIds(int i, Principal principal) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    principal.getClass();
+                    ensureIdsIsMutable();
+                    this.ids_.set(i, principal);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, principal);
+                }
+                return this;
+            }
+
+            public Builder setIds(int i, Builder builder) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureIdsIsMutable();
+                    this.ids_.set(i, builder.m27672build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m27672build());
+                }
+                return this;
+            }
+
+            public Builder addIds(Principal principal) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    principal.getClass();
+                    ensureIdsIsMutable();
+                    this.ids_.add(principal);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(principal);
+                }
+                return this;
+            }
+
+            public Builder addIds(int i, Principal principal) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    principal.getClass();
+                    ensureIdsIsMutable();
+                    this.ids_.add(i, principal);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, principal);
+                }
+                return this;
+            }
+
+            public Builder addIds(Builder builder) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureIdsIsMutable();
+                    this.ids_.add(builder.m27672build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m27672build());
+                }
+                return this;
+            }
+
+            public Builder addIds(int i, Builder builder) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureIdsIsMutable();
+                    this.ids_.add(i, builder.m27672build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m27672build());
+                }
+                return this;
+            }
+
+            public Builder addAllIds(Iterable<? extends Principal> iterable) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureIdsIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.ids_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearIds() {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.ids_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeIds(int i) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureIdsIsMutable();
+                    this.ids_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public Builder getIdsBuilder(int i) {
+                return getIdsFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+            public PrincipalOrBuilder getIdsOrBuilder(int i) {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.ids_.get(i);
+                }
+                return (PrincipalOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.SetOrBuilder
+            public List<? extends PrincipalOrBuilder> getIdsOrBuilderList() {
+                RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> repeatedFieldBuilderV3 = this.idsBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.ids_);
+            }
+
+            public Builder addIdsBuilder() {
+                return getIdsFieldBuilder().addBuilder(Principal.getDefaultInstance());
+            }
+
+            public Builder addIdsBuilder(int i) {
+                return getIdsFieldBuilder().addBuilder(i, Principal.getDefaultInstance());
+            }
+
+            public List<Builder> getIdsBuilderList() {
+                return getIdsFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> getIdsFieldBuilder() {
+                if (this.idsBuilder_ == null) {
+                    this.idsBuilder_ = new RepeatedFieldBuilderV3<>(this.ids_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                    this.ids_ = null;
+                }
+                return this.idsBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m27752setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m27746mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public static final class Authenticated extends GeneratedMessageV3 implements AuthenticatedOrBuilder {
+        public static final int PRINCIPAL_NAME_FIELD_NUMBER = 2;
+        private static final Authenticated DEFAULT_INSTANCE = new Authenticated();
+        private static final Parser<Authenticated> PARSER = new AbstractParser<Authenticated>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Authenticated.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Authenticated m27631parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Authenticated(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private byte memoizedIsInitialized;
+        private StringMatcher principalName_;
+
+        private Authenticated(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Authenticated() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Authenticated(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 18) {
+                                    StringMatcher stringMatcher = this.principalName_;
+                                    StringMatcher.Builder builderM33504toBuilder = stringMatcher != null ? stringMatcher.m33504toBuilder() : null;
+                                    StringMatcher stringMatcher2 = (StringMatcher) codedInputStream.readMessage(StringMatcher.parser(), extensionRegistryLite);
+                                    this.principalName_ = stringMatcher2;
+                                    if (builderM33504toBuilder != null) {
+                                        builderM33504toBuilder.mergeFrom(stringMatcher2);
+                                        this.principalName_ = builderM33504toBuilder.m33511buildPartial();
+                                    }
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Authenticated getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Authenticated> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Authenticated_descriptor;
+        }
+
+        public static Authenticated parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Authenticated) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Authenticated parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Authenticated) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Authenticated parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Authenticated) PARSER.parseFrom(byteString);
+        }
+
+        public static Authenticated parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Authenticated) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Authenticated parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Authenticated) PARSER.parseFrom(bArr);
+        }
+
+        public static Authenticated parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Authenticated) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Authenticated parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Authenticated parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Authenticated parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Authenticated parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Authenticated parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Authenticated parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m27629toBuilder();
+        }
+
+        public static Builder newBuilder(Authenticated authenticated) {
+            return DEFAULT_INSTANCE.m27629toBuilder().mergeFrom(authenticated);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Authenticated m27624getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<Authenticated> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.AuthenticatedOrBuilder
+        public boolean hasPrincipalName() {
+            return this.principalName_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new Authenticated();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Authenticated_fieldAccessorTable.ensureFieldAccessorsInitialized(Authenticated.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.AuthenticatedOrBuilder
+        public StringMatcher getPrincipalName() {
+            StringMatcher stringMatcher = this.principalName_;
+            return stringMatcher == null ? StringMatcher.getDefaultInstance() : stringMatcher;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.AuthenticatedOrBuilder
+        public StringMatcherOrBuilder getPrincipalNameOrBuilder() {
+            return getPrincipalName();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.principalName_ != null) {
+                codedOutputStream.writeMessage(2, getPrincipalName());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = (this.principalName_ != null ? CodedOutputStream.computeMessageSize(2, getPrincipalName()) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeMessageSize;
+            return iComputeMessageSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Authenticated)) {
+                return super.equals(obj);
+            }
+            Authenticated authenticated = (Authenticated) obj;
+            if (hasPrincipalName() != authenticated.hasPrincipalName()) {
+                return false;
+            }
+            return (!hasPrincipalName() || getPrincipalName().equals(authenticated.getPrincipalName())) && this.unknownFields.equals(authenticated.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasPrincipalName()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getPrincipalName().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27626newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27629toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements AuthenticatedOrBuilder {
+            private SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> principalNameBuilder_;
+            private StringMatcher principalName_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Authenticated_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.AuthenticatedOrBuilder
+            public boolean hasPrincipalName() {
+                return (this.principalNameBuilder_ == null && this.principalName_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Authenticated_fieldAccessorTable.ensureFieldAccessorsInitialized(Authenticated.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Authenticated.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27640clear() {
+                super.clear();
+                if (this.principalNameBuilder_ == null) {
+                    this.principalName_ = null;
+                } else {
+                    this.principalName_ = null;
+                    this.principalNameBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return RbacProto.internal_static_envoy_config_rbac_v2_Principal_Authenticated_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Authenticated m27653getDefaultInstanceForType() {
+                return Authenticated.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Authenticated m27634build() throws UninitializedMessageException {
+                Authenticated authenticatedM27636buildPartial = m27636buildPartial();
+                if (authenticatedM27636buildPartial.isInitialized()) {
+                    return authenticatedM27636buildPartial;
+                }
+                throw newUninitializedMessageException(authenticatedM27636buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Authenticated m27636buildPartial() {
+                Authenticated authenticated = new Authenticated(this);
+                SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> singleFieldBuilderV3 = this.principalNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    authenticated.principalName_ = this.principalName_;
+                } else {
+                    authenticated.principalName_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return authenticated;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27652clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27664setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27642clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27645clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27666setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27632addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m27657mergeFrom(Message message) {
+                if (message instanceof Authenticated) {
+                    return mergeFrom((Authenticated) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Authenticated authenticated) {
+                if (authenticated == Authenticated.getDefaultInstance()) {
+                    return this;
+                }
+                if (authenticated.hasPrincipalName()) {
+                    mergePrincipalName(authenticated.getPrincipalName());
+                }
+                m27662mergeUnknownFields(authenticated.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Authenticated.Builder m27658mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Authenticated.access$1500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$Authenticated r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Authenticated) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$Authenticated r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Authenticated) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Authenticated.Builder.m27658mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$Authenticated$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.AuthenticatedOrBuilder
+            public StringMatcher getPrincipalName() {
+                SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> singleFieldBuilderV3 = this.principalNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                StringMatcher stringMatcher = this.principalName_;
+                return stringMatcher == null ? StringMatcher.getDefaultInstance() : stringMatcher;
+            }
+
+            public Builder setPrincipalName(StringMatcher stringMatcher) {
+                SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> singleFieldBuilderV3 = this.principalNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    stringMatcher.getClass();
+                    this.principalName_ = stringMatcher;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(stringMatcher);
+                }
+                return this;
+            }
+
+            public Builder setPrincipalName(StringMatcher.Builder builder) {
+                SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> singleFieldBuilderV3 = this.principalNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.principalName_ = builder.m33509build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m33509build());
+                }
+                return this;
+            }
+
+            public Builder mergePrincipalName(StringMatcher stringMatcher) {
+                SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> singleFieldBuilderV3 = this.principalNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    StringMatcher stringMatcher2 = this.principalName_;
+                    if (stringMatcher2 != null) {
+                        this.principalName_ = StringMatcher.newBuilder(stringMatcher2).mergeFrom(stringMatcher).m33511buildPartial();
+                    } else {
+                        this.principalName_ = stringMatcher;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(stringMatcher);
+                }
+                return this;
+            }
+
+            public Builder clearPrincipalName() {
+                if (this.principalNameBuilder_ == null) {
+                    this.principalName_ = null;
+                    onChanged();
+                } else {
+                    this.principalName_ = null;
+                    this.principalNameBuilder_ = null;
+                }
+                return this;
+            }
+
+            public StringMatcher.Builder getPrincipalNameBuilder() {
+                onChanged();
+                return getPrincipalNameFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.AuthenticatedOrBuilder
+            public StringMatcherOrBuilder getPrincipalNameOrBuilder() {
+                SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> singleFieldBuilderV3 = this.principalNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (StringMatcherOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                StringMatcher stringMatcher = this.principalName_;
+                return stringMatcher == null ? StringMatcher.getDefaultInstance() : stringMatcher;
+            }
+
+            private SingleFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> getPrincipalNameFieldBuilder() {
+                if (this.principalNameBuilder_ == null) {
+                    this.principalNameBuilder_ = new SingleFieldBuilderV3<>(getPrincipalName(), getParentForChildren(), isClean());
+                    this.principalName_ = null;
+                }
+                return this.principalNameBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m27668setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m27662mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements PrincipalOrBuilder {
+        private SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> andIdsBuilder_;
+        private SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> authenticatedBuilder_;
+        private SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> directRemoteIpBuilder_;
+        private SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> headerBuilder_;
+        private int identifierCase_;
+        private Object identifier_;
+        private SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> metadataBuilder_;
+        private SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> notIdBuilder_;
+        private SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> orIdsBuilder_;
+        private SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> remoteIpBuilder_;
+        private SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> sourceIpBuilder_;
+        private SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> urlPathBuilder_;
+
+        private Builder() {
+            this.identifierCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.identifierCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RbacProto.internal_static_envoy_config_rbac_v2_Principal_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasAndIds() {
+            return this.identifierCase_ == 1;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasAuthenticated() {
+            return this.identifierCase_ == 4;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasDirectRemoteIp() {
+            return this.identifierCase_ == 10;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasHeader() {
+            return this.identifierCase_ == 6;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasMetadata() {
+            return this.identifierCase_ == 7;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasNotId() {
+            return this.identifierCase_ == 8;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasOrIds() {
+            return this.identifierCase_ == 2;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasRemoteIp() {
+            return this.identifierCase_ == 11;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        @Deprecated
+        public boolean hasSourceIp() {
+            return this.identifierCase_ == 5;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean hasUrlPath() {
+            return this.identifierCase_ == 9;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RbacProto.internal_static_envoy_config_rbac_v2_Principal_fieldAccessorTable.ensureFieldAccessorsInitialized(Principal.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = Principal.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27678clear() {
+            super.clear();
+            this.identifierCase_ = 0;
+            this.identifier_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return RbacProto.internal_static_envoy_config_rbac_v2_Principal_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Principal m27691getDefaultInstanceForType() {
+            return Principal.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Principal m27672build() throws UninitializedMessageException {
+            Principal principalM27674buildPartial = m27674buildPartial();
+            if (principalM27674buildPartial.isInitialized()) {
+                return principalM27674buildPartial;
+            }
+            throw newUninitializedMessageException(principalM27674buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Principal m27674buildPartial() {
+            Principal principal = new Principal(this);
+            if (this.identifierCase_ == 1) {
+                SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.andIdsBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.identifierCase_ == 2) {
+                SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV32 = this.orIdsBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.identifierCase_ == 3) {
+                principal.identifier_ = this.identifier_;
+            }
+            if (this.identifierCase_ == 4) {
+                SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> singleFieldBuilderV33 = this.authenticatedBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.identifierCase_ == 5) {
+                SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV34 = this.sourceIpBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV34.build();
+                }
+            }
+            if (this.identifierCase_ == 10) {
+                SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV35 = this.directRemoteIpBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV35.build();
+                }
+            }
+            if (this.identifierCase_ == 11) {
+                SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV36 = this.remoteIpBuilder_;
+                if (singleFieldBuilderV36 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV36.build();
+                }
+            }
+            if (this.identifierCase_ == 6) {
+                SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> singleFieldBuilderV37 = this.headerBuilder_;
+                if (singleFieldBuilderV37 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV37.build();
+                }
+            }
+            if (this.identifierCase_ == 9) {
+                SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> singleFieldBuilderV38 = this.urlPathBuilder_;
+                if (singleFieldBuilderV38 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV38.build();
+                }
+            }
+            if (this.identifierCase_ == 7) {
+                SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> singleFieldBuilderV39 = this.metadataBuilder_;
+                if (singleFieldBuilderV39 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV39.build();
+                }
+            }
+            if (this.identifierCase_ == 8) {
+                SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> singleFieldBuilderV310 = this.notIdBuilder_;
+                if (singleFieldBuilderV310 == null) {
+                    principal.identifier_ = this.identifier_;
+                } else {
+                    principal.identifier_ = singleFieldBuilderV310.build();
+                }
+            }
+            principal.identifierCase_ = this.identifierCase_;
+            onBuilt();
+            return principal;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27690clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27702setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27680clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27683clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27704setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27670addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27695mergeFrom(Message message) {
+            if (message instanceof Principal) {
+                return mergeFrom((Principal) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Principal principal) {
+            if (principal == Principal.getDefaultInstance()) {
+                return this;
+            }
+            switch (AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[principal.getIdentifierCase().ordinal()]) {
+                case 1:
+                    mergeAndIds(principal.getAndIds());
+                    break;
+                case 2:
+                    mergeOrIds(principal.getOrIds());
+                    break;
+                case 3:
+                    setAny(principal.getAny());
+                    break;
+                case 4:
+                    mergeAuthenticated(principal.getAuthenticated());
+                    break;
+                case 5:
+                    mergeSourceIp(principal.getSourceIp());
+                    break;
+                case 6:
+                    mergeDirectRemoteIp(principal.getDirectRemoteIp());
+                    break;
+                case 7:
+                    mergeRemoteIp(principal.getRemoteIp());
+                    break;
+                case 8:
+                    mergeHeader(principal.getHeader());
+                    break;
+                case 9:
+                    mergeUrlPath(principal.getUrlPath());
+                    break;
+                case 10:
+                    mergeMetadata(principal.getMetadata());
+                    break;
+                case 11:
+                    mergeNotId(principal.getNotId());
+                    break;
+            }
+            m27700mergeUnknownFields(principal.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Builder m27696mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.access$2400()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal.Builder.m27696mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public IdentifierCase getIdentifierCase() {
+            return IdentifierCase.forNumber(this.identifierCase_);
+        }
+
+        public Builder clearIdentifier() {
+            this.identifierCase_ = 0;
+            this.identifier_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public Set getAndIds() {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.andIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 1) {
+                    return (Set) this.identifier_;
+                }
+                return Set.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Set.getDefaultInstance();
+        }
+
+        public Builder setAndIds(Set set) {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.andIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                set.getClass();
+                this.identifier_ = set;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(set);
+            }
+            this.identifierCase_ = 1;
+            return this;
+        }
+
+        public Builder setAndIds(Set.Builder builder) {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.andIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m27718build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m27718build());
+            }
+            this.identifierCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeAndIds(Set set) {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.andIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 1 || this.identifier_ == Set.getDefaultInstance()) {
+                    this.identifier_ = set;
+                } else {
+                    this.identifier_ = Set.newBuilder((Set) this.identifier_).mergeFrom(set).m27720buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(set);
+                }
+                this.andIdsBuilder_.setMessage(set);
+            }
+            this.identifierCase_ = 1;
+            return this;
+        }
+
+        public Builder clearAndIds() {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.andIdsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 1) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 1) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Set.Builder getAndIdsBuilder() {
+            return getAndIdsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public SetOrBuilder getAndIdsOrBuilder() {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.andIdsBuilder_) != null) {
+                return (SetOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (Set) this.identifier_;
+            }
+            return Set.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> getAndIdsFieldBuilder() {
+            if (this.andIdsBuilder_ == null) {
+                if (this.identifierCase_ != 1) {
+                    this.identifier_ = Set.getDefaultInstance();
+                }
+                this.andIdsBuilder_ = new SingleFieldBuilderV3<>((Set) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 1;
+            onChanged();
+            return this.andIdsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public Set getOrIds() {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.orIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 2) {
+                    return (Set) this.identifier_;
+                }
+                return Set.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 2) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Set.getDefaultInstance();
+        }
+
+        public Builder setOrIds(Set set) {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.orIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                set.getClass();
+                this.identifier_ = set;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(set);
+            }
+            this.identifierCase_ = 2;
+            return this;
+        }
+
+        public Builder setOrIds(Set.Builder builder) {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.orIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m27718build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m27718build());
+            }
+            this.identifierCase_ = 2;
+            return this;
+        }
+
+        public Builder mergeOrIds(Set set) {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.orIdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 2 || this.identifier_ == Set.getDefaultInstance()) {
+                    this.identifier_ = set;
+                } else {
+                    this.identifier_ = Set.newBuilder((Set) this.identifier_).mergeFrom(set).m27720buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 2) {
+                    singleFieldBuilderV3.mergeFrom(set);
+                }
+                this.orIdsBuilder_.setMessage(set);
+            }
+            this.identifierCase_ = 2;
+            return this;
+        }
+
+        public Builder clearOrIds() {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3 = this.orIdsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 2) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 2) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Set.Builder getOrIdsBuilder() {
+            return getOrIdsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public SetOrBuilder getOrIdsOrBuilder() {
+            SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 2 && (singleFieldBuilderV3 = this.orIdsBuilder_) != null) {
+                return (SetOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 2) {
+                return (Set) this.identifier_;
+            }
+            return Set.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Set, Set.Builder, SetOrBuilder> getOrIdsFieldBuilder() {
+            if (this.orIdsBuilder_ == null) {
+                if (this.identifierCase_ != 2) {
+                    this.identifier_ = Set.getDefaultInstance();
+                }
+                this.orIdsBuilder_ = new SingleFieldBuilderV3<>((Set) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 2;
+            onChanged();
+            return this.orIdsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public boolean getAny() {
+            if (this.identifierCase_ == 3) {
+                return ((Boolean) this.identifier_).booleanValue();
+            }
+            return false;
+        }
+
+        public Builder setAny(boolean z) {
+            this.identifierCase_ = 3;
+            this.identifier_ = Boolean.valueOf(z);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAny() {
+            if (this.identifierCase_ == 3) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public Authenticated getAuthenticated() {
+            SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> singleFieldBuilderV3 = this.authenticatedBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 4) {
+                    return (Authenticated) this.identifier_;
+                }
+                return Authenticated.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 4) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Authenticated.getDefaultInstance();
+        }
+
+        public Builder setAuthenticated(Authenticated authenticated) {
+            SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> singleFieldBuilderV3 = this.authenticatedBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                authenticated.getClass();
+                this.identifier_ = authenticated;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(authenticated);
+            }
+            this.identifierCase_ = 4;
+            return this;
+        }
+
+        public Builder setAuthenticated(Authenticated.Builder builder) {
+            SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> singleFieldBuilderV3 = this.authenticatedBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m27634build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m27634build());
+            }
+            this.identifierCase_ = 4;
+            return this;
+        }
+
+        public Builder mergeAuthenticated(Authenticated authenticated) {
+            SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> singleFieldBuilderV3 = this.authenticatedBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 4 || this.identifier_ == Authenticated.getDefaultInstance()) {
+                    this.identifier_ = authenticated;
+                } else {
+                    this.identifier_ = Authenticated.newBuilder((Authenticated) this.identifier_).mergeFrom(authenticated).m27636buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 4) {
+                    singleFieldBuilderV3.mergeFrom(authenticated);
+                }
+                this.authenticatedBuilder_.setMessage(authenticated);
+            }
+            this.identifierCase_ = 4;
+            return this;
+        }
+
+        public Builder clearAuthenticated() {
+            SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> singleFieldBuilderV3 = this.authenticatedBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 4) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 4) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Authenticated.Builder getAuthenticatedBuilder() {
+            return getAuthenticatedFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public AuthenticatedOrBuilder getAuthenticatedOrBuilder() {
+            SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 4 && (singleFieldBuilderV3 = this.authenticatedBuilder_) != null) {
+                return (AuthenticatedOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 4) {
+                return (Authenticated) this.identifier_;
+            }
+            return Authenticated.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Authenticated, Authenticated.Builder, AuthenticatedOrBuilder> getAuthenticatedFieldBuilder() {
+            if (this.authenticatedBuilder_ == null) {
+                if (this.identifierCase_ != 4) {
+                    this.identifier_ = Authenticated.getDefaultInstance();
+                }
+                this.authenticatedBuilder_ = new SingleFieldBuilderV3<>((Authenticated) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 4;
+            onChanged();
+            return this.authenticatedBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        @Deprecated
+        public CidrRange getSourceIp() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.sourceIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 5) {
+                    return (CidrRange) this.identifier_;
+                }
+                return CidrRange.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 5) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return CidrRange.getDefaultInstance();
+        }
+
+        @Deprecated
+        public Builder setSourceIp(CidrRange cidrRange) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.sourceIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                cidrRange.getClass();
+                this.identifier_ = cidrRange;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(cidrRange);
+            }
+            this.identifierCase_ = 5;
+            return this;
+        }
+
+        @Deprecated
+        public Builder setSourceIp(CidrRange.Builder builder) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.sourceIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m14587build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m14587build());
+            }
+            this.identifierCase_ = 5;
+            return this;
+        }
+
+        @Deprecated
+        public Builder mergeSourceIp(CidrRange cidrRange) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.sourceIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 5 || this.identifier_ == CidrRange.getDefaultInstance()) {
+                    this.identifier_ = cidrRange;
+                } else {
+                    this.identifier_ = CidrRange.newBuilder((CidrRange) this.identifier_).mergeFrom(cidrRange).m14589buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 5) {
+                    singleFieldBuilderV3.mergeFrom(cidrRange);
+                }
+                this.sourceIpBuilder_.setMessage(cidrRange);
+            }
+            this.identifierCase_ = 5;
+            return this;
+        }
+
+        @Deprecated
+        public Builder clearSourceIp() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.sourceIpBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 5) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 5) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Deprecated
+        public CidrRange.Builder getSourceIpBuilder() {
+            return getSourceIpFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        @Deprecated
+        public CidrRangeOrBuilder getSourceIpOrBuilder() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 5 && (singleFieldBuilderV3 = this.sourceIpBuilder_) != null) {
+                return (CidrRangeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 5) {
+                return (CidrRange) this.identifier_;
+            }
+            return CidrRange.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> getSourceIpFieldBuilder() {
+            if (this.sourceIpBuilder_ == null) {
+                if (this.identifierCase_ != 5) {
+                    this.identifier_ = CidrRange.getDefaultInstance();
+                }
+                this.sourceIpBuilder_ = new SingleFieldBuilderV3<>((CidrRange) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 5;
+            onChanged();
+            return this.sourceIpBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public CidrRange getDirectRemoteIp() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.directRemoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 10) {
+                    return (CidrRange) this.identifier_;
+                }
+                return CidrRange.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 10) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return CidrRange.getDefaultInstance();
+        }
+
+        public Builder setDirectRemoteIp(CidrRange cidrRange) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.directRemoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                cidrRange.getClass();
+                this.identifier_ = cidrRange;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(cidrRange);
+            }
+            this.identifierCase_ = 10;
+            return this;
+        }
+
+        public Builder setDirectRemoteIp(CidrRange.Builder builder) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.directRemoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m14587build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m14587build());
+            }
+            this.identifierCase_ = 10;
+            return this;
+        }
+
+        public Builder mergeDirectRemoteIp(CidrRange cidrRange) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.directRemoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 10 || this.identifier_ == CidrRange.getDefaultInstance()) {
+                    this.identifier_ = cidrRange;
+                } else {
+                    this.identifier_ = CidrRange.newBuilder((CidrRange) this.identifier_).mergeFrom(cidrRange).m14589buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 10) {
+                    singleFieldBuilderV3.mergeFrom(cidrRange);
+                }
+                this.directRemoteIpBuilder_.setMessage(cidrRange);
+            }
+            this.identifierCase_ = 10;
+            return this;
+        }
+
+        public Builder clearDirectRemoteIp() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.directRemoteIpBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 10) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 10) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public CidrRange.Builder getDirectRemoteIpBuilder() {
+            return getDirectRemoteIpFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public CidrRangeOrBuilder getDirectRemoteIpOrBuilder() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 10 && (singleFieldBuilderV3 = this.directRemoteIpBuilder_) != null) {
+                return (CidrRangeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 10) {
+                return (CidrRange) this.identifier_;
+            }
+            return CidrRange.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> getDirectRemoteIpFieldBuilder() {
+            if (this.directRemoteIpBuilder_ == null) {
+                if (this.identifierCase_ != 10) {
+                    this.identifier_ = CidrRange.getDefaultInstance();
+                }
+                this.directRemoteIpBuilder_ = new SingleFieldBuilderV3<>((CidrRange) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 10;
+            onChanged();
+            return this.directRemoteIpBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public CidrRange getRemoteIp() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.remoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 11) {
+                    return (CidrRange) this.identifier_;
+                }
+                return CidrRange.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 11) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return CidrRange.getDefaultInstance();
+        }
+
+        public Builder setRemoteIp(CidrRange cidrRange) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.remoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                cidrRange.getClass();
+                this.identifier_ = cidrRange;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(cidrRange);
+            }
+            this.identifierCase_ = 11;
+            return this;
+        }
+
+        public Builder setRemoteIp(CidrRange.Builder builder) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.remoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m14587build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m14587build());
+            }
+            this.identifierCase_ = 11;
+            return this;
+        }
+
+        public Builder mergeRemoteIp(CidrRange cidrRange) {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.remoteIpBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 11 || this.identifier_ == CidrRange.getDefaultInstance()) {
+                    this.identifier_ = cidrRange;
+                } else {
+                    this.identifier_ = CidrRange.newBuilder((CidrRange) this.identifier_).mergeFrom(cidrRange).m14589buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 11) {
+                    singleFieldBuilderV3.mergeFrom(cidrRange);
+                }
+                this.remoteIpBuilder_.setMessage(cidrRange);
+            }
+            this.identifierCase_ = 11;
+            return this;
+        }
+
+        public Builder clearRemoteIp() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3 = this.remoteIpBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 11) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 11) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public CidrRange.Builder getRemoteIpBuilder() {
+            return getRemoteIpFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public CidrRangeOrBuilder getRemoteIpOrBuilder() {
+            SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 11 && (singleFieldBuilderV3 = this.remoteIpBuilder_) != null) {
+                return (CidrRangeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 11) {
+                return (CidrRange) this.identifier_;
+            }
+            return CidrRange.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<CidrRange, CidrRange.Builder, CidrRangeOrBuilder> getRemoteIpFieldBuilder() {
+            if (this.remoteIpBuilder_ == null) {
+                if (this.identifierCase_ != 11) {
+                    this.identifier_ = CidrRange.getDefaultInstance();
+                }
+                this.remoteIpBuilder_ = new SingleFieldBuilderV3<>((CidrRange) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 11;
+            onChanged();
+            return this.remoteIpBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public HeaderMatcher getHeader() {
+            SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 6) {
+                    return (HeaderMatcher) this.identifier_;
+                }
+                return HeaderMatcher.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 6) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return HeaderMatcher.getDefaultInstance();
+        }
+
+        public Builder setHeader(HeaderMatcher headerMatcher) {
+            SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                headerMatcher.getClass();
+                this.identifier_ = headerMatcher;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(headerMatcher);
+            }
+            this.identifierCase_ = 6;
+            return this;
+        }
+
+        public Builder setHeader(HeaderMatcher.Builder builder) {
+            SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m18052build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m18052build());
+            }
+            this.identifierCase_ = 6;
+            return this;
+        }
+
+        public Builder mergeHeader(HeaderMatcher headerMatcher) {
+            SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 6 || this.identifier_ == HeaderMatcher.getDefaultInstance()) {
+                    this.identifier_ = headerMatcher;
+                } else {
+                    this.identifier_ = HeaderMatcher.newBuilder((HeaderMatcher) this.identifier_).mergeFrom(headerMatcher).m18054buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 6) {
+                    singleFieldBuilderV3.mergeFrom(headerMatcher);
+                }
+                this.headerBuilder_.setMessage(headerMatcher);
+            }
+            this.identifierCase_ = 6;
+            return this;
+        }
+
+        public Builder clearHeader() {
+            SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 6) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 6) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public HeaderMatcher.Builder getHeaderBuilder() {
+            return getHeaderFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public HeaderMatcherOrBuilder getHeaderOrBuilder() {
+            SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 6 && (singleFieldBuilderV3 = this.headerBuilder_) != null) {
+                return (HeaderMatcherOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 6) {
+                return (HeaderMatcher) this.identifier_;
+            }
+            return HeaderMatcher.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> getHeaderFieldBuilder() {
+            if (this.headerBuilder_ == null) {
+                if (this.identifierCase_ != 6) {
+                    this.identifier_ = HeaderMatcher.getDefaultInstance();
+                }
+                this.headerBuilder_ = new SingleFieldBuilderV3<>((HeaderMatcher) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 6;
+            onChanged();
+            return this.headerBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public PathMatcher getUrlPath() {
+            SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> singleFieldBuilderV3 = this.urlPathBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 9) {
+                    return (PathMatcher) this.identifier_;
+                }
+                return PathMatcher.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 9) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return PathMatcher.getDefaultInstance();
+        }
+
+        public Builder setUrlPath(PathMatcher pathMatcher) {
+            SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> singleFieldBuilderV3 = this.urlPathBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                pathMatcher.getClass();
+                this.identifier_ = pathMatcher;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(pathMatcher);
+            }
+            this.identifierCase_ = 9;
+            return this;
+        }
+
+        public Builder setUrlPath(PathMatcher.Builder builder) {
+            SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> singleFieldBuilderV3 = this.urlPathBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m33325build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m33325build());
+            }
+            this.identifierCase_ = 9;
+            return this;
+        }
+
+        public Builder mergeUrlPath(PathMatcher pathMatcher) {
+            SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> singleFieldBuilderV3 = this.urlPathBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 9 || this.identifier_ == PathMatcher.getDefaultInstance()) {
+                    this.identifier_ = pathMatcher;
+                } else {
+                    this.identifier_ = PathMatcher.newBuilder((PathMatcher) this.identifier_).mergeFrom(pathMatcher).m33327buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 9) {
+                    singleFieldBuilderV3.mergeFrom(pathMatcher);
+                }
+                this.urlPathBuilder_.setMessage(pathMatcher);
+            }
+            this.identifierCase_ = 9;
+            return this;
+        }
+
+        public Builder clearUrlPath() {
+            SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> singleFieldBuilderV3 = this.urlPathBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 9) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 9) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public PathMatcher.Builder getUrlPathBuilder() {
+            return getUrlPathFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public PathMatcherOrBuilder getUrlPathOrBuilder() {
+            SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 9 && (singleFieldBuilderV3 = this.urlPathBuilder_) != null) {
+                return (PathMatcherOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 9) {
+                return (PathMatcher) this.identifier_;
+            }
+            return PathMatcher.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<PathMatcher, PathMatcher.Builder, PathMatcherOrBuilder> getUrlPathFieldBuilder() {
+            if (this.urlPathBuilder_ == null) {
+                if (this.identifierCase_ != 9) {
+                    this.identifier_ = PathMatcher.getDefaultInstance();
+                }
+                this.urlPathBuilder_ = new SingleFieldBuilderV3<>((PathMatcher) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 9;
+            onChanged();
+            return this.urlPathBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public MetadataMatcher getMetadata() {
+            SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 7) {
+                    return (MetadataMatcher) this.identifier_;
+                }
+                return MetadataMatcher.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 7) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return MetadataMatcher.getDefaultInstance();
+        }
+
+        public Builder setMetadata(MetadataMatcher metadataMatcher) {
+            SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                metadataMatcher.getClass();
+                this.identifier_ = metadataMatcher;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(metadataMatcher);
+            }
+            this.identifierCase_ = 7;
+            return this;
+        }
+
+        public Builder setMetadata(MetadataMatcher.Builder builder) {
+            SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m33233build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m33233build());
+            }
+            this.identifierCase_ = 7;
+            return this;
+        }
+
+        public Builder mergeMetadata(MetadataMatcher metadataMatcher) {
+            SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 7 || this.identifier_ == MetadataMatcher.getDefaultInstance()) {
+                    this.identifier_ = metadataMatcher;
+                } else {
+                    this.identifier_ = MetadataMatcher.newBuilder((MetadataMatcher) this.identifier_).mergeFrom(metadataMatcher).m33235buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 7) {
+                    singleFieldBuilderV3.mergeFrom(metadataMatcher);
+                }
+                this.metadataBuilder_.setMessage(metadataMatcher);
+            }
+            this.identifierCase_ = 7;
+            return this;
+        }
+
+        public Builder clearMetadata() {
+            SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 7) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 7) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public MetadataMatcher.Builder getMetadataBuilder() {
+            return getMetadataFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public MetadataMatcherOrBuilder getMetadataOrBuilder() {
+            SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 7 && (singleFieldBuilderV3 = this.metadataBuilder_) != null) {
+                return (MetadataMatcherOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 7) {
+                return (MetadataMatcher) this.identifier_;
+            }
+            return MetadataMatcher.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<MetadataMatcher, MetadataMatcher.Builder, MetadataMatcherOrBuilder> getMetadataFieldBuilder() {
+            if (this.metadataBuilder_ == null) {
+                if (this.identifierCase_ != 7) {
+                    this.identifier_ = MetadataMatcher.getDefaultInstance();
+                }
+                this.metadataBuilder_ = new SingleFieldBuilderV3<>((MetadataMatcher) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 7;
+            onChanged();
+            return this.metadataBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public Principal getNotId() {
+            SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> singleFieldBuilderV3 = this.notIdBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ == 8) {
+                    return (Principal) this.identifier_;
+                }
+                return Principal.getDefaultInstance();
+            }
+            if (this.identifierCase_ == 8) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Principal.getDefaultInstance();
+        }
+
+        public Builder setNotId(Principal principal) {
+            SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> singleFieldBuilderV3 = this.notIdBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                principal.getClass();
+                this.identifier_ = principal;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(principal);
+            }
+            this.identifierCase_ = 8;
+            return this;
+        }
+
+        public Builder setNotId(Builder builder) {
+            SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> singleFieldBuilderV3 = this.notIdBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.identifier_ = builder.m27672build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m27672build());
+            }
+            this.identifierCase_ = 8;
+            return this;
+        }
+
+        public Builder mergeNotId(Principal principal) {
+            SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> singleFieldBuilderV3 = this.notIdBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.identifierCase_ != 8 || this.identifier_ == Principal.getDefaultInstance()) {
+                    this.identifier_ = principal;
+                } else {
+                    this.identifier_ = Principal.newBuilder((Principal) this.identifier_).mergeFrom(principal).m27674buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.identifierCase_ == 8) {
+                    singleFieldBuilderV3.mergeFrom(principal);
+                }
+                this.notIdBuilder_.setMessage(principal);
+            }
+            this.identifierCase_ = 8;
+            return this;
+        }
+
+        public Builder clearNotId() {
+            SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> singleFieldBuilderV3 = this.notIdBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.identifierCase_ == 8) {
+                    this.identifierCase_ = 0;
+                    this.identifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.identifierCase_ == 8) {
+                this.identifierCase_ = 0;
+                this.identifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Builder getNotIdBuilder() {
+            return getNotIdFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.PrincipalOrBuilder
+        public PrincipalOrBuilder getNotIdOrBuilder() {
+            SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> singleFieldBuilderV3;
+            int i = this.identifierCase_;
+            if (i == 8 && (singleFieldBuilderV3 = this.notIdBuilder_) != null) {
+                return (PrincipalOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 8) {
+                return (Principal) this.identifier_;
+            }
+            return Principal.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Principal, Builder, PrincipalOrBuilder> getNotIdFieldBuilder() {
+            if (this.notIdBuilder_ == null) {
+                if (this.identifierCase_ != 8) {
+                    this.identifier_ = Principal.getDefaultInstance();
+                }
+                this.notIdBuilder_ = new SingleFieldBuilderV3<>((Principal) this.identifier_, getParentForChildren(), isClean());
+                this.identifier_ = null;
+            }
+            this.identifierCase_ = 8;
+            onChanged();
+            return this.notIdBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m27706setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m27700mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Principal$2, reason: invalid class name */
+    /* loaded from: classes4.dex */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase;
+
+        static {
+            int[] iArr = new int[IdentifierCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase = iArr;
+            try {
+                iArr[IdentifierCase.AND_IDS.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.OR_IDS.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.ANY.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.AUTHENTICATED.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.SOURCE_IP.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.DIRECT_REMOTE_IP.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.REMOTE_IP.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.HEADER.ordinal()] = 8;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.URL_PATH.ordinal()] = 9;
+            } catch (NoSuchFieldError unused9) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.METADATA.ordinal()] = 10;
+            } catch (NoSuchFieldError unused10) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.NOT_ID.ordinal()] = 11;
+            } catch (NoSuchFieldError unused11) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$rbac$v2$Principal$IdentifierCase[IdentifierCase.IDENTIFIER_NOT_SET.ordinal()] = 12;
+            } catch (NoSuchFieldError unused12) {
+            }
+        }
+    }
+}

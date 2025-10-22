@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/params/DSTU4145Parameters.java
+// Size: 583 bytes
+// Modified: 2025-10-21 16:32:09.440765300 +0100
+
+package org.bouncycastle.crypto.params;
+
+import org.bouncycastle.util.Arrays;
+
+/* loaded from: classes5.dex */
+public class DSTU4145Parameters extends ECDomainParameters {
+    private final byte[] dke;
+
+    public DSTU4145Parameters(ECDomainParameters eCDomainParameters, byte[] bArr) {
+        super(eCDomainParameters.getCurve(), eCDomainParameters.getG(), eCDomainParameters.getN(), eCDomainParameters.getH(), eCDomainParameters.getSeed());
+        this.dke = Arrays.clone(bArr);
+    }
+
+    public byte[] getDKE() {
+        return Arrays.clone(this.dke);
+    }
+}

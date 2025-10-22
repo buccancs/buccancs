@@ -1,0 +1,2568 @@
+package javax.vecmath;
+
+import java.io.Serializable;
+
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes4.dex */
+public class Matrix4f implements Serializable, Cloneable {
+    static final long serialVersionUID = -8405036035410109353L;
+    private static final double EPS = 1.0E-8d;
+    public float m00;
+    public float m01;
+    public float m02;
+    public float m03;
+    public float m10;
+    public float m11;
+    public float m12;
+    public float m13;
+    public float m20;
+    public float m21;
+    public float m22;
+    public float m23;
+    public float m30;
+    public float m31;
+    public float m32;
+    public float m33;
+
+    public Matrix4f(float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15, float f16) {
+        this.m00 = f;
+        this.m01 = f2;
+        this.m02 = f3;
+        this.m03 = f4;
+        this.m10 = f5;
+        this.m11 = f6;
+        this.m12 = f7;
+        this.m13 = f8;
+        this.m20 = f9;
+        this.m21 = f10;
+        this.m22 = f11;
+        this.m23 = f12;
+        this.m30 = f13;
+        this.m31 = f14;
+        this.m32 = f15;
+        this.m33 = f16;
+    }
+
+    public Matrix4f(float[] fArr) {
+        this.m00 = fArr[0];
+        this.m01 = fArr[1];
+        this.m02 = fArr[2];
+        this.m03 = fArr[3];
+        this.m10 = fArr[4];
+        this.m11 = fArr[5];
+        this.m12 = fArr[6];
+        this.m13 = fArr[7];
+        this.m20 = fArr[8];
+        this.m21 = fArr[9];
+        this.m22 = fArr[10];
+        this.m23 = fArr[11];
+        this.m30 = fArr[12];
+        this.m31 = fArr[13];
+        this.m32 = fArr[14];
+        this.m33 = fArr[15];
+    }
+
+    public Matrix4f(Quat4f quat4f, Vector3f vector3f, float f) {
+        double d = f;
+        this.m00 = (float) (((1.0d - ((quat4f.y * 2.0d) * quat4f.y)) - ((quat4f.z * 2.0d) * quat4f.z)) * d);
+        this.m10 = (float) (((quat4f.x * quat4f.y) + (quat4f.w * quat4f.z)) * 2.0d * d);
+        this.m20 = (float) (((quat4f.x * quat4f.z) - (quat4f.w * quat4f.y)) * 2.0d * d);
+        this.m01 = (float) (((quat4f.x * quat4f.y) - (quat4f.w * quat4f.z)) * 2.0d * d);
+        this.m11 = (float) (((1.0d - ((quat4f.x * 2.0d) * quat4f.x)) - ((quat4f.z * 2.0d) * quat4f.z)) * d);
+        this.m21 = (float) (((quat4f.y * quat4f.z) + (quat4f.w * quat4f.x)) * 2.0d * d);
+        this.m02 = (float) (((quat4f.x * quat4f.z) + (quat4f.w * quat4f.y)) * 2.0d * d);
+        this.m12 = (float) (((quat4f.y * quat4f.z) - (quat4f.w * quat4f.x)) * 2.0d * d);
+        this.m22 = (float) (d * ((1.0d - ((quat4f.x * 2.0d) * quat4f.x)) - ((quat4f.y * 2.0d) * quat4f.y)));
+        this.m03 = vector3f.x;
+        this.m13 = vector3f.y;
+        this.m23 = vector3f.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public Matrix4f(Matrix4d matrix4d) {
+        this.m00 = (float) matrix4d.m00;
+        this.m01 = (float) matrix4d.m01;
+        this.m02 = (float) matrix4d.m02;
+        this.m03 = (float) matrix4d.m03;
+        this.m10 = (float) matrix4d.m10;
+        this.m11 = (float) matrix4d.m11;
+        this.m12 = (float) matrix4d.m12;
+        this.m13 = (float) matrix4d.m13;
+        this.m20 = (float) matrix4d.m20;
+        this.m21 = (float) matrix4d.m21;
+        this.m22 = (float) matrix4d.m22;
+        this.m23 = (float) matrix4d.m23;
+        this.m30 = (float) matrix4d.m30;
+        this.m31 = (float) matrix4d.m31;
+        this.m32 = (float) matrix4d.m32;
+        this.m33 = (float) matrix4d.m33;
+    }
+
+    public Matrix4f(Matrix4f matrix4f) {
+        this.m00 = matrix4f.m00;
+        this.m01 = matrix4f.m01;
+        this.m02 = matrix4f.m02;
+        this.m03 = matrix4f.m03;
+        this.m10 = matrix4f.m10;
+        this.m11 = matrix4f.m11;
+        this.m12 = matrix4f.m12;
+        this.m13 = matrix4f.m13;
+        this.m20 = matrix4f.m20;
+        this.m21 = matrix4f.m21;
+        this.m22 = matrix4f.m22;
+        this.m23 = matrix4f.m23;
+        this.m30 = matrix4f.m30;
+        this.m31 = matrix4f.m31;
+        this.m32 = matrix4f.m32;
+        this.m33 = matrix4f.m33;
+    }
+
+    public Matrix4f(Matrix3f matrix3f, Vector3f vector3f, float f) {
+        this.m00 = matrix3f.m00 * f;
+        this.m01 = matrix3f.m01 * f;
+        this.m02 = matrix3f.m02 * f;
+        this.m03 = vector3f.x;
+        this.m10 = matrix3f.m10 * f;
+        this.m11 = matrix3f.m11 * f;
+        this.m12 = matrix3f.m12 * f;
+        this.m13 = vector3f.y;
+        this.m20 = matrix3f.m20 * f;
+        this.m21 = matrix3f.m21 * f;
+        this.m22 = matrix3f.m22 * f;
+        this.m23 = vector3f.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public Matrix4f() {
+        this.m00 = 0.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 0.0f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 0.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 0.0f;
+    }
+
+    static boolean luDecomposition(double[] dArr, int[] iArr) {
+        double[] dArr2 = new double[4];
+        int i = 4;
+        int i2 = 0;
+        int i3 = 0;
+        while (true) {
+            int i4 = i - 1;
+            if (i == 0) {
+                for (int i5 = 0; i5 < 4; i5++) {
+                    for (int i6 = 0; i6 < i5; i6++) {
+                        int i7 = i6 * 4;
+                        int i8 = i7 + i5;
+                        double d = dArr[i8];
+                        int i9 = i5;
+                        int i10 = i6;
+                        while (true) {
+                            int i11 = i10 - 1;
+                            if (i10 == 0) {
+                                break;
+                            }
+                            d -= dArr[i7] * dArr[i9];
+                            i7++;
+                            i9 += 4;
+                            i10 = i11;
+                        }
+                        dArr[i8] = d;
+                    }
+                    int i12 = -1;
+                    double d2 = 0.0d;
+                    for (int i13 = i5; i13 < 4; i13++) {
+                        int i14 = i13 * 4;
+                        int i15 = i14 + i5;
+                        double d3 = dArr[i15];
+                        int i16 = i5;
+                        int i17 = i16;
+                        while (true) {
+                            int i18 = i16 - 1;
+                            if (i16 == 0) {
+                                break;
+                            }
+                            d3 -= dArr[i14] * dArr[i17];
+                            i14++;
+                            i17 += 4;
+                            i16 = i18;
+                        }
+                        dArr[i15] = d3;
+                        double dAbs = dArr2[i13] * Math.abs(d3);
+                        if (dAbs >= d2) {
+                            i12 = i13;
+                            d2 = dAbs;
+                        }
+                    }
+                    if (i12 < 0) {
+                        throw new RuntimeException(VecMathI18N.getString("Matrix4f13"));
+                    }
+                    if (i5 != i12) {
+                        int i19 = i12 * 4;
+                        int i20 = i5 * 4;
+                        int i21 = 4;
+                        while (true) {
+                            int i22 = i21 - 1;
+                            if (i21 == 0) {
+                                break;
+                            }
+                            double d4 = dArr[i19];
+                            dArr[i19] = dArr[i20];
+                            dArr[i20] = d4;
+                            i20++;
+                            i19++;
+                            i21 = i22;
+                        }
+                        dArr2[i12] = dArr2[i5];
+                    }
+                    iArr[i5] = i12;
+                    double d5 = dArr[(i5 * 4) + i5];
+                    if (d5 == 0.0d) {
+                        return false;
+                    }
+                    if (i5 != 3) {
+                        double d6 = 1.0d / d5;
+                        int i23 = ((i5 + 1) * 4) + i5;
+                        int i24 = 3 - i5;
+                        while (true) {
+                            int i25 = i24 - 1;
+                            if (i24 == 0) {
+                                break;
+                            }
+                            dArr[i23] = dArr[i23] * d6;
+                            i23 += 4;
+                            i24 = i25;
+                        }
+                    }
+                }
+                return true;
+            }
+            double d7 = 0.0d;
+            int i26 = 4;
+            while (true) {
+                int i27 = i26 - 1;
+                if (i26 == 0) {
+                    break;
+                }
+                int i28 = i2 + 1;
+                double dAbs2 = Math.abs(dArr[i2]);
+                if (dAbs2 > d7) {
+                    i2 = i28;
+                    i26 = i27;
+                    d7 = dAbs2;
+                } else {
+                    i2 = i28;
+                    i26 = i27;
+                }
+            }
+            if (d7 == 0.0d) {
+                return false;
+            }
+            dArr2[i3] = 1.0d / d7;
+            i3++;
+            i = i4;
+        }
+    }
+
+    static void luBacksubstitution(double[] dArr, int[] iArr, double[] dArr2) {
+        for (int i = 0; i < 4; i++) {
+            int i2 = -1;
+            for (int i3 = 0; i3 < 4; i3++) {
+                int i4 = (iArr[i3] * 4) + i;
+                double d = dArr2[i4];
+                int i5 = i3 * 4;
+                int i6 = i + i5;
+                dArr2[i4] = dArr2[i6];
+                if (i2 >= 0) {
+                    for (int i7 = i2; i7 <= i3 - 1; i7++) {
+                        d -= dArr[i5 + i7] * dArr2[(i7 * 4) + i];
+                    }
+                } else if (d != 0.0d) {
+                    i2 = i3;
+                }
+                dArr2[i6] = d;
+            }
+            int i8 = i + 12;
+            double d2 = dArr2[i8] / dArr[15];
+            dArr2[i8] = d2;
+            int i9 = i + 8;
+            double d3 = (dArr2[i9] - (dArr[11] * d2)) / dArr[10];
+            dArr2[i9] = d3;
+            int i10 = i + 4;
+            double d4 = ((dArr2[i10] - (dArr[6] * d3)) - (dArr[7] * dArr2[i8])) / dArr[5];
+            dArr2[i10] = d4;
+            dArr2[i] = (((dArr2[i] - (dArr[1] * d4)) - (dArr[2] * dArr2[i9])) - (dArr[3] * dArr2[i8])) / dArr[0];
+        }
+    }
+
+    public final void add(float f) {
+        this.m00 += f;
+        this.m01 += f;
+        this.m02 += f;
+        this.m03 += f;
+        this.m10 += f;
+        this.m11 += f;
+        this.m12 += f;
+        this.m13 += f;
+        this.m20 += f;
+        this.m21 += f;
+        this.m22 += f;
+        this.m23 += f;
+        this.m30 += f;
+        this.m31 += f;
+        this.m32 += f;
+        this.m33 += f;
+    }
+
+    public final float determinant() {
+        float f = this.m00;
+        float f2 = this.m11;
+        float f3 = this.m22;
+        float f4 = this.m33;
+        float f5 = this.m12;
+        float f6 = this.m23;
+        float f7 = this.m31;
+        float f8 = this.m13;
+        float f9 = this.m21;
+        float f10 = this.m32;
+        float f11 = f * (((((((f2 * f3) * f4) + ((f5 * f6) * f7)) + ((f8 * f9) * f10)) - ((f8 * f3) * f7)) - ((f2 * f6) * f10)) - ((f5 * f9) * f4));
+        float f12 = this.m01;
+        float f13 = this.m10;
+        float f14 = this.m30;
+        float f15 = (f13 * f3 * f4) + (f5 * f6 * f14);
+        float f16 = this.m20;
+        return ((f11 - (f12 * ((((f15 + ((f8 * f16) * f10)) - ((f8 * f3) * f14)) - ((f13 * f6) * f10)) - ((f5 * f16) * f4)))) + (this.m02 * (((((((f13 * f9) * f4) + ((f2 * f6) * f14)) + ((f8 * f16) * f7)) - ((f8 * f9) * f14)) - ((f6 * f13) * f7)) - ((f2 * f16) * f4)))) - (this.m03 * (((((((f13 * f9) * f10) + ((f2 * f3) * f14)) + ((f5 * f16) * f7)) - ((f5 * f9) * f14)) - ((f13 * f3) * f7)) - ((f2 * f16) * f10)));
+    }
+
+    public final void mul(float f) {
+        this.m00 *= f;
+        this.m01 *= f;
+        this.m02 *= f;
+        this.m03 *= f;
+        this.m10 *= f;
+        this.m11 *= f;
+        this.m12 *= f;
+        this.m13 *= f;
+        this.m20 *= f;
+        this.m21 *= f;
+        this.m22 *= f;
+        this.m23 *= f;
+        this.m30 *= f;
+        this.m31 *= f;
+        this.m32 *= f;
+        this.m33 *= f;
+    }
+
+    public final void negate() {
+        this.m00 = -this.m00;
+        this.m01 = -this.m01;
+        this.m02 = -this.m02;
+        this.m03 = -this.m03;
+        this.m10 = -this.m10;
+        this.m11 = -this.m11;
+        this.m12 = -this.m12;
+        this.m13 = -this.m13;
+        this.m20 = -this.m20;
+        this.m21 = -this.m21;
+        this.m22 = -this.m22;
+        this.m23 = -this.m23;
+        this.m30 = -this.m30;
+        this.m31 = -this.m31;
+        this.m32 = -this.m32;
+        this.m33 = -this.m33;
+    }
+
+    public final void set(float f) {
+        this.m00 = f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void setIdentity() {
+        this.m00 = 1.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 1.0f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 1.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void setZero() {
+        this.m00 = 0.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 0.0f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 0.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 0.0f;
+    }
+
+    public final void transpose() {
+        float f = this.m10;
+        this.m10 = this.m01;
+        this.m01 = f;
+        float f2 = this.m20;
+        this.m20 = this.m02;
+        this.m02 = f2;
+        float f3 = this.m30;
+        this.m30 = this.m03;
+        this.m03 = f3;
+        float f4 = this.m21;
+        this.m21 = this.m12;
+        this.m12 = f4;
+        float f5 = this.m31;
+        this.m31 = this.m13;
+        this.m13 = f5;
+        float f6 = this.m32;
+        this.m32 = this.m23;
+        this.m23 = f6;
+    }
+
+    public String toString() {
+        return new StringBuffer().append(this.m00).append(", ").append(this.m01).append(", ").append(this.m02).append(", ").append(this.m03).append(StringUtils.LF).append(this.m10).append(", ").append(this.m11).append(", ").append(this.m12).append(", ").append(this.m13).append(StringUtils.LF).append(this.m20).append(", ").append(this.m21).append(", ").append(this.m22).append(", ").append(this.m23).append(StringUtils.LF).append(this.m30).append(", ").append(this.m31).append(", ").append(this.m32).append(", ").append(this.m33).append(StringUtils.LF).toString();
+    }
+
+    public final void setElement(int i, int i2, float f) {
+        if (i == 0) {
+            if (i2 == 0) {
+                this.m00 = f;
+                return;
+            }
+            if (i2 == 1) {
+                this.m01 = f;
+                return;
+            } else if (i2 == 2) {
+                this.m02 = f;
+                return;
+            } else {
+                if (i2 != 3) {
+                    throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f0"));
+                }
+                this.m03 = f;
+                return;
+            }
+        }
+        if (i == 1) {
+            if (i2 == 0) {
+                this.m10 = f;
+                return;
+            }
+            if (i2 == 1) {
+                this.m11 = f;
+                return;
+            } else if (i2 == 2) {
+                this.m12 = f;
+                return;
+            } else {
+                if (i2 != 3) {
+                    throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f0"));
+                }
+                this.m13 = f;
+                return;
+            }
+        }
+        if (i == 2) {
+            if (i2 == 0) {
+                this.m20 = f;
+                return;
+            }
+            if (i2 == 1) {
+                this.m21 = f;
+                return;
+            } else if (i2 == 2) {
+                this.m22 = f;
+                return;
+            } else {
+                if (i2 != 3) {
+                    throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f0"));
+                }
+                this.m23 = f;
+                return;
+            }
+        }
+        if (i != 3) {
+            throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f0"));
+        }
+        if (i2 == 0) {
+            this.m30 = f;
+            return;
+        }
+        if (i2 == 1) {
+            this.m31 = f;
+        } else if (i2 == 2) {
+            this.m32 = f;
+        } else {
+            if (i2 != 3) {
+                throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f0"));
+            }
+            this.m33 = f;
+        }
+    }
+
+    public final float getElement(int i, int i2) {
+        if (i != 0) {
+            if (i != 1) {
+                if (i != 2) {
+                    if (i == 3) {
+                        if (i2 == 0) {
+                            return this.m30;
+                        }
+                        if (i2 == 1) {
+                            return this.m31;
+                        }
+                        if (i2 == 2) {
+                            return this.m32;
+                        }
+                        if (i2 == 3) {
+                            return this.m33;
+                        }
+                    }
+                } else {
+                    if (i2 == 0) {
+                        return this.m20;
+                    }
+                    if (i2 == 1) {
+                        return this.m21;
+                    }
+                    if (i2 == 2) {
+                        return this.m22;
+                    }
+                    if (i2 == 3) {
+                        return this.m23;
+                    }
+                }
+            } else {
+                if (i2 == 0) {
+                    return this.m10;
+                }
+                if (i2 == 1) {
+                    return this.m11;
+                }
+                if (i2 == 2) {
+                    return this.m12;
+                }
+                if (i2 == 3) {
+                    return this.m13;
+                }
+            }
+        } else {
+            if (i2 == 0) {
+                return this.m00;
+            }
+            if (i2 == 1) {
+                return this.m01;
+            }
+            if (i2 == 2) {
+                return this.m02;
+            }
+            if (i2 == 3) {
+                return this.m03;
+            }
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f1"));
+    }
+
+    public final void getRow(int i, Vector4f vector4f) {
+        if (i == 0) {
+            vector4f.x = this.m00;
+            vector4f.y = this.m01;
+            vector4f.z = this.m02;
+            vector4f.w = this.m03;
+            return;
+        }
+        if (i == 1) {
+            vector4f.x = this.m10;
+            vector4f.y = this.m11;
+            vector4f.z = this.m12;
+            vector4f.w = this.m13;
+            return;
+        }
+        if (i == 2) {
+            vector4f.x = this.m20;
+            vector4f.y = this.m21;
+            vector4f.z = this.m22;
+            vector4f.w = this.m23;
+            return;
+        }
+        if (i == 3) {
+            vector4f.x = this.m30;
+            vector4f.y = this.m31;
+            vector4f.z = this.m32;
+            vector4f.w = this.m33;
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f2"));
+    }
+
+    public final void getRow(int i, float[] fArr) {
+        if (i == 0) {
+            fArr[0] = this.m00;
+            fArr[1] = this.m01;
+            fArr[2] = this.m02;
+            fArr[3] = this.m03;
+            return;
+        }
+        if (i == 1) {
+            fArr[0] = this.m10;
+            fArr[1] = this.m11;
+            fArr[2] = this.m12;
+            fArr[3] = this.m13;
+            return;
+        }
+        if (i == 2) {
+            fArr[0] = this.m20;
+            fArr[1] = this.m21;
+            fArr[2] = this.m22;
+            fArr[3] = this.m23;
+            return;
+        }
+        if (i == 3) {
+            fArr[0] = this.m30;
+            fArr[1] = this.m31;
+            fArr[2] = this.m32;
+            fArr[3] = this.m33;
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f2"));
+    }
+
+    public final void getColumn(int i, Vector4f vector4f) {
+        if (i == 0) {
+            vector4f.x = this.m00;
+            vector4f.y = this.m10;
+            vector4f.z = this.m20;
+            vector4f.w = this.m30;
+            return;
+        }
+        if (i == 1) {
+            vector4f.x = this.m01;
+            vector4f.y = this.m11;
+            vector4f.z = this.m21;
+            vector4f.w = this.m31;
+            return;
+        }
+        if (i == 2) {
+            vector4f.x = this.m02;
+            vector4f.y = this.m12;
+            vector4f.z = this.m22;
+            vector4f.w = this.m32;
+            return;
+        }
+        if (i == 3) {
+            vector4f.x = this.m03;
+            vector4f.y = this.m13;
+            vector4f.z = this.m23;
+            vector4f.w = this.m33;
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f4"));
+    }
+
+    public final void getColumn(int i, float[] fArr) {
+        if (i == 0) {
+            fArr[0] = this.m00;
+            fArr[1] = this.m10;
+            fArr[2] = this.m20;
+            fArr[3] = this.m30;
+            return;
+        }
+        if (i == 1) {
+            fArr[0] = this.m01;
+            fArr[1] = this.m11;
+            fArr[2] = this.m21;
+            fArr[3] = this.m31;
+            return;
+        }
+        if (i == 2) {
+            fArr[0] = this.m02;
+            fArr[1] = this.m12;
+            fArr[2] = this.m22;
+            fArr[3] = this.m32;
+            return;
+        }
+        if (i == 3) {
+            fArr[0] = this.m03;
+            fArr[1] = this.m13;
+            fArr[2] = this.m23;
+            fArr[3] = this.m33;
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f4"));
+    }
+
+    public final void get(Matrix3d matrix3d) {
+        double[] dArr = new double[9];
+        getScaleRotate(new double[3], dArr);
+        matrix3d.m00 = dArr[0];
+        matrix3d.m01 = dArr[1];
+        matrix3d.m02 = dArr[2];
+        matrix3d.m10 = dArr[3];
+        matrix3d.m11 = dArr[4];
+        matrix3d.m12 = dArr[5];
+        matrix3d.m20 = dArr[6];
+        matrix3d.m21 = dArr[7];
+        matrix3d.m22 = dArr[8];
+    }
+
+    public final void get(Matrix3f matrix3f) {
+        double[] dArr = new double[9];
+        getScaleRotate(new double[3], dArr);
+        matrix3f.m00 = (float) dArr[0];
+        matrix3f.m01 = (float) dArr[1];
+        matrix3f.m02 = (float) dArr[2];
+        matrix3f.m10 = (float) dArr[3];
+        matrix3f.m11 = (float) dArr[4];
+        matrix3f.m12 = (float) dArr[5];
+        matrix3f.m20 = (float) dArr[6];
+        matrix3f.m21 = (float) dArr[7];
+        matrix3f.m22 = (float) dArr[8];
+    }
+
+    public final float get(Matrix3f matrix3f, Vector3f vector3f) {
+        double[] dArr = new double[9];
+        double[] dArr2 = new double[3];
+        getScaleRotate(dArr2, dArr);
+        matrix3f.m00 = (float) dArr[0];
+        matrix3f.m01 = (float) dArr[1];
+        matrix3f.m02 = (float) dArr[2];
+        matrix3f.m10 = (float) dArr[3];
+        matrix3f.m11 = (float) dArr[4];
+        matrix3f.m12 = (float) dArr[5];
+        matrix3f.m20 = (float) dArr[6];
+        matrix3f.m21 = (float) dArr[7];
+        matrix3f.m22 = (float) dArr[8];
+        vector3f.x = this.m03;
+        vector3f.y = this.m13;
+        vector3f.z = this.m23;
+        return (float) Matrix3d.max3(dArr2);
+    }
+
+    public final void get(Quat4f quat4f) {
+        double[] dArr = new double[9];
+        getScaleRotate(new double[3], dArr);
+        double d = (dArr[0] + 1.0d + dArr[4] + dArr[8]) * 0.25d;
+        if ((d < 0.0d ? -d : d) >= 1.0E-30d) {
+            quat4f.w = (float) Math.sqrt(d);
+            double d2 = 0.25d / quat4f.w;
+            quat4f.x = (float) ((dArr[7] - dArr[5]) * d2);
+            quat4f.y = (float) ((dArr[2] - dArr[6]) * d2);
+            quat4f.z = (float) ((dArr[3] - dArr[1]) * d2);
+            return;
+        }
+        quat4f.w = 0.0f;
+        double d3 = (dArr[4] + dArr[8]) * (-0.5d);
+        if ((d3 < 0.0d ? -d3 : d3) >= 1.0E-30d) {
+            quat4f.x = (float) Math.sqrt(d3);
+            double d4 = 0.5d / quat4f.x;
+            quat4f.y = (float) (dArr[3] * d4);
+            quat4f.z = (float) (dArr[6] * d4);
+            return;
+        }
+        quat4f.x = 0.0f;
+        double d5 = (1.0d - dArr[8]) * 0.5d;
+        if ((d5 < 0.0d ? -d5 : d5) >= 1.0E-30d) {
+            quat4f.y = (float) Math.sqrt(d5);
+            quat4f.z = (float) (dArr[7] / (quat4f.y * 2.0d));
+        } else {
+            quat4f.y = 0.0f;
+            quat4f.z = 1.0f;
+        }
+    }
+
+    public final void get(Vector3f vector3f) {
+        vector3f.x = this.m03;
+        vector3f.y = this.m13;
+        vector3f.z = this.m23;
+    }
+
+    public final void getRotationScale(Matrix3f matrix3f) {
+        matrix3f.m00 = this.m00;
+        matrix3f.m01 = this.m01;
+        matrix3f.m02 = this.m02;
+        matrix3f.m10 = this.m10;
+        matrix3f.m11 = this.m11;
+        matrix3f.m12 = this.m12;
+        matrix3f.m20 = this.m20;
+        matrix3f.m21 = this.m21;
+        matrix3f.m22 = this.m22;
+    }
+
+    public final float getScale() {
+        double[] dArr = new double[3];
+        getScaleRotate(dArr, new double[9]);
+        return (float) Matrix3d.max3(dArr);
+    }
+
+    public final void setScale(float f) {
+        double[] dArr = new double[9];
+        getScaleRotate(new double[3], dArr);
+        double d = f;
+        this.m00 = (float) (dArr[0] * d);
+        this.m01 = (float) (dArr[1] * d);
+        this.m02 = (float) (dArr[2] * d);
+        this.m10 = (float) (dArr[3] * d);
+        this.m11 = (float) (dArr[4] * d);
+        this.m12 = (float) (dArr[5] * d);
+        this.m20 = (float) (dArr[6] * d);
+        this.m21 = (float) (dArr[7] * d);
+        this.m22 = (float) (dArr[8] * d);
+    }
+
+    public final void setRotationScale(Matrix3f matrix3f) {
+        this.m00 = matrix3f.m00;
+        this.m01 = matrix3f.m01;
+        this.m02 = matrix3f.m02;
+        this.m10 = matrix3f.m10;
+        this.m11 = matrix3f.m11;
+        this.m12 = matrix3f.m12;
+        this.m20 = matrix3f.m20;
+        this.m21 = matrix3f.m21;
+        this.m22 = matrix3f.m22;
+    }
+
+    public final void setRow(int i, float f, float f2, float f3, float f4) {
+        if (i == 0) {
+            this.m00 = f;
+            this.m01 = f2;
+            this.m02 = f3;
+            this.m03 = f4;
+            return;
+        }
+        if (i == 1) {
+            this.m10 = f;
+            this.m11 = f2;
+            this.m12 = f3;
+            this.m13 = f4;
+            return;
+        }
+        if (i == 2) {
+            this.m20 = f;
+            this.m21 = f2;
+            this.m22 = f3;
+            this.m23 = f4;
+            return;
+        }
+        if (i != 3) {
+            throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f6"));
+        }
+        this.m30 = f;
+        this.m31 = f2;
+        this.m32 = f3;
+        this.m33 = f4;
+    }
+
+    public final void setRow(int i, Vector4f vector4f) {
+        if (i == 0) {
+            this.m00 = vector4f.x;
+            this.m01 = vector4f.y;
+            this.m02 = vector4f.z;
+            this.m03 = vector4f.w;
+            return;
+        }
+        if (i == 1) {
+            this.m10 = vector4f.x;
+            this.m11 = vector4f.y;
+            this.m12 = vector4f.z;
+            this.m13 = vector4f.w;
+            return;
+        }
+        if (i == 2) {
+            this.m20 = vector4f.x;
+            this.m21 = vector4f.y;
+            this.m22 = vector4f.z;
+            this.m23 = vector4f.w;
+            return;
+        }
+        if (i == 3) {
+            this.m30 = vector4f.x;
+            this.m31 = vector4f.y;
+            this.m32 = vector4f.z;
+            this.m33 = vector4f.w;
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f6"));
+    }
+
+    public final void setRow(int i, float[] fArr) {
+        if (i == 0) {
+            this.m00 = fArr[0];
+            this.m01 = fArr[1];
+            this.m02 = fArr[2];
+            this.m03 = fArr[3];
+            return;
+        }
+        if (i == 1) {
+            this.m10 = fArr[0];
+            this.m11 = fArr[1];
+            this.m12 = fArr[2];
+            this.m13 = fArr[3];
+            return;
+        }
+        if (i == 2) {
+            this.m20 = fArr[0];
+            this.m21 = fArr[1];
+            this.m22 = fArr[2];
+            this.m23 = fArr[3];
+            return;
+        }
+        if (i == 3) {
+            this.m30 = fArr[0];
+            this.m31 = fArr[1];
+            this.m32 = fArr[2];
+            this.m33 = fArr[3];
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f6"));
+    }
+
+    public final void setColumn(int i, float f, float f2, float f3, float f4) {
+        if (i == 0) {
+            this.m00 = f;
+            this.m10 = f2;
+            this.m20 = f3;
+            this.m30 = f4;
+            return;
+        }
+        if (i == 1) {
+            this.m01 = f;
+            this.m11 = f2;
+            this.m21 = f3;
+            this.m31 = f4;
+            return;
+        }
+        if (i == 2) {
+            this.m02 = f;
+            this.m12 = f2;
+            this.m22 = f3;
+            this.m32 = f4;
+            return;
+        }
+        if (i != 3) {
+            throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f9"));
+        }
+        this.m03 = f;
+        this.m13 = f2;
+        this.m23 = f3;
+        this.m33 = f4;
+    }
+
+    public final void setColumn(int i, Vector4f vector4f) {
+        if (i == 0) {
+            this.m00 = vector4f.x;
+            this.m10 = vector4f.y;
+            this.m20 = vector4f.z;
+            this.m30 = vector4f.w;
+            return;
+        }
+        if (i == 1) {
+            this.m01 = vector4f.x;
+            this.m11 = vector4f.y;
+            this.m21 = vector4f.z;
+            this.m31 = vector4f.w;
+            return;
+        }
+        if (i == 2) {
+            this.m02 = vector4f.x;
+            this.m12 = vector4f.y;
+            this.m22 = vector4f.z;
+            this.m32 = vector4f.w;
+            return;
+        }
+        if (i == 3) {
+            this.m03 = vector4f.x;
+            this.m13 = vector4f.y;
+            this.m23 = vector4f.z;
+            this.m33 = vector4f.w;
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f9"));
+    }
+
+    public final void setColumn(int i, float[] fArr) {
+        if (i == 0) {
+            this.m00 = fArr[0];
+            this.m10 = fArr[1];
+            this.m20 = fArr[2];
+            this.m30 = fArr[3];
+            return;
+        }
+        if (i == 1) {
+            this.m01 = fArr[0];
+            this.m11 = fArr[1];
+            this.m21 = fArr[2];
+            this.m31 = fArr[3];
+            return;
+        }
+        if (i == 2) {
+            this.m02 = fArr[0];
+            this.m12 = fArr[1];
+            this.m22 = fArr[2];
+            this.m32 = fArr[3];
+            return;
+        }
+        if (i == 3) {
+            this.m03 = fArr[0];
+            this.m13 = fArr[1];
+            this.m23 = fArr[2];
+            this.m33 = fArr[3];
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix4f9"));
+    }
+
+    public final void add(float f, Matrix4f matrix4f) {
+        this.m00 = matrix4f.m00 + f;
+        this.m01 = matrix4f.m01 + f;
+        this.m02 = matrix4f.m02 + f;
+        this.m03 = matrix4f.m03 + f;
+        this.m10 = matrix4f.m10 + f;
+        this.m11 = matrix4f.m11 + f;
+        this.m12 = matrix4f.m12 + f;
+        this.m13 = matrix4f.m13 + f;
+        this.m20 = matrix4f.m20 + f;
+        this.m21 = matrix4f.m21 + f;
+        this.m22 = matrix4f.m22 + f;
+        this.m23 = matrix4f.m23 + f;
+        this.m30 = matrix4f.m30 + f;
+        this.m31 = matrix4f.m31 + f;
+        this.m32 = matrix4f.m32 + f;
+        this.m33 = matrix4f.m33 + f;
+    }
+
+    public final void add(Matrix4f matrix4f, Matrix4f matrix4f2) {
+        this.m00 = matrix4f.m00 + matrix4f2.m00;
+        this.m01 = matrix4f.m01 + matrix4f2.m01;
+        this.m02 = matrix4f.m02 + matrix4f2.m02;
+        this.m03 = matrix4f.m03 + matrix4f2.m03;
+        this.m10 = matrix4f.m10 + matrix4f2.m10;
+        this.m11 = matrix4f.m11 + matrix4f2.m11;
+        this.m12 = matrix4f.m12 + matrix4f2.m12;
+        this.m13 = matrix4f.m13 + matrix4f2.m13;
+        this.m20 = matrix4f.m20 + matrix4f2.m20;
+        this.m21 = matrix4f.m21 + matrix4f2.m21;
+        this.m22 = matrix4f.m22 + matrix4f2.m22;
+        this.m23 = matrix4f.m23 + matrix4f2.m23;
+        this.m30 = matrix4f.m30 + matrix4f2.m30;
+        this.m31 = matrix4f.m31 + matrix4f2.m31;
+        this.m32 = matrix4f.m32 + matrix4f2.m32;
+        this.m33 = matrix4f.m33 + matrix4f2.m33;
+    }
+
+    public final void add(Matrix4f matrix4f) {
+        this.m00 += matrix4f.m00;
+        this.m01 += matrix4f.m01;
+        this.m02 += matrix4f.m02;
+        this.m03 += matrix4f.m03;
+        this.m10 += matrix4f.m10;
+        this.m11 += matrix4f.m11;
+        this.m12 += matrix4f.m12;
+        this.m13 += matrix4f.m13;
+        this.m20 += matrix4f.m20;
+        this.m21 += matrix4f.m21;
+        this.m22 += matrix4f.m22;
+        this.m23 += matrix4f.m23;
+        this.m30 += matrix4f.m30;
+        this.m31 += matrix4f.m31;
+        this.m32 += matrix4f.m32;
+        this.m33 += matrix4f.m33;
+    }
+
+    public final void sub(Matrix4f matrix4f, Matrix4f matrix4f2) {
+        this.m00 = matrix4f.m00 - matrix4f2.m00;
+        this.m01 = matrix4f.m01 - matrix4f2.m01;
+        this.m02 = matrix4f.m02 - matrix4f2.m02;
+        this.m03 = matrix4f.m03 - matrix4f2.m03;
+        this.m10 = matrix4f.m10 - matrix4f2.m10;
+        this.m11 = matrix4f.m11 - matrix4f2.m11;
+        this.m12 = matrix4f.m12 - matrix4f2.m12;
+        this.m13 = matrix4f.m13 - matrix4f2.m13;
+        this.m20 = matrix4f.m20 - matrix4f2.m20;
+        this.m21 = matrix4f.m21 - matrix4f2.m21;
+        this.m22 = matrix4f.m22 - matrix4f2.m22;
+        this.m23 = matrix4f.m23 - matrix4f2.m23;
+        this.m30 = matrix4f.m30 - matrix4f2.m30;
+        this.m31 = matrix4f.m31 - matrix4f2.m31;
+        this.m32 = matrix4f.m32 - matrix4f2.m32;
+        this.m33 = matrix4f.m33 - matrix4f2.m33;
+    }
+
+    public final void sub(Matrix4f matrix4f) {
+        this.m00 -= matrix4f.m00;
+        this.m01 -= matrix4f.m01;
+        this.m02 -= matrix4f.m02;
+        this.m03 -= matrix4f.m03;
+        this.m10 -= matrix4f.m10;
+        this.m11 -= matrix4f.m11;
+        this.m12 -= matrix4f.m12;
+        this.m13 -= matrix4f.m13;
+        this.m20 -= matrix4f.m20;
+        this.m21 -= matrix4f.m21;
+        this.m22 -= matrix4f.m22;
+        this.m23 -= matrix4f.m23;
+        this.m30 -= matrix4f.m30;
+        this.m31 -= matrix4f.m31;
+        this.m32 -= matrix4f.m32;
+        this.m33 -= matrix4f.m33;
+    }
+
+    public final void transpose(Matrix4f matrix4f) {
+        if (this != matrix4f) {
+            this.m00 = matrix4f.m00;
+            this.m01 = matrix4f.m10;
+            this.m02 = matrix4f.m20;
+            this.m03 = matrix4f.m30;
+            this.m10 = matrix4f.m01;
+            this.m11 = matrix4f.m11;
+            this.m12 = matrix4f.m21;
+            this.m13 = matrix4f.m31;
+            this.m20 = matrix4f.m02;
+            this.m21 = matrix4f.m12;
+            this.m22 = matrix4f.m22;
+            this.m23 = matrix4f.m32;
+            this.m30 = matrix4f.m03;
+            this.m31 = matrix4f.m13;
+            this.m32 = matrix4f.m23;
+            this.m33 = matrix4f.m33;
+            return;
+        }
+        transpose();
+    }
+
+    public final void set(Quat4f quat4f) {
+        this.m00 = (1.0f - ((quat4f.y * 2.0f) * quat4f.y)) - ((quat4f.z * 2.0f) * quat4f.z);
+        this.m10 = ((quat4f.x * quat4f.y) + (quat4f.w * quat4f.z)) * 2.0f;
+        this.m20 = ((quat4f.x * quat4f.z) - (quat4f.w * quat4f.y)) * 2.0f;
+        this.m01 = ((quat4f.x * quat4f.y) - (quat4f.w * quat4f.z)) * 2.0f;
+        this.m11 = (1.0f - ((quat4f.x * 2.0f) * quat4f.x)) - ((quat4f.z * 2.0f) * quat4f.z);
+        this.m21 = ((quat4f.y * quat4f.z) + (quat4f.w * quat4f.x)) * 2.0f;
+        this.m02 = ((quat4f.x * quat4f.z) + (quat4f.w * quat4f.y)) * 2.0f;
+        this.m12 = ((quat4f.y * quat4f.z) - (quat4f.w * quat4f.x)) * 2.0f;
+        this.m22 = (1.0f - ((quat4f.x * 2.0f) * quat4f.x)) - ((quat4f.y * 2.0f) * quat4f.y);
+        this.m03 = 0.0f;
+        this.m13 = 0.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(AxisAngle4f axisAngle4f) {
+        float fSqrt = (float) Math.sqrt((axisAngle4f.x * axisAngle4f.x) + (axisAngle4f.y * axisAngle4f.y) + (axisAngle4f.z * axisAngle4f.z));
+        if (fSqrt < 1.0E-8d) {
+            this.m00 = 1.0f;
+            this.m01 = 0.0f;
+            this.m02 = 0.0f;
+            this.m10 = 0.0f;
+            this.m11 = 1.0f;
+            this.m12 = 0.0f;
+            this.m20 = 0.0f;
+            this.m21 = 0.0f;
+            this.m22 = 1.0f;
+        } else {
+            float f = 1.0f / fSqrt;
+            float f2 = axisAngle4f.x * f;
+            float f3 = axisAngle4f.y * f;
+            float f4 = axisAngle4f.z * f;
+            float fSin = (float) Math.sin(axisAngle4f.angle);
+            float fCos = (float) Math.cos(axisAngle4f.angle);
+            float f5 = 1.0f - fCos;
+            this.m00 = (f5 * f2 * f2) + fCos;
+            float f6 = f2 * f3 * f5;
+            float f7 = fSin * f4;
+            this.m01 = f6 - f7;
+            float f8 = f2 * f4 * f5;
+            float f9 = fSin * f3;
+            this.m02 = f8 + f9;
+            this.m10 = f6 + f7;
+            this.m11 = (f5 * f3 * f3) + fCos;
+            float f10 = f3 * f4 * f5;
+            float f11 = fSin * f2;
+            this.m12 = f10 - f11;
+            this.m20 = f8 - f9;
+            this.m21 = f10 + f11;
+            this.m22 = (f5 * f4 * f4) + fCos;
+        }
+        this.m03 = 0.0f;
+        this.m13 = 0.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Quat4d quat4d) {
+        this.m00 = (float) ((1.0d - ((quat4d.y * 2.0d) * quat4d.y)) - ((quat4d.z * 2.0d) * quat4d.z));
+        this.m10 = (float) (((quat4d.x * quat4d.y) + (quat4d.w * quat4d.z)) * 2.0d);
+        this.m20 = (float) (((quat4d.x * quat4d.z) - (quat4d.w * quat4d.y)) * 2.0d);
+        this.m01 = (float) (((quat4d.x * quat4d.y) - (quat4d.w * quat4d.z)) * 2.0d);
+        this.m11 = (float) ((1.0d - ((quat4d.x * 2.0d) * quat4d.x)) - ((quat4d.z * 2.0d) * quat4d.z));
+        this.m21 = (float) (((quat4d.y * quat4d.z) + (quat4d.w * quat4d.x)) * 2.0d);
+        this.m02 = (float) (((quat4d.x * quat4d.z) + (quat4d.w * quat4d.y)) * 2.0d);
+        this.m12 = (float) (((quat4d.y * quat4d.z) - (quat4d.w * quat4d.x)) * 2.0d);
+        this.m22 = (float) ((1.0d - ((quat4d.x * 2.0d) * quat4d.x)) - ((quat4d.y * 2.0d) * quat4d.y));
+        this.m03 = 0.0f;
+        this.m13 = 0.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(AxisAngle4d axisAngle4d) {
+        double dSqrt = Math.sqrt((axisAngle4d.x * axisAngle4d.x) + (axisAngle4d.y * axisAngle4d.y) + (axisAngle4d.z * axisAngle4d.z));
+        if (dSqrt < 1.0E-8d) {
+            this.m00 = 1.0f;
+            this.m01 = 0.0f;
+            this.m02 = 0.0f;
+            this.m10 = 0.0f;
+            this.m11 = 1.0f;
+            this.m12 = 0.0f;
+            this.m20 = 0.0f;
+            this.m21 = 0.0f;
+            this.m22 = 1.0f;
+        } else {
+            double d = 1.0d / dSqrt;
+            double d2 = axisAngle4d.x * d;
+            double d3 = axisAngle4d.y * d;
+            double d4 = axisAngle4d.z * d;
+            float fSin = (float) Math.sin(axisAngle4d.angle);
+            float fCos = (float) Math.cos(axisAngle4d.angle);
+            float f = 1.0f - fCos;
+            this.m00 = (((float) (d2 * d2)) * f) + fCos;
+            float f2 = ((float) (d2 * d3)) * f;
+            float f3 = ((float) d4) * fSin;
+            this.m01 = f2 - f3;
+            float f4 = ((float) (d2 * d4)) * f;
+            float f5 = ((float) d3) * fSin;
+            this.m02 = f4 + f5;
+            this.m10 = f2 + f3;
+            this.m11 = (((float) (d3 * d3)) * f) + fCos;
+            float f6 = ((float) (d3 * d4)) * f;
+            float f7 = fSin * ((float) d2);
+            this.m12 = f6 - f7;
+            this.m20 = f4 - f5;
+            this.m21 = f6 + f7;
+            this.m22 = (f * ((float) (d4 * d4))) + fCos;
+        }
+        this.m03 = 0.0f;
+        this.m13 = 0.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Quat4d quat4d, Vector3d vector3d, double d) {
+        this.m00 = (float) (((1.0d - ((quat4d.y * 2.0d) * quat4d.y)) - ((quat4d.z * 2.0d) * quat4d.z)) * d);
+        this.m10 = (float) (((quat4d.x * quat4d.y) + (quat4d.w * quat4d.z)) * 2.0d * d);
+        this.m20 = (float) (((quat4d.x * quat4d.z) - (quat4d.w * quat4d.y)) * 2.0d * d);
+        this.m01 = (float) (((quat4d.x * quat4d.y) - (quat4d.w * quat4d.z)) * 2.0d * d);
+        this.m11 = (float) (((1.0d - ((quat4d.x * 2.0d) * quat4d.x)) - ((quat4d.z * 2.0d) * quat4d.z)) * d);
+        this.m21 = (float) (((quat4d.y * quat4d.z) + (quat4d.w * quat4d.x)) * 2.0d * d);
+        this.m02 = (float) (((quat4d.x * quat4d.z) + (quat4d.w * quat4d.y)) * 2.0d * d);
+        this.m12 = (float) (((quat4d.y * quat4d.z) - (quat4d.w * quat4d.x)) * 2.0d * d);
+        this.m22 = (float) (d * ((1.0d - ((quat4d.x * 2.0d) * quat4d.x)) - ((quat4d.y * 2.0d) * quat4d.y)));
+        this.m03 = (float) vector3d.x;
+        this.m13 = (float) vector3d.y;
+        this.m23 = (float) vector3d.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Quat4f quat4f, Vector3f vector3f, float f) {
+        this.m00 = ((1.0f - ((quat4f.y * 2.0f) * quat4f.y)) - ((quat4f.z * 2.0f) * quat4f.z)) * f;
+        this.m10 = ((quat4f.x * quat4f.y) + (quat4f.w * quat4f.z)) * 2.0f * f;
+        this.m20 = ((quat4f.x * quat4f.z) - (quat4f.w * quat4f.y)) * 2.0f * f;
+        this.m01 = ((quat4f.x * quat4f.y) - (quat4f.w * quat4f.z)) * 2.0f * f;
+        this.m11 = ((1.0f - ((quat4f.x * 2.0f) * quat4f.x)) - ((quat4f.z * 2.0f) * quat4f.z)) * f;
+        this.m21 = ((quat4f.y * quat4f.z) + (quat4f.w * quat4f.x)) * 2.0f * f;
+        this.m02 = ((quat4f.x * quat4f.z) + (quat4f.w * quat4f.y)) * 2.0f * f;
+        this.m12 = ((quat4f.y * quat4f.z) - (quat4f.w * quat4f.x)) * 2.0f * f;
+        this.m22 = f * ((1.0f - ((quat4f.x * 2.0f) * quat4f.x)) - ((quat4f.y * 2.0f) * quat4f.y));
+        this.m03 = vector3f.x;
+        this.m13 = vector3f.y;
+        this.m23 = vector3f.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Matrix4d matrix4d) {
+        this.m00 = (float) matrix4d.m00;
+        this.m01 = (float) matrix4d.m01;
+        this.m02 = (float) matrix4d.m02;
+        this.m03 = (float) matrix4d.m03;
+        this.m10 = (float) matrix4d.m10;
+        this.m11 = (float) matrix4d.m11;
+        this.m12 = (float) matrix4d.m12;
+        this.m13 = (float) matrix4d.m13;
+        this.m20 = (float) matrix4d.m20;
+        this.m21 = (float) matrix4d.m21;
+        this.m22 = (float) matrix4d.m22;
+        this.m23 = (float) matrix4d.m23;
+        this.m30 = (float) matrix4d.m30;
+        this.m31 = (float) matrix4d.m31;
+        this.m32 = (float) matrix4d.m32;
+        this.m33 = (float) matrix4d.m33;
+    }
+
+    public final void set(Matrix4f matrix4f) {
+        this.m00 = matrix4f.m00;
+        this.m01 = matrix4f.m01;
+        this.m02 = matrix4f.m02;
+        this.m03 = matrix4f.m03;
+        this.m10 = matrix4f.m10;
+        this.m11 = matrix4f.m11;
+        this.m12 = matrix4f.m12;
+        this.m13 = matrix4f.m13;
+        this.m20 = matrix4f.m20;
+        this.m21 = matrix4f.m21;
+        this.m22 = matrix4f.m22;
+        this.m23 = matrix4f.m23;
+        this.m30 = matrix4f.m30;
+        this.m31 = matrix4f.m31;
+        this.m32 = matrix4f.m32;
+        this.m33 = matrix4f.m33;
+    }
+
+    public final void invert(Matrix4f matrix4f) {
+        invertGeneral(matrix4f);
+    }
+
+    public final void invert() {
+        invertGeneral(this);
+    }
+
+    final void invertGeneral(Matrix4f matrix4f) {
+        double[] dArr = new double[16];
+        int[] iArr = new int[4];
+        double[] dArr2 = {matrix4f.m00, matrix4f.m01, matrix4f.m02, matrix4f.m03, matrix4f.m10, matrix4f.m11, matrix4f.m12, matrix4f.m13, matrix4f.m20, matrix4f.m21, matrix4f.m22, matrix4f.m23, matrix4f.m30, matrix4f.m31, matrix4f.m32, matrix4f.m33};
+        if (!luDecomposition(dArr2, iArr)) {
+            throw new SingularMatrixException(VecMathI18N.getString("Matrix4f12"));
+        }
+        for (int i = 0; i < 16; i++) {
+            dArr[i] = 0.0d;
+        }
+        dArr[0] = 1.0d;
+        dArr[5] = 1.0d;
+        dArr[10] = 1.0d;
+        dArr[15] = 1.0d;
+        luBacksubstitution(dArr2, iArr, dArr);
+        this.m00 = (float) dArr[0];
+        this.m01 = (float) dArr[1];
+        this.m02 = (float) dArr[2];
+        this.m03 = (float) dArr[3];
+        this.m10 = (float) dArr[4];
+        this.m11 = (float) dArr[5];
+        this.m12 = (float) dArr[6];
+        this.m13 = (float) dArr[7];
+        this.m20 = (float) dArr[8];
+        this.m21 = (float) dArr[9];
+        this.m22 = (float) dArr[10];
+        this.m23 = (float) dArr[11];
+        this.m30 = (float) dArr[12];
+        this.m31 = (float) dArr[13];
+        this.m32 = (float) dArr[14];
+        this.m33 = (float) dArr[15];
+    }
+
+    public final void set(Matrix3f matrix3f) {
+        this.m00 = matrix3f.m00;
+        this.m01 = matrix3f.m01;
+        this.m02 = matrix3f.m02;
+        this.m03 = 0.0f;
+        this.m10 = matrix3f.m10;
+        this.m11 = matrix3f.m11;
+        this.m12 = matrix3f.m12;
+        this.m13 = 0.0f;
+        this.m20 = matrix3f.m20;
+        this.m21 = matrix3f.m21;
+        this.m22 = matrix3f.m22;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Matrix3d matrix3d) {
+        this.m00 = (float) matrix3d.m00;
+        this.m01 = (float) matrix3d.m01;
+        this.m02 = (float) matrix3d.m02;
+        this.m03 = 0.0f;
+        this.m10 = (float) matrix3d.m10;
+        this.m11 = (float) matrix3d.m11;
+        this.m12 = (float) matrix3d.m12;
+        this.m13 = 0.0f;
+        this.m20 = (float) matrix3d.m20;
+        this.m21 = (float) matrix3d.m21;
+        this.m22 = (float) matrix3d.m22;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(float[] fArr) {
+        this.m00 = fArr[0];
+        this.m01 = fArr[1];
+        this.m02 = fArr[2];
+        this.m03 = fArr[3];
+        this.m10 = fArr[4];
+        this.m11 = fArr[5];
+        this.m12 = fArr[6];
+        this.m13 = fArr[7];
+        this.m20 = fArr[8];
+        this.m21 = fArr[9];
+        this.m22 = fArr[10];
+        this.m23 = fArr[11];
+        this.m30 = fArr[12];
+        this.m31 = fArr[13];
+        this.m32 = fArr[14];
+        this.m33 = fArr[15];
+    }
+
+    public final void set(Vector3f vector3f) {
+        this.m00 = 1.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = vector3f.x;
+        this.m10 = 0.0f;
+        this.m11 = 1.0f;
+        this.m12 = 0.0f;
+        this.m13 = vector3f.y;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 1.0f;
+        this.m23 = vector3f.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(float f, Vector3f vector3f) {
+        this.m00 = f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = vector3f.x;
+        this.m10 = 0.0f;
+        this.m11 = f;
+        this.m12 = 0.0f;
+        this.m13 = vector3f.y;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = f;
+        this.m23 = vector3f.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Vector3f vector3f, float f) {
+        this.m00 = f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = vector3f.x * f;
+        this.m10 = 0.0f;
+        this.m11 = f;
+        this.m12 = 0.0f;
+        this.m13 = vector3f.y * f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = f;
+        this.m23 = f * vector3f.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Matrix3f matrix3f, Vector3f vector3f, float f) {
+        this.m00 = matrix3f.m00 * f;
+        this.m01 = matrix3f.m01 * f;
+        this.m02 = matrix3f.m02 * f;
+        this.m03 = vector3f.x;
+        this.m10 = matrix3f.m10 * f;
+        this.m11 = matrix3f.m11 * f;
+        this.m12 = matrix3f.m12 * f;
+        this.m13 = vector3f.y;
+        this.m20 = matrix3f.m20 * f;
+        this.m21 = matrix3f.m21 * f;
+        this.m22 = matrix3f.m22 * f;
+        this.m23 = vector3f.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void set(Matrix3d matrix3d, Vector3d vector3d, double d) {
+        this.m00 = (float) (matrix3d.m00 * d);
+        this.m01 = (float) (matrix3d.m01 * d);
+        this.m02 = (float) (matrix3d.m02 * d);
+        this.m03 = (float) vector3d.x;
+        this.m10 = (float) (matrix3d.m10 * d);
+        this.m11 = (float) (matrix3d.m11 * d);
+        this.m12 = (float) (matrix3d.m12 * d);
+        this.m13 = (float) vector3d.y;
+        this.m20 = (float) (matrix3d.m20 * d);
+        this.m21 = (float) (matrix3d.m21 * d);
+        this.m22 = (float) (matrix3d.m22 * d);
+        this.m23 = (float) vector3d.z;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void setTranslation(Vector3f vector3f) {
+        this.m03 = vector3f.x;
+        this.m13 = vector3f.y;
+        this.m23 = vector3f.z;
+    }
+
+    public final void rotX(float f) {
+        double d = f;
+        float fSin = (float) Math.sin(d);
+        float fCos = (float) Math.cos(d);
+        this.m00 = 1.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = fCos;
+        this.m12 = -fSin;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = fSin;
+        this.m22 = fCos;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void rotY(float f) {
+        double d = f;
+        float fSin = (float) Math.sin(d);
+        float fCos = (float) Math.cos(d);
+        this.m00 = fCos;
+        this.m01 = 0.0f;
+        this.m02 = fSin;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 1.0f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = -fSin;
+        this.m21 = 0.0f;
+        this.m22 = fCos;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void rotZ(float f) {
+        double d = f;
+        float fSin = (float) Math.sin(d);
+        float fCos = (float) Math.cos(d);
+        this.m00 = fCos;
+        this.m01 = -fSin;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = fSin;
+        this.m11 = fCos;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 1.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+    }
+
+    public final void mul(float f, Matrix4f matrix4f) {
+        this.m00 = matrix4f.m00 * f;
+        this.m01 = matrix4f.m01 * f;
+        this.m02 = matrix4f.m02 * f;
+        this.m03 = matrix4f.m03 * f;
+        this.m10 = matrix4f.m10 * f;
+        this.m11 = matrix4f.m11 * f;
+        this.m12 = matrix4f.m12 * f;
+        this.m13 = matrix4f.m13 * f;
+        this.m20 = matrix4f.m20 * f;
+        this.m21 = matrix4f.m21 * f;
+        this.m22 = matrix4f.m22 * f;
+        this.m23 = matrix4f.m23 * f;
+        this.m30 = matrix4f.m30 * f;
+        this.m31 = matrix4f.m31 * f;
+        this.m32 = matrix4f.m32 * f;
+        this.m33 = matrix4f.m33 * f;
+    }
+
+    public final void mul(Matrix4f matrix4f) {
+        float f = this.m00;
+        float f2 = matrix4f.m00;
+        float f3 = this.m01;
+        float f4 = matrix4f.m10;
+        float f5 = this.m02;
+        float f6 = matrix4f.m20;
+        float f7 = this.m03;
+        float f8 = matrix4f.m30;
+        float f9 = (f * f2) + (f3 * f4) + (f5 * f6) + (f7 * f8);
+        float f10 = matrix4f.m01;
+        float f11 = matrix4f.m11;
+        float f12 = matrix4f.m21;
+        float f13 = matrix4f.m31;
+        float f14 = (f * f10) + (f3 * f11) + (f5 * f12) + (f7 * f13);
+        float f15 = matrix4f.m02;
+        float f16 = matrix4f.m12;
+        float f17 = (f * f15) + (f3 * f16);
+        float f18 = matrix4f.m22;
+        float f19 = f17 + (f5 * f18);
+        float f20 = matrix4f.m32;
+        float f21 = f19 + (f7 * f20);
+        float f22 = matrix4f.m03;
+        float f23 = f * f22;
+        float f24 = matrix4f.m13;
+        float f25 = f23 + (f3 * f24);
+        float f26 = matrix4f.m23;
+        float f27 = matrix4f.m33;
+        float f28 = f25 + (f5 * f26) + (f7 * f27);
+        float f29 = this.m10;
+        float f30 = this.m11;
+        float f31 = (f29 * f2) + (f30 * f4);
+        float f32 = this.m12;
+        float f33 = f31 + (f32 * f6);
+        float f34 = this.m13;
+        float f35 = f33 + (f34 * f8);
+        float f36 = (f29 * f10) + (f30 * f11) + (f32 * f12) + (f34 * f13);
+        float f37 = (f29 * f15) + (f30 * f16) + (f32 * f18) + (f34 * f20);
+        float f38 = (f29 * f22) + (f30 * f24) + (f32 * f26) + (f34 * f27);
+        float f39 = this.m20;
+        float f40 = this.m21;
+        float f41 = this.m22;
+        float f42 = this.m23;
+        float f43 = (f39 * f2) + (f40 * f4) + (f41 * f6) + (f42 * f8);
+        float f44 = (f39 * f10) + (f40 * f11) + (f41 * f12) + (f42 * f13);
+        float f45 = (f39 * f15) + (f40 * f16) + (f41 * f18) + (f42 * f20);
+        float f46 = (f39 * f22) + (f40 * f24) + (f41 * f26) + (f42 * f27);
+        float f47 = this.m30;
+        float f48 = this.m31;
+        float f49 = this.m32;
+        float f50 = this.m33;
+        this.m00 = f9;
+        this.m01 = f14;
+        this.m02 = f21;
+        this.m03 = f28;
+        this.m10 = f35;
+        this.m11 = f36;
+        this.m12 = f37;
+        this.m13 = f38;
+        this.m20 = f43;
+        this.m21 = f44;
+        this.m22 = f45;
+        this.m23 = f46;
+        this.m30 = (f2 * f47) + (f48 * f4) + (f49 * f6) + (f8 * f50);
+        this.m31 = (f10 * f47) + (f11 * f48) + (f12 * f49) + (f13 * f50);
+        this.m32 = (f15 * f47) + (f48 * f16) + (f49 * f18) + (f50 * f20);
+        this.m33 = (f47 * f22) + (f48 * f24) + (f49 * f26) + (f50 * f27);
+    }
+
+    public final void mul(Matrix4f matrix4f, Matrix4f matrix4f2) {
+        if (this != matrix4f && this != matrix4f2) {
+            float f = matrix4f.m00 * matrix4f2.m00;
+            float f2 = matrix4f.m01;
+            float f3 = matrix4f2.m10;
+            float f4 = matrix4f.m02;
+            float f5 = matrix4f2.m20;
+            float f6 = matrix4f.m03;
+            float f7 = matrix4f2.m30;
+            this.m00 = f + (f2 * f3) + (f4 * f5) + (f6 * f7);
+            float f8 = matrix4f.m00;
+            float f9 = matrix4f2.m01 * f8;
+            float f10 = matrix4f2.m11;
+            float f11 = f9 + (f2 * f10);
+            float f12 = matrix4f2.m21;
+            float f13 = matrix4f2.m31;
+            this.m01 = f11 + (f4 * f12) + (f6 * f13);
+            float f14 = matrix4f2.m02 * f8;
+            float f15 = matrix4f.m01;
+            float f16 = matrix4f2.m12;
+            float f17 = matrix4f2.m22;
+            float f18 = f14 + (f15 * f16) + (f4 * f17);
+            float f19 = matrix4f2.m32;
+            this.m02 = f18 + (f6 * f19);
+            float f20 = f8 * matrix4f2.m03;
+            float f21 = matrix4f2.m13;
+            float f22 = f20 + (f15 * f21);
+            float f23 = matrix4f.m02;
+            float f24 = matrix4f2.m23;
+            float f25 = f22 + (f23 * f24);
+            float f26 = matrix4f2.m33;
+            this.m03 = f25 + (f6 * f26);
+            float f27 = matrix4f.m10;
+            float f28 = matrix4f2.m00;
+            float f29 = f27 * f28;
+            float f30 = matrix4f.m11;
+            float f31 = f29 + (f3 * f30);
+            float f32 = matrix4f.m12;
+            float f33 = f31 + (f32 * f5);
+            float f34 = matrix4f.m13;
+            this.m10 = f33 + (f34 * f7);
+            float f35 = matrix4f.m10;
+            float f36 = matrix4f2.m01;
+            this.m11 = (f35 * f36) + (f30 * f10) + (f32 * f12) + (f34 * f13);
+            float f37 = matrix4f2.m02;
+            float f38 = f35 * f37;
+            float f39 = matrix4f.m11;
+            this.m12 = f38 + (f16 * f39) + (f32 * f17) + (f34 * f19);
+            float f40 = matrix4f2.m03;
+            this.m13 = (f35 * f40) + (f39 * f21) + (matrix4f.m12 * f24) + (f34 * f26);
+            float f41 = matrix4f.m20 * f28;
+            float f42 = matrix4f.m21;
+            float f43 = matrix4f2.m10;
+            float f44 = matrix4f.m22;
+            float f45 = matrix4f.m23;
+            this.m20 = f41 + (f42 * f43) + (f44 * f5) + (f45 * f7);
+            float f46 = matrix4f.m20;
+            float f47 = f46 * f36;
+            float f48 = matrix4f2.m11;
+            this.m21 = f47 + (f42 * f48) + (f12 * f44) + (f45 * f13);
+            float f49 = matrix4f.m21;
+            float f50 = matrix4f2.m12;
+            this.m22 = (f46 * f37) + (f49 * f50) + (f44 * f17) + (f45 * f19);
+            float f51 = matrix4f2.m13;
+            this.m23 = (f46 * f40) + (f49 * f51) + (matrix4f.m22 * f24) + (f45 * f26);
+            float f52 = matrix4f.m30 * f28;
+            float f53 = matrix4f.m31;
+            float f54 = f52 + (f43 * f53);
+            float f55 = matrix4f.m32;
+            float f56 = f54 + (matrix4f2.m20 * f55);
+            float f57 = matrix4f.m33;
+            this.m30 = f56 + (f57 * f7);
+            float f58 = matrix4f.m30;
+            this.m31 = (f58 * f36) + (f53 * f48) + (matrix4f2.m21 * f55) + (f57 * f13);
+            float f59 = matrix4f.m31;
+            this.m32 = (f58 * f37) + (f50 * f59) + (f55 * matrix4f2.m22) + (f19 * f57);
+            this.m33 = (f58 * f40) + (f59 * f51) + (matrix4f.m32 * matrix4f2.m23) + (f57 * f26);
+            return;
+        }
+        float f60 = matrix4f.m00;
+        float f61 = matrix4f2.m00;
+        float f62 = matrix4f.m01;
+        float f63 = matrix4f2.m10;
+        float f64 = matrix4f.m02;
+        float f65 = matrix4f2.m20;
+        float f66 = matrix4f.m03;
+        float f67 = matrix4f2.m30;
+        float f68 = (f60 * f61) + (f62 * f63) + (f64 * f65) + (f66 * f67);
+        float f69 = matrix4f2.m01;
+        float f70 = matrix4f2.m11;
+        float f71 = matrix4f2.m21;
+        float f72 = matrix4f2.m31;
+        float f73 = (f60 * f69) + (f62 * f70) + (f64 * f71) + (f66 * f72);
+        float f74 = matrix4f2.m02;
+        float f75 = matrix4f2.m12;
+        float f76 = (f60 * f74) + (f62 * f75);
+        float f77 = matrix4f2.m22;
+        float f78 = f76 + (f64 * f77);
+        float f79 = matrix4f2.m32;
+        float f80 = f78 + (f66 * f79);
+        float f81 = matrix4f2.m03;
+        float f82 = f60 * f81;
+        float f83 = matrix4f2.m13;
+        float f84 = f82 + (f62 * f83);
+        float f85 = matrix4f2.m23;
+        float f86 = matrix4f2.m33;
+        float f87 = f84 + (f64 * f85) + (f66 * f86);
+        float f88 = matrix4f.m10;
+        float f89 = matrix4f.m11;
+        float f90 = (f88 * f61) + (f89 * f63);
+        float f91 = matrix4f.m12;
+        float f92 = f90 + (f91 * f65);
+        float f93 = matrix4f.m13;
+        float f94 = f92 + (f93 * f67);
+        float f95 = (f88 * f69) + (f89 * f70) + (f91 * f71) + (f93 * f72);
+        float f96 = (f88 * f74) + (f89 * f75) + (f91 * f77) + (f93 * f79);
+        float f97 = (f88 * f81) + (f89 * f83) + (f91 * f85) + (f93 * f86);
+        float f98 = matrix4f.m20;
+        float f99 = matrix4f.m21;
+        float f100 = matrix4f.m22;
+        float f101 = matrix4f.m23;
+        float f102 = (f98 * f61) + (f99 * f63) + (f100 * f65) + (f101 * f67);
+        float f103 = (f98 * f69) + (f99 * f70) + (f100 * f71) + (f101 * f72);
+        float f104 = (f98 * f74) + (f99 * f75) + (f100 * f77) + (f101 * f79);
+        float f105 = (f98 * f81) + (f99 * f83) + (f100 * f85) + (f101 * f86);
+        float f106 = matrix4f.m30;
+        float f107 = matrix4f.m31;
+        float f108 = matrix4f.m32;
+        float f109 = matrix4f.m33;
+        this.m00 = f68;
+        this.m01 = f73;
+        this.m02 = f80;
+        this.m03 = f87;
+        this.m10 = f94;
+        this.m11 = f95;
+        this.m12 = f96;
+        this.m13 = f97;
+        this.m20 = f102;
+        this.m21 = f103;
+        this.m22 = f104;
+        this.m23 = f105;
+        this.m30 = (f61 * f106) + (f107 * f63) + (f108 * f65) + (f67 * f109);
+        this.m31 = (f69 * f106) + (f70 * f107) + (f71 * f108) + (f72 * f109);
+        this.m32 = (f74 * f106) + (f107 * f75) + (f108 * f77) + (f109 * f79);
+        this.m33 = (f106 * f81) + (f107 * f83) + (f108 * f85) + (f109 * f86);
+    }
+
+    public final void mulTransposeBoth(Matrix4f matrix4f, Matrix4f matrix4f2) {
+        if (this != matrix4f && this != matrix4f2) {
+            float f = matrix4f.m00 * matrix4f2.m00;
+            float f2 = matrix4f.m10;
+            float f3 = f + (matrix4f2.m01 * f2);
+            float f4 = matrix4f.m20;
+            float f5 = f3 + (matrix4f2.m02 * f4);
+            float f6 = matrix4f.m30;
+            this.m00 = f5 + (matrix4f2.m03 * f6);
+            float f7 = matrix4f.m00;
+            float f8 = matrix4f2.m10 * f7;
+            float f9 = matrix4f2.m11;
+            float f10 = matrix4f2.m12;
+            float f11 = matrix4f2.m13;
+            this.m01 = f8 + (f2 * f9) + (f4 * f10) + (f6 * f11);
+            float f12 = matrix4f2.m20;
+            float f13 = matrix4f2.m21;
+            float f14 = matrix4f2.m22;
+            float f15 = matrix4f2.m23;
+            this.m02 = (f7 * f12) + (f2 * f13) + (f4 * f14) + (f6 * f15);
+            float f16 = matrix4f2.m30;
+            float f17 = matrix4f2.m31;
+            float f18 = (f7 * f16) + (f2 * f17);
+            float f19 = matrix4f2.m32;
+            float f20 = f18 + (f4 * f19);
+            float f21 = matrix4f2.m33;
+            this.m03 = f20 + (f6 * f21);
+            float f22 = matrix4f.m01;
+            float f23 = matrix4f2.m00;
+            float f24 = f22 * f23;
+            float f25 = matrix4f.m11;
+            float f26 = matrix4f2.m01;
+            float f27 = f24 + (f25 * f26);
+            float f28 = matrix4f.m21;
+            float f29 = matrix4f2.m02;
+            float f30 = f27 + (f28 * f29);
+            float f31 = matrix4f.m31;
+            float f32 = matrix4f2.m03;
+            this.m10 = f30 + (f31 * f32);
+            float f33 = matrix4f2.m10;
+            this.m11 = (f22 * f33) + (f25 * f9) + (f10 * f28) + (f11 * f31);
+            float f34 = matrix4f.m11;
+            this.m12 = (f12 * f22) + (f13 * f34) + (f28 * f14) + (f31 * f15);
+            this.m13 = (f22 * f16) + (f34 * f17) + (f28 * f19) + (f31 * f21);
+            float f35 = matrix4f.m02;
+            float f36 = matrix4f.m12;
+            float f37 = (f35 * f23) + (f36 * f26);
+            float f38 = matrix4f.m22;
+            float f39 = matrix4f.m32;
+            this.m20 = f37 + (f38 * f29) + (f39 * f32);
+            float f40 = matrix4f2.m11;
+            float f41 = matrix4f2.m12;
+            float f42 = matrix4f2.m13;
+            this.m21 = (f35 * f33) + (f36 * f40) + (f38 * f41) + (f39 * f42);
+            float f43 = matrix4f2.m20;
+            float f44 = f35 * f43;
+            float f45 = matrix4f2.m21;
+            this.m22 = f44 + (f36 * f45) + (f38 * f14) + (f15 * f39);
+            this.m23 = (f35 * f16) + (f36 * f17) + (matrix4f.m22 * f19) + (f39 * f21);
+            float f46 = matrix4f.m03;
+            float f47 = matrix4f.m13;
+            float f48 = matrix4f.m23;
+            float f49 = matrix4f.m33;
+            this.m30 = (f46 * f23) + (f47 * f26) + (f48 * f29) + (f49 * f32);
+            this.m31 = (f33 * f46) + (f40 * f47) + (f41 * f48) + (f42 * f49);
+            this.m32 = (f46 * f43) + (f45 * f47) + (matrix4f2.m22 * f48) + (matrix4f2.m23 * f49);
+            this.m33 = (f46 * matrix4f2.m30) + (f47 * matrix4f2.m31) + (f48 * matrix4f2.m32) + (f49 * f21);
+            return;
+        }
+        float f50 = matrix4f.m00;
+        float f51 = matrix4f2.m00;
+        float f52 = matrix4f.m10;
+        float f53 = matrix4f2.m01;
+        float f54 = matrix4f.m20;
+        float f55 = matrix4f2.m02;
+        float f56 = matrix4f.m30;
+        float f57 = matrix4f2.m03;
+        float f58 = (f50 * f51) + (f52 * f53) + (f54 * f55) + (f56 * f57);
+        float f59 = matrix4f2.m10;
+        float f60 = matrix4f2.m11;
+        float f61 = matrix4f2.m12;
+        float f62 = matrix4f2.m13;
+        float f63 = (f50 * f59) + (f52 * f60) + (f54 * f61) + (f56 * f62);
+        float f64 = matrix4f2.m20;
+        float f65 = matrix4f2.m21;
+        float f66 = (f50 * f64) + (f52 * f65);
+        float f67 = matrix4f2.m22;
+        float f68 = f66 + (f54 * f67);
+        float f69 = matrix4f2.m23;
+        float f70 = f68 + (f56 * f69);
+        float f71 = matrix4f2.m30;
+        float f72 = f50 * f71;
+        float f73 = matrix4f2.m31;
+        float f74 = f72 + (f52 * f73);
+        float f75 = matrix4f2.m32;
+        float f76 = matrix4f2.m33;
+        float f77 = f74 + (f54 * f75) + (f56 * f76);
+        float f78 = matrix4f.m01;
+        float f79 = matrix4f.m11;
+        float f80 = (f78 * f51) + (f79 * f53);
+        float f81 = matrix4f.m21;
+        float f82 = f80 + (f81 * f55);
+        float f83 = matrix4f.m31;
+        float f84 = f82 + (f83 * f57);
+        float f85 = (f78 * f59) + (f79 * f60) + (f81 * f61) + (f83 * f62);
+        float f86 = (f78 * f64) + (f79 * f65) + (f81 * f67) + (f83 * f69);
+        float f87 = (f78 * f71) + (f79 * f73) + (f81 * f75) + (f83 * f76);
+        float f88 = matrix4f.m02;
+        float f89 = matrix4f.m12;
+        float f90 = matrix4f.m22;
+        float f91 = matrix4f.m32;
+        float f92 = (f88 * f51) + (f89 * f53) + (f90 * f55) + (f91 * f57);
+        float f93 = (f88 * f59) + (f89 * f60) + (f90 * f61) + (f91 * f62);
+        float f94 = (f88 * f64) + (f89 * f65) + (f90 * f67) + (f91 * f69);
+        float f95 = (f88 * f71) + (f89 * f73) + (f90 * f75) + (f91 * f76);
+        float f96 = matrix4f.m03;
+        float f97 = matrix4f.m13;
+        float f98 = matrix4f.m23;
+        float f99 = matrix4f.m33;
+        this.m00 = f58;
+        this.m01 = f63;
+        this.m02 = f70;
+        this.m03 = f77;
+        this.m10 = f84;
+        this.m11 = f85;
+        this.m12 = f86;
+        this.m13 = f87;
+        this.m20 = f92;
+        this.m21 = f93;
+        this.m22 = f94;
+        this.m23 = f95;
+        this.m30 = (f51 * f96) + (f97 * f53) + (f98 * f55) + (f57 * f99);
+        this.m31 = (f59 * f96) + (f60 * f97) + (f61 * f98) + (f62 * f99);
+        this.m32 = (f64 * f96) + (f97 * f65) + (f98 * f67) + (f99 * f69);
+        this.m33 = (f96 * f71) + (f97 * f73) + (f98 * f75) + (f99 * f76);
+    }
+
+    public final void mulTransposeRight(Matrix4f matrix4f, Matrix4f matrix4f2) {
+        if (this != matrix4f && this != matrix4f2) {
+            float f = matrix4f.m00 * matrix4f2.m00;
+            float f2 = matrix4f.m01;
+            float f3 = f + (matrix4f2.m01 * f2);
+            float f4 = matrix4f.m02;
+            float f5 = f3 + (matrix4f2.m02 * f4);
+            float f6 = matrix4f.m03;
+            this.m00 = f5 + (matrix4f2.m03 * f6);
+            float f7 = matrix4f.m00;
+            float f8 = matrix4f2.m10 * f7;
+            float f9 = matrix4f2.m11;
+            float f10 = f8 + (f2 * f9);
+            float f11 = matrix4f2.m12;
+            float f12 = matrix4f2.m13;
+            this.m01 = f10 + (f4 * f11) + (f6 * f12);
+            float f13 = matrix4f2.m20;
+            float f14 = matrix4f.m01;
+            float f15 = matrix4f2.m21;
+            float f16 = matrix4f2.m22;
+            float f17 = (f7 * f13) + (f14 * f15) + (f4 * f16);
+            float f18 = matrix4f2.m23;
+            this.m02 = f17 + (f6 * f18);
+            float f19 = matrix4f2.m30;
+            float f20 = matrix4f2.m31;
+            float f21 = (f7 * f19) + (f14 * f20);
+            float f22 = matrix4f.m02;
+            float f23 = matrix4f2.m32;
+            float f24 = f21 + (f22 * f23);
+            float f25 = matrix4f2.m33;
+            this.m03 = f24 + (f6 * f25);
+            float f26 = matrix4f.m10;
+            float f27 = matrix4f2.m00;
+            float f28 = f26 * f27;
+            float f29 = matrix4f.m11;
+            float f30 = matrix4f2.m01;
+            float f31 = f28 + (f29 * f30);
+            float f32 = matrix4f.m12;
+            float f33 = matrix4f2.m02;
+            float f34 = f31 + (f32 * f33);
+            float f35 = matrix4f.m13;
+            float f36 = matrix4f2.m03;
+            this.m10 = f34 + (f35 * f36);
+            float f37 = matrix4f.m10;
+            float f38 = matrix4f2.m10;
+            this.m11 = (f37 * f38) + (f29 * f9) + (f11 * f32) + (f12 * f35);
+            float f39 = matrix4f.m11;
+            this.m12 = (f13 * f37) + (f15 * f39) + (f32 * f16) + (f35 * f18);
+            this.m13 = (f37 * f19) + (f39 * f20) + (matrix4f.m12 * f23) + (f35 * f25);
+            float f40 = matrix4f.m20 * f27;
+            float f41 = matrix4f.m21;
+            float f42 = matrix4f.m22;
+            float f43 = matrix4f.m23;
+            this.m20 = f40 + (f41 * f30) + (f42 * f33) + (f43 * f36);
+            float f44 = matrix4f.m20;
+            float f45 = matrix4f2.m11;
+            float f46 = (f44 * f38) + (f41 * f45);
+            float f47 = matrix4f2.m12;
+            float f48 = matrix4f2.m13;
+            this.m21 = f46 + (f42 * f47) + (f43 * f48);
+            float f49 = matrix4f2.m20;
+            float f50 = f44 * f49;
+            float f51 = matrix4f.m21;
+            float f52 = matrix4f2.m21;
+            this.m22 = f50 + (f51 * f52) + (f42 * f16) + (f18 * f43);
+            this.m23 = (f44 * f19) + (f51 * f20) + (matrix4f.m22 * f23) + (f43 * f25);
+            float f53 = matrix4f.m30 * f27;
+            float f54 = matrix4f.m31;
+            float f55 = matrix4f.m32;
+            float f56 = matrix4f.m33;
+            this.m30 = f53 + (f54 * f30) + (f55 * f33) + (f56 * f36);
+            float f57 = matrix4f.m30;
+            this.m31 = (f38 * f57) + (f54 * f45) + (f47 * f55) + (f48 * f56);
+            float f58 = matrix4f.m31;
+            this.m32 = (f57 * f49) + (f52 * f58) + (f55 * matrix4f2.m22) + (matrix4f2.m23 * f56);
+            this.m33 = (f57 * matrix4f2.m30) + (f58 * matrix4f2.m31) + (matrix4f.m32 * matrix4f2.m32) + (f56 * f25);
+            return;
+        }
+        float f59 = matrix4f.m00;
+        float f60 = matrix4f2.m00;
+        float f61 = matrix4f.m01;
+        float f62 = matrix4f2.m01;
+        float f63 = matrix4f.m02;
+        float f64 = matrix4f2.m02;
+        float f65 = matrix4f.m03;
+        float f66 = matrix4f2.m03;
+        float f67 = (f59 * f60) + (f61 * f62) + (f63 * f64) + (f65 * f66);
+        float f68 = matrix4f2.m10;
+        float f69 = matrix4f2.m11;
+        float f70 = matrix4f2.m12;
+        float f71 = matrix4f2.m13;
+        float f72 = (f59 * f68) + (f61 * f69) + (f63 * f70) + (f65 * f71);
+        float f73 = matrix4f2.m20;
+        float f74 = matrix4f2.m21;
+        float f75 = (f59 * f73) + (f61 * f74);
+        float f76 = matrix4f2.m22;
+        float f77 = f75 + (f63 * f76);
+        float f78 = matrix4f2.m23;
+        float f79 = f77 + (f65 * f78);
+        float f80 = matrix4f2.m30;
+        float f81 = f59 * f80;
+        float f82 = matrix4f2.m31;
+        float f83 = f81 + (f61 * f82);
+        float f84 = matrix4f2.m32;
+        float f85 = matrix4f2.m33;
+        float f86 = f83 + (f63 * f84) + (f65 * f85);
+        float f87 = matrix4f.m10;
+        float f88 = matrix4f.m11;
+        float f89 = (f87 * f60) + (f88 * f62);
+        float f90 = matrix4f.m12;
+        float f91 = f89 + (f90 * f64);
+        float f92 = matrix4f.m13;
+        float f93 = f91 + (f92 * f66);
+        float f94 = (f87 * f68) + (f88 * f69) + (f90 * f70) + (f92 * f71);
+        float f95 = (f87 * f73) + (f88 * f74) + (f90 * f76) + (f92 * f78);
+        float f96 = (f87 * f80) + (f88 * f82) + (f90 * f84) + (f92 * f85);
+        float f97 = matrix4f.m20;
+        float f98 = matrix4f.m21;
+        float f99 = matrix4f.m22;
+        float f100 = matrix4f.m23;
+        float f101 = (f97 * f60) + (f98 * f62) + (f99 * f64) + (f100 * f66);
+        float f102 = (f97 * f68) + (f98 * f69) + (f99 * f70) + (f100 * f71);
+        float f103 = (f97 * f73) + (f98 * f74) + (f99 * f76) + (f100 * f78);
+        float f104 = (f97 * f80) + (f98 * f82) + (f99 * f84) + (f100 * f85);
+        float f105 = matrix4f.m30;
+        float f106 = matrix4f.m31;
+        float f107 = matrix4f.m32;
+        float f108 = matrix4f.m33;
+        this.m00 = f67;
+        this.m01 = f72;
+        this.m02 = f79;
+        this.m03 = f86;
+        this.m10 = f93;
+        this.m11 = f94;
+        this.m12 = f95;
+        this.m13 = f96;
+        this.m20 = f101;
+        this.m21 = f102;
+        this.m22 = f103;
+        this.m23 = f104;
+        this.m30 = (f60 * f105) + (f106 * f62) + (f107 * f64) + (f66 * f108);
+        this.m31 = (f68 * f105) + (f69 * f106) + (f70 * f107) + (f71 * f108);
+        this.m32 = (f73 * f105) + (f106 * f74) + (f107 * f76) + (f108 * f78);
+        this.m33 = (f105 * f80) + (f106 * f82) + (f107 * f84) + (f108 * f85);
+    }
+
+    public final void mulTransposeLeft(Matrix4f matrix4f, Matrix4f matrix4f2) {
+        if (this != matrix4f && this != matrix4f2) {
+            float f = matrix4f.m00 * matrix4f2.m00;
+            float f2 = matrix4f.m10;
+            float f3 = matrix4f2.m10;
+            float f4 = matrix4f.m20;
+            float f5 = matrix4f2.m20;
+            float f6 = matrix4f.m30;
+            float f7 = matrix4f2.m30;
+            this.m00 = f + (f2 * f3) + (f4 * f5) + (f6 * f7);
+            float f8 = matrix4f.m00;
+            float f9 = matrix4f2.m01 * f8;
+            float f10 = matrix4f2.m11;
+            float f11 = matrix4f2.m21;
+            float f12 = matrix4f2.m31;
+            this.m01 = f9 + (f2 * f10) + (f4 * f11) + (f6 * f12);
+            float f13 = matrix4f2.m02 * f8;
+            float f14 = matrix4f2.m12;
+            float f15 = matrix4f2.m22;
+            float f16 = f13 + (f2 * f14) + (f4 * f15);
+            float f17 = matrix4f2.m32;
+            this.m02 = f16 + (f6 * f17);
+            float f18 = f8 * matrix4f2.m03;
+            float f19 = matrix4f2.m13;
+            float f20 = f18 + (f2 * f19);
+            float f21 = matrix4f2.m23;
+            float f22 = f20 + (f4 * f21);
+            float f23 = matrix4f2.m33;
+            this.m03 = f22 + (f6 * f23);
+            float f24 = matrix4f.m01;
+            float f25 = matrix4f2.m00;
+            float f26 = f24 * f25;
+            float f27 = matrix4f.m11;
+            float f28 = f26 + (f3 * f27);
+            float f29 = matrix4f.m21;
+            float f30 = f28 + (f29 * f5);
+            float f31 = matrix4f.m31;
+            this.m10 = f30 + (f31 * f7);
+            float f32 = matrix4f2.m01;
+            this.m11 = (f24 * f32) + (f27 * f10) + (f29 * f11) + (f31 * f12);
+            float f33 = matrix4f2.m02;
+            float f34 = f24 * f33;
+            float f35 = matrix4f.m11;
+            this.m12 = f34 + (f14 * f35) + (f29 * f15) + (f31 * f17);
+            float f36 = matrix4f2.m03;
+            this.m13 = (f24 * f36) + (f35 * f19) + (f29 * f21) + (f31 * f23);
+            float f37 = matrix4f.m02;
+            float f38 = matrix4f.m12;
+            float f39 = matrix4f2.m10;
+            float f40 = matrix4f.m22;
+            float f41 = matrix4f.m32;
+            this.m20 = (f37 * f25) + (f38 * f39) + (f40 * f5) + (f41 * f7);
+            float f42 = f37 * f32;
+            float f43 = matrix4f2.m11;
+            this.m21 = f42 + (f38 * f43) + (f11 * f40) + (f41 * f12);
+            float f44 = matrix4f2.m12;
+            this.m22 = (f37 * f33) + (f38 * f44) + (f40 * f15) + (f41 * f17);
+            float f45 = matrix4f2.m13;
+            this.m23 = (f37 * f36) + (f38 * f45) + (matrix4f.m22 * f21) + (f41 * f23);
+            float f46 = matrix4f.m03;
+            float f47 = matrix4f.m13;
+            float f48 = (f46 * f25) + (f39 * f47);
+            float f49 = matrix4f.m23;
+            float f50 = f48 + (matrix4f2.m20 * f49);
+            float f51 = matrix4f.m33;
+            this.m30 = f50 + (f51 * f7);
+            this.m31 = (f46 * f32) + (f43 * f47) + (matrix4f2.m21 * f49) + (f12 * f51);
+            this.m32 = (f46 * f33) + (f44 * f47) + (matrix4f2.m22 * f49) + (f17 * f51);
+            this.m33 = (f46 * f36) + (f47 * f45) + (f49 * matrix4f2.m23) + (f51 * f23);
+            return;
+        }
+        float f52 = matrix4f.m00;
+        float f53 = matrix4f2.m00;
+        float f54 = matrix4f.m10;
+        float f55 = matrix4f2.m10;
+        float f56 = matrix4f.m20;
+        float f57 = matrix4f2.m20;
+        float f58 = matrix4f.m30;
+        float f59 = matrix4f2.m30;
+        float f60 = (f52 * f53) + (f54 * f55) + (f56 * f57) + (f58 * f59);
+        float f61 = matrix4f2.m01;
+        float f62 = matrix4f2.m11;
+        float f63 = matrix4f2.m21;
+        float f64 = matrix4f2.m31;
+        float f65 = (f52 * f61) + (f54 * f62) + (f56 * f63) + (f58 * f64);
+        float f66 = matrix4f2.m02;
+        float f67 = matrix4f2.m12;
+        float f68 = (f52 * f66) + (f54 * f67);
+        float f69 = matrix4f2.m22;
+        float f70 = f68 + (f56 * f69);
+        float f71 = matrix4f2.m32;
+        float f72 = f70 + (f58 * f71);
+        float f73 = matrix4f2.m03;
+        float f74 = f52 * f73;
+        float f75 = matrix4f2.m13;
+        float f76 = f74 + (f54 * f75);
+        float f77 = matrix4f2.m23;
+        float f78 = matrix4f2.m33;
+        float f79 = f76 + (f56 * f77) + (f58 * f78);
+        float f80 = matrix4f.m01;
+        float f81 = matrix4f.m11;
+        float f82 = (f80 * f53) + (f81 * f55);
+        float f83 = matrix4f.m21;
+        float f84 = f82 + (f83 * f57);
+        float f85 = matrix4f.m31;
+        float f86 = f84 + (f85 * f59);
+        float f87 = (f80 * f61) + (f81 * f62) + (f83 * f63) + (f85 * f64);
+        float f88 = (f80 * f66) + (f81 * f67) + (f83 * f69) + (f85 * f71);
+        float f89 = (f80 * f73) + (f81 * f75) + (f83 * f77) + (f85 * f78);
+        float f90 = matrix4f.m02;
+        float f91 = matrix4f.m12;
+        float f92 = matrix4f.m22;
+        float f93 = matrix4f.m32;
+        float f94 = (f90 * f53) + (f91 * f55) + (f92 * f57) + (f93 * f59);
+        float f95 = (f90 * f61) + (f91 * f62) + (f92 * f63) + (f93 * f64);
+        float f96 = (f90 * f66) + (f91 * f67) + (f92 * f69) + (f93 * f71);
+        float f97 = (f90 * f73) + (f91 * f75) + (f92 * f77) + (f93 * f78);
+        float f98 = matrix4f.m03;
+        float f99 = matrix4f.m13;
+        float f100 = matrix4f.m23;
+        float f101 = matrix4f.m33;
+        this.m00 = f60;
+        this.m01 = f65;
+        this.m02 = f72;
+        this.m03 = f79;
+        this.m10 = f86;
+        this.m11 = f87;
+        this.m12 = f88;
+        this.m13 = f89;
+        this.m20 = f94;
+        this.m21 = f95;
+        this.m22 = f96;
+        this.m23 = f97;
+        this.m30 = (f53 * f98) + (f99 * f55) + (f100 * f57) + (f59 * f101);
+        this.m31 = (f61 * f98) + (f62 * f99) + (f63 * f100) + (f64 * f101);
+        this.m32 = (f66 * f98) + (f99 * f67) + (f100 * f69) + (f101 * f71);
+        this.m33 = (f98 * f73) + (f99 * f75) + (f100 * f77) + (f101 * f78);
+    }
+
+    public boolean equals(Matrix4f matrix4f) {
+        try {
+            if (this.m00 == matrix4f.m00 && this.m01 == matrix4f.m01 && this.m02 == matrix4f.m02 && this.m03 == matrix4f.m03 && this.m10 == matrix4f.m10 && this.m11 == matrix4f.m11 && this.m12 == matrix4f.m12 && this.m13 == matrix4f.m13 && this.m20 == matrix4f.m20 && this.m21 == matrix4f.m21 && this.m22 == matrix4f.m22 && this.m23 == matrix4f.m23 && this.m30 == matrix4f.m30 && this.m31 == matrix4f.m31 && this.m32 == matrix4f.m32) {
+                return this.m33 == matrix4f.m33;
+            }
+            return false;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean equals(Object obj) {
+        try {
+            Matrix4f matrix4f = (Matrix4f) obj;
+            if (this.m00 == matrix4f.m00 && this.m01 == matrix4f.m01 && this.m02 == matrix4f.m02 && this.m03 == matrix4f.m03 && this.m10 == matrix4f.m10 && this.m11 == matrix4f.m11 && this.m12 == matrix4f.m12 && this.m13 == matrix4f.m13 && this.m20 == matrix4f.m20 && this.m21 == matrix4f.m21 && this.m22 == matrix4f.m22 && this.m23 == matrix4f.m23 && this.m30 == matrix4f.m30 && this.m31 == matrix4f.m31 && this.m32 == matrix4f.m32) {
+                return this.m33 == matrix4f.m33;
+            }
+            return false;
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean epsilonEquals(Matrix4f matrix4f, float f) {
+        boolean z = Math.abs(this.m00 - matrix4f.m00) <= f;
+        if (Math.abs(this.m01 - matrix4f.m01) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m02 - matrix4f.m02) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m03 - matrix4f.m03) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m10 - matrix4f.m10) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m11 - matrix4f.m11) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m12 - matrix4f.m12) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m13 - matrix4f.m13) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m20 - matrix4f.m20) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m21 - matrix4f.m21) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m22 - matrix4f.m22) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m23 - matrix4f.m23) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m30 - matrix4f.m30) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m31 - matrix4f.m31) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m32 - matrix4f.m32) > f) {
+            z = false;
+        }
+        if (Math.abs(this.m33 - matrix4f.m33) > f) {
+            return false;
+        }
+        return z;
+    }
+
+    public int hashCode() {
+        long jFloatToIntBits = ((((((((((((((((((((((((((((((Float.floatToIntBits(this.m00) + 31) * 31) + Float.floatToIntBits(this.m01)) * 31) + Float.floatToIntBits(this.m02)) * 31) + Float.floatToIntBits(this.m03)) * 31) + Float.floatToIntBits(this.m10)) * 31) + Float.floatToIntBits(this.m11)) * 31) + Float.floatToIntBits(this.m12)) * 31) + Float.floatToIntBits(this.m13)) * 31) + Float.floatToIntBits(this.m20)) * 31) + Float.floatToIntBits(this.m21)) * 31) + Float.floatToIntBits(this.m22)) * 31) + Float.floatToIntBits(this.m23)) * 31) + Float.floatToIntBits(this.m30)) * 31) + Float.floatToIntBits(this.m31)) * 31) + Float.floatToIntBits(this.m32)) * 31) + Float.floatToIntBits(this.m33);
+        return (int) (jFloatToIntBits ^ (jFloatToIntBits >> 32));
+    }
+
+    public final void transform(Tuple4f tuple4f, Tuple4f tuple4f2) {
+        float f = (this.m00 * tuple4f.x) + (this.m01 * tuple4f.y) + (this.m02 * tuple4f.z) + (this.m03 * tuple4f.w);
+        float f2 = (this.m10 * tuple4f.x) + (this.m11 * tuple4f.y) + (this.m12 * tuple4f.z) + (this.m13 * tuple4f.w);
+        float f3 = (this.m20 * tuple4f.x) + (this.m21 * tuple4f.y) + (this.m22 * tuple4f.z) + (this.m23 * tuple4f.w);
+        tuple4f2.w = (this.m30 * tuple4f.x) + (this.m31 * tuple4f.y) + (this.m32 * tuple4f.z) + (this.m33 * tuple4f.w);
+        tuple4f2.x = f;
+        tuple4f2.y = f2;
+        tuple4f2.z = f3;
+    }
+
+    public final void transform(Tuple4f tuple4f) {
+        float f = (this.m00 * tuple4f.x) + (this.m01 * tuple4f.y) + (this.m02 * tuple4f.z) + (this.m03 * tuple4f.w);
+        float f2 = (this.m10 * tuple4f.x) + (this.m11 * tuple4f.y) + (this.m12 * tuple4f.z) + (this.m13 * tuple4f.w);
+        float f3 = (this.m20 * tuple4f.x) + (this.m21 * tuple4f.y) + (this.m22 * tuple4f.z) + (this.m23 * tuple4f.w);
+        tuple4f.w = (this.m30 * tuple4f.x) + (this.m31 * tuple4f.y) + (this.m32 * tuple4f.z) + (this.m33 * tuple4f.w);
+        tuple4f.x = f;
+        tuple4f.y = f2;
+        tuple4f.z = f3;
+    }
+
+    public final void transform(Point3f point3f, Point3f point3f2) {
+        float f = (this.m00 * point3f.x) + (this.m01 * point3f.y) + (this.m02 * point3f.z) + this.m03;
+        float f2 = (this.m10 * point3f.x) + (this.m11 * point3f.y) + (this.m12 * point3f.z) + this.m13;
+        point3f2.z = (this.m20 * point3f.x) + (this.m21 * point3f.y) + (this.m22 * point3f.z) + this.m23;
+        point3f2.x = f;
+        point3f2.y = f2;
+    }
+
+    public final void transform(Point3f point3f) {
+        float f = (this.m00 * point3f.x) + (this.m01 * point3f.y) + (this.m02 * point3f.z) + this.m03;
+        float f2 = (this.m10 * point3f.x) + (this.m11 * point3f.y) + (this.m12 * point3f.z) + this.m13;
+        point3f.z = (this.m20 * point3f.x) + (this.m21 * point3f.y) + (this.m22 * point3f.z) + this.m23;
+        point3f.x = f;
+        point3f.y = f2;
+    }
+
+    public final void transform(Vector3f vector3f, Vector3f vector3f2) {
+        float f = (this.m00 * vector3f.x) + (this.m01 * vector3f.y) + (this.m02 * vector3f.z);
+        float f2 = (this.m10 * vector3f.x) + (this.m11 * vector3f.y) + (this.m12 * vector3f.z);
+        vector3f2.z = (this.m20 * vector3f.x) + (this.m21 * vector3f.y) + (this.m22 * vector3f.z);
+        vector3f2.x = f;
+        vector3f2.y = f2;
+    }
+
+    public final void transform(Vector3f vector3f) {
+        float f = (this.m00 * vector3f.x) + (this.m01 * vector3f.y) + (this.m02 * vector3f.z);
+        float f2 = (this.m10 * vector3f.x) + (this.m11 * vector3f.y) + (this.m12 * vector3f.z);
+        vector3f.z = (this.m20 * vector3f.x) + (this.m21 * vector3f.y) + (this.m22 * vector3f.z);
+        vector3f.x = f;
+        vector3f.y = f2;
+    }
+
+    public final void setRotation(Matrix3d matrix3d) {
+        double[] dArr = new double[3];
+        getScaleRotate(dArr, new double[9]);
+        this.m00 = (float) (matrix3d.m00 * dArr[0]);
+        this.m01 = (float) (matrix3d.m01 * dArr[1]);
+        this.m02 = (float) (matrix3d.m02 * dArr[2]);
+        this.m10 = (float) (matrix3d.m10 * dArr[0]);
+        this.m11 = (float) (matrix3d.m11 * dArr[1]);
+        this.m12 = (float) (matrix3d.m12 * dArr[2]);
+        this.m20 = (float) (matrix3d.m20 * dArr[0]);
+        this.m21 = (float) (matrix3d.m21 * dArr[1]);
+        this.m22 = (float) (matrix3d.m22 * dArr[2]);
+    }
+
+    public final void setRotation(Matrix3f matrix3f) {
+        double[] dArr = new double[3];
+        getScaleRotate(dArr, new double[9]);
+        this.m00 = (float) (matrix3f.m00 * dArr[0]);
+        this.m01 = (float) (matrix3f.m01 * dArr[1]);
+        this.m02 = (float) (matrix3f.m02 * dArr[2]);
+        this.m10 = (float) (matrix3f.m10 * dArr[0]);
+        this.m11 = (float) (matrix3f.m11 * dArr[1]);
+        this.m12 = (float) (matrix3f.m12 * dArr[2]);
+        this.m20 = (float) (matrix3f.m20 * dArr[0]);
+        this.m21 = (float) (matrix3f.m21 * dArr[1]);
+        this.m22 = (float) (matrix3f.m22 * dArr[2]);
+    }
+
+    public final void setRotation(Quat4f quat4f) {
+        double[] dArr = new double[3];
+        getScaleRotate(dArr, new double[9]);
+        this.m00 = (float) (((1.0f - ((quat4f.y * 2.0f) * quat4f.y)) - ((quat4f.z * 2.0f) * quat4f.z)) * dArr[0]);
+        this.m10 = (float) (((quat4f.x * quat4f.y) + (quat4f.w * quat4f.z)) * 2.0f * dArr[0]);
+        this.m20 = (float) (((quat4f.x * quat4f.z) - (quat4f.w * quat4f.y)) * 2.0f * dArr[0]);
+        this.m01 = (float) (((quat4f.x * quat4f.y) - (quat4f.w * quat4f.z)) * 2.0f * dArr[1]);
+        this.m11 = (float) (((1.0f - ((quat4f.x * 2.0f) * quat4f.x)) - ((quat4f.z * 2.0f) * quat4f.z)) * dArr[1]);
+        this.m21 = (float) (((quat4f.y * quat4f.z) + (quat4f.w * quat4f.x)) * 2.0f * dArr[1]);
+        this.m02 = (float) (((quat4f.x * quat4f.z) + (quat4f.w * quat4f.y)) * 2.0f * dArr[2]);
+        this.m12 = (float) (((quat4f.y * quat4f.z) - (quat4f.w * quat4f.x)) * 2.0f * dArr[2]);
+        this.m22 = (float) (((1.0f - ((quat4f.x * 2.0f) * quat4f.x)) - ((quat4f.y * 2.0f) * quat4f.y)) * dArr[2]);
+    }
+
+    public final void setRotation(Quat4d quat4d) {
+        double[] dArr = new double[3];
+        getScaleRotate(dArr, new double[9]);
+        this.m00 = (float) (((1.0d - ((quat4d.y * 2.0d) * quat4d.y)) - ((quat4d.z * 2.0d) * quat4d.z)) * dArr[0]);
+        this.m10 = (float) (((quat4d.x * quat4d.y) + (quat4d.w * quat4d.z)) * 2.0d * dArr[0]);
+        this.m20 = (float) (((quat4d.x * quat4d.z) - (quat4d.w * quat4d.y)) * 2.0d * dArr[0]);
+        this.m01 = (float) (((quat4d.x * quat4d.y) - (quat4d.w * quat4d.z)) * 2.0d * dArr[1]);
+        this.m11 = (float) (((1.0d - ((quat4d.x * 2.0d) * quat4d.x)) - ((quat4d.z * 2.0d) * quat4d.z)) * dArr[1]);
+        this.m21 = (float) (((quat4d.y * quat4d.z) + (quat4d.w * quat4d.x)) * 2.0d * dArr[1]);
+        this.m02 = (float) (((quat4d.x * quat4d.z) + (quat4d.w * quat4d.y)) * 2.0d * dArr[2]);
+        this.m12 = (float) (((quat4d.y * quat4d.z) - (quat4d.w * quat4d.x)) * 2.0d * dArr[2]);
+        this.m22 = (float) (((1.0d - ((quat4d.x * 2.0d) * quat4d.x)) - ((quat4d.y * 2.0d) * quat4d.y)) * dArr[2]);
+    }
+
+    public final void setRotation(AxisAngle4f axisAngle4f) {
+        double[] dArr = new double[3];
+        getScaleRotate(dArr, new double[9]);
+        double dSqrt = Math.sqrt((axisAngle4f.x * axisAngle4f.x) + (axisAngle4f.y * axisAngle4f.y) + (axisAngle4f.z * axisAngle4f.z));
+        if (dSqrt < 1.0E-8d) {
+            this.m00 = 1.0f;
+            this.m01 = 0.0f;
+            this.m02 = 0.0f;
+            this.m10 = 0.0f;
+            this.m11 = 1.0f;
+            this.m12 = 0.0f;
+            this.m20 = 0.0f;
+            this.m21 = 0.0f;
+            this.m22 = 1.0f;
+            return;
+        }
+        double d = 1.0d / dSqrt;
+        double d2 = axisAngle4f.x * d;
+        double d3 = axisAngle4f.y * d;
+        double d4 = axisAngle4f.z * d;
+        double dSin = Math.sin(axisAngle4f.angle);
+        double dCos = Math.cos(axisAngle4f.angle);
+        double d5 = 1.0d - dCos;
+        double d6 = axisAngle4f.x * axisAngle4f.z;
+        double d7 = axisAngle4f.x * axisAngle4f.y;
+        double d8 = axisAngle4f.y * axisAngle4f.z;
+        double d9 = dArr[0];
+        this.m00 = (float) (((d5 * d2 * d2) + dCos) * d9);
+        double d10 = d7 * d5;
+        double d11 = dSin * d4;
+        double d12 = dArr[1];
+        this.m01 = (float) ((d10 - d11) * d12);
+        double d13 = d5 * d6;
+        double d14 = dSin * d3;
+        double d15 = dArr[2];
+        this.m02 = (float) ((d13 + d14) * d15);
+        this.m10 = (float) ((d10 + d11) * d9);
+        this.m11 = (float) (((d5 * d3 * d3) + dCos) * d12);
+        double d16 = d8 * d5;
+        double d17 = dSin * d2;
+        this.m12 = (float) ((d16 - d17) * d15);
+        this.m20 = (float) ((d13 - d14) * d9);
+        this.m21 = (float) ((d16 + d17) * d12);
+        this.m22 = (float) (((d5 * d4 * d4) + dCos) * d15);
+    }
+
+    public final void negate(Matrix4f matrix4f) {
+        this.m00 = -matrix4f.m00;
+        this.m01 = -matrix4f.m01;
+        this.m02 = -matrix4f.m02;
+        this.m03 = -matrix4f.m03;
+        this.m10 = -matrix4f.m10;
+        this.m11 = -matrix4f.m11;
+        this.m12 = -matrix4f.m12;
+        this.m13 = -matrix4f.m13;
+        this.m20 = -matrix4f.m20;
+        this.m21 = -matrix4f.m21;
+        this.m22 = -matrix4f.m22;
+        this.m23 = -matrix4f.m23;
+        this.m30 = -matrix4f.m30;
+        this.m31 = -matrix4f.m31;
+        this.m32 = -matrix4f.m32;
+        this.m33 = -matrix4f.m33;
+    }
+
+    private final void getScaleRotate(double[] dArr, double[] dArr2) {
+        Matrix3d.compute_svd(new double[]{this.m00, this.m01, this.m02, this.m10, this.m11, this.m12, this.m20, this.m21, this.m22}, dArr, dArr2);
+    }
+
+    public Object clone() {
+        try {
+            return (Matrix4f) super.clone();
+        } catch (CloneNotSupportedException unused) {
+            throw new InternalError();
+        }
+    }
+}

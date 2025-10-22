@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/package-info.java
+// Size: 90 bytes
+// Modified: 2025-10-21 16:32:01.444967800 +0100
+
+@CheckReturnValue
+package io.grpc.netty;
+
+import javax.annotation.CheckReturnValue;
+

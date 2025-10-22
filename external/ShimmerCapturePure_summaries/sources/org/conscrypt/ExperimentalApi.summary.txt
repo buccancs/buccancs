@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/ExperimentalApi.java
+// Size: 531 bytes
+// Modified: 2025-10-21 16:32:00.683941500 +0100
+
+package org.conscrypt;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD, ElementType.PACKAGE, ElementType.TYPE})
+@Documented
+@Retention(RetentionPolicy.SOURCE)
+/* loaded from: classes5.dex */
+public @interface ExperimentalApi {
+    String value() default "";
+}

@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/EphemeralKeyPair.java
+// Size: 617 bytes
+// Modified: 2025-10-21 16:32:04.281807900 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public class EphemeralKeyPair {
+    private AsymmetricCipherKeyPair keyPair;
+    private KeyEncoder publicKeyEncoder;
+
+    public EphemeralKeyPair(AsymmetricCipherKeyPair asymmetricCipherKeyPair, KeyEncoder keyEncoder) {
+        this.keyPair = asymmetricCipherKeyPair;
+        this.publicKeyEncoder = keyEncoder;
+    }
+
+    public byte[] getEncodedPublicKey() {
+        return this.publicKeyEncoder.getEncoded(this.keyPair.getPublic());
+    }
+
+    public AsymmetricCipherKeyPair getKeyPair() {
+        return this.keyPair;
+    }
+}

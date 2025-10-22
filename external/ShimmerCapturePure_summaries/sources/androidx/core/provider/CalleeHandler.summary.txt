@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/provider/CalleeHandler.java
+// Size: 369 bytes
+// Modified: 2025-10-21 16:32:00.002122400 +0100
+
+package androidx.core.provider;
+
+import android.os.Handler;
+import android.os.Looper;
+
+/* loaded from: classes.dex */
+class CalleeHandler {
+    private CalleeHandler() {
+    }
+
+    static Handler create() {
+        if (Looper.myLooper() == null) {
+            return new Handler(Looper.getMainLooper());
+        }
+        return new Handler();
+    }
+}

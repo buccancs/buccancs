@@ -1,0 +1,164 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/correlation/KendallsCorrelation.java
+// Size: 6151 bytes
+// Modified: 2025-10-21 16:32:11.453777000 +0100
+
+package org.apache.commons.math3.stat.correlation;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.linear.BlockRealMatrix;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Pair;
+
+/* loaded from: classes5.dex */
+public class KendallsCorrelation {
+    private final RealMatrix correlationMatrix;
+
+    public RealMatrix getCorrelationMatrix() {
+        return this.correlationMatrix;
+    }
+
+    public KendallsCorrelation() {
+        this.correlationMatrix = null;
+    }
+
+    public KendallsCorrelation(double[][] dArr) {
+        this(MatrixUtils.createRealMatrix(dArr));
+    }
+
+    public KendallsCorrelation(RealMatrix realMatrix) {
+        this.correlationMatrix = computeCorrelationMatrix(realMatrix);
+    }
+
+    public RealMatrix computeCorrelationMatrix(RealMatrix realMatrix) throws OutOfRangeException, DimensionMismatchException {
+        int columnDimension = realMatrix.getColumnDimension();
+        BlockRealMatrix blockRealMatrix = new BlockRealMatrix(columnDimension, columnDimension);
+        for (int i = 0; i < columnDimension; i++) {
+            for (int i2 = 0; i2 < i; i2++) {
+                double dCorrelation = correlation(realMatrix.getColumn(i), realMatrix.getColumn(i2));
+                blockRealMatrix.setEntry(i, i2, dCorrelation);
+                blockRealMatrix.setEntry(i2, i, dCorrelation);
+            }
+            blockRealMatrix.setEntry(i, i, 1.0d);
+        }
+        return blockRealMatrix;
+    }
+
+    public RealMatrix computeCorrelationMatrix(double[][] dArr) {
+        return computeCorrelationMatrix(new BlockRealMatrix(dArr));
+    }
+
+    public double correlation(double[] dArr, double[] dArr2) throws DimensionMismatchException {
+        int i;
+        if (dArr.length != dArr2.length) {
+            throw new DimensionMismatchException(dArr.length, dArr2.length);
+        }
+        int length = dArr.length;
+        long jSum = sum(length - 1);
+        Pair[] pairArr = new Pair[length];
+        for (int i2 = 0; i2 < length; i2++) {
+            pairArr[i2] = new Pair(Double.valueOf(dArr[i2]), Double.valueOf(dArr2[i2]));
+        }
+        Arrays.sort(pairArr, new Comparator<Pair<Double, Double>>() { // from class: org.apache.commons.math3.stat.correlation.KendallsCorrelation.1
+            @Override // java.util.Comparator
+            public int compare(Pair<Double, Double> pair, Pair<Double, Double> pair2) {
+                int iCompareTo = pair.getFirst().compareTo(pair2.getFirst());
+                return iCompareTo != 0 ? iCompareTo : pair.getSecond().compareTo(pair2.getSecond());
+            }
+        });
+        Pair pair = pairArr[0];
+        long j = 1;
+        long j2 = 1;
+        int i3 = 1;
+        long jSum2 = 0;
+        long jSum3 = 0;
+        while (i3 < length) {
+            Pair pair2 = pairArr[i3];
+            if (((Double) pair2.getFirst()).equals(pair.getFirst())) {
+                j++;
+                if (((Double) pair2.getSecond()).equals(pair.getSecond())) {
+                    j2++;
+                } else {
+                    jSum3 += sum(j2 - 1);
+                    j2 = 1;
+                }
+            } else {
+                jSum2 += sum(j - 1);
+                jSum3 += sum(j2 - 1);
+                j = 1;
+                j2 = 1;
+            }
+            i3++;
+            pair = pair2;
+        }
+        long jSum4 = jSum2 + sum(j - 1);
+        long jSum5 = jSum3 + sum(j2 - 1);
+        Pair[] pairArr2 = new Pair[length];
+        int i4 = 1;
+        long j3 = 0;
+        while (i4 < length) {
+            for (int i5 = 0; i5 < length; i5 += i4 * 2) {
+                int iMin = FastMath.min(i5 + i4, length);
+                int iMin2 = FastMath.min(iMin + i4, length);
+                int i6 = i5;
+                int i7 = i6;
+                int i8 = iMin;
+                while (true) {
+                    if (i6 < iMin || i8 < iMin2) {
+                        if (i6 < iMin) {
+                            if (i8 < iMin2) {
+                                i = iMin2;
+                                if (((Double) pairArr[i6].getSecond()).compareTo((Double) pairArr[i8].getSecond()) <= 0) {
+                                    pairArr2[i7] = pairArr[i6];
+                                } else {
+                                    pairArr2[i7] = pairArr[i8];
+                                    j3 += iMin - i6;
+                                    i8++;
+                                }
+                            } else {
+                                i = iMin2;
+                                pairArr2[i7] = pairArr[i6];
+                            }
+                            i6++;
+                        } else {
+                            i = iMin2;
+                            pairArr2[i7] = pairArr[i8];
+                            i8++;
+                        }
+                        i7++;
+                        iMin2 = i;
+                    }
+                }
+            }
+            i4 <<= 1;
+            Pair[] pairArr3 = pairArr;
+            pairArr = pairArr2;
+            pairArr2 = pairArr3;
+        }
+        Pair pair3 = pairArr[0];
+        int i9 = 1;
+        long j4 = 1;
+        long jSum6 = 0;
+        while (i9 < length) {
+            Pair pair4 = pairArr[i9];
+            if (((Double) pair4.getSecond()).equals(pair3.getSecond())) {
+                j4++;
+            } else {
+                jSum6 += sum(j4 - 1);
+                j4 = 1;
+            }
+            i9++;
+            pair3 = pair4;
+        }
+        long jSum7 = jSum6 + sum(j4 - 1);
+        return (((r0 - jSum7) + jSum5) - (j3 * 2)) / FastMath.sqrt((jSum - jSum4) * (jSum - jSum7));
+    }
+
+    private static long sum(long j) {
+        return (j * (1 + j)) / 2;
+    }
+}

@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/BindableService.java
+// Size: 136 bytes
+// Modified: 2025-10-21 16:32:03.711126000 +0100
+
+package io.grpc;
+
+/* loaded from: classes2.dex */
+public interface BindableService {
+    ServerServiceDefinition bindService();
+}

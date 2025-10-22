@@ -1,5 +1,5 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import java.util.Locale
+import java.util.*
 
 val releaseRenderscriptOptimLevel by extra(
     ""
@@ -356,3 +356,80 @@ tasks.register(
         "build"
     )
 }
+
+// Logical bundle tasks to harmonize common build/run entry points
+// These provide stable, memorable Gradle targets and fuel shared IDE run configurations.
+@Suppress("UnstableApiUsage")
+fun Project.subprojectTasksByPrefix(prefix: String, task: String = "build"): List<String> =
+    subprojects
+        .filter { it.name.startsWith(prefix, ignoreCase = true) }
+        .map { "${it.path}:$task" }
+
+@Suppress("UnstableApiUsage")
+fun Project.existingModuleTasks(names: List<String>, task: String = "build"): List<String> =
+    names.mapNotNull { module ->
+        findProject(":$module")?.let { "$it:$task" }
+    }
+
+// Core libraries and shared components
+val bundleCore = tasks.register("bundleCore") {
+    group = "bundles"
+    description = "Builds core/shared modules (protocol, domain, core, storage, common-ui, sdk) if present."
+    dependsOn(
+        existingModuleTasks(listOf("protocol", "domain", "core", "storage", "common-ui", "sdk"))
+    )
+}
+
+// Desktop application and related libs
+val bundleDesktop = tasks.register("bundleDesktop") {
+    group = "bundles"
+    description = "Builds the desktop application and prerequisites."
+    dependsOn(bundleCore)
+    // Build desktop module if present
+    findProject(":desktop")?.let { dependsOn("$it:build") }
+}
+
+// Android application (assembleDebug/installDebug)
+val bundleAndroid = tasks.register("bundleAndroid") {
+    group = "bundles"
+    description = "Builds the Android application (assembleDebug)."
+    dependsOn(bundleCore)
+    findProject(":app")?.let { dependsOn("$it:assembleDebug") }
+}
+
+// Thermal-related modules (e.g., thermal-simulated, thermal-topdon)
+val bundleThermal = tasks.register("bundleThermal") {
+    group = "bundles"
+    description = "Builds all thermal-related modules."
+    val thermalTasks = subprojectTasksByPrefix(prefix = "thermal", task = "build")
+    dependsOn(thermalTasks)
+}
+
+// Topdon-related modules (e.g., topdon-runtime, topdon-sdk)
+val bundleTopdon = tasks.register("bundleTopdon") {
+    group = "bundles"
+    description = "Builds all Topdon-related modules."
+    val topdonTasks = subprojectTasksByPrefix(prefix = "topdon", task = "build")
+    dependsOn(topdonTasks)
+}
+
+// Everything internal, then curated external builds
+tasks.register("bundleAll") {
+    group = "bundles"
+    description = "Builds all internal bundles and curated external projects."
+    dependsOn(bundleCore)
+    dependsOn(bundleDesktop)
+    dependsOn(bundleAndroid)
+    dependsOn(bundleThermal)
+    dependsOn(bundleTopdon)
+    dependsOn(externalBuildAggregate)
+}
+
+// Convenience run targets that proxy to subproject run tasks when present
+// Run the Compose Desktop app
+tasks.register("runDesktop") {
+    group = "application"
+    description = "Runs the desktop application (:desktop:run)."
+    findProject(":desktop")?.let { dependsOn("$it:run") }
+}
+

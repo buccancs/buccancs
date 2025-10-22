@@ -1,0 +1,100 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/bluetoothmanager/guiUtilities/AbstractEnableSensorsDialog.java
+// Size: 4020 bytes
+// Modified: 2025-10-21 16:32:12.101261700 +0100
+
+package com.shimmerresearch.bluetoothmanager.guiUtilities;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.AssembleShimmerConfig;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.managers.bluetoothManager.ShimmerBluetoothManager;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractEnableSensorsDialog {
+    protected String[] arraySensors;
+    ShimmerBluetoothManager bluetoothManager;
+    protected ShimmerDevice clone;
+    protected boolean[] listEnabled;
+    protected Object[] listOfSensors;
+    protected int[] sensorKeys;
+    protected ShimmerDevice shimmerDevice;
+    protected ArrayList<Integer> enabledSensorKeys = new ArrayList<>();
+    protected boolean mEnableFilter = false;
+    protected List<Integer> keysToFilter = null;
+
+    public static void main(String[] strArr) {
+    }
+
+    protected abstract void createCheckBox(String str, boolean z, int i);
+
+    protected abstract void createFrame();
+
+    protected abstract void createWriteButton();
+
+    public void setSensorKeysFilter(List<Integer> list, boolean z) {
+        this.mEnableFilter = z;
+        this.keysToFilter = list;
+    }
+
+    protected abstract void showFrame();
+
+    public AbstractEnableSensorsDialog(ShimmerDevice shimmerDevice, ShimmerBluetoothManager shimmerBluetoothManager) {
+        this.shimmerDevice = shimmerDevice;
+        this.bluetoothManager = shimmerBluetoothManager;
+    }
+
+    public void initialize() {
+        List<Integer> list;
+        createFrame();
+        createWriteButton();
+        ShimmerDevice shimmerDeviceDeepClone = this.shimmerDevice.deepClone();
+        this.clone = shimmerDeviceDeepClone;
+        LinkedHashMap<Integer, SensorDetails> sensorMap = shimmerDeviceDeepClone.getSensorMap();
+        Iterator<SensorDetails> it2 = sensorMap.values().iterator();
+        int i = 0;
+        int i2 = 0;
+        while (it2.hasNext()) {
+            if (this.clone.isVerCompatibleWithAnyOf(it2.next().mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
+                i2++;
+            }
+        }
+        Set<Integer> setKeySet = sensorMap.keySet();
+        if (this.mEnableFilter && (list = this.keysToFilter) != null) {
+            for (Integer num : list) {
+                SensorDetails sensorDetails = sensorMap.get(num);
+                if (sensorDetails != null && this.clone.isVerCompatibleWithAnyOf(sensorDetails.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
+                    setKeySet.remove(num);
+                    i2--;
+                }
+            }
+        }
+        this.sensorKeys = new int[i2];
+        this.listOfSensors = new Object[i2];
+        this.arraySensors = new String[i2];
+        this.listEnabled = new boolean[i2];
+        Iterator<Integer> it3 = setKeySet.iterator();
+        while (it3.hasNext()) {
+            int iIntValue = it3.next().intValue();
+            SensorDetails sensorDetails2 = sensorMap.get(Integer.valueOf(iIntValue));
+            if (this.clone.isVerCompatibleWithAnyOf(sensorDetails2.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
+                createCheckBox(sensorDetails2.mSensorDetailsRef.mGuiFriendlyLabel, sensorDetails2.isEnabled(), i);
+                this.sensorKeys[i] = iIntValue;
+                this.arraySensors[i] = sensorDetails2.mSensorDetailsRef.mGuiFriendlyLabel;
+                this.listEnabled[i] = sensorDetails2.isEnabled();
+                i++;
+            }
+        }
+        showFrame();
+    }
+
+    protected void writeConfiguration() throws InterruptedException {
+        AssembleShimmerConfig.generateSingleShimmerConfig(this.clone, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+        this.bluetoothManager.configureShimmer(this.clone);
+    }
+}

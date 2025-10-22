@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/widget/MenuItemHoverListener.java
+// Size: 343 bytes
+// Modified: 2025-10-21 16:32:04.355088200 +0100
+
+package androidx.appcompat.widget;
+
+import android.view.MenuItem;
+import androidx.appcompat.view.menu.MenuBuilder;
+
+/* loaded from: classes.dex */
+public interface MenuItemHoverListener {
+    void onItemHoverEnter(MenuBuilder menuBuilder, MenuItem menuItem);
+
+    void onItemHoverExit(MenuBuilder menuBuilder, MenuItem menuItem);
+}

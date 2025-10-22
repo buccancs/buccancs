@@ -1,0 +1,35 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/re2j/PatternSyntaxException.java
+// Size: 752 bytes
+// Modified: 2025-10-21 16:32:00.182006900 +0100
+
+package com.google.re2j;
+
+/* loaded from: classes2.dex */
+public class PatternSyntaxException extends RuntimeException {
+    private final String error;
+    private final String input;
+
+    public String getDescription() {
+        return this.error;
+    }
+
+    public int getIndex() {
+        return -1;
+    }
+
+    public String getPattern() {
+        return this.input;
+    }
+
+    public PatternSyntaxException(String str, String str2) {
+        super("error parsing regexp: " + str + ": `" + str2 + "`");
+        this.error = str;
+        this.input = str2;
+    }
+
+    public PatternSyntaxException(String str) {
+        super("error parsing regexp: " + str);
+        this.error = str;
+        this.input = "";
+    }
+}

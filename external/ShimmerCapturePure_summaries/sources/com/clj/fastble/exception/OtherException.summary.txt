@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/exception/OtherException.java
+// Size: 199 bytes
+// Modified: 2025-10-21 16:32:00.782317400 +0100
+
+package com.clj.fastble.exception;
+
+/* loaded from: classes.dex */
+public class OtherException extends BleException {
+    public OtherException(String str) {
+        super(102, str);
+    }
+}

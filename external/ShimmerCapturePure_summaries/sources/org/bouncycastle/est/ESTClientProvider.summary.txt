@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/est/ESTClientProvider.java
+// Size: 184 bytes
+// Modified: 2025-10-21 16:32:02.990781900 +0100
+
+package org.bouncycastle.est;
+
+/* loaded from: classes5.dex */
+public interface ESTClientProvider {
+    boolean isTrusted();
+
+    ESTClient makeClient() throws ESTException;
+}

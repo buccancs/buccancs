@@ -1,0 +1,2987 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/route/v3/Route.java
+// Size: 144388 bytes
+// Modified: 2025-10-21 16:32:13.297816200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.MapEntry;
+import com.google.protobuf.MapField;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import com.google.protobuf.WireFormat;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HeaderValueOption;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HeaderValueOptionOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Metadata;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.MetadataOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Decorator;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.DirectResponseAction;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RedirectAction;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteAction;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteMatch;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Tracing;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes4.dex */
+public final class Route extends GeneratedMessageV3 implements RouteOrBuilder {
+    public static final int DECORATOR_FIELD_NUMBER = 5;
+    public static final int DIRECT_RESPONSE_FIELD_NUMBER = 7;
+    public static final int FILTER_ACTION_FIELD_NUMBER = 17;
+    public static final int MATCH_FIELD_NUMBER = 1;
+    public static final int METADATA_FIELD_NUMBER = 4;
+    public static final int NAME_FIELD_NUMBER = 14;
+    public static final int PER_REQUEST_BUFFER_LIMIT_BYTES_FIELD_NUMBER = 16;
+    public static final int REDIRECT_FIELD_NUMBER = 3;
+    public static final int REQUEST_HEADERS_TO_ADD_FIELD_NUMBER = 9;
+    public static final int REQUEST_HEADERS_TO_REMOVE_FIELD_NUMBER = 12;
+    public static final int RESPONSE_HEADERS_TO_ADD_FIELD_NUMBER = 10;
+    public static final int RESPONSE_HEADERS_TO_REMOVE_FIELD_NUMBER = 11;
+    public static final int ROUTE_FIELD_NUMBER = 2;
+    public static final int TRACING_FIELD_NUMBER = 15;
+    public static final int TYPED_PER_FILTER_CONFIG_FIELD_NUMBER = 13;
+    private static final long serialVersionUID = 0;
+    private int actionCase_;
+    private Object action_;
+    private Decorator decorator_;
+    private RouteMatch match_;
+    private byte memoizedIsInitialized;
+    private Metadata metadata_;
+    private volatile Object name_;
+    private UInt32Value perRequestBufferLimitBytes_;
+    private List<HeaderValueOption> requestHeadersToAdd_;
+    private LazyStringList requestHeadersToRemove_;
+    private List<HeaderValueOption> responseHeadersToAdd_;
+    private LazyStringList responseHeadersToRemove_;
+    private Tracing tracing_;
+    private MapField<String, Any> typedPerFilterConfig_;
+    private static final Route DEFAULT_INSTANCE = new Route();
+    private static final Parser<Route> PARSER = new AbstractParser<Route>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Route m28915parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Route(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static Route getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Route> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Route m28906getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Route> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public List<HeaderValueOption> getRequestHeadersToAddList() {
+        return this.requestHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public List<? extends HeaderValueOptionOrBuilder> getRequestHeadersToAddOrBuilderList() {
+        return this.requestHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    /* renamed from: getRequestHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo28908getRequestHeadersToRemoveList() {
+        return this.requestHeadersToRemove_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public List<HeaderValueOption> getResponseHeadersToAddList() {
+        return this.responseHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public List<? extends HeaderValueOptionOrBuilder> getResponseHeadersToAddOrBuilderList() {
+        return this.responseHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    /* renamed from: getResponseHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo28909getResponseHeadersToRemoveList() {
+        return this.responseHeadersToRemove_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasDecorator() {
+        return this.decorator_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasDirectResponse() {
+        return this.actionCase_ == 7;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasFilterAction() {
+        return this.actionCase_ == 17;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasMatch() {
+        return this.match_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasMetadata() {
+        return this.metadata_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasPerRequestBufferLimitBytes() {
+        return this.perRequestBufferLimitBytes_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasRedirect() {
+        return this.actionCase_ == 3;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasRoute() {
+        return this.actionCase_ == 2;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean hasTracing() {
+        return this.tracing_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private Route(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.actionCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Route() {
+        this.actionCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.name_ = "";
+        this.requestHeadersToAdd_ = Collections.emptyList();
+        this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+        this.responseHeadersToAdd_ = Collections.emptyList();
+        this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Route();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private Route(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        UInt32Value.Builder builderM29470toBuilder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        switch (tag) {
+                            case 0:
+                                z = true;
+                            case 10:
+                                RouteMatch routeMatch = this.match_;
+                                builderM29470toBuilder = routeMatch != null ? routeMatch.m29470toBuilder() : null;
+                                RouteMatch message = codedInputStream.readMessage(RouteMatch.parser(), extensionRegistryLite);
+                                this.match_ = message;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message);
+                                    this.match_ = builderM29470toBuilder.m29477buildPartial();
+                                }
+                            case 18:
+                                builderM29470toBuilder = this.actionCase_ == 2 ? ((RouteAction) this.action_).m28959toBuilder() : null;
+                                RouteAction message2 = codedInputStream.readMessage(RouteAction.parser(), extensionRegistryLite);
+                                this.action_ = message2;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message2);
+                                    this.action_ = builderM29470toBuilder.m28966buildPartial();
+                                }
+                                this.actionCase_ = 2;
+                            case 26:
+                                builderM29470toBuilder = this.actionCase_ == 3 ? ((RedirectAction) this.action_).m28680toBuilder() : null;
+                                RedirectAction message3 = codedInputStream.readMessage(RedirectAction.parser(), extensionRegistryLite);
+                                this.action_ = message3;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message3);
+                                    this.action_ = builderM29470toBuilder.m28687buildPartial();
+                                }
+                                this.actionCase_ = 3;
+                            case 34:
+                                Metadata metadata = this.metadata_;
+                                builderM29470toBuilder = metadata != null ? metadata.m23598toBuilder() : null;
+                                Metadata message4 = codedInputStream.readMessage(Metadata.parser(), extensionRegistryLite);
+                                this.metadata_ = message4;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message4);
+                                    this.metadata_ = builderM29470toBuilder.m23605buildPartial();
+                                }
+                            case 42:
+                                Decorator decorator = this.decorator_;
+                                builderM29470toBuilder = decorator != null ? decorator.m27852toBuilder() : null;
+                                Decorator message5 = codedInputStream.readMessage(Decorator.parser(), extensionRegistryLite);
+                                this.decorator_ = message5;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message5);
+                                    this.decorator_ = builderM29470toBuilder.m27859buildPartial();
+                                }
+                            case 58:
+                                builderM29470toBuilder = this.actionCase_ == 7 ? ((DirectResponseAction) this.action_).m27898toBuilder() : null;
+                                DirectResponseAction message6 = codedInputStream.readMessage(DirectResponseAction.parser(), extensionRegistryLite);
+                                this.action_ = message6;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message6);
+                                    this.action_ = builderM29470toBuilder.m27905buildPartial();
+                                }
+                                this.actionCase_ = 7;
+                            case 74:
+                                if ((i & 2) == 0) {
+                                    this.requestHeadersToAdd_ = new ArrayList();
+                                    i |= 2;
+                                }
+                                this.requestHeadersToAdd_.add(codedInputStream.readMessage(HeaderValueOption.parser(), extensionRegistryLite));
+                            case 82:
+                                if ((i & 8) == 0) {
+                                    this.responseHeadersToAdd_ = new ArrayList();
+                                    i |= 8;
+                                }
+                                this.responseHeadersToAdd_.add(codedInputStream.readMessage(HeaderValueOption.parser(), extensionRegistryLite));
+                            case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                                String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                                if ((i & 16) == 0) {
+                                    this.responseHeadersToRemove_ = new LazyStringArrayList();
+                                    i |= 16;
+                                }
+                                this.responseHeadersToRemove_.add(stringRequireUtf8);
+                            case 98:
+                                String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                                if ((i & 4) == 0) {
+                                    this.requestHeadersToRemove_ = new LazyStringArrayList();
+                                    i |= 4;
+                                }
+                                this.requestHeadersToRemove_.add(stringRequireUtf82);
+                            case 106:
+                                if ((i & 1) == 0) {
+                                    this.typedPerFilterConfig_ = MapField.newMapField(TypedPerFilterConfigDefaultEntryHolder.defaultEntry);
+                                    i |= 1;
+                                }
+                                MapEntry message7 = codedInputStream.readMessage(TypedPerFilterConfigDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistryLite);
+                                this.typedPerFilterConfig_.getMutableMap().put(message7.getKey(), message7.getValue());
+                            case 114:
+                                this.name_ = codedInputStream.readStringRequireUtf8();
+                            case 122:
+                                Tracing tracing = this.tracing_;
+                                builderM29470toBuilder = tracing != null ? tracing.m29792toBuilder() : null;
+                                Tracing message8 = codedInputStream.readMessage(Tracing.parser(), extensionRegistryLite);
+                                this.tracing_ = message8;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message8);
+                                    this.tracing_ = builderM29470toBuilder.m29799buildPartial();
+                                }
+                            case 130:
+                                UInt32Value uInt32Value = this.perRequestBufferLimitBytes_;
+                                builderM29470toBuilder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                                UInt32Value message9 = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                                this.perRequestBufferLimitBytes_ = message9;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom(message9);
+                                    this.perRequestBufferLimitBytes_ = builderM29470toBuilder.buildPartial();
+                                }
+                            case 138:
+                                builderM29470toBuilder = this.actionCase_ == 17 ? ((FilterAction) this.action_).m27944toBuilder() : null;
+                                MessageLite message10 = codedInputStream.readMessage(FilterAction.parser(), extensionRegistryLite);
+                                this.action_ = message10;
+                                if (builderM29470toBuilder != null) {
+                                    builderM29470toBuilder.mergeFrom((FilterAction) message10);
+                                    this.action_ = builderM29470toBuilder.m27951buildPartial();
+                                }
+                                this.actionCase_ = 17;
+                            default:
+                                if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    z = true;
+                                }
+                        }
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 2) != 0) {
+                    this.requestHeadersToAdd_ = Collections.unmodifiableList(this.requestHeadersToAdd_);
+                }
+                if ((i & 8) != 0) {
+                    this.responseHeadersToAdd_ = Collections.unmodifiableList(this.responseHeadersToAdd_);
+                }
+                if ((i & 16) != 0) {
+                    this.responseHeadersToRemove_ = this.responseHeadersToRemove_.getUnmodifiableView();
+                }
+                if ((i & 4) != 0) {
+                    this.requestHeadersToRemove_ = this.requestHeadersToRemove_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return RouteComponentsProto.internal_static_envoy_config_route_v3_Route_descriptor;
+    }
+
+    protected MapField internalGetMapField(int i) {
+        if (i == 13) {
+            return internalGetTypedPerFilterConfig();
+        }
+        throw new RuntimeException("Invalid map field number: " + i);
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return RouteComponentsProto.internal_static_envoy_config_route_v3_Route_fieldAccessorTable.ensureFieldAccessorsInitialized(Route.class, Builder.class);
+    }
+
+    public enum ActionCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        ROUTE(2),
+        REDIRECT(3),
+        DIRECT_RESPONSE(7),
+        FILTER_ACTION(17),
+        ACTION_NOT_SET(0);
+
+        private final int value;
+
+        public static ActionCase forNumber(int i) {
+            if (i == 0) {
+                return ACTION_NOT_SET;
+            }
+            if (i == 7) {
+                return DIRECT_RESPONSE;
+            }
+            if (i == 17) {
+                return FILTER_ACTION;
+            }
+            if (i == 2) {
+                return ROUTE;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return REDIRECT;
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+
+        ActionCase(int i) {
+            this.value = i;
+        }
+
+        @Deprecated
+        public static ActionCase valueOf(int i) {
+            return forNumber(i);
+        }
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public ActionCase getActionCase() {
+        return ActionCase.forNumber(this.actionCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public String getName() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.name_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public ByteString getNameBytes() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.name_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public RouteMatch getMatch() {
+        RouteMatch routeMatch = this.match_;
+        return routeMatch == null ? RouteMatch.getDefaultInstance() : routeMatch;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public RouteMatchOrBuilder getMatchOrBuilder() {
+        return getMatch();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public RouteAction getRoute() {
+        if (this.actionCase_ == 2) {
+            return (RouteAction) this.action_;
+        }
+        return RouteAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public RouteActionOrBuilder getRouteOrBuilder() {
+        if (this.actionCase_ == 2) {
+            return (RouteAction) this.action_;
+        }
+        return RouteAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public RedirectAction getRedirect() {
+        if (this.actionCase_ == 3) {
+            return (RedirectAction) this.action_;
+        }
+        return RedirectAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public RedirectActionOrBuilder getRedirectOrBuilder() {
+        if (this.actionCase_ == 3) {
+            return (RedirectAction) this.action_;
+        }
+        return RedirectAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public DirectResponseAction getDirectResponse() {
+        if (this.actionCase_ == 7) {
+            return (DirectResponseAction) this.action_;
+        }
+        return DirectResponseAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public DirectResponseActionOrBuilder getDirectResponseOrBuilder() {
+        if (this.actionCase_ == 7) {
+            return (DirectResponseAction) this.action_;
+        }
+        return DirectResponseAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public FilterAction getFilterAction() {
+        if (this.actionCase_ == 17) {
+            return (FilterAction) this.action_;
+        }
+        return FilterAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public FilterActionOrBuilder getFilterActionOrBuilder() {
+        if (this.actionCase_ == 17) {
+            return (FilterAction) this.action_;
+        }
+        return FilterAction.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public Metadata getMetadata() {
+        Metadata metadata = this.metadata_;
+        return metadata == null ? Metadata.getDefaultInstance() : metadata;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public MetadataOrBuilder getMetadataOrBuilder() {
+        return getMetadata();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public Decorator getDecorator() {
+        Decorator decorator = this.decorator_;
+        return decorator == null ? Decorator.getDefaultInstance() : decorator;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public DecoratorOrBuilder getDecoratorOrBuilder() {
+        return getDecorator();
+    }
+
+    private static final class TypedPerFilterConfigDefaultEntryHolder {
+        static final MapEntry<String, Any> defaultEntry = MapEntry.newDefaultInstance(RouteComponentsProto.internal_static_envoy_config_route_v3_Route_TypedPerFilterConfigEntry_descriptor, WireFormat.FieldType.STRING, "", WireFormat.FieldType.MESSAGE, Any.getDefaultInstance());
+
+        private TypedPerFilterConfigDefaultEntryHolder() {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public MapField<String, Any> internalGetTypedPerFilterConfig() {
+        MapField<String, Any> mapField = this.typedPerFilterConfig_;
+        return mapField == null ? MapField.emptyMapField(TypedPerFilterConfigDefaultEntryHolder.defaultEntry) : mapField;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public int getTypedPerFilterConfigCount() {
+        return internalGetTypedPerFilterConfig().getMap().size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public boolean containsTypedPerFilterConfig(String str) {
+        str.getClass();
+        return internalGetTypedPerFilterConfig().getMap().containsKey(str);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    @Deprecated
+    public Map<String, Any> getTypedPerFilterConfig() {
+        return getTypedPerFilterConfigMap();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public Map<String, Any> getTypedPerFilterConfigMap() {
+        return internalGetTypedPerFilterConfig().getMap();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public Any getTypedPerFilterConfigOrDefault(String str, Any any) {
+        str.getClass();
+        Map map = internalGetTypedPerFilterConfig().getMap();
+        return map.containsKey(str) ? (Any) map.get(str) : any;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public Any getTypedPerFilterConfigOrThrow(String str) {
+        str.getClass();
+        Map map = internalGetTypedPerFilterConfig().getMap();
+        if (!map.containsKey(str)) {
+            throw new IllegalArgumentException();
+        }
+        return (Any) map.get(str);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public int getRequestHeadersToAddCount() {
+        return this.requestHeadersToAdd_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public HeaderValueOption getRequestHeadersToAdd(int i) {
+        return this.requestHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public HeaderValueOptionOrBuilder getRequestHeadersToAddOrBuilder(int i) {
+        return this.requestHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public int getRequestHeadersToRemoveCount() {
+        return this.requestHeadersToRemove_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public String getRequestHeadersToRemove(int i) {
+        return (String) this.requestHeadersToRemove_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public ByteString getRequestHeadersToRemoveBytes(int i) {
+        return this.requestHeadersToRemove_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public int getResponseHeadersToAddCount() {
+        return this.responseHeadersToAdd_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public HeaderValueOption getResponseHeadersToAdd(int i) {
+        return this.responseHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public HeaderValueOptionOrBuilder getResponseHeadersToAddOrBuilder(int i) {
+        return this.responseHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public int getResponseHeadersToRemoveCount() {
+        return this.responseHeadersToRemove_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public String getResponseHeadersToRemove(int i) {
+        return (String) this.responseHeadersToRemove_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public ByteString getResponseHeadersToRemoveBytes(int i) {
+        return this.responseHeadersToRemove_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public Tracing getTracing() {
+        Tracing tracing = this.tracing_;
+        return tracing == null ? Tracing.getDefaultInstance() : tracing;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public TracingOrBuilder getTracingOrBuilder() {
+        return getTracing();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public UInt32Value getPerRequestBufferLimitBytes() {
+        UInt32Value uInt32Value = this.perRequestBufferLimitBytes_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+    public UInt32ValueOrBuilder getPerRequestBufferLimitBytesOrBuilder() {
+        return getPerRequestBufferLimitBytes();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.match_ != null) {
+            codedOutputStream.writeMessage(1, getMatch());
+        }
+        if (this.actionCase_ == 2) {
+            codedOutputStream.writeMessage(2, (RouteAction) this.action_);
+        }
+        if (this.actionCase_ == 3) {
+            codedOutputStream.writeMessage(3, (RedirectAction) this.action_);
+        }
+        if (this.metadata_ != null) {
+            codedOutputStream.writeMessage(4, getMetadata());
+        }
+        if (this.decorator_ != null) {
+            codedOutputStream.writeMessage(5, getDecorator());
+        }
+        if (this.actionCase_ == 7) {
+            codedOutputStream.writeMessage(7, (DirectResponseAction) this.action_);
+        }
+        for (int i = 0; i < this.requestHeadersToAdd_.size(); i++) {
+            codedOutputStream.writeMessage(9, this.requestHeadersToAdd_.get(i));
+        }
+        for (int i2 = 0; i2 < this.responseHeadersToAdd_.size(); i2++) {
+            codedOutputStream.writeMessage(10, this.responseHeadersToAdd_.get(i2));
+        }
+        for (int i3 = 0; i3 < this.responseHeadersToRemove_.size(); i3++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 11, this.responseHeadersToRemove_.getRaw(i3));
+        }
+        for (int i4 = 0; i4 < this.requestHeadersToRemove_.size(); i4++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 12, this.requestHeadersToRemove_.getRaw(i4));
+        }
+        GeneratedMessageV3.serializeStringMapTo(codedOutputStream, internalGetTypedPerFilterConfig(), TypedPerFilterConfigDefaultEntryHolder.defaultEntry, 13);
+        if (!getNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 14, this.name_);
+        }
+        if (this.tracing_ != null) {
+            codedOutputStream.writeMessage(15, getTracing());
+        }
+        if (this.perRequestBufferLimitBytes_ != null) {
+            codedOutputStream.writeMessage(16, getPerRequestBufferLimitBytes());
+        }
+        if (this.actionCase_ == 17) {
+            codedOutputStream.writeMessage(17, (FilterAction) this.action_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.match_ != null ? CodedOutputStream.computeMessageSize(1, getMatch()) : 0;
+        if (this.actionCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (RouteAction) this.action_);
+        }
+        if (this.actionCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (RedirectAction) this.action_);
+        }
+        if (this.metadata_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, getMetadata());
+        }
+        if (this.decorator_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, getDecorator());
+        }
+        if (this.actionCase_ == 7) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(7, (DirectResponseAction) this.action_);
+        }
+        for (int i2 = 0; i2 < this.requestHeadersToAdd_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(9, this.requestHeadersToAdd_.get(i2));
+        }
+        for (int i3 = 0; i3 < this.responseHeadersToAdd_.size(); i3++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(10, this.responseHeadersToAdd_.get(i3));
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i4 = 0; i4 < this.responseHeadersToRemove_.size(); i4++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.responseHeadersToRemove_.getRaw(i4));
+        }
+        int size = iComputeMessageSize + iComputeStringSizeNoTag + mo28909getResponseHeadersToRemoveList().size();
+        int iComputeStringSizeNoTag2 = 0;
+        for (int i5 = 0; i5 < this.requestHeadersToRemove_.size(); i5++) {
+            iComputeStringSizeNoTag2 += computeStringSizeNoTag(this.requestHeadersToRemove_.getRaw(i5));
+        }
+        int size2 = size + iComputeStringSizeNoTag2 + mo28908getRequestHeadersToRemoveList().size();
+        for (Map.Entry entry : internalGetTypedPerFilterConfig().getMap().entrySet()) {
+            size2 += CodedOutputStream.computeMessageSize(13, TypedPerFilterConfigDefaultEntryHolder.defaultEntry.newBuilderForType().setKey(entry.getKey()).setValue(entry.getValue()).build());
+        }
+        if (!getNameBytes().isEmpty()) {
+            size2 += GeneratedMessageV3.computeStringSize(14, this.name_);
+        }
+        if (this.tracing_ != null) {
+            size2 += CodedOutputStream.computeMessageSize(15, getTracing());
+        }
+        if (this.perRequestBufferLimitBytes_ != null) {
+            size2 += CodedOutputStream.computeMessageSize(16, getPerRequestBufferLimitBytes());
+        }
+        if (this.actionCase_ == 17) {
+            size2 += CodedOutputStream.computeMessageSize(17, (FilterAction) this.action_);
+        }
+        int serializedSize = size2 + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Route)) {
+            return super.equals(obj);
+        }
+        Route route = (Route) obj;
+        if (!getName().equals(route.getName()) || hasMatch() != route.hasMatch()) {
+            return false;
+        }
+        if ((hasMatch() && !getMatch().equals(route.getMatch())) || hasMetadata() != route.hasMetadata()) {
+            return false;
+        }
+        if ((hasMetadata() && !getMetadata().equals(route.getMetadata())) || hasDecorator() != route.hasDecorator()) {
+            return false;
+        }
+        if ((hasDecorator() && !getDecorator().equals(route.getDecorator())) || !internalGetTypedPerFilterConfig().equals(route.internalGetTypedPerFilterConfig()) || !getRequestHeadersToAddList().equals(route.getRequestHeadersToAddList()) || !mo28908getRequestHeadersToRemoveList().equals(route.mo28908getRequestHeadersToRemoveList()) || !getResponseHeadersToAddList().equals(route.getResponseHeadersToAddList()) || !mo28909getResponseHeadersToRemoveList().equals(route.mo28909getResponseHeadersToRemoveList()) || hasTracing() != route.hasTracing()) {
+            return false;
+        }
+        if ((hasTracing() && !getTracing().equals(route.getTracing())) || hasPerRequestBufferLimitBytes() != route.hasPerRequestBufferLimitBytes()) {
+            return false;
+        }
+        if ((hasPerRequestBufferLimitBytes() && !getPerRequestBufferLimitBytes().equals(route.getPerRequestBufferLimitBytes())) || !getActionCase().equals(route.getActionCase())) {
+            return false;
+        }
+        int i = this.actionCase_;
+        if (i != 2) {
+            if (i != 3) {
+                if (i == 7) {
+                    if (!getDirectResponse().equals(route.getDirectResponse())) {
+                        return false;
+                    }
+                } else if (i == 17 && !getFilterAction().equals(route.getFilterAction())) {
+                    return false;
+                }
+            } else if (!getRedirect().equals(route.getRedirect())) {
+                return false;
+            }
+        } else if (!getRoute().equals(route.getRoute())) {
+            return false;
+        }
+        return this.unknownFields.equals(route.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = ((((779 + getDescriptor().hashCode()) * 37) + 14) * 53) + getName().hashCode();
+        if (hasMatch()) {
+            iHashCode2 = (((iHashCode2 * 37) + 1) * 53) + getMatch().hashCode();
+        }
+        if (hasMetadata()) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getMetadata().hashCode();
+        }
+        if (hasDecorator()) {
+            iHashCode2 = (((iHashCode2 * 37) + 5) * 53) + getDecorator().hashCode();
+        }
+        if (!internalGetTypedPerFilterConfig().getMap().isEmpty()) {
+            iHashCode2 = (((iHashCode2 * 37) + 13) * 53) + internalGetTypedPerFilterConfig().hashCode();
+        }
+        if (getRequestHeadersToAddCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 9) * 53) + getRequestHeadersToAddList().hashCode();
+        }
+        if (getRequestHeadersToRemoveCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 12) * 53) + mo28908getRequestHeadersToRemoveList().hashCode();
+        }
+        if (getResponseHeadersToAddCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 10) * 53) + getResponseHeadersToAddList().hashCode();
+        }
+        if (getResponseHeadersToRemoveCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 11) * 53) + mo28909getResponseHeadersToRemoveList().hashCode();
+        }
+        if (hasTracing()) {
+            iHashCode2 = (((iHashCode2 * 37) + 15) * 53) + getTracing().hashCode();
+        }
+        if (hasPerRequestBufferLimitBytes()) {
+            iHashCode2 = (((iHashCode2 * 37) + 16) * 53) + getPerRequestBufferLimitBytes().hashCode();
+        }
+        int i2 = this.actionCase_;
+        if (i2 == 2) {
+            i = ((iHashCode2 * 37) + 2) * 53;
+            iHashCode = getRoute().hashCode();
+        } else if (i2 == 3) {
+            i = ((iHashCode2 * 37) + 3) * 53;
+            iHashCode = getRedirect().hashCode();
+        } else if (i2 == 7) {
+            i = ((iHashCode2 * 37) + 7) * 53;
+            iHashCode = getDirectResponse().hashCode();
+        } else {
+            if (i2 == 17) {
+                i = ((iHashCode2 * 37) + 17) * 53;
+                iHashCode = getFilterAction().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    public static Route parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Route) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Route parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Route) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Route parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Route) PARSER.parseFrom(byteString);
+    }
+
+    public static Route parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Route) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Route parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Route) PARSER.parseFrom(bArr);
+    }
+
+    public static Route parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Route) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Route parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Route parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Route parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Route parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Route parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Route parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m28910newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m28913toBuilder();
+    }
+
+    public static Builder newBuilder(Route route) {
+        return DEFAULT_INSTANCE.m28913toBuilder().mergeFrom(route);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m28913toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RouteOrBuilder {
+        private int actionCase_;
+        private Object action_;
+        private int bitField0_;
+        private SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> decoratorBuilder_;
+        private Decorator decorator_;
+        private SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> directResponseBuilder_;
+        private SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> filterActionBuilder_;
+        private SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> matchBuilder_;
+        private RouteMatch match_;
+        private SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> metadataBuilder_;
+        private Metadata metadata_;
+        private Object name_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> perRequestBufferLimitBytesBuilder_;
+        private UInt32Value perRequestBufferLimitBytes_;
+        private SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> redirectBuilder_;
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> requestHeadersToAddBuilder_;
+        private List<HeaderValueOption> requestHeadersToAdd_;
+        private LazyStringList requestHeadersToRemove_;
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> responseHeadersToAddBuilder_;
+        private List<HeaderValueOption> responseHeadersToAdd_;
+        private LazyStringList responseHeadersToRemove_;
+        private SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> routeBuilder_;
+        private SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> tracingBuilder_;
+        private Tracing tracing_;
+        private MapField<String, Any> typedPerFilterConfig_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasDecorator() {
+            return (this.decoratorBuilder_ == null && this.decorator_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasDirectResponse() {
+            return this.actionCase_ == 7;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasFilterAction() {
+            return this.actionCase_ == 17;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasMatch() {
+            return (this.matchBuilder_ == null && this.match_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasMetadata() {
+            return (this.metadataBuilder_ == null && this.metadata_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasPerRequestBufferLimitBytes() {
+            return (this.perRequestBufferLimitBytesBuilder_ == null && this.perRequestBufferLimitBytes_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasRedirect() {
+            return this.actionCase_ == 3;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasRoute() {
+            return this.actionCase_ == 2;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean hasTracing() {
+            return (this.tracingBuilder_ == null && this.tracing_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_Route_descriptor;
+        }
+
+        protected MapField internalGetMapField(int i) {
+            if (i == 13) {
+                return internalGetTypedPerFilterConfig();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected MapField internalGetMutableMapField(int i) {
+            if (i == 13) {
+                return internalGetMutableTypedPerFilterConfig();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_Route_fieldAccessorTable.ensureFieldAccessorsInitialized(Route.class, Builder.class);
+        }
+
+        private Builder() {
+            this.actionCase_ = 0;
+            this.name_ = "";
+            this.requestHeadersToAdd_ = Collections.emptyList();
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.responseHeadersToAdd_ = Collections.emptyList();
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.actionCase_ = 0;
+            this.name_ = "";
+            this.requestHeadersToAdd_ = Collections.emptyList();
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.responseHeadersToAdd_ = Collections.emptyList();
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (Route.alwaysUseFieldBuilders) {
+                getRequestHeadersToAddFieldBuilder();
+                getResponseHeadersToAddFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28924clear() {
+            super.clear();
+            this.name_ = "";
+            if (this.matchBuilder_ == null) {
+                this.match_ = null;
+            } else {
+                this.match_ = null;
+                this.matchBuilder_ = null;
+            }
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            if (this.decoratorBuilder_ == null) {
+                this.decorator_ = null;
+            } else {
+                this.decorator_ = null;
+                this.decoratorBuilder_ = null;
+            }
+            internalGetMutableTypedPerFilterConfig().clear();
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.requestHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -5;
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV32 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.responseHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -9;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -17;
+            if (this.tracingBuilder_ == null) {
+                this.tracing_ = null;
+            } else {
+                this.tracing_ = null;
+                this.tracingBuilder_ = null;
+            }
+            if (this.perRequestBufferLimitBytesBuilder_ == null) {
+                this.perRequestBufferLimitBytes_ = null;
+            } else {
+                this.perRequestBufferLimitBytes_ = null;
+                this.perRequestBufferLimitBytesBuilder_ = null;
+            }
+            this.actionCase_ = 0;
+            this.action_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_Route_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Route m28937getDefaultInstanceForType() {
+            return Route.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Route m28918build() throws UninitializedMessageException {
+            Route routeM28920buildPartial = m28920buildPartial();
+            if (routeM28920buildPartial.isInitialized()) {
+                return routeM28920buildPartial;
+            }
+            throw newUninitializedMessageException(routeM28920buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Route m28920buildPartial() {
+            Route route = new Route(this);
+            route.name_ = this.name_;
+            SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                route.match_ = this.match_;
+            } else {
+                route.match_ = singleFieldBuilderV3.build();
+            }
+            if (this.actionCase_ == 2) {
+                SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> singleFieldBuilderV32 = this.routeBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    route.action_ = this.action_;
+                } else {
+                    route.action_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.actionCase_ == 3) {
+                SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> singleFieldBuilderV33 = this.redirectBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    route.action_ = this.action_;
+                } else {
+                    route.action_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.actionCase_ == 7) {
+                SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> singleFieldBuilderV34 = this.directResponseBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    route.action_ = this.action_;
+                } else {
+                    route.action_ = singleFieldBuilderV34.build();
+                }
+            }
+            if (this.actionCase_ == 17) {
+                SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> singleFieldBuilderV35 = this.filterActionBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    route.action_ = this.action_;
+                } else {
+                    route.action_ = singleFieldBuilderV35.build();
+                }
+            }
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV36 = this.metadataBuilder_;
+            if (singleFieldBuilderV36 == null) {
+                route.metadata_ = this.metadata_;
+            } else {
+                route.metadata_ = singleFieldBuilderV36.build();
+            }
+            SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> singleFieldBuilderV37 = this.decoratorBuilder_;
+            if (singleFieldBuilderV37 == null) {
+                route.decorator_ = this.decorator_;
+            } else {
+                route.decorator_ = singleFieldBuilderV37.build();
+            }
+            route.typedPerFilterConfig_ = internalGetTypedPerFilterConfig();
+            route.typedPerFilterConfig_.makeImmutable();
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 2) != 0) {
+                    this.requestHeadersToAdd_ = Collections.unmodifiableList(this.requestHeadersToAdd_);
+                    this.bitField0_ &= -3;
+                }
+                route.requestHeadersToAdd_ = this.requestHeadersToAdd_;
+            } else {
+                route.requestHeadersToAdd_ = repeatedFieldBuilderV3.build();
+            }
+            if ((this.bitField0_ & 4) != 0) {
+                this.requestHeadersToRemove_ = this.requestHeadersToRemove_.getUnmodifiableView();
+                this.bitField0_ &= -5;
+            }
+            route.requestHeadersToRemove_ = this.requestHeadersToRemove_;
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV32 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 8) != 0) {
+                    this.responseHeadersToAdd_ = Collections.unmodifiableList(this.responseHeadersToAdd_);
+                    this.bitField0_ &= -9;
+                }
+                route.responseHeadersToAdd_ = this.responseHeadersToAdd_;
+            } else {
+                route.responseHeadersToAdd_ = repeatedFieldBuilderV32.build();
+            }
+            if ((this.bitField0_ & 16) != 0) {
+                this.responseHeadersToRemove_ = this.responseHeadersToRemove_.getUnmodifiableView();
+                this.bitField0_ &= -17;
+            }
+            route.responseHeadersToRemove_ = this.responseHeadersToRemove_;
+            SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> singleFieldBuilderV38 = this.tracingBuilder_;
+            if (singleFieldBuilderV38 == null) {
+                route.tracing_ = this.tracing_;
+            } else {
+                route.tracing_ = singleFieldBuilderV38.build();
+            }
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV39 = this.perRequestBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV39 == null) {
+                route.perRequestBufferLimitBytes_ = this.perRequestBufferLimitBytes_;
+            } else {
+                route.perRequestBufferLimitBytes_ = singleFieldBuilderV39.build();
+            }
+            route.actionCase_ = this.actionCase_;
+            onBuilt();
+            return route;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28936clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28948setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28926clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28929clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28950setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28916addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m28941mergeFrom(Message message) {
+            if (message instanceof Route) {
+                return mergeFrom((Route) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Route route) {
+            if (route == Route.getDefaultInstance()) {
+                return this;
+            }
+            if (!route.getName().isEmpty()) {
+                this.name_ = route.name_;
+                onChanged();
+            }
+            if (route.hasMatch()) {
+                mergeMatch(route.getMatch());
+            }
+            if (route.hasMetadata()) {
+                mergeMetadata(route.getMetadata());
+            }
+            if (route.hasDecorator()) {
+                mergeDecorator(route.getDecorator());
+            }
+            internalGetMutableTypedPerFilterConfig().mergeFrom(route.internalGetTypedPerFilterConfig());
+            if (this.requestHeadersToAddBuilder_ == null) {
+                if (!route.requestHeadersToAdd_.isEmpty()) {
+                    if (this.requestHeadersToAdd_.isEmpty()) {
+                        this.requestHeadersToAdd_ = route.requestHeadersToAdd_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureRequestHeadersToAddIsMutable();
+                        this.requestHeadersToAdd_.addAll(route.requestHeadersToAdd_);
+                    }
+                    onChanged();
+                }
+            } else if (!route.requestHeadersToAdd_.isEmpty()) {
+                if (!this.requestHeadersToAddBuilder_.isEmpty()) {
+                    this.requestHeadersToAddBuilder_.addAllMessages(route.requestHeadersToAdd_);
+                } else {
+                    this.requestHeadersToAddBuilder_.dispose();
+                    this.requestHeadersToAddBuilder_ = null;
+                    this.requestHeadersToAdd_ = route.requestHeadersToAdd_;
+                    this.bitField0_ &= -3;
+                    this.requestHeadersToAddBuilder_ = Route.alwaysUseFieldBuilders ? getRequestHeadersToAddFieldBuilder() : null;
+                }
+            }
+            if (!route.requestHeadersToRemove_.isEmpty()) {
+                if (this.requestHeadersToRemove_.isEmpty()) {
+                    this.requestHeadersToRemove_ = route.requestHeadersToRemove_;
+                    this.bitField0_ &= -5;
+                } else {
+                    ensureRequestHeadersToRemoveIsMutable();
+                    this.requestHeadersToRemove_.addAll(route.requestHeadersToRemove_);
+                }
+                onChanged();
+            }
+            if (this.responseHeadersToAddBuilder_ == null) {
+                if (!route.responseHeadersToAdd_.isEmpty()) {
+                    if (this.responseHeadersToAdd_.isEmpty()) {
+                        this.responseHeadersToAdd_ = route.responseHeadersToAdd_;
+                        this.bitField0_ &= -9;
+                    } else {
+                        ensureResponseHeadersToAddIsMutable();
+                        this.responseHeadersToAdd_.addAll(route.responseHeadersToAdd_);
+                    }
+                    onChanged();
+                }
+            } else if (!route.responseHeadersToAdd_.isEmpty()) {
+                if (!this.responseHeadersToAddBuilder_.isEmpty()) {
+                    this.responseHeadersToAddBuilder_.addAllMessages(route.responseHeadersToAdd_);
+                } else {
+                    this.responseHeadersToAddBuilder_.dispose();
+                    this.responseHeadersToAddBuilder_ = null;
+                    this.responseHeadersToAdd_ = route.responseHeadersToAdd_;
+                    this.bitField0_ &= -9;
+                    this.responseHeadersToAddBuilder_ = Route.alwaysUseFieldBuilders ? getResponseHeadersToAddFieldBuilder() : null;
+                }
+            }
+            if (!route.responseHeadersToRemove_.isEmpty()) {
+                if (this.responseHeadersToRemove_.isEmpty()) {
+                    this.responseHeadersToRemove_ = route.responseHeadersToRemove_;
+                    this.bitField0_ &= -17;
+                } else {
+                    ensureResponseHeadersToRemoveIsMutable();
+                    this.responseHeadersToRemove_.addAll(route.responseHeadersToRemove_);
+                }
+                onChanged();
+            }
+            if (route.hasTracing()) {
+                mergeTracing(route.getTracing());
+            }
+            if (route.hasPerRequestBufferLimitBytes()) {
+                mergePerRequestBufferLimitBytes(route.getPerRequestBufferLimitBytes());
+            }
+            int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$config$route$v3$Route$ActionCase[route.getActionCase().ordinal()];
+            if (i == 1) {
+                mergeRoute(route.getRoute());
+            } else if (i == 2) {
+                mergeRedirect(route.getRedirect());
+            } else if (i == 3) {
+                mergeDirectResponse(route.getDirectResponse());
+            } else if (i == 4) {
+                mergeFilterAction(route.getFilterAction());
+            }
+            m28946mergeUnknownFields(route.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route.Builder m28942mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route.access$2100()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route.Builder.m28942mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public ActionCase getActionCase() {
+            return ActionCase.forNumber(this.actionCase_);
+        }
+
+        public Builder clearAction() {
+            this.actionCase_ = 0;
+            this.action_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.name_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setName(String str) {
+            str.getClass();
+            this.name_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearName() {
+            this.name_ = Route.getDefaultInstance().getName();
+            onChanged();
+            return this;
+        }
+
+        public Builder setNameBytes(ByteString byteString) {
+            byteString.getClass();
+            Route.checkByteStringIsUtf8(byteString);
+            this.name_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public RouteMatch getMatch() {
+            SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            RouteMatch routeMatch = this.match_;
+            return routeMatch == null ? RouteMatch.getDefaultInstance() : routeMatch;
+        }
+
+        public Builder setMatch(RouteMatch routeMatch) {
+            SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                routeMatch.getClass();
+                this.match_ = routeMatch;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(routeMatch);
+            }
+            return this;
+        }
+
+        public Builder setMatch(RouteMatch.Builder builder) {
+            SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.match_ = builder.m29475build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m29475build());
+            }
+            return this;
+        }
+
+        public Builder mergeMatch(RouteMatch routeMatch) {
+            SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                RouteMatch routeMatch2 = this.match_;
+                if (routeMatch2 != null) {
+                    this.match_ = RouteMatch.newBuilder(routeMatch2).mergeFrom(routeMatch).m29477buildPartial();
+                } else {
+                    this.match_ = routeMatch;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(routeMatch);
+            }
+            return this;
+        }
+
+        public Builder clearMatch() {
+            if (this.matchBuilder_ == null) {
+                this.match_ = null;
+                onChanged();
+            } else {
+                this.match_ = null;
+                this.matchBuilder_ = null;
+            }
+            return this;
+        }
+
+        public RouteMatch.Builder getMatchBuilder() {
+            onChanged();
+            return getMatchFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public RouteMatchOrBuilder getMatchOrBuilder() {
+            SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (RouteMatchOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            RouteMatch routeMatch = this.match_;
+            return routeMatch == null ? RouteMatch.getDefaultInstance() : routeMatch;
+        }
+
+        private SingleFieldBuilderV3<RouteMatch, RouteMatch.Builder, RouteMatchOrBuilder> getMatchFieldBuilder() {
+            if (this.matchBuilder_ == null) {
+                this.matchBuilder_ = new SingleFieldBuilderV3<>(getMatch(), getParentForChildren(), isClean());
+                this.match_ = null;
+            }
+            return this.matchBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public RouteAction getRoute() {
+            SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> singleFieldBuilderV3 = this.routeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ == 2) {
+                    return (RouteAction) this.action_;
+                }
+                return RouteAction.getDefaultInstance();
+            }
+            if (this.actionCase_ == 2) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return RouteAction.getDefaultInstance();
+        }
+
+        public Builder setRoute(RouteAction routeAction) {
+            SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> singleFieldBuilderV3 = this.routeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                routeAction.getClass();
+                this.action_ = routeAction;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(routeAction);
+            }
+            this.actionCase_ = 2;
+            return this;
+        }
+
+        public Builder setRoute(RouteAction.Builder builder) {
+            SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> singleFieldBuilderV3 = this.routeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.action_ = builder.m28964build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m28964build());
+            }
+            this.actionCase_ = 2;
+            return this;
+        }
+
+        public Builder mergeRoute(RouteAction routeAction) {
+            SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> singleFieldBuilderV3 = this.routeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ != 2 || this.action_ == RouteAction.getDefaultInstance()) {
+                    this.action_ = routeAction;
+                } else {
+                    this.action_ = RouteAction.newBuilder((RouteAction) this.action_).mergeFrom(routeAction).m28966buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.actionCase_ == 2) {
+                    singleFieldBuilderV3.mergeFrom(routeAction);
+                }
+                this.routeBuilder_.setMessage(routeAction);
+            }
+            this.actionCase_ = 2;
+            return this;
+        }
+
+        public Builder clearRoute() {
+            SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> singleFieldBuilderV3 = this.routeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.actionCase_ == 2) {
+                    this.actionCase_ = 0;
+                    this.action_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.actionCase_ == 2) {
+                this.actionCase_ = 0;
+                this.action_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public RouteAction.Builder getRouteBuilder() {
+            return getRouteFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public RouteActionOrBuilder getRouteOrBuilder() {
+            SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> singleFieldBuilderV3;
+            int i = this.actionCase_;
+            if (i == 2 && (singleFieldBuilderV3 = this.routeBuilder_) != null) {
+                return (RouteActionOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 2) {
+                return (RouteAction) this.action_;
+            }
+            return RouteAction.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<RouteAction, RouteAction.Builder, RouteActionOrBuilder> getRouteFieldBuilder() {
+            if (this.routeBuilder_ == null) {
+                if (this.actionCase_ != 2) {
+                    this.action_ = RouteAction.getDefaultInstance();
+                }
+                this.routeBuilder_ = new SingleFieldBuilderV3<>((RouteAction) this.action_, getParentForChildren(), isClean());
+                this.action_ = null;
+            }
+            this.actionCase_ = 2;
+            onChanged();
+            return this.routeBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public RedirectAction getRedirect() {
+            SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> singleFieldBuilderV3 = this.redirectBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ == 3) {
+                    return (RedirectAction) this.action_;
+                }
+                return RedirectAction.getDefaultInstance();
+            }
+            if (this.actionCase_ == 3) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return RedirectAction.getDefaultInstance();
+        }
+
+        public Builder setRedirect(RedirectAction redirectAction) {
+            SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> singleFieldBuilderV3 = this.redirectBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                redirectAction.getClass();
+                this.action_ = redirectAction;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(redirectAction);
+            }
+            this.actionCase_ = 3;
+            return this;
+        }
+
+        public Builder setRedirect(RedirectAction.Builder builder) {
+            SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> singleFieldBuilderV3 = this.redirectBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.action_ = builder.m28685build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m28685build());
+            }
+            this.actionCase_ = 3;
+            return this;
+        }
+
+        public Builder mergeRedirect(RedirectAction redirectAction) {
+            SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> singleFieldBuilderV3 = this.redirectBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ != 3 || this.action_ == RedirectAction.getDefaultInstance()) {
+                    this.action_ = redirectAction;
+                } else {
+                    this.action_ = RedirectAction.newBuilder((RedirectAction) this.action_).mergeFrom(redirectAction).m28687buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.actionCase_ == 3) {
+                    singleFieldBuilderV3.mergeFrom(redirectAction);
+                }
+                this.redirectBuilder_.setMessage(redirectAction);
+            }
+            this.actionCase_ = 3;
+            return this;
+        }
+
+        public Builder clearRedirect() {
+            SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> singleFieldBuilderV3 = this.redirectBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.actionCase_ == 3) {
+                    this.actionCase_ = 0;
+                    this.action_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.actionCase_ == 3) {
+                this.actionCase_ = 0;
+                this.action_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public RedirectAction.Builder getRedirectBuilder() {
+            return getRedirectFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public RedirectActionOrBuilder getRedirectOrBuilder() {
+            SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> singleFieldBuilderV3;
+            int i = this.actionCase_;
+            if (i == 3 && (singleFieldBuilderV3 = this.redirectBuilder_) != null) {
+                return (RedirectActionOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 3) {
+                return (RedirectAction) this.action_;
+            }
+            return RedirectAction.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<RedirectAction, RedirectAction.Builder, RedirectActionOrBuilder> getRedirectFieldBuilder() {
+            if (this.redirectBuilder_ == null) {
+                if (this.actionCase_ != 3) {
+                    this.action_ = RedirectAction.getDefaultInstance();
+                }
+                this.redirectBuilder_ = new SingleFieldBuilderV3<>((RedirectAction) this.action_, getParentForChildren(), isClean());
+                this.action_ = null;
+            }
+            this.actionCase_ = 3;
+            onChanged();
+            return this.redirectBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public DirectResponseAction getDirectResponse() {
+            SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> singleFieldBuilderV3 = this.directResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ == 7) {
+                    return (DirectResponseAction) this.action_;
+                }
+                return DirectResponseAction.getDefaultInstance();
+            }
+            if (this.actionCase_ == 7) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return DirectResponseAction.getDefaultInstance();
+        }
+
+        public Builder setDirectResponse(DirectResponseAction directResponseAction) {
+            SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> singleFieldBuilderV3 = this.directResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                directResponseAction.getClass();
+                this.action_ = directResponseAction;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(directResponseAction);
+            }
+            this.actionCase_ = 7;
+            return this;
+        }
+
+        public Builder setDirectResponse(DirectResponseAction.Builder builder) {
+            SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> singleFieldBuilderV3 = this.directResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.action_ = builder.m27903build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m27903build());
+            }
+            this.actionCase_ = 7;
+            return this;
+        }
+
+        public Builder mergeDirectResponse(DirectResponseAction directResponseAction) {
+            SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> singleFieldBuilderV3 = this.directResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ != 7 || this.action_ == DirectResponseAction.getDefaultInstance()) {
+                    this.action_ = directResponseAction;
+                } else {
+                    this.action_ = DirectResponseAction.newBuilder((DirectResponseAction) this.action_).mergeFrom(directResponseAction).m27905buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.actionCase_ == 7) {
+                    singleFieldBuilderV3.mergeFrom(directResponseAction);
+                }
+                this.directResponseBuilder_.setMessage(directResponseAction);
+            }
+            this.actionCase_ = 7;
+            return this;
+        }
+
+        public Builder clearDirectResponse() {
+            SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> singleFieldBuilderV3 = this.directResponseBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.actionCase_ == 7) {
+                    this.actionCase_ = 0;
+                    this.action_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.actionCase_ == 7) {
+                this.actionCase_ = 0;
+                this.action_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public DirectResponseAction.Builder getDirectResponseBuilder() {
+            return getDirectResponseFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public DirectResponseActionOrBuilder getDirectResponseOrBuilder() {
+            SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> singleFieldBuilderV3;
+            int i = this.actionCase_;
+            if (i == 7 && (singleFieldBuilderV3 = this.directResponseBuilder_) != null) {
+                return (DirectResponseActionOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 7) {
+                return (DirectResponseAction) this.action_;
+            }
+            return DirectResponseAction.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<DirectResponseAction, DirectResponseAction.Builder, DirectResponseActionOrBuilder> getDirectResponseFieldBuilder() {
+            if (this.directResponseBuilder_ == null) {
+                if (this.actionCase_ != 7) {
+                    this.action_ = DirectResponseAction.getDefaultInstance();
+                }
+                this.directResponseBuilder_ = new SingleFieldBuilderV3<>((DirectResponseAction) this.action_, getParentForChildren(), isClean());
+                this.action_ = null;
+            }
+            this.actionCase_ = 7;
+            onChanged();
+            return this.directResponseBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public FilterAction getFilterAction() {
+            SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> singleFieldBuilderV3 = this.filterActionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ == 17) {
+                    return (FilterAction) this.action_;
+                }
+                return FilterAction.getDefaultInstance();
+            }
+            if (this.actionCase_ == 17) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return FilterAction.getDefaultInstance();
+        }
+
+        public Builder setFilterAction(FilterAction filterAction) {
+            SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> singleFieldBuilderV3 = this.filterActionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                filterAction.getClass();
+                this.action_ = filterAction;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(filterAction);
+            }
+            this.actionCase_ = 17;
+            return this;
+        }
+
+        public Builder setFilterAction(FilterAction.Builder builder) {
+            SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> singleFieldBuilderV3 = this.filterActionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.action_ = builder.m27949build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m27949build());
+            }
+            this.actionCase_ = 17;
+            return this;
+        }
+
+        public Builder mergeFilterAction(FilterAction filterAction) {
+            SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> singleFieldBuilderV3 = this.filterActionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.actionCase_ != 17 || this.action_ == FilterAction.getDefaultInstance()) {
+                    this.action_ = filterAction;
+                } else {
+                    this.action_ = FilterAction.newBuilder((FilterAction) this.action_).mergeFrom(filterAction).m27951buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.actionCase_ == 17) {
+                    singleFieldBuilderV3.mergeFrom(filterAction);
+                }
+                this.filterActionBuilder_.setMessage(filterAction);
+            }
+            this.actionCase_ = 17;
+            return this;
+        }
+
+        public Builder clearFilterAction() {
+            SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> singleFieldBuilderV3 = this.filterActionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.actionCase_ == 17) {
+                    this.actionCase_ = 0;
+                    this.action_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.actionCase_ == 17) {
+                this.actionCase_ = 0;
+                this.action_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public FilterAction.Builder getFilterActionBuilder() {
+            return getFilterActionFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public FilterActionOrBuilder getFilterActionOrBuilder() {
+            SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> singleFieldBuilderV3;
+            int i = this.actionCase_;
+            if (i == 17 && (singleFieldBuilderV3 = this.filterActionBuilder_) != null) {
+                return (FilterActionOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 17) {
+                return (FilterAction) this.action_;
+            }
+            return FilterAction.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<FilterAction, FilterAction.Builder, FilterActionOrBuilder> getFilterActionFieldBuilder() {
+            if (this.filterActionBuilder_ == null) {
+                if (this.actionCase_ != 17) {
+                    this.action_ = FilterAction.getDefaultInstance();
+                }
+                this.filterActionBuilder_ = new SingleFieldBuilderV3<>((FilterAction) this.action_, getParentForChildren(), isClean());
+                this.action_ = null;
+            }
+            this.actionCase_ = 17;
+            onChanged();
+            return this.filterActionBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public Metadata getMetadata() {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Metadata metadata = this.metadata_;
+            return metadata == null ? Metadata.getDefaultInstance() : metadata;
+        }
+
+        public Builder setMetadata(Metadata metadata) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                metadata.getClass();
+                this.metadata_ = metadata;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(metadata);
+            }
+            return this;
+        }
+
+        public Builder setMetadata(Metadata.Builder builder) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.metadata_ = builder.m23603build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m23603build());
+            }
+            return this;
+        }
+
+        public Builder mergeMetadata(Metadata metadata) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Metadata metadata2 = this.metadata_;
+                if (metadata2 != null) {
+                    this.metadata_ = Metadata.newBuilder(metadata2).mergeFrom(metadata).m23605buildPartial();
+                } else {
+                    this.metadata_ = metadata;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(metadata);
+            }
+            return this;
+        }
+
+        public Builder clearMetadata() {
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+                onChanged();
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Metadata.Builder getMetadataBuilder() {
+            onChanged();
+            return getMetadataFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public MetadataOrBuilder getMetadataOrBuilder() {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (MetadataOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Metadata metadata = this.metadata_;
+            return metadata == null ? Metadata.getDefaultInstance() : metadata;
+        }
+
+        private SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> getMetadataFieldBuilder() {
+            if (this.metadataBuilder_ == null) {
+                this.metadataBuilder_ = new SingleFieldBuilderV3<>(getMetadata(), getParentForChildren(), isClean());
+                this.metadata_ = null;
+            }
+            return this.metadataBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public Decorator getDecorator() {
+            SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> singleFieldBuilderV3 = this.decoratorBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Decorator decorator = this.decorator_;
+            return decorator == null ? Decorator.getDefaultInstance() : decorator;
+        }
+
+        public Builder setDecorator(Decorator decorator) {
+            SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> singleFieldBuilderV3 = this.decoratorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                decorator.getClass();
+                this.decorator_ = decorator;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(decorator);
+            }
+            return this;
+        }
+
+        public Builder setDecorator(Decorator.Builder builder) {
+            SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> singleFieldBuilderV3 = this.decoratorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.decorator_ = builder.m27857build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m27857build());
+            }
+            return this;
+        }
+
+        public Builder mergeDecorator(Decorator decorator) {
+            SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> singleFieldBuilderV3 = this.decoratorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Decorator decorator2 = this.decorator_;
+                if (decorator2 != null) {
+                    this.decorator_ = Decorator.newBuilder(decorator2).mergeFrom(decorator).m27859buildPartial();
+                } else {
+                    this.decorator_ = decorator;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(decorator);
+            }
+            return this;
+        }
+
+        public Builder clearDecorator() {
+            if (this.decoratorBuilder_ == null) {
+                this.decorator_ = null;
+                onChanged();
+            } else {
+                this.decorator_ = null;
+                this.decoratorBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Decorator.Builder getDecoratorBuilder() {
+            onChanged();
+            return getDecoratorFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public DecoratorOrBuilder getDecoratorOrBuilder() {
+            SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> singleFieldBuilderV3 = this.decoratorBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (DecoratorOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Decorator decorator = this.decorator_;
+            return decorator == null ? Decorator.getDefaultInstance() : decorator;
+        }
+
+        private SingleFieldBuilderV3<Decorator, Decorator.Builder, DecoratorOrBuilder> getDecoratorFieldBuilder() {
+            if (this.decoratorBuilder_ == null) {
+                this.decoratorBuilder_ = new SingleFieldBuilderV3<>(getDecorator(), getParentForChildren(), isClean());
+                this.decorator_ = null;
+            }
+            return this.decoratorBuilder_;
+        }
+
+        private MapField<String, Any> internalGetTypedPerFilterConfig() {
+            MapField<String, Any> mapField = this.typedPerFilterConfig_;
+            return mapField == null ? MapField.emptyMapField(TypedPerFilterConfigDefaultEntryHolder.defaultEntry) : mapField;
+        }
+
+        private MapField<String, Any> internalGetMutableTypedPerFilterConfig() {
+            onChanged();
+            if (this.typedPerFilterConfig_ == null) {
+                this.typedPerFilterConfig_ = MapField.newMapField(TypedPerFilterConfigDefaultEntryHolder.defaultEntry);
+            }
+            if (!this.typedPerFilterConfig_.isMutable()) {
+                this.typedPerFilterConfig_ = this.typedPerFilterConfig_.copy();
+            }
+            return this.typedPerFilterConfig_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public int getTypedPerFilterConfigCount() {
+            return internalGetTypedPerFilterConfig().getMap().size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public boolean containsTypedPerFilterConfig(String str) {
+            str.getClass();
+            return internalGetTypedPerFilterConfig().getMap().containsKey(str);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        @Deprecated
+        public Map<String, Any> getTypedPerFilterConfig() {
+            return getTypedPerFilterConfigMap();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public Map<String, Any> getTypedPerFilterConfigMap() {
+            return internalGetTypedPerFilterConfig().getMap();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public Any getTypedPerFilterConfigOrDefault(String str, Any any) {
+            str.getClass();
+            Map map = internalGetTypedPerFilterConfig().getMap();
+            return map.containsKey(str) ? (Any) map.get(str) : any;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public Any getTypedPerFilterConfigOrThrow(String str) {
+            str.getClass();
+            Map map = internalGetTypedPerFilterConfig().getMap();
+            if (!map.containsKey(str)) {
+                throw new IllegalArgumentException();
+            }
+            return (Any) map.get(str);
+        }
+
+        public Builder clearTypedPerFilterConfig() {
+            internalGetMutableTypedPerFilterConfig().getMutableMap().clear();
+            return this;
+        }
+
+        public Builder removeTypedPerFilterConfig(String str) {
+            str.getClass();
+            internalGetMutableTypedPerFilterConfig().getMutableMap().remove(str);
+            return this;
+        }
+
+        @Deprecated
+        public Map<String, Any> getMutableTypedPerFilterConfig() {
+            return internalGetMutableTypedPerFilterConfig().getMutableMap();
+        }
+
+        public Builder putTypedPerFilterConfig(String str, Any any) {
+            str.getClass();
+            any.getClass();
+            internalGetMutableTypedPerFilterConfig().getMutableMap().put(str, any);
+            return this;
+        }
+
+        public Builder putAllTypedPerFilterConfig(Map<String, Any> map) {
+            internalGetMutableTypedPerFilterConfig().getMutableMap().putAll(map);
+            return this;
+        }
+
+        private void ensureRequestHeadersToAddIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.requestHeadersToAdd_ = new ArrayList(this.requestHeadersToAdd_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public List<HeaderValueOption> getRequestHeadersToAddList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.requestHeadersToAdd_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public int getRequestHeadersToAddCount() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.requestHeadersToAdd_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public HeaderValueOption getRequestHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.requestHeadersToAdd_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setRequestHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.set(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder setRequestHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.set(i, builder.m22817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m22817build());
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(builder.m22817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m22817build());
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(i, builder.m22817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m22817build());
+            }
+            return this;
+        }
+
+        public Builder addAllRequestHeadersToAdd(Iterable<? extends HeaderValueOption> iterable) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.requestHeadersToAdd_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearRequestHeadersToAdd() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.requestHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeRequestHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public HeaderValueOption.Builder getRequestHeadersToAddBuilder(int i) {
+            return getRequestHeadersToAddFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public HeaderValueOptionOrBuilder getRequestHeadersToAddOrBuilder(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.requestHeadersToAdd_.get(i);
+            }
+            return (HeaderValueOptionOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public List<? extends HeaderValueOptionOrBuilder> getRequestHeadersToAddOrBuilderList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.requestHeadersToAdd_);
+        }
+
+        public HeaderValueOption.Builder addRequestHeadersToAddBuilder() {
+            return getRequestHeadersToAddFieldBuilder().addBuilder(HeaderValueOption.getDefaultInstance());
+        }
+
+        public HeaderValueOption.Builder addRequestHeadersToAddBuilder(int i) {
+            return getRequestHeadersToAddFieldBuilder().addBuilder(i, HeaderValueOption.getDefaultInstance());
+        }
+
+        public List<HeaderValueOption.Builder> getRequestHeadersToAddBuilderList() {
+            return getRequestHeadersToAddFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> getRequestHeadersToAddFieldBuilder() {
+            if (this.requestHeadersToAddBuilder_ == null) {
+                this.requestHeadersToAddBuilder_ = new RepeatedFieldBuilderV3<>(this.requestHeadersToAdd_, (this.bitField0_ & 2) != 0, getParentForChildren(), isClean());
+                this.requestHeadersToAdd_ = null;
+            }
+            return this.requestHeadersToAddBuilder_;
+        }
+
+        private void ensureRequestHeadersToRemoveIsMutable() {
+            if ((this.bitField0_ & 4) == 0) {
+                this.requestHeadersToRemove_ = new LazyStringArrayList(this.requestHeadersToRemove_);
+                this.bitField0_ |= 4;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        /* renamed from: getRequestHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo28908getRequestHeadersToRemoveList() {
+            return this.requestHeadersToRemove_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public int getRequestHeadersToRemoveCount() {
+            return this.requestHeadersToRemove_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public String getRequestHeadersToRemove(int i) {
+            return (String) this.requestHeadersToRemove_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public ByteString getRequestHeadersToRemoveBytes(int i) {
+            return this.requestHeadersToRemove_.getByteString(i);
+        }
+
+        public Builder setRequestHeadersToRemove(int i, String str) {
+            str.getClass();
+            ensureRequestHeadersToRemoveIsMutable();
+            this.requestHeadersToRemove_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addRequestHeadersToRemove(String str) {
+            str.getClass();
+            ensureRequestHeadersToRemoveIsMutable();
+            this.requestHeadersToRemove_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllRequestHeadersToRemove(Iterable<String> iterable) {
+            ensureRequestHeadersToRemoveIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.requestHeadersToRemove_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRequestHeadersToRemove() {
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -5;
+            onChanged();
+            return this;
+        }
+
+        public Builder addRequestHeadersToRemoveBytes(ByteString byteString) {
+            byteString.getClass();
+            Route.checkByteStringIsUtf8(byteString);
+            ensureRequestHeadersToRemoveIsMutable();
+            this.requestHeadersToRemove_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureResponseHeadersToAddIsMutable() {
+            if ((this.bitField0_ & 8) == 0) {
+                this.responseHeadersToAdd_ = new ArrayList(this.responseHeadersToAdd_);
+                this.bitField0_ |= 8;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public List<HeaderValueOption> getResponseHeadersToAddList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.responseHeadersToAdd_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public int getResponseHeadersToAddCount() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.responseHeadersToAdd_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public HeaderValueOption getResponseHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.responseHeadersToAdd_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setResponseHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.set(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder setResponseHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.set(i, builder.m22817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m22817build());
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(builder.m22817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m22817build());
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(i, builder.m22817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m22817build());
+            }
+            return this;
+        }
+
+        public Builder addAllResponseHeadersToAdd(Iterable<? extends HeaderValueOption> iterable) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.responseHeadersToAdd_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearResponseHeadersToAdd() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.responseHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -9;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeResponseHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public HeaderValueOption.Builder getResponseHeadersToAddBuilder(int i) {
+            return getResponseHeadersToAddFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public HeaderValueOptionOrBuilder getResponseHeadersToAddOrBuilder(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.responseHeadersToAdd_.get(i);
+            }
+            return (HeaderValueOptionOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public List<? extends HeaderValueOptionOrBuilder> getResponseHeadersToAddOrBuilderList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.responseHeadersToAdd_);
+        }
+
+        public HeaderValueOption.Builder addResponseHeadersToAddBuilder() {
+            return getResponseHeadersToAddFieldBuilder().addBuilder(HeaderValueOption.getDefaultInstance());
+        }
+
+        public HeaderValueOption.Builder addResponseHeadersToAddBuilder(int i) {
+            return getResponseHeadersToAddFieldBuilder().addBuilder(i, HeaderValueOption.getDefaultInstance());
+        }
+
+        public List<HeaderValueOption.Builder> getResponseHeadersToAddBuilderList() {
+            return getResponseHeadersToAddFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> getResponseHeadersToAddFieldBuilder() {
+            if (this.responseHeadersToAddBuilder_ == null) {
+                this.responseHeadersToAddBuilder_ = new RepeatedFieldBuilderV3<>(this.responseHeadersToAdd_, (this.bitField0_ & 8) != 0, getParentForChildren(), isClean());
+                this.responseHeadersToAdd_ = null;
+            }
+            return this.responseHeadersToAddBuilder_;
+        }
+
+        private void ensureResponseHeadersToRemoveIsMutable() {
+            if ((this.bitField0_ & 16) == 0) {
+                this.responseHeadersToRemove_ = new LazyStringArrayList(this.responseHeadersToRemove_);
+                this.bitField0_ |= 16;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        /* renamed from: getResponseHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo28909getResponseHeadersToRemoveList() {
+            return this.responseHeadersToRemove_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public int getResponseHeadersToRemoveCount() {
+            return this.responseHeadersToRemove_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public String getResponseHeadersToRemove(int i) {
+            return (String) this.responseHeadersToRemove_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public ByteString getResponseHeadersToRemoveBytes(int i) {
+            return this.responseHeadersToRemove_.getByteString(i);
+        }
+
+        public Builder setResponseHeadersToRemove(int i, String str) {
+            str.getClass();
+            ensureResponseHeadersToRemoveIsMutable();
+            this.responseHeadersToRemove_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addResponseHeadersToRemove(String str) {
+            str.getClass();
+            ensureResponseHeadersToRemoveIsMutable();
+            this.responseHeadersToRemove_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllResponseHeadersToRemove(Iterable<String> iterable) {
+            ensureResponseHeadersToRemoveIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.responseHeadersToRemove_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearResponseHeadersToRemove() {
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -17;
+            onChanged();
+            return this;
+        }
+
+        public Builder addResponseHeadersToRemoveBytes(ByteString byteString) {
+            byteString.getClass();
+            Route.checkByteStringIsUtf8(byteString);
+            ensureResponseHeadersToRemoveIsMutable();
+            this.responseHeadersToRemove_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public Tracing getTracing() {
+            SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> singleFieldBuilderV3 = this.tracingBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Tracing tracing = this.tracing_;
+            return tracing == null ? Tracing.getDefaultInstance() : tracing;
+        }
+
+        public Builder setTracing(Tracing tracing) {
+            SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> singleFieldBuilderV3 = this.tracingBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                tracing.getClass();
+                this.tracing_ = tracing;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(tracing);
+            }
+            return this;
+        }
+
+        public Builder setTracing(Tracing.Builder builder) {
+            SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> singleFieldBuilderV3 = this.tracingBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.tracing_ = builder.m29797build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m29797build());
+            }
+            return this;
+        }
+
+        public Builder mergeTracing(Tracing tracing) {
+            SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> singleFieldBuilderV3 = this.tracingBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Tracing tracing2 = this.tracing_;
+                if (tracing2 != null) {
+                    this.tracing_ = Tracing.newBuilder(tracing2).mergeFrom(tracing).m29799buildPartial();
+                } else {
+                    this.tracing_ = tracing;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(tracing);
+            }
+            return this;
+        }
+
+        public Builder clearTracing() {
+            if (this.tracingBuilder_ == null) {
+                this.tracing_ = null;
+                onChanged();
+            } else {
+                this.tracing_ = null;
+                this.tracingBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Tracing.Builder getTracingBuilder() {
+            onChanged();
+            return getTracingFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public TracingOrBuilder getTracingOrBuilder() {
+            SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> singleFieldBuilderV3 = this.tracingBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TracingOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Tracing tracing = this.tracing_;
+            return tracing == null ? Tracing.getDefaultInstance() : tracing;
+        }
+
+        private SingleFieldBuilderV3<Tracing, Tracing.Builder, TracingOrBuilder> getTracingFieldBuilder() {
+            if (this.tracingBuilder_ == null) {
+                this.tracingBuilder_ = new SingleFieldBuilderV3<>(getTracing(), getParentForChildren(), isClean());
+                this.tracing_ = null;
+            }
+            return this.tracingBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public UInt32Value getPerRequestBufferLimitBytes() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perRequestBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.perRequestBufferLimitBytes_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setPerRequestBufferLimitBytes(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perRequestBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.perRequestBufferLimitBytes_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setPerRequestBufferLimitBytes(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perRequestBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.perRequestBufferLimitBytes_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergePerRequestBufferLimitBytes(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perRequestBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.perRequestBufferLimitBytes_;
+                if (uInt32Value2 != null) {
+                    this.perRequestBufferLimitBytes_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.perRequestBufferLimitBytes_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearPerRequestBufferLimitBytes() {
+            if (this.perRequestBufferLimitBytesBuilder_ == null) {
+                this.perRequestBufferLimitBytes_ = null;
+                onChanged();
+            } else {
+                this.perRequestBufferLimitBytes_ = null;
+                this.perRequestBufferLimitBytesBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getPerRequestBufferLimitBytesBuilder() {
+            onChanged();
+            return getPerRequestBufferLimitBytesFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteOrBuilder
+        public UInt32ValueOrBuilder getPerRequestBufferLimitBytesOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perRequestBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.perRequestBufferLimitBytes_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getPerRequestBufferLimitBytesFieldBuilder() {
+            if (this.perRequestBufferLimitBytesBuilder_ == null) {
+                this.perRequestBufferLimitBytesBuilder_ = new SingleFieldBuilderV3<>(getPerRequestBufferLimitBytes(), getParentForChildren(), isClean());
+                this.perRequestBufferLimitBytes_ = null;
+            }
+            return this.perRequestBufferLimitBytesBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m28952setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m28946mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$route$v3$Route$ActionCase;
+
+        static {
+            int[] iArr = new int[ActionCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$route$v3$Route$ActionCase = iArr;
+            try {
+                iArr[ActionCase.ROUTE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$route$v3$Route$ActionCase[ActionCase.REDIRECT.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$route$v3$Route$ActionCase[ActionCase.DIRECT_RESPONSE.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$route$v3$Route$ActionCase[ActionCase.FILTER_ACTION.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$route$v3$Route$ActionCase[ActionCase.ACTION_NOT_SET.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+        }
+    }
+}

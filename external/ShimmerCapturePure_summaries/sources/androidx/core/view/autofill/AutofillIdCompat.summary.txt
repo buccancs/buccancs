@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/autofill/AutofillIdCompat.java
+// Size: 632 bytes
+// Modified: 2025-10-21 16:32:00.781317800 +0100
+
+package androidx.core.view.autofill;
+
+import android.view.autofill.AutofillId;
+import androidx.tracing.Trace$$ExternalSyntheticApiModelOutline0;
+
+/* loaded from: classes.dex */
+public class AutofillIdCompat {
+    private final Object mWrappedObj;
+
+    private AutofillIdCompat(AutofillId autofillId) {
+        this.mWrappedObj = autofillId;
+    }
+
+    public static AutofillIdCompat toAutofillIdCompat(AutofillId autofillId) {
+        return new AutofillIdCompat(autofillId);
+    }
+
+    public AutofillId toAutofillId() {
+        return Trace$$ExternalSyntheticApiModelOutline0.m170m(this.mWrappedObj);
+    }
+}

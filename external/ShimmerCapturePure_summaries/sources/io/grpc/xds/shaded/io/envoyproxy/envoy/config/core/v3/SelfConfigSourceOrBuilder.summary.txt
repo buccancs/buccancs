@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/SelfConfigSourceOrBuilder.java
+// Size: 305 bytes
+// Modified: 2025-10-21 16:32:01.543562800 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface SelfConfigSourceOrBuilder extends MessageOrBuilder {
+    ApiVersion getTransportApiVersion();
+
+    int getTransportApiVersionValue();
+}

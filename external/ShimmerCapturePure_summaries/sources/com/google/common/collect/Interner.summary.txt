@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/Interner.java
+// Size: 222 bytes
+// Modified: 2025-10-21 16:32:00.799486000 +0100
+
+package com.google.common.collect;
+
+import com.google.errorprone.annotations.DoNotMock;
+
+@DoNotMock("Use Interners.new*Interner")
+/* loaded from: classes.dex */
+public interface Interner<E> {
+    E intern(E e);
+}

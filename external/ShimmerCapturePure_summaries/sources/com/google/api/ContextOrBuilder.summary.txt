@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/ContextOrBuilder.java
+// Size: 422 bytes
+// Modified: 2025-10-21 16:32:03.114579800 +0100
+
+package com.google.api;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public interface ContextOrBuilder extends MessageOrBuilder {
+    ContextRule getRules(int i);
+
+    int getRulesCount();
+
+    List<ContextRule> getRulesList();
+
+    ContextRuleOrBuilder getRulesOrBuilder(int i);
+
+    List<? extends ContextRuleOrBuilder> getRulesOrBuilderList();
+}

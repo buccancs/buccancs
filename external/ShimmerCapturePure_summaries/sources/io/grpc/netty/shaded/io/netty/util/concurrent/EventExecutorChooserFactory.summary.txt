@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/EventExecutorChooserFactory.java
+// Size: 301 bytes
+// Modified: 2025-10-21 16:32:03.398153600 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+/* loaded from: classes3.dex */
+public interface EventExecutorChooserFactory {
+
+    public interface EventExecutorChooser {
+        EventExecutor next();
+    }
+
+    EventExecutorChooser newChooser(EventExecutor[] eventExecutorArr);
+}

@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/NameResolverProvider.java
+// Size: 746 bytes
+// Modified: 2025-10-21 16:32:06.831797400 +0100
+
+package io.grpc;
+
+import io.grpc.Attributes;
+import io.grpc.NameResolver;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public abstract class NameResolverProvider extends NameResolver.Factory {
+
+    @Deprecated
+    public static final Attributes.Key<Integer> PARAMS_DEFAULT_PORT = NameResolver.Factory.PARAMS_DEFAULT_PORT;
+
+    protected abstract boolean isAvailable();
+
+    protected abstract int priority();
+
+    @Deprecated
+    public static List<NameResolverProvider> providers() {
+        return NameResolverRegistry.getDefaultRegistry().providers();
+    }
+
+    @Deprecated
+    public static NameResolver.Factory asFactory() {
+        return NameResolverRegistry.getDefaultRegistry().asFactory();
+    }
+}

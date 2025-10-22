@@ -1,0 +1,83 @@
+package org.apache.commons.math3.geometry.enclosing;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.Space;
+
+/* loaded from: classes5.dex */
+public class WelzlEncloser<S extends Space, P extends Point<S>> implements Encloser<S, P> {
+    private final SupportBallGenerator<S, P> generator;
+    private final double tolerance;
+
+    public WelzlEncloser(double d, SupportBallGenerator<S, P> supportBallGenerator) {
+        this.tolerance = d;
+        this.generator = supportBallGenerator;
+    }
+
+    @Override // org.apache.commons.math3.geometry.enclosing.Encloser
+    public EnclosingBall<S, P> enclose(Iterable<P> iterable) {
+        if (iterable == null || !iterable.iterator().hasNext()) {
+            return this.generator.ballOnSupport(new ArrayList());
+        }
+        return pivotingBall(iterable);
+    }
+
+    private EnclosingBall<S, P> pivotingBall(Iterable<P> iterable) {
+        P next = iterable.iterator().next();
+        ArrayList arrayList = new ArrayList(next.getSpace().getDimension() + 1);
+        ArrayList arrayList2 = new ArrayList(next.getSpace().getDimension() + 1);
+        arrayList.add(next);
+        EnclosingBall<S, P> enclosingBallMoveToFrontBall = moveToFrontBall(arrayList, arrayList.size(), arrayList2);
+        while (true) {
+            Point pointSelectFarthest = selectFarthest(iterable, enclosingBallMoveToFrontBall);
+            if (enclosingBallMoveToFrontBall.contains(pointSelectFarthest, this.tolerance)) {
+                return enclosingBallMoveToFrontBall;
+            }
+            arrayList2.clear();
+            arrayList2.add(pointSelectFarthest);
+            EnclosingBall<S, P> enclosingBallMoveToFrontBall2 = moveToFrontBall(arrayList, arrayList.size(), arrayList2);
+            if (enclosingBallMoveToFrontBall2.getRadius() < enclosingBallMoveToFrontBall.getRadius()) {
+                throw new MathInternalError();
+            }
+            arrayList.add(0, pointSelectFarthest);
+            arrayList.subList(enclosingBallMoveToFrontBall2.getSupportSize(), arrayList.size()).clear();
+            enclosingBallMoveToFrontBall = enclosingBallMoveToFrontBall2;
+        }
+    }
+
+    private EnclosingBall<S, P> moveToFrontBall(List<P> list, int i, List<P> list2) {
+        EnclosingBall<S, P> enclosingBallBallOnSupport = this.generator.ballOnSupport(list2);
+        if (enclosingBallBallOnSupport.getSupportSize() <= enclosingBallBallOnSupport.getCenter().getSpace().getDimension()) {
+            for (int i2 = 0; i2 < i; i2++) {
+                P p = list.get(i2);
+                if (!enclosingBallBallOnSupport.contains(p, this.tolerance)) {
+                    list2.add(p);
+                    enclosingBallBallOnSupport = moveToFrontBall(list, i2, list2);
+                    list2.remove(list2.size() - 1);
+                    for (int i3 = i2; i3 > 0; i3--) {
+                        list.set(i3, list.get(i3 - 1));
+                    }
+                    list.set(0, p);
+                }
+            }
+        }
+        return enclosingBallBallOnSupport;
+    }
+
+    public P selectFarthest(Iterable<P> iterable, EnclosingBall<S, P> enclosingBall) {
+        Point<S> center = enclosingBall.getCenter();
+        P p = null;
+        double d = -1.0d;
+        for (P p2 : iterable) {
+            double dDistance = p2.distance(center);
+            if (dDistance > d) {
+                p = p2;
+                d = dDistance;
+            }
+        }
+        return p;
+    }
+}

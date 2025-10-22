@@ -1,0 +1,151 @@
+package com.shimmerresearch.sensors;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.driverUtilities.UtilParseData;
+import com.shimmerresearch.sensors.AbstractSensor;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public class SensorECGToHRFw extends AbstractSensor implements Serializable {
+    public static final double INVALID_HR_SUBSTITUTE = -1.0d;
+    public static final ChannelDetails channelEcgToHrFw;
+    public static final Map<String, ChannelDetails> mChannelMapRef;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
+    public static final SensorDetailsRef sensorEcgToHrFw;
+    private static final long serialVersionUID = 4160314338085066414L;
+
+    static {
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(DefaultHttpDataFactory.MINSIZE, DefaultHttpDataFactory.MINSIZE, Configuration.Shimmer3.GuiLabelSensors.ECG_TO_HR, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExgEcgGq, null, null, Arrays.asList(Configuration.Shimmer3.ObjectClusterSensorName.ECG_TO_HR_FW), true);
+        sensorEcgToHrFw = sensorDetailsRef;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(150, sensorDetailsRef);
+        mSensorMapRef = Collections.unmodifiableMap(linkedHashMap);
+        ChannelDetails channelDetails = new ChannelDetails(ObjectClusterSensorName.ECG_TO_HR_FW_GQ, ObjectClusterSensorName.ECG_TO_HR_FW_GQ, "ECGToHR", ChannelDetails.CHANNEL_DATA_TYPE.UINT8, 1, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.BEATS_PER_MINUTE, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL));
+        channelEcgToHrFw = channelDetails;
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put(Configuration.Shimmer3.ObjectClusterSensorName.ECG_TO_HR_FW, channelDetails);
+        mChannelMapRef = Collections.unmodifiableMap(linkedHashMap2);
+    }
+
+    public SensorECGToHRFw(ShimmerVerObject shimmerVerObject) {
+        super(AbstractSensor.SENSORS.ECG_TO_HR, shimmerVerObject);
+        ChannelDetails channelDetails = channelEcgToHrFw;
+        channelDetails.mDefaultUncalUnit = Configuration.CHANNEL_UNITS.BEATS_PER_MINUTE;
+        channelDetails.mChannelFormatDerivedFromShimmerDataPacket = ChannelDetails.CHANNEL_TYPE.CAL;
+        initialise();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
+        SensorDetails sensorDetails = this.mSensorMap.get(150);
+        if (sensorDetails != null) {
+            sensorDetails.mDerivedSensorBitmapID = 32768L;
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        int i = 0;
+        for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+            byte[] bArr2 = new byte[channelDetails.mDefaultNumBytes];
+            System.arraycopy(bArr, i, bArr2, 0, channelDetails.mDefaultNumBytes);
+            double data = UtilParseData.parseData(bArr2, channelDetails.mDefaultChannelDataType, channelDetails.mDefaultChannelDataEndian);
+            if (data == 255.0d) {
+                data = -1.0d;
+            }
+            objectCluster.addData(channelDetails.mObjectClusterName, channelDetails.mChannelFormatDerivedFromShimmerDataPacket, channelDetails.mDefaultUncalUnit, data);
+            objectCluster.incrementIndexKeeper();
+            i += channelDetails.mDefaultNumBytes;
+        }
+        return objectCluster;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        return this.mSensorMap.containsKey(Integer.valueOf(i));
+    }
+
+    public static class DatabaseChannelHandles {
+        public static final String ECG_TO_HR_FW = "ECGToHR";
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String ECG_TO_HR_FW_GQ = "ECGtoHR_FW";
+    }
+}

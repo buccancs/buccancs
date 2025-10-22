@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyProtocolException.java
+// Size: 1015 bytes
+// Modified: 2025-10-21 16:32:07.297840200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
+
+/* loaded from: classes3.dex */
+public class SpdyProtocolException extends Exception {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final long serialVersionUID = 7870000537743847264L;
+
+    public SpdyProtocolException() {
+    }
+
+    public SpdyProtocolException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public SpdyProtocolException(String str) {
+        super(str);
+    }
+
+    public SpdyProtocolException(Throwable th) {
+        super(th);
+    }
+
+    static SpdyProtocolException newStatic(String str) {
+        if (PlatformDependent.javaVersion() >= 7) {
+            return new SpdyProtocolException(str, true);
+        }
+        return new SpdyProtocolException(str);
+    }
+
+    private SpdyProtocolException(String str, boolean z) {
+        super(str, null, false, true);
+    }
+}

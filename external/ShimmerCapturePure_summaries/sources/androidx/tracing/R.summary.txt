@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/tracing/R.java
+// Size: 114 bytes
+// Modified: 2025-10-21 16:31:59.967258200 +0100
+
+package androidx.tracing;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

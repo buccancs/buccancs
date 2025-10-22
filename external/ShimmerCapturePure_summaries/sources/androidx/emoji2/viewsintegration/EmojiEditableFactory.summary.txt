@@ -1,0 +1,42 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/emoji2/viewsintegration/EmojiEditableFactory.java
+// Size: 1244 bytes
+// Modified: 2025-10-21 16:32:01.993643000 +0100
+
+package androidx.emoji2.viewsintegration;
+
+import android.text.Editable;
+import androidx.emoji2.text.SpannableBuilder;
+
+/* loaded from: classes.dex */
+final class EmojiEditableFactory extends Editable.Factory {
+    private static final Object INSTANCE_LOCK = new Object();
+    private static volatile Editable.Factory sInstance;
+    private static Class<?> sWatcherClass;
+
+    private EmojiEditableFactory() {
+        try {
+            sWatcherClass = Class.forName("android.text.DynamicLayout$ChangeWatcher", false, getClass().getClassLoader());
+        } catch (Throwable unused) {
+        }
+    }
+
+    public static Editable.Factory getInstance() {
+        if (sInstance == null) {
+            synchronized (INSTANCE_LOCK) {
+                if (sInstance == null) {
+                    sInstance = new EmojiEditableFactory();
+                }
+            }
+        }
+        return sInstance;
+    }
+
+    @Override // android.text.Editable.Factory
+    public Editable newEditable(CharSequence charSequence) {
+        Class<?> cls = sWatcherClass;
+        if (cls != null) {
+            return SpannableBuilder.create(cls, charSequence);
+        }
+        return super.newEditable(charSequence);
+    }
+}

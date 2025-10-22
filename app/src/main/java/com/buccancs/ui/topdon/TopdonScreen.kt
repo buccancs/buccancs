@@ -474,7 +474,12 @@ private fun TopdonPreviewCard(
                 },
                 colors = AssistChipDefaults.assistChipColors(
                     containerColor = chipContainer,
-                    labelColor = chipLabelColour
+                    labelColor = chipLabelColour,
+                    leadingIconContentColor = chipLabelColour,
+                    disabledContainerColor = chipContainer,
+                    disabledLabelColor = chipLabelColour,
+                    disabledLeadingIconContentColor = chipLabelColour,
+                    disabledTrailingIconContentColor = chipLabelColour
                 )
             )
         }

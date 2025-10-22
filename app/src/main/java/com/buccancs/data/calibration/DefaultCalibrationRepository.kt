@@ -36,7 +36,7 @@ import org.opencv.core.Point3
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 import java.io.File
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton

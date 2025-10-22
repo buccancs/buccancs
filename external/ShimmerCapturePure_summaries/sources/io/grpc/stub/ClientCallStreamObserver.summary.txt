@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/stub/ClientCallStreamObserver.java
+// Size: 378 bytes
+// Modified: 2025-10-21 16:32:03.159389800 +0100
+
+package io.grpc.stub;
+
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+public abstract class ClientCallStreamObserver<V> extends CallStreamObserver<V> {
+    public abstract void cancel(@Nullable String str, @Nullable Throwable th);
+
+    public void disableAutoRequestWithInitial(int i) {
+        throw new UnsupportedOperationException();
+    }
+}

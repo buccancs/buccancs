@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/HttpIOExceptionHandler.java
+// Size: 235 bytes
+// Modified: 2025-10-21 16:32:08.492581700 +0100
+
+package com.google.api.client.http;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public interface HttpIOExceptionHandler {
+    boolean handleIOException(HttpRequest httpRequest, boolean z) throws IOException;
+}

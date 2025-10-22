@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/DomainMappingBuilder.java
+// Size: 639 bytes
+// Modified: 2025-10-21 16:32:03.964360100 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+@Deprecated
+/* loaded from: classes3.dex */
+public final class DomainMappingBuilder<V> {
+    private final DomainNameMappingBuilder<V> builder;
+
+    public DomainMappingBuilder(V v) {
+        this.builder = new DomainNameMappingBuilder<>(v);
+    }
+
+    public DomainMappingBuilder(int i, V v) {
+        this.builder = new DomainNameMappingBuilder<>(i, v);
+    }
+
+    public DomainMappingBuilder<V> add(String str, V v) {
+        this.builder.add(str, v);
+        return this;
+    }
+
+    public DomainNameMapping<V> build() {
+        return this.builder.build();
+    }
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/emoji2/text/flatbuffer/FloatVector.java
+// Size: 381 bytes
+// Modified: 2025-10-21 16:32:00.773301200 +0100
+
+package androidx.emoji2.text.flatbuffer;
+
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public final class FloatVector extends BaseVector {
+    public FloatVector __assign(int i, ByteBuffer byteBuffer) {
+        __reset(i, 4, byteBuffer);
+        return this;
+    }
+
+    public float get(int i) {
+        return this.bb.getFloat(__element(i));
+    }
+}

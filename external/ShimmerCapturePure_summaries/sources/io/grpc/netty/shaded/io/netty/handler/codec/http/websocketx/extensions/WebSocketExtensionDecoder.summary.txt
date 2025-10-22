@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/extensions/WebSocketExtensionDecoder.java
+// Size: 381 bytes
+// Modified: 2025-10-21 16:32:05.397850000 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.MessageToMessageDecoder;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.WebSocketFrame;
+
+/* loaded from: classes3.dex */
+public abstract class WebSocketExtensionDecoder extends MessageToMessageDecoder<WebSocketFrame> {
+}

@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driver/calibration/OldCalDetails.java
+// Size: 365 bytes
+// Modified: 2025-10-21 16:32:00.278676600 +0100
+
+package com.shimmerresearch.driver.calibration;
+
+/* loaded from: classes2.dex */
+public class OldCalDetails {
+    public String mFileSearchString;
+    public int mRange;
+    public int mSensorId;
+
+    public OldCalDetails(String str, int i, int i2) {
+        this.mFileSearchString = str;
+        this.mSensorId = i;
+        this.mRange = i2;
+    }
+}

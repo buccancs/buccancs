@@ -1,0 +1,96 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/parser/CLObject.java
+// Size: 2861 bytes
+// Modified: 2025-10-21 16:32:06.207906700 +0100
+
+package androidx.constraintlayout.core.parser;
+
+import java.util.Iterator;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.geometry.VectorFormat;
+
+/* loaded from: classes.dex */
+public class CLObject extends CLContainer implements Iterable<CLKey> {
+    public CLObject(char[] cArr) {
+        super(cArr);
+    }
+
+    public static CLObject allocate(char[] cArr) {
+        return new CLObject(cArr);
+    }
+
+    @Override // androidx.constraintlayout.core.parser.CLElement
+    public String toJSON() {
+        StringBuilder sb = new StringBuilder(getDebugName() + "{ ");
+        Iterator<CLElement> it2 = this.mElements.iterator();
+        boolean z = true;
+        while (it2.hasNext()) {
+            CLElement next = it2.next();
+            if (z) {
+                z = false;
+            } else {
+                sb.append(", ");
+            }
+            sb.append(next.toJSON());
+        }
+        sb.append(" }");
+        return sb.toString();
+    }
+
+    public String toFormattedJSON() {
+        return toFormattedJSON(0, 0);
+    }
+
+    @Override // androidx.constraintlayout.core.parser.CLElement
+    public String toFormattedJSON(int i, int i2) {
+        StringBuilder sb = new StringBuilder(getDebugName());
+        sb.append("{\n");
+        Iterator<CLElement> it2 = this.mElements.iterator();
+        boolean z = true;
+        while (it2.hasNext()) {
+            CLElement next = it2.next();
+            if (z) {
+                z = false;
+            } else {
+                sb.append(",\n");
+            }
+            sb.append(next.toFormattedJSON(sBaseIndent + i, i2 - 1));
+        }
+        sb.append(StringUtils.LF);
+        addIndent(sb, i);
+        sb.append(VectorFormat.DEFAULT_SUFFIX);
+        return sb.toString();
+    }
+
+    @Override // java.lang.Iterable
+    public Iterator<CLKey> iterator() {
+        return new CLObjectIterator(this);
+    }
+
+    private static class CLObjectIterator implements Iterator<CLKey> {
+        int mIndex = 0;
+        CLObject mObject;
+
+        CLObjectIterator(CLObject cLObject) {
+            this.mObject = cLObject;
+        }
+
+        @Override // java.util.Iterator
+        public boolean hasNext() {
+            return this.mIndex < this.mObject.size();
+        }
+
+        /* JADX WARN: Can't rename method to resolve collision */
+        @Override // java.util.Iterator
+        public CLKey next() {
+            CLKey cLKey = (CLKey) this.mObject.mElements.get(this.mIndex);
+            this.mIndex++;
+            return cLKey;
+        }
+    }
+
+    @Override // androidx.constraintlayout.core.parser.CLContainer, androidx.constraintlayout.core.parser.CLElement
+    /* renamed from: clone */
+    public CLObject mo40clone() {
+        return (CLObject) super.mo40clone();
+    }
+}

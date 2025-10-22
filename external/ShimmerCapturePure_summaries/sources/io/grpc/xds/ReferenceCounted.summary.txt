@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/ReferenceCounted.java
+// Size: 723 bytes
+// Modified: 2025-10-21 16:32:03.160388100 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+
+/* loaded from: classes3.dex */
+final class ReferenceCounted<T> {
+    private final T instance;
+    private int refs;
+
+    T get() {
+        return this.instance;
+    }
+
+    int getReferenceCount() {
+        return this.refs;
+    }
+
+    void retain() {
+        this.refs++;
+    }
+
+    private ReferenceCounted(T t) {
+        this.instance = t;
+    }
+
+    static <T> ReferenceCounted<T> wrap(T t) {
+        Preconditions.checkNotNull(t, "instance");
+        return new ReferenceCounted<>(t);
+    }
+
+    void release() {
+        Preconditions.checkState(this.refs > 0, "reference reached 0");
+        this.refs--;
+    }
+}

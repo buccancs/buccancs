@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/json/JsonToken.java
+// Size: 324 bytes
+// Modified: 2025-10-21 16:32:00.129725400 +0100
+
+package com.google.api.client.json;
+
+/* loaded from: classes.dex */
+public enum JsonToken {
+    START_ARRAY,
+    END_ARRAY,
+    START_OBJECT,
+    END_OBJECT,
+    FIELD_NAME,
+    VALUE_STRING,
+    VALUE_NUMBER_INT,
+    VALUE_NUMBER_FLOAT,
+    VALUE_TRUE,
+    VALUE_FALSE,
+    VALUE_NULL,
+    NOT_AVAILABLE
+}

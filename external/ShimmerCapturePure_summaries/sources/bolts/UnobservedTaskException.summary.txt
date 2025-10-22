@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/bolts/UnobservedTaskException.java
+// Size: 197 bytes
+// Modified: 2025-10-21 16:32:00.041816500 +0100
+
+package bolts;
+
+/* loaded from: classes.dex */
+public class UnobservedTaskException extends RuntimeException {
+    public UnobservedTaskException(Throwable th) {
+        super(th);
+    }
+}

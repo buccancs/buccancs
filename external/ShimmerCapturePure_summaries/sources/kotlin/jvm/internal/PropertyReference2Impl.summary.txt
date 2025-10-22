@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/jvm/internal/PropertyReference2Impl.java
+// Size: 748 bytes
+// Modified: 2025-10-21 16:32:09.030564800 +0100
+
+package kotlin.jvm.internal;
+
+import kotlin.reflect.KClass;
+import kotlin.reflect.KDeclarationContainer;
+
+/* loaded from: classes4.dex */
+public class PropertyReference2Impl extends PropertyReference2 {
+    public PropertyReference2Impl(KDeclarationContainer kDeclarationContainer, String str, String str2) {
+        super(((ClassBasedDeclarationContainer) kDeclarationContainer).getJClass(), str, str2, !(kDeclarationContainer instanceof KClass) ? 1 : 0);
+    }
+
+    public PropertyReference2Impl(Class cls, String str, String str2, int i) {
+        super(cls, str, str2, i);
+    }
+
+    @Override // kotlin.reflect.KProperty2
+    public Object get(Object obj, Object obj2) {
+        return getGetter().call(obj, obj2);
+    }
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/ExperimentalApi.java
+// Size: 513 bytes
+// Modified: 2025-10-21 16:32:00.167957400 +0100
+
+package io.grpc;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD, ElementType.PACKAGE, ElementType.TYPE})
+@Documented
+@Retention(RetentionPolicy.CLASS)
+/* loaded from: classes2.dex */
+public @interface ExperimentalApi {
+    String value();
+}

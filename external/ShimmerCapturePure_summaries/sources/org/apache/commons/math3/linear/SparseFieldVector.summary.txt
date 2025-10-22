@@ -1,0 +1,520 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/linear/SparseFieldVector.java
+// Size: 23567 bytes
+// Modified: 2025-10-21 16:32:11.829645800 +0100
+
+package org.apache.commons.math3.linear;
+
+import java.io.Serializable;
+import java.util.ConcurrentModificationException;
+import java.util.NoSuchElementException;
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math3.util.OpenIntToFieldHashMap;
+
+/* loaded from: classes5.dex */
+public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
+    private static final long serialVersionUID = 7841233292190413362L;
+    private final OpenIntToFieldHashMap<T> entries;
+    private final Field<T> field;
+    private final int virtualSize;
+
+    private OpenIntToFieldHashMap<T> getEntries() {
+        return this.entries;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public int getDimension() {
+        return this.virtualSize;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public Field<T> getField() {
+        return this.field;
+    }
+
+    public SparseFieldVector(Field<T> field) {
+        this(field, 0);
+    }
+
+    public SparseFieldVector(Field<T> field, int i) {
+        this.field = field;
+        this.virtualSize = i;
+        this.entries = new OpenIntToFieldHashMap<>(field);
+    }
+
+    protected SparseFieldVector(SparseFieldVector<T> sparseFieldVector, int i) {
+        this.field = sparseFieldVector.field;
+        this.virtualSize = sparseFieldVector.getDimension() + i;
+        this.entries = new OpenIntToFieldHashMap<>(sparseFieldVector.entries);
+    }
+
+    public SparseFieldVector(Field<T> field, int i, int i2) {
+        this.field = field;
+        this.virtualSize = i;
+        this.entries = new OpenIntToFieldHashMap<>(field, i2);
+    }
+
+    public SparseFieldVector(Field<T> field, T[] tArr) throws NullArgumentException {
+        MathUtils.checkNotNull(tArr);
+        this.field = field;
+        this.virtualSize = tArr.length;
+        this.entries = new OpenIntToFieldHashMap<>(field);
+        for (int i = 0; i < tArr.length; i++) {
+            this.entries.put(i, tArr[i]);
+        }
+    }
+
+    public SparseFieldVector(SparseFieldVector<T> sparseFieldVector) {
+        this.field = sparseFieldVector.field;
+        this.virtualSize = sparseFieldVector.getDimension();
+        this.entries = new OpenIntToFieldHashMap<>(sparseFieldVector.getEntries());
+    }
+
+    public FieldVector<T> add(SparseFieldVector<T> sparseFieldVector) throws OutOfRangeException, NullArgumentException, DimensionMismatchException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(sparseFieldVector.getDimension());
+        SparseFieldVector sparseFieldVector2 = (SparseFieldVector) copy();
+        OpenIntToFieldHashMap<T>.Iterator it2 = sparseFieldVector.getEntries().iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            int iKey = it2.key();
+            FieldElement fieldElementValue = it2.value();
+            if (this.entries.containsKey(iKey)) {
+                sparseFieldVector2.setEntry(iKey, (FieldElement) this.entries.get(iKey).add(fieldElementValue));
+            } else {
+                sparseFieldVector2.setEntry(iKey, fieldElementValue);
+            }
+        }
+        return sparseFieldVector2;
+    }
+
+    public FieldVector<T> append(SparseFieldVector<T> sparseFieldVector) throws OutOfRangeException, NullArgumentException, NoSuchElementException, ConcurrentModificationException {
+        SparseFieldVector sparseFieldVector2 = new SparseFieldVector(this, sparseFieldVector.getDimension());
+        OpenIntToFieldHashMap<T>.Iterator it2 = sparseFieldVector.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            sparseFieldVector2.setEntry(it2.key() + this.virtualSize, it2.value());
+        }
+        return sparseFieldVector2;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> append(FieldVector<T> fieldVector) throws OutOfRangeException {
+        if (fieldVector instanceof SparseFieldVector) {
+            return append((SparseFieldVector) fieldVector);
+        }
+        int dimension = fieldVector.getDimension();
+        SparseFieldVector sparseFieldVector = new SparseFieldVector(this, dimension);
+        for (int i = 0; i < dimension; i++) {
+            sparseFieldVector.setEntry(this.virtualSize + i, fieldVector.getEntry(i));
+        }
+        return sparseFieldVector;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> append(T t) throws OutOfRangeException, NullArgumentException {
+        MathUtils.checkNotNull(t);
+        SparseFieldVector sparseFieldVector = new SparseFieldVector(this, 1);
+        sparseFieldVector.setEntry(this.virtualSize, t);
+        return sparseFieldVector;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> copy() {
+        return new SparseFieldVector(this);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public T dotProduct(FieldVector<T> fieldVector) throws DimensionMismatchException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(fieldVector.getDimension());
+        T zero = this.field.getZero();
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            zero = (T) zero.add(fieldVector.getEntry(it2.key()).multiply(it2.value()));
+        }
+        return zero;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> ebeDivide(FieldVector<T> fieldVector) throws OutOfRangeException, NullArgumentException, DimensionMismatchException, NoSuchElementException, ConcurrentModificationException, MathArithmeticException {
+        checkVectorDimensions(fieldVector.getDimension());
+        SparseFieldVector sparseFieldVector = new SparseFieldVector(this);
+        OpenIntToFieldHashMap<T>.Iterator it2 = sparseFieldVector.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            sparseFieldVector.setEntry(it2.key(), (FieldElement) it2.value().divide(fieldVector.getEntry(it2.key())));
+        }
+        return sparseFieldVector;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> ebeMultiply(FieldVector<T> fieldVector) throws OutOfRangeException, NullArgumentException, DimensionMismatchException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(fieldVector.getDimension());
+        SparseFieldVector sparseFieldVector = new SparseFieldVector(this);
+        OpenIntToFieldHashMap<T>.Iterator it2 = sparseFieldVector.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            sparseFieldVector.setEntry(it2.key(), (FieldElement) it2.value().multiply(fieldVector.getEntry(it2.key())));
+        }
+        return sparseFieldVector;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    @Deprecated
+    public T[] getData() {
+        return (T[]) toArray();
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public T getEntry(int i) throws OutOfRangeException {
+        checkIndex(i);
+        return (T) this.entries.get(i);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> getSubVector(int i, int i2) throws OutOfRangeException, NotPositiveException, NullArgumentException, NoSuchElementException, ConcurrentModificationException {
+        if (i2 < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, Integer.valueOf(i2));
+        }
+        checkIndex(i);
+        int i3 = i + i2;
+        checkIndex(i3 - 1);
+        SparseFieldVector sparseFieldVector = new SparseFieldVector(this.field, i2);
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            int iKey = it2.key();
+            if (iKey >= i && iKey < i3) {
+                sparseFieldVector.setEntry(iKey - i, it2.value());
+            }
+        }
+        return sparseFieldVector;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapAdd(T t) throws NullArgumentException {
+        return copy().mapAddToSelf(t);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapAddToSelf(T t) throws OutOfRangeException, NullArgumentException {
+        for (int i = 0; i < this.virtualSize; i++) {
+            setEntry(i, (FieldElement) getEntry(i).add(t));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapDivide(T t) throws NullArgumentException, MathArithmeticException {
+        return copy().mapDivideToSelf(t);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapDivideToSelf(T t) throws NullArgumentException, NoSuchElementException, ConcurrentModificationException, MathArithmeticException {
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            this.entries.put(it2.key(), (FieldElement) it2.value().divide(t));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapInv() throws MathArithmeticException {
+        return copy().mapInvToSelf();
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapInvToSelf() throws OutOfRangeException, NullArgumentException, MathArithmeticException {
+        for (int i = 0; i < this.virtualSize; i++) {
+            setEntry(i, (FieldElement) this.field.getOne().divide(getEntry(i)));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapMultiply(T t) throws NullArgumentException {
+        return copy().mapMultiplyToSelf(t);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapMultiplyToSelf(T t) throws NullArgumentException, NoSuchElementException, ConcurrentModificationException {
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            this.entries.put(it2.key(), (FieldElement) it2.value().multiply(t));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapSubtract(T t) throws NullArgumentException {
+        return copy().mapSubtractToSelf(t);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapSubtractToSelf(T t) throws NullArgumentException {
+        return mapAddToSelf((FieldElement) this.field.getZero().subtract(t));
+    }
+
+    public FieldMatrix<T> outerProduct(SparseFieldVector<T> sparseFieldVector) throws NoSuchElementException, ConcurrentModificationException {
+        SparseFieldMatrix sparseFieldMatrix = new SparseFieldMatrix(this.field, this.virtualSize, sparseFieldVector.getDimension());
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            OpenIntToFieldHashMap<T>.Iterator it3 = sparseFieldVector.entries.iterator();
+            while (it3.hasNext()) {
+                it3.advance();
+                sparseFieldMatrix.setEntry(it2.key(), it3.key(), (FieldElement) it2.value().multiply(it3.value()));
+            }
+        }
+        return sparseFieldMatrix;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldMatrix<T> outerProduct(FieldVector<T> fieldVector) throws OutOfRangeException, NoSuchElementException, ConcurrentModificationException {
+        if (fieldVector instanceof SparseFieldVector) {
+            return outerProduct((SparseFieldVector) fieldVector);
+        }
+        int dimension = fieldVector.getDimension();
+        SparseFieldMatrix sparseFieldMatrix = new SparseFieldMatrix(this.field, this.virtualSize, dimension);
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            int iKey = it2.key();
+            FieldElement fieldElementValue = it2.value();
+            for (int i = 0; i < dimension; i++) {
+                sparseFieldMatrix.setEntry(iKey, i, (FieldElement) fieldElementValue.multiply(fieldVector.getEntry(i)));
+            }
+        }
+        return sparseFieldMatrix;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> projection(FieldVector<T> fieldVector) throws DimensionMismatchException, MathArithmeticException {
+        checkVectorDimensions(fieldVector.getDimension());
+        return fieldVector.mapMultiply((FieldElement) dotProduct(fieldVector).divide(fieldVector.dotProduct(fieldVector)));
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public void set(T t) throws OutOfRangeException, NullArgumentException {
+        MathUtils.checkNotNull(t);
+        for (int i = 0; i < this.virtualSize; i++) {
+            setEntry(i, t);
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public void setEntry(int i, T t) throws OutOfRangeException, NullArgumentException {
+        MathUtils.checkNotNull(t);
+        checkIndex(i);
+        this.entries.put(i, t);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public void setSubVector(int i, FieldVector<T> fieldVector) throws OutOfRangeException, NullArgumentException {
+        checkIndex(i);
+        checkIndex((fieldVector.getDimension() + i) - 1);
+        int dimension = fieldVector.getDimension();
+        for (int i2 = 0; i2 < dimension; i2++) {
+            setEntry(i2 + i, fieldVector.getEntry(i2));
+        }
+    }
+
+    public SparseFieldVector<T> subtract(SparseFieldVector<T> sparseFieldVector) throws OutOfRangeException, NullArgumentException, DimensionMismatchException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(sparseFieldVector.getDimension());
+        SparseFieldVector<T> sparseFieldVector2 = (SparseFieldVector) copy();
+        OpenIntToFieldHashMap<T>.Iterator it2 = sparseFieldVector.getEntries().iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            int iKey = it2.key();
+            if (this.entries.containsKey(iKey)) {
+                sparseFieldVector2.setEntry(iKey, (FieldElement) this.entries.get(iKey).subtract(it2.value()));
+            } else {
+                sparseFieldVector2.setEntry(iKey, (FieldElement) this.field.getZero().subtract(it2.value()));
+            }
+        }
+        return sparseFieldVector2;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> subtract(FieldVector<T> fieldVector) throws OutOfRangeException, NullArgumentException, DimensionMismatchException {
+        if (fieldVector instanceof SparseFieldVector) {
+            return subtract((SparseFieldVector) fieldVector);
+        }
+        int dimension = fieldVector.getDimension();
+        checkVectorDimensions(dimension);
+        SparseFieldVector sparseFieldVector = new SparseFieldVector(this);
+        for (int i = 0; i < dimension; i++) {
+            if (this.entries.containsKey(i)) {
+                sparseFieldVector.setEntry(i, (FieldElement) this.entries.get(i).subtract(fieldVector.getEntry(i)));
+            } else {
+                sparseFieldVector.setEntry(i, (FieldElement) this.field.getZero().subtract(fieldVector.getEntry(i)));
+            }
+        }
+        return sparseFieldVector;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public T[] toArray() throws NoSuchElementException, ConcurrentModificationException {
+        T[] tArr = (T[]) ((FieldElement[]) MathArrays.buildArray(this.field, this.virtualSize));
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            tArr[it2.key()] = it2.value();
+        }
+        return tArr;
+    }
+
+    private void checkIndex(int i) throws OutOfRangeException {
+        if (i < 0 || i >= getDimension()) {
+            throw new OutOfRangeException(Integer.valueOf(i), 0, Integer.valueOf(getDimension() - 1));
+        }
+    }
+
+    private void checkIndices(int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        int dimension = getDimension();
+        if (i < 0 || i >= dimension) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, Integer.valueOf(i), 0, Integer.valueOf(dimension - 1));
+        }
+        if (i2 < 0 || i2 >= dimension) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, Integer.valueOf(i2), 0, Integer.valueOf(dimension - 1));
+        }
+        if (i2 < i) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW, Integer.valueOf(i2), Integer.valueOf(i), false);
+        }
+    }
+
+    protected void checkVectorDimensions(int i) throws DimensionMismatchException {
+        if (getDimension() != i) {
+            throw new DimensionMismatchException(getDimension(), i);
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> add(FieldVector<T> fieldVector) throws OutOfRangeException, NullArgumentException, DimensionMismatchException {
+        if (fieldVector instanceof SparseFieldVector) {
+            return add((SparseFieldVector) fieldVector);
+        }
+        int dimension = fieldVector.getDimension();
+        checkVectorDimensions(dimension);
+        SparseFieldVector sparseFieldVector = new SparseFieldVector(this.field, getDimension());
+        for (int i = 0; i < dimension; i++) {
+            sparseFieldVector.setEntry(i, (FieldElement) fieldVector.getEntry(i).add(getEntry(i)));
+        }
+        return sparseFieldVector;
+    }
+
+    public T walkInDefaultOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor) {
+        int dimension = getDimension();
+        fieldVectorPreservingVisitor.start(dimension, 0, dimension - 1);
+        for (int i = 0; i < dimension; i++) {
+            fieldVectorPreservingVisitor.visit(i, getEntry(i));
+        }
+        return (T) fieldVectorPreservingVisitor.end();
+    }
+
+    public T walkInDefaultOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        checkIndices(i, i2);
+        fieldVectorPreservingVisitor.start(getDimension(), i, i2);
+        while (i <= i2) {
+            fieldVectorPreservingVisitor.visit(i, getEntry(i));
+            i++;
+        }
+        return (T) fieldVectorPreservingVisitor.end();
+    }
+
+    public T walkInOptimizedOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor) {
+        return (T) walkInDefaultOrder(fieldVectorPreservingVisitor);
+    }
+
+    public T walkInOptimizedOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        return (T) walkInDefaultOrder(fieldVectorPreservingVisitor, i, i2);
+    }
+
+    public T walkInDefaultOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor) throws OutOfRangeException, NullArgumentException {
+        int dimension = getDimension();
+        fieldVectorChangingVisitor.start(dimension, 0, dimension - 1);
+        for (int i = 0; i < dimension; i++) {
+            setEntry(i, fieldVectorChangingVisitor.visit(i, getEntry(i)));
+        }
+        return (T) fieldVectorChangingVisitor.end();
+    }
+
+    public T walkInDefaultOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException, NullArgumentException {
+        checkIndices(i, i2);
+        fieldVectorChangingVisitor.start(getDimension(), i, i2);
+        while (i <= i2) {
+            setEntry(i, fieldVectorChangingVisitor.visit(i, getEntry(i)));
+            i++;
+        }
+        return (T) fieldVectorChangingVisitor.end();
+    }
+
+    public T walkInOptimizedOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor) {
+        return (T) walkInDefaultOrder(fieldVectorChangingVisitor);
+    }
+
+    public T walkInOptimizedOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        return (T) walkInDefaultOrder(fieldVectorChangingVisitor, i, i2);
+    }
+
+    public int hashCode() throws NoSuchElementException, ConcurrentModificationException {
+        Field<T> field = this.field;
+        int iHashCode = (((field == null ? 0 : field.hashCode()) + 31) * 31) + this.virtualSize;
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            iHashCode = (iHashCode * 31) + it2.value().hashCode();
+        }
+        return iHashCode;
+    }
+
+    public boolean equals(Object obj) throws NoSuchElementException, ConcurrentModificationException {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof SparseFieldVector)) {
+            return false;
+        }
+        SparseFieldVector sparseFieldVector = (SparseFieldVector) obj;
+        Field<T> field = this.field;
+        if (field == null) {
+            if (sparseFieldVector.field != null) {
+                return false;
+            }
+        } else if (!field.equals(sparseFieldVector.field)) {
+            return false;
+        }
+        if (this.virtualSize != sparseFieldVector.virtualSize) {
+            return false;
+        }
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            if (!sparseFieldVector.getEntry(it2.key()).equals(it2.value())) {
+                return false;
+            }
+        }
+        OpenIntToFieldHashMap<T>.Iterator it3 = sparseFieldVector.getEntries().iterator();
+        while (it3.hasNext()) {
+            it3.advance();
+            if (!it3.value().equals(getEntry(it3.key()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

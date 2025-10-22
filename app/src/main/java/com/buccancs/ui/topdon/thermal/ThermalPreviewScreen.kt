@@ -62,7 +62,6 @@ import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.topdon.ThermalUiStateCode
 import com.buccancs.ui.topdon.TopdonUiState
 import com.buccancs.ui.topdon.TopdonViewModel
-import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget
 import kotlin.math.roundToInt
 
 /**
@@ -278,7 +277,7 @@ private fun ThermalPreviewScreen(
                     disabledContainerColor = chipContainer,
                     labelColor = chipLabelColour,
                     disabledLabelColor = chipLabelColour,
-                    disabledLeadingIconColor = chipLabelColour
+                    disabledLeadingIconContentColor = chipLabelColour
                 ),
                 modifier = Modifier
                     .align(Alignment.TopStart)
@@ -408,10 +407,12 @@ fun ThermalPreviewPane(
             },
             colors = AssistChipDefaults.assistChipColors(
                 containerColor = chipContainer,
-                disabledContainerColor = chipContainer,
                 labelColor = chipLabelColour,
+                leadingIconContentColor = chipLabelColour,
+                disabledContainerColor = chipContainer,
                 disabledLabelColor = chipLabelColour,
-                disabledLeadingIconColor = chipLabelColour
+                disabledLeadingIconContentColor = chipLabelColour,
+                disabledTrailingIconContentColor = chipLabelColour
             ),
             modifier = Modifier
                 .align(Alignment.TopStart)

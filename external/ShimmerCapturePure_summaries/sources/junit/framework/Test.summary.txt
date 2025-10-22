@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/junit/framework/Test.java
+// Size: 156 bytes
+// Modified: 2025-10-21 16:32:02.847735300 +0100
+
+package junit.framework;
+
+/* loaded from: classes4.dex */
+public interface Test {
+    int countTestCases();
+
+    void run(TestResult testResult);
+}

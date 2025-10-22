@@ -1,0 +1,263 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/ListenerDiscoveryServiceGrpc.java
+// Size: 15699 bytes
+// Modified: 2025-10-21 16:32:13.440088200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.protobuf.Descriptors;
+import io.grpc.BindableService;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.MethodDescriptor;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServiceDescriptor;
+import io.grpc.protobuf.ProtoFileDescriptorSupplier;
+import io.grpc.protobuf.ProtoMethodDescriptorSupplier;
+import io.grpc.protobuf.ProtoServiceDescriptorSupplier;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.stub.AbstractAsyncStub;
+import io.grpc.stub.AbstractBlockingStub;
+import io.grpc.stub.AbstractFutureStub;
+import io.grpc.stub.AbstractStub;
+import io.grpc.stub.ClientCalls;
+import io.grpc.stub.ServerCalls;
+import io.grpc.stub.StreamObserver;
+
+/* loaded from: classes3.dex */
+public final class ListenerDiscoveryServiceGrpc {
+    private static final int METHODID_DELTA_LISTENERS = 1;
+    private static final int METHODID_FETCH_LISTENERS = 0;
+    private static final int METHODID_STREAM_LISTENERS = 2;
+    public static final String SERVICE_NAME = "envoy.api.v2.ListenerDiscoveryService";
+    private static volatile MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> getDeltaListenersMethod;
+    private static volatile MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getFetchListenersMethod;
+    private static volatile MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getStreamListenersMethod;
+    private static volatile ServiceDescriptor serviceDescriptor;
+
+    private ListenerDiscoveryServiceGrpc() {
+    }
+
+    public static MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> getDeltaListenersMethod() {
+        MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> methodDescriptorBuild = getDeltaListenersMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ListenerDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getDeltaListenersMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "DeltaListeners")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DeltaDiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DeltaDiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new ListenerDiscoveryServiceMethodDescriptorSupplier("DeltaListeners")).build();
+                    getDeltaListenersMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getStreamListenersMethod() {
+        MethodDescriptor<DiscoveryRequest, DiscoveryResponse> methodDescriptorBuild = getStreamListenersMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ListenerDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getStreamListenersMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "StreamListeners")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new ListenerDiscoveryServiceMethodDescriptorSupplier("StreamListeners")).build();
+                    getStreamListenersMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getFetchListenersMethod() {
+        MethodDescriptor<DiscoveryRequest, DiscoveryResponse> methodDescriptorBuild = getFetchListenersMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ListenerDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getFetchListenersMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "FetchListeners")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new ListenerDiscoveryServiceMethodDescriptorSupplier("FetchListeners")).build();
+                    getFetchListenersMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static ListenerDiscoveryServiceStub newStub(Channel channel) {
+        return (ListenerDiscoveryServiceStub) ListenerDiscoveryServiceStub.newStub(new AbstractStub.StubFactory<ListenerDiscoveryServiceStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ListenerDiscoveryServiceGrpc.1
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ListenerDiscoveryServiceStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ListenerDiscoveryServiceStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ListenerDiscoveryServiceBlockingStub newBlockingStub(Channel channel) {
+        return (ListenerDiscoveryServiceBlockingStub) ListenerDiscoveryServiceBlockingStub.newStub(new AbstractStub.StubFactory<ListenerDiscoveryServiceBlockingStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ListenerDiscoveryServiceGrpc.2
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ListenerDiscoveryServiceBlockingStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ListenerDiscoveryServiceBlockingStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ListenerDiscoveryServiceFutureStub newFutureStub(Channel channel) {
+        return (ListenerDiscoveryServiceFutureStub) ListenerDiscoveryServiceFutureStub.newStub(new AbstractStub.StubFactory<ListenerDiscoveryServiceFutureStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ListenerDiscoveryServiceGrpc.3
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ListenerDiscoveryServiceFutureStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ListenerDiscoveryServiceFutureStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static abstract class ListenerDiscoveryServiceImplBase implements BindableService {
+        public StreamObserver<DeltaDiscoveryRequest> deltaListeners(StreamObserver<DeltaDiscoveryResponse> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(ListenerDiscoveryServiceGrpc.getDeltaListenersMethod(), streamObserver);
+        }
+
+        public StreamObserver<DiscoveryRequest> streamListeners(StreamObserver<DiscoveryResponse> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(ListenerDiscoveryServiceGrpc.getStreamListenersMethod(), streamObserver);
+        }
+
+        public void fetchListeners(DiscoveryRequest discoveryRequest, StreamObserver<DiscoveryResponse> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ListenerDiscoveryServiceGrpc.getFetchListenersMethod(), streamObserver);
+        }
+
+        @Override // io.grpc.BindableService
+        public final ServerServiceDefinition bindService() {
+            return ServerServiceDefinition.builder(ListenerDiscoveryServiceGrpc.getServiceDescriptor()).addMethod(ListenerDiscoveryServiceGrpc.getDeltaListenersMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 1))).addMethod(ListenerDiscoveryServiceGrpc.getStreamListenersMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 2))).addMethod(ListenerDiscoveryServiceGrpc.getFetchListenersMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 0))).build();
+        }
+    }
+
+    public static final class ListenerDiscoveryServiceStub extends AbstractAsyncStub<ListenerDiscoveryServiceStub> {
+        private ListenerDiscoveryServiceStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ListenerDiscoveryServiceStub build(Channel channel, CallOptions callOptions) {
+            return new ListenerDiscoveryServiceStub(channel, callOptions);
+        }
+
+        public StreamObserver<DeltaDiscoveryRequest> deltaListeners(StreamObserver<DeltaDiscoveryResponse> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(ListenerDiscoveryServiceGrpc.getDeltaListenersMethod(), getCallOptions()), streamObserver);
+        }
+
+        public StreamObserver<DiscoveryRequest> streamListeners(StreamObserver<DiscoveryResponse> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(ListenerDiscoveryServiceGrpc.getStreamListenersMethod(), getCallOptions()), streamObserver);
+        }
+
+        public void fetchListeners(DiscoveryRequest discoveryRequest, StreamObserver<DiscoveryResponse> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ListenerDiscoveryServiceGrpc.getFetchListenersMethod(), getCallOptions()), discoveryRequest, streamObserver);
+        }
+    }
+
+    public static final class ListenerDiscoveryServiceBlockingStub extends AbstractBlockingStub<ListenerDiscoveryServiceBlockingStub> {
+        private ListenerDiscoveryServiceBlockingStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ListenerDiscoveryServiceBlockingStub build(Channel channel, CallOptions callOptions) {
+            return new ListenerDiscoveryServiceBlockingStub(channel, callOptions);
+        }
+
+        public DiscoveryResponse fetchListeners(DiscoveryRequest discoveryRequest) {
+            return (DiscoveryResponse) ClientCalls.blockingUnaryCall(getChannel(), ListenerDiscoveryServiceGrpc.getFetchListenersMethod(), getCallOptions(), discoveryRequest);
+        }
+    }
+
+    public static final class ListenerDiscoveryServiceFutureStub extends AbstractFutureStub<ListenerDiscoveryServiceFutureStub> {
+        private ListenerDiscoveryServiceFutureStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ListenerDiscoveryServiceFutureStub build(Channel channel, CallOptions callOptions) {
+            return new ListenerDiscoveryServiceFutureStub(channel, callOptions);
+        }
+
+        public ListenableFuture<DiscoveryResponse> fetchListeners(DiscoveryRequest discoveryRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ListenerDiscoveryServiceGrpc.getFetchListenersMethod(), getCallOptions()), discoveryRequest);
+        }
+    }
+
+    private static final class MethodHandlers<Req, Resp> implements ServerCalls.UnaryMethod<Req, Resp>, ServerCalls.ServerStreamingMethod<Req, Resp>, ServerCalls.ClientStreamingMethod<Req, Resp>, ServerCalls.BidiStreamingMethod<Req, Resp> {
+        private final int methodId;
+        private final ListenerDiscoveryServiceImplBase serviceImpl;
+
+        MethodHandlers(ListenerDiscoveryServiceImplBase listenerDiscoveryServiceImplBase, int i) {
+            this.serviceImpl = listenerDiscoveryServiceImplBase;
+            this.methodId = i;
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override // io.grpc.stub.ServerCalls.UnaryMethod, io.grpc.stub.ServerCalls.UnaryRequestMethod, io.grpc.stub.ServerCalls.ServerStreamingMethod
+        public void invoke(Req req, StreamObserver<Resp> streamObserver) {
+            if (this.methodId == 0) {
+                this.serviceImpl.fetchListeners((DiscoveryRequest) req, streamObserver);
+                return;
+            }
+            throw new AssertionError();
+        }
+
+        @Override // io.grpc.stub.ServerCalls.ClientStreamingMethod, io.grpc.stub.ServerCalls.StreamingRequestMethod, io.grpc.stub.ServerCalls.BidiStreamingMethod
+        public StreamObserver<Req> invoke(StreamObserver<Resp> streamObserver) {
+            int i = this.methodId;
+            if (i == 1) {
+                return (StreamObserver<Req>) this.serviceImpl.deltaListeners(streamObserver);
+            }
+            if (i == 2) {
+                return (StreamObserver<Req>) this.serviceImpl.streamListeners(streamObserver);
+            }
+            throw new AssertionError();
+        }
+    }
+
+    private static abstract class ListenerDiscoveryServiceBaseDescriptorSupplier implements ProtoFileDescriptorSupplier, ProtoServiceDescriptorSupplier {
+        ListenerDiscoveryServiceBaseDescriptorSupplier() {
+        }
+
+        @Override // io.grpc.protobuf.ProtoFileDescriptorSupplier
+        public Descriptors.FileDescriptor getFileDescriptor() {
+            return LdsProto.getDescriptor();
+        }
+
+        @Override // io.grpc.protobuf.ProtoServiceDescriptorSupplier
+        public Descriptors.ServiceDescriptor getServiceDescriptor() {
+            return getFileDescriptor().findServiceByName("ListenerDiscoveryService");
+        }
+    }
+
+    private static final class ListenerDiscoveryServiceFileDescriptorSupplier extends ListenerDiscoveryServiceBaseDescriptorSupplier {
+        ListenerDiscoveryServiceFileDescriptorSupplier() {
+        }
+    }
+
+    private static final class ListenerDiscoveryServiceMethodDescriptorSupplier extends ListenerDiscoveryServiceBaseDescriptorSupplier implements ProtoMethodDescriptorSupplier {
+        private final String methodName;
+
+        ListenerDiscoveryServiceMethodDescriptorSupplier(String str) {
+            this.methodName = str;
+        }
+
+        @Override // io.grpc.protobuf.ProtoMethodDescriptorSupplier
+        public Descriptors.MethodDescriptor getMethodDescriptor() {
+            return getServiceDescriptor().findMethodByName(this.methodName);
+        }
+    }
+
+    public static ServiceDescriptor getServiceDescriptor() {
+        ServiceDescriptor serviceDescriptorBuild = serviceDescriptor;
+        if (serviceDescriptorBuild == null) {
+            synchronized (ListenerDiscoveryServiceGrpc.class) {
+                serviceDescriptorBuild = serviceDescriptor;
+                if (serviceDescriptorBuild == null) {
+                    serviceDescriptorBuild = ServiceDescriptor.newBuilder(SERVICE_NAME).setSchemaDescriptor(new ListenerDiscoveryServiceFileDescriptorSupplier()).addMethod(getDeltaListenersMethod()).addMethod(getStreamListenersMethod()).addMethod(getFetchListenersMethod()).build();
+                    serviceDescriptor = serviceDescriptorBuild;
+                }
+            }
+        }
+        return serviceDescriptorBuild;
+    }
+}

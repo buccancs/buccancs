@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/GwtFluentFutureCatchingSpecialization.java
+// Size: 220 bytes
+// Modified: 2025-10-21 16:32:05.415753000 +0100
+
+package com.google.common.util.concurrent;
+
+/* loaded from: classes.dex */
+abstract class GwtFluentFutureCatchingSpecialization<V> extends AbstractFuture<V> {
+    GwtFluentFutureCatchingSpecialization() {
+    }
+}

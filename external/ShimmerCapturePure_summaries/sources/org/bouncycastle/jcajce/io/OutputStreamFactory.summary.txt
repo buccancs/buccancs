@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jcajce/io/OutputStreamFactory.java
+// Size: 639 bytes
+// Modified: 2025-10-21 16:32:02.987774200 +0100
+
+package org.bouncycastle.jcajce.io;
+
+import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.Signature;
+import javax.crypto.Mac;
+
+/* loaded from: classes5.dex */
+public class OutputStreamFactory {
+    public static OutputStream createStream(MessageDigest messageDigest) {
+        return new DigestUpdatingOutputStream(messageDigest);
+    }
+
+    public static OutputStream createStream(Signature signature) {
+        return new SignatureUpdatingOutputStream(signature);
+    }
+
+    public static OutputStream createStream(Mac mac) {
+        return new MacUpdatingOutputStream(mac);
+    }
+}

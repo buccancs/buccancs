@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/convert/DurationConverter.java
+// Size: 167 bytes
+// Modified: 2025-10-21 16:32:01.064864900 +0100
+
+package org.joda.time.convert;
+
+/* loaded from: classes2.dex */
+public interface DurationConverter extends Converter {
+    long getDurationMillis(Object obj);
+}

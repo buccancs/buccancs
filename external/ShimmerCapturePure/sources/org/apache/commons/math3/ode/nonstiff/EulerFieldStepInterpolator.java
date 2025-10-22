@@ -1,0 +1,33 @@
+package org.apache.commons.math3.ode.nonstiff;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
+
+/* loaded from: classes5.dex */
+class EulerFieldStepInterpolator<T extends RealFieldElement<T>> extends RungeKuttaFieldStepInterpolator<T> {
+    EulerFieldStepInterpolator(Field<T> field, boolean z, T[][] tArr, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative2, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative3, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative4, FieldEquationsMapper<T> fieldEquationsMapper) {
+        super(field, z, tArr, fieldODEStateAndDerivative, fieldODEStateAndDerivative2, fieldODEStateAndDerivative3, fieldODEStateAndDerivative4, fieldEquationsMapper);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.apache.commons.math3.ode.nonstiff.RungeKuttaFieldStepInterpolator
+    public EulerFieldStepInterpolator<T> create(Field<T> field, boolean z, T[][] tArr, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative2, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative3, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative4, FieldEquationsMapper<T> fieldEquationsMapper) {
+        return new EulerFieldStepInterpolator<>(field, z, tArr, fieldODEStateAndDerivative, fieldODEStateAndDerivative2, fieldODEStateAndDerivative3, fieldODEStateAndDerivative4, fieldEquationsMapper);
+    }
+
+    @Override // org.apache.commons.math3.ode.sampling.AbstractFieldStepInterpolator
+    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(FieldEquationsMapper<T> fieldEquationsMapper, T t, T t2, T t3, T t4) {
+        T[] tArrCurrentStateLinearCombination;
+        T[] tArrDerivativeLinearCombination;
+        if (getGlobalPreviousState() == null || t2.getReal() > 0.5d) {
+            tArrCurrentStateLinearCombination = currentStateLinearCombination((RealFieldElement) t4.negate());
+            tArrDerivativeLinearCombination = derivativeLinearCombination((RealFieldElement) t.getField().getOne());
+        } else {
+            tArrCurrentStateLinearCombination = previousStateLinearCombination(t3);
+            tArrDerivativeLinearCombination = derivativeLinearCombination((RealFieldElement) t.getField().getOne());
+        }
+        return new FieldODEStateAndDerivative<>(t, tArrCurrentStateLinearCombination, tArrDerivativeLinearCombination);
+    }
+}

@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/testing/SingleMessageProducer.java
+// Size: 632 bytes
+// Modified: 2025-10-21 16:32:03.381958500 +0100
+
+package io.grpc.internal.testing;
+
+import io.grpc.internal.StreamListener;
+import java.io.InputStream;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public class SingleMessageProducer implements StreamListener.MessageProducer {
+    private InputStream message;
+
+    @Override // io.grpc.internal.StreamListener.MessageProducer
+    @Nullable
+    public InputStream next() {
+        InputStream inputStream = this.message;
+        this.message = null;
+        return inputStream;
+    }
+
+    public SingleMessageProducer(InputStream inputStream) {
+        this.message = inputStream;
+    }
+}

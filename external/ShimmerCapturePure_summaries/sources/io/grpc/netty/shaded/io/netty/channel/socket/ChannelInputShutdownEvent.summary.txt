@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/socket/ChannelInputShutdownEvent.java
+// Size: 288 bytes
+// Modified: 2025-10-21 16:32:00.227189500 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.socket;
+
+/* loaded from: classes3.dex */
+public final class ChannelInputShutdownEvent {
+    public static final ChannelInputShutdownEvent INSTANCE = new ChannelInputShutdownEvent();
+
+    private ChannelInputShutdownEvent() {
+    }
+}

@@ -1,0 +1,97 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/stat/descriptive/StatisticalSummaryValues.java
+// Size: 3863 bytes
+// Modified: 2025-10-21 16:32:04.507624100 +0100
+
+package org.apache.commons.math.stat.descriptive;
+
+import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/StatisticalSummaryValues.class */
+public class StatisticalSummaryValues implements Serializable, StatisticalSummary {
+    private static final long serialVersionUID = -5108854841843722536L;
+    private final double mean;
+    private final double variance;
+    private final long n;
+    private final double max;
+    private final double min;
+    private final double sum;
+
+    public StatisticalSummaryValues(double mean, double variance, long n, double max, double min, double sum) {
+        this.mean = mean;
+        this.variance = variance;
+        this.n = n;
+        this.max = max;
+        this.min = min;
+        this.sum = sum;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getMax() {
+        return this.max;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getMean() {
+        return this.mean;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getMin() {
+        return this.min;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public long getN() {
+        return this.n;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getSum() {
+        return this.sum;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getStandardDeviation() {
+        return FastMath.sqrt(this.variance);
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getVariance() {
+        return this.variance;
+    }
+
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+        if (!(object instanceof StatisticalSummaryValues)) {
+            return false;
+        }
+        StatisticalSummaryValues stat = (StatisticalSummaryValues) object;
+        return MathUtils.equalsIncludingNaN(stat.getMax(), getMax()) && MathUtils.equalsIncludingNaN(stat.getMean(), getMean()) && MathUtils.equalsIncludingNaN(stat.getMin(), getMin()) && MathUtils.equalsIncludingNaN((float) stat.getN(), (float) getN()) && MathUtils.equalsIncludingNaN(stat.getSum(), getSum()) && MathUtils.equalsIncludingNaN(stat.getVariance(), getVariance());
+    }
+
+    public int hashCode() {
+        int result = 31 + MathUtils.hash(getMax());
+        return (((((((((result * 31) + MathUtils.hash(getMean())) * 31) + MathUtils.hash(getMin())) * 31) + MathUtils.hash(getN())) * 31) + MathUtils.hash(getSum())) * 31) + MathUtils.hash(getVariance());
+    }
+
+    public String toString() {
+        StringBuilder outBuffer = new StringBuilder();
+        outBuffer.append("StatisticalSummaryValues:").append(StringUtils.LF);
+        outBuffer.append("n: ").append(getN()).append(StringUtils.LF);
+        outBuffer.append("min: ").append(getMin()).append(StringUtils.LF);
+        outBuffer.append("max: ").append(getMax()).append(StringUtils.LF);
+        outBuffer.append("mean: ").append(getMean()).append(StringUtils.LF);
+        outBuffer.append("std dev: ").append(getStandardDeviation()).append(StringUtils.LF);
+        outBuffer.append("variance: ").append(getVariance()).append(StringUtils.LF);
+        outBuffer.append("sum: ").append(getSum()).append(StringUtils.LF);
+        return outBuffer.toString();
+    }
+}

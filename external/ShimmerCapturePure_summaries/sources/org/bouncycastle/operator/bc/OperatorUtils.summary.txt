@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/operator/bc/OperatorUtils.java
+// Size: 626 bytes
+// Modified: 2025-10-21 16:32:01.903237700 +0100
+
+package org.bouncycastle.operator.bc;
+
+import java.security.Key;
+import org.bouncycastle.operator.GenericKey;
+
+/* loaded from: classes5.dex */
+class OperatorUtils {
+    OperatorUtils() {
+    }
+
+    static byte[] getKeyBytes(GenericKey genericKey) {
+        if (genericKey.getRepresentation() instanceof Key) {
+            return ((Key) genericKey.getRepresentation()).getEncoded();
+        }
+        if (genericKey.getRepresentation() instanceof byte[]) {
+            return (byte[]) genericKey.getRepresentation();
+        }
+        throw new IllegalArgumentException("unknown generic key type");
+    }
+}

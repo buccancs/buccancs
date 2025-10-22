@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/ASN1OctetStringParser.java
+// Size: 223 bytes
+// Modified: 2025-10-21 16:32:03.295025400 +0100
+
+package org.bouncycastle.asn1;
+
+import java.io.InputStream;
+
+/* loaded from: classes5.dex */
+public interface ASN1OctetStringParser extends ASN1Encodable, InMemoryRepresentable {
+    InputStream getOctetStream();
+}

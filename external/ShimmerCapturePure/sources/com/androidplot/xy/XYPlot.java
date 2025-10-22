@@ -1,0 +1,857 @@
+package com.androidplot.xy;
+
+import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.util.AttributeSet;
+import com.androidplot.Plot;
+import com.androidplot.series.XYSeries;
+import com.androidplot.ui.AnchorPosition;
+import com.androidplot.ui.DataRenderer;
+import com.androidplot.ui.DynamicTableModel;
+import com.androidplot.ui.SizeLayoutType;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.TextOrientationType;
+import com.androidplot.ui.widget.DomainLabelWidget;
+import com.androidplot.ui.widget.RangeLabelWidget;
+import com.androidplot.util.PixelUtils;
+
+import java.text.Format;
+import java.util.ArrayList;
+
+/* loaded from: classes.dex */
+public class XYPlot extends Plot<XYSeries, XYSeriesFormatter, XYSeriesRenderer> {
+    ArrayList<YValueMarker> a;
+    ArrayList<XValueMarker> b;
+    private Number A;
+    private Number B;
+    private Number C;
+    private Number D;
+    private Number E;
+    private Number F;
+    private Number G;
+    private Number H;
+    private XYFramingModel I;
+    private XYFramingModel J;
+    private Number K;
+    private Number L;
+    private Number M;
+    private Number N;
+    private Number O;
+    private Number P;
+    private BoundaryMode Q;
+    private BoundaryMode R;
+    private BoundaryMode S;
+    private BoundaryMode T;
+    private boolean U;
+    private boolean V;
+    private RectRegion W;
+    private BoundaryMode c;
+    private BoundaryMode d;
+    private XYLegendWidget e;
+    private XYGraphWidget f;
+    private DomainLabelWidget g;
+    private RangeLabelWidget h;
+    private XYStepMode i;
+    private double j;
+    private XYStepMode k;
+    private double l;
+    private String m;
+    private String n;
+    private Number o;
+    private Number p;
+    private Number q;
+    private Number r;
+    private Number s;
+    private Number t;
+    private Number u;
+    private Number v;
+    private Number w;
+    private Number x;
+    private Number y;
+    private Number z;
+
+    public XYPlot(Context context, String str) {
+        super(context, str);
+        this.i = XYStepMode.SUBDIVIDE;
+        this.j = 10.0d;
+        this.k = XYStepMode.SUBDIVIDE;
+        this.l = 10.0d;
+        this.m = "domain";
+        this.n = "range";
+        this.A = null;
+        this.B = null;
+        this.C = null;
+        this.D = null;
+        this.E = null;
+        this.F = null;
+        this.G = null;
+        this.H = null;
+        this.I = XYFramingModel.EDGE;
+        this.J = XYFramingModel.EDGE;
+        this.O = null;
+        this.P = null;
+        this.Q = BoundaryMode.AUTO;
+        this.R = BoundaryMode.AUTO;
+        this.S = BoundaryMode.AUTO;
+        this.T = BoundaryMode.AUTO;
+        this.U = true;
+        this.V = true;
+        a(context);
+    }
+
+    public XYPlot(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        this.i = XYStepMode.SUBDIVIDE;
+        this.j = 10.0d;
+        this.k = XYStepMode.SUBDIVIDE;
+        this.l = 10.0d;
+        this.m = "domain";
+        this.n = "range";
+        this.A = null;
+        this.B = null;
+        this.C = null;
+        this.D = null;
+        this.E = null;
+        this.F = null;
+        this.G = null;
+        this.H = null;
+        this.I = XYFramingModel.EDGE;
+        this.J = XYFramingModel.EDGE;
+        this.O = null;
+        this.P = null;
+        this.Q = BoundaryMode.AUTO;
+        this.R = BoundaryMode.AUTO;
+        this.S = BoundaryMode.AUTO;
+        this.T = BoundaryMode.AUTO;
+        this.U = true;
+        this.V = true;
+        a(context);
+    }
+
+    public XYPlot(Context context, AttributeSet attributeSet, int i) {
+        super(context, attributeSet, i);
+        this.i = XYStepMode.SUBDIVIDE;
+        this.j = 10.0d;
+        this.k = XYStepMode.SUBDIVIDE;
+        this.l = 10.0d;
+        this.m = "domain";
+        this.n = "range";
+        this.A = null;
+        this.B = null;
+        this.C = null;
+        this.D = null;
+        this.E = null;
+        this.F = null;
+        this.G = null;
+        this.H = null;
+        this.I = XYFramingModel.EDGE;
+        this.J = XYFramingModel.EDGE;
+        this.O = null;
+        this.P = null;
+        this.Q = BoundaryMode.AUTO;
+        this.R = BoundaryMode.AUTO;
+        this.S = BoundaryMode.AUTO;
+        this.T = BoundaryMode.AUTO;
+        this.U = true;
+        this.V = true;
+        a(context);
+    }
+
+    private static double a(double d, double d2) {
+        return d > d2 ? d - d2 : d2 - d;
+    }
+
+    private static boolean a(double d, Number number, Number number2) {
+        return (number == null || (d > number.doubleValue() ? 1 : (d == number.doubleValue() ? 0 : -1)) >= 0) && (number2 == null || (d > number2.doubleValue() ? 1 : (d == number2.doubleValue() ? 0 : -1)) <= 0);
+    }
+
+    private static Number a(Number number, Number number2, Number number3) {
+        if (number2 != null && number.doubleValue() <= number2.doubleValue()) {
+            number = number2;
+        }
+        return (number3 == null || number.doubleValue() < number3.doubleValue()) ? number : number3;
+    }
+
+    public RectRegion getDefaultBounds() {
+        return this.W;
+    }
+
+    public void setDefaultBounds(RectRegion rectRegion) {
+        this.W = rectRegion;
+    }
+
+    public XYFramingModel getDomainFramingModel() {
+        return this.I;
+    }
+
+    public String getDomainLabel() {
+        return this.m;
+    }
+
+    public void setDomainLabel(String str) {
+        this.m = str;
+        if (getDomainLabelWidget() != null) {
+            getDomainLabelWidget().pack();
+        }
+    }
+
+    public DomainLabelWidget getDomainLabelWidget() {
+        return this.g;
+    }
+
+    public void setDomainLabelWidget(DomainLabelWidget domainLabelWidget) {
+        this.g = domainLabelWidget;
+    }
+
+    public Number getDomainLeftMax() {
+        return this.F;
+    }
+
+    public synchronized void setDomainLeftMax(Number number) {
+        this.F = number;
+    }
+
+    public Number getDomainLeftMin() {
+        return this.E;
+    }
+
+    public synchronized void setDomainLeftMin(Number number) {
+        this.E = number;
+    }
+
+    public Number getDomainOrigin() {
+        return this.M;
+    }
+
+    public Number getDomainRightMax() {
+        return this.H;
+    }
+
+    public synchronized void setDomainRightMax(Number number) {
+        this.H = number;
+    }
+
+    public Number getDomainRightMin() {
+        return this.G;
+    }
+
+    public synchronized void setDomainRightMin(Number number) {
+        this.G = number;
+    }
+
+    public XYStepMode getDomainStepMode() {
+        return this.i;
+    }
+
+    public void setDomainStepMode(XYStepMode xYStepMode) {
+        this.i = xYStepMode;
+    }
+
+    public double getDomainStepValue() {
+        return this.j;
+    }
+
+    public void setDomainStepValue(double d) {
+        this.j = d;
+    }
+
+    public XYGraphWidget getGraphWidget() {
+        return this.f;
+    }
+
+    public void setGraphWidget(XYGraphWidget xYGraphWidget) {
+        this.f = xYGraphWidget;
+    }
+
+    public XYLegendWidget getLegendWidget() {
+        return this.e;
+    }
+
+    public void setLegendWidget(XYLegendWidget xYLegendWidget) {
+        this.e = xYLegendWidget;
+    }
+
+    public Number getRangeBottomMax() {
+        return this.D;
+    }
+
+    public synchronized void setRangeBottomMax(Number number) {
+        this.D = number;
+    }
+
+    public Number getRangeBottomMin() {
+        return this.C;
+    }
+
+    public synchronized void setRangeBottomMin(Number number) {
+        this.C = number;
+    }
+
+    public XYFramingModel getRangeFramingModel() {
+        return this.J;
+    }
+
+    public String getRangeLabel() {
+        return this.n;
+    }
+
+    public void setRangeLabel(String str) {
+        this.n = str;
+        if (getRangeLabelWidget() != null) {
+            getRangeLabelWidget().pack();
+        }
+    }
+
+    public RangeLabelWidget getRangeLabelWidget() {
+        return this.h;
+    }
+
+    public void setRangeLabelWidget(RangeLabelWidget rangeLabelWidget) {
+        this.h = rangeLabelWidget;
+    }
+
+    public Number getRangeOrigin() {
+        return this.N;
+    }
+
+    public XYStepMode getRangeStepMode() {
+        return this.k;
+    }
+
+    public void setRangeStepMode(XYStepMode xYStepMode) {
+        this.k = xYStepMode;
+    }
+
+    public double getRangeStepValue() {
+        return this.l;
+    }
+
+    public void setRangeStepValue(double d) {
+        this.l = d;
+    }
+
+    public Number getRangeTopMax() {
+        return this.B;
+    }
+
+    public synchronized void setRangeTopMax(Number number) {
+        this.B = number;
+    }
+
+    public Number getRangeTopMin() {
+        return this.A;
+    }
+
+    public synchronized void setRangeTopMin(Number number) {
+        this.A = number;
+    }
+
+    public boolean isDrawDomainOriginEnabled() {
+        return this.U;
+    }
+
+    public void setDrawDomainOriginEnabled(boolean z) {
+        this.U = z;
+    }
+
+    public boolean isDrawRangeOriginEnabled() {
+        return this.V;
+    }
+
+    public void setDrawRangeOriginEnabled(boolean z) {
+        this.V = z;
+    }
+
+    @Override // com.androidplot.Plot
+    protected final /* bridge */ /* synthetic */ DataRenderer a(Class cls) {
+        if (cls == LineAndPointRenderer.class) {
+            return new LineAndPointRenderer(this);
+        }
+        if (cls == BarRenderer.class) {
+            return new BarRenderer(this);
+        }
+        if (cls == StepRenderer.class) {
+            return new StepRenderer(this);
+        }
+        if (cls == BezierLineAndPointRenderer.class) {
+            return new BezierLineAndPointRenderer(this);
+        }
+        return null;
+    }
+
+    private void a(Context context) {
+        this.e = new XYLegendWidget(this, new SizeMetrics(PixelUtils.dpToPix(context, 10.0f), SizeLayoutType.ABSOLUTE, 0.5f, SizeLayoutType.RELATIVE), new DynamicTableModel(0, 1), new SizeMetrics(PixelUtils.dpToPix(context, 7.0f), SizeLayoutType.ABSOLUTE, PixelUtils.dpToPix(context, 7.0f), SizeLayoutType.ABSOLUTE));
+        this.f = new XYGraphWidget(this, new SizeMetrics(PixelUtils.dpToPix(context, 18.0f), SizeLayoutType.FILL, PixelUtils.dpToPix(context, 10.0f), SizeLayoutType.FILL));
+        Paint paint = new Paint();
+        paint.setColor(-12303292);
+        paint.setStyle(Paint.Style.FILL);
+        this.f.setBackgroundPaint(paint);
+        this.g = new DomainLabelWidget(this, new SizeMetrics(PixelUtils.dpToPix(context, 10.0f), SizeLayoutType.ABSOLUTE, PixelUtils.dpToPix(context, 80.0f), SizeLayoutType.ABSOLUTE), TextOrientationType.HORIZONTAL);
+        this.h = new RangeLabelWidget(this, new SizeMetrics(PixelUtils.dpToPix(context, 50.0f), SizeLayoutType.ABSOLUTE, PixelUtils.dpToPix(context, 10.0f), SizeLayoutType.ABSOLUTE), TextOrientationType.VERTICAL_ASCENDING);
+        getLayoutManager().position(this.e, PixelUtils.dpToPix(context, 40.0f), XLayoutStyle.ABSOLUTE_FROM_RIGHT, PixelUtils.dpToPix(context, 0.0f), YLayoutStyle.ABSOLUTE_FROM_BOTTOM, AnchorPosition.RIGHT_BOTTOM);
+        getLayoutManager().position(this.f, PixelUtils.dpToPix(context, 0.0f), XLayoutStyle.ABSOLUTE_FROM_RIGHT, PixelUtils.dpToPix(context, 0.0f), YLayoutStyle.ABSOLUTE_FROM_CENTER, AnchorPosition.RIGHT_MIDDLE);
+        getLayoutManager().position(this.g, PixelUtils.dpToPix(context, 20.0f), XLayoutStyle.ABSOLUTE_FROM_LEFT, PixelUtils.dpToPix(context, 0.0f), YLayoutStyle.ABSOLUTE_FROM_BOTTOM, AnchorPosition.LEFT_BOTTOM);
+        getLayoutManager().position(this.h, PixelUtils.dpToPix(context, 0.0f), XLayoutStyle.ABSOLUTE_FROM_LEFT, PixelUtils.dpToPix(context, 0.0f), YLayoutStyle.ABSOLUTE_FROM_CENTER, AnchorPosition.LEFT_MIDDLE);
+        getLayoutManager().moveToTop(getTitleWidget());
+        getLayoutManager().moveToTop(getLegendWidget());
+        this.f.setMarginTop(PixelUtils.dpToPix(context, 3.0f));
+        this.f.setMarginRight(PixelUtils.dpToPix(context, 3.0f));
+        getTitleWidget().pack();
+        getDomainLabelWidget().pack();
+        getRangeLabelWidget().pack();
+        setPlotMarginLeft(PixelUtils.dpToPix(context, 2.0f));
+        setPlotMarginRight(PixelUtils.dpToPix(context, 2.0f));
+        setPlotMarginBottom(PixelUtils.dpToPix(context, 2.0f));
+        this.b = new ArrayList<>();
+        this.a = new ArrayList<>();
+        setDefaultBounds(new RectRegion(-1, 1, -1, 1));
+    }
+
+    public void setGridPadding(float f, float f2, float f3, float f4) {
+        getGraphWidget().setGridPaddingTop(f2);
+        getGraphWidget().setGridPaddingBottom(f4);
+        getGraphWidget().setGridPaddingLeft(f);
+        getGraphWidget().setGridPaddingRight(f3);
+    }
+
+    @Override // com.androidplot.Plot
+    protected final void a() {
+        calculateMinMaxVals();
+    }
+
+    public boolean containsPoint(float f, float f2) {
+        if (getGraphWidget().getGridRect() != null) {
+            return getGraphWidget().getGridRect().contains(f, f2);
+        }
+        return false;
+    }
+
+    public boolean containsPoint(PointF pointF) {
+        return containsPoint(pointF.x, pointF.y);
+    }
+
+    public void setCursorPosition(PointF pointF) {
+        getGraphWidget().setCursorPosition(pointF);
+    }
+
+    public void setCursorPosition(float f, float f2) {
+        getGraphWidget().setCursorPosition(f, f2);
+    }
+
+    public Number getYVal(PointF pointF) {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    public Number getXVal(PointF pointF) {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0134  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0189  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public void calculateMinMaxVals() {
+        /*
+            Method dump skipped, instructions count: 537
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.androidplot.xy.XYPlot.calculateMinMaxVals():void");
+    }
+
+    public void updateRangeMinMaxForEdgeModel() {
+        int i = a.b[this.S.ordinal()];
+        if (i != 1 && i != 2) {
+            if (i != 3) {
+                if (i != 4) {
+                    throw new UnsupportedOperationException("RangeUpperBoundaryMode not supported: " + this.S);
+                }
+                if (this.z != null && this.v.doubleValue() >= this.z.doubleValue()) {
+                    this.v = this.z;
+                }
+            } else if (this.z != null && this.v.doubleValue() <= this.z.doubleValue()) {
+                this.v = this.z;
+            }
+        }
+        int i2 = a.b[this.T.ordinal()];
+        if (i2 == 1 || i2 == 2) {
+            return;
+        }
+        if (i2 == 3) {
+            if (this.y == null || this.u.doubleValue() < this.y.doubleValue()) {
+                return;
+            }
+            this.u = this.y;
+            return;
+        }
+        if (i2 != 4) {
+            throw new UnsupportedOperationException("RangeLowerBoundaryMode not supported: " + this.T);
+        }
+        if (this.y == null || this.u.doubleValue() > this.y.doubleValue()) {
+            return;
+        }
+        this.u = this.y;
+    }
+
+    public void centerOnDomainOrigin(Number number) {
+        centerOnDomainOrigin(number, null, BoundaryMode.AUTO);
+    }
+
+    public void centerOnDomainOrigin(Number number, Number number2, BoundaryMode boundaryMode) {
+        if (number == null) {
+            throw new NullPointerException("Origin param cannot be null.");
+        }
+        this.I = XYFramingModel.ORIGIN;
+        setUserDomainOrigin(number);
+        this.O = number2;
+        this.c = boundaryMode;
+        if (boundaryMode != BoundaryMode.FIXED) {
+            this.p = null;
+            this.o = null;
+        } else {
+            double dDoubleValue = this.K.doubleValue();
+            double dDoubleValue2 = this.O.doubleValue();
+            this.p = Double.valueOf(dDoubleValue + dDoubleValue2);
+            this.o = Double.valueOf(dDoubleValue - dDoubleValue2);
+        }
+    }
+
+    public void centerOnRangeOrigin(Number number) {
+        centerOnRangeOrigin(number, null, BoundaryMode.AUTO);
+    }
+
+    public void centerOnRangeOrigin(Number number, Number number2, BoundaryMode boundaryMode) {
+        if (number == null) {
+            throw new NullPointerException("Origin param cannot be null.");
+        }
+        this.J = XYFramingModel.ORIGIN;
+        setUserRangeOrigin(number);
+        this.P = number2;
+        this.d = boundaryMode;
+        if (boundaryMode != BoundaryMode.FIXED) {
+            this.r = null;
+            this.q = null;
+        } else {
+            double dDoubleValue = this.L.doubleValue();
+            double dDoubleValue2 = this.P.doubleValue();
+            this.r = Double.valueOf(dDoubleValue + dDoubleValue2);
+            this.q = Double.valueOf(dDoubleValue - dDoubleValue2);
+        }
+    }
+
+    public void updateDomainMinMaxForOriginModel() {
+        double dDoubleValue = this.K.doubleValue();
+        double dA = a(this.t.doubleValue(), dDoubleValue);
+        double dA2 = a(this.s.doubleValue(), dDoubleValue);
+        if (dA <= dA2) {
+            dA = dA2;
+        }
+        double d = dDoubleValue - dA;
+        double d2 = dDoubleValue + dA;
+        int i = a.b[this.c.ordinal()];
+        if (i != 1) {
+            if (i == 2) {
+                this.s = Double.valueOf(d);
+                this.t = Double.valueOf(d2);
+                return;
+            }
+            if (i == 3) {
+                Number number = this.w;
+                if (number == null || d < number.doubleValue()) {
+                    this.s = Double.valueOf(d);
+                } else {
+                    this.s = this.w;
+                }
+                Number number2 = this.x;
+                if (number2 == null || d2 > number2.doubleValue()) {
+                    this.t = Double.valueOf(d2);
+                    return;
+                } else {
+                    this.t = this.x;
+                    return;
+                }
+            }
+            if (i != 4) {
+                throw new UnsupportedOperationException("Domain Origin Boundary Mode not yet supported: " + this.c);
+            }
+            Number number3 = this.w;
+            if (number3 == null || d > number3.doubleValue()) {
+                this.s = Double.valueOf(d);
+            } else {
+                this.s = this.w;
+            }
+            Number number4 = this.x;
+            if (number4 == null || d2 < number4.doubleValue()) {
+                this.t = Double.valueOf(d2);
+            } else {
+                this.t = this.x;
+            }
+        }
+    }
+
+    public void updateRangeMinMaxForOriginModel() {
+        if (a.b[this.d.ordinal()] == 2) {
+            double dDoubleValue = this.L.doubleValue();
+            double dA = a(this.v.doubleValue(), dDoubleValue);
+            double dA2 = a(this.u.doubleValue(), dDoubleValue);
+            if (dA > dA2) {
+                this.u = Double.valueOf(dDoubleValue - dA);
+                this.v = Double.valueOf(dDoubleValue + dA);
+                return;
+            } else {
+                this.u = Double.valueOf(dDoubleValue - dA2);
+                this.v = Double.valueOf(dDoubleValue + dA2);
+                return;
+            }
+        }
+        throw new UnsupportedOperationException("Range Origin Boundary Mode not yet supported: " + this.d);
+    }
+
+    public boolean addSeries(XYSeries xYSeries, XYSeriesFormatter xYSeriesFormatter) {
+        Class<?> cls = xYSeriesFormatter.getClass();
+        return addSeries(xYSeries, cls == LineAndPointFormatter.class ? LineAndPointRenderer.class : cls == BarFormatter.class ? BarRenderer.class : cls == StepFormatter.class ? StepRenderer.class : cls == BezierLineAndPointFormatter.class ? BezierLineAndPointRenderer.class : null, xYSeriesFormatter);
+    }
+
+    public int getTicksPerRangeLabel() {
+        return this.f.getTicksPerRangeLabel();
+    }
+
+    public void setTicksPerRangeLabel(int i) {
+        this.f.setTicksPerRangeLabel(i);
+    }
+
+    public int getTicksPerDomainLabel() {
+        return this.f.getTicksPerDomainLabel();
+    }
+
+    public void setTicksPerDomainLabel(int i) {
+        this.f.setTicksPerDomainLabel(i);
+    }
+
+    public void setDomainStep(XYStepMode xYStepMode, double d) {
+        setDomainStepMode(xYStepMode);
+        setDomainStepValue(d);
+    }
+
+    public void setRangeStep(XYStepMode xYStepMode, double d) {
+        setRangeStepMode(xYStepMode);
+        setRangeStepValue(d);
+    }
+
+    public Format getRangeValueFormat() {
+        return this.f.getRangeValueFormat();
+    }
+
+    public void setRangeValueFormat(Format format) {
+        this.f.setRangeValueFormat(format);
+    }
+
+    public Format getDomainValueFormat() {
+        return this.f.getDomainValueFormat();
+    }
+
+    public void setDomainValueFormat(Format format) {
+        this.f.setDomainValueFormat(format);
+    }
+
+    public synchronized void setDomainBoundaries(Number number, Number number2, BoundaryMode boundaryMode) {
+        setDomainBoundaries(number, boundaryMode, number2, boundaryMode);
+    }
+
+    public synchronized void setDomainBoundaries(Number number, BoundaryMode boundaryMode, Number number2, BoundaryMode boundaryMode2) {
+        setDomainLowerBoundary(number, boundaryMode);
+        setDomainUpperBoundary(number2, boundaryMode2);
+    }
+
+    public synchronized void setRangeBoundaries(Number number, Number number2, BoundaryMode boundaryMode) {
+        setRangeBoundaries(number, boundaryMode, number2, boundaryMode);
+    }
+
+    public synchronized void setRangeBoundaries(Number number, BoundaryMode boundaryMode, Number number2, BoundaryMode boundaryMode2) {
+        setRangeLowerBoundary(number, boundaryMode);
+        setRangeUpperBoundary(number2, boundaryMode2);
+    }
+
+    private synchronized void a(BoundaryMode boundaryMode) {
+        this.Q = boundaryMode;
+    }
+
+    private synchronized void a(Number number) {
+        this.p = number;
+    }
+
+    public synchronized void setDomainUpperBoundary(Number number, BoundaryMode boundaryMode) {
+        if (boundaryMode != BoundaryMode.FIXED) {
+            number = null;
+        }
+        a(number);
+        a(boundaryMode);
+        this.I = XYFramingModel.EDGE;
+    }
+
+    private synchronized void b(BoundaryMode boundaryMode) {
+        this.R = boundaryMode;
+    }
+
+    private synchronized void b(Number number) {
+        this.o = number;
+    }
+
+    public synchronized void setDomainLowerBoundary(Number number, BoundaryMode boundaryMode) {
+        if (boundaryMode != BoundaryMode.FIXED) {
+            number = null;
+        }
+        b(number);
+        b(boundaryMode);
+        this.I = XYFramingModel.EDGE;
+    }
+
+    private synchronized void c(BoundaryMode boundaryMode) {
+        this.S = boundaryMode;
+    }
+
+    private synchronized void c(Number number) {
+        this.r = number;
+    }
+
+    public synchronized void setRangeUpperBoundary(Number number, BoundaryMode boundaryMode) {
+        if (boundaryMode != BoundaryMode.FIXED) {
+            number = null;
+        }
+        c(number);
+        c(boundaryMode);
+        this.J = XYFramingModel.EDGE;
+    }
+
+    private synchronized void d(BoundaryMode boundaryMode) {
+        this.T = boundaryMode;
+    }
+
+    private synchronized void d(Number number) {
+        this.q = number;
+    }
+
+    public synchronized void setRangeLowerBoundary(Number number, BoundaryMode boundaryMode) {
+        if (boundaryMode != BoundaryMode.FIXED) {
+            number = null;
+        }
+        d(number);
+        d(boundaryMode);
+        this.J = XYFramingModel.EDGE;
+    }
+
+    public synchronized void setUserDomainOrigin(Number number) {
+        if (number == null) {
+            throw new NullPointerException("Origin value cannot be null.");
+        }
+        this.K = number;
+    }
+
+    public synchronized void setUserRangeOrigin(Number number) {
+        if (number == null) {
+            throw new NullPointerException("Origin value cannot be null.");
+        }
+        this.L = number;
+    }
+
+    public Number getCalculatedMinX() {
+        Number number = this.s;
+        return number != null ? number : getDefaultBounds().getMinX();
+    }
+
+    public Number getCalculatedMaxX() {
+        Number number = this.t;
+        return number != null ? number : getDefaultBounds().getMaxX();
+    }
+
+    public Number getCalculatedMinY() {
+        Number number = this.u;
+        return number != null ? number : getDefaultBounds().getMinY();
+    }
+
+    public Number getCalculatedMaxY() {
+        Number number = this.v;
+        return number != null ? number : getDefaultBounds().getMaxY();
+    }
+
+    public boolean addMarker(YValueMarker yValueMarker) {
+        if (this.a.contains(yValueMarker)) {
+            return false;
+        }
+        return this.a.add(yValueMarker);
+    }
+
+    public YValueMarker removeMarker(YValueMarker yValueMarker) {
+        int iIndexOf = this.a.indexOf(yValueMarker);
+        if (iIndexOf == -1) {
+            return null;
+        }
+        return this.a.remove(iIndexOf);
+    }
+
+    public int removeMarkers() {
+        return removeXMarkers() + removeYMarkers();
+    }
+
+    public int removeYMarkers() {
+        int size = this.a.size();
+        this.a.clear();
+        return size;
+    }
+
+    public boolean addMarker(XValueMarker xValueMarker) {
+        return !this.b.contains(xValueMarker) && this.b.add(xValueMarker);
+    }
+
+    public XValueMarker removeMarker(XValueMarker xValueMarker) {
+        int iIndexOf = this.b.indexOf(xValueMarker);
+        if (iIndexOf == -1) {
+            return null;
+        }
+        return this.b.remove(iIndexOf);
+    }
+
+    public int removeXMarkers() {
+        int size = this.b.size();
+        this.b.clear();
+        return size;
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+        static final /* synthetic */ int[] b;
+
+        static {
+            int[] iArr = new int[BoundaryMode.values().length];
+            b = iArr;
+            try {
+                iArr[BoundaryMode.FIXED.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                b[BoundaryMode.AUTO.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                b[BoundaryMode.GROW.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                b[BoundaryMode.SHRINNK.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            int[] iArr2 = new int[XYFramingModel.values().length];
+            a = iArr2;
+            try {
+                iArr2[XYFramingModel.ORIGIN.ordinal()] = 1;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                a[XYFramingModel.EDGE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused6) {
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/DefaultHttp2WindowUpdateFrame.java
+// Size: 1010 bytes
+// Modified: 2025-10-21 16:32:04.924609400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+/* loaded from: classes3.dex */
+public class DefaultHttp2WindowUpdateFrame extends AbstractHttp2StreamFrame implements Http2WindowUpdateFrame {
+    private final int windowUpdateIncrement;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2Frame
+    public String name() {
+        return "WINDOW_UPDATE";
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2WindowUpdateFrame
+    public int windowSizeIncrement() {
+        return this.windowUpdateIncrement;
+    }
+
+    public DefaultHttp2WindowUpdateFrame(int i) {
+        this.windowUpdateIncrement = i;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.AbstractHttp2StreamFrame, io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2StreamFrame
+    public DefaultHttp2WindowUpdateFrame stream(Http2FrameStream http2FrameStream) {
+        super.stream(http2FrameStream);
+        return this;
+    }
+}

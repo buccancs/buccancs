@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/HttpResponse.java
+// Size: 582 bytes
+// Modified: 2025-10-21 16:32:05.945371700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http;
+
+/* loaded from: classes3.dex */
+public interface HttpResponse extends HttpMessage {
+    @Deprecated
+    HttpResponseStatus getStatus();
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpMessage, io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest, io.grpc.netty.shaded.io.netty.handler.codec.http.FullHttpRequest
+    HttpResponse setProtocolVersion(HttpVersion httpVersion);
+
+    HttpResponse setStatus(HttpResponseStatus httpResponseStatus);
+
+    HttpResponseStatus status();
+}

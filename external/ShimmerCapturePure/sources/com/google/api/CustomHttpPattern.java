@@ -1,0 +1,542 @@
+package com.google.api;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public final class CustomHttpPattern extends GeneratedMessageV3 implements CustomHttpPatternOrBuilder {
+    public static final int KIND_FIELD_NUMBER = 1;
+    public static final int PATH_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final CustomHttpPattern DEFAULT_INSTANCE = new CustomHttpPattern();
+    private static final Parser<CustomHttpPattern> PARSER = new AbstractParser<CustomHttpPattern>() { // from class: com.google.api.CustomHttpPattern.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public CustomHttpPattern m808parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new CustomHttpPattern(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object kind_;
+    private byte memoizedIsInitialized;
+    private volatile Object path_;
+
+    private CustomHttpPattern(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private CustomHttpPattern() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.kind_ = "";
+        this.path_ = "";
+    }
+
+    private CustomHttpPattern(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.kind_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                this.path_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static CustomHttpPattern getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<CustomHttpPattern> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return HttpProto.internal_static_google_api_CustomHttpPattern_descriptor;
+    }
+
+    public static CustomHttpPattern parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (CustomHttpPattern) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static CustomHttpPattern parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CustomHttpPattern) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static CustomHttpPattern parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (CustomHttpPattern) PARSER.parseFrom(byteString);
+    }
+
+    public static CustomHttpPattern parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CustomHttpPattern) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static CustomHttpPattern parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (CustomHttpPattern) PARSER.parseFrom(bArr);
+    }
+
+    public static CustomHttpPattern parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CustomHttpPattern) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static CustomHttpPattern parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static CustomHttpPattern parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CustomHttpPattern parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static CustomHttpPattern parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CustomHttpPattern parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static CustomHttpPattern parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m807toBuilder();
+    }
+
+    public static Builder newBuilder(CustomHttpPattern customHttpPattern) {
+        return DEFAULT_INSTANCE.m807toBuilder().mergeFrom(customHttpPattern);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public CustomHttpPattern m802getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<CustomHttpPattern> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return HttpProto.internal_static_google_api_CustomHttpPattern_fieldAccessorTable.ensureFieldAccessorsInitialized(CustomHttpPattern.class, Builder.class);
+    }
+
+    @Override // com.google.api.CustomHttpPatternOrBuilder
+    public String getKind() {
+        Object obj = this.kind_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.kind_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.api.CustomHttpPatternOrBuilder
+    public ByteString getKindBytes() {
+        Object obj = this.kind_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.kind_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.api.CustomHttpPatternOrBuilder
+    public String getPath() {
+        Object obj = this.path_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.path_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.api.CustomHttpPatternOrBuilder
+    public ByteString getPathBytes() {
+        Object obj = this.path_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.path_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getKindBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.kind_);
+        }
+        if (!getPathBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.path_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getKindBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.kind_) : 0;
+        if (!getPathBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.path_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof CustomHttpPattern)) {
+            return super.equals(obj);
+        }
+        CustomHttpPattern customHttpPattern = (CustomHttpPattern) obj;
+        return getKind().equals(customHttpPattern.getKind()) && getPath().equals(customHttpPattern.getPath()) && this.unknownFields.equals(customHttpPattern.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getKind().hashCode()) * 37) + 2) * 53) + getPath().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m805newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m807toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] */
+    public Builder m804newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CustomHttpPatternOrBuilder {
+        private Object kind_;
+        private Object path_;
+
+        private Builder() {
+            this.kind_ = "";
+            this.path_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.kind_ = "";
+            this.path_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return HttpProto.internal_static_google_api_CustomHttpPattern_descriptor;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return HttpProto.internal_static_google_api_CustomHttpPattern_fieldAccessorTable.ensureFieldAccessorsInitialized(CustomHttpPattern.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = CustomHttpPattern.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m818clear() {
+            super.clear();
+            this.kind_ = "";
+            this.path_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return HttpProto.internal_static_google_api_CustomHttpPattern_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CustomHttpPattern m831getDefaultInstanceForType() {
+            return CustomHttpPattern.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CustomHttpPattern m812build() throws UninitializedMessageException {
+            CustomHttpPattern customHttpPatternM814buildPartial = m814buildPartial();
+            if (customHttpPatternM814buildPartial.isInitialized()) {
+                return customHttpPatternM814buildPartial;
+            }
+            throw newUninitializedMessageException(customHttpPatternM814buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CustomHttpPattern m814buildPartial() {
+            CustomHttpPattern customHttpPattern = new CustomHttpPattern(this);
+            customHttpPattern.kind_ = this.kind_;
+            customHttpPattern.path_ = this.path_;
+            onBuilt();
+            return customHttpPattern;
+        }
+
+        /* renamed from: clone, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m829clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m842setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m820clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m823clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m844setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m810addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m836mergeFrom(Message message) {
+            if (message instanceof CustomHttpPattern) {
+                return mergeFrom((CustomHttpPattern) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(CustomHttpPattern customHttpPattern) {
+            if (customHttpPattern == CustomHttpPattern.getDefaultInstance()) {
+                return this;
+            }
+            if (!customHttpPattern.getKind().isEmpty()) {
+                this.kind_ = customHttpPattern.kind_;
+                onChanged();
+            }
+            if (!customHttpPattern.getPath().isEmpty()) {
+                this.path_ = customHttpPattern.path_;
+                onChanged();
+            }
+            m840mergeUnknownFields(customHttpPattern.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public com.google.api.CustomHttpPattern.Builder m837mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = com.google.api.CustomHttpPattern.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                com.google.api.CustomHttpPattern r3 = (com.google.api.CustomHttpPattern) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                com.google.api.CustomHttpPattern r4 = (com.google.api.CustomHttpPattern) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: com.google.api.CustomHttpPattern.Builder.m837mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.google.api.CustomHttpPattern$Builder");
+        }
+
+        @Override // com.google.api.CustomHttpPatternOrBuilder
+        public String getKind() {
+            Object obj = this.kind_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.kind_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setKind(String str) {
+            str.getClass();
+            this.kind_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.api.CustomHttpPatternOrBuilder
+        public ByteString getKindBytes() {
+            Object obj = this.kind_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.kind_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setKindBytes(ByteString byteString) {
+            byteString.getClass();
+            CustomHttpPattern.checkByteStringIsUtf8(byteString);
+            this.kind_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearKind() {
+            this.kind_ = CustomHttpPattern.getDefaultInstance().getKind();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.api.CustomHttpPatternOrBuilder
+        public String getPath() {
+            Object obj = this.path_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.path_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setPath(String str) {
+            str.getClass();
+            this.path_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.api.CustomHttpPatternOrBuilder
+        public ByteString getPathBytes() {
+            Object obj = this.path_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.path_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setPathBytes(ByteString byteString) {
+            byteString.getClass();
+            CustomHttpPattern.checkByteStringIsUtf8(byteString);
+            this.path_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearPath() {
+            this.path_ = CustomHttpPattern.getDefaultInstance().getPath();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m846setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m840mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

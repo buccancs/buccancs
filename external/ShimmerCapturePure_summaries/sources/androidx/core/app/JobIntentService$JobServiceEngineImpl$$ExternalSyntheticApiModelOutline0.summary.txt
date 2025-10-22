@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/app/JobIntentService$JobServiceEngineImpl$$ExternalSyntheticApiModelOutline0.java
+// Size: 217 bytes
+// Modified: 2025-10-21 16:32:00.001122200 +0100
+
+package androidx.core.app;
+
+/* compiled from: D8$$SyntheticClass */
+/* loaded from: classes.dex */
+public final /* synthetic */ class JobIntentService$JobServiceEngineImpl$$ExternalSyntheticApiModelOutline0 {
+}

@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/Framer.java
+// Size: 438 bytes
+// Modified: 2025-10-21 16:32:00.828626500 +0100
+
+package io.grpc.internal;
+
+import io.grpc.Compressor;
+import java.io.InputStream;
+
+/* loaded from: classes2.dex */
+public interface Framer {
+    void close();
+
+    void dispose();
+
+    void flush();
+
+    boolean isClosed();
+
+    Framer setCompressor(Compressor compressor);
+
+    void setMaxOutboundMessageSize(int i);
+
+    Framer setMessageCompression(boolean z);
+
+    void writePayload(InputStream inputStream);
+}

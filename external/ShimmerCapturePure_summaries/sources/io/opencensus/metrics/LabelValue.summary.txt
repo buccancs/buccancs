@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/metrics/LabelValue.java
+// Size: 344 bytes
+// Modified: 2025-10-21 16:32:03.759812600 +0100
+
+package io.opencensus.metrics;
+
+import javax.annotation.Nullable;
+
+/* loaded from: classes4.dex */
+public abstract class LabelValue {
+    @Nullable
+    public abstract String getValue();
+
+    LabelValue() {
+    }
+
+    public static LabelValue create(@Nullable String str) {
+        return new AutoValue_LabelValue(str);
+    }
+}

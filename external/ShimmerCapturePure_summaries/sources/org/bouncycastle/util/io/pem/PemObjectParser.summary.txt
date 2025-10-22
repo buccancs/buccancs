@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/io/pem/PemObjectParser.java
+// Size: 209 bytes
+// Modified: 2025-10-21 16:32:01.908870000 +0100
+
+package org.bouncycastle.util.io.pem;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public interface PemObjectParser {
+    Object parseObject(PemObject pemObject) throws IOException;
+}

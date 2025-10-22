@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/convert/Converter.java
+// Size: 134 bytes
+// Modified: 2025-10-21 16:32:00.704654900 +0100
+
+package org.joda.time.convert;
+
+/* loaded from: classes2.dex */
+public interface Converter {
+    Class<?> getSupportedType();
+}

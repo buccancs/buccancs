@@ -1,12 +1,13 @@
 package com.buccancs.hardware.topdon
+
 import com.infisense.iruvc.ircmd.IRCMD
 import com.infisense.iruvc.ircmd.ResultCode
 import com.infisense.iruvc.utils.CommonParams
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 internal class CommandLayer(
     private val delegate: IRCMD,

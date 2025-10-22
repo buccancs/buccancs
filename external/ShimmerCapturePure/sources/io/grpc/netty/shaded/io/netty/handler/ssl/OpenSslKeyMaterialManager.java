@@ -1,0 +1,121 @@
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.X509ExtendedKeyManager;
+import javax.net.ssl.X509KeyManager;
+import javax.security.auth.x500.X500Principal;
+
+/* loaded from: classes3.dex */
+final class OpenSslKeyMaterialManager {
+    static final String KEY_TYPE_DH_RSA = "DH_RSA";
+    static final String KEY_TYPE_EC = "EC";
+    static final String KEY_TYPE_EC_EC = "EC_EC";
+    static final String KEY_TYPE_EC_RSA = "EC_RSA";
+    static final String KEY_TYPE_RSA = "RSA";
+    private static final Map<String, String> KEY_TYPES;
+
+    static {
+        HashMap map = new HashMap();
+        KEY_TYPES = map;
+        map.put(KEY_TYPE_RSA, KEY_TYPE_RSA);
+        map.put("DHE_RSA", KEY_TYPE_RSA);
+        map.put("ECDHE_RSA", KEY_TYPE_RSA);
+        map.put("ECDHE_ECDSA", KEY_TYPE_EC);
+        map.put("ECDH_RSA", KEY_TYPE_EC_RSA);
+        map.put("ECDH_ECDSA", KEY_TYPE_EC_EC);
+        map.put(KEY_TYPE_DH_RSA, KEY_TYPE_DH_RSA);
+    }
+
+    private final OpenSslKeyMaterialProvider provider;
+
+    OpenSslKeyMaterialManager(OpenSslKeyMaterialProvider openSslKeyMaterialProvider) {
+        this.provider = openSslKeyMaterialProvider;
+    }
+
+    void setKeyMaterialServerSide(ReferenceCountedOpenSslEngine referenceCountedOpenSslEngine) throws SSLException {
+        String strChooseServerAlias;
+        String[] strArrAuthMethods = referenceCountedOpenSslEngine.authMethods();
+        if (strArrAuthMethods.length == 0) {
+            return;
+        }
+        HashSet hashSet = new HashSet(strArrAuthMethods.length);
+        for (String str : strArrAuthMethods) {
+            String str2 = KEY_TYPES.get(str);
+            if (str2 != null && (strChooseServerAlias = chooseServerAlias(referenceCountedOpenSslEngine, str2)) != null && hashSet.add(strChooseServerAlias) && !setKeyMaterial(referenceCountedOpenSslEngine, strChooseServerAlias)) {
+                return;
+            }
+        }
+    }
+
+    void setKeyMaterialClientSide(ReferenceCountedOpenSslEngine referenceCountedOpenSslEngine, String[] strArr, X500Principal[] x500PrincipalArr) throws SSLException {
+        String strChooseClientAlias = chooseClientAlias(referenceCountedOpenSslEngine, strArr, x500PrincipalArr);
+        if (strChooseClientAlias != null) {
+            setKeyMaterial(referenceCountedOpenSslEngine, strChooseClientAlias);
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0014  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private boolean setKeyMaterial(io.grpc.netty.shaded.io.netty.handler.ssl.ReferenceCountedOpenSslEngine r4, java.lang.String r5) throws javax.net.ssl.SSLException {
+        /*
+            r3 = this;
+            r0 = 0
+            io.grpc.netty.shaded.io.netty.handler.ssl.OpenSslKeyMaterialProvider r1 = r3.provider     // Catch: java.lang.Throwable -> L1b java.lang.Exception -> L1d javax.net.ssl.SSLException -> L24
+            io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator r2 = r4.alloc     // Catch: java.lang.Throwable -> L1b java.lang.Exception -> L1d javax.net.ssl.SSLException -> L24
+            io.grpc.netty.shaded.io.netty.handler.ssl.OpenSslKeyMaterial r0 = r1.chooseKeyMaterial(r2, r5)     // Catch: java.lang.Throwable -> L1b java.lang.Exception -> L1d javax.net.ssl.SSLException -> L24
+            if (r0 == 0) goto L14
+            boolean r4 = r4.setKeyMaterial(r0)     // Catch: java.lang.Throwable -> L1b java.lang.Exception -> L1d javax.net.ssl.SSLException -> L24
+            if (r4 == 0) goto L12
+            goto L14
+        L12:
+            r4 = 0
+            goto L15
+        L14:
+            r4 = 1
+        L15:
+            if (r0 == 0) goto L1a
+            r0.release()
+        L1a:
+            return r4
+        L1b:
+            r4 = move-exception
+            goto L26
+        L1d:
+            r4 = move-exception
+            javax.net.ssl.SSLException r5 = new javax.net.ssl.SSLException     // Catch: java.lang.Throwable -> L1b
+            r5.<init>(r4)     // Catch: java.lang.Throwable -> L1b
+            throw r5     // Catch: java.lang.Throwable -> L1b
+        L24:
+            r4 = move-exception
+            throw r4     // Catch: java.lang.Throwable -> L1b
+        L26:
+            if (r0 == 0) goto L2b
+            r0.release()
+        L2b:
+            throw r4
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.handler.ssl.OpenSslKeyMaterialManager.setKeyMaterial(io.grpc.netty.shaded.io.netty.handler.ssl.ReferenceCountedOpenSslEngine, java.lang.String):boolean");
+    }
+
+    private String chooseClientAlias(ReferenceCountedOpenSslEngine referenceCountedOpenSslEngine, String[] strArr, X500Principal[] x500PrincipalArr) {
+        X509KeyManager x509KeyManagerKeyManager = this.provider.keyManager();
+        if (x509KeyManagerKeyManager instanceof X509ExtendedKeyManager) {
+            return ((X509ExtendedKeyManager) x509KeyManagerKeyManager).chooseEngineClientAlias(strArr, x500PrincipalArr, referenceCountedOpenSslEngine);
+        }
+        return x509KeyManagerKeyManager.chooseClientAlias(strArr, x500PrincipalArr, null);
+    }
+
+    private String chooseServerAlias(ReferenceCountedOpenSslEngine referenceCountedOpenSslEngine, String str) {
+        X509KeyManager x509KeyManagerKeyManager = this.provider.keyManager();
+        if (x509KeyManagerKeyManager instanceof X509ExtendedKeyManager) {
+            return ((X509ExtendedKeyManager) x509KeyManagerKeyManager).chooseEngineServerAlias(str, null, referenceCountedOpenSslEngine);
+        }
+        return x509KeyManagerKeyManager.chooseServerAlias(str, null, null);
+    }
+}

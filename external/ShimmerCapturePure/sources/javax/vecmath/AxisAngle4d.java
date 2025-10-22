@@ -1,0 +1,296 @@
+package javax.vecmath;
+
+import java.io.Serializable;
+
+/* loaded from: classes4.dex */
+public class AxisAngle4d implements Serializable, Cloneable {
+    static final double EPS = 1.0E-6d;
+    static final long serialVersionUID = 3644296204459140589L;
+    public double angle;
+    public double x;
+    public double y;
+    public double z;
+
+    public AxisAngle4d(double d, double d2, double d3, double d4) {
+        this.x = d;
+        this.y = d2;
+        this.z = d3;
+        this.angle = d4;
+    }
+
+    public AxisAngle4d(double[] dArr) {
+        this.x = dArr[0];
+        this.y = dArr[1];
+        this.z = dArr[2];
+        this.angle = dArr[3];
+    }
+
+    public AxisAngle4d(AxisAngle4d axisAngle4d) {
+        this.x = axisAngle4d.x;
+        this.y = axisAngle4d.y;
+        this.z = axisAngle4d.z;
+        this.angle = axisAngle4d.angle;
+    }
+
+    public AxisAngle4d(AxisAngle4f axisAngle4f) {
+        this.x = axisAngle4f.x;
+        this.y = axisAngle4f.y;
+        this.z = axisAngle4f.z;
+        this.angle = axisAngle4f.angle;
+    }
+
+    public AxisAngle4d(Vector3d vector3d, double d) {
+        this.x = vector3d.x;
+        this.y = vector3d.y;
+        this.z = vector3d.z;
+        this.angle = d;
+    }
+
+    public AxisAngle4d() {
+        this.x = 0.0d;
+        this.y = 0.0d;
+        this.z = 1.0d;
+        this.angle = 0.0d;
+    }
+
+    public final void set(double d, double d2, double d3, double d4) {
+        this.x = d;
+        this.y = d2;
+        this.z = d3;
+        this.angle = d4;
+    }
+
+    public final void set(double[] dArr) {
+        this.x = dArr[0];
+        this.y = dArr[1];
+        this.z = dArr[2];
+        this.angle = dArr[3];
+    }
+
+    public final void set(AxisAngle4d axisAngle4d) {
+        this.x = axisAngle4d.x;
+        this.y = axisAngle4d.y;
+        this.z = axisAngle4d.z;
+        this.angle = axisAngle4d.angle;
+    }
+
+    public final void set(AxisAngle4f axisAngle4f) {
+        this.x = axisAngle4f.x;
+        this.y = axisAngle4f.y;
+        this.z = axisAngle4f.z;
+        this.angle = axisAngle4f.angle;
+    }
+
+    public final void set(Vector3d vector3d, double d) {
+        this.x = vector3d.x;
+        this.y = vector3d.y;
+        this.z = vector3d.z;
+        this.angle = d;
+    }
+
+    public final void get(double[] dArr) {
+        dArr[0] = this.x;
+        dArr[1] = this.y;
+        dArr[2] = this.z;
+        dArr[3] = this.angle;
+    }
+
+    public final void set(Matrix4f matrix4f) {
+        Matrix3d matrix3d = new Matrix3d();
+        matrix4f.get(matrix3d);
+        this.x = (float) (matrix3d.m21 - matrix3d.m12);
+        this.y = (float) (matrix3d.m02 - matrix3d.m20);
+        double d = (float) (matrix3d.m10 - matrix3d.m01);
+        this.z = d;
+        double d2 = this.x;
+        double d3 = this.y;
+        double d4 = (d2 * d2) + (d3 * d3) + (d * d);
+        if (d4 <= 1.0E-6d) {
+            this.x = 0.0d;
+            this.y = 1.0d;
+            this.z = 0.0d;
+            this.angle = 0.0d;
+            return;
+        }
+        double dSqrt = Math.sqrt(d4);
+        this.angle = (float) Math.atan2(dSqrt * 0.5d, (((matrix3d.m00 + matrix3d.m11) + matrix3d.m22) - 1.0d) * 0.5d);
+        double d5 = 1.0d / dSqrt;
+        this.x *= d5;
+        this.y *= d5;
+        this.z *= d5;
+    }
+
+    public final void set(Matrix4d matrix4d) {
+        Matrix3d matrix3d = new Matrix3d();
+        matrix4d.get(matrix3d);
+        this.x = (float) (matrix3d.m21 - matrix3d.m12);
+        this.y = (float) (matrix3d.m02 - matrix3d.m20);
+        double d = (float) (matrix3d.m10 - matrix3d.m01);
+        this.z = d;
+        double d2 = this.x;
+        double d3 = this.y;
+        double d4 = (d2 * d2) + (d3 * d3) + (d * d);
+        if (d4 <= 1.0E-6d) {
+            this.x = 0.0d;
+            this.y = 1.0d;
+            this.z = 0.0d;
+            this.angle = 0.0d;
+            return;
+        }
+        double dSqrt = Math.sqrt(d4);
+        this.angle = (float) Math.atan2(dSqrt * 0.5d, (((matrix3d.m00 + matrix3d.m11) + matrix3d.m22) - 1.0d) * 0.5d);
+        double d5 = 1.0d / dSqrt;
+        this.x *= d5;
+        this.y *= d5;
+        this.z *= d5;
+    }
+
+    public final void set(Matrix3f matrix3f) {
+        this.x = matrix3f.m21 - matrix3f.m12;
+        this.y = matrix3f.m02 - matrix3f.m20;
+        double d = matrix3f.m10 - matrix3f.m01;
+        this.z = d;
+        double d2 = this.x;
+        double d3 = this.y;
+        double d4 = (d2 * d2) + (d3 * d3) + (d * d);
+        if (d4 <= 1.0E-6d) {
+            this.x = 0.0d;
+            this.y = 1.0d;
+            this.z = 0.0d;
+            this.angle = 0.0d;
+            return;
+        }
+        double dSqrt = Math.sqrt(d4);
+        this.angle = (float) Math.atan2(dSqrt * 0.5d, (((matrix3f.m00 + matrix3f.m11) + matrix3f.m22) - 1.0d) * 0.5d);
+        double d5 = 1.0d / dSqrt;
+        this.x *= d5;
+        this.y *= d5;
+        this.z *= d5;
+    }
+
+    public final void set(Matrix3d matrix3d) {
+        this.x = (float) (matrix3d.m21 - matrix3d.m12);
+        this.y = (float) (matrix3d.m02 - matrix3d.m20);
+        double d = (float) (matrix3d.m10 - matrix3d.m01);
+        this.z = d;
+        double d2 = this.x;
+        double d3 = this.y;
+        double d4 = (d2 * d2) + (d3 * d3) + (d * d);
+        if (d4 <= 1.0E-6d) {
+            this.x = 0.0d;
+            this.y = 1.0d;
+            this.z = 0.0d;
+            this.angle = 0.0d;
+            return;
+        }
+        double dSqrt = Math.sqrt(d4);
+        this.angle = (float) Math.atan2(dSqrt * 0.5d, (((matrix3d.m00 + matrix3d.m11) + matrix3d.m22) - 1.0d) * 0.5d);
+        double d5 = 1.0d / dSqrt;
+        this.x *= d5;
+        this.y *= d5;
+        this.z *= d5;
+    }
+
+    public final void set(Quat4f quat4f) {
+        double d = (quat4f.x * quat4f.x) + (quat4f.y * quat4f.y) + (quat4f.z * quat4f.z);
+        if (d <= 1.0E-6d) {
+            this.x = 0.0d;
+            this.y = 1.0d;
+            this.z = 0.0d;
+            this.angle = 0.0d;
+            return;
+        }
+        double dSqrt = Math.sqrt(d);
+        double d2 = 1.0d / dSqrt;
+        this.x = quat4f.x * d2;
+        this.y = quat4f.y * d2;
+        this.z = quat4f.z * d2;
+        this.angle = Math.atan2(dSqrt, quat4f.w) * 2.0d;
+    }
+
+    public final void set(Quat4d quat4d) {
+        double d = (quat4d.x * quat4d.x) + (quat4d.y * quat4d.y) + (quat4d.z * quat4d.z);
+        if (d <= 1.0E-6d) {
+            this.x = 0.0d;
+            this.y = 1.0d;
+            this.z = 0.0d;
+            this.angle = 0.0d;
+            return;
+        }
+        double dSqrt = Math.sqrt(d);
+        double d2 = 1.0d / dSqrt;
+        this.x = quat4d.x * d2;
+        this.y = quat4d.y * d2;
+        this.z = quat4d.z * d2;
+        this.angle = Math.atan2(dSqrt, quat4d.w) * 2.0d;
+    }
+
+    public String toString() {
+        return new StringBuffer("(").append(this.x).append(", ").append(this.y).append(", ").append(this.z).append(", ").append(this.angle).append(")").toString();
+    }
+
+    public boolean equals(AxisAngle4d axisAngle4d) {
+        try {
+            if (this.x == axisAngle4d.x && this.y == axisAngle4d.y && this.z == axisAngle4d.z) {
+                return this.angle == axisAngle4d.angle;
+            }
+            return false;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean equals(Object obj) {
+        try {
+            AxisAngle4d axisAngle4d = (AxisAngle4d) obj;
+            if (this.x == axisAngle4d.x && this.y == axisAngle4d.y && this.z == axisAngle4d.z) {
+                return this.angle == axisAngle4d.angle;
+            }
+            return false;
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean epsilonEquals(AxisAngle4d axisAngle4d, double d) {
+        double d2 = this.x - axisAngle4d.x;
+        if (d2 < 0.0d) {
+            d2 = -d2;
+        }
+        if (d2 > d) {
+            return false;
+        }
+        double d3 = this.y - axisAngle4d.y;
+        if (d3 < 0.0d) {
+            d3 = -d3;
+        }
+        if (d3 > d) {
+            return false;
+        }
+        double d4 = this.z - axisAngle4d.z;
+        if (d4 < 0.0d) {
+            d4 = -d4;
+        }
+        if (d4 > d) {
+            return false;
+        }
+        double d5 = this.angle - axisAngle4d.angle;
+        if (d5 < 0.0d) {
+            d5 = -d5;
+        }
+        return d5 <= d;
+    }
+
+    public int hashCode() {
+        long jDoubleToLongBits = ((((((Double.doubleToLongBits(this.x) + 31) * 31) + Double.doubleToLongBits(this.y)) * 31) + Double.doubleToLongBits(this.z)) * 31) + Double.doubleToLongBits(this.angle);
+        return (int) (jDoubleToLongBits ^ (jDoubleToLongBits >> 32));
+    }
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException unused) {
+            throw new InternalError();
+        }
+    }
+}

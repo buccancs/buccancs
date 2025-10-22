@@ -3,8 +3,8 @@
 
     <application>
         <activity
-            android:name="com.topdon.pseudo.activity.PseudoSetActivity"
-            android:screenOrientation="userPortrait" />
+                android:name="com.topdon.pseudo.activity.PseudoSetActivity"
+                android:screenOrientation="userPortrait"/>
     </application>
 
 </manifest>

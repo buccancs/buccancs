@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/convert/IntervalConverter.java
+// Size: 373 bytes
+// Modified: 2025-10-21 16:32:05.643803100 +0100
+
+package org.joda.time.convert;
+
+import org.joda.time.Chronology;
+import org.joda.time.ReadWritableInterval;
+
+/* loaded from: classes2.dex */
+public interface IntervalConverter extends Converter {
+    boolean isReadableInterval(Object obj, Chronology chronology);
+
+    void setInto(ReadWritableInterval readWritableInterval, Object obj, Chronology chronology);
+}

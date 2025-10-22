@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/compression/ZlibEncoder.java
+// Size: 657 bytes
+// Modified: 2025-10-21 16:32:08.011809000 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.compression;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.handler.codec.MessageToByteEncoder;
+
+/* loaded from: classes3.dex */
+public abstract class ZlibEncoder extends MessageToByteEncoder<ByteBuf> {
+    public abstract ChannelFuture close();
+
+    public abstract ChannelFuture close(ChannelPromise channelPromise);
+
+    public abstract boolean isClosed();
+
+    protected ZlibEncoder() {
+        super(false);
+    }
+}

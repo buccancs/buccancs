@@ -1,0 +1,999 @@
+package io.grpc.xds.shaded.com.google.api.expr.v1alpha1;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.MapEntry;
+import com.google.protobuf.MapField;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import com.google.protobuf.WireFormat;
+import io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Expr;
+import io.grpc.xds.shaded.com.google.api.expr.v1alpha1.SourceInfo;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public final class CheckedExpr extends GeneratedMessageV3 implements CheckedExprOrBuilder {
+    public static final int EXPR_FIELD_NUMBER = 4;
+    public static final int REFERENCE_MAP_FIELD_NUMBER = 2;
+    public static final int SOURCE_INFO_FIELD_NUMBER = 5;
+    public static final int TYPE_MAP_FIELD_NUMBER = 3;
+    private static final long serialVersionUID = 0;
+    private static final CheckedExpr DEFAULT_INSTANCE = new CheckedExpr();
+    private static final Parser<CheckedExpr> PARSER = new AbstractParser<CheckedExpr>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public CheckedExpr m10456parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new CheckedExpr(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private Expr expr_;
+    private byte memoizedIsInitialized;
+    private MapField<Long, Reference> referenceMap_;
+    private SourceInfo sourceInfo_;
+    private MapField<Long, Type> typeMap_;
+
+    private CheckedExpr(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private CheckedExpr() {
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private CheckedExpr(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 18) {
+                            if ((i & 1) == 0) {
+                                this.referenceMap_ = MapField.newMapField(ReferenceMapDefaultEntryHolder.defaultEntry);
+                                i |= 1;
+                            }
+                            MapEntry message = codedInputStream.readMessage(ReferenceMapDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistryLite);
+                            this.referenceMap_.getMutableMap().put(message.getKey(), message.getValue());
+                        } else if (tag != 26) {
+                            if (tag == 34) {
+                                Expr expr = this.expr_;
+                                Expr.Builder builderM10731toBuilder = expr != null ? expr.m10731toBuilder() : null;
+                                Expr expr2 = (Expr) codedInputStream.readMessage(Expr.parser(), extensionRegistryLite);
+                                this.expr_ = expr2;
+                                if (builderM10731toBuilder != null) {
+                                    builderM10731toBuilder.mergeFrom(expr2);
+                                    this.expr_ = builderM10731toBuilder.m10738buildPartial();
+                                }
+                            } else if (tag == 42) {
+                                SourceInfo sourceInfo = this.sourceInfo_;
+                                SourceInfo.Builder builderM11192toBuilder = sourceInfo != null ? sourceInfo.m11192toBuilder() : null;
+                                SourceInfo sourceInfo2 = (SourceInfo) codedInputStream.readMessage(SourceInfo.parser(), extensionRegistryLite);
+                                this.sourceInfo_ = sourceInfo2;
+                                if (builderM11192toBuilder != null) {
+                                    builderM11192toBuilder.mergeFrom(sourceInfo2);
+                                    this.sourceInfo_ = builderM11192toBuilder.m11199buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            if ((i & 2) == 0) {
+                                this.typeMap_ = MapField.newMapField(TypeMapDefaultEntryHolder.defaultEntry);
+                                i |= 2;
+                            }
+                            MapEntry message2 = codedInputStream.readMessage(TypeMapDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistryLite);
+                            this.typeMap_.getMutableMap().put(message2.getKey(), message2.getValue());
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static CheckedExpr getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<CheckedExpr> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return DeclProto.internal_static_google_api_expr_v1alpha1_CheckedExpr_descriptor;
+    }
+
+    public static CheckedExpr parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (CheckedExpr) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static CheckedExpr parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CheckedExpr) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static CheckedExpr parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (CheckedExpr) PARSER.parseFrom(byteString);
+    }
+
+    public static CheckedExpr parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CheckedExpr) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static CheckedExpr parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (CheckedExpr) PARSER.parseFrom(bArr);
+    }
+
+    public static CheckedExpr parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CheckedExpr) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static CheckedExpr parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static CheckedExpr parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CheckedExpr parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static CheckedExpr parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CheckedExpr parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static CheckedExpr parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m10454toBuilder();
+    }
+
+    public static Builder newBuilder(CheckedExpr checkedExpr) {
+        return DEFAULT_INSTANCE.m10454toBuilder().mergeFrom(checkedExpr);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public CheckedExpr m10449getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<CheckedExpr> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public boolean hasExpr() {
+        return this.expr_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public boolean hasSourceInfo() {
+        return this.sourceInfo_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new CheckedExpr();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected MapField internalGetMapField(int i) {
+        if (i == 2) {
+            return internalGetReferenceMap();
+        }
+        if (i == 3) {
+            return internalGetTypeMap();
+        }
+        throw new RuntimeException("Invalid map field number: " + i);
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return DeclProto.internal_static_google_api_expr_v1alpha1_CheckedExpr_fieldAccessorTable.ensureFieldAccessorsInitialized(CheckedExpr.class, Builder.class);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public MapField<Long, Reference> internalGetReferenceMap() {
+        MapField<Long, Reference> mapField = this.referenceMap_;
+        return mapField == null ? MapField.emptyMapField(ReferenceMapDefaultEntryHolder.defaultEntry) : mapField;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public int getReferenceMapCount() {
+        return internalGetReferenceMap().getMap().size();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public boolean containsReferenceMap(long j) {
+        return internalGetReferenceMap().getMap().containsKey(Long.valueOf(j));
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    @Deprecated
+    public Map<Long, Reference> getReferenceMap() {
+        return getReferenceMapMap();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public Map<Long, Reference> getReferenceMapMap() {
+        return internalGetReferenceMap().getMap();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public Reference getReferenceMapOrDefault(long j, Reference reference) {
+        Map map = internalGetReferenceMap().getMap();
+        return map.containsKey(Long.valueOf(j)) ? (Reference) map.get(Long.valueOf(j)) : reference;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public Reference getReferenceMapOrThrow(long j) {
+        Map map = internalGetReferenceMap().getMap();
+        if (!map.containsKey(Long.valueOf(j))) {
+            throw new IllegalArgumentException();
+        }
+        return (Reference) map.get(Long.valueOf(j));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public MapField<Long, Type> internalGetTypeMap() {
+        MapField<Long, Type> mapField = this.typeMap_;
+        return mapField == null ? MapField.emptyMapField(TypeMapDefaultEntryHolder.defaultEntry) : mapField;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public int getTypeMapCount() {
+        return internalGetTypeMap().getMap().size();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public boolean containsTypeMap(long j) {
+        return internalGetTypeMap().getMap().containsKey(Long.valueOf(j));
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    @Deprecated
+    public Map<Long, Type> getTypeMap() {
+        return getTypeMapMap();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public Map<Long, Type> getTypeMapMap() {
+        return internalGetTypeMap().getMap();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public Type getTypeMapOrDefault(long j, Type type) {
+        Map map = internalGetTypeMap().getMap();
+        return map.containsKey(Long.valueOf(j)) ? (Type) map.get(Long.valueOf(j)) : type;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public Type getTypeMapOrThrow(long j) {
+        Map map = internalGetTypeMap().getMap();
+        if (!map.containsKey(Long.valueOf(j))) {
+            throw new IllegalArgumentException();
+        }
+        return (Type) map.get(Long.valueOf(j));
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public SourceInfo getSourceInfo() {
+        SourceInfo sourceInfo = this.sourceInfo_;
+        return sourceInfo == null ? SourceInfo.getDefaultInstance() : sourceInfo;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public SourceInfoOrBuilder getSourceInfoOrBuilder() {
+        return getSourceInfo();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public Expr getExpr() {
+        Expr expr = this.expr_;
+        return expr == null ? Expr.getDefaultInstance() : expr;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+    public ExprOrBuilder getExprOrBuilder() {
+        return getExpr();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        GeneratedMessageV3.serializeLongMapTo(codedOutputStream, internalGetReferenceMap(), ReferenceMapDefaultEntryHolder.defaultEntry, 2);
+        GeneratedMessageV3.serializeLongMapTo(codedOutputStream, internalGetTypeMap(), TypeMapDefaultEntryHolder.defaultEntry, 3);
+        if (this.expr_ != null) {
+            codedOutputStream.writeMessage(4, getExpr());
+        }
+        if (this.sourceInfo_ != null) {
+            codedOutputStream.writeMessage(5, getSourceInfo());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = 0;
+        for (Map.Entry entry : internalGetReferenceMap().getMap().entrySet()) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, ReferenceMapDefaultEntryHolder.defaultEntry.newBuilderForType().setKey(entry.getKey()).setValue(entry.getValue()).build());
+        }
+        for (Map.Entry entry2 : internalGetTypeMap().getMap().entrySet()) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, TypeMapDefaultEntryHolder.defaultEntry.newBuilderForType().setKey(entry2.getKey()).setValue(entry2.getValue()).build());
+        }
+        if (this.expr_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, getExpr());
+        }
+        if (this.sourceInfo_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, getSourceInfo());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof CheckedExpr)) {
+            return super.equals(obj);
+        }
+        CheckedExpr checkedExpr = (CheckedExpr) obj;
+        if (!internalGetReferenceMap().equals(checkedExpr.internalGetReferenceMap()) || !internalGetTypeMap().equals(checkedExpr.internalGetTypeMap()) || hasSourceInfo() != checkedExpr.hasSourceInfo()) {
+            return false;
+        }
+        if ((!hasSourceInfo() || getSourceInfo().equals(checkedExpr.getSourceInfo())) && hasExpr() == checkedExpr.hasExpr()) {
+            return (!hasExpr() || getExpr().equals(checkedExpr.getExpr())) && this.unknownFields.equals(checkedExpr.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (!internalGetReferenceMap().getMap().isEmpty()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + internalGetReferenceMap().hashCode();
+        }
+        if (!internalGetTypeMap().getMap().isEmpty()) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + internalGetTypeMap().hashCode();
+        }
+        if (hasSourceInfo()) {
+            iHashCode = (((iHashCode * 37) + 5) * 53) + getSourceInfo().hashCode();
+        }
+        if (hasExpr()) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getExpr().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10451newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10454toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    private static final class ReferenceMapDefaultEntryHolder {
+        static final MapEntry<Long, Reference> defaultEntry = MapEntry.newDefaultInstance(DeclProto.internal_static_google_api_expr_v1alpha1_CheckedExpr_ReferenceMapEntry_descriptor, WireFormat.FieldType.INT64, 0L, WireFormat.FieldType.MESSAGE, Reference.getDefaultInstance());
+
+        private ReferenceMapDefaultEntryHolder() {
+        }
+    }
+
+    private static final class TypeMapDefaultEntryHolder {
+        static final MapEntry<Long, Type> defaultEntry = MapEntry.newDefaultInstance(DeclProto.internal_static_google_api_expr_v1alpha1_CheckedExpr_TypeMapEntry_descriptor, WireFormat.FieldType.INT64, 0L, WireFormat.FieldType.MESSAGE, Type.getDefaultInstance());
+
+        private TypeMapDefaultEntryHolder() {
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CheckedExprOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> exprBuilder_;
+        private Expr expr_;
+        private MapField<Long, Reference> referenceMap_;
+        private SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> sourceInfoBuilder_;
+        private SourceInfo sourceInfo_;
+        private MapField<Long, Type> typeMap_;
+
+        private Builder() {
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_CheckedExpr_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public boolean hasExpr() {
+            return (this.exprBuilder_ == null && this.expr_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public boolean hasSourceInfo() {
+            return (this.sourceInfoBuilder_ == null && this.sourceInfo_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected MapField internalGetMapField(int i) {
+            if (i == 2) {
+                return internalGetReferenceMap();
+            }
+            if (i == 3) {
+                return internalGetTypeMap();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected MapField internalGetMutableMapField(int i) {
+            if (i == 2) {
+                return internalGetMutableReferenceMap();
+            }
+            if (i == 3) {
+                return internalGetMutableTypeMap();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_CheckedExpr_fieldAccessorTable.ensureFieldAccessorsInitialized(CheckedExpr.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = CheckedExpr.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10465clear() {
+            super.clear();
+            internalGetMutableReferenceMap().clear();
+            internalGetMutableTypeMap().clear();
+            if (this.sourceInfoBuilder_ == null) {
+                this.sourceInfo_ = null;
+            } else {
+                this.sourceInfo_ = null;
+                this.sourceInfoBuilder_ = null;
+            }
+            if (this.exprBuilder_ == null) {
+                this.expr_ = null;
+            } else {
+                this.expr_ = null;
+                this.exprBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_CheckedExpr_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CheckedExpr m10478getDefaultInstanceForType() {
+            return CheckedExpr.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CheckedExpr m10459build() throws UninitializedMessageException {
+            CheckedExpr checkedExprM10461buildPartial = m10461buildPartial();
+            if (checkedExprM10461buildPartial.isInitialized()) {
+                return checkedExprM10461buildPartial;
+            }
+            throw newUninitializedMessageException(checkedExprM10461buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CheckedExpr m10461buildPartial() {
+            CheckedExpr checkedExpr = new CheckedExpr(this);
+            checkedExpr.referenceMap_ = internalGetReferenceMap();
+            checkedExpr.referenceMap_.makeImmutable();
+            checkedExpr.typeMap_ = internalGetTypeMap();
+            checkedExpr.typeMap_.makeImmutable();
+            SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> singleFieldBuilderV3 = this.sourceInfoBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                checkedExpr.sourceInfo_ = this.sourceInfo_;
+            } else {
+                checkedExpr.sourceInfo_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> singleFieldBuilderV32 = this.exprBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                checkedExpr.expr_ = this.expr_;
+            } else {
+                checkedExpr.expr_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return checkedExpr;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10477clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10489setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10467clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10470clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10491setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10457addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10482mergeFrom(Message message) {
+            if (message instanceof CheckedExpr) {
+                return mergeFrom((CheckedExpr) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(CheckedExpr checkedExpr) {
+            if (checkedExpr == CheckedExpr.getDefaultInstance()) {
+                return this;
+            }
+            internalGetMutableReferenceMap().mergeFrom(checkedExpr.internalGetReferenceMap());
+            internalGetMutableTypeMap().mergeFrom(checkedExpr.internalGetTypeMap());
+            if (checkedExpr.hasSourceInfo()) {
+                mergeSourceInfo(checkedExpr.getSourceInfo());
+            }
+            if (checkedExpr.hasExpr()) {
+                mergeExpr(checkedExpr.getExpr());
+            }
+            m10487mergeUnknownFields(checkedExpr.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr.Builder m10483mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr.access$1100()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr r3 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr r4 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr.Builder.m10483mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExpr$Builder");
+        }
+
+        private MapField<Long, Reference> internalGetReferenceMap() {
+            MapField<Long, Reference> mapField = this.referenceMap_;
+            return mapField == null ? MapField.emptyMapField(ReferenceMapDefaultEntryHolder.defaultEntry) : mapField;
+        }
+
+        private MapField<Long, Reference> internalGetMutableReferenceMap() {
+            onChanged();
+            if (this.referenceMap_ == null) {
+                this.referenceMap_ = MapField.newMapField(ReferenceMapDefaultEntryHolder.defaultEntry);
+            }
+            if (!this.referenceMap_.isMutable()) {
+                this.referenceMap_ = this.referenceMap_.copy();
+            }
+            return this.referenceMap_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public int getReferenceMapCount() {
+            return internalGetReferenceMap().getMap().size();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public boolean containsReferenceMap(long j) {
+            return internalGetReferenceMap().getMap().containsKey(Long.valueOf(j));
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        @Deprecated
+        public Map<Long, Reference> getReferenceMap() {
+            return getReferenceMapMap();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public Map<Long, Reference> getReferenceMapMap() {
+            return internalGetReferenceMap().getMap();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public Reference getReferenceMapOrDefault(long j, Reference reference) {
+            Map map = internalGetReferenceMap().getMap();
+            return map.containsKey(Long.valueOf(j)) ? (Reference) map.get(Long.valueOf(j)) : reference;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public Reference getReferenceMapOrThrow(long j) {
+            Map map = internalGetReferenceMap().getMap();
+            if (!map.containsKey(Long.valueOf(j))) {
+                throw new IllegalArgumentException();
+            }
+            return (Reference) map.get(Long.valueOf(j));
+        }
+
+        public Builder clearReferenceMap() {
+            internalGetMutableReferenceMap().getMutableMap().clear();
+            return this;
+        }
+
+        public Builder removeReferenceMap(long j) {
+            internalGetMutableReferenceMap().getMutableMap().remove(Long.valueOf(j));
+            return this;
+        }
+
+        @Deprecated
+        public Map<Long, Reference> getMutableReferenceMap() {
+            return internalGetMutableReferenceMap().getMutableMap();
+        }
+
+        public Builder putReferenceMap(long j, Reference reference) {
+            reference.getClass();
+            internalGetMutableReferenceMap().getMutableMap().put(Long.valueOf(j), reference);
+            return this;
+        }
+
+        public Builder putAllReferenceMap(Map<Long, Reference> map) {
+            internalGetMutableReferenceMap().getMutableMap().putAll(map);
+            return this;
+        }
+
+        private MapField<Long, Type> internalGetTypeMap() {
+            MapField<Long, Type> mapField = this.typeMap_;
+            return mapField == null ? MapField.emptyMapField(TypeMapDefaultEntryHolder.defaultEntry) : mapField;
+        }
+
+        private MapField<Long, Type> internalGetMutableTypeMap() {
+            onChanged();
+            if (this.typeMap_ == null) {
+                this.typeMap_ = MapField.newMapField(TypeMapDefaultEntryHolder.defaultEntry);
+            }
+            if (!this.typeMap_.isMutable()) {
+                this.typeMap_ = this.typeMap_.copy();
+            }
+            return this.typeMap_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public int getTypeMapCount() {
+            return internalGetTypeMap().getMap().size();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public boolean containsTypeMap(long j) {
+            return internalGetTypeMap().getMap().containsKey(Long.valueOf(j));
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        @Deprecated
+        public Map<Long, Type> getTypeMap() {
+            return getTypeMapMap();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public Map<Long, Type> getTypeMapMap() {
+            return internalGetTypeMap().getMap();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public Type getTypeMapOrDefault(long j, Type type) {
+            Map map = internalGetTypeMap().getMap();
+            return map.containsKey(Long.valueOf(j)) ? (Type) map.get(Long.valueOf(j)) : type;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public Type getTypeMapOrThrow(long j) {
+            Map map = internalGetTypeMap().getMap();
+            if (!map.containsKey(Long.valueOf(j))) {
+                throw new IllegalArgumentException();
+            }
+            return (Type) map.get(Long.valueOf(j));
+        }
+
+        public Builder clearTypeMap() {
+            internalGetMutableTypeMap().getMutableMap().clear();
+            return this;
+        }
+
+        public Builder removeTypeMap(long j) {
+            internalGetMutableTypeMap().getMutableMap().remove(Long.valueOf(j));
+            return this;
+        }
+
+        @Deprecated
+        public Map<Long, Type> getMutableTypeMap() {
+            return internalGetMutableTypeMap().getMutableMap();
+        }
+
+        public Builder putTypeMap(long j, Type type) {
+            type.getClass();
+            internalGetMutableTypeMap().getMutableMap().put(Long.valueOf(j), type);
+            return this;
+        }
+
+        public Builder putAllTypeMap(Map<Long, Type> map) {
+            internalGetMutableTypeMap().getMutableMap().putAll(map);
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public SourceInfo getSourceInfo() {
+            SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> singleFieldBuilderV3 = this.sourceInfoBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            SourceInfo sourceInfo = this.sourceInfo_;
+            return sourceInfo == null ? SourceInfo.getDefaultInstance() : sourceInfo;
+        }
+
+        public Builder setSourceInfo(SourceInfo sourceInfo) {
+            SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> singleFieldBuilderV3 = this.sourceInfoBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                sourceInfo.getClass();
+                this.sourceInfo_ = sourceInfo;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(sourceInfo);
+            }
+            return this;
+        }
+
+        public Builder setSourceInfo(SourceInfo.Builder builder) {
+            SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> singleFieldBuilderV3 = this.sourceInfoBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.sourceInfo_ = builder.m11197build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m11197build());
+            }
+            return this;
+        }
+
+        public Builder mergeSourceInfo(SourceInfo sourceInfo) {
+            SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> singleFieldBuilderV3 = this.sourceInfoBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                SourceInfo sourceInfo2 = this.sourceInfo_;
+                if (sourceInfo2 != null) {
+                    this.sourceInfo_ = SourceInfo.newBuilder(sourceInfo2).mergeFrom(sourceInfo).m11199buildPartial();
+                } else {
+                    this.sourceInfo_ = sourceInfo;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(sourceInfo);
+            }
+            return this;
+        }
+
+        public Builder clearSourceInfo() {
+            if (this.sourceInfoBuilder_ == null) {
+                this.sourceInfo_ = null;
+                onChanged();
+            } else {
+                this.sourceInfo_ = null;
+                this.sourceInfoBuilder_ = null;
+            }
+            return this;
+        }
+
+        public SourceInfo.Builder getSourceInfoBuilder() {
+            onChanged();
+            return getSourceInfoFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public SourceInfoOrBuilder getSourceInfoOrBuilder() {
+            SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> singleFieldBuilderV3 = this.sourceInfoBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (SourceInfoOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            SourceInfo sourceInfo = this.sourceInfo_;
+            return sourceInfo == null ? SourceInfo.getDefaultInstance() : sourceInfo;
+        }
+
+        private SingleFieldBuilderV3<SourceInfo, SourceInfo.Builder, SourceInfoOrBuilder> getSourceInfoFieldBuilder() {
+            if (this.sourceInfoBuilder_ == null) {
+                this.sourceInfoBuilder_ = new SingleFieldBuilderV3<>(getSourceInfo(), getParentForChildren(), isClean());
+                this.sourceInfo_ = null;
+            }
+            return this.sourceInfoBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public Expr getExpr() {
+            SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> singleFieldBuilderV3 = this.exprBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Expr expr = this.expr_;
+            return expr == null ? Expr.getDefaultInstance() : expr;
+        }
+
+        public Builder setExpr(Expr expr) {
+            SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> singleFieldBuilderV3 = this.exprBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                expr.getClass();
+                this.expr_ = expr;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(expr);
+            }
+            return this;
+        }
+
+        public Builder setExpr(Expr.Builder builder) {
+            SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> singleFieldBuilderV3 = this.exprBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.expr_ = builder.m10736build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m10736build());
+            }
+            return this;
+        }
+
+        public Builder mergeExpr(Expr expr) {
+            SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> singleFieldBuilderV3 = this.exprBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Expr expr2 = this.expr_;
+                if (expr2 != null) {
+                    this.expr_ = Expr.newBuilder(expr2).mergeFrom(expr).m10738buildPartial();
+                } else {
+                    this.expr_ = expr;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(expr);
+            }
+            return this;
+        }
+
+        public Builder clearExpr() {
+            if (this.exprBuilder_ == null) {
+                this.expr_ = null;
+                onChanged();
+            } else {
+                this.expr_ = null;
+                this.exprBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Expr.Builder getExprBuilder() {
+            onChanged();
+            return getExprFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.CheckedExprOrBuilder
+        public ExprOrBuilder getExprOrBuilder() {
+            SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> singleFieldBuilderV3 = this.exprBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ExprOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Expr expr = this.expr_;
+            return expr == null ? Expr.getDefaultInstance() : expr;
+        }
+
+        private SingleFieldBuilderV3<Expr, Expr.Builder, ExprOrBuilder> getExprFieldBuilder() {
+            if (this.exprBuilder_ == null) {
+                this.exprBuilder_ = new SingleFieldBuilderV3<>(getExpr(), getParentForChildren(), isClean());
+                this.expr_ = null;
+            }
+            return this.exprBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10493setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10487mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

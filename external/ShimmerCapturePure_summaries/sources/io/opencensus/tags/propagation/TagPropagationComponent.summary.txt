@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/tags/propagation/TagPropagationComponent.java
+// Size: 274 bytes
+// Modified: 2025-10-21 16:32:03.485995200 +0100
+
+package io.opencensus.tags.propagation;
+
+/* loaded from: classes4.dex */
+public abstract class TagPropagationComponent {
+    public abstract TagContextBinarySerializer getBinarySerializer();
+
+    public abstract TagContextTextFormat getCorrelationContextFormat();
+}

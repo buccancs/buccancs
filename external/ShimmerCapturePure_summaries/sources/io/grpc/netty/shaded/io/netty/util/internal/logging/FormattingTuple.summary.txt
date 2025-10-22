@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/logging/FormattingTuple.java
+// Size: 476 bytes
+// Modified: 2025-10-21 16:32:00.280684700 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.logging;
+
+/* loaded from: classes3.dex */
+final class FormattingTuple {
+    private final String message;
+    private final Throwable throwable;
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public Throwable getThrowable() {
+        return this.throwable;
+    }
+
+    FormattingTuple(String str, Throwable th) {
+        this.message = str;
+        this.throwable = th;
+    }
+}

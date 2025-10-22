@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/junit/framework/JUnit4TestCaseFacade.java
+// Size: 869 bytes
+// Modified: 2025-10-21 16:32:05.239792100 +0100
+
+package junit.framework;
+
+import org.junit.runner.Describable;
+import org.junit.runner.Description;
+
+/* loaded from: classes4.dex */
+public class JUnit4TestCaseFacade implements Test, Describable {
+    private final Description fDescription;
+
+    @Override // junit.framework.Test
+    public int countTestCases() {
+        return 1;
+    }
+
+    @Override // org.junit.runner.Describable
+    public Description getDescription() {
+        return this.fDescription;
+    }
+
+    JUnit4TestCaseFacade(Description description) {
+        this.fDescription = description;
+    }
+
+    public String toString() {
+        return getDescription().toString();
+    }
+
+    @Override // junit.framework.Test
+    public void run(TestResult testResult) {
+        throw new RuntimeException("This test stub created only for informational purposes.");
+    }
+}

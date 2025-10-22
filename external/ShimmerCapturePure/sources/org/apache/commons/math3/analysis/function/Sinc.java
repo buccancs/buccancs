@@ -1,0 +1,130 @@
+package org.apache.commons.math3.analysis.function;
+
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.FunctionUtils;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+    private static final double SHORTCUT = 0.006d;
+    private final boolean normalized;
+
+    public Sinc() {
+        this(false);
+    }
+
+    public Sinc(boolean z) {
+        this.normalized = z;
+    }
+
+    @Override // org.apache.commons.math3.analysis.UnivariateFunction
+    public double value(double d) {
+        double dSin;
+        if (this.normalized) {
+            d *= 3.141592653589793d;
+        }
+        if (FastMath.abs(d) <= SHORTCUT) {
+            double d2 = d * d;
+            double d3 = (d2 - 20.0d) * d2;
+            d = 120.0d;
+            dSin = d3 + 120.0d;
+        } else {
+            dSin = FastMath.sin(d);
+        }
+        return dSin / d;
+    }
+
+    @Override // org.apache.commons.math3.analysis.DifferentiableUnivariateFunction
+    @Deprecated
+    public UnivariateFunction derivative() {
+        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
+    }
+
+    @Override // org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction
+    public DerivativeStructure value(DerivativeStructure derivativeStructure) throws DimensionMismatchException {
+        double[] dArr;
+        int i;
+        int i2;
+        double d;
+        double[] dArr2;
+        Sinc sinc = this;
+        double d2 = 1.0d;
+        double value = (sinc.normalized ? 3.141592653589793d : 1.0d) * derivativeStructure.getValue();
+        double d3 = value * value;
+        int order = derivativeStructure.getOrder() + 1;
+        double[] dArr3 = new double[order];
+        if (FastMath.abs(value) <= SHORTCUT) {
+            int i3 = 0;
+            while (i3 < order) {
+                int i4 = i3 / 2;
+                if ((i3 & 1) == 0) {
+                    dArr2 = dArr3;
+                    dArr2[i3] = ((i4 & 1) == 0 ? 1 : -1) * ((d2 / (i3 + 1)) - (((d2 / ((i3 * 2) + 6)) - (d3 / ((i3 * 24) + 120))) * d3));
+                } else {
+                    dArr2 = dArr3;
+                    dArr2[i3] = ((i4 & 1) == 0 ? -value : value) * ((1.0d / (i3 + 2)) - (((1.0d / ((i3 * 6) + 24)) - (d3 / ((i3 * 120) + 720))) * d3));
+                }
+                i3++;
+                dArr3 = dArr2;
+                d2 = 1.0d;
+            }
+            dArr = dArr3;
+            i = order;
+        } else {
+            dArr = dArr3;
+            double d4 = 1.0d / value;
+            double dCos = FastMath.cos(value);
+            double dSin = FastMath.sin(value);
+            dArr[0] = d4 * dSin;
+            double[] dArr4 = new double[order];
+            dArr4[0] = 1.0d;
+            double d5 = d4;
+            int i5 = 1;
+            while (i5 < order) {
+                double d6 = 0.0d;
+                if ((i5 & 1) == 0) {
+                    dArr4[i5] = 0.0d;
+                    i2 = i5;
+                    d = 0.0d;
+                } else {
+                    i2 = i5 - 1;
+                    d = dArr4[i2];
+                    dArr4[i5] = d;
+                }
+                while (i2 > 1) {
+                    int i6 = i2 - 1;
+                    double d7 = ((i2 - i5) * dArr4[i2]) - dArr4[i6];
+                    dArr4[i2] = d7;
+                    d6 = (d6 * d3) + d7;
+                    double d8 = ((i6 - i5) * dArr4[i6]) + dArr4[i2 - 2];
+                    dArr4[i6] = d8;
+                    d = (d * d3) + d8;
+                    i2 -= 2;
+                    order = order;
+                }
+                int i7 = i5;
+                double d9 = dArr4[0] * (-i5);
+                dArr4[0] = d9;
+                d5 *= d4;
+                dArr[i7] = ((((d6 * d3) + d9) * dSin) + (d * value * dCos)) * d5;
+                i5 = i7 + 1;
+                order = order;
+            }
+            i = order;
+            sinc = this;
+        }
+        if (sinc.normalized) {
+            int i8 = i;
+            double d10 = 3.141592653589793d;
+            for (int i9 = 1; i9 < i8; i9++) {
+                dArr[i9] = dArr[i9] * d10;
+                d10 *= 3.141592653589793d;
+            }
+        }
+        return derivativeStructure.compose(dArr);
+    }
+}

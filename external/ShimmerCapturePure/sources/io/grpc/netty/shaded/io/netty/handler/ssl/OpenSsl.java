@@ -1,0 +1,237 @@
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.internal.tcnative.Buffer;
+import io.grpc.netty.shaded.io.netty.internal.tcnative.Library;
+import io.grpc.netty.shaded.io.netty.internal.tcnative.SSL;
+import io.grpc.netty.shaded.io.netty.internal.tcnative.SSLContext;
+import io.grpc.netty.shaded.io.netty.util.CharsetUtil;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCounted;
+import io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader;
+import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+
+import java.io.ByteArrayInputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+/* loaded from: classes3.dex */
+public final class OpenSsl {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    static final Set<String> AVAILABLE_CIPHER_SUITES;
+    static final List<String> DEFAULT_CIPHERS;
+    static final String[] EXTRA_SUPPORTED_TLS_1_3_CIPHERS;
+    static final Set<String> SUPPORTED_PROTOCOLS_SET;
+    private static final Set<String> AVAILABLE_JAVA_CIPHER_SUITES;
+    private static final Set<String> AVAILABLE_OPENSSL_CIPHER_SUITES;
+    private static final String CERT = "-----BEGIN CERTIFICATE-----\nMIICrjCCAZagAwIBAgIIdSvQPv1QAZQwDQYJKoZIhvcNAQELBQAwFjEUMBIGA1UEAxMLZXhhbXBs\nZS5jb20wIBcNMTgwNDA2MjIwNjU5WhgPOTk5OTEyMzEyMzU5NTlaMBYxFDASBgNVBAMTC2V4YW1w\nbGUuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAggbWsmDQ6zNzRZ5AW8E3eoGl\nqWvOBDb5Fs1oBRrVQHuYmVAoaqwDzXYJ0LOwa293AgWEQ1jpcbZ2hpoYQzqEZBTLnFhMrhRFlH6K\nbJND8Y33kZ/iSVBBDuGbdSbJShlM+4WwQ9IAso4MZ4vW3S1iv5fGGpLgbtXRmBf/RU8omN0Gijlv\nWlLWHWijLN8xQtySFuBQ7ssW8RcKAary3pUm6UUQB+Co6lnfti0Tzag8PgjhAJq2Z3wbsGRnP2YS\nvYoaK6qzmHXRYlp/PxrjBAZAmkLJs4YTm/XFF+fkeYx4i9zqHbyone5yerRibsHaXZWLnUL+rFoe\nMdKvr0VS3sGmhQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQADQi441pKmXf9FvUV5EHU4v8nJT9Iq\nyqwsKwXnr7AsUlDGHBD7jGrjAXnG5rGxuNKBQ35wRxJATKrUtyaquFUL6H8O6aGQehiFTk6zmPbe\n12Gu44vqqTgIUxnv3JQJiox8S2hMxsSddpeCmSdvmalvD6WG4NthH6B9ZaBEiep1+0s0RUaBYn73\nI7CCUaAtbjfR6pcJjrFk5ei7uwdQZFSJtkP2z8r7zfeANJddAKFlkaMWn7u+OIVuB4XPooWicObk\nNAHFtP65bocUYnDpTVdiyvn8DdqyZ/EO8n1bBKBzuSLplk2msW4pdgaFgY7Vw/0wzcFXfUXmL1uy\nG8sQD/wx\n-----END CERTIFICATE-----";
+    private static final boolean IS_BORINGSSL;
+    private static final String KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCCBtayYNDrM3NFnkBbwTd6gaWp\na84ENvkWzWgFGtVAe5iZUChqrAPNdgnQs7Brb3cCBYRDWOlxtnaGmhhDOoRkFMucWEyuFEWUfops\nk0PxjfeRn+JJUEEO4Zt1JslKGUz7hbBD0gCyjgxni9bdLWK/l8YakuBu1dGYF/9FTyiY3QaKOW9a\nUtYdaKMs3zFC3JIW4FDuyxbxFwoBqvLelSbpRRAH4KjqWd+2LRPNqDw+COEAmrZnfBuwZGc/ZhK9\nihorqrOYddFiWn8/GuMEBkCaQsmzhhOb9cUX5+R5jHiL3OodvKid7nJ6tGJuwdpdlYudQv6sWh4x\n0q+vRVLewaaFAgMBAAECggEAP8tPJvFtTxhNJAkCloHz0D0vpDHqQBMgntlkgayqmBqLwhyb18pR\ni0qwgh7HHc7wWqOOQuSqlEnrWRrdcI6TSe8R/sErzfTQNoznKWIPYcI/hskk4sdnQ//Yn9/Jvnsv\nU/BBjOTJxtD+sQbhAl80JcA3R+5sArURQkfzzHOL/YMqzAsn5hTzp7HZCxUqBk3KaHRxV7NefeOE\nxlZuWSmxYWfbFIs4kx19/1t7h8CHQWezw+G60G2VBtSBBxDnhBWvqG6R/wpzJ3nEhPLLY9T+XIHe\nipzdMOOOUZorfIg7M+pyYPji+ZIZxIpY5OjrOzXHciAjRtr5Y7l99K1CG1LguQKBgQDrQfIMxxtZ\nvxU/1cRmUV9l7pt5bjV5R6byXq178LxPKVYNjdZ840Q0/OpZEVqaT1xKVi35ohP1QfNjxPLlHD+K\niDAR9z6zkwjIrbwPCnb5kuXy4lpwPcmmmkva25fI7qlpHtbcuQdoBdCfr/KkKaUCMPyY89LCXgEw\n5KTDj64UywKBgQCNfbO+eZLGzhiHhtNJurresCsIGWlInv322gL8CSfBMYl6eNfUTZvUDdFhPISL\nUljKWzXDrjw0ujFSPR0XhUGtiq89H+HUTuPPYv25gVXO+HTgBFZEPl4PpA+BUsSVZy0NddneyqLk\n42Wey9omY9Q8WsdNQS5cbUvy0uG6WFoX7wKBgQDZ1jpW8pa0x2bZsQsm4vo+3G5CRnZlUp+XlWt2\ndDcp5dC0xD1zbs1dc0NcLeGDOTDv9FSl7hok42iHXXq8AygjEm/QcuwwQ1nC2HxmQP5holAiUs4D\nWHM8PWs3wFYPzE459EBoKTxeaeP/uWAn+he8q7d5uWvSZlEcANs/6e77eQKBgD21Ar0hfFfj7mK8\n9E0FeRZBsqK3omkfnhcYgZC11Xa2SgT1yvs2Va2n0RcdM5kncr3eBZav2GYOhhAdwyBM55XuE/sO\neokDVutNeuZ6d5fqV96TRaRBpvgfTvvRwxZ9hvKF4Vz+9wfn/JvCwANaKmegF6ejs7pvmF3whq2k\ndrZVAoGAX5YxQ5XMTD0QbMAl7/6qp6S58xNoVdfCkmkj1ZLKaHKIjS/benkKGlySVQVPexPfnkZx\np/Vv9yyphBoudiTBS9Uog66ueLYZqpgxlM/6OhYg86Gm3U2ycvMxYjBM1NFiyze21AqAhI+HX+Ot\nmraV2/guSgDgZAhukRZzeQ2RucI=\n-----END PRIVATE KEY-----";
+    private static final boolean SUPPORTS_KEYMANAGER_FACTORY;
+    private static final boolean SUPPORTS_OCSP;
+    private static final boolean TLSV13_SUPPORTED;
+    private static final Throwable UNAVAILABILITY_CAUSE;
+    private static final boolean USE_KEYMANAGER_FACTORY;
+    private static final InternalLogger logger;
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x021a A[Catch: all -> 0x0268, TryCatch #3 {all -> 0x0268, blocks: (B:116:0x0213, B:118:0x021a, B:121:0x0221, B:124:0x0228, B:127:0x022f, B:137:0x0248, B:139:0x024f, B:142:0x0256, B:145:0x025d, B:148:0x0264, B:149:0x0267), top: B:197:0x010a }] */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0221 A[Catch: all -> 0x0268, TryCatch #3 {all -> 0x0268, blocks: (B:116:0x0213, B:118:0x021a, B:121:0x0221, B:124:0x0228, B:127:0x022f, B:137:0x0248, B:139:0x024f, B:142:0x0256, B:145:0x025d, B:148:0x0264, B:149:0x0267), top: B:197:0x010a }] */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0228 A[Catch: all -> 0x0268, TryCatch #3 {all -> 0x0268, blocks: (B:116:0x0213, B:118:0x021a, B:121:0x0221, B:124:0x0228, B:127:0x022f, B:137:0x0248, B:139:0x024f, B:142:0x0256, B:145:0x025d, B:148:0x0264, B:149:0x0267), top: B:197:0x010a }] */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x022f A[Catch: all -> 0x0268, TRY_LEAVE, TryCatch #3 {all -> 0x0268, blocks: (B:116:0x0213, B:118:0x021a, B:121:0x0221, B:124:0x0228, B:127:0x022f, B:137:0x0248, B:139:0x024f, B:142:0x0256, B:145:0x025d, B:148:0x0264, B:149:0x0267), top: B:197:0x010a }] */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x0299  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0304  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x0311  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x031f  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x033d  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0344  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x0356  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x036c  */
+    /* JADX WARN: Removed duplicated region for block: B:247:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r13v0 */
+    /* JADX WARN: Type inference failed for: r13v20 */
+    /* JADX WARN: Type inference failed for: r13v22, types: [java.lang.Object, java.lang.String] */
+    static {
+        /*
+            Method dump skipped, instructions count: 932
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.handler.ssl.OpenSsl.<clinit>():void");
+    }
+
+    private OpenSsl() {
+    }
+
+    public static Set<String> availableJavaCipherSuites() {
+        return AVAILABLE_JAVA_CIPHER_SUITES;
+    }
+
+    public static Set<String> availableOpenSslCipherSuites() {
+        return AVAILABLE_OPENSSL_CIPHER_SUITES;
+    }
+
+    public static boolean isAvailable() {
+        return UNAVAILABILITY_CAUSE == null;
+    }
+
+    static boolean isBoringSSL() {
+        return IS_BORINGSSL;
+    }
+
+    public static boolean isOcspSupported() {
+        return SUPPORTS_OCSP;
+    }
+
+    static boolean isTlsv13Supported() {
+        return TLSV13_SUPPORTED;
+    }
+
+    public static boolean supportsKeyManagerFactory() {
+        return SUPPORTS_KEYMANAGER_FACTORY;
+    }
+
+    public static Throwable unavailabilityCause() {
+        return UNAVAILABILITY_CAUSE;
+    }
+
+    static boolean useKeyManagerFactory() {
+        return USE_KEYMANAGER_FACTORY;
+    }
+
+    static X509Certificate selfSignedCertificate() throws CertificateException {
+        return (X509Certificate) SslContext.X509_CERT_FACTORY.generateCertificate(new ByteArrayInputStream(CERT.getBytes(CharsetUtil.US_ASCII)));
+    }
+
+    private static boolean doesSupportOcsp() throws Throwable {
+        long jMake;
+        if (version() < 268443648) {
+            return false;
+        }
+        try {
+            jMake = SSLContext.make(16, 1);
+        } catch (Exception unused) {
+            jMake = -1;
+        } catch (Throwable th) {
+            th = th;
+            jMake = -1;
+        }
+        try {
+            SSLContext.enableOcsp(jMake, false);
+            if (jMake != -1) {
+                SSLContext.free(jMake);
+            }
+            return true;
+        } catch (Exception unused2) {
+            if (jMake == -1) {
+                return false;
+            }
+            SSLContext.free(jMake);
+            return false;
+        } catch (Throwable th2) {
+            th = th2;
+            if (jMake != -1) {
+                SSLContext.free(jMake);
+            }
+            throw th;
+        }
+    }
+
+    private static boolean doesSupportProtocol(int i, int i2) {
+        if (i2 == 0) {
+            return false;
+        }
+        try {
+            long jMake = SSLContext.make(i, 2);
+            if (jMake == -1) {
+                return true;
+            }
+            SSLContext.free(jMake);
+            return true;
+        } catch (Exception unused) {
+            return false;
+        }
+    }
+
+    @Deprecated
+    public static boolean isAlpnSupported() {
+        return ((long) version()) >= 268443648;
+    }
+
+    public static int version() {
+        if (isAvailable()) {
+            return SSL.version();
+        }
+        return -1;
+    }
+
+    public static String versionString() {
+        if (isAvailable()) {
+            return SSL.versionString();
+        }
+        return null;
+    }
+
+    public static void ensureAvailability() {
+        Throwable th = UNAVAILABILITY_CAUSE;
+        if (th != null) {
+            throw ((Error) new UnsatisfiedLinkError("failed to load the required native library").initCause(th));
+        }
+    }
+
+    @Deprecated
+    public static Set<String> availableCipherSuites() {
+        return availableOpenSslCipherSuites();
+    }
+
+    public static boolean isCipherSuiteAvailable(String str) {
+        String openSsl = CipherSuiteConverter.toOpenSsl(str, IS_BORINGSSL);
+        if (openSsl != null) {
+            str = openSsl;
+        }
+        return AVAILABLE_OPENSSL_CIPHER_SUITES.contains(str);
+    }
+
+    @Deprecated
+    public static boolean supportsHostnameValidation() {
+        return isAvailable();
+    }
+
+    static long memoryAddress(ByteBuf byteBuf) {
+        return byteBuf.hasMemoryAddress() ? byteBuf.memoryAddress() : Buffer.address(byteBuf.nioBuffer());
+    }
+
+    private static void loadTcNative() throws Exception {
+        String strNormalizedOs = PlatformDependent.normalizedOs();
+        String strNormalizedArch = PlatformDependent.normalizedArch();
+        LinkedHashSet linkedHashSet = new LinkedHashSet(5);
+        if ("linux".equalsIgnoreCase(strNormalizedOs)) {
+            Iterator<String> it2 = PlatformDependent.normalizedLinuxClassifiers().iterator();
+            while (it2.hasNext()) {
+                linkedHashSet.add("netty_tcnative_" + strNormalizedOs + '_' + strNormalizedArch + "_" + it2.next());
+            }
+            linkedHashSet.add("netty_tcnative_" + strNormalizedOs + '_' + strNormalizedArch);
+            linkedHashSet.add("netty_tcnative_" + strNormalizedOs + '_' + strNormalizedArch + "_fedora");
+        } else {
+            linkedHashSet.add("netty_tcnative_" + strNormalizedOs + '_' + strNormalizedArch);
+        }
+        linkedHashSet.add("netty_tcnative_" + strNormalizedArch);
+        linkedHashSet.add("netty_tcnative");
+        NativeLibraryLoader.loadFirstAvailable(SSLContext.class.getClassLoader(), (String[]) linkedHashSet.toArray(new String[0]));
+    }
+
+    private static boolean initializeTcNative(String str) throws Exception {
+        return Library.initialize("provided", str);
+    }
+
+    static void releaseIfNeeded(ReferenceCounted referenceCounted) {
+        if (referenceCounted.refCnt() > 0) {
+            ReferenceCountUtil.safeRelease(referenceCounted);
+        }
+    }
+}

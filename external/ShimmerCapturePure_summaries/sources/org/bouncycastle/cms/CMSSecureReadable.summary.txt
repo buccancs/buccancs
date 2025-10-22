@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/CMSSecureReadable.java
+// Size: 228 bytes
+// Modified: 2025-10-21 16:32:00.592782700 +0100
+
+package org.bouncycastle.cms;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/* loaded from: classes5.dex */
+interface CMSSecureReadable {
+    InputStream getInputStream() throws CMSException, IOException;
+}

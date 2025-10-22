@@ -1,0 +1,62 @@
+package com.shimmerresearch.verisense.communication.payloads;
+
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import com.shimmerresearch.verisense.payloaddesign.VerisenseTimeDetails;
+import com.shimmerresearch.verisense.sensors.SensorVerisenseClock;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class TimePayload extends AbstractPayload {
+    private long timeMinutes = 0;
+    private long timeTicks = 0;
+    private double timeMs = 0.0d;
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public byte[] generatePayloadContents() {
+        return null;
+    }
+
+    public long getTimeMinutes() {
+        return this.timeMinutes;
+    }
+
+    public double getTimeMs() {
+        return this.timeMs;
+    }
+
+    public void setTimeMs(double d) {
+        double d2 = d / 1000.0d;
+        this.timeMinutes = VerisenseTimeDetails.calculateMinutesFromSeconds(d2);
+        long jCalculateTicksFromSeconds = VerisenseTimeDetails.calculateTicksFromSeconds(d2);
+        this.timeTicks = jCalculateTicksFromSeconds;
+        this.payloadContents = VerisenseTimeDetails.generateMinutesAndTicksByteArray(this.timeMinutes, jCalculateTicksFromSeconds);
+    }
+
+    public long getTimeTicks() {
+        return this.timeTicks;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public boolean parsePayloadContents(byte[] bArr) {
+        this.payloadContents = bArr;
+        this.isSuccess = false;
+        this.timeMinutes = parseByteArrayAtIndex(bArr, 0, ChannelDetails.CHANNEL_DATA_TYPE.UINT32);
+        long byteArrayAtIndex = parseByteArrayAtIndex(bArr, 4, ChannelDetails.CHANNEL_DATA_TYPE.UINT24);
+        this.timeTicks = byteArrayAtIndex;
+        this.timeMs = SensorVerisenseClock.convertRtcMinutesAndTicksToMs(this.timeMinutes, byteArrayAtIndex);
+        this.isSuccess = true;
+        return this.isSuccess;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public String generateDebugString() {
+        StringBuilder sb = new StringBuilder("ASM Time Parsed:\n");
+        sb.append("\tParsed:\t" + getTimeParsed() + StringUtils.LF);
+        return sb.toString();
+    }
+
+    public String getTimeParsed() {
+        return UtilVerisenseDriver.convertMilliSecondsToDateString((long) this.timeMs, true);
+    }
+}

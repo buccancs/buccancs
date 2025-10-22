@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/core/RuntimeUInt32OrBuilder.java
+// Size: 354 bytes
+// Modified: 2025-10-21 16:32:00.342794600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes3.dex */
+public interface RuntimeUInt32OrBuilder extends MessageOrBuilder {
+    int getDefaultValue();
+
+    String getRuntimeKey();
+
+    ByteString getRuntimeKeyBytes();
+}

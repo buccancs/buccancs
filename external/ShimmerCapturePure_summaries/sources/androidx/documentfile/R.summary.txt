@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/documentfile/R.java
+// Size: 119 bytes
+// Modified: 2025-10-21 16:32:00.014031900 +0100
+
+package androidx.documentfile;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

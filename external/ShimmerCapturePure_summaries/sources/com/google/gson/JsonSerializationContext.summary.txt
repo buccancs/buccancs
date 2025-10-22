@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/JsonSerializationContext.java
+// Size: 235 bytes
+// Modified: 2025-10-21 16:32:03.942973500 +0100
+
+package com.google.gson;
+
+import java.lang.reflect.Type;
+
+/* loaded from: classes.dex */
+public interface JsonSerializationContext {
+    JsonElement serialize(Object obj);
+
+    JsonElement serialize(Object obj, Type type);
+}

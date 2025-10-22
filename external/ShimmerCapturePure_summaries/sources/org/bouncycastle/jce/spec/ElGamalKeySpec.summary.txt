@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/spec/ElGamalKeySpec.java
+// Size: 409 bytes
+// Modified: 2025-10-21 16:32:01.024741200 +0100
+
+package org.bouncycastle.jce.spec;
+
+import java.security.spec.KeySpec;
+
+/* loaded from: classes5.dex */
+public class ElGamalKeySpec implements KeySpec {
+    private ElGamalParameterSpec spec;
+
+    public ElGamalKeySpec(ElGamalParameterSpec elGamalParameterSpec) {
+        this.spec = elGamalParameterSpec;
+    }
+
+    public ElGamalParameterSpec getParams() {
+        return this.spec;
+    }
+}

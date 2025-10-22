@@ -1,0 +1,218 @@
+package org.apache.commons.math.stat.descriptive.moment;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/moment/Variance.class */
+public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable, WeightedEvaluation {
+    private static final long serialVersionUID = -9111962718267217978L;
+    protected SecondMoment moment;
+    protected boolean incMoment;
+    private boolean isBiasCorrected;
+
+    public Variance() {
+        this.moment = null;
+        this.incMoment = true;
+        this.isBiasCorrected = true;
+        this.moment = new SecondMoment();
+    }
+
+    public Variance(SecondMoment m2) {
+        this.moment = null;
+        this.incMoment = true;
+        this.isBiasCorrected = true;
+        this.incMoment = false;
+        this.moment = m2;
+    }
+
+    public Variance(boolean isBiasCorrected) {
+        this.moment = null;
+        this.incMoment = true;
+        this.isBiasCorrected = true;
+        this.moment = new SecondMoment();
+        this.isBiasCorrected = isBiasCorrected;
+    }
+
+    public Variance(boolean isBiasCorrected, SecondMoment m2) {
+        this.moment = null;
+        this.incMoment = true;
+        this.isBiasCorrected = true;
+        this.incMoment = false;
+        this.moment = m2;
+        this.isBiasCorrected = isBiasCorrected;
+    }
+
+    public Variance(Variance original) {
+        this.moment = null;
+        this.incMoment = true;
+        this.isBiasCorrected = true;
+        copy(original, this);
+    }
+
+    public static void copy(Variance source, Variance dest) {
+        if (source == null || dest == null) {
+            throw new NullArgumentException();
+        }
+        dest.setData(source.getDataRef());
+        dest.moment = source.moment.copy();
+        dest.isBiasCorrected = source.isBiasCorrected;
+        dest.incMoment = source.incMoment;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void increment(double d) {
+        if (this.incMoment) {
+            this.moment.increment(d);
+        }
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public double getResult() {
+        if (this.moment.n == 0) {
+            return Double.NaN;
+        }
+        if (this.moment.n == 1) {
+            return 0.0d;
+        }
+        if (this.isBiasCorrected) {
+            return this.moment.m2 / (this.moment.n - 1.0d);
+        }
+        return this.moment.m2 / this.moment.n;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public long getN() {
+        return this.moment.getN();
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void clear() {
+        if (this.incMoment) {
+            this.moment.clear();
+        }
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic
+    public double evaluate(double[] values) {
+        if (values == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+        return evaluate(values, 0, values.length);
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic
+    public double evaluate(double[] values, int begin, int length) {
+        double var = Double.NaN;
+        if (test(values, begin, length)) {
+            clear();
+            if (length == 1) {
+                var = 0.0d;
+            } else if (length > 1) {
+                Mean mean = new Mean();
+                double m = mean.evaluate(values, begin, length);
+                var = evaluate(values, m, begin, length);
+            }
+        }
+        return var;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.WeightedEvaluation
+    public double evaluate(double[] values, double[] weights, int begin, int length) {
+        double var = Double.NaN;
+        if (test(values, weights, begin, length)) {
+            clear();
+            if (length == 1) {
+                var = 0.0d;
+            } else if (length > 1) {
+                Mean mean = new Mean();
+                double m = mean.evaluate(values, weights, begin, length);
+                var = evaluate(values, weights, m, begin, length);
+            }
+        }
+        return var;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.WeightedEvaluation
+    public double evaluate(double[] values, double[] weights) {
+        return evaluate(values, weights, 0, values.length);
+    }
+
+    public double evaluate(double[] values, double mean, int begin, int length) {
+        double var = Double.NaN;
+        if (test(values, begin, length)) {
+            if (length == 1) {
+                var = 0.0d;
+            } else if (length > 1) {
+                double accum = 0.0d;
+                double accum2 = 0.0d;
+                for (int i = begin; i < begin + length; i++) {
+                    double dev = values[i] - mean;
+                    accum += dev * dev;
+                    accum2 += dev;
+                }
+                double len = length;
+                var = this.isBiasCorrected ? (accum - ((accum2 * accum2) / len)) / (len - 1.0d) : (accum - ((accum2 * accum2) / len)) / len;
+            }
+        }
+        return var;
+    }
+
+    public double evaluate(double[] values, double mean) {
+        return evaluate(values, mean, 0, values.length);
+    }
+
+    public double evaluate(double[] values, double[] weights, double mean, int begin, int length) {
+        double var = Double.NaN;
+        if (test(values, weights, begin, length)) {
+            if (length == 1) {
+                var = 0.0d;
+            } else if (length > 1) {
+                double accum = 0.0d;
+                double accum2 = 0.0d;
+                for (int i = begin; i < begin + length; i++) {
+                    double dev = values[i] - mean;
+                    accum += weights[i] * dev * dev;
+                    accum2 += weights[i] * dev;
+                }
+                double sumWts = 0.0d;
+                for (double d : weights) {
+                    sumWts += d;
+                }
+                var = this.isBiasCorrected ? (accum - ((accum2 * accum2) / sumWts)) / (sumWts - 1.0d) : (accum - ((accum2 * accum2) / sumWts)) / sumWts;
+            }
+        }
+        return var;
+    }
+
+    public double evaluate(double[] values, double[] weights, double mean) {
+        return evaluate(values, weights, mean, 0, values.length);
+    }
+
+    public boolean isBiasCorrected() {
+        return this.isBiasCorrected;
+    }
+
+    public void setBiasCorrected(boolean biasCorrected) {
+        this.isBiasCorrected = biasCorrected;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public Variance copy() {
+        Variance result = new Variance();
+        copy(this, result);
+        return result;
+    }
+}

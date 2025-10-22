@@ -1,0 +1,80 @@
+package javax.vecmath;
+
+import java.io.Serializable;
+
+/* loaded from: classes4.dex */
+public class Vector3f extends Tuple3f implements Serializable {
+    static final long serialVersionUID = -7031930069184524614L;
+
+    public Vector3f(float f, float f2, float f3) {
+        super(f, f2, f3);
+    }
+
+    public Vector3f(float[] fArr) {
+        super(fArr);
+    }
+
+    public Vector3f(Vector3f vector3f) {
+        super(vector3f);
+    }
+
+    public Vector3f(Vector3d vector3d) {
+        super(vector3d);
+    }
+
+    public Vector3f(Tuple3f tuple3f) {
+        super(tuple3f);
+    }
+
+    public Vector3f(Tuple3d tuple3d) {
+        super(tuple3d);
+    }
+
+    public Vector3f() {
+    }
+
+    public final float lengthSquared() {
+        return (this.x * this.x) + (this.y * this.y) + (this.z * this.z);
+    }
+
+    public final float length() {
+        return (float) Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
+    }
+
+    public final void cross(Vector3f vector3f, Vector3f vector3f2) {
+        float f = (vector3f.y * vector3f2.z) - (vector3f.z * vector3f2.y);
+        float f2 = (vector3f2.x * vector3f.z) - (vector3f2.z * vector3f.x);
+        this.z = (vector3f.x * vector3f2.y) - (vector3f.y * vector3f2.x);
+        this.x = f;
+        this.y = f2;
+    }
+
+    public final float dot(Vector3f vector3f) {
+        return (this.x * vector3f.x) + (this.y * vector3f.y) + (this.z * vector3f.z);
+    }
+
+    public final void normalize(Vector3f vector3f) {
+        float fSqrt = (float) (1.0d / Math.sqrt(((vector3f.x * vector3f.x) + (vector3f.y * vector3f.y)) + (vector3f.z * vector3f.z)));
+        this.x = vector3f.x * fSqrt;
+        this.y = vector3f.y * fSqrt;
+        this.z = vector3f.z * fSqrt;
+    }
+
+    public final void normalize() {
+        float fSqrt = (float) (1.0d / Math.sqrt(((this.x * this.x) + (this.y * this.y)) + (this.z * this.z)));
+        this.x *= fSqrt;
+        this.y *= fSqrt;
+        this.z *= fSqrt;
+    }
+
+    public final float angle(Vector3f vector3f) {
+        double dDot = dot(vector3f) / (length() * vector3f.length());
+        if (dDot < -1.0d) {
+            dDot = -1.0d;
+        }
+        if (dDot > 1.0d) {
+            dDot = 1.0d;
+        }
+        return (float) Math.acos(dDot);
+    }
+}

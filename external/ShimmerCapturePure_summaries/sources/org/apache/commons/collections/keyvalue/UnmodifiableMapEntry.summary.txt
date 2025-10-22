@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/keyvalue/UnmodifiableMapEntry.java
+// Size: 859 bytes
+// Modified: 2025-10-21 16:32:03.224696200 +0100
+
+package org.apache.commons.collections.keyvalue;
+
+import java.util.Map;
+import org.apache.commons.collections.KeyValue;
+import org.apache.commons.collections.Unmodifiable;
+
+/* loaded from: classes5.dex */
+public final class UnmodifiableMapEntry extends AbstractMapEntry implements Unmodifiable {
+    public UnmodifiableMapEntry(Object obj, Object obj2) {
+        super(obj, obj2);
+    }
+
+    public UnmodifiableMapEntry(KeyValue keyValue) {
+        super(keyValue.getKey(), keyValue.getValue());
+    }
+
+    public UnmodifiableMapEntry(Map.Entry entry) {
+        super(entry.getKey(), entry.getValue());
+    }
+
+    @Override // org.apache.commons.collections.keyvalue.AbstractMapEntry, java.util.Map.Entry
+    public Object setValue(Object obj) {
+        throw new UnsupportedOperationException("setValue() is not supported");
+    }
+}

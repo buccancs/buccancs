@@ -13,7 +13,7 @@
 
 <resources>
 
-    <style name="DialogTheme.Base" parent="@android:style/Theme.Dialog" />
+    <style name="DialogTheme.Base" parent="@android:style/Theme.Dialog"/>
 
     <style name="DialogTheme.Fade" parent="DialogTheme.Base">
         <item name="android:backgroundDimEnabled">

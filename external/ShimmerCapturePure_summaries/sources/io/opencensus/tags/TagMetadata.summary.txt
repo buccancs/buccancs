@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/tags/TagMetadata.java
+// Size: 490 bytes
+// Modified: 2025-10-21 16:32:01.622909900 +0100
+
+package io.opencensus.tags;
+
+/* loaded from: classes4.dex */
+public abstract class TagMetadata {
+    public abstract TagTtl getTagTtl();
+
+    TagMetadata() {
+    }
+
+    public static TagMetadata create(TagTtl tagTtl) {
+        return new AutoValue_TagMetadata(tagTtl);
+    }
+
+    public enum TagTtl {
+        NO_PROPAGATION(0),
+        UNLIMITED_PROPAGATION(-1);
+
+        private final int hops;
+
+        TagTtl(int i) {
+            this.hops = i;
+        }
+    }
+}

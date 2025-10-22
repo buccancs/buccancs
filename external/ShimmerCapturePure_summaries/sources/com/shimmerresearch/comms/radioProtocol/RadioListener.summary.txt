@@ -1,0 +1,61 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/radioProtocol/RadioListener.java
+// Size: 1539 bytes
+// Modified: 2025-10-21 16:32:08.395672500 +0100
+
+package com.shimmerresearch.comms.radioProtocol;
+
+import com.shimmerresearch.bluetooth.BluetoothProgressReportPerCmd;
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.exceptions.ShimmerException;
+
+/* loaded from: classes2.dex */
+public interface RadioListener {
+    void connected();
+
+    void disconnected();
+
+    void eventAckReceived(int i);
+
+    void eventDockedStateChange();
+
+    void eventError(ShimmerException shimmerException);
+
+    void eventLogAndStreamStatusChangedCallback(int i);
+
+    void eventNewPacket(byte[] bArr, long j);
+
+    @Deprecated
+    void eventNewResponse(byte[] bArr);
+
+    void eventNewSyncPayloadReceived(int i, boolean z, double d, String str);
+
+    void eventResponseReceived(int i, Object obj);
+
+    void eventSetHaveAttemptedToRead(boolean z);
+
+    void eventSetIsDocked(boolean z);
+
+    void eventSetIsInitialised(boolean z);
+
+    void eventSetIsSDLogging(boolean z);
+
+    void eventSetIsSensing(boolean z);
+
+    void eventSetIsStreaming(boolean z);
+
+    void finishOperationCallback(ShimmerBluetooth.BT_STATE bt_state);
+
+    void hasStopStreamLoggedDataCallback(String str);
+
+    void hasStopStreamingCallback();
+
+    void initialiseStreamingCallback();
+
+    void isNowStreamLoggedDataCallback();
+
+    void isNowStreamingCallback();
+
+    void sendProgressReportCallback(BluetoothProgressReportPerCmd bluetoothProgressReportPerCmd);
+
+    void startOperationCallback(ShimmerBluetooth.BT_STATE bt_state, int i);
+}

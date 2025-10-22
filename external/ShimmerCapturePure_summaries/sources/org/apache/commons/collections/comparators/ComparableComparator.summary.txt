@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/comparators/ComparableComparator.java
+// Size: 864 bytes
+// Modified: 2025-10-21 16:32:00.488781200 +0100
+
+package org.apache.commons.collections.comparators;
+
+import java.io.Serializable;
+import java.util.Comparator;
+
+/* loaded from: classes5.dex */
+public class ComparableComparator implements Comparator, Serializable {
+    private static final ComparableComparator instance = new ComparableComparator();
+    private static final long serialVersionUID = -291439688585137865L;
+
+    public static ComparableComparator getInstance() {
+        return instance;
+    }
+
+    public int hashCode() {
+        return 1769708912;
+    }
+
+    @Override // java.util.Comparator
+    public int compare(Object obj, Object obj2) {
+        return ((Comparable) obj).compareTo(obj2);
+    }
+
+    @Override // java.util.Comparator
+    public boolean equals(Object obj) {
+        return this == obj || (obj != null && obj.getClass().equals(getClass()));
+    }
+}

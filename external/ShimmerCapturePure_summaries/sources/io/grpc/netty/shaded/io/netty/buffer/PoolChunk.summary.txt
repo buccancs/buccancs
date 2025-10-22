@@ -1,0 +1,323 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/PoolChunk.java
+// Size: 10833 bytes
+// Modified: 2025-10-21 16:32:08.228911900 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer;
+
+import com.fasterxml.jackson.core.JsonPointer;
+import java.nio.ByteBuffer;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import kotlinx.coroutines.internal.LockFreeTaskQueueCore;
+
+/* loaded from: classes3.dex */
+final class PoolChunk<T> implements PoolChunkMetric {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final int INTEGER_SIZE_MINUS_ONE = 31;
+    final PoolArena<T> arena;
+    private final Deque<ByteBuffer> cachedNioBuffers;
+    private final int chunkSize;
+    private final byte[] depthMap;
+    int freeBytes;
+    private final int log2ChunkSize;
+    private final int maxOrder;
+    private final int maxSubpageAllocs;
+    final T memory;
+    private final byte[] memoryMap;
+    PoolChunk<T> next;
+    final int offset;
+    private final int pageShifts;
+    private final int pageSize;
+    PoolChunkList<T> parent;
+    PoolChunk<T> prev;
+    private final int subpageOverflowMask;
+    private final PoolSubpage<T>[] subpages;
+    final boolean unpooled;
+    private final byte unusable;
+
+    private static int bitmapIdx(long j) {
+        return (int) (j >>> 32);
+    }
+
+    private static int memoryMapIdx(long j) {
+        return (int) j;
+    }
+
+    private int subpageIdx(int i) {
+        return i ^ this.maxSubpageAllocs;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.PoolChunkMetric
+    public int chunkSize() {
+        return this.chunkSize;
+    }
+
+    PoolChunk(PoolArena<T> poolArena, T t, int i, int i2, int i3, int i4, int i5) {
+        this.unpooled = false;
+        this.arena = poolArena;
+        this.memory = t;
+        this.pageSize = i;
+        this.pageShifts = i3;
+        this.maxOrder = i2;
+        this.chunkSize = i4;
+        this.offset = i5;
+        this.unusable = (byte) (i2 + 1);
+        this.log2ChunkSize = log2(i4);
+        this.subpageOverflowMask = ~(i - 1);
+        this.freeBytes = i4;
+        int i6 = 1 << i2;
+        this.maxSubpageAllocs = i6;
+        byte[] bArr = new byte[i6 << 1];
+        this.memoryMap = bArr;
+        this.depthMap = new byte[bArr.length];
+        int i7 = 1;
+        for (int i8 = 0; i8 <= i2; i8++) {
+            int i9 = 1 << i8;
+            for (int i10 = 0; i10 < i9; i10++) {
+                byte b = (byte) i8;
+                this.memoryMap[i7] = b;
+                this.depthMap[i7] = b;
+                i7++;
+            }
+        }
+        this.subpages = newSubpageArray(this.maxSubpageAllocs);
+        this.cachedNioBuffers = new ArrayDeque(8);
+    }
+
+    PoolChunk(PoolArena<T> poolArena, T t, int i, int i2) {
+        this.unpooled = true;
+        this.arena = poolArena;
+        this.memory = t;
+        this.offset = i2;
+        this.memoryMap = null;
+        this.depthMap = null;
+        this.subpages = null;
+        this.subpageOverflowMask = 0;
+        this.pageSize = 0;
+        this.pageShifts = 0;
+        this.maxOrder = 0;
+        this.unusable = (byte) 1;
+        this.chunkSize = i;
+        this.log2ChunkSize = log2(i);
+        this.maxSubpageAllocs = 0;
+        this.cachedNioBuffers = null;
+    }
+
+    private PoolSubpage<T>[] newSubpageArray(int i) {
+        return new PoolSubpage[i];
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.PoolChunkMetric
+    public int usage() {
+        int i;
+        synchronized (this.arena) {
+            i = this.freeBytes;
+        }
+        return usage(i);
+    }
+
+    private int usage(int i) {
+        if (i == 0) {
+            return 100;
+        }
+        int i2 = (int) ((i * 100) / this.chunkSize);
+        if (i2 == 0) {
+            return 99;
+        }
+        return 100 - i2;
+    }
+
+    boolean allocate(PooledByteBuf<T> pooledByteBuf, int i, int i2, PoolThreadCache poolThreadCache) {
+        long jAllocateSubpage;
+        if ((this.subpageOverflowMask & i2) != 0) {
+            jAllocateSubpage = allocateRun(i2);
+        } else {
+            jAllocateSubpage = allocateSubpage(i2);
+        }
+        long j = jAllocateSubpage;
+        if (j < 0) {
+            return false;
+        }
+        Deque<ByteBuffer> deque = this.cachedNioBuffers;
+        initBuf(pooledByteBuf, deque != null ? deque.pollLast() : null, j, i, poolThreadCache);
+        return true;
+    }
+
+    private void updateParentsAlloc(int i) {
+        while (i > 1) {
+            int i2 = i >>> 1;
+            byte bValue = value(i);
+            byte bValue2 = value(i ^ 1);
+            if (bValue >= bValue2) {
+                bValue = bValue2;
+            }
+            setValue(i2, bValue);
+            i = i2;
+        }
+    }
+
+    private void updateParentsFree(int i) {
+        int iDepth = depth(i) + 1;
+        while (i > 1) {
+            int i2 = i >>> 1;
+            byte bValue = value(i);
+            byte bValue2 = value(i ^ 1);
+            int i3 = iDepth - 1;
+            if (bValue == i3 && bValue2 == i3) {
+                setValue(i2, (byte) (iDepth - 2));
+            } else {
+                if (bValue >= bValue2) {
+                    bValue = bValue2;
+                }
+                setValue(i2, bValue);
+            }
+            i = i2;
+            iDepth = i3;
+        }
+    }
+
+    private int allocateNode(int i) {
+        int i2 = 1;
+        int i3 = -(1 << i);
+        byte bValue = value(1);
+        if (bValue > i) {
+            return -1;
+        }
+        while (true) {
+            if (bValue < i || (i2 & i3) == 0) {
+                i2 <<= 1;
+                bValue = value(i2);
+                if (bValue > i) {
+                    i2 ^= 1;
+                    bValue = value(i2);
+                }
+            } else {
+                value(i2);
+                setValue(i2, this.unusable);
+                updateParentsAlloc(i2);
+                return i2;
+            }
+        }
+    }
+
+    private long allocateRun(int i) {
+        int iAllocateNode = allocateNode(this.maxOrder - (log2(i) - this.pageShifts));
+        if (iAllocateNode < 0) {
+            return iAllocateNode;
+        }
+        this.freeBytes -= runLength(iAllocateNode);
+        return iAllocateNode;
+    }
+
+    private long allocateSubpage(int i) {
+        PoolSubpage<T> poolSubpageFindSubpagePoolHead = this.arena.findSubpagePoolHead(i);
+        int i2 = this.maxOrder;
+        synchronized (poolSubpageFindSubpagePoolHead) {
+            int iAllocateNode = allocateNode(i2);
+            if (iAllocateNode < 0) {
+                return iAllocateNode;
+            }
+            PoolSubpage<T>[] poolSubpageArr = this.subpages;
+            int i3 = this.pageSize;
+            this.freeBytes -= i3;
+            int iSubpageIdx = subpageIdx(iAllocateNode);
+            PoolSubpage<T> poolSubpage = poolSubpageArr[iSubpageIdx];
+            if (poolSubpage == null) {
+                PoolSubpage<T> poolSubpage2 = new PoolSubpage<>(poolSubpageFindSubpagePoolHead, this, iAllocateNode, runOffset(iAllocateNode), i3, i);
+                poolSubpageArr[iSubpageIdx] = poolSubpage2;
+                poolSubpage = poolSubpage2;
+            } else {
+                poolSubpage.init(poolSubpageFindSubpagePoolHead, i);
+            }
+            return poolSubpage.allocate();
+        }
+    }
+
+    void free(long j, ByteBuffer byteBuffer) {
+        Deque<ByteBuffer> deque;
+        int iMemoryMapIdx = memoryMapIdx(j);
+        int iBitmapIdx = bitmapIdx(j);
+        if (iBitmapIdx != 0) {
+            PoolSubpage<T> poolSubpage = this.subpages[subpageIdx(iMemoryMapIdx)];
+            PoolSubpage<T> poolSubpageFindSubpagePoolHead = this.arena.findSubpagePoolHead(poolSubpage.elemSize);
+            synchronized (poolSubpageFindSubpagePoolHead) {
+                if (poolSubpage.free(poolSubpageFindSubpagePoolHead, iBitmapIdx & LockFreeTaskQueueCore.MAX_CAPACITY_MASK)) {
+                    return;
+                }
+            }
+        }
+        this.freeBytes += runLength(iMemoryMapIdx);
+        setValue(iMemoryMapIdx, depth(iMemoryMapIdx));
+        updateParentsFree(iMemoryMapIdx);
+        if (byteBuffer == null || (deque = this.cachedNioBuffers) == null || deque.size() >= PooledByteBufAllocator.DEFAULT_MAX_CACHED_BYTEBUFFERS_PER_CHUNK) {
+            return;
+        }
+        this.cachedNioBuffers.offer(byteBuffer);
+    }
+
+    void initBuf(PooledByteBuf<T> pooledByteBuf, ByteBuffer byteBuffer, long j, int i, PoolThreadCache poolThreadCache) {
+        int iMemoryMapIdx = memoryMapIdx(j);
+        int iBitmapIdx = bitmapIdx(j);
+        if (iBitmapIdx == 0) {
+            value(iMemoryMapIdx);
+            pooledByteBuf.init(this, byteBuffer, j, runOffset(iMemoryMapIdx) + this.offset, i, runLength(iMemoryMapIdx), poolThreadCache);
+        } else {
+            initBufWithSubpage(pooledByteBuf, byteBuffer, j, iBitmapIdx, i, poolThreadCache);
+        }
+    }
+
+    void initBufWithSubpage(PooledByteBuf<T> pooledByteBuf, ByteBuffer byteBuffer, long j, int i, PoolThreadCache poolThreadCache) {
+        initBufWithSubpage(pooledByteBuf, byteBuffer, j, bitmapIdx(j), i, poolThreadCache);
+    }
+
+    private void initBufWithSubpage(PooledByteBuf<T> pooledByteBuf, ByteBuffer byteBuffer, long j, int i, int i2, PoolThreadCache poolThreadCache) {
+        int iMemoryMapIdx = memoryMapIdx(j);
+        PoolSubpage<T> poolSubpage = this.subpages[subpageIdx(iMemoryMapIdx)];
+        pooledByteBuf.init(this, byteBuffer, j, runOffset(iMemoryMapIdx) + ((1073741823 & i) * poolSubpage.elemSize) + this.offset, i2, poolSubpage.elemSize, poolThreadCache);
+    }
+
+    private byte value(int i) {
+        return this.memoryMap[i];
+    }
+
+    private void setValue(int i, byte b) {
+        this.memoryMap[i] = b;
+    }
+
+    private byte depth(int i) {
+        return this.depthMap[i];
+    }
+
+    private static int log2(int i) {
+        return 31 - Integer.numberOfLeadingZeros(i);
+    }
+
+    private int runLength(int i) {
+        return 1 << (this.log2ChunkSize - depth(i));
+    }
+
+    private int runOffset(int i) {
+        return ((1 << depth(i)) ^ i) * runLength(i);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.PoolChunkMetric
+    public int freeBytes() {
+        int i;
+        synchronized (this.arena) {
+            i = this.freeBytes;
+        }
+        return i;
+    }
+
+    public String toString() {
+        int i;
+        synchronized (this.arena) {
+            i = this.freeBytes;
+        }
+        return "Chunk(" + Integer.toHexString(System.identityHashCode(this)) + ": " + usage(i) + "%, " + (this.chunkSize - i) + JsonPointer.SEPARATOR + this.chunkSize + ')';
+    }
+
+    void destroy() {
+        this.arena.destroyChunk(this);
+    }
+}

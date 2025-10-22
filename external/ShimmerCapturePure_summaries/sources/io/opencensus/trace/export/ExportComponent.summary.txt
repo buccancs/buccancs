@@ -1,0 +1,44 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/trace/export/ExportComponent.java
+// Size: 1300 bytes
+// Modified: 2025-10-21 16:32:06.353472400 +0100
+
+package io.opencensus.trace.export;
+
+/* loaded from: classes4.dex */
+public abstract class ExportComponent {
+    public abstract RunningSpanStore getRunningSpanStore();
+
+    public abstract SampledSpanStore getSampledSpanStore();
+
+    public abstract SpanExporter getSpanExporter();
+
+    public void shutdown() {
+    }
+
+    public static ExportComponent newNoopExportComponent() {
+        return new NoopExportComponent();
+    }
+
+    private static final class NoopExportComponent extends ExportComponent {
+        private final SampledSpanStore noopSampledSpanStore;
+
+        @Override // io.opencensus.trace.export.ExportComponent
+        public SampledSpanStore getSampledSpanStore() {
+            return this.noopSampledSpanStore;
+        }
+
+        private NoopExportComponent() {
+            this.noopSampledSpanStore = SampledSpanStore.newNoopSampledSpanStore();
+        }
+
+        @Override // io.opencensus.trace.export.ExportComponent
+        public SpanExporter getSpanExporter() {
+            return SpanExporter.getNoopSpanExporter();
+        }
+
+        @Override // io.opencensus.trace.export.ExportComponent
+        public RunningSpanStore getRunningSpanStore() {
+            return RunningSpanStore.getNoopRunningSpanStore();
+        }
+    }
+}

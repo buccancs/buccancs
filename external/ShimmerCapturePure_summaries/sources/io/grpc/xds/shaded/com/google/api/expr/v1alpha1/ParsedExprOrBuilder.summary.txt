@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/com/google/api/expr/v1alpha1/ParsedExprOrBuilder.java
+// Size: 417 bytes
+// Modified: 2025-10-21 16:32:05.850834400 +0100
+
+package io.grpc.xds.shaded.com.google.api.expr.v1alpha1;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes3.dex */
+public interface ParsedExprOrBuilder extends MessageOrBuilder {
+    Expr getExpr();
+
+    ExprOrBuilder getExprOrBuilder();
+
+    SourceInfo getSourceInfo();
+
+    SourceInfoOrBuilder getSourceInfoOrBuilder();
+
+    boolean hasExpr();
+
+    boolean hasSourceInfo();
+}

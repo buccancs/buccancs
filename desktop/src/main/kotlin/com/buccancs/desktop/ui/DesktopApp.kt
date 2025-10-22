@@ -52,7 +52,7 @@ import com.buccancs.desktop.viewmodel.AppViewModel
 import org.jetbrains.skia.Image
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Locale
+import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
 

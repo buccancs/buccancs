@@ -1,0 +1,950 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketAddress;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public final class BindConfig extends GeneratedMessageV3 implements BindConfigOrBuilder {
+    public static final int FREEBIND_FIELD_NUMBER = 2;
+    public static final int SOCKET_OPTIONS_FIELD_NUMBER = 3;
+    public static final int SOURCE_ADDRESS_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final BindConfig DEFAULT_INSTANCE = new BindConfig();
+    private static final Parser<BindConfig> PARSER = new AbstractParser<BindConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public BindConfig m14492parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new BindConfig(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private BoolValue freebind_;
+    private byte memoizedIsInitialized;
+    private List<SocketOption> socketOptions_;
+    private SocketAddress sourceAddress_;
+
+    private BindConfig(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private BindConfig() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.socketOptions_ = Collections.emptyList();
+    }
+
+    private BindConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        SocketAddress.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            SocketAddress socketAddress = this.sourceAddress_;
+                            builder = socketAddress != null ? socketAddress.m16797toBuilder() : null;
+                            SocketAddress socketAddress2 = (SocketAddress) codedInputStream.readMessage(SocketAddress.parser(), extensionRegistryLite);
+                            this.sourceAddress_ = socketAddress2;
+                            if (builder != null) {
+                                builder.mergeFrom(socketAddress2);
+                                this.sourceAddress_ = builder.m16804buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            BoolValue boolValue = this.freebind_;
+                            builder = boolValue != null ? boolValue.toBuilder() : null;
+                            BoolValue message = codedInputStream.readMessage(BoolValue.parser(), extensionRegistryLite);
+                            this.freebind_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.freebind_ = builder.buildPartial();
+                            }
+                        } else if (tag == 26) {
+                            if (!(z2 & true)) {
+                                this.socketOptions_ = new ArrayList();
+                                z2 |= true;
+                            }
+                            this.socketOptions_.add(codedInputStream.readMessage(SocketOption.parser(), extensionRegistryLite));
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.socketOptions_ = Collections.unmodifiableList(this.socketOptions_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static BindConfig getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<BindConfig> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return AddressProto.internal_static_envoy_api_v2_core_BindConfig_descriptor;
+    }
+
+    public static BindConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (BindConfig) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static BindConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (BindConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static BindConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (BindConfig) PARSER.parseFrom(byteString);
+    }
+
+    public static BindConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (BindConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static BindConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (BindConfig) PARSER.parseFrom(bArr);
+    }
+
+    public static BindConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (BindConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static BindConfig parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static BindConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static BindConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static BindConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static BindConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static BindConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m14490toBuilder();
+    }
+
+    public static Builder newBuilder(BindConfig bindConfig) {
+        return DEFAULT_INSTANCE.m14490toBuilder().mergeFrom(bindConfig);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public BindConfig m14485getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<BindConfig> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public List<SocketOption> getSocketOptionsList() {
+        return this.socketOptions_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public List<? extends SocketOptionOrBuilder> getSocketOptionsOrBuilderList() {
+        return this.socketOptions_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public boolean hasFreebind() {
+        return this.freebind_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public boolean hasSourceAddress() {
+        return this.sourceAddress_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new BindConfig();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return AddressProto.internal_static_envoy_api_v2_core_BindConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(BindConfig.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public SocketAddress getSourceAddress() {
+        SocketAddress socketAddress = this.sourceAddress_;
+        return socketAddress == null ? SocketAddress.getDefaultInstance() : socketAddress;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public SocketAddressOrBuilder getSourceAddressOrBuilder() {
+        return getSourceAddress();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public BoolValue getFreebind() {
+        BoolValue boolValue = this.freebind_;
+        return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public BoolValueOrBuilder getFreebindOrBuilder() {
+        return getFreebind();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public int getSocketOptionsCount() {
+        return this.socketOptions_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public SocketOption getSocketOptions(int i) {
+        return this.socketOptions_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+    public SocketOptionOrBuilder getSocketOptionsOrBuilder(int i) {
+        return this.socketOptions_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.sourceAddress_ != null) {
+            codedOutputStream.writeMessage(1, getSourceAddress());
+        }
+        if (this.freebind_ != null) {
+            codedOutputStream.writeMessage(2, getFreebind());
+        }
+        for (int i = 0; i < this.socketOptions_.size(); i++) {
+            codedOutputStream.writeMessage(3, this.socketOptions_.get(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.sourceAddress_ != null ? CodedOutputStream.computeMessageSize(1, getSourceAddress()) : 0;
+        if (this.freebind_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getFreebind());
+        }
+        for (int i2 = 0; i2 < this.socketOptions_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, this.socketOptions_.get(i2));
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof BindConfig)) {
+            return super.equals(obj);
+        }
+        BindConfig bindConfig = (BindConfig) obj;
+        if (hasSourceAddress() != bindConfig.hasSourceAddress()) {
+            return false;
+        }
+        if ((!hasSourceAddress() || getSourceAddress().equals(bindConfig.getSourceAddress())) && hasFreebind() == bindConfig.hasFreebind()) {
+            return (!hasFreebind() || getFreebind().equals(bindConfig.getFreebind())) && getSocketOptionsList().equals(bindConfig.getSocketOptionsList()) && this.unknownFields.equals(bindConfig.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasSourceAddress()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getSourceAddress().hashCode();
+        }
+        if (hasFreebind()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getFreebind().hashCode();
+        }
+        if (getSocketOptionsCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getSocketOptionsList().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m14487newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m14490toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements BindConfigOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> freebindBuilder_;
+        private BoolValue freebind_;
+        private RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> socketOptionsBuilder_;
+        private List<SocketOption> socketOptions_;
+        private SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> sourceAddressBuilder_;
+        private SocketAddress sourceAddress_;
+
+        private Builder() {
+            this.socketOptions_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.socketOptions_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return AddressProto.internal_static_envoy_api_v2_core_BindConfig_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public boolean hasFreebind() {
+            return (this.freebindBuilder_ == null && this.freebind_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public boolean hasSourceAddress() {
+            return (this.sourceAddressBuilder_ == null && this.sourceAddress_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return AddressProto.internal_static_envoy_api_v2_core_BindConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(BindConfig.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (BindConfig.alwaysUseFieldBuilders) {
+                getSocketOptionsFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14501clear() {
+            super.clear();
+            if (this.sourceAddressBuilder_ == null) {
+                this.sourceAddress_ = null;
+            } else {
+                this.sourceAddress_ = null;
+                this.sourceAddressBuilder_ = null;
+            }
+            if (this.freebindBuilder_ == null) {
+                this.freebind_ = null;
+            } else {
+                this.freebind_ = null;
+                this.freebindBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.socketOptions_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return AddressProto.internal_static_envoy_api_v2_core_BindConfig_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public BindConfig m14514getDefaultInstanceForType() {
+            return BindConfig.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public BindConfig m14495build() throws UninitializedMessageException {
+            BindConfig bindConfigM14497buildPartial = m14497buildPartial();
+            if (bindConfigM14497buildPartial.isInitialized()) {
+                return bindConfigM14497buildPartial;
+            }
+            throw newUninitializedMessageException(bindConfigM14497buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public BindConfig m14497buildPartial() {
+            BindConfig bindConfig = new BindConfig(this);
+            SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> singleFieldBuilderV3 = this.sourceAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                bindConfig.sourceAddress_ = this.sourceAddress_;
+            } else {
+                bindConfig.sourceAddress_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV32 = this.freebindBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                bindConfig.freebind_ = this.freebind_;
+            } else {
+                bindConfig.freebind_ = singleFieldBuilderV32.build();
+            }
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.socketOptions_ = Collections.unmodifiableList(this.socketOptions_);
+                    this.bitField0_ &= -2;
+                }
+                bindConfig.socketOptions_ = this.socketOptions_;
+            } else {
+                bindConfig.socketOptions_ = repeatedFieldBuilderV3.build();
+            }
+            onBuilt();
+            return bindConfig;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14513clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14525setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14503clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14506clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14527setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14493addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14518mergeFrom(Message message) {
+            if (message instanceof BindConfig) {
+                return mergeFrom((BindConfig) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(BindConfig bindConfig) {
+            if (bindConfig == BindConfig.getDefaultInstance()) {
+                return this;
+            }
+            if (bindConfig.hasSourceAddress()) {
+                mergeSourceAddress(bindConfig.getSourceAddress());
+            }
+            if (bindConfig.hasFreebind()) {
+                mergeFreebind(bindConfig.getFreebind());
+            }
+            if (this.socketOptionsBuilder_ == null) {
+                if (!bindConfig.socketOptions_.isEmpty()) {
+                    if (this.socketOptions_.isEmpty()) {
+                        this.socketOptions_ = bindConfig.socketOptions_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureSocketOptionsIsMutable();
+                        this.socketOptions_.addAll(bindConfig.socketOptions_);
+                    }
+                    onChanged();
+                }
+            } else if (!bindConfig.socketOptions_.isEmpty()) {
+                if (!this.socketOptionsBuilder_.isEmpty()) {
+                    this.socketOptionsBuilder_.addAllMessages(bindConfig.socketOptions_);
+                } else {
+                    this.socketOptionsBuilder_.dispose();
+                    this.socketOptionsBuilder_ = null;
+                    this.socketOptions_ = bindConfig.socketOptions_;
+                    this.bitField0_ &= -2;
+                    this.socketOptionsBuilder_ = BindConfig.alwaysUseFieldBuilders ? getSocketOptionsFieldBuilder() : null;
+                }
+            }
+            m14523mergeUnknownFields(bindConfig.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig.Builder m14519mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig.Builder.m14519mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfig$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public SocketAddress getSourceAddress() {
+            SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> singleFieldBuilderV3 = this.sourceAddressBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            SocketAddress socketAddress = this.sourceAddress_;
+            return socketAddress == null ? SocketAddress.getDefaultInstance() : socketAddress;
+        }
+
+        public Builder setSourceAddress(SocketAddress socketAddress) {
+            SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> singleFieldBuilderV3 = this.sourceAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                socketAddress.getClass();
+                this.sourceAddress_ = socketAddress;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(socketAddress);
+            }
+            return this;
+        }
+
+        public Builder setSourceAddress(SocketAddress.Builder builder) {
+            SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> singleFieldBuilderV3 = this.sourceAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.sourceAddress_ = builder.m16802build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m16802build());
+            }
+            return this;
+        }
+
+        public Builder mergeSourceAddress(SocketAddress socketAddress) {
+            SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> singleFieldBuilderV3 = this.sourceAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                SocketAddress socketAddress2 = this.sourceAddress_;
+                if (socketAddress2 != null) {
+                    this.sourceAddress_ = SocketAddress.newBuilder(socketAddress2).mergeFrom(socketAddress).m16804buildPartial();
+                } else {
+                    this.sourceAddress_ = socketAddress;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(socketAddress);
+            }
+            return this;
+        }
+
+        public Builder clearSourceAddress() {
+            if (this.sourceAddressBuilder_ == null) {
+                this.sourceAddress_ = null;
+                onChanged();
+            } else {
+                this.sourceAddress_ = null;
+                this.sourceAddressBuilder_ = null;
+            }
+            return this;
+        }
+
+        public SocketAddress.Builder getSourceAddressBuilder() {
+            onChanged();
+            return getSourceAddressFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public SocketAddressOrBuilder getSourceAddressOrBuilder() {
+            SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> singleFieldBuilderV3 = this.sourceAddressBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (SocketAddressOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            SocketAddress socketAddress = this.sourceAddress_;
+            return socketAddress == null ? SocketAddress.getDefaultInstance() : socketAddress;
+        }
+
+        private SingleFieldBuilderV3<SocketAddress, SocketAddress.Builder, SocketAddressOrBuilder> getSourceAddressFieldBuilder() {
+            if (this.sourceAddressBuilder_ == null) {
+                this.sourceAddressBuilder_ = new SingleFieldBuilderV3<>(getSourceAddress(), getParentForChildren(), isClean());
+                this.sourceAddress_ = null;
+            }
+            return this.sourceAddressBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public BoolValue getFreebind() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.freebindBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BoolValue boolValue = this.freebind_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        public Builder setFreebind(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.freebindBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                boolValue.getClass();
+                this.freebind_ = boolValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(boolValue);
+            }
+            return this;
+        }
+
+        public Builder setFreebind(BoolValue.Builder builder) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.freebindBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.freebind_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeFreebind(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.freebindBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BoolValue boolValue2 = this.freebind_;
+                if (boolValue2 != null) {
+                    this.freebind_ = BoolValue.newBuilder(boolValue2).mergeFrom(boolValue).buildPartial();
+                } else {
+                    this.freebind_ = boolValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(boolValue);
+            }
+            return this;
+        }
+
+        public Builder clearFreebind() {
+            if (this.freebindBuilder_ == null) {
+                this.freebind_ = null;
+                onChanged();
+            } else {
+                this.freebind_ = null;
+                this.freebindBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BoolValue.Builder getFreebindBuilder() {
+            onChanged();
+            return getFreebindFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public BoolValueOrBuilder getFreebindOrBuilder() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.freebindBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BoolValue boolValue = this.freebind_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> getFreebindFieldBuilder() {
+            if (this.freebindBuilder_ == null) {
+                this.freebindBuilder_ = new SingleFieldBuilderV3<>(getFreebind(), getParentForChildren(), isClean());
+                this.freebind_ = null;
+            }
+            return this.freebindBuilder_;
+        }
+
+        private void ensureSocketOptionsIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.socketOptions_ = new ArrayList(this.socketOptions_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public List<SocketOption> getSocketOptionsList() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.socketOptions_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public int getSocketOptionsCount() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.socketOptions_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public SocketOption getSocketOptions(int i) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.socketOptions_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setSocketOptions(int i, SocketOption socketOption) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketOption.getClass();
+                ensureSocketOptionsIsMutable();
+                this.socketOptions_.set(i, socketOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, socketOption);
+            }
+            return this;
+        }
+
+        public Builder setSocketOptions(int i, SocketOption.Builder builder) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketOptionsIsMutable();
+                this.socketOptions_.set(i, builder.m16849build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m16849build());
+            }
+            return this;
+        }
+
+        public Builder addSocketOptions(SocketOption socketOption) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketOption.getClass();
+                ensureSocketOptionsIsMutable();
+                this.socketOptions_.add(socketOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(socketOption);
+            }
+            return this;
+        }
+
+        public Builder addSocketOptions(int i, SocketOption socketOption) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketOption.getClass();
+                ensureSocketOptionsIsMutable();
+                this.socketOptions_.add(i, socketOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, socketOption);
+            }
+            return this;
+        }
+
+        public Builder addSocketOptions(SocketOption.Builder builder) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketOptionsIsMutable();
+                this.socketOptions_.add(builder.m16849build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m16849build());
+            }
+            return this;
+        }
+
+        public Builder addSocketOptions(int i, SocketOption.Builder builder) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketOptionsIsMutable();
+                this.socketOptions_.add(i, builder.m16849build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m16849build());
+            }
+            return this;
+        }
+
+        public Builder addAllSocketOptions(Iterable<? extends SocketOption> iterable) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketOptionsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.socketOptions_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearSocketOptions() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.socketOptions_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeSocketOptions(int i) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketOptionsIsMutable();
+                this.socketOptions_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public SocketOption.Builder getSocketOptionsBuilder(int i) {
+            return getSocketOptionsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public SocketOptionOrBuilder getSocketOptionsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.socketOptions_.get(i);
+            }
+            return (SocketOptionOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BindConfigOrBuilder
+        public List<? extends SocketOptionOrBuilder> getSocketOptionsOrBuilderList() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.socketOptionsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.socketOptions_);
+        }
+
+        public SocketOption.Builder addSocketOptionsBuilder() {
+            return getSocketOptionsFieldBuilder().addBuilder(SocketOption.getDefaultInstance());
+        }
+
+        public SocketOption.Builder addSocketOptionsBuilder(int i) {
+            return getSocketOptionsFieldBuilder().addBuilder(i, SocketOption.getDefaultInstance());
+        }
+
+        public List<SocketOption.Builder> getSocketOptionsBuilderList() {
+            return getSocketOptionsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> getSocketOptionsFieldBuilder() {
+            if (this.socketOptionsBuilder_ == null) {
+                this.socketOptionsBuilder_ = new RepeatedFieldBuilderV3<>(this.socketOptions_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.socketOptions_ = null;
+            }
+            return this.socketOptionsBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m14529setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m14523mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

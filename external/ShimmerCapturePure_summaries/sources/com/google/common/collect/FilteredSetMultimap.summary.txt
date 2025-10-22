@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/FilteredSetMultimap.java
+// Size: 260 bytes
+// Modified: 2025-10-21 16:32:03.669730900 +0100
+
+package com.google.common.collect;
+
+/* loaded from: classes.dex */
+interface FilteredSetMultimap<K, V> extends FilteredMultimap<K, V>, SetMultimap<K, V> {
+    @Override // com.google.common.collect.FilteredMultimap
+    SetMultimap<K, V> unfiltered();
+}

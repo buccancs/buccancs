@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/squareup/okhttp/Callback.java
+// Size: 253 bytes
+// Modified: 2025-10-21 16:32:05.926821600 +0100
+
+package com.squareup.okhttp;
+
+import java.io.IOException;
+
+/* loaded from: classes2.dex */
+public interface Callback {
+    void onFailure(Request request, IOException iOException);
+
+    void onResponse(Response response) throws IOException;
+}

@@ -1,0 +1,1773 @@
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Int64Value;
+import com.google.protobuf.Int64ValueOrBuilder;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.channelz.v1.SocketOption;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public final class SocketData extends GeneratedMessageV3 implements SocketDataOrBuilder {
+    public static final int KEEP_ALIVES_SENT_FIELD_NUMBER = 6;
+    public static final int LAST_LOCAL_STREAM_CREATED_TIMESTAMP_FIELD_NUMBER = 7;
+    public static final int LAST_MESSAGE_RECEIVED_TIMESTAMP_FIELD_NUMBER = 10;
+    public static final int LAST_MESSAGE_SENT_TIMESTAMP_FIELD_NUMBER = 9;
+    public static final int LAST_REMOTE_STREAM_CREATED_TIMESTAMP_FIELD_NUMBER = 8;
+    public static final int LOCAL_FLOW_CONTROL_WINDOW_FIELD_NUMBER = 11;
+    public static final int MESSAGES_RECEIVED_FIELD_NUMBER = 5;
+    public static final int MESSAGES_SENT_FIELD_NUMBER = 4;
+    public static final int OPTION_FIELD_NUMBER = 13;
+    public static final int REMOTE_FLOW_CONTROL_WINDOW_FIELD_NUMBER = 12;
+    public static final int STREAMS_FAILED_FIELD_NUMBER = 3;
+    public static final int STREAMS_STARTED_FIELD_NUMBER = 1;
+    public static final int STREAMS_SUCCEEDED_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final SocketData DEFAULT_INSTANCE = new SocketData();
+    private static final Parser<SocketData> PARSER = new AbstractParser<SocketData>() { // from class: io.grpc.channelz.v1.SocketData.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public SocketData m8736parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new SocketData(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private long keepAlivesSent_;
+    private Timestamp lastLocalStreamCreatedTimestamp_;
+    private Timestamp lastMessageReceivedTimestamp_;
+    private Timestamp lastMessageSentTimestamp_;
+    private Timestamp lastRemoteStreamCreatedTimestamp_;
+    private Int64Value localFlowControlWindow_;
+    private byte memoizedIsInitialized;
+    private long messagesReceived_;
+    private long messagesSent_;
+    private List<SocketOption> option_;
+    private Int64Value remoteFlowControlWindow_;
+    private long streamsFailed_;
+    private long streamsStarted_;
+    private long streamsSucceeded_;
+
+    private SocketData(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private SocketData() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.option_ = Collections.emptyList();
+    }
+
+    private SocketData(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Int64Value.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        switch (tag) {
+                            case 0:
+                                z = true;
+                            case 8:
+                                this.streamsStarted_ = codedInputStream.readInt64();
+                            case 16:
+                                this.streamsSucceeded_ = codedInputStream.readInt64();
+                            case 24:
+                                this.streamsFailed_ = codedInputStream.readInt64();
+                            case 32:
+                                this.messagesSent_ = codedInputStream.readInt64();
+                            case 40:
+                                this.messagesReceived_ = codedInputStream.readInt64();
+                            case 48:
+                                this.keepAlivesSent_ = codedInputStream.readInt64();
+                            case 58:
+                                Timestamp timestamp = this.lastLocalStreamCreatedTimestamp_;
+                                builder = timestamp != null ? timestamp.toBuilder() : null;
+                                Timestamp message = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                                this.lastLocalStreamCreatedTimestamp_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.lastLocalStreamCreatedTimestamp_ = builder.buildPartial();
+                                }
+                            case 66:
+                                Timestamp timestamp2 = this.lastRemoteStreamCreatedTimestamp_;
+                                builder = timestamp2 != null ? timestamp2.toBuilder() : null;
+                                Timestamp message2 = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                                this.lastRemoteStreamCreatedTimestamp_ = message2;
+                                if (builder != null) {
+                                    builder.mergeFrom(message2);
+                                    this.lastRemoteStreamCreatedTimestamp_ = builder.buildPartial();
+                                }
+                            case 74:
+                                Timestamp timestamp3 = this.lastMessageSentTimestamp_;
+                                builder = timestamp3 != null ? timestamp3.toBuilder() : null;
+                                Timestamp message3 = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                                this.lastMessageSentTimestamp_ = message3;
+                                if (builder != null) {
+                                    builder.mergeFrom(message3);
+                                    this.lastMessageSentTimestamp_ = builder.buildPartial();
+                                }
+                            case 82:
+                                Timestamp timestamp4 = this.lastMessageReceivedTimestamp_;
+                                builder = timestamp4 != null ? timestamp4.toBuilder() : null;
+                                Timestamp message4 = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                                this.lastMessageReceivedTimestamp_ = message4;
+                                if (builder != null) {
+                                    builder.mergeFrom(message4);
+                                    this.lastMessageReceivedTimestamp_ = builder.buildPartial();
+                                }
+                            case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                                Int64Value int64Value = this.localFlowControlWindow_;
+                                builder = int64Value != null ? int64Value.toBuilder() : null;
+                                Int64Value message5 = codedInputStream.readMessage(Int64Value.parser(), extensionRegistryLite);
+                                this.localFlowControlWindow_ = message5;
+                                if (builder != null) {
+                                    builder.mergeFrom(message5);
+                                    this.localFlowControlWindow_ = builder.buildPartial();
+                                }
+                            case 98:
+                                Int64Value int64Value2 = this.remoteFlowControlWindow_;
+                                builder = int64Value2 != null ? int64Value2.toBuilder() : null;
+                                Int64Value message6 = codedInputStream.readMessage(Int64Value.parser(), extensionRegistryLite);
+                                this.remoteFlowControlWindow_ = message6;
+                                if (builder != null) {
+                                    builder.mergeFrom(message6);
+                                    this.remoteFlowControlWindow_ = builder.buildPartial();
+                                }
+                            case 106:
+                                if (!(z2 & true)) {
+                                    this.option_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.option_.add(codedInputStream.readMessage(SocketOption.parser(), extensionRegistryLite));
+                            default:
+                                if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    z = true;
+                                }
+                        }
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.option_ = Collections.unmodifiableList(this.option_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static SocketData getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<SocketData> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_SocketData_descriptor;
+    }
+
+    public static SocketData parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (SocketData) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static SocketData parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SocketData) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static SocketData parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (SocketData) PARSER.parseFrom(byteString);
+    }
+
+    public static SocketData parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SocketData) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static SocketData parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (SocketData) PARSER.parseFrom(bArr);
+    }
+
+    public static SocketData parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SocketData) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static SocketData parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static SocketData parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static SocketData parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static SocketData parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static SocketData parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static SocketData parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m8734toBuilder();
+    }
+
+    public static Builder newBuilder(SocketData socketData) {
+        return DEFAULT_INSTANCE.m8734toBuilder().mergeFrom(socketData);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public SocketData m8729getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public long getKeepAlivesSent() {
+        return this.keepAlivesSent_;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public long getMessagesReceived() {
+        return this.messagesReceived_;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public long getMessagesSent() {
+        return this.messagesSent_;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public List<SocketOption> getOptionList() {
+        return this.option_;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public List<? extends SocketOptionOrBuilder> getOptionOrBuilderList() {
+        return this.option_;
+    }
+
+    public Parser<SocketData> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public long getStreamsFailed() {
+        return this.streamsFailed_;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public long getStreamsStarted() {
+        return this.streamsStarted_;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public long getStreamsSucceeded() {
+        return this.streamsSucceeded_;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public boolean hasLastLocalStreamCreatedTimestamp() {
+        return this.lastLocalStreamCreatedTimestamp_ != null;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public boolean hasLastMessageReceivedTimestamp() {
+        return this.lastMessageReceivedTimestamp_ != null;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public boolean hasLastMessageSentTimestamp() {
+        return this.lastMessageSentTimestamp_ != null;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public boolean hasLastRemoteStreamCreatedTimestamp() {
+        return this.lastRemoteStreamCreatedTimestamp_ != null;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public boolean hasLocalFlowControlWindow() {
+        return this.localFlowControlWindow_ != null;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public boolean hasRemoteFlowControlWindow() {
+        return this.remoteFlowControlWindow_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new SocketData();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_SocketData_fieldAccessorTable.ensureFieldAccessorsInitialized(SocketData.class, Builder.class);
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Timestamp getLastLocalStreamCreatedTimestamp() {
+        Timestamp timestamp = this.lastLocalStreamCreatedTimestamp_;
+        return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public TimestampOrBuilder getLastLocalStreamCreatedTimestampOrBuilder() {
+        return getLastLocalStreamCreatedTimestamp();
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Timestamp getLastRemoteStreamCreatedTimestamp() {
+        Timestamp timestamp = this.lastRemoteStreamCreatedTimestamp_;
+        return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public TimestampOrBuilder getLastRemoteStreamCreatedTimestampOrBuilder() {
+        return getLastRemoteStreamCreatedTimestamp();
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Timestamp getLastMessageSentTimestamp() {
+        Timestamp timestamp = this.lastMessageSentTimestamp_;
+        return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public TimestampOrBuilder getLastMessageSentTimestampOrBuilder() {
+        return getLastMessageSentTimestamp();
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Timestamp getLastMessageReceivedTimestamp() {
+        Timestamp timestamp = this.lastMessageReceivedTimestamp_;
+        return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public TimestampOrBuilder getLastMessageReceivedTimestampOrBuilder() {
+        return getLastMessageReceivedTimestamp();
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Int64Value getLocalFlowControlWindow() {
+        Int64Value int64Value = this.localFlowControlWindow_;
+        return int64Value == null ? Int64Value.getDefaultInstance() : int64Value;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Int64ValueOrBuilder getLocalFlowControlWindowOrBuilder() {
+        return getLocalFlowControlWindow();
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Int64Value getRemoteFlowControlWindow() {
+        Int64Value int64Value = this.remoteFlowControlWindow_;
+        return int64Value == null ? Int64Value.getDefaultInstance() : int64Value;
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public Int64ValueOrBuilder getRemoteFlowControlWindowOrBuilder() {
+        return getRemoteFlowControlWindow();
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public int getOptionCount() {
+        return this.option_.size();
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public SocketOption getOption(int i) {
+        return this.option_.get(i);
+    }
+
+    @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+    public SocketOptionOrBuilder getOptionOrBuilder(int i) {
+        return this.option_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        long j = this.streamsStarted_;
+        if (j != 0) {
+            codedOutputStream.writeInt64(1, j);
+        }
+        long j2 = this.streamsSucceeded_;
+        if (j2 != 0) {
+            codedOutputStream.writeInt64(2, j2);
+        }
+        long j3 = this.streamsFailed_;
+        if (j3 != 0) {
+            codedOutputStream.writeInt64(3, j3);
+        }
+        long j4 = this.messagesSent_;
+        if (j4 != 0) {
+            codedOutputStream.writeInt64(4, j4);
+        }
+        long j5 = this.messagesReceived_;
+        if (j5 != 0) {
+            codedOutputStream.writeInt64(5, j5);
+        }
+        long j6 = this.keepAlivesSent_;
+        if (j6 != 0) {
+            codedOutputStream.writeInt64(6, j6);
+        }
+        if (this.lastLocalStreamCreatedTimestamp_ != null) {
+            codedOutputStream.writeMessage(7, getLastLocalStreamCreatedTimestamp());
+        }
+        if (this.lastRemoteStreamCreatedTimestamp_ != null) {
+            codedOutputStream.writeMessage(8, getLastRemoteStreamCreatedTimestamp());
+        }
+        if (this.lastMessageSentTimestamp_ != null) {
+            codedOutputStream.writeMessage(9, getLastMessageSentTimestamp());
+        }
+        if (this.lastMessageReceivedTimestamp_ != null) {
+            codedOutputStream.writeMessage(10, getLastMessageReceivedTimestamp());
+        }
+        if (this.localFlowControlWindow_ != null) {
+            codedOutputStream.writeMessage(11, getLocalFlowControlWindow());
+        }
+        if (this.remoteFlowControlWindow_ != null) {
+            codedOutputStream.writeMessage(12, getRemoteFlowControlWindow());
+        }
+        for (int i = 0; i < this.option_.size(); i++) {
+            codedOutputStream.writeMessage(13, this.option_.get(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        long j = this.streamsStarted_;
+        int iComputeInt64Size = j != 0 ? CodedOutputStream.computeInt64Size(1, j) : 0;
+        long j2 = this.streamsSucceeded_;
+        if (j2 != 0) {
+            iComputeInt64Size += CodedOutputStream.computeInt64Size(2, j2);
+        }
+        long j3 = this.streamsFailed_;
+        if (j3 != 0) {
+            iComputeInt64Size += CodedOutputStream.computeInt64Size(3, j3);
+        }
+        long j4 = this.messagesSent_;
+        if (j4 != 0) {
+            iComputeInt64Size += CodedOutputStream.computeInt64Size(4, j4);
+        }
+        long j5 = this.messagesReceived_;
+        if (j5 != 0) {
+            iComputeInt64Size += CodedOutputStream.computeInt64Size(5, j5);
+        }
+        long j6 = this.keepAlivesSent_;
+        if (j6 != 0) {
+            iComputeInt64Size += CodedOutputStream.computeInt64Size(6, j6);
+        }
+        if (this.lastLocalStreamCreatedTimestamp_ != null) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(7, getLastLocalStreamCreatedTimestamp());
+        }
+        if (this.lastRemoteStreamCreatedTimestamp_ != null) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(8, getLastRemoteStreamCreatedTimestamp());
+        }
+        if (this.lastMessageSentTimestamp_ != null) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(9, getLastMessageSentTimestamp());
+        }
+        if (this.lastMessageReceivedTimestamp_ != null) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(10, getLastMessageReceivedTimestamp());
+        }
+        if (this.localFlowControlWindow_ != null) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(11, getLocalFlowControlWindow());
+        }
+        if (this.remoteFlowControlWindow_ != null) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(12, getRemoteFlowControlWindow());
+        }
+        for (int i2 = 0; i2 < this.option_.size(); i2++) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(13, this.option_.get(i2));
+        }
+        int serializedSize = iComputeInt64Size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof SocketData)) {
+            return super.equals(obj);
+        }
+        SocketData socketData = (SocketData) obj;
+        if (getStreamsStarted() != socketData.getStreamsStarted() || getStreamsSucceeded() != socketData.getStreamsSucceeded() || getStreamsFailed() != socketData.getStreamsFailed() || getMessagesSent() != socketData.getMessagesSent() || getMessagesReceived() != socketData.getMessagesReceived() || getKeepAlivesSent() != socketData.getKeepAlivesSent() || hasLastLocalStreamCreatedTimestamp() != socketData.hasLastLocalStreamCreatedTimestamp()) {
+            return false;
+        }
+        if ((hasLastLocalStreamCreatedTimestamp() && !getLastLocalStreamCreatedTimestamp().equals(socketData.getLastLocalStreamCreatedTimestamp())) || hasLastRemoteStreamCreatedTimestamp() != socketData.hasLastRemoteStreamCreatedTimestamp()) {
+            return false;
+        }
+        if ((hasLastRemoteStreamCreatedTimestamp() && !getLastRemoteStreamCreatedTimestamp().equals(socketData.getLastRemoteStreamCreatedTimestamp())) || hasLastMessageSentTimestamp() != socketData.hasLastMessageSentTimestamp()) {
+            return false;
+        }
+        if ((hasLastMessageSentTimestamp() && !getLastMessageSentTimestamp().equals(socketData.getLastMessageSentTimestamp())) || hasLastMessageReceivedTimestamp() != socketData.hasLastMessageReceivedTimestamp()) {
+            return false;
+        }
+        if ((hasLastMessageReceivedTimestamp() && !getLastMessageReceivedTimestamp().equals(socketData.getLastMessageReceivedTimestamp())) || hasLocalFlowControlWindow() != socketData.hasLocalFlowControlWindow()) {
+            return false;
+        }
+        if ((!hasLocalFlowControlWindow() || getLocalFlowControlWindow().equals(socketData.getLocalFlowControlWindow())) && hasRemoteFlowControlWindow() == socketData.hasRemoteFlowControlWindow()) {
+            return (!hasRemoteFlowControlWindow() || getRemoteFlowControlWindow().equals(socketData.getRemoteFlowControlWindow())) && getOptionList().equals(socketData.getOptionList()) && this.unknownFields.equals(socketData.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((((((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + Internal.hashLong(getStreamsStarted())) * 37) + 2) * 53) + Internal.hashLong(getStreamsSucceeded())) * 37) + 3) * 53) + Internal.hashLong(getStreamsFailed())) * 37) + 4) * 53) + Internal.hashLong(getMessagesSent())) * 37) + 5) * 53) + Internal.hashLong(getMessagesReceived())) * 37) + 6) * 53) + Internal.hashLong(getKeepAlivesSent());
+        if (hasLastLocalStreamCreatedTimestamp()) {
+            iHashCode = (((iHashCode * 37) + 7) * 53) + getLastLocalStreamCreatedTimestamp().hashCode();
+        }
+        if (hasLastRemoteStreamCreatedTimestamp()) {
+            iHashCode = (((iHashCode * 37) + 8) * 53) + getLastRemoteStreamCreatedTimestamp().hashCode();
+        }
+        if (hasLastMessageSentTimestamp()) {
+            iHashCode = (((iHashCode * 37) + 9) * 53) + getLastMessageSentTimestamp().hashCode();
+        }
+        if (hasLastMessageReceivedTimestamp()) {
+            iHashCode = (((iHashCode * 37) + 10) * 53) + getLastMessageReceivedTimestamp().hashCode();
+        }
+        if (hasLocalFlowControlWindow()) {
+            iHashCode = (((iHashCode * 37) + 11) * 53) + getLocalFlowControlWindow().hashCode();
+        }
+        if (hasRemoteFlowControlWindow()) {
+            iHashCode = (((iHashCode * 37) + 12) * 53) + getRemoteFlowControlWindow().hashCode();
+        }
+        if (getOptionCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 13) * 53) + getOptionList().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m8731newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m8734toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements SocketDataOrBuilder {
+        private int bitField0_;
+        private long keepAlivesSent_;
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> lastLocalStreamCreatedTimestampBuilder_;
+        private Timestamp lastLocalStreamCreatedTimestamp_;
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> lastMessageReceivedTimestampBuilder_;
+        private Timestamp lastMessageReceivedTimestamp_;
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> lastMessageSentTimestampBuilder_;
+        private Timestamp lastMessageSentTimestamp_;
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> lastRemoteStreamCreatedTimestampBuilder_;
+        private Timestamp lastRemoteStreamCreatedTimestamp_;
+        private SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> localFlowControlWindowBuilder_;
+        private Int64Value localFlowControlWindow_;
+        private long messagesReceived_;
+        private long messagesSent_;
+        private RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> optionBuilder_;
+        private List<SocketOption> option_;
+        private SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> remoteFlowControlWindowBuilder_;
+        private Int64Value remoteFlowControlWindow_;
+        private long streamsFailed_;
+        private long streamsStarted_;
+        private long streamsSucceeded_;
+
+        private Builder() {
+            this.option_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.option_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_SocketData_descriptor;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public long getKeepAlivesSent() {
+            return this.keepAlivesSent_;
+        }
+
+        public Builder setKeepAlivesSent(long j) {
+            this.keepAlivesSent_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public long getMessagesReceived() {
+            return this.messagesReceived_;
+        }
+
+        public Builder setMessagesReceived(long j) {
+            this.messagesReceived_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public long getMessagesSent() {
+            return this.messagesSent_;
+        }
+
+        public Builder setMessagesSent(long j) {
+            this.messagesSent_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public long getStreamsFailed() {
+            return this.streamsFailed_;
+        }
+
+        public Builder setStreamsFailed(long j) {
+            this.streamsFailed_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public long getStreamsStarted() {
+            return this.streamsStarted_;
+        }
+
+        public Builder setStreamsStarted(long j) {
+            this.streamsStarted_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public long getStreamsSucceeded() {
+            return this.streamsSucceeded_;
+        }
+
+        public Builder setStreamsSucceeded(long j) {
+            this.streamsSucceeded_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public boolean hasLastLocalStreamCreatedTimestamp() {
+            return (this.lastLocalStreamCreatedTimestampBuilder_ == null && this.lastLocalStreamCreatedTimestamp_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public boolean hasLastMessageReceivedTimestamp() {
+            return (this.lastMessageReceivedTimestampBuilder_ == null && this.lastMessageReceivedTimestamp_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public boolean hasLastMessageSentTimestamp() {
+            return (this.lastMessageSentTimestampBuilder_ == null && this.lastMessageSentTimestamp_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public boolean hasLastRemoteStreamCreatedTimestamp() {
+            return (this.lastRemoteStreamCreatedTimestampBuilder_ == null && this.lastRemoteStreamCreatedTimestamp_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public boolean hasLocalFlowControlWindow() {
+            return (this.localFlowControlWindowBuilder_ == null && this.localFlowControlWindow_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public boolean hasRemoteFlowControlWindow() {
+            return (this.remoteFlowControlWindowBuilder_ == null && this.remoteFlowControlWindow_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_SocketData_fieldAccessorTable.ensureFieldAccessorsInitialized(SocketData.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (SocketData.alwaysUseFieldBuilders) {
+                getOptionFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8745clear() {
+            super.clear();
+            this.streamsStarted_ = 0L;
+            this.streamsSucceeded_ = 0L;
+            this.streamsFailed_ = 0L;
+            this.messagesSent_ = 0L;
+            this.messagesReceived_ = 0L;
+            this.keepAlivesSent_ = 0L;
+            if (this.lastLocalStreamCreatedTimestampBuilder_ == null) {
+                this.lastLocalStreamCreatedTimestamp_ = null;
+            } else {
+                this.lastLocalStreamCreatedTimestamp_ = null;
+                this.lastLocalStreamCreatedTimestampBuilder_ = null;
+            }
+            if (this.lastRemoteStreamCreatedTimestampBuilder_ == null) {
+                this.lastRemoteStreamCreatedTimestamp_ = null;
+            } else {
+                this.lastRemoteStreamCreatedTimestamp_ = null;
+                this.lastRemoteStreamCreatedTimestampBuilder_ = null;
+            }
+            if (this.lastMessageSentTimestampBuilder_ == null) {
+                this.lastMessageSentTimestamp_ = null;
+            } else {
+                this.lastMessageSentTimestamp_ = null;
+                this.lastMessageSentTimestampBuilder_ = null;
+            }
+            if (this.lastMessageReceivedTimestampBuilder_ == null) {
+                this.lastMessageReceivedTimestamp_ = null;
+            } else {
+                this.lastMessageReceivedTimestamp_ = null;
+                this.lastMessageReceivedTimestampBuilder_ = null;
+            }
+            if (this.localFlowControlWindowBuilder_ == null) {
+                this.localFlowControlWindow_ = null;
+            } else {
+                this.localFlowControlWindow_ = null;
+                this.localFlowControlWindowBuilder_ = null;
+            }
+            if (this.remoteFlowControlWindowBuilder_ == null) {
+                this.remoteFlowControlWindow_ = null;
+            } else {
+                this.remoteFlowControlWindow_ = null;
+                this.remoteFlowControlWindowBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.option_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_SocketData_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SocketData m8758getDefaultInstanceForType() {
+            return SocketData.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SocketData m8739build() throws UninitializedMessageException {
+            SocketData socketDataM8741buildPartial = m8741buildPartial();
+            if (socketDataM8741buildPartial.isInitialized()) {
+                return socketDataM8741buildPartial;
+            }
+            throw newUninitializedMessageException(socketDataM8741buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SocketData m8741buildPartial() {
+            SocketData socketData = new SocketData(this);
+            socketData.streamsStarted_ = this.streamsStarted_;
+            socketData.streamsSucceeded_ = this.streamsSucceeded_;
+            socketData.streamsFailed_ = this.streamsFailed_;
+            socketData.messagesSent_ = this.messagesSent_;
+            socketData.messagesReceived_ = this.messagesReceived_;
+            socketData.keepAlivesSent_ = this.keepAlivesSent_;
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastLocalStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                socketData.lastLocalStreamCreatedTimestamp_ = this.lastLocalStreamCreatedTimestamp_;
+            } else {
+                socketData.lastLocalStreamCreatedTimestamp_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV32 = this.lastRemoteStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                socketData.lastRemoteStreamCreatedTimestamp_ = this.lastRemoteStreamCreatedTimestamp_;
+            } else {
+                socketData.lastRemoteStreamCreatedTimestamp_ = singleFieldBuilderV32.build();
+            }
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV33 = this.lastMessageSentTimestampBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                socketData.lastMessageSentTimestamp_ = this.lastMessageSentTimestamp_;
+            } else {
+                socketData.lastMessageSentTimestamp_ = singleFieldBuilderV33.build();
+            }
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV34 = this.lastMessageReceivedTimestampBuilder_;
+            if (singleFieldBuilderV34 == null) {
+                socketData.lastMessageReceivedTimestamp_ = this.lastMessageReceivedTimestamp_;
+            } else {
+                socketData.lastMessageReceivedTimestamp_ = singleFieldBuilderV34.build();
+            }
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV35 = this.localFlowControlWindowBuilder_;
+            if (singleFieldBuilderV35 == null) {
+                socketData.localFlowControlWindow_ = this.localFlowControlWindow_;
+            } else {
+                socketData.localFlowControlWindow_ = singleFieldBuilderV35.build();
+            }
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV36 = this.remoteFlowControlWindowBuilder_;
+            if (singleFieldBuilderV36 == null) {
+                socketData.remoteFlowControlWindow_ = this.remoteFlowControlWindow_;
+            } else {
+                socketData.remoteFlowControlWindow_ = singleFieldBuilderV36.build();
+            }
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.option_ = Collections.unmodifiableList(this.option_);
+                    this.bitField0_ &= -2;
+                }
+                socketData.option_ = this.option_;
+            } else {
+                socketData.option_ = repeatedFieldBuilderV3.build();
+            }
+            onBuilt();
+            return socketData;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8757clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8769setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8747clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8750clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8771setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8737addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8762mergeFrom(Message message) {
+            if (message instanceof SocketData) {
+                return mergeFrom((SocketData) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(SocketData socketData) {
+            if (socketData == SocketData.getDefaultInstance()) {
+                return this;
+            }
+            if (socketData.getStreamsStarted() != 0) {
+                setStreamsStarted(socketData.getStreamsStarted());
+            }
+            if (socketData.getStreamsSucceeded() != 0) {
+                setStreamsSucceeded(socketData.getStreamsSucceeded());
+            }
+            if (socketData.getStreamsFailed() != 0) {
+                setStreamsFailed(socketData.getStreamsFailed());
+            }
+            if (socketData.getMessagesSent() != 0) {
+                setMessagesSent(socketData.getMessagesSent());
+            }
+            if (socketData.getMessagesReceived() != 0) {
+                setMessagesReceived(socketData.getMessagesReceived());
+            }
+            if (socketData.getKeepAlivesSent() != 0) {
+                setKeepAlivesSent(socketData.getKeepAlivesSent());
+            }
+            if (socketData.hasLastLocalStreamCreatedTimestamp()) {
+                mergeLastLocalStreamCreatedTimestamp(socketData.getLastLocalStreamCreatedTimestamp());
+            }
+            if (socketData.hasLastRemoteStreamCreatedTimestamp()) {
+                mergeLastRemoteStreamCreatedTimestamp(socketData.getLastRemoteStreamCreatedTimestamp());
+            }
+            if (socketData.hasLastMessageSentTimestamp()) {
+                mergeLastMessageSentTimestamp(socketData.getLastMessageSentTimestamp());
+            }
+            if (socketData.hasLastMessageReceivedTimestamp()) {
+                mergeLastMessageReceivedTimestamp(socketData.getLastMessageReceivedTimestamp());
+            }
+            if (socketData.hasLocalFlowControlWindow()) {
+                mergeLocalFlowControlWindow(socketData.getLocalFlowControlWindow());
+            }
+            if (socketData.hasRemoteFlowControlWindow()) {
+                mergeRemoteFlowControlWindow(socketData.getRemoteFlowControlWindow());
+            }
+            if (this.optionBuilder_ == null) {
+                if (!socketData.option_.isEmpty()) {
+                    if (this.option_.isEmpty()) {
+                        this.option_ = socketData.option_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureOptionIsMutable();
+                        this.option_.addAll(socketData.option_);
+                    }
+                    onChanged();
+                }
+            } else if (!socketData.option_.isEmpty()) {
+                if (!this.optionBuilder_.isEmpty()) {
+                    this.optionBuilder_.addAllMessages(socketData.option_);
+                } else {
+                    this.optionBuilder_.dispose();
+                    this.optionBuilder_ = null;
+                    this.option_ = socketData.option_;
+                    this.bitField0_ &= -2;
+                    this.optionBuilder_ = SocketData.alwaysUseFieldBuilders ? getOptionFieldBuilder() : null;
+                }
+            }
+            m8767mergeUnknownFields(socketData.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.channelz.v1.SocketData.Builder m8763mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.channelz.v1.SocketData.access$1900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.channelz.v1.SocketData r3 = (io.grpc.channelz.v1.SocketData) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.channelz.v1.SocketData r4 = (io.grpc.channelz.v1.SocketData) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.SocketData.Builder.m8763mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.SocketData$Builder");
+        }
+
+        public Builder clearStreamsStarted() {
+            this.streamsStarted_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearStreamsSucceeded() {
+            this.streamsSucceeded_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearStreamsFailed() {
+            this.streamsFailed_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearMessagesSent() {
+            this.messagesSent_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearMessagesReceived() {
+            this.messagesReceived_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearKeepAlivesSent() {
+            this.keepAlivesSent_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Timestamp getLastLocalStreamCreatedTimestamp() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastLocalStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Timestamp timestamp = this.lastLocalStreamCreatedTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        public Builder setLastLocalStreamCreatedTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastLocalStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timestamp.getClass();
+                this.lastLocalStreamCreatedTimestamp_ = timestamp;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timestamp);
+            }
+            return this;
+        }
+
+        public Builder setLastLocalStreamCreatedTimestamp(Timestamp.Builder builder) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastLocalStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lastLocalStreamCreatedTimestamp_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeLastLocalStreamCreatedTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastLocalStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Timestamp timestamp2 = this.lastLocalStreamCreatedTimestamp_;
+                if (timestamp2 != null) {
+                    this.lastLocalStreamCreatedTimestamp_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                } else {
+                    this.lastLocalStreamCreatedTimestamp_ = timestamp;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timestamp);
+            }
+            return this;
+        }
+
+        public Builder clearLastLocalStreamCreatedTimestamp() {
+            if (this.lastLocalStreamCreatedTimestampBuilder_ == null) {
+                this.lastLocalStreamCreatedTimestamp_ = null;
+                onChanged();
+            } else {
+                this.lastLocalStreamCreatedTimestamp_ = null;
+                this.lastLocalStreamCreatedTimestampBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Timestamp.Builder getLastLocalStreamCreatedTimestampBuilder() {
+            onChanged();
+            return getLastLocalStreamCreatedTimestampFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public TimestampOrBuilder getLastLocalStreamCreatedTimestampOrBuilder() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastLocalStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Timestamp timestamp = this.lastLocalStreamCreatedTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getLastLocalStreamCreatedTimestampFieldBuilder() {
+            if (this.lastLocalStreamCreatedTimestampBuilder_ == null) {
+                this.lastLocalStreamCreatedTimestampBuilder_ = new SingleFieldBuilderV3<>(getLastLocalStreamCreatedTimestamp(), getParentForChildren(), isClean());
+                this.lastLocalStreamCreatedTimestamp_ = null;
+            }
+            return this.lastLocalStreamCreatedTimestampBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Timestamp getLastRemoteStreamCreatedTimestamp() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastRemoteStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Timestamp timestamp = this.lastRemoteStreamCreatedTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        public Builder setLastRemoteStreamCreatedTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastRemoteStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timestamp.getClass();
+                this.lastRemoteStreamCreatedTimestamp_ = timestamp;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timestamp);
+            }
+            return this;
+        }
+
+        public Builder setLastRemoteStreamCreatedTimestamp(Timestamp.Builder builder) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastRemoteStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lastRemoteStreamCreatedTimestamp_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeLastRemoteStreamCreatedTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastRemoteStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Timestamp timestamp2 = this.lastRemoteStreamCreatedTimestamp_;
+                if (timestamp2 != null) {
+                    this.lastRemoteStreamCreatedTimestamp_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                } else {
+                    this.lastRemoteStreamCreatedTimestamp_ = timestamp;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timestamp);
+            }
+            return this;
+        }
+
+        public Builder clearLastRemoteStreamCreatedTimestamp() {
+            if (this.lastRemoteStreamCreatedTimestampBuilder_ == null) {
+                this.lastRemoteStreamCreatedTimestamp_ = null;
+                onChanged();
+            } else {
+                this.lastRemoteStreamCreatedTimestamp_ = null;
+                this.lastRemoteStreamCreatedTimestampBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Timestamp.Builder getLastRemoteStreamCreatedTimestampBuilder() {
+            onChanged();
+            return getLastRemoteStreamCreatedTimestampFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public TimestampOrBuilder getLastRemoteStreamCreatedTimestampOrBuilder() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastRemoteStreamCreatedTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Timestamp timestamp = this.lastRemoteStreamCreatedTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getLastRemoteStreamCreatedTimestampFieldBuilder() {
+            if (this.lastRemoteStreamCreatedTimestampBuilder_ == null) {
+                this.lastRemoteStreamCreatedTimestampBuilder_ = new SingleFieldBuilderV3<>(getLastRemoteStreamCreatedTimestamp(), getParentForChildren(), isClean());
+                this.lastRemoteStreamCreatedTimestamp_ = null;
+            }
+            return this.lastRemoteStreamCreatedTimestampBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Timestamp getLastMessageSentTimestamp() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageSentTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Timestamp timestamp = this.lastMessageSentTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        public Builder setLastMessageSentTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageSentTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timestamp.getClass();
+                this.lastMessageSentTimestamp_ = timestamp;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timestamp);
+            }
+            return this;
+        }
+
+        public Builder setLastMessageSentTimestamp(Timestamp.Builder builder) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageSentTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lastMessageSentTimestamp_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeLastMessageSentTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageSentTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Timestamp timestamp2 = this.lastMessageSentTimestamp_;
+                if (timestamp2 != null) {
+                    this.lastMessageSentTimestamp_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                } else {
+                    this.lastMessageSentTimestamp_ = timestamp;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timestamp);
+            }
+            return this;
+        }
+
+        public Builder clearLastMessageSentTimestamp() {
+            if (this.lastMessageSentTimestampBuilder_ == null) {
+                this.lastMessageSentTimestamp_ = null;
+                onChanged();
+            } else {
+                this.lastMessageSentTimestamp_ = null;
+                this.lastMessageSentTimestampBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Timestamp.Builder getLastMessageSentTimestampBuilder() {
+            onChanged();
+            return getLastMessageSentTimestampFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public TimestampOrBuilder getLastMessageSentTimestampOrBuilder() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageSentTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Timestamp timestamp = this.lastMessageSentTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getLastMessageSentTimestampFieldBuilder() {
+            if (this.lastMessageSentTimestampBuilder_ == null) {
+                this.lastMessageSentTimestampBuilder_ = new SingleFieldBuilderV3<>(getLastMessageSentTimestamp(), getParentForChildren(), isClean());
+                this.lastMessageSentTimestamp_ = null;
+            }
+            return this.lastMessageSentTimestampBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Timestamp getLastMessageReceivedTimestamp() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageReceivedTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Timestamp timestamp = this.lastMessageReceivedTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        public Builder setLastMessageReceivedTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageReceivedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timestamp.getClass();
+                this.lastMessageReceivedTimestamp_ = timestamp;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timestamp);
+            }
+            return this;
+        }
+
+        public Builder setLastMessageReceivedTimestamp(Timestamp.Builder builder) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageReceivedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lastMessageReceivedTimestamp_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeLastMessageReceivedTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageReceivedTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Timestamp timestamp2 = this.lastMessageReceivedTimestamp_;
+                if (timestamp2 != null) {
+                    this.lastMessageReceivedTimestamp_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                } else {
+                    this.lastMessageReceivedTimestamp_ = timestamp;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timestamp);
+            }
+            return this;
+        }
+
+        public Builder clearLastMessageReceivedTimestamp() {
+            if (this.lastMessageReceivedTimestampBuilder_ == null) {
+                this.lastMessageReceivedTimestamp_ = null;
+                onChanged();
+            } else {
+                this.lastMessageReceivedTimestamp_ = null;
+                this.lastMessageReceivedTimestampBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Timestamp.Builder getLastMessageReceivedTimestampBuilder() {
+            onChanged();
+            return getLastMessageReceivedTimestampFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public TimestampOrBuilder getLastMessageReceivedTimestampOrBuilder() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.lastMessageReceivedTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Timestamp timestamp = this.lastMessageReceivedTimestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getLastMessageReceivedTimestampFieldBuilder() {
+            if (this.lastMessageReceivedTimestampBuilder_ == null) {
+                this.lastMessageReceivedTimestampBuilder_ = new SingleFieldBuilderV3<>(getLastMessageReceivedTimestamp(), getParentForChildren(), isClean());
+                this.lastMessageReceivedTimestamp_ = null;
+            }
+            return this.lastMessageReceivedTimestampBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Int64Value getLocalFlowControlWindow() {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.localFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Int64Value int64Value = this.localFlowControlWindow_;
+            return int64Value == null ? Int64Value.getDefaultInstance() : int64Value;
+        }
+
+        public Builder setLocalFlowControlWindow(Int64Value int64Value) {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.localFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                int64Value.getClass();
+                this.localFlowControlWindow_ = int64Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(int64Value);
+            }
+            return this;
+        }
+
+        public Builder setLocalFlowControlWindow(Int64Value.Builder builder) {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.localFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.localFlowControlWindow_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeLocalFlowControlWindow(Int64Value int64Value) {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.localFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Int64Value int64Value2 = this.localFlowControlWindow_;
+                if (int64Value2 != null) {
+                    this.localFlowControlWindow_ = Int64Value.newBuilder(int64Value2).mergeFrom(int64Value).buildPartial();
+                } else {
+                    this.localFlowControlWindow_ = int64Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(int64Value);
+            }
+            return this;
+        }
+
+        public Builder clearLocalFlowControlWindow() {
+            if (this.localFlowControlWindowBuilder_ == null) {
+                this.localFlowControlWindow_ = null;
+                onChanged();
+            } else {
+                this.localFlowControlWindow_ = null;
+                this.localFlowControlWindowBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Int64Value.Builder getLocalFlowControlWindowBuilder() {
+            onChanged();
+            return getLocalFlowControlWindowFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Int64ValueOrBuilder getLocalFlowControlWindowOrBuilder() {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.localFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Int64Value int64Value = this.localFlowControlWindow_;
+            return int64Value == null ? Int64Value.getDefaultInstance() : int64Value;
+        }
+
+        private SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> getLocalFlowControlWindowFieldBuilder() {
+            if (this.localFlowControlWindowBuilder_ == null) {
+                this.localFlowControlWindowBuilder_ = new SingleFieldBuilderV3<>(getLocalFlowControlWindow(), getParentForChildren(), isClean());
+                this.localFlowControlWindow_ = null;
+            }
+            return this.localFlowControlWindowBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Int64Value getRemoteFlowControlWindow() {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.remoteFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Int64Value int64Value = this.remoteFlowControlWindow_;
+            return int64Value == null ? Int64Value.getDefaultInstance() : int64Value;
+        }
+
+        public Builder setRemoteFlowControlWindow(Int64Value int64Value) {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.remoteFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                int64Value.getClass();
+                this.remoteFlowControlWindow_ = int64Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(int64Value);
+            }
+            return this;
+        }
+
+        public Builder setRemoteFlowControlWindow(Int64Value.Builder builder) {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.remoteFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.remoteFlowControlWindow_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeRemoteFlowControlWindow(Int64Value int64Value) {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.remoteFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Int64Value int64Value2 = this.remoteFlowControlWindow_;
+                if (int64Value2 != null) {
+                    this.remoteFlowControlWindow_ = Int64Value.newBuilder(int64Value2).mergeFrom(int64Value).buildPartial();
+                } else {
+                    this.remoteFlowControlWindow_ = int64Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(int64Value);
+            }
+            return this;
+        }
+
+        public Builder clearRemoteFlowControlWindow() {
+            if (this.remoteFlowControlWindowBuilder_ == null) {
+                this.remoteFlowControlWindow_ = null;
+                onChanged();
+            } else {
+                this.remoteFlowControlWindow_ = null;
+                this.remoteFlowControlWindowBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Int64Value.Builder getRemoteFlowControlWindowBuilder() {
+            onChanged();
+            return getRemoteFlowControlWindowFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public Int64ValueOrBuilder getRemoteFlowControlWindowOrBuilder() {
+            SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> singleFieldBuilderV3 = this.remoteFlowControlWindowBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Int64Value int64Value = this.remoteFlowControlWindow_;
+            return int64Value == null ? Int64Value.getDefaultInstance() : int64Value;
+        }
+
+        private SingleFieldBuilderV3<Int64Value, Int64Value.Builder, Int64ValueOrBuilder> getRemoteFlowControlWindowFieldBuilder() {
+            if (this.remoteFlowControlWindowBuilder_ == null) {
+                this.remoteFlowControlWindowBuilder_ = new SingleFieldBuilderV3<>(getRemoteFlowControlWindow(), getParentForChildren(), isClean());
+                this.remoteFlowControlWindow_ = null;
+            }
+            return this.remoteFlowControlWindowBuilder_;
+        }
+
+        private void ensureOptionIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.option_ = new ArrayList(this.option_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public List<SocketOption> getOptionList() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.option_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public int getOptionCount() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.option_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public SocketOption getOption(int i) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.option_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setOption(int i, SocketOption socketOption) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketOption.getClass();
+                ensureOptionIsMutable();
+                this.option_.set(i, socketOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, socketOption);
+            }
+            return this;
+        }
+
+        public Builder setOption(int i, SocketOption.Builder builder) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureOptionIsMutable();
+                this.option_.set(i, builder.m8785build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m8785build());
+            }
+            return this;
+        }
+
+        public Builder addOption(SocketOption socketOption) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketOption.getClass();
+                ensureOptionIsMutable();
+                this.option_.add(socketOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(socketOption);
+            }
+            return this;
+        }
+
+        public Builder addOption(int i, SocketOption socketOption) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketOption.getClass();
+                ensureOptionIsMutable();
+                this.option_.add(i, socketOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, socketOption);
+            }
+            return this;
+        }
+
+        public Builder addOption(SocketOption.Builder builder) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureOptionIsMutable();
+                this.option_.add(builder.m8785build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m8785build());
+            }
+            return this;
+        }
+
+        public Builder addOption(int i, SocketOption.Builder builder) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureOptionIsMutable();
+                this.option_.add(i, builder.m8785build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m8785build());
+            }
+            return this;
+        }
+
+        public Builder addAllOption(Iterable<? extends SocketOption> iterable) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureOptionIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.option_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearOption() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.option_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeOption(int i) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureOptionIsMutable();
+                this.option_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public SocketOption.Builder getOptionBuilder(int i) {
+            return getOptionFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public SocketOptionOrBuilder getOptionOrBuilder(int i) {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.option_.get(i);
+            }
+            return (SocketOptionOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.SocketDataOrBuilder
+        public List<? extends SocketOptionOrBuilder> getOptionOrBuilderList() {
+            RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> repeatedFieldBuilderV3 = this.optionBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.option_);
+        }
+
+        public SocketOption.Builder addOptionBuilder() {
+            return getOptionFieldBuilder().addBuilder(SocketOption.getDefaultInstance());
+        }
+
+        public SocketOption.Builder addOptionBuilder(int i) {
+            return getOptionFieldBuilder().addBuilder(i, SocketOption.getDefaultInstance());
+        }
+
+        public List<SocketOption.Builder> getOptionBuilderList() {
+            return getOptionFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<SocketOption, SocketOption.Builder, SocketOptionOrBuilder> getOptionFieldBuilder() {
+            if (this.optionBuilder_ == null) {
+                this.optionBuilder_ = new RepeatedFieldBuilderV3<>(this.option_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.option_ = null;
+            }
+            return this.optionBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m8773setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m8767mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

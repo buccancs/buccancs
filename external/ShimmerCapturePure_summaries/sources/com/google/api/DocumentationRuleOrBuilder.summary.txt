@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/DocumentationRuleOrBuilder.java
+// Size: 455 bytes
+// Modified: 2025-10-21 16:32:00.106931500 +0100
+
+package com.google.api;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes.dex */
+public interface DocumentationRuleOrBuilder extends MessageOrBuilder {
+    String getDeprecationDescription();
+
+    ByteString getDeprecationDescriptionBytes();
+
+    String getDescription();
+
+    ByteString getDescriptionBytes();
+
+    String getSelector();
+
+    ByteString getSelectorBytes();
+}

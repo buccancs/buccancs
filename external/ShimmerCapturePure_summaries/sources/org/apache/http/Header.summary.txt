@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/Header.java
+// Size: 171 bytes
+// Modified: 2025-10-21 16:32:02.903880100 +0100
+
+package org.apache.http;
+
+/* loaded from: classes5.dex */
+public interface Header extends NameValuePair {
+    HeaderElement[] getElements() throws ParseException;
+}

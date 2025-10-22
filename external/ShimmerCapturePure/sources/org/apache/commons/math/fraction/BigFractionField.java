@@ -1,0 +1,47 @@
+package org.apache.commons.math.fraction;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.Field;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/fraction/BigFractionField.class */
+public class BigFractionField implements Field<BigFraction>, Serializable {
+    private static final long serialVersionUID = -1699294557189741703L;
+
+    private BigFractionField() {
+    }
+
+    public static BigFractionField getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+
+    /* JADX WARN: Can't rename method to resolve collision */
+    @Override // org.apache.commons.math.Field
+    public BigFraction getOne() {
+        return BigFraction.ONE;
+    }
+
+    /* JADX WARN: Can't rename method to resolve collision */
+    @Override // org.apache.commons.math.Field
+    public BigFraction getZero() {
+        return BigFraction.ZERO;
+    }
+
+    private Object readResolve() {
+        return LazyHolder.INSTANCE;
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/fraction/BigFractionField$LazyHolder.class */
+    private static class LazyHolder {
+        private static final BigFractionField INSTANCE = new BigFractionField();
+
+        private LazyHolder() {
+        }
+    }
+}

@@ -1,0 +1,140 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/perfmark/PerfMark.java
+// Size: 4605 bytes
+// Modified: 2025-10-21 16:32:04.055869600 +0100
+
+package io.perfmark;
+
+/* loaded from: classes4.dex */
+public final class PerfMark {
+    private static final Impl impl;
+
+    /* JADX WARN: Removed duplicated region for block: B:16:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x003d  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0016 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
+    static {
+        /*
+            java.util.logging.Level r0 = java.util.logging.Level.WARNING
+            r1 = 0
+            java.lang.String r2 = "io.perfmark.impl.SecretPerfMarkImpl$PerfMarkImpl"
+            java.lang.Class r2 = java.lang.Class.forName(r2)     // Catch: java.lang.Throwable -> Lb java.lang.ClassNotFoundException -> Le
+            r3 = r1
+            goto L14
+        Lb:
+            r2 = move-exception
+            r3 = r2
+            goto L13
+        Le:
+            r0 = move-exception
+            java.util.logging.Level r2 = java.util.logging.Level.FINE
+            r3 = r0
+            r0 = r2
+        L13:
+            r2 = r1
+        L14:
+            if (r2 == 0) goto L38
+            java.lang.Class<io.perfmark.Impl> r4 = io.perfmark.Impl.class
+            java.lang.Class r2 = r2.asSubclass(r4)     // Catch: java.lang.Throwable -> L36
+            r4 = 1
+            java.lang.Class[] r5 = new java.lang.Class[r4]     // Catch: java.lang.Throwable -> L36
+            java.lang.Class<io.perfmark.Tag> r6 = io.perfmark.Tag.class
+            r7 = 0
+            r5[r7] = r6     // Catch: java.lang.Throwable -> L36
+            java.lang.reflect.Constructor r2 = r2.getConstructor(r5)     // Catch: java.lang.Throwable -> L36
+            java.lang.Object[] r4 = new java.lang.Object[r4]     // Catch: java.lang.Throwable -> L36
+            io.perfmark.Tag r5 = io.perfmark.Impl.NO_TAG     // Catch: java.lang.Throwable -> L36
+            r4[r7] = r5     // Catch: java.lang.Throwable -> L36
+            java.lang.Object r2 = r2.newInstance(r4)     // Catch: java.lang.Throwable -> L36
+            io.perfmark.Impl r2 = (io.perfmark.Impl) r2     // Catch: java.lang.Throwable -> L36
+            r1 = r2
+            goto L38
+        L36:
+            r2 = move-exception
+            r3 = r2
+        L38:
+            if (r1 == 0) goto L3d
+            io.perfmark.PerfMark.impl = r1
+            goto L46
+        L3d:
+            io.perfmark.Impl r1 = new io.perfmark.Impl
+            io.perfmark.Tag r2 = io.perfmark.Impl.NO_TAG
+            r1.<init>(r2)
+            io.perfmark.PerfMark.impl = r1
+        L46:
+            if (r3 == 0) goto L57
+            java.lang.Class<io.perfmark.PerfMark> r1 = io.perfmark.PerfMark.class
+            java.lang.String r1 = r1.getName()
+            java.util.logging.Logger r1 = java.util.logging.Logger.getLogger(r1)
+            java.lang.String r2 = "Error during PerfMark.<clinit>"
+            r1.log(r0, r2, r3)
+        L57:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.perfmark.PerfMark.<clinit>():void");
+    }
+
+    public static void setEnabled(boolean z) {
+        impl.setEnabled(z);
+    }
+
+    public static void startTask(String str, Tag tag) {
+        impl.startTask(str, tag);
+    }
+
+    public static void startTask(String str) {
+        impl.startTask(str);
+    }
+
+    public static void event(String str, Tag tag) {
+        impl.event(str, tag);
+    }
+
+    public static void event(String str) {
+        impl.event(str);
+    }
+
+    public static void stopTask(String str, Tag tag) {
+        impl.stopTask(str, tag);
+    }
+
+    public static void stopTask(String str) {
+        impl.stopTask(str);
+    }
+
+    public static Tag createTag() {
+        return Impl.NO_TAG;
+    }
+
+    public static Tag createTag(long j) {
+        return impl.createTag("", j);
+    }
+
+    public static Tag createTag(String str) {
+        return impl.createTag(str, Long.MIN_VALUE);
+    }
+
+    public static Tag createTag(String str, long j) {
+        return impl.createTag(str, j);
+    }
+
+    @Deprecated
+    public static Link link() {
+        return Impl.NO_LINK;
+    }
+
+    public static Link linkOut() {
+        return impl.linkOut();
+    }
+
+    public static void linkIn(Link link) {
+        impl.linkIn(link);
+    }
+
+    public static void attachTag(Tag tag) {
+        impl.attachTag(tag);
+    }
+
+    private PerfMark() {
+    }
+}

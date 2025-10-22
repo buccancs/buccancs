@@ -1,0 +1,5147 @@
+package io.grpc.xds.shaded.com.google.api.expr.v1alpha1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Empty;
+import com.google.protobuf.EmptyOrBuilder;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.NullValue;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public final class Type extends GeneratedMessageV3 implements TypeOrBuilder {
+    public static final int ABSTRACT_TYPE_FIELD_NUMBER = 14;
+    public static final int DYN_FIELD_NUMBER = 1;
+    public static final int ERROR_FIELD_NUMBER = 12;
+    public static final int FUNCTION_FIELD_NUMBER = 8;
+    public static final int LIST_TYPE_FIELD_NUMBER = 6;
+    public static final int MAP_TYPE_FIELD_NUMBER = 7;
+    public static final int MESSAGE_TYPE_FIELD_NUMBER = 9;
+    public static final int NULL_FIELD_NUMBER = 2;
+    public static final int PRIMITIVE_FIELD_NUMBER = 3;
+    public static final int TYPE_FIELD_NUMBER = 11;
+    public static final int TYPE_PARAM_FIELD_NUMBER = 10;
+    public static final int WELL_KNOWN_FIELD_NUMBER = 5;
+    public static final int WRAPPER_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private static final Type DEFAULT_INSTANCE = new Type();
+    private static final Parser<Type> PARSER = new AbstractParser<Type>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Type m11286parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Type(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private byte memoizedIsInitialized;
+    private int typeKindCase_;
+    private Object typeKind_;
+
+    private Type(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.typeKindCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Type() {
+        this.typeKindCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Type(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Empty.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            builder = this.typeKindCase_ == 1 ? ((Empty) this.typeKind_).toBuilder() : null;
+                            Empty message = codedInputStream.readMessage(Empty.parser(), extensionRegistryLite);
+                            this.typeKind_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.typeKind_ = builder.buildPartial();
+                            }
+                            this.typeKindCase_ = 1;
+                        case 16:
+                            int i = codedInputStream.readEnum();
+                            this.typeKindCase_ = 2;
+                            this.typeKind_ = Integer.valueOf(i);
+                        case 24:
+                            int i2 = codedInputStream.readEnum();
+                            this.typeKindCase_ = 3;
+                            this.typeKind_ = Integer.valueOf(i2);
+                        case 32:
+                            int i3 = codedInputStream.readEnum();
+                            this.typeKindCase_ = 4;
+                            this.typeKind_ = Integer.valueOf(i3);
+                        case 40:
+                            int i4 = codedInputStream.readEnum();
+                            this.typeKindCase_ = 5;
+                            this.typeKind_ = Integer.valueOf(i4);
+                        case 50:
+                            builder = this.typeKindCase_ == 6 ? ((ListType) this.typeKind_).m11422toBuilder() : null;
+                            MessageLite message2 = codedInputStream.readMessage(ListType.parser(), extensionRegistryLite);
+                            this.typeKind_ = message2;
+                            if (builder != null) {
+                                builder.mergeFrom((ListType) message2);
+                                this.typeKind_ = builder.m11429buildPartial();
+                            }
+                            this.typeKindCase_ = 6;
+                        case 58:
+                            builder = this.typeKindCase_ == 7 ? ((MapType) this.typeKind_).m11468toBuilder() : null;
+                            MessageLite message3 = codedInputStream.readMessage(MapType.parser(), extensionRegistryLite);
+                            this.typeKind_ = message3;
+                            if (builder != null) {
+                                builder.mergeFrom((MapType) message3);
+                                this.typeKind_ = builder.m11475buildPartial();
+                            }
+                            this.typeKindCase_ = 7;
+                        case 66:
+                            builder = this.typeKindCase_ == 8 ? ((FunctionType) this.typeKind_).m11376toBuilder() : null;
+                            MessageLite message4 = codedInputStream.readMessage(FunctionType.parser(), extensionRegistryLite);
+                            this.typeKind_ = message4;
+                            if (builder != null) {
+                                builder.mergeFrom((FunctionType) message4);
+                                this.typeKind_ = builder.m11383buildPartial();
+                            }
+                            this.typeKindCase_ = 8;
+                        case 74:
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            this.typeKindCase_ = 9;
+                            this.typeKind_ = stringRequireUtf8;
+                        case 82:
+                            String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                            this.typeKindCase_ = 10;
+                            this.typeKind_ = stringRequireUtf82;
+                        case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                            builder = this.typeKindCase_ == 11 ? ((Type) this.typeKind_).m11284toBuilder() : null;
+                            MessageLite message5 = codedInputStream.readMessage(parser(), extensionRegistryLite);
+                            this.typeKind_ = message5;
+                            if (builder != null) {
+                                builder.mergeFrom((Type) message5);
+                                this.typeKind_ = builder.m11337buildPartial();
+                            }
+                            this.typeKindCase_ = 11;
+                        case 98:
+                            builder = this.typeKindCase_ == 12 ? ((Empty) this.typeKind_).toBuilder() : null;
+                            Empty message6 = codedInputStream.readMessage(Empty.parser(), extensionRegistryLite);
+                            this.typeKind_ = message6;
+                            if (builder != null) {
+                                builder.mergeFrom(message6);
+                                this.typeKind_ = builder.buildPartial();
+                            }
+                            this.typeKindCase_ = 12;
+                        case 114:
+                            builder = this.typeKindCase_ == 14 ? ((AbstractType) this.typeKind_).m11292toBuilder() : null;
+                            MessageLite message7 = codedInputStream.readMessage(AbstractType.parser(), extensionRegistryLite);
+                            this.typeKind_ = message7;
+                            if (builder != null) {
+                                builder.mergeFrom((AbstractType) message7);
+                                this.typeKind_ = builder.m11299buildPartial();
+                            }
+                            this.typeKindCase_ = 14;
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Type getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Type> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return DeclProto.internal_static_google_api_expr_v1alpha1_Type_descriptor;
+    }
+
+    public static Type parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Type) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Type parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Type) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Type parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Type) PARSER.parseFrom(byteString);
+    }
+
+    public static Type parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Type) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Type parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Type) PARSER.parseFrom(bArr);
+    }
+
+    public static Type parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Type) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Type parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Type parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Type parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Type parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Type parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Type parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m11284toBuilder();
+    }
+
+    public static Builder newBuilder(Type type) {
+        return DEFAULT_INSTANCE.m11284toBuilder().mergeFrom(type);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Type m11279getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Type> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public boolean hasAbstractType() {
+        return this.typeKindCase_ == 14;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public boolean hasDyn() {
+        return this.typeKindCase_ == 1;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public boolean hasError() {
+        return this.typeKindCase_ == 12;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public boolean hasFunction() {
+        return this.typeKindCase_ == 8;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public boolean hasListType() {
+        return this.typeKindCase_ == 6;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public boolean hasMapType() {
+        return this.typeKindCase_ == 7;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public boolean hasType() {
+        return this.typeKindCase_ == 11;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Type();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return DeclProto.internal_static_google_api_expr_v1alpha1_Type_fieldAccessorTable.ensureFieldAccessorsInitialized(Type.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public TypeKindCase getTypeKindCase() {
+        return TypeKindCase.forNumber(this.typeKindCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public Empty getDyn() {
+        if (this.typeKindCase_ == 1) {
+            return (Empty) this.typeKind_;
+        }
+        return Empty.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public EmptyOrBuilder getDynOrBuilder() {
+        if (this.typeKindCase_ == 1) {
+            return (Empty) this.typeKind_;
+        }
+        return Empty.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public int getNullValue() {
+        if (this.typeKindCase_ == 2) {
+            return ((Integer) this.typeKind_).intValue();
+        }
+        return 0;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public NullValue getNull() {
+        if (this.typeKindCase_ == 2) {
+            NullValue nullValueValueOf = NullValue.valueOf(((Integer) this.typeKind_).intValue());
+            return nullValueValueOf == null ? NullValue.UNRECOGNIZED : nullValueValueOf;
+        }
+        return NullValue.NULL_VALUE;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public int getPrimitiveValue() {
+        if (this.typeKindCase_ == 3) {
+            return ((Integer) this.typeKind_).intValue();
+        }
+        return 0;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public PrimitiveType getPrimitive() {
+        if (this.typeKindCase_ == 3) {
+            PrimitiveType primitiveTypeValueOf = PrimitiveType.valueOf(((Integer) this.typeKind_).intValue());
+            return primitiveTypeValueOf == null ? PrimitiveType.UNRECOGNIZED : primitiveTypeValueOf;
+        }
+        return PrimitiveType.PRIMITIVE_TYPE_UNSPECIFIED;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public int getWrapperValue() {
+        if (this.typeKindCase_ == 4) {
+            return ((Integer) this.typeKind_).intValue();
+        }
+        return 0;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public PrimitiveType getWrapper() {
+        if (this.typeKindCase_ == 4) {
+            PrimitiveType primitiveTypeValueOf = PrimitiveType.valueOf(((Integer) this.typeKind_).intValue());
+            return primitiveTypeValueOf == null ? PrimitiveType.UNRECOGNIZED : primitiveTypeValueOf;
+        }
+        return PrimitiveType.PRIMITIVE_TYPE_UNSPECIFIED;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public int getWellKnownValue() {
+        if (this.typeKindCase_ == 5) {
+            return ((Integer) this.typeKind_).intValue();
+        }
+        return 0;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public WellKnownType getWellKnown() {
+        if (this.typeKindCase_ == 5) {
+            WellKnownType wellKnownTypeValueOf = WellKnownType.valueOf(((Integer) this.typeKind_).intValue());
+            return wellKnownTypeValueOf == null ? WellKnownType.UNRECOGNIZED : wellKnownTypeValueOf;
+        }
+        return WellKnownType.WELL_KNOWN_TYPE_UNSPECIFIED;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public ListType getListType() {
+        if (this.typeKindCase_ == 6) {
+            return (ListType) this.typeKind_;
+        }
+        return ListType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public ListTypeOrBuilder getListTypeOrBuilder() {
+        if (this.typeKindCase_ == 6) {
+            return (ListType) this.typeKind_;
+        }
+        return ListType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public MapType getMapType() {
+        if (this.typeKindCase_ == 7) {
+            return (MapType) this.typeKind_;
+        }
+        return MapType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public MapTypeOrBuilder getMapTypeOrBuilder() {
+        if (this.typeKindCase_ == 7) {
+            return (MapType) this.typeKind_;
+        }
+        return MapType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public FunctionType getFunction() {
+        if (this.typeKindCase_ == 8) {
+            return (FunctionType) this.typeKind_;
+        }
+        return FunctionType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public FunctionTypeOrBuilder getFunctionOrBuilder() {
+        if (this.typeKindCase_ == 8) {
+            return (FunctionType) this.typeKind_;
+        }
+        return FunctionType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public String getMessageType() {
+        String str = this.typeKindCase_ == 9 ? this.typeKind_ : "";
+        if (str instanceof String) {
+            return (String) str;
+        }
+        String stringUtf8 = ((ByteString) str).toStringUtf8();
+        if (this.typeKindCase_ == 9) {
+            this.typeKind_ = stringUtf8;
+        }
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public ByteString getMessageTypeBytes() {
+        String str = this.typeKindCase_ == 9 ? this.typeKind_ : "";
+        if (str instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+            if (this.typeKindCase_ == 9) {
+                this.typeKind_ = byteStringCopyFromUtf8;
+            }
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) str;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public String getTypeParam() {
+        String str = this.typeKindCase_ == 10 ? this.typeKind_ : "";
+        if (str instanceof String) {
+            return (String) str;
+        }
+        String stringUtf8 = ((ByteString) str).toStringUtf8();
+        if (this.typeKindCase_ == 10) {
+            this.typeKind_ = stringUtf8;
+        }
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public ByteString getTypeParamBytes() {
+        String str = this.typeKindCase_ == 10 ? this.typeKind_ : "";
+        if (str instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+            if (this.typeKindCase_ == 10) {
+                this.typeKind_ = byteStringCopyFromUtf8;
+            }
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) str;
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public Type getType() {
+        if (this.typeKindCase_ == 11) {
+            return (Type) this.typeKind_;
+        }
+        return getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public TypeOrBuilder getTypeOrBuilder() {
+        if (this.typeKindCase_ == 11) {
+            return (Type) this.typeKind_;
+        }
+        return getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public Empty getError() {
+        if (this.typeKindCase_ == 12) {
+            return (Empty) this.typeKind_;
+        }
+        return Empty.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public EmptyOrBuilder getErrorOrBuilder() {
+        if (this.typeKindCase_ == 12) {
+            return (Empty) this.typeKind_;
+        }
+        return Empty.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public AbstractType getAbstractType() {
+        if (this.typeKindCase_ == 14) {
+            return (AbstractType) this.typeKind_;
+        }
+        return AbstractType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+    public AbstractTypeOrBuilder getAbstractTypeOrBuilder() {
+        if (this.typeKindCase_ == 14) {
+            return (AbstractType) this.typeKind_;
+        }
+        return AbstractType.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.typeKindCase_ == 1) {
+            codedOutputStream.writeMessage(1, (Empty) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 2) {
+            codedOutputStream.writeEnum(2, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 3) {
+            codedOutputStream.writeEnum(3, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 4) {
+            codedOutputStream.writeEnum(4, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 5) {
+            codedOutputStream.writeEnum(5, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 6) {
+            codedOutputStream.writeMessage(6, (ListType) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 7) {
+            codedOutputStream.writeMessage(7, (MapType) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 8) {
+            codedOutputStream.writeMessage(8, (FunctionType) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 9) {
+            GeneratedMessageV3.writeString(codedOutputStream, 9, this.typeKind_);
+        }
+        if (this.typeKindCase_ == 10) {
+            GeneratedMessageV3.writeString(codedOutputStream, 10, this.typeKind_);
+        }
+        if (this.typeKindCase_ == 11) {
+            codedOutputStream.writeMessage(11, (Type) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 12) {
+            codedOutputStream.writeMessage(12, (Empty) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 14) {
+            codedOutputStream.writeMessage(14, (AbstractType) this.typeKind_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.typeKindCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (Empty) this.typeKind_) : 0;
+        if (this.typeKindCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeEnumSize(2, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeEnumSize(3, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 4) {
+            iComputeMessageSize += CodedOutputStream.computeEnumSize(4, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 5) {
+            iComputeMessageSize += CodedOutputStream.computeEnumSize(5, ((Integer) this.typeKind_).intValue());
+        }
+        if (this.typeKindCase_ == 6) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(6, (ListType) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 7) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(7, (MapType) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 8) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(8, (FunctionType) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 9) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(9, this.typeKind_);
+        }
+        if (this.typeKindCase_ == 10) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(10, this.typeKind_);
+        }
+        if (this.typeKindCase_ == 11) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(11, (Type) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 12) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(12, (Empty) this.typeKind_);
+        }
+        if (this.typeKindCase_ == 14) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(14, (AbstractType) this.typeKind_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Type)) {
+            return super.equals(obj);
+        }
+        Type type = (Type) obj;
+        if (!getTypeKindCase().equals(type.getTypeKindCase())) {
+            return false;
+        }
+        switch (this.typeKindCase_) {
+            case 1:
+                if (!getDyn().equals(type.getDyn())) {
+                    return false;
+                }
+                break;
+            case 2:
+                if (getNullValue() != type.getNullValue()) {
+                    return false;
+                }
+                break;
+            case 3:
+                if (getPrimitiveValue() != type.getPrimitiveValue()) {
+                    return false;
+                }
+                break;
+            case 4:
+                if (getWrapperValue() != type.getWrapperValue()) {
+                    return false;
+                }
+                break;
+            case 5:
+                if (getWellKnownValue() != type.getWellKnownValue()) {
+                    return false;
+                }
+                break;
+            case 6:
+                if (!getListType().equals(type.getListType())) {
+                    return false;
+                }
+                break;
+            case 7:
+                if (!getMapType().equals(type.getMapType())) {
+                    return false;
+                }
+                break;
+            case 8:
+                if (!getFunction().equals(type.getFunction())) {
+                    return false;
+                }
+                break;
+            case 9:
+                if (!getMessageType().equals(type.getMessageType())) {
+                    return false;
+                }
+                break;
+            case 10:
+                if (!getTypeParam().equals(type.getTypeParam())) {
+                    return false;
+                }
+                break;
+            case 11:
+                if (!getType().equals(type.getType())) {
+                    return false;
+                }
+                break;
+            case 12:
+                if (!getError().equals(type.getError())) {
+                    return false;
+                }
+                break;
+            case 14:
+                if (!getAbstractType().equals(type.getAbstractType())) {
+                    return false;
+                }
+                break;
+        }
+        return this.unknownFields.equals(type.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        switch (this.typeKindCase_) {
+            case 1:
+                i = ((iHashCode2 * 37) + 1) * 53;
+                iHashCode = getDyn().hashCode();
+                break;
+            case 2:
+                i = ((iHashCode2 * 37) + 2) * 53;
+                iHashCode = getNullValue();
+                break;
+            case 3:
+                i = ((iHashCode2 * 37) + 3) * 53;
+                iHashCode = getPrimitiveValue();
+                break;
+            case 4:
+                i = ((iHashCode2 * 37) + 4) * 53;
+                iHashCode = getWrapperValue();
+                break;
+            case 5:
+                i = ((iHashCode2 * 37) + 5) * 53;
+                iHashCode = getWellKnownValue();
+                break;
+            case 6:
+                i = ((iHashCode2 * 37) + 6) * 53;
+                iHashCode = getListType().hashCode();
+                break;
+            case 7:
+                i = ((iHashCode2 * 37) + 7) * 53;
+                iHashCode = getMapType().hashCode();
+                break;
+            case 8:
+                i = ((iHashCode2 * 37) + 8) * 53;
+                iHashCode = getFunction().hashCode();
+                break;
+            case 9:
+                i = ((iHashCode2 * 37) + 9) * 53;
+                iHashCode = getMessageType().hashCode();
+                break;
+            case 10:
+                i = ((iHashCode2 * 37) + 10) * 53;
+                iHashCode = getTypeParam().hashCode();
+                break;
+            case 11:
+                i = ((iHashCode2 * 37) + 11) * 53;
+                iHashCode = getType().hashCode();
+                break;
+            case 12:
+                i = ((iHashCode2 * 37) + 12) * 53;
+                iHashCode = getError().hashCode();
+                break;
+            case 13:
+            default:
+                int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+            case 14:
+                i = ((iHashCode2 * 37) + 14) * 53;
+                iHashCode = getAbstractType().hashCode();
+                break;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m11281newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m11284toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum PrimitiveType implements ProtocolMessageEnum {
+        PRIMITIVE_TYPE_UNSPECIFIED(0),
+        BOOL(1),
+        INT64(2),
+        UINT64(3),
+        DOUBLE(4),
+        STRING(5),
+        BYTES(6),
+        UNRECOGNIZED(-1);
+
+        public static final int BOOL_VALUE = 1;
+        public static final int BYTES_VALUE = 6;
+        public static final int DOUBLE_VALUE = 4;
+        public static final int INT64_VALUE = 2;
+        public static final int PRIMITIVE_TYPE_UNSPECIFIED_VALUE = 0;
+        public static final int STRING_VALUE = 5;
+        public static final int UINT64_VALUE = 3;
+        private static final Internal.EnumLiteMap<PrimitiveType> internalValueMap = new Internal.EnumLiteMap<PrimitiveType>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.PrimitiveType.1
+            public PrimitiveType findValueByNumber(int i) {
+                return PrimitiveType.forNumber(i);
+            }
+        };
+        private static final PrimitiveType[] VALUES = values();
+        private final int value;
+
+        PrimitiveType(int i) {
+            this.value = i;
+        }
+
+        public static PrimitiveType forNumber(int i) {
+            switch (i) {
+                case 0:
+                    return PRIMITIVE_TYPE_UNSPECIFIED;
+                case 1:
+                    return BOOL;
+                case 2:
+                    return INT64;
+                case 3:
+                    return UINT64;
+                case 4:
+                    return DOUBLE;
+                case 5:
+                    return STRING;
+                case 6:
+                    return BYTES;
+                default:
+                    return null;
+            }
+        }
+
+        public static Internal.EnumLiteMap<PrimitiveType> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static PrimitiveType valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) Type.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static PrimitiveType valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum WellKnownType implements ProtocolMessageEnum {
+        WELL_KNOWN_TYPE_UNSPECIFIED(0),
+        ANY(1),
+        TIMESTAMP(2),
+        DURATION(3),
+        UNRECOGNIZED(-1);
+
+        public static final int ANY_VALUE = 1;
+        public static final int DURATION_VALUE = 3;
+        public static final int TIMESTAMP_VALUE = 2;
+        public static final int WELL_KNOWN_TYPE_UNSPECIFIED_VALUE = 0;
+        private static final Internal.EnumLiteMap<WellKnownType> internalValueMap = new Internal.EnumLiteMap<WellKnownType>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.WellKnownType.1
+            public WellKnownType findValueByNumber(int i) {
+                return WellKnownType.forNumber(i);
+            }
+        };
+        private static final WellKnownType[] VALUES = values();
+        private final int value;
+
+        WellKnownType(int i) {
+            this.value = i;
+        }
+
+        public static WellKnownType forNumber(int i) {
+            if (i == 0) {
+                return WELL_KNOWN_TYPE_UNSPECIFIED;
+            }
+            if (i == 1) {
+                return ANY;
+            }
+            if (i == 2) {
+                return TIMESTAMP;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return DURATION;
+        }
+
+        public static Internal.EnumLiteMap<WellKnownType> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static WellKnownType valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) Type.getDescriptor().getEnumTypes().get(1);
+        }
+
+        public static WellKnownType valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum TypeKindCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        DYN(1),
+        NULL(2),
+        PRIMITIVE(3),
+        WRAPPER(4),
+        WELL_KNOWN(5),
+        LIST_TYPE(6),
+        MAP_TYPE(7),
+        FUNCTION(8),
+        MESSAGE_TYPE(9),
+        TYPE_PARAM(10),
+        TYPE(11),
+        ERROR(12),
+        ABSTRACT_TYPE(14),
+        TYPEKIND_NOT_SET(0);
+
+        private final int value;
+
+        TypeKindCase(int i) {
+            this.value = i;
+        }
+
+        public static TypeKindCase forNumber(int i) {
+            switch (i) {
+                case 0:
+                    return TYPEKIND_NOT_SET;
+                case 1:
+                    return DYN;
+                case 2:
+                    return NULL;
+                case 3:
+                    return PRIMITIVE;
+                case 4:
+                    return WRAPPER;
+                case 5:
+                    return WELL_KNOWN;
+                case 6:
+                    return LIST_TYPE;
+                case 7:
+                    return MAP_TYPE;
+                case 8:
+                    return FUNCTION;
+                case 9:
+                    return MESSAGE_TYPE;
+                case 10:
+                    return TYPE_PARAM;
+                case 11:
+                    return TYPE;
+                case 12:
+                    return ERROR;
+                case 13:
+                default:
+                    return null;
+                case 14:
+                    return ABSTRACT_TYPE;
+            }
+        }
+
+        @Deprecated
+        public static TypeKindCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public interface AbstractTypeOrBuilder extends MessageOrBuilder {
+        String getName();
+
+        ByteString getNameBytes();
+
+        Type getParameterTypes(int i);
+
+        int getParameterTypesCount();
+
+        List<Type> getParameterTypesList();
+
+        TypeOrBuilder getParameterTypesOrBuilder(int i);
+
+        List<? extends TypeOrBuilder> getParameterTypesOrBuilderList();
+    }
+
+    public interface FunctionTypeOrBuilder extends MessageOrBuilder {
+        Type getArgTypes(int i);
+
+        int getArgTypesCount();
+
+        List<Type> getArgTypesList();
+
+        TypeOrBuilder getArgTypesOrBuilder(int i);
+
+        List<? extends TypeOrBuilder> getArgTypesOrBuilderList();
+
+        Type getResultType();
+
+        TypeOrBuilder getResultTypeOrBuilder();
+
+        boolean hasResultType();
+    }
+
+    public interface ListTypeOrBuilder extends MessageOrBuilder {
+        Type getElemType();
+
+        TypeOrBuilder getElemTypeOrBuilder();
+
+        boolean hasElemType();
+    }
+
+    public interface MapTypeOrBuilder extends MessageOrBuilder {
+        Type getKeyType();
+
+        TypeOrBuilder getKeyTypeOrBuilder();
+
+        Type getValueType();
+
+        TypeOrBuilder getValueTypeOrBuilder();
+
+        boolean hasKeyType();
+
+        boolean hasValueType();
+    }
+
+    public static final class ListType extends GeneratedMessageV3 implements ListTypeOrBuilder {
+        public static final int ELEM_TYPE_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final ListType DEFAULT_INSTANCE = new ListType();
+        private static final Parser<ListType> PARSER = new AbstractParser<ListType>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListType.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public ListType m11424parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new ListType(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private Type elemType_;
+        private byte memoizedIsInitialized;
+
+        private ListType(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private ListType() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private ListType(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    Type type = this.elemType_;
+                                    Builder builderM11284toBuilder = type != null ? type.m11284toBuilder() : null;
+                                    Type type2 = (Type) codedInputStream.readMessage(Type.parser(), extensionRegistryLite);
+                                    this.elemType_ = type2;
+                                    if (builderM11284toBuilder != null) {
+                                        builderM11284toBuilder.mergeFrom(type2);
+                                        this.elemType_ = builderM11284toBuilder.m11337buildPartial();
+                                    }
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static ListType getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<ListType> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_ListType_descriptor;
+        }
+
+        public static ListType parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (ListType) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static ListType parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (ListType) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static ListType parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (ListType) PARSER.parseFrom(byteString);
+        }
+
+        public static ListType parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (ListType) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static ListType parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (ListType) PARSER.parseFrom(bArr);
+        }
+
+        public static ListType parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (ListType) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static ListType parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static ListType parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static ListType parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static ListType parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static ListType parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static ListType parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m11422toBuilder();
+        }
+
+        public static Builder newBuilder(ListType listType) {
+            return DEFAULT_INSTANCE.m11422toBuilder().mergeFrom(listType);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ListType m11417getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<ListType> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListTypeOrBuilder
+        public boolean hasElemType() {
+            return this.elemType_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new ListType();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_ListType_fieldAccessorTable.ensureFieldAccessorsInitialized(ListType.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListTypeOrBuilder
+        public Type getElemType() {
+            Type type = this.elemType_;
+            return type == null ? Type.getDefaultInstance() : type;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListTypeOrBuilder
+        public TypeOrBuilder getElemTypeOrBuilder() {
+            return getElemType();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.elemType_ != null) {
+                codedOutputStream.writeMessage(1, getElemType());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = (this.elemType_ != null ? CodedOutputStream.computeMessageSize(1, getElemType()) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeMessageSize;
+            return iComputeMessageSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof ListType)) {
+                return super.equals(obj);
+            }
+            ListType listType = (ListType) obj;
+            if (hasElemType() != listType.hasElemType()) {
+                return false;
+            }
+            return (!hasElemType() || getElemType().equals(listType.getElemType())) && this.unknownFields.equals(listType.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasElemType()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getElemType().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11419newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11422toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ListTypeOrBuilder {
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> elemTypeBuilder_;
+            private Type elemType_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_ListType_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListTypeOrBuilder
+            public boolean hasElemType() {
+                return (this.elemTypeBuilder_ == null && this.elemType_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_ListType_fieldAccessorTable.ensureFieldAccessorsInitialized(ListType.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = ListType.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11433clear() {
+                super.clear();
+                if (this.elemTypeBuilder_ == null) {
+                    this.elemType_ = null;
+                } else {
+                    this.elemType_ = null;
+                    this.elemTypeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_ListType_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ListType m11446getDefaultInstanceForType() {
+                return ListType.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ListType m11427build() throws UninitializedMessageException {
+                ListType listTypeM11429buildPartial = m11429buildPartial();
+                if (listTypeM11429buildPartial.isInitialized()) {
+                    return listTypeM11429buildPartial;
+                }
+                throw newUninitializedMessageException(listTypeM11429buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ListType m11429buildPartial() {
+                ListType listType = new ListType(this);
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.elemTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    listType.elemType_ = this.elemType_;
+                } else {
+                    listType.elemType_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return listType;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11445clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11457setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11435clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11438clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11459setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11425addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11450mergeFrom(Message message) {
+                if (message instanceof ListType) {
+                    return mergeFrom((ListType) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(ListType listType) {
+                if (listType == ListType.getDefaultInstance()) {
+                    return this;
+                }
+                if (listType.hasElemType()) {
+                    mergeElemType(listType.getElemType());
+                }
+                m11455mergeUnknownFields(listType.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListType.Builder m11451mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListType.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$ListType r3 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListType) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$ListType r4 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListType) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListType.Builder.m11451mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$ListType$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListTypeOrBuilder
+            public Type getElemType() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.elemTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Type type = this.elemType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            public Builder setElemType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.elemTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    type.getClass();
+                    this.elemType_ = type;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(type);
+                }
+                return this;
+            }
+
+            public Builder setElemType(Builder builder) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.elemTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.elemType_ = builder.m11335build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder mergeElemType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.elemTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Type type2 = this.elemType_;
+                    if (type2 != null) {
+                        this.elemType_ = Type.newBuilder(type2).mergeFrom(type).m11337buildPartial();
+                    } else {
+                        this.elemType_ = type;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(type);
+                }
+                return this;
+            }
+
+            public Builder clearElemType() {
+                if (this.elemTypeBuilder_ == null) {
+                    this.elemType_ = null;
+                    onChanged();
+                } else {
+                    this.elemType_ = null;
+                    this.elemTypeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Builder getElemTypeBuilder() {
+                onChanged();
+                return getElemTypeFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.ListTypeOrBuilder
+            public TypeOrBuilder getElemTypeOrBuilder() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.elemTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Type type = this.elemType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> getElemTypeFieldBuilder() {
+                if (this.elemTypeBuilder_ == null) {
+                    this.elemTypeBuilder_ = new SingleFieldBuilderV3<>(getElemType(), getParentForChildren(), isClean());
+                    this.elemType_ = null;
+                }
+                return this.elemTypeBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11461setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11455mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class MapType extends GeneratedMessageV3 implements MapTypeOrBuilder {
+        public static final int KEY_TYPE_FIELD_NUMBER = 1;
+        public static final int VALUE_TYPE_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final MapType DEFAULT_INSTANCE = new MapType();
+        private static final Parser<MapType> PARSER = new AbstractParser<MapType>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapType.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public MapType m11470parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new MapType(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private Type keyType_;
+        private byte memoizedIsInitialized;
+        private Type valueType_;
+
+        private MapType(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private MapType() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private MapType(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            Builder builderM11284toBuilder;
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                Type type = this.keyType_;
+                                builderM11284toBuilder = type != null ? type.m11284toBuilder() : null;
+                                Type type2 = (Type) codedInputStream.readMessage(Type.parser(), extensionRegistryLite);
+                                this.keyType_ = type2;
+                                if (builderM11284toBuilder != null) {
+                                    builderM11284toBuilder.mergeFrom(type2);
+                                    this.keyType_ = builderM11284toBuilder.m11337buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                Type type3 = this.valueType_;
+                                builderM11284toBuilder = type3 != null ? type3.m11284toBuilder() : null;
+                                Type type4 = (Type) codedInputStream.readMessage(Type.parser(), extensionRegistryLite);
+                                this.valueType_ = type4;
+                                if (builderM11284toBuilder != null) {
+                                    builderM11284toBuilder.mergeFrom(type4);
+                                    this.valueType_ = builderM11284toBuilder.m11337buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static MapType getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<MapType> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_MapType_descriptor;
+        }
+
+        public static MapType parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (MapType) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static MapType parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MapType) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static MapType parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (MapType) PARSER.parseFrom(byteString);
+        }
+
+        public static MapType parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MapType) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static MapType parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (MapType) PARSER.parseFrom(bArr);
+        }
+
+        public static MapType parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MapType) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static MapType parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static MapType parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static MapType parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static MapType parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static MapType parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static MapType parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m11468toBuilder();
+        }
+
+        public static Builder newBuilder(MapType mapType) {
+            return DEFAULT_INSTANCE.m11468toBuilder().mergeFrom(mapType);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public MapType m11463getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<MapType> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+        public boolean hasKeyType() {
+            return this.keyType_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+        public boolean hasValueType() {
+            return this.valueType_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new MapType();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_MapType_fieldAccessorTable.ensureFieldAccessorsInitialized(MapType.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+        public Type getKeyType() {
+            Type type = this.keyType_;
+            return type == null ? Type.getDefaultInstance() : type;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+        public TypeOrBuilder getKeyTypeOrBuilder() {
+            return getKeyType();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+        public Type getValueType() {
+            Type type = this.valueType_;
+            return type == null ? Type.getDefaultInstance() : type;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+        public TypeOrBuilder getValueTypeOrBuilder() {
+            return getValueType();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.keyType_ != null) {
+                codedOutputStream.writeMessage(1, getKeyType());
+            }
+            if (this.valueType_ != null) {
+                codedOutputStream.writeMessage(2, getValueType());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.keyType_ != null ? CodedOutputStream.computeMessageSize(1, getKeyType()) : 0;
+            if (this.valueType_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getValueType());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof MapType)) {
+                return super.equals(obj);
+            }
+            MapType mapType = (MapType) obj;
+            if (hasKeyType() != mapType.hasKeyType()) {
+                return false;
+            }
+            if ((!hasKeyType() || getKeyType().equals(mapType.getKeyType())) && hasValueType() == mapType.hasValueType()) {
+                return (!hasValueType() || getValueType().equals(mapType.getValueType())) && this.unknownFields.equals(mapType.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasKeyType()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getKeyType().hashCode();
+            }
+            if (hasValueType()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getValueType().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11465newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11468toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements MapTypeOrBuilder {
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> keyTypeBuilder_;
+            private Type keyType_;
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> valueTypeBuilder_;
+            private Type valueType_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_MapType_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+            public boolean hasKeyType() {
+                return (this.keyTypeBuilder_ == null && this.keyType_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+            public boolean hasValueType() {
+                return (this.valueTypeBuilder_ == null && this.valueType_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_MapType_fieldAccessorTable.ensureFieldAccessorsInitialized(MapType.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = MapType.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11479clear() {
+                super.clear();
+                if (this.keyTypeBuilder_ == null) {
+                    this.keyType_ = null;
+                } else {
+                    this.keyType_ = null;
+                    this.keyTypeBuilder_ = null;
+                }
+                if (this.valueTypeBuilder_ == null) {
+                    this.valueType_ = null;
+                } else {
+                    this.valueType_ = null;
+                    this.valueTypeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_MapType_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MapType m11492getDefaultInstanceForType() {
+                return MapType.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MapType m11473build() throws UninitializedMessageException {
+                MapType mapTypeM11475buildPartial = m11475buildPartial();
+                if (mapTypeM11475buildPartial.isInitialized()) {
+                    return mapTypeM11475buildPartial;
+                }
+                throw newUninitializedMessageException(mapTypeM11475buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MapType m11475buildPartial() {
+                MapType mapType = new MapType(this);
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.keyTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    mapType.keyType_ = this.keyType_;
+                } else {
+                    mapType.keyType_ = singleFieldBuilderV3.build();
+                }
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV32 = this.valueTypeBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    mapType.valueType_ = this.valueType_;
+                } else {
+                    mapType.valueType_ = singleFieldBuilderV32.build();
+                }
+                onBuilt();
+                return mapType;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11491clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11503setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11481clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11484clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11505setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11471addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11496mergeFrom(Message message) {
+                if (message instanceof MapType) {
+                    return mergeFrom((MapType) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(MapType mapType) {
+                if (mapType == MapType.getDefaultInstance()) {
+                    return this;
+                }
+                if (mapType.hasKeyType()) {
+                    mergeKeyType(mapType.getKeyType());
+                }
+                if (mapType.hasValueType()) {
+                    mergeValueType(mapType.getValueType());
+                }
+                m11501mergeUnknownFields(mapType.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapType.Builder m11497mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapType.access$1500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$MapType r3 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapType) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$MapType r4 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapType) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapType.Builder.m11497mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$MapType$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+            public Type getKeyType() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.keyTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Type type = this.keyType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            public Builder setKeyType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.keyTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    type.getClass();
+                    this.keyType_ = type;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(type);
+                }
+                return this;
+            }
+
+            public Builder setKeyType(Builder builder) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.keyTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.keyType_ = builder.m11335build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder mergeKeyType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.keyTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Type type2 = this.keyType_;
+                    if (type2 != null) {
+                        this.keyType_ = Type.newBuilder(type2).mergeFrom(type).m11337buildPartial();
+                    } else {
+                        this.keyType_ = type;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(type);
+                }
+                return this;
+            }
+
+            public Builder clearKeyType() {
+                if (this.keyTypeBuilder_ == null) {
+                    this.keyType_ = null;
+                    onChanged();
+                } else {
+                    this.keyType_ = null;
+                    this.keyTypeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Builder getKeyTypeBuilder() {
+                onChanged();
+                return getKeyTypeFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+            public TypeOrBuilder getKeyTypeOrBuilder() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.keyTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Type type = this.keyType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> getKeyTypeFieldBuilder() {
+                if (this.keyTypeBuilder_ == null) {
+                    this.keyTypeBuilder_ = new SingleFieldBuilderV3<>(getKeyType(), getParentForChildren(), isClean());
+                    this.keyType_ = null;
+                }
+                return this.keyTypeBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+            public Type getValueType() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.valueTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Type type = this.valueType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            public Builder setValueType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.valueTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    type.getClass();
+                    this.valueType_ = type;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(type);
+                }
+                return this;
+            }
+
+            public Builder setValueType(Builder builder) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.valueTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.valueType_ = builder.m11335build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder mergeValueType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.valueTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Type type2 = this.valueType_;
+                    if (type2 != null) {
+                        this.valueType_ = Type.newBuilder(type2).mergeFrom(type).m11337buildPartial();
+                    } else {
+                        this.valueType_ = type;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(type);
+                }
+                return this;
+            }
+
+            public Builder clearValueType() {
+                if (this.valueTypeBuilder_ == null) {
+                    this.valueType_ = null;
+                    onChanged();
+                } else {
+                    this.valueType_ = null;
+                    this.valueTypeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Builder getValueTypeBuilder() {
+                onChanged();
+                return getValueTypeFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.MapTypeOrBuilder
+            public TypeOrBuilder getValueTypeOrBuilder() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.valueTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Type type = this.valueType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> getValueTypeFieldBuilder() {
+                if (this.valueTypeBuilder_ == null) {
+                    this.valueTypeBuilder_ = new SingleFieldBuilderV3<>(getValueType(), getParentForChildren(), isClean());
+                    this.valueType_ = null;
+                }
+                return this.valueTypeBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11507setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11501mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class FunctionType extends GeneratedMessageV3 implements FunctionTypeOrBuilder {
+        public static final int ARG_TYPES_FIELD_NUMBER = 2;
+        public static final int RESULT_TYPE_FIELD_NUMBER = 1;
+        private static final FunctionType DEFAULT_INSTANCE = new FunctionType();
+        private static final Parser<FunctionType> PARSER = new AbstractParser<FunctionType>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionType.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public FunctionType m11378parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new FunctionType(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private List<Type> argTypes_;
+        private byte memoizedIsInitialized;
+        private Type resultType_;
+
+        private FunctionType(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private FunctionType() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.argTypes_ = Collections.emptyList();
+        }
+
+        private FunctionType(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    Type type = this.resultType_;
+                                    Builder builderM11284toBuilder = type != null ? type.m11284toBuilder() : null;
+                                    Type type2 = (Type) codedInputStream.readMessage(Type.parser(), extensionRegistryLite);
+                                    this.resultType_ = type2;
+                                    if (builderM11284toBuilder != null) {
+                                        builderM11284toBuilder.mergeFrom(type2);
+                                        this.resultType_ = builderM11284toBuilder.m11337buildPartial();
+                                    }
+                                } else if (tag == 18) {
+                                    if (!(z2 & true)) {
+                                        this.argTypes_ = new ArrayList();
+                                        z2 |= true;
+                                    }
+                                    this.argTypes_.add(codedInputStream.readMessage(Type.parser(), extensionRegistryLite));
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.argTypes_ = Collections.unmodifiableList(this.argTypes_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static FunctionType getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<FunctionType> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_FunctionType_descriptor;
+        }
+
+        public static FunctionType parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (FunctionType) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static FunctionType parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FunctionType) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static FunctionType parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (FunctionType) PARSER.parseFrom(byteString);
+        }
+
+        public static FunctionType parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FunctionType) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static FunctionType parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (FunctionType) PARSER.parseFrom(bArr);
+        }
+
+        public static FunctionType parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FunctionType) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static FunctionType parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static FunctionType parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FunctionType parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static FunctionType parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FunctionType parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static FunctionType parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m11376toBuilder();
+        }
+
+        public static Builder newBuilder(FunctionType functionType) {
+            return DEFAULT_INSTANCE.m11376toBuilder().mergeFrom(functionType);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public List<Type> getArgTypesList() {
+            return this.argTypes_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public List<? extends TypeOrBuilder> getArgTypesOrBuilderList() {
+            return this.argTypes_;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FunctionType m11371getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<FunctionType> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public boolean hasResultType() {
+            return this.resultType_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new FunctionType();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_FunctionType_fieldAccessorTable.ensureFieldAccessorsInitialized(FunctionType.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public Type getResultType() {
+            Type type = this.resultType_;
+            return type == null ? Type.getDefaultInstance() : type;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public TypeOrBuilder getResultTypeOrBuilder() {
+            return getResultType();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public int getArgTypesCount() {
+            return this.argTypes_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public Type getArgTypes(int i) {
+            return this.argTypes_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+        public TypeOrBuilder getArgTypesOrBuilder(int i) {
+            return this.argTypes_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.resultType_ != null) {
+                codedOutputStream.writeMessage(1, getResultType());
+            }
+            for (int i = 0; i < this.argTypes_.size(); i++) {
+                codedOutputStream.writeMessage(2, this.argTypes_.get(i));
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.resultType_ != null ? CodedOutputStream.computeMessageSize(1, getResultType()) : 0;
+            for (int i2 = 0; i2 < this.argTypes_.size(); i2++) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, this.argTypes_.get(i2));
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof FunctionType)) {
+                return super.equals(obj);
+            }
+            FunctionType functionType = (FunctionType) obj;
+            if (hasResultType() != functionType.hasResultType()) {
+                return false;
+            }
+            return (!hasResultType() || getResultType().equals(functionType.getResultType())) && getArgTypesList().equals(functionType.getArgTypesList()) && this.unknownFields.equals(functionType.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasResultType()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getResultType().hashCode();
+            }
+            if (getArgTypesCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getArgTypesList().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11373newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11376toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements FunctionTypeOrBuilder {
+            private RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> argTypesBuilder_;
+            private List<Type> argTypes_;
+            private int bitField0_;
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> resultTypeBuilder_;
+            private Type resultType_;
+
+            private Builder() {
+                this.argTypes_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.argTypes_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_FunctionType_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public boolean hasResultType() {
+                return (this.resultTypeBuilder_ == null && this.resultType_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_FunctionType_fieldAccessorTable.ensureFieldAccessorsInitialized(FunctionType.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (FunctionType.alwaysUseFieldBuilders) {
+                    getArgTypesFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11387clear() {
+                super.clear();
+                if (this.resultTypeBuilder_ == null) {
+                    this.resultType_ = null;
+                } else {
+                    this.resultType_ = null;
+                    this.resultTypeBuilder_ = null;
+                }
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.argTypes_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_FunctionType_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FunctionType m11400getDefaultInstanceForType() {
+                return FunctionType.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FunctionType m11381build() throws UninitializedMessageException {
+                FunctionType functionTypeM11383buildPartial = m11383buildPartial();
+                if (functionTypeM11383buildPartial.isInitialized()) {
+                    return functionTypeM11383buildPartial;
+                }
+                throw newUninitializedMessageException(functionTypeM11383buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FunctionType m11383buildPartial() {
+                FunctionType functionType = new FunctionType(this);
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.resultTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    functionType.resultType_ = this.resultType_;
+                } else {
+                    functionType.resultType_ = singleFieldBuilderV3.build();
+                }
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((this.bitField0_ & 1) != 0) {
+                        this.argTypes_ = Collections.unmodifiableList(this.argTypes_);
+                        this.bitField0_ &= -2;
+                    }
+                    functionType.argTypes_ = this.argTypes_;
+                } else {
+                    functionType.argTypes_ = repeatedFieldBuilderV3.build();
+                }
+                onBuilt();
+                return functionType;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11399clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11411setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11389clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11392clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11413setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11379addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11404mergeFrom(Message message) {
+                if (message instanceof FunctionType) {
+                    return mergeFrom((FunctionType) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(FunctionType functionType) {
+                if (functionType == FunctionType.getDefaultInstance()) {
+                    return this;
+                }
+                if (functionType.hasResultType()) {
+                    mergeResultType(functionType.getResultType());
+                }
+                if (this.argTypesBuilder_ == null) {
+                    if (!functionType.argTypes_.isEmpty()) {
+                        if (this.argTypes_.isEmpty()) {
+                            this.argTypes_ = functionType.argTypes_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureArgTypesIsMutable();
+                            this.argTypes_.addAll(functionType.argTypes_);
+                        }
+                        onChanged();
+                    }
+                } else if (!functionType.argTypes_.isEmpty()) {
+                    if (!this.argTypesBuilder_.isEmpty()) {
+                        this.argTypesBuilder_.addAllMessages(functionType.argTypes_);
+                    } else {
+                        this.argTypesBuilder_.dispose();
+                        this.argTypesBuilder_ = null;
+                        this.argTypes_ = functionType.argTypes_;
+                        this.bitField0_ &= -2;
+                        this.argTypesBuilder_ = FunctionType.alwaysUseFieldBuilders ? getArgTypesFieldBuilder() : null;
+                    }
+                }
+                m11409mergeUnknownFields(functionType.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionType.Builder m11405mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionType.access$2500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$FunctionType r3 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionType) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$FunctionType r4 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionType) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionType.Builder.m11405mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$FunctionType$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public Type getResultType() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.resultTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Type type = this.resultType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            public Builder setResultType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.resultTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    type.getClass();
+                    this.resultType_ = type;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(type);
+                }
+                return this;
+            }
+
+            public Builder setResultType(Builder builder) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.resultTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.resultType_ = builder.m11335build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder mergeResultType(Type type) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.resultTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Type type2 = this.resultType_;
+                    if (type2 != null) {
+                        this.resultType_ = Type.newBuilder(type2).mergeFrom(type).m11337buildPartial();
+                    } else {
+                        this.resultType_ = type;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(type);
+                }
+                return this;
+            }
+
+            public Builder clearResultType() {
+                if (this.resultTypeBuilder_ == null) {
+                    this.resultType_ = null;
+                    onChanged();
+                } else {
+                    this.resultType_ = null;
+                    this.resultTypeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Builder getResultTypeBuilder() {
+                onChanged();
+                return getResultTypeFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public TypeOrBuilder getResultTypeOrBuilder() {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.resultTypeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Type type = this.resultType_;
+                return type == null ? Type.getDefaultInstance() : type;
+            }
+
+            private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> getResultTypeFieldBuilder() {
+                if (this.resultTypeBuilder_ == null) {
+                    this.resultTypeBuilder_ = new SingleFieldBuilderV3<>(getResultType(), getParentForChildren(), isClean());
+                    this.resultType_ = null;
+                }
+                return this.resultTypeBuilder_;
+            }
+
+            private void ensureArgTypesIsMutable() {
+                if ((this.bitField0_ & 1) == 0) {
+                    this.argTypes_ = new ArrayList(this.argTypes_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public List<Type> getArgTypesList() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.argTypes_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public int getArgTypesCount() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.argTypes_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public Type getArgTypes(int i) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.argTypes_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setArgTypes(int i, Type type) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    type.getClass();
+                    ensureArgTypesIsMutable();
+                    this.argTypes_.set(i, type);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, type);
+                }
+                return this;
+            }
+
+            public Builder setArgTypes(int i, Builder builder) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureArgTypesIsMutable();
+                    this.argTypes_.set(i, builder.m11335build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder addArgTypes(Type type) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    type.getClass();
+                    ensureArgTypesIsMutable();
+                    this.argTypes_.add(type);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(type);
+                }
+                return this;
+            }
+
+            public Builder addArgTypes(int i, Type type) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    type.getClass();
+                    ensureArgTypesIsMutable();
+                    this.argTypes_.add(i, type);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, type);
+                }
+                return this;
+            }
+
+            public Builder addArgTypes(Builder builder) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureArgTypesIsMutable();
+                    this.argTypes_.add(builder.m11335build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder addArgTypes(int i, Builder builder) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureArgTypesIsMutable();
+                    this.argTypes_.add(i, builder.m11335build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder addAllArgTypes(Iterable<? extends Type> iterable) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureArgTypesIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.argTypes_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearArgTypes() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.argTypes_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeArgTypes(int i) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureArgTypesIsMutable();
+                    this.argTypes_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public Builder getArgTypesBuilder(int i) {
+                return getArgTypesFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public TypeOrBuilder getArgTypesOrBuilder(int i) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.argTypes_.get(i);
+                }
+                return (TypeOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.FunctionTypeOrBuilder
+            public List<? extends TypeOrBuilder> getArgTypesOrBuilderList() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.argTypesBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.argTypes_);
+            }
+
+            public Builder addArgTypesBuilder() {
+                return getArgTypesFieldBuilder().addBuilder(Type.getDefaultInstance());
+            }
+
+            public Builder addArgTypesBuilder(int i) {
+                return getArgTypesFieldBuilder().addBuilder(i, Type.getDefaultInstance());
+            }
+
+            public List<Builder> getArgTypesBuilderList() {
+                return getArgTypesFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> getArgTypesFieldBuilder() {
+                if (this.argTypesBuilder_ == null) {
+                    this.argTypesBuilder_ = new RepeatedFieldBuilderV3<>(this.argTypes_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                    this.argTypes_ = null;
+                }
+                return this.argTypesBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11415setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11409mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class AbstractType extends GeneratedMessageV3 implements AbstractTypeOrBuilder {
+        public static final int NAME_FIELD_NUMBER = 1;
+        public static final int PARAMETER_TYPES_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final AbstractType DEFAULT_INSTANCE = new AbstractType();
+        private static final Parser<AbstractType> PARSER = new AbstractParser<AbstractType>() { // from class: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractType.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public AbstractType m11294parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new AbstractType(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object name_;
+        private List<Type> parameterTypes_;
+
+        private AbstractType(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private AbstractType() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.name_ = "";
+            this.parameterTypes_ = Collections.emptyList();
+        }
+
+        private AbstractType(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.name_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                if (!(z2 & true)) {
+                                    this.parameterTypes_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.parameterTypes_.add(codedInputStream.readMessage(Type.parser(), extensionRegistryLite));
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.parameterTypes_ = Collections.unmodifiableList(this.parameterTypes_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static AbstractType getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<AbstractType> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_AbstractType_descriptor;
+        }
+
+        public static AbstractType parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (AbstractType) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static AbstractType parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (AbstractType) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static AbstractType parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (AbstractType) PARSER.parseFrom(byteString);
+        }
+
+        public static AbstractType parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (AbstractType) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static AbstractType parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (AbstractType) PARSER.parseFrom(bArr);
+        }
+
+        public static AbstractType parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (AbstractType) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static AbstractType parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static AbstractType parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static AbstractType parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static AbstractType parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static AbstractType parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static AbstractType parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m11292toBuilder();
+        }
+
+        public static Builder newBuilder(AbstractType abstractType) {
+            return DEFAULT_INSTANCE.m11292toBuilder().mergeFrom(abstractType);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public AbstractType m11287getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+        public List<Type> getParameterTypesList() {
+            return this.parameterTypes_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+        public List<? extends TypeOrBuilder> getParameterTypesOrBuilderList() {
+            return this.parameterTypes_;
+        }
+
+        public Parser<AbstractType> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new AbstractType();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_AbstractType_fieldAccessorTable.ensureFieldAccessorsInitialized(AbstractType.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.name_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+        public int getParameterTypesCount() {
+            return this.parameterTypes_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+        public Type getParameterTypes(int i) {
+            return this.parameterTypes_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+        public TypeOrBuilder getParameterTypesOrBuilder(int i) {
+            return this.parameterTypes_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+            }
+            for (int i = 0; i < this.parameterTypes_.size(); i++) {
+                codedOutputStream.writeMessage(2, this.parameterTypes_.get(i));
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+            for (int i2 = 0; i2 < this.parameterTypes_.size(); i2++) {
+                iComputeStringSize += CodedOutputStream.computeMessageSize(2, this.parameterTypes_.get(i2));
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof AbstractType)) {
+                return super.equals(obj);
+            }
+            AbstractType abstractType = (AbstractType) obj;
+            return getName().equals(abstractType.getName()) && getParameterTypesList().equals(abstractType.getParameterTypesList()) && this.unknownFields.equals(abstractType.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode();
+            if (getParameterTypesCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getParameterTypesList().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11289newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11292toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements AbstractTypeOrBuilder {
+            private int bitField0_;
+            private Object name_;
+            private RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> parameterTypesBuilder_;
+            private List<Type> parameterTypes_;
+
+            private Builder() {
+                this.name_ = "";
+                this.parameterTypes_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.name_ = "";
+                this.parameterTypes_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_AbstractType_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_AbstractType_fieldAccessorTable.ensureFieldAccessorsInitialized(AbstractType.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (AbstractType.alwaysUseFieldBuilders) {
+                    getParameterTypesFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11303clear() {
+                super.clear();
+                this.name_ = "";
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.parameterTypes_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return DeclProto.internal_static_google_api_expr_v1alpha1_Type_AbstractType_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public AbstractType m11316getDefaultInstanceForType() {
+                return AbstractType.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public AbstractType m11297build() throws UninitializedMessageException {
+                AbstractType abstractTypeM11299buildPartial = m11299buildPartial();
+                if (abstractTypeM11299buildPartial.isInitialized()) {
+                    return abstractTypeM11299buildPartial;
+                }
+                throw newUninitializedMessageException(abstractTypeM11299buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public AbstractType m11299buildPartial() {
+                AbstractType abstractType = new AbstractType(this);
+                abstractType.name_ = this.name_;
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((this.bitField0_ & 1) != 0) {
+                        this.parameterTypes_ = Collections.unmodifiableList(this.parameterTypes_);
+                        this.bitField0_ &= -2;
+                    }
+                    abstractType.parameterTypes_ = this.parameterTypes_;
+                } else {
+                    abstractType.parameterTypes_ = repeatedFieldBuilderV3.build();
+                }
+                onBuilt();
+                return abstractType;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11315clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11327setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11305clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11308clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11329setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11295addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m11320mergeFrom(Message message) {
+                if (message instanceof AbstractType) {
+                    return mergeFrom((AbstractType) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(AbstractType abstractType) {
+                if (abstractType == AbstractType.getDefaultInstance()) {
+                    return this;
+                }
+                if (!abstractType.getName().isEmpty()) {
+                    this.name_ = abstractType.name_;
+                    onChanged();
+                }
+                if (this.parameterTypesBuilder_ == null) {
+                    if (!abstractType.parameterTypes_.isEmpty()) {
+                        if (this.parameterTypes_.isEmpty()) {
+                            this.parameterTypes_ = abstractType.parameterTypes_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureParameterTypesIsMutable();
+                            this.parameterTypes_.addAll(abstractType.parameterTypes_);
+                        }
+                        onChanged();
+                    }
+                } else if (!abstractType.parameterTypes_.isEmpty()) {
+                    if (!this.parameterTypesBuilder_.isEmpty()) {
+                        this.parameterTypesBuilder_.addAllMessages(abstractType.parameterTypes_);
+                    } else {
+                        this.parameterTypesBuilder_.dispose();
+                        this.parameterTypesBuilder_ = null;
+                        this.parameterTypes_ = abstractType.parameterTypes_;
+                        this.bitField0_ &= -2;
+                        this.parameterTypesBuilder_ = AbstractType.alwaysUseFieldBuilders ? getParameterTypesFieldBuilder() : null;
+                    }
+                }
+                m11325mergeUnknownFields(abstractType.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractType.Builder m11321mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractType.access$3500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$AbstractType r3 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractType) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$AbstractType r4 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractType) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractType.Builder.m11321mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$AbstractType$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+            public String getName() {
+                Object obj = this.name_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.name_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setName(String str) {
+                str.getClass();
+                this.name_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+            public ByteString getNameBytes() {
+                Object obj = this.name_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.name_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setNameBytes(ByteString byteString) {
+                byteString.getClass();
+                AbstractType.checkByteStringIsUtf8(byteString);
+                this.name_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearName() {
+                this.name_ = AbstractType.getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
+            private void ensureParameterTypesIsMutable() {
+                if ((this.bitField0_ & 1) == 0) {
+                    this.parameterTypes_ = new ArrayList(this.parameterTypes_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+            public List<Type> getParameterTypesList() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.parameterTypes_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+            public int getParameterTypesCount() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.parameterTypes_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+            public Type getParameterTypes(int i) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.parameterTypes_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setParameterTypes(int i, Type type) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    type.getClass();
+                    ensureParameterTypesIsMutable();
+                    this.parameterTypes_.set(i, type);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, type);
+                }
+                return this;
+            }
+
+            public Builder setParameterTypes(int i, Builder builder) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureParameterTypesIsMutable();
+                    this.parameterTypes_.set(i, builder.m11335build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder addParameterTypes(Type type) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    type.getClass();
+                    ensureParameterTypesIsMutable();
+                    this.parameterTypes_.add(type);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(type);
+                }
+                return this;
+            }
+
+            public Builder addParameterTypes(int i, Type type) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    type.getClass();
+                    ensureParameterTypesIsMutable();
+                    this.parameterTypes_.add(i, type);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, type);
+                }
+                return this;
+            }
+
+            public Builder addParameterTypes(Builder builder) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureParameterTypesIsMutable();
+                    this.parameterTypes_.add(builder.m11335build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder addParameterTypes(int i, Builder builder) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureParameterTypesIsMutable();
+                    this.parameterTypes_.add(i, builder.m11335build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m11335build());
+                }
+                return this;
+            }
+
+            public Builder addAllParameterTypes(Iterable<? extends Type> iterable) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureParameterTypesIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.parameterTypes_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearParameterTypes() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.parameterTypes_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeParameterTypes(int i) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureParameterTypesIsMutable();
+                    this.parameterTypes_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public Builder getParameterTypesBuilder(int i) {
+                return getParameterTypesFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+            public TypeOrBuilder getParameterTypesOrBuilder(int i) {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.parameterTypes_.get(i);
+                }
+                return (TypeOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.AbstractTypeOrBuilder
+            public List<? extends TypeOrBuilder> getParameterTypesOrBuilderList() {
+                RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> repeatedFieldBuilderV3 = this.parameterTypesBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.parameterTypes_);
+            }
+
+            public Builder addParameterTypesBuilder() {
+                return getParameterTypesFieldBuilder().addBuilder(Type.getDefaultInstance());
+            }
+
+            public Builder addParameterTypesBuilder(int i) {
+                return getParameterTypesFieldBuilder().addBuilder(i, Type.getDefaultInstance());
+            }
+
+            public List<Builder> getParameterTypesBuilderList() {
+                return getParameterTypesFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<Type, Builder, TypeOrBuilder> getParameterTypesFieldBuilder() {
+                if (this.parameterTypesBuilder_ == null) {
+                    this.parameterTypesBuilder_ = new RepeatedFieldBuilderV3<>(this.parameterTypes_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                    this.parameterTypes_ = null;
+                }
+                return this.parameterTypesBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11331setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m11325mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TypeOrBuilder {
+        private SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> abstractTypeBuilder_;
+        private SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> dynBuilder_;
+        private SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> errorBuilder_;
+        private SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> functionBuilder_;
+        private SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> listTypeBuilder_;
+        private SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> mapTypeBuilder_;
+        private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> typeBuilder_;
+        private int typeKindCase_;
+        private Object typeKind_;
+
+        private Builder() {
+            this.typeKindCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.typeKindCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public boolean hasAbstractType() {
+            return this.typeKindCase_ == 14;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public boolean hasDyn() {
+            return this.typeKindCase_ == 1;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public boolean hasError() {
+            return this.typeKindCase_ == 12;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public boolean hasFunction() {
+            return this.typeKindCase_ == 8;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public boolean hasListType() {
+            return this.typeKindCase_ == 6;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public boolean hasMapType() {
+            return this.typeKindCase_ == 7;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public boolean hasType() {
+            return this.typeKindCase_ == 11;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_fieldAccessorTable.ensureFieldAccessorsInitialized(Type.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = Type.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11341clear() {
+            super.clear();
+            this.typeKindCase_ = 0;
+            this.typeKind_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return DeclProto.internal_static_google_api_expr_v1alpha1_Type_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Type m11354getDefaultInstanceForType() {
+            return Type.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Type m11335build() throws UninitializedMessageException {
+            Type typeM11337buildPartial = m11337buildPartial();
+            if (typeM11337buildPartial.isInitialized()) {
+                return typeM11337buildPartial;
+            }
+            throw newUninitializedMessageException(typeM11337buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Type m11337buildPartial() {
+            Type type = new Type(this);
+            if (this.typeKindCase_ == 1) {
+                SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.dynBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    type.typeKind_ = this.typeKind_;
+                } else {
+                    type.typeKind_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.typeKindCase_ == 2) {
+                type.typeKind_ = this.typeKind_;
+            }
+            if (this.typeKindCase_ == 3) {
+                type.typeKind_ = this.typeKind_;
+            }
+            if (this.typeKindCase_ == 4) {
+                type.typeKind_ = this.typeKind_;
+            }
+            if (this.typeKindCase_ == 5) {
+                type.typeKind_ = this.typeKind_;
+            }
+            if (this.typeKindCase_ == 6) {
+                SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> singleFieldBuilderV32 = this.listTypeBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    type.typeKind_ = this.typeKind_;
+                } else {
+                    type.typeKind_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.typeKindCase_ == 7) {
+                SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> singleFieldBuilderV33 = this.mapTypeBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    type.typeKind_ = this.typeKind_;
+                } else {
+                    type.typeKind_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.typeKindCase_ == 8) {
+                SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> singleFieldBuilderV34 = this.functionBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    type.typeKind_ = this.typeKind_;
+                } else {
+                    type.typeKind_ = singleFieldBuilderV34.build();
+                }
+            }
+            if (this.typeKindCase_ == 9) {
+                type.typeKind_ = this.typeKind_;
+            }
+            if (this.typeKindCase_ == 10) {
+                type.typeKind_ = this.typeKind_;
+            }
+            if (this.typeKindCase_ == 11) {
+                SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV35 = this.typeBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    type.typeKind_ = this.typeKind_;
+                } else {
+                    type.typeKind_ = singleFieldBuilderV35.build();
+                }
+            }
+            if (this.typeKindCase_ == 12) {
+                SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV36 = this.errorBuilder_;
+                if (singleFieldBuilderV36 == null) {
+                    type.typeKind_ = this.typeKind_;
+                } else {
+                    type.typeKind_ = singleFieldBuilderV36.build();
+                }
+            }
+            if (this.typeKindCase_ == 14) {
+                SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> singleFieldBuilderV37 = this.abstractTypeBuilder_;
+                if (singleFieldBuilderV37 == null) {
+                    type.typeKind_ = this.typeKind_;
+                } else {
+                    type.typeKind_ = singleFieldBuilderV37.build();
+                }
+            }
+            type.typeKindCase_ = this.typeKindCase_;
+            onBuilt();
+            return type;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11353clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11365setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11343clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11346clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11367setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11333addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m11358mergeFrom(Message message) {
+            if (message instanceof Type) {
+                return mergeFrom((Type) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Type type) {
+            if (type == Type.getDefaultInstance()) {
+                return this;
+            }
+            switch (AnonymousClass2.$SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[type.getTypeKindCase().ordinal()]) {
+                case 1:
+                    mergeDyn(type.getDyn());
+                    break;
+                case 2:
+                    setNullValue(type.getNullValue());
+                    break;
+                case 3:
+                    setPrimitiveValue(type.getPrimitiveValue());
+                    break;
+                case 4:
+                    setWrapperValue(type.getWrapperValue());
+                    break;
+                case 5:
+                    setWellKnownValue(type.getWellKnownValue());
+                    break;
+                case 6:
+                    mergeListType(type.getListType());
+                    break;
+                case 7:
+                    mergeMapType(type.getMapType());
+                    break;
+                case 8:
+                    mergeFunction(type.getFunction());
+                    break;
+                case 9:
+                    this.typeKindCase_ = 9;
+                    this.typeKind_ = type.typeKind_;
+                    onChanged();
+                    break;
+                case 10:
+                    this.typeKindCase_ = 10;
+                    this.typeKind_ = type.typeKind_;
+                    onChanged();
+                    break;
+                case 11:
+                    mergeType(type.getType());
+                    break;
+                case 12:
+                    mergeError(type.getError());
+                    break;
+                case 13:
+                    mergeAbstractType(type.getAbstractType());
+                    break;
+            }
+            m11363mergeUnknownFields(type.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.Builder m11359mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.access$4500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type r3 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type r4 = (io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type.Builder.m11359mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public TypeKindCase getTypeKindCase() {
+            return TypeKindCase.forNumber(this.typeKindCase_);
+        }
+
+        public Builder clearTypeKind() {
+            this.typeKindCase_ = 0;
+            this.typeKind_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public Empty getDyn() {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.dynBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ == 1) {
+                    return (Empty) this.typeKind_;
+                }
+                return Empty.getDefaultInstance();
+            }
+            if (this.typeKindCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Empty.getDefaultInstance();
+        }
+
+        public Builder setDyn(Empty empty) {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.dynBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                empty.getClass();
+                this.typeKind_ = empty;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(empty);
+            }
+            this.typeKindCase_ = 1;
+            return this;
+        }
+
+        public Builder setDyn(Empty.Builder builder) {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.dynBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.typeKind_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            this.typeKindCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeDyn(Empty empty) {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.dynBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ != 1 || this.typeKind_ == Empty.getDefaultInstance()) {
+                    this.typeKind_ = empty;
+                } else {
+                    this.typeKind_ = Empty.newBuilder((Empty) this.typeKind_).mergeFrom(empty).buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.typeKindCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(empty);
+                }
+                this.dynBuilder_.setMessage(empty);
+            }
+            this.typeKindCase_ = 1;
+            return this;
+        }
+
+        public Builder clearDyn() {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.dynBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.typeKindCase_ == 1) {
+                    this.typeKindCase_ = 0;
+                    this.typeKind_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.typeKindCase_ == 1) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Empty.Builder getDynBuilder() {
+            return getDynFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public EmptyOrBuilder getDynOrBuilder() {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3;
+            int i = this.typeKindCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.dynBuilder_) != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (Empty) this.typeKind_;
+            }
+            return Empty.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> getDynFieldBuilder() {
+            if (this.dynBuilder_ == null) {
+                if (this.typeKindCase_ != 1) {
+                    this.typeKind_ = Empty.getDefaultInstance();
+                }
+                this.dynBuilder_ = new SingleFieldBuilderV3<>((Empty) this.typeKind_, getParentForChildren(), isClean());
+                this.typeKind_ = null;
+            }
+            this.typeKindCase_ = 1;
+            onChanged();
+            return this.dynBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public int getNullValue() {
+            if (this.typeKindCase_ == 2) {
+                return ((Integer) this.typeKind_).intValue();
+            }
+            return 0;
+        }
+
+        public Builder setNullValue(int i) {
+            this.typeKindCase_ = 2;
+            this.typeKind_ = Integer.valueOf(i);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public NullValue getNull() {
+            if (this.typeKindCase_ == 2) {
+                NullValue nullValueValueOf = NullValue.valueOf(((Integer) this.typeKind_).intValue());
+                return nullValueValueOf == null ? NullValue.UNRECOGNIZED : nullValueValueOf;
+            }
+            return NullValue.NULL_VALUE;
+        }
+
+        public Builder setNull(NullValue nullValue) {
+            nullValue.getClass();
+            this.typeKindCase_ = 2;
+            this.typeKind_ = Integer.valueOf(nullValue.getNumber());
+            onChanged();
+            return this;
+        }
+
+        public Builder clearNull() {
+            if (this.typeKindCase_ == 2) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public int getPrimitiveValue() {
+            if (this.typeKindCase_ == 3) {
+                return ((Integer) this.typeKind_).intValue();
+            }
+            return 0;
+        }
+
+        public Builder setPrimitiveValue(int i) {
+            this.typeKindCase_ = 3;
+            this.typeKind_ = Integer.valueOf(i);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public PrimitiveType getPrimitive() {
+            if (this.typeKindCase_ == 3) {
+                PrimitiveType primitiveTypeValueOf = PrimitiveType.valueOf(((Integer) this.typeKind_).intValue());
+                return primitiveTypeValueOf == null ? PrimitiveType.UNRECOGNIZED : primitiveTypeValueOf;
+            }
+            return PrimitiveType.PRIMITIVE_TYPE_UNSPECIFIED;
+        }
+
+        public Builder setPrimitive(PrimitiveType primitiveType) {
+            primitiveType.getClass();
+            this.typeKindCase_ = 3;
+            this.typeKind_ = Integer.valueOf(primitiveType.getNumber());
+            onChanged();
+            return this;
+        }
+
+        public Builder clearPrimitive() {
+            if (this.typeKindCase_ == 3) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public int getWrapperValue() {
+            if (this.typeKindCase_ == 4) {
+                return ((Integer) this.typeKind_).intValue();
+            }
+            return 0;
+        }
+
+        public Builder setWrapperValue(int i) {
+            this.typeKindCase_ = 4;
+            this.typeKind_ = Integer.valueOf(i);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public PrimitiveType getWrapper() {
+            if (this.typeKindCase_ == 4) {
+                PrimitiveType primitiveTypeValueOf = PrimitiveType.valueOf(((Integer) this.typeKind_).intValue());
+                return primitiveTypeValueOf == null ? PrimitiveType.UNRECOGNIZED : primitiveTypeValueOf;
+            }
+            return PrimitiveType.PRIMITIVE_TYPE_UNSPECIFIED;
+        }
+
+        public Builder setWrapper(PrimitiveType primitiveType) {
+            primitiveType.getClass();
+            this.typeKindCase_ = 4;
+            this.typeKind_ = Integer.valueOf(primitiveType.getNumber());
+            onChanged();
+            return this;
+        }
+
+        public Builder clearWrapper() {
+            if (this.typeKindCase_ == 4) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public int getWellKnownValue() {
+            if (this.typeKindCase_ == 5) {
+                return ((Integer) this.typeKind_).intValue();
+            }
+            return 0;
+        }
+
+        public Builder setWellKnownValue(int i) {
+            this.typeKindCase_ = 5;
+            this.typeKind_ = Integer.valueOf(i);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public WellKnownType getWellKnown() {
+            if (this.typeKindCase_ == 5) {
+                WellKnownType wellKnownTypeValueOf = WellKnownType.valueOf(((Integer) this.typeKind_).intValue());
+                return wellKnownTypeValueOf == null ? WellKnownType.UNRECOGNIZED : wellKnownTypeValueOf;
+            }
+            return WellKnownType.WELL_KNOWN_TYPE_UNSPECIFIED;
+        }
+
+        public Builder setWellKnown(WellKnownType wellKnownType) {
+            wellKnownType.getClass();
+            this.typeKindCase_ = 5;
+            this.typeKind_ = Integer.valueOf(wellKnownType.getNumber());
+            onChanged();
+            return this;
+        }
+
+        public Builder clearWellKnown() {
+            if (this.typeKindCase_ == 5) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public ListType getListType() {
+            SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> singleFieldBuilderV3 = this.listTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ == 6) {
+                    return (ListType) this.typeKind_;
+                }
+                return ListType.getDefaultInstance();
+            }
+            if (this.typeKindCase_ == 6) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ListType.getDefaultInstance();
+        }
+
+        public Builder setListType(ListType listType) {
+            SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> singleFieldBuilderV3 = this.listTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                listType.getClass();
+                this.typeKind_ = listType;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(listType);
+            }
+            this.typeKindCase_ = 6;
+            return this;
+        }
+
+        public Builder setListType(ListType.Builder builder) {
+            SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> singleFieldBuilderV3 = this.listTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.typeKind_ = builder.m11427build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m11427build());
+            }
+            this.typeKindCase_ = 6;
+            return this;
+        }
+
+        public Builder mergeListType(ListType listType) {
+            SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> singleFieldBuilderV3 = this.listTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ != 6 || this.typeKind_ == ListType.getDefaultInstance()) {
+                    this.typeKind_ = listType;
+                } else {
+                    this.typeKind_ = ListType.newBuilder((ListType) this.typeKind_).mergeFrom(listType).m11429buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.typeKindCase_ == 6) {
+                    singleFieldBuilderV3.mergeFrom(listType);
+                }
+                this.listTypeBuilder_.setMessage(listType);
+            }
+            this.typeKindCase_ = 6;
+            return this;
+        }
+
+        public Builder clearListType() {
+            SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> singleFieldBuilderV3 = this.listTypeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.typeKindCase_ == 6) {
+                    this.typeKindCase_ = 0;
+                    this.typeKind_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.typeKindCase_ == 6) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ListType.Builder getListTypeBuilder() {
+            return getListTypeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public ListTypeOrBuilder getListTypeOrBuilder() {
+            SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> singleFieldBuilderV3;
+            int i = this.typeKindCase_;
+            if (i == 6 && (singleFieldBuilderV3 = this.listTypeBuilder_) != null) {
+                return (ListTypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 6) {
+                return (ListType) this.typeKind_;
+            }
+            return ListType.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ListType, ListType.Builder, ListTypeOrBuilder> getListTypeFieldBuilder() {
+            if (this.listTypeBuilder_ == null) {
+                if (this.typeKindCase_ != 6) {
+                    this.typeKind_ = ListType.getDefaultInstance();
+                }
+                this.listTypeBuilder_ = new SingleFieldBuilderV3<>((ListType) this.typeKind_, getParentForChildren(), isClean());
+                this.typeKind_ = null;
+            }
+            this.typeKindCase_ = 6;
+            onChanged();
+            return this.listTypeBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public MapType getMapType() {
+            SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> singleFieldBuilderV3 = this.mapTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ == 7) {
+                    return (MapType) this.typeKind_;
+                }
+                return MapType.getDefaultInstance();
+            }
+            if (this.typeKindCase_ == 7) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return MapType.getDefaultInstance();
+        }
+
+        public Builder setMapType(MapType mapType) {
+            SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> singleFieldBuilderV3 = this.mapTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                mapType.getClass();
+                this.typeKind_ = mapType;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(mapType);
+            }
+            this.typeKindCase_ = 7;
+            return this;
+        }
+
+        public Builder setMapType(MapType.Builder builder) {
+            SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> singleFieldBuilderV3 = this.mapTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.typeKind_ = builder.m11473build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m11473build());
+            }
+            this.typeKindCase_ = 7;
+            return this;
+        }
+
+        public Builder mergeMapType(MapType mapType) {
+            SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> singleFieldBuilderV3 = this.mapTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ != 7 || this.typeKind_ == MapType.getDefaultInstance()) {
+                    this.typeKind_ = mapType;
+                } else {
+                    this.typeKind_ = MapType.newBuilder((MapType) this.typeKind_).mergeFrom(mapType).m11475buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.typeKindCase_ == 7) {
+                    singleFieldBuilderV3.mergeFrom(mapType);
+                }
+                this.mapTypeBuilder_.setMessage(mapType);
+            }
+            this.typeKindCase_ = 7;
+            return this;
+        }
+
+        public Builder clearMapType() {
+            SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> singleFieldBuilderV3 = this.mapTypeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.typeKindCase_ == 7) {
+                    this.typeKindCase_ = 0;
+                    this.typeKind_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.typeKindCase_ == 7) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public MapType.Builder getMapTypeBuilder() {
+            return getMapTypeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public MapTypeOrBuilder getMapTypeOrBuilder() {
+            SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> singleFieldBuilderV3;
+            int i = this.typeKindCase_;
+            if (i == 7 && (singleFieldBuilderV3 = this.mapTypeBuilder_) != null) {
+                return (MapTypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 7) {
+                return (MapType) this.typeKind_;
+            }
+            return MapType.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<MapType, MapType.Builder, MapTypeOrBuilder> getMapTypeFieldBuilder() {
+            if (this.mapTypeBuilder_ == null) {
+                if (this.typeKindCase_ != 7) {
+                    this.typeKind_ = MapType.getDefaultInstance();
+                }
+                this.mapTypeBuilder_ = new SingleFieldBuilderV3<>((MapType) this.typeKind_, getParentForChildren(), isClean());
+                this.typeKind_ = null;
+            }
+            this.typeKindCase_ = 7;
+            onChanged();
+            return this.mapTypeBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public FunctionType getFunction() {
+            SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> singleFieldBuilderV3 = this.functionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ == 8) {
+                    return (FunctionType) this.typeKind_;
+                }
+                return FunctionType.getDefaultInstance();
+            }
+            if (this.typeKindCase_ == 8) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return FunctionType.getDefaultInstance();
+        }
+
+        public Builder setFunction(FunctionType functionType) {
+            SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> singleFieldBuilderV3 = this.functionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                functionType.getClass();
+                this.typeKind_ = functionType;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(functionType);
+            }
+            this.typeKindCase_ = 8;
+            return this;
+        }
+
+        public Builder setFunction(FunctionType.Builder builder) {
+            SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> singleFieldBuilderV3 = this.functionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.typeKind_ = builder.m11381build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m11381build());
+            }
+            this.typeKindCase_ = 8;
+            return this;
+        }
+
+        public Builder mergeFunction(FunctionType functionType) {
+            SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> singleFieldBuilderV3 = this.functionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ != 8 || this.typeKind_ == FunctionType.getDefaultInstance()) {
+                    this.typeKind_ = functionType;
+                } else {
+                    this.typeKind_ = FunctionType.newBuilder((FunctionType) this.typeKind_).mergeFrom(functionType).m11383buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.typeKindCase_ == 8) {
+                    singleFieldBuilderV3.mergeFrom(functionType);
+                }
+                this.functionBuilder_.setMessage(functionType);
+            }
+            this.typeKindCase_ = 8;
+            return this;
+        }
+
+        public Builder clearFunction() {
+            SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> singleFieldBuilderV3 = this.functionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.typeKindCase_ == 8) {
+                    this.typeKindCase_ = 0;
+                    this.typeKind_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.typeKindCase_ == 8) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public FunctionType.Builder getFunctionBuilder() {
+            return getFunctionFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public FunctionTypeOrBuilder getFunctionOrBuilder() {
+            SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> singleFieldBuilderV3;
+            int i = this.typeKindCase_;
+            if (i == 8 && (singleFieldBuilderV3 = this.functionBuilder_) != null) {
+                return (FunctionTypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 8) {
+                return (FunctionType) this.typeKind_;
+            }
+            return FunctionType.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<FunctionType, FunctionType.Builder, FunctionTypeOrBuilder> getFunctionFieldBuilder() {
+            if (this.functionBuilder_ == null) {
+                if (this.typeKindCase_ != 8) {
+                    this.typeKind_ = FunctionType.getDefaultInstance();
+                }
+                this.functionBuilder_ = new SingleFieldBuilderV3<>((FunctionType) this.typeKind_, getParentForChildren(), isClean());
+                this.typeKind_ = null;
+            }
+            this.typeKindCase_ = 8;
+            onChanged();
+            return this.functionBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public String getMessageType() {
+            String str = this.typeKindCase_ == 9 ? this.typeKind_ : "";
+            if (!(str instanceof String)) {
+                String stringUtf8 = ((ByteString) str).toStringUtf8();
+                if (this.typeKindCase_ == 9) {
+                    this.typeKind_ = stringUtf8;
+                }
+                return stringUtf8;
+            }
+            return (String) str;
+        }
+
+        public Builder setMessageType(String str) {
+            str.getClass();
+            this.typeKindCase_ = 9;
+            this.typeKind_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public ByteString getMessageTypeBytes() {
+            String str = this.typeKindCase_ == 9 ? this.typeKind_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.typeKindCase_ == 9) {
+                    this.typeKind_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public Builder setMessageTypeBytes(ByteString byteString) {
+            byteString.getClass();
+            Type.checkByteStringIsUtf8(byteString);
+            this.typeKindCase_ = 9;
+            this.typeKind_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearMessageType() {
+            if (this.typeKindCase_ == 9) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public String getTypeParam() {
+            String str = this.typeKindCase_ == 10 ? this.typeKind_ : "";
+            if (!(str instanceof String)) {
+                String stringUtf8 = ((ByteString) str).toStringUtf8();
+                if (this.typeKindCase_ == 10) {
+                    this.typeKind_ = stringUtf8;
+                }
+                return stringUtf8;
+            }
+            return (String) str;
+        }
+
+        public Builder setTypeParam(String str) {
+            str.getClass();
+            this.typeKindCase_ = 10;
+            this.typeKind_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public ByteString getTypeParamBytes() {
+            String str = this.typeKindCase_ == 10 ? this.typeKind_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.typeKindCase_ == 10) {
+                    this.typeKind_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public Builder setTypeParamBytes(ByteString byteString) {
+            byteString.getClass();
+            Type.checkByteStringIsUtf8(byteString);
+            this.typeKindCase_ = 10;
+            this.typeKind_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTypeParam() {
+            if (this.typeKindCase_ == 10) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public Type getType() {
+            SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.typeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ == 11) {
+                    return (Type) this.typeKind_;
+                }
+                return Type.getDefaultInstance();
+            }
+            if (this.typeKindCase_ == 11) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Type.getDefaultInstance();
+        }
+
+        public Builder setType(Type type) {
+            SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.typeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                type.getClass();
+                this.typeKind_ = type;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(type);
+            }
+            this.typeKindCase_ = 11;
+            return this;
+        }
+
+        public Builder setType(Builder builder) {
+            SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.typeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.typeKind_ = builder.m11335build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m11335build());
+            }
+            this.typeKindCase_ = 11;
+            return this;
+        }
+
+        public Builder mergeType(Type type) {
+            SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.typeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ != 11 || this.typeKind_ == Type.getDefaultInstance()) {
+                    this.typeKind_ = type;
+                } else {
+                    this.typeKind_ = Type.newBuilder((Type) this.typeKind_).mergeFrom(type).m11337buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.typeKindCase_ == 11) {
+                    singleFieldBuilderV3.mergeFrom(type);
+                }
+                this.typeBuilder_.setMessage(type);
+            }
+            this.typeKindCase_ = 11;
+            return this;
+        }
+
+        public Builder clearType() {
+            SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3 = this.typeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.typeKindCase_ == 11) {
+                    this.typeKindCase_ = 0;
+                    this.typeKind_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.typeKindCase_ == 11) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Builder getTypeBuilder() {
+            return getTypeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public TypeOrBuilder getTypeOrBuilder() {
+            SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> singleFieldBuilderV3;
+            int i = this.typeKindCase_;
+            if (i == 11 && (singleFieldBuilderV3 = this.typeBuilder_) != null) {
+                return (TypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 11) {
+                return (Type) this.typeKind_;
+            }
+            return Type.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Type, Builder, TypeOrBuilder> getTypeFieldBuilder() {
+            if (this.typeBuilder_ == null) {
+                if (this.typeKindCase_ != 11) {
+                    this.typeKind_ = Type.getDefaultInstance();
+                }
+                this.typeBuilder_ = new SingleFieldBuilderV3<>((Type) this.typeKind_, getParentForChildren(), isClean());
+                this.typeKind_ = null;
+            }
+            this.typeKindCase_ = 11;
+            onChanged();
+            return this.typeBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public Empty getError() {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.errorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ == 12) {
+                    return (Empty) this.typeKind_;
+                }
+                return Empty.getDefaultInstance();
+            }
+            if (this.typeKindCase_ == 12) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Empty.getDefaultInstance();
+        }
+
+        public Builder setError(Empty empty) {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.errorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                empty.getClass();
+                this.typeKind_ = empty;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(empty);
+            }
+            this.typeKindCase_ = 12;
+            return this;
+        }
+
+        public Builder setError(Empty.Builder builder) {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.errorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.typeKind_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            this.typeKindCase_ = 12;
+            return this;
+        }
+
+        public Builder mergeError(Empty empty) {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.errorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ != 12 || this.typeKind_ == Empty.getDefaultInstance()) {
+                    this.typeKind_ = empty;
+                } else {
+                    this.typeKind_ = Empty.newBuilder((Empty) this.typeKind_).mergeFrom(empty).buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.typeKindCase_ == 12) {
+                    singleFieldBuilderV3.mergeFrom(empty);
+                }
+                this.errorBuilder_.setMessage(empty);
+            }
+            this.typeKindCase_ = 12;
+            return this;
+        }
+
+        public Builder clearError() {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3 = this.errorBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.typeKindCase_ == 12) {
+                    this.typeKindCase_ = 0;
+                    this.typeKind_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.typeKindCase_ == 12) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Empty.Builder getErrorBuilder() {
+            return getErrorFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public EmptyOrBuilder getErrorOrBuilder() {
+            SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> singleFieldBuilderV3;
+            int i = this.typeKindCase_;
+            if (i == 12 && (singleFieldBuilderV3 = this.errorBuilder_) != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 12) {
+                return (Empty) this.typeKind_;
+            }
+            return Empty.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Empty, Empty.Builder, EmptyOrBuilder> getErrorFieldBuilder() {
+            if (this.errorBuilder_ == null) {
+                if (this.typeKindCase_ != 12) {
+                    this.typeKind_ = Empty.getDefaultInstance();
+                }
+                this.errorBuilder_ = new SingleFieldBuilderV3<>((Empty) this.typeKind_, getParentForChildren(), isClean());
+                this.typeKind_ = null;
+            }
+            this.typeKindCase_ = 12;
+            onChanged();
+            return this.errorBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public AbstractType getAbstractType() {
+            SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> singleFieldBuilderV3 = this.abstractTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ == 14) {
+                    return (AbstractType) this.typeKind_;
+                }
+                return AbstractType.getDefaultInstance();
+            }
+            if (this.typeKindCase_ == 14) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return AbstractType.getDefaultInstance();
+        }
+
+        public Builder setAbstractType(AbstractType abstractType) {
+            SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> singleFieldBuilderV3 = this.abstractTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                abstractType.getClass();
+                this.typeKind_ = abstractType;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(abstractType);
+            }
+            this.typeKindCase_ = 14;
+            return this;
+        }
+
+        public Builder setAbstractType(AbstractType.Builder builder) {
+            SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> singleFieldBuilderV3 = this.abstractTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.typeKind_ = builder.m11297build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m11297build());
+            }
+            this.typeKindCase_ = 14;
+            return this;
+        }
+
+        public Builder mergeAbstractType(AbstractType abstractType) {
+            SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> singleFieldBuilderV3 = this.abstractTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.typeKindCase_ != 14 || this.typeKind_ == AbstractType.getDefaultInstance()) {
+                    this.typeKind_ = abstractType;
+                } else {
+                    this.typeKind_ = AbstractType.newBuilder((AbstractType) this.typeKind_).mergeFrom(abstractType).m11299buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.typeKindCase_ == 14) {
+                    singleFieldBuilderV3.mergeFrom(abstractType);
+                }
+                this.abstractTypeBuilder_.setMessage(abstractType);
+            }
+            this.typeKindCase_ = 14;
+            return this;
+        }
+
+        public Builder clearAbstractType() {
+            SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> singleFieldBuilderV3 = this.abstractTypeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.typeKindCase_ == 14) {
+                    this.typeKindCase_ = 0;
+                    this.typeKind_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.typeKindCase_ == 14) {
+                this.typeKindCase_ = 0;
+                this.typeKind_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public AbstractType.Builder getAbstractTypeBuilder() {
+            return getAbstractTypeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.google.api.expr.v1alpha1.TypeOrBuilder
+        public AbstractTypeOrBuilder getAbstractTypeOrBuilder() {
+            SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> singleFieldBuilderV3;
+            int i = this.typeKindCase_;
+            if (i == 14 && (singleFieldBuilderV3 = this.abstractTypeBuilder_) != null) {
+                return (AbstractTypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 14) {
+                return (AbstractType) this.typeKind_;
+            }
+            return AbstractType.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<AbstractType, AbstractType.Builder, AbstractTypeOrBuilder> getAbstractTypeFieldBuilder() {
+            if (this.abstractTypeBuilder_ == null) {
+                if (this.typeKindCase_ != 14) {
+                    this.typeKind_ = AbstractType.getDefaultInstance();
+                }
+                this.abstractTypeBuilder_ = new SingleFieldBuilderV3<>((AbstractType) this.typeKind_, getParentForChildren(), isClean());
+                this.typeKind_ = null;
+            }
+            this.typeKindCase_ = 14;
+            onChanged();
+            return this.abstractTypeBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m11369setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m11363mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Type$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase;
+
+        static {
+            int[] iArr = new int[TypeKindCase.values().length];
+            $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase = iArr;
+            try {
+                iArr[TypeKindCase.DYN.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.NULL.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.PRIMITIVE.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.WRAPPER.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.WELL_KNOWN.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.LIST_TYPE.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.MAP_TYPE.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.FUNCTION.ordinal()] = 8;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.MESSAGE_TYPE.ordinal()] = 9;
+            } catch (NoSuchFieldError unused9) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.TYPE_PARAM.ordinal()] = 10;
+            } catch (NoSuchFieldError unused10) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.TYPE.ordinal()] = 11;
+            } catch (NoSuchFieldError unused11) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.ERROR.ordinal()] = 12;
+            } catch (NoSuchFieldError unused12) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.ABSTRACT_TYPE.ordinal()] = 13;
+            } catch (NoSuchFieldError unused13) {
+            }
+            try {
+                $SwitchMap$com$google$api$expr$v1alpha1$Type$TypeKindCase[TypeKindCase.TYPEKIND_NOT_SET.ordinal()] = 14;
+            } catch (NoSuchFieldError unused14) {
+            }
+        }
+    }
+}

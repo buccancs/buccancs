@@ -1,0 +1,112 @@
+package org.apache.commons.math.optimization.linear;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.MatrixIndexException;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.MathUtils;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/linear/SimplexSolver.class */
+public class SimplexSolver extends AbstractLinearOptimizer {
+    private static final double DEFAULT_EPSILON = 1.0E-6d;
+    protected final double epsilon;
+
+    public SimplexSolver() {
+        this(1.0E-6d);
+    }
+
+    public SimplexSolver(double epsilon) {
+        this.epsilon = epsilon;
+    }
+
+    private Integer getPivotColumn(SimplexTableau tableau) {
+        double minValue = 0.0d;
+        Integer minPos = null;
+        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+            if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, this.epsilon) < 0) {
+                minValue = tableau.getEntry(0, i);
+                minPos = Integer.valueOf(i);
+            }
+        }
+        return minPos;
+    }
+
+    private Integer getPivotRow(SimplexTableau tableau, int col) {
+        List<Integer> minRatioPositions = new ArrayList<>();
+        double minRatio = Double.MAX_VALUE;
+        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
+            double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
+            double entry = tableau.getEntry(i, col);
+            if (MathUtils.compareTo(entry, 0.0d, this.epsilon) > 0) {
+                double ratio = rhs / entry;
+                if (MathUtils.equals(ratio, minRatio, this.epsilon)) {
+                    minRatioPositions.add(Integer.valueOf(i));
+                } else if (ratio < minRatio) {
+                    minRatio = ratio;
+                    minRatioPositions = new ArrayList<>();
+                    minRatioPositions.add(Integer.valueOf(i));
+                }
+            }
+        }
+        if (minRatioPositions.size() == 0) {
+            return null;
+        }
+        if (minRatioPositions.size() > 1) {
+            for (Integer row : minRatioPositions) {
+                for (int i2 = 0; i2 < tableau.getNumArtificialVariables(); i2++) {
+                    int column = i2 + tableau.getArtificialVariableOffset();
+                    if (MathUtils.equals(tableau.getEntry(row.intValue(), column), 1.0d, this.epsilon) && row.equals(tableau.getBasicRow(column))) {
+                        return row;
+                    }
+                }
+            }
+        }
+        return minRatioPositions.get(0);
+    }
+
+    protected void doIteration(SimplexTableau tableau) throws MatrixIndexException, InvalidMatrixException, OptimizationException {
+        incrementIterationsCounter();
+        Integer pivotCol = getPivotColumn(tableau);
+        Integer pivotRow = getPivotRow(tableau, pivotCol.intValue());
+        if (pivotRow == null) {
+            throw new UnboundedSolutionException();
+        }
+        double pivotVal = tableau.getEntry(pivotRow.intValue(), pivotCol.intValue());
+        tableau.divideRow(pivotRow.intValue(), pivotVal);
+        for (int i = 0; i < tableau.getHeight(); i++) {
+            if (i != pivotRow.intValue()) {
+                double multiplier = tableau.getEntry(i, pivotCol.intValue());
+                tableau.subtractRow(i, pivotRow.intValue(), multiplier);
+            }
+        }
+    }
+
+    protected void solvePhase1(SimplexTableau tableau) throws MatrixIndexException, InvalidMatrixException, OptimizationException {
+        if (tableau.getNumArtificialVariables() == 0) {
+            return;
+        }
+        while (!tableau.isOptimal()) {
+            doIteration(tableau);
+        }
+        if (!MathUtils.equals(tableau.getEntry(0, tableau.getRhsOffset()), 0.0d, this.epsilon)) {
+            throw new NoFeasibleSolutionException();
+        }
+    }
+
+    @Override // org.apache.commons.math.optimization.linear.AbstractLinearOptimizer
+    public RealPointValuePair doOptimize() throws MatrixIndexException, InvalidMatrixException, OptimizationException {
+        SimplexTableau tableau = new SimplexTableau(this.function, this.linearConstraints, this.goal, this.nonNegative, this.epsilon);
+        solvePhase1(tableau);
+        tableau.dropPhase1Objective();
+        while (!tableau.isOptimal()) {
+            doIteration(tableau);
+        }
+        return tableau.getSolution();
+    }
+}

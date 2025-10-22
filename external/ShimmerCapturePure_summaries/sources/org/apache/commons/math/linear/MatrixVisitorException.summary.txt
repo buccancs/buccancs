@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/linear/MatrixVisitorException.java
+// Size: 839 bytes
+// Modified: 2025-10-21 16:32:04.753950800 +0100
+
+package org.apache.commons.math.linear;
+
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.DummyLocalizable;
+import org.apache.commons.math.exception.util.Localizable;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/MatrixVisitorException.class */
+public class MatrixVisitorException extends MathRuntimeException {
+    private static final long serialVersionUID = 3814333035048617048L;
+
+    public MatrixVisitorException(String pattern, Object[] arguments) {
+        super(new DummyLocalizable(pattern), arguments);
+    }
+
+    public MatrixVisitorException(Localizable pattern, Object[] arguments) {
+        super(pattern, arguments);
+    }
+}

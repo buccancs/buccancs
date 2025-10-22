@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/fragment/app/FragmentManagerImpl.java
+// Size: 158 bytes
+// Modified: 2025-10-21 16:32:11.083802100 +0100
+
+package androidx.fragment.app;
+
+/* loaded from: classes.dex */
+class FragmentManagerImpl extends FragmentManager {
+    FragmentManagerImpl() {
+    }
+}

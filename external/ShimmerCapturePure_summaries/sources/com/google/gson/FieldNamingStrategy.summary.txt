@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/FieldNamingStrategy.java
+// Size: 178 bytes
+// Modified: 2025-10-21 16:32:00.168966100 +0100
+
+package com.google.gson;
+
+import java.lang.reflect.Field;
+
+/* loaded from: classes.dex */
+public interface FieldNamingStrategy {
+    String translateName(Field field);
+}

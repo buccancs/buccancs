@@ -1,0 +1,41 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/convert/NullConverter.java
+// Size: 1392 bytes
+// Modified: 2025-10-21 16:32:12.381094600 +0100
+
+package org.joda.time.convert;
+
+import org.joda.time.Chronology;
+import org.joda.time.DateTimeUtils;
+import org.joda.time.ReadWritableInterval;
+import org.joda.time.ReadWritablePeriod;
+import org.joda.time.ReadablePeriod;
+
+/* loaded from: classes2.dex */
+class NullConverter extends AbstractConverter implements InstantConverter, PartialConverter, DurationConverter, PeriodConverter, IntervalConverter {
+    static final NullConverter INSTANCE = new NullConverter();
+
+    @Override // org.joda.time.convert.DurationConverter
+    public long getDurationMillis(Object obj) {
+        return 0L;
+    }
+
+    @Override // org.joda.time.convert.Converter
+    public Class<?> getSupportedType() {
+        return null;
+    }
+
+    protected NullConverter() {
+    }
+
+    @Override // org.joda.time.convert.PeriodConverter
+    public void setInto(ReadWritablePeriod readWritablePeriod, Object obj, Chronology chronology) {
+        readWritablePeriod.setPeriod((ReadablePeriod) null);
+    }
+
+    @Override // org.joda.time.convert.IntervalConverter
+    public void setInto(ReadWritableInterval readWritableInterval, Object obj, Chronology chronology) {
+        readWritableInterval.setChronology(chronology);
+        long jCurrentTimeMillis = DateTimeUtils.currentTimeMillis();
+        readWritableInterval.setInterval(jCurrentTimeMillis, jCurrentTimeMillis);
+    }
+}

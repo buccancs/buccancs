@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/SupplementalDataType.java
+// Size: 165 bytes
+// Modified: 2025-10-21 16:32:00.615831400 +0100
+
+package org.bouncycastle.crypto.tls;
+
+/* loaded from: classes5.dex */
+public class SupplementalDataType {
+    public static final int user_mapping_data = 0;
+}

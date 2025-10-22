@@ -1,0 +1,206 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/grpc/GrpcBLERadioByteCommunication.java
+// Size: 10357 bytes
+// Modified: 2025-10-21 16:32:11.228683000 +0100
+
+package com.shimmerresearch.grpc;
+
+import bolts.TaskCompletionSource;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.UninitializedMessageException;
+import com.shimmerresearch.driverUtilities.BluetoothDeviceDetails;
+import com.shimmerresearch.exceptions.ShimmerException;
+import com.shimmerresearch.grpc.ShimmerBLEByteServerGrpc;
+import com.shimmerresearch.grpc.ShimmerBLEGRPC;
+import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.PrintStream;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class GrpcBLERadioByteCommunication extends AbstractByteCommunication {
+    static final byte[] ReadStatusRequest = {17, 0, 0};
+    ShimmerBLEByteServerGrpc.ShimmerBLEByteServerBlockingStub blockingStub;
+    ManagedChannel channel;
+    String mMacAddress;
+    String mServerHost;
+    int mServerPort;
+    TaskCompletionSource<Boolean> mConnectTask = new TaskCompletionSource<>();
+    long ct1 = System.currentTimeMillis();
+    boolean debug = false;
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public String getUuid() {
+        return this.mMacAddress;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void stop() {
+    }
+
+    public GrpcBLERadioByteCommunication(String str, String str2, int i) {
+        this.mServerHost = str2;
+        this.mServerPort = i;
+        this.mMacAddress = str.toUpperCase().replace(":", "");
+        InitializeProcess();
+    }
+
+    public GrpcBLERadioByteCommunication(BluetoothDeviceDetails bluetoothDeviceDetails, String str, int i) {
+        this.mServerHost = str;
+        this.mServerPort = i;
+        this.mMacAddress = bluetoothDeviceDetails.mComPort.toUpperCase().replace(":", "");
+        InitializeProcess();
+    }
+
+    public void InitializeProcess() {
+        ManagedChannel managedChannelBuild = ManagedChannelBuilder.forAddress(this.mServerHost, this.mServerPort).usePlaintext().build();
+        this.channel = managedChannelBuild;
+        this.blockingStub = ShimmerBLEByteServerGrpc.newBlockingStub(managedChannelBuild);
+    }
+
+    public static void main(String[] strArr) {
+        GrpcBLERadioByteCommunication grpcBLERadioByteCommunication = new GrpcBLERadioByteCommunication("e7452c6d6f14", "localhost", 50052);
+        JFrame jFrame = new JFrame();
+        jFrame.setSize(300, 300);
+        jFrame.setVisible(true);
+        jFrame.getContentPane().setLayout((LayoutManager) null);
+        JButton jButton = new JButton("connect");
+        jButton.addActionListener(new ActionListener() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteCommunication.1
+            public void actionPerformed(ActionEvent actionEvent) throws UninitializedMessageException {
+                try {
+                    GrpcBLERadioByteCommunication.this.connect();
+                } catch (ShimmerException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        jButton.setBounds(10, 11, 89, 23);
+        jFrame.getContentPane().add(jButton);
+        JButton jButton2 = new JButton("read status");
+        jButton2.addActionListener(new ActionListener() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteCommunication.2
+            public void actionPerformed(ActionEvent actionEvent) throws UninitializedMessageException {
+                GrpcBLERadioByteCommunication.this.writeBytes(GrpcBLERadioByteCommunication.ReadStatusRequest);
+            }
+        });
+        jButton2.setBounds(10, 45, 89, 23);
+        jFrame.getContentPane().add(jButton2);
+        JButton jButton3 = new JButton("disconnect");
+        jButton3.addActionListener(new ActionListener() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteCommunication.3
+            public void actionPerformed(ActionEvent actionEvent) throws UninitializedMessageException {
+                try {
+                    GrpcBLERadioByteCommunication.this.disconnect();
+                } catch (ShimmerException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        jButton3.setBounds(10, 79, 89, 23);
+        jFrame.getContentPane().add(jButton3);
+        jFrame.setDefaultCloseOperation(3);
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void connect() throws UninitializedMessageException, ShimmerException {
+        ShimmerBLEByteServerGrpc.ShimmerBLEByteServerStub shimmerBLEByteServerStubNewStub = ShimmerBLEByteServerGrpc.newStub(this.channel);
+        ShimmerBLEGRPC.Request requestM4717build = ShimmerBLEGRPC.Request.newBuilder().setName(this.mMacAddress).m4717build();
+        this.mConnectTask = new TaskCompletionSource<>();
+        shimmerBLEByteServerStubNewStub.connectShimmer(requestM4717build, new StreamObserver<ShimmerBLEGRPC.StateStatus>() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteCommunication.4
+            @Override // io.grpc.stub.StreamObserver
+            public void onCompleted() {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onError(Throwable th) {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onNext(ShimmerBLEGRPC.StateStatus stateStatus) {
+                System.out.println(stateStatus.getMessage() + StringUtils.SPACE + stateStatus.getState().toString());
+                if (stateStatus.getState().equals(ShimmerBLEGRPC.BluetoothState.Connected)) {
+                    GrpcBLERadioByteCommunication.this.mConnectTask.setResult(true);
+                    if (GrpcBLERadioByteCommunication.this.mByteCommunicationListener != null) {
+                        GrpcBLERadioByteCommunication.this.mByteCommunicationListener.eventConnected();
+                        return;
+                    }
+                    return;
+                }
+                GrpcBLERadioByteCommunication.this.mConnectTask.setResult(false);
+            }
+        });
+        try {
+            if (this.mConnectTask.getTask().waitForCompletion(10L, TimeUnit.SECONDS)) {
+                shimmerBLEByteServerStubNewStub.getDataStream(ShimmerBLEGRPC.StreamRequest.newBuilder().setMessage(this.mMacAddress).m4817build(), new StreamObserver<ShimmerBLEGRPC.ObjectClusterByteArray>() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteCommunication.5
+                    long numberOfBytes = 0;
+                    long st = 0;
+
+                    @Override // io.grpc.stub.StreamObserver
+                    public void onNext(ShimmerBLEGRPC.ObjectClusterByteArray objectClusterByteArray) {
+                        byte[] byteArray = objectClusterByteArray.getBinaryData().toByteArray();
+                        if (GrpcBLERadioByteCommunication.this.debug) {
+                            long jCurrentTimeMillis = System.currentTimeMillis();
+                            if (this.st == 0) {
+                                this.st = jCurrentTimeMillis;
+                            }
+                            this.numberOfBytes += byteArray.length;
+                            long j = jCurrentTimeMillis - this.st;
+                            if (j != 0) {
+                                PrintStream printStream = System.out;
+                                long j2 = this.numberOfBytes;
+                                printStream.println(j + "   " + j2 + "     Throughput: " + (((j2 * 1000.0d) / j) / 1024.0d) + "KB/s values");
+                            }
+                            GrpcBLERadioByteCommunication.this.ct1 = jCurrentTimeMillis;
+                        }
+                        if (GrpcBLERadioByteCommunication.this.mByteCommunicationListener != null) {
+                            GrpcBLERadioByteCommunication.this.mByteCommunicationListener.eventNewBytesReceived(byteArray);
+                        }
+                    }
+
+                    @Override // io.grpc.stub.StreamObserver
+                    public void onError(Throwable th) {
+                        System.out.println("error 1");
+                    }
+
+                    @Override // io.grpc.stub.StreamObserver
+                    public void onCompleted() {
+                        System.out.println("completed");
+                    }
+                });
+                return;
+            }
+            throw new ShimmerException("Connect Failed");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new ShimmerException("InterruptedException");
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void disconnect() throws UninitializedMessageException, ShimmerException {
+        ShimmerBLEGRPC.Reply replyDisconnectShimmer = this.blockingStub.disconnectShimmer(ShimmerBLEGRPC.Request.newBuilder().setName(this.mMacAddress).m4717build());
+        System.out.println("Received: " + replyDisconnectShimmer.getMessage());
+        if (this.mByteCommunicationListener != null) {
+            this.mByteCommunicationListener.eventDisconnected();
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void writeBytes(byte[] bArr) throws UninitializedMessageException {
+        ShimmerBLEGRPC.Reply replyWriteBytesShimmer = this.blockingStub.writeBytesShimmer(ShimmerBLEGRPC.WriteBytes.newBuilder().setAddress(this.mMacAddress).setByteToWrite(ByteString.copyFrom(bArr)).m4867build());
+        System.out.println("Received: " + replyWriteBytesShimmer.getMessage());
+    }
+
+    public static String byteArrayToHexString(byte[] bArr) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bArr) {
+            sb.append(String.format("%02X", Byte.valueOf(b)));
+        }
+        return sb.toString();
+    }
+}

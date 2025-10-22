@@ -1,0 +1,112 @@
+package com.shimmerresearch.bluetooth;
+
+import com.shimmerresearch.comms.serialPortInterface.AbstractSerialPortHal;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.driverUtilities.ExpansionBoardDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.exceptions.ShimmerException;
+
+import java.util.Arrays;
+
+/* loaded from: classes2.dex */
+public class ShimmerRadioInitializer {
+    private static boolean mUseLegacyDelayToDelayForResponse = false;
+    protected AbstractSerialPortHal serialCommPort;
+    private ShimmerVerObject shimmerVerObject = null;
+    private ExpansionBoardDetails expansionBoardDetails = null;
+
+    public ShimmerRadioInitializer() {
+    }
+
+    public ShimmerRadioInitializer(AbstractSerialPortHal abstractSerialPortHal) {
+        this.serialCommPort = abstractSerialPortHal;
+    }
+
+    public ShimmerRadioInitializer(AbstractSerialPortHal abstractSerialPortHal, boolean z) {
+        mUseLegacyDelayToDelayForResponse = z;
+        this.serialCommPort = abstractSerialPortHal;
+    }
+
+    public static void useLegacyDelayBeforeBtRead(boolean z) {
+        mUseLegacyDelayToDelayForResponse = z;
+    }
+
+    public AbstractSerialPortHal getSerialCommPort() {
+        return this.serialCommPort;
+    }
+
+    public void setSerialCommPort(AbstractSerialPortHal abstractSerialPortHal) {
+        this.serialCommPort = abstractSerialPortHal;
+    }
+
+    public ShimmerVerObject readShimmerVerObject() throws ShimmerException {
+        try {
+            ShimmerVerObject shimmerVerObjectCreateShimmerVerObject = createShimmerVerObject(readHardwareVersion(), readFirmwareVersion());
+            this.shimmerVerObject = shimmerVerObjectCreateShimmerVerObject;
+            return shimmerVerObjectCreateShimmerVerObject;
+        } catch (ShimmerException e) {
+            throw e;
+        } catch (InterruptedException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+
+    protected int readHardwareVersion() throws InterruptedException, ShimmerException {
+        this.serialCommPort.txBytes(new byte[]{ShimmerObject.GET_SHIMMER_VERSION_COMMAND});
+        if (mUseLegacyDelayToDelayForResponse) {
+            Thread.sleep(200L);
+        }
+        byte[] bArrRxBytes = this.serialCommPort.rxBytes(3);
+        if (bArrRxBytes == null) {
+            this.serialCommPort.disconnect();
+            throw new ShimmerException();
+        }
+        return bArrRxBytes[2];
+    }
+
+    protected byte[] readFirmwareVersion() throws InterruptedException, ShimmerException {
+        this.serialCommPort.txBytes(new byte[]{ShimmerObject.GET_FW_VERSION_COMMAND});
+        if (mUseLegacyDelayToDelayForResponse) {
+            Thread.sleep(200L);
+        }
+        this.serialCommPort.rxBytes(1);
+        this.serialCommPort.rxBytes(1);
+        byte[] bArrRxBytes = this.serialCommPort.rxBytes(6);
+        if (bArrRxBytes != null) {
+            return bArrRxBytes;
+        }
+        this.serialCommPort.disconnect();
+        throw new ShimmerException();
+    }
+
+    protected ShimmerVerObject createShimmerVerObject(int i, byte[] bArr) {
+        return new ShimmerVerObject(i, ((bArr[1] & 255) << 8) + (bArr[0] & 255), ((bArr[3] & 255) << 8) + (bArr[2] & 255), bArr[4] & 255, bArr[5] & 255);
+    }
+
+    public ExpansionBoardDetails readExpansionBoardID() throws InterruptedException {
+        try {
+            ShimmerVerObject shimmerVerObject = this.shimmerVerObject;
+            if (shimmerVerObject == null || !shimmerVerObject.isShimmerHardware() || this.shimmerVerObject.getFirmwareVersionCode() < 5) {
+                return null;
+            }
+            this.serialCommPort.txBytes(new byte[]{ShimmerObject.GET_EXPID_COMMAND, 3, 0});
+            if (mUseLegacyDelayToDelayForResponse) {
+                Thread.sleep(200L);
+            }
+            byte[] bArrRxBytes = this.serialCommPort.rxBytes(4);
+            if (bArrRxBytes == null) {
+                return null;
+            }
+            ExpansionBoardDetails expansionBoardDetails = new ExpansionBoardDetails(Arrays.copyOfRange(bArrRxBytes, 1, 4));
+            this.expansionBoardDetails = expansionBoardDetails;
+            return expansionBoardDetails;
+        } catch (ShimmerException e) {
+            e.printStackTrace();
+            return null;
+        } catch (InterruptedException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+}

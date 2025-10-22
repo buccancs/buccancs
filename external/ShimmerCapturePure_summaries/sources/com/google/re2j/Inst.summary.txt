@@ -1,0 +1,253 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/re2j/Inst.java
+// Size: 7711 bytes
+// Modified: 2025-10-21 16:32:02.113589000 +0100
+
+package com.google.re2j;
+
+/* loaded from: classes2.dex */
+class Inst {
+    int arg;
+    Op op;
+    int out;
+    int[] runes;
+
+    enum Op {
+        ALT,
+        ALT_MATCH,
+        CAPTURE,
+        EMPTY_WIDTH,
+        FAIL,
+        MATCH,
+        NOP,
+        RUNE,
+        RUNE1,
+        RUNE_ANY,
+        RUNE_ANY_NOT_NL
+    }
+
+    Inst(Op op) {
+        this.op = op;
+    }
+
+    /* renamed from: com.google.re2j.Inst$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$com$google$re2j$Inst$Op;
+
+        static {
+            int[] iArr = new int[Op.values().length];
+            $SwitchMap$com$google$re2j$Inst$Op = iArr;
+            try {
+                iArr[Op.RUNE1.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.RUNE_ANY.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.RUNE_ANY_NOT_NL.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.ALT.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.ALT_MATCH.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.CAPTURE.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.EMPTY_WIDTH.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.MATCH.ordinal()] = 8;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.FAIL.ordinal()] = 9;
+            } catch (NoSuchFieldError unused9) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.NOP.ordinal()] = 10;
+            } catch (NoSuchFieldError unused10) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Inst$Op[Op.RUNE.ordinal()] = 11;
+            } catch (NoSuchFieldError unused11) {
+            }
+        }
+    }
+
+    Op op() {
+        int i = AnonymousClass1.$SwitchMap$com$google$re2j$Inst$Op[this.op.ordinal()];
+        return (i == 1 || i == 2 || i == 3) ? Op.RUNE : this.op;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0039, code lost:
+    
+        r0 = r1.length / 2;
+        r1 = 0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x003d, code lost:
+    
+        if (r1 >= r0) goto L44;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x003f, code lost:
+    
+        r4 = ((r0 - r1) / 2) + r1;
+        r5 = r8.runes;
+        r6 = r4 * 2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x004a, code lost:
+    
+        if (r5[r6] > r9) goto L45;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0050, code lost:
+    
+        if (r9 > r5[r6 + 1]) goto L34;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0052, code lost:
+    
+        return true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0053, code lost:
+    
+        r1 = r4 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0056, code lost:
+    
+        r0 = r4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0058, code lost:
+    
+        return false;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    boolean matchRune(int r9) {
+        /*
+            r8 = this;
+            int[] r0 = r8.runes
+            int r1 = r0.length
+            r2 = 0
+            r3 = 1
+            if (r1 != r3) goto L20
+            r0 = r0[r2]
+            if (r9 != r0) goto Lc
+            return r3
+        Lc:
+            int r1 = r8.arg
+            r1 = r1 & r3
+            if (r1 == 0) goto L1f
+            int r1 = com.google.re2j.Unicode.simpleFold(r0)
+        L15:
+            if (r1 == r0) goto L1f
+            if (r9 != r1) goto L1a
+            return r3
+        L1a:
+            int r1 = com.google.re2j.Unicode.simpleFold(r1)
+            goto L15
+        L1f:
+            return r2
+        L20:
+            r0 = 0
+        L21:
+            int[] r1 = r8.runes
+            int r4 = r1.length
+            if (r0 >= r4) goto L39
+            r4 = 8
+            if (r0 > r4) goto L39
+            r4 = r1[r0]
+            if (r9 >= r4) goto L2f
+            return r2
+        L2f:
+            int r4 = r0 + 1
+            r1 = r1[r4]
+            if (r9 > r1) goto L36
+            return r3
+        L36:
+            int r0 = r0 + 2
+            goto L21
+        L39:
+            int r0 = r1.length
+            int r0 = r0 / 2
+            r1 = 0
+        L3d:
+            if (r1 >= r0) goto L58
+            int r4 = r0 - r1
+            int r4 = r4 / 2
+            int r4 = r4 + r1
+            int[] r5 = r8.runes
+            int r6 = r4 * 2
+            r7 = r5[r6]
+            if (r7 > r9) goto L56
+            int r6 = r6 + 1
+            r1 = r5[r6]
+            if (r9 > r1) goto L53
+            return r3
+        L53:
+            int r1 = r4 + 1
+            goto L3d
+        L56:
+            r0 = r4
+            goto L3d
+        L58:
+            return r2
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.re2j.Inst.matchRune(int):boolean");
+    }
+
+    public String toString() {
+        switch (AnonymousClass1.$SwitchMap$com$google$re2j$Inst$Op[this.op.ordinal()]) {
+            case 1:
+                return "rune1 " + escapeRunes(this.runes) + " -> " + this.out;
+            case 2:
+                return "any -> " + this.out;
+            case 3:
+                return "anynotnl -> " + this.out;
+            case 4:
+                return "alt -> " + this.out + ", " + this.arg;
+            case 5:
+                return "altmatch -> " + this.out + ", " + this.arg;
+            case 6:
+                return "cap " + this.arg + " -> " + this.out;
+            case 7:
+                return "empty " + this.arg + " -> " + this.out;
+            case 8:
+                return "match";
+            case 9:
+                return "fail";
+            case 10:
+                return "nop -> " + this.out;
+            case 11:
+                if (this.runes == null) {
+                    return "rune <null>";
+                }
+                StringBuilder sb = new StringBuilder("rune ");
+                sb.append(escapeRunes(this.runes));
+                sb.append((this.arg & 1) != 0 ? "/i" : "");
+                sb.append(" -> ");
+                sb.append(this.out);
+                return sb.toString();
+            default:
+                throw new IllegalStateException("unhandled case in Inst.toString");
+        }
+    }
+
+    private static String escapeRunes(int[] iArr) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('\"');
+        for (int i : iArr) {
+            Utils.escapeRune(sb, i);
+        }
+        sb.append('\"');
+        return sb.toString();
+    }
+}

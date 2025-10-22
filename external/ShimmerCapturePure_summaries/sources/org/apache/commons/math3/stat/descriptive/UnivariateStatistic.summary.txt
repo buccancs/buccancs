@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/descriptive/UnivariateStatistic.java
+// Size: 617 bytes
+// Modified: 2025-10-21 16:32:01.807711100 +0100
+
+package org.apache.commons.math3.stat.descriptive;
+
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.util.MathArrays;
+
+/* loaded from: classes5.dex */
+public interface UnivariateStatistic extends MathArrays.Function {
+    UnivariateStatistic copy();
+
+    @Override // org.apache.commons.math3.util.MathArrays.Function
+    double evaluate(double[] dArr) throws MathIllegalArgumentException;
+
+    @Override // org.apache.commons.math3.util.MathArrays.Function
+    double evaluate(double[] dArr, int i, int i2) throws MathIllegalArgumentException;
+}

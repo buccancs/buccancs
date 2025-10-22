@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/type/FractionalPercentOrBuilder.java
+// Size: 401 bytes
+// Modified: 2025-10-21 16:32:02.783058400 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.FractionalPercent;
+
+/* loaded from: classes4.dex */
+public interface FractionalPercentOrBuilder extends MessageOrBuilder {
+    FractionalPercent.DenominatorType getDenominator();
+
+    int getDenominatorValue();
+
+    int getNumerator();
+}

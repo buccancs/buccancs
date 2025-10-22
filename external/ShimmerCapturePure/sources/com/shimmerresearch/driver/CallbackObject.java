@@ -1,0 +1,59 @@
+package com.shimmerresearch.driver;
+
+import com.shimmerresearch.bluetooth.BluetoothProgressReportPerDevice;
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+
+/* loaded from: classes2.dex */
+public class CallbackObject {
+    public String mBluetoothAddress;
+    public String mComPort;
+    public int mIndicator;
+    public Object mMyObject;
+    public double mPacketReceptionRate;
+    public BluetoothProgressReportPerDevice mProgressReportPerDevice;
+    public ShimmerBluetooth.BT_STATE mState;
+
+    public CallbackObject(int i, String str, String str2) {
+        this.mState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.mIndicator = i;
+        this.mBluetoothAddress = str;
+        this.mComPort = str2;
+    }
+
+    public CallbackObject(int i, ShimmerBluetooth.BT_STATE bt_state, String str, String str2) {
+        ShimmerBluetooth.BT_STATE bt_state2 = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.mIndicator = i;
+        this.mState = bt_state;
+        this.mBluetoothAddress = str;
+        this.mComPort = str2;
+    }
+
+    public CallbackObject(int i, String str, String str2, double d) {
+        this.mState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.mIndicator = i;
+        this.mBluetoothAddress = str;
+        this.mComPort = str2;
+        this.mPacketReceptionRate = d;
+    }
+
+    public CallbackObject(ShimmerBluetooth.BT_STATE bt_state, String str, String str2, BluetoothProgressReportPerDevice bluetoothProgressReportPerDevice) {
+        ShimmerBluetooth.BT_STATE bt_state2 = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.mState = bt_state;
+        this.mBluetoothAddress = str;
+        this.mComPort = str2;
+        this.mProgressReportPerDevice = bluetoothProgressReportPerDevice;
+    }
+
+    public CallbackObject(String str, Object obj) {
+        this.mState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.mBluetoothAddress = str;
+        this.mMyObject = obj;
+    }
+
+    public CallbackObject(String str, String str2, Object obj) {
+        this.mState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.mBluetoothAddress = str;
+        this.mComPort = str2;
+        this.mMyObject = obj;
+    }
+}

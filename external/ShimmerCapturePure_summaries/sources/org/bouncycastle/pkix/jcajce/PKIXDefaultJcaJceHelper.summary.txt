@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pkix/jcajce/PKIXDefaultJcaJceHelper.java
+// Size: 535 bytes
+// Modified: 2025-10-21 16:32:03.314566700 +0100
+
+package org.bouncycastle.pkix.jcajce;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertPathBuilder;
+import org.bouncycastle.jcajce.util.DefaultJcaJceHelper;
+
+/* loaded from: classes5.dex */
+class PKIXDefaultJcaJceHelper extends DefaultJcaJceHelper implements PKIXJcaJceHelper {
+    @Override // org.bouncycastle.pkix.jcajce.PKIXJcaJceHelper
+    public CertPathBuilder createCertPathBuilder(String str) throws NoSuchAlgorithmException {
+        return CertPathBuilder.getInstance(str);
+    }
+}

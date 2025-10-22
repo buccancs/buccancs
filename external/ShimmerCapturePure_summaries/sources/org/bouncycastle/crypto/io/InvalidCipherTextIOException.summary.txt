@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/io/InvalidCipherTextIOException.java
+// Size: 302 bytes
+// Modified: 2025-10-21 16:32:00.989598800 +0100
+
+package org.bouncycastle.crypto.io;
+
+/* loaded from: classes5.dex */
+public class InvalidCipherTextIOException extends CipherIOException {
+    private static final long serialVersionUID = 1;
+
+    public InvalidCipherTextIOException(String str, Throwable th) {
+        super(str, th);
+    }
+}

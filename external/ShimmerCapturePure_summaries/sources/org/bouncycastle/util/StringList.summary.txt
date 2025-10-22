@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/StringList.java
+// Size: 280 bytes
+// Modified: 2025-10-21 16:32:01.053816800 +0100
+
+package org.bouncycastle.util;
+
+/* loaded from: classes5.dex */
+public interface StringList extends Iterable<String> {
+    boolean add(String str);
+
+    String get(int i);
+
+    int size();
+
+    String[] toStringArray();
+
+    String[] toStringArray(int i, int i2);
+}

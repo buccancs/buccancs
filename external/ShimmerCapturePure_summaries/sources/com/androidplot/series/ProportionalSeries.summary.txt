@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/series/ProportionalSeries.java
+// Size: 151 bytes
+// Modified: 2025-10-21 16:32:00.776806400 +0100
+
+package com.androidplot.series;
+
+/* loaded from: classes.dex */
+public interface ProportionalSeries extends Series {
+    Number getSum(int i);
+}

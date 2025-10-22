@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/ExtraObjectsMethodsForWeb.java
+// Size: 156 bytes
+// Modified: 2025-10-21 16:32:00.142746000 +0100
+
+package com.google.common.base;
+
+/* loaded from: classes.dex */
+abstract class ExtraObjectsMethodsForWeb {
+    ExtraObjectsMethodsForWeb() {
+    }
+}

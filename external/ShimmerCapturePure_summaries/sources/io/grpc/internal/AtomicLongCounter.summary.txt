@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/AtomicLongCounter.java
+// Size: 507 bytes
+// Modified: 2025-10-21 16:32:00.827085400 +0100
+
+package io.grpc.internal;
+
+import java.util.concurrent.atomic.AtomicLong;
+
+/* loaded from: classes2.dex */
+final class AtomicLongCounter implements LongCounter {
+    private final AtomicLong counter = new AtomicLong();
+
+    AtomicLongCounter() {
+    }
+
+    @Override // io.grpc.internal.LongCounter
+    public void add(long j) {
+        this.counter.getAndAdd(j);
+    }
+
+    @Override // io.grpc.internal.LongCounter
+    public long value() {
+        return this.counter.get();
+    }
+}

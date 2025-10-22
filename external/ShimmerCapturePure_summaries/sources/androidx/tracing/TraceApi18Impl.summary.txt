@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/tracing/TraceApi18Impl.java
+// Size: 326 bytes
+// Modified: 2025-10-21 16:31:59.990515400 +0100
+
+package androidx.tracing;
+
+/* loaded from: classes.dex */
+final class TraceApi18Impl {
+    private TraceApi18Impl() {
+    }
+
+    public static void beginSection(String str) {
+        android.os.Trace.beginSection(str);
+    }
+
+    public static void endSection() {
+        android.os.Trace.endSection();
+    }
+}

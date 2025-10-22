@@ -1,0 +1,137 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driver/calibration/UtilCalibration.java
+// Size: 5793 bytes
+// Modified: 2025-10-21 16:32:03.743734000 +0100
+
+package com.shimmerresearch.driver.calibration;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+/* loaded from: classes2.dex */
+public class UtilCalibration {
+    public static final boolean USE_EFFICIENT_CALIBRATION_METHOD = true;
+
+    public static double[] calibrateInertialSensorData(double[] dArr, double[][] dArr2, double[][] dArr3, double[][] dArr4) {
+        if (dArr == null || dArr2 == null || dArr3 == null || dArr4 == null) {
+            System.out.println("UtilCalibration.calibrateInertialSensorData:ERROR! NaN in input data");
+            return null;
+        }
+        return calibrateInertialSensorData(dArr, matrixMultiplication(matrixInverse3x3(dArr2), matrixInverse3x3(dArr3)), dArr4);
+    }
+
+    public static double[] calibrateInertialSensorData(double[] dArr, double[][] dArr2, double[][] dArr3) {
+        if (dArr == null || dArr2 == null || dArr3 == null) {
+            System.out.println("UtilCalibration.calibrateInertialSensorData:ERROR! NaN in input data");
+            return null;
+        }
+        double[][] dArr4 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, 3, 1);
+        dArr4[0][0] = dArr[0];
+        dArr4[1][0] = dArr[1];
+        dArr4[2][0] = dArr[2];
+        double[][] dArrMatrixMultiplication = matrixMultiplication(dArr2, matrixMinus(dArr4, dArr3));
+        double d = dArrMatrixMultiplication[0][0];
+        double[] dArr5 = {d, dArrMatrixMultiplication[1][0], dArrMatrixMultiplication[2][0]};
+        if (Double.isNaN(d) || Double.isNaN(dArr5[1]) || Double.isNaN(dArr5[2])) {
+            System.out.println("UtilCalibration.calibrateInertialSensorData:ERROR! NaN in calibrated data");
+        }
+        return dArr5;
+    }
+
+    public static double[] calibrateInertialSensorData(double[] dArr, CalibDetailsKinematic calibDetailsKinematic) {
+        return calibDetailsKinematic == null ? dArr : calibrateInertialSensorData(dArr, calibDetailsKinematic.getValidMatrixMultipliedInverseAMSM(), calibDetailsKinematic.getValidOffsetVector());
+    }
+
+    public static double[] calibrateImuData(double[] dArr, double[][] dArr2, double[][] dArr3) {
+        double[] dArr4 = new double[3];
+        for (int i = 0; i < 3; i++) {
+            dArr4[i] = (dArr[i] * dArr2[i][i]) + dArr3[i][0];
+        }
+        return dArr4;
+    }
+
+    public static double[][] matrixInverse3x3(double[][] dArr) {
+        if (dArr == null) {
+            return null;
+        }
+        double[] dArr2 = dArr[0];
+        double d = dArr2[0];
+        double d2 = dArr2[1];
+        double d3 = dArr2[2];
+        double[] dArr3 = dArr[1];
+        double d4 = dArr3[0];
+        double d5 = dArr3[1];
+        double d6 = dArr3[2];
+        double[] dArr4 = dArr[2];
+        double d7 = dArr4[0];
+        double d8 = dArr4[1];
+        double d9 = dArr4[2];
+        double d10 = d * d5;
+        double d11 = d2 * d6;
+        double d12 = d3 * d4;
+        double d13 = d3 * d5;
+        double d14 = d2 * d4;
+        double d15 = d * d6;
+        double[][] dArr5 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, 3, 3);
+        double[] dArr6 = dArr5[0];
+        double d16 = 1.0d / ((((((d10 * d9) + (d11 * d7)) + (d12 * d8)) - (d13 * d7)) - (d14 * d9)) - (d15 * d8));
+        dArr6[0] = ((d5 * d9) - (d6 * d8)) * d16;
+        dArr6[1] = ((d3 * d8) - (d2 * d9)) * d16;
+        dArr6[2] = (d11 - d13) * d16;
+        double[] dArr7 = dArr5[1];
+        dArr7[0] = ((d6 * d7) - (d4 * d9)) * d16;
+        dArr7[1] = ((d9 * d) - (d3 * d7)) * d16;
+        dArr7[2] = (d12 - d15) * d16;
+        double[] dArr8 = dArr5[2];
+        dArr8[0] = ((d4 * d8) - (d5 * d7)) * d16;
+        dArr8[1] = ((d7 * d2) - (d * d8)) * d16;
+        dArr8[2] = d16 * (d10 - d14);
+        return dArr5;
+    }
+
+    public static double[][] matrixMinus(double[][] dArr, double[][] dArr2) {
+        if (dArr == null || dArr2 == null) {
+            return null;
+        }
+        int length = dArr.length;
+        int length2 = dArr[0].length;
+        int length3 = dArr2.length;
+        int length4 = dArr2[0].length;
+        if (length2 != length4 && length != length3) {
+            throw new IllegalArgumentException(" Matrix did not match");
+        }
+        double[][] dArr3 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, length, length4);
+        for (int i = 0; i < length; i++) {
+            for (int i2 = 0; i2 < length2; i2++) {
+                dArr3[i][i2] = dArr[i][i2] - dArr2[i][i2];
+            }
+        }
+        return dArr3;
+    }
+
+    public static double[][] matrixMultiplication(double[][] dArr, double[][] dArr2) {
+        if (dArr == null || dArr2 == null) {
+            return null;
+        }
+        int length = dArr.length;
+        int length2 = dArr[0].length;
+        int length3 = dArr2.length;
+        int length4 = dArr2[0].length;
+        if (length2 != length3) {
+            throw new IllegalArgumentException("A:Rows: " + length2 + " did not match B:Columns " + length3 + ".");
+        }
+        double[][] dArr3 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, length, length4);
+        for (int i = 0; i < length; i++) {
+            for (int i2 = 0; i2 < length4; i2++) {
+                for (int i3 = 0; i3 < length2; i3++) {
+                    double[] dArr4 = dArr3[i];
+                    dArr4[i2] = dArr4[i2] + (dArr[i][i3] * dArr2[i3][i2]);
+                }
+            }
+        }
+        return dArr3;
+    }
+
+    public static boolean isCalibrationEqual(double[][] dArr, double[][] dArr2, double[][] dArr3, double[][] dArr4, double[][] dArr5, double[][] dArr6) {
+        return Arrays.deepEquals(dArr4, dArr) && Arrays.deepEquals(dArr5, dArr2) && Arrays.deepEquals(dArr6, dArr3);
+    }
+}

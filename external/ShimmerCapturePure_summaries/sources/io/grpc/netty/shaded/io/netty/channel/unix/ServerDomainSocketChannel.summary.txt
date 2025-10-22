@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/unix/ServerDomainSocketChannel.java
+// Size: 448 bytes
+// Modified: 2025-10-21 16:32:03.960359100 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.unix;
+
+import io.grpc.netty.shaded.io.netty.channel.ServerChannel;
+
+/* loaded from: classes3.dex */
+public interface ServerDomainSocketChannel extends ServerChannel, UnixChannel {
+    @Override // io.grpc.netty.shaded.io.netty.channel.Channel
+    DomainSocketAddress localAddress();
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.Channel
+    DomainSocketAddress remoteAddress();
+}

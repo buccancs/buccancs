@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/XValueMarker.java
+// Size: 663 bytes
+// Modified: 2025-10-21 16:32:04.365326900 +0100
+
+package com.androidplot.xy;
+
+import android.graphics.Paint;
+
+/* loaded from: classes.dex */
+public class XValueMarker extends ValueMarker<YPositionMetric> {
+    public XValueMarker(Number number, String str) {
+        super(number, str, new YPositionMetric(3.0f, YLayoutStyle.ABSOLUTE_FROM_TOP));
+    }
+
+    public XValueMarker(Number number, String str, YPositionMetric yPositionMetric, Paint paint, Paint paint2) {
+        super(number, str, yPositionMetric, paint, paint2);
+    }
+
+    public XValueMarker(Number number, String str, YPositionMetric yPositionMetric, int i, int i2) {
+        super(number, str, yPositionMetric, i, i2);
+    }
+}

@@ -265,10 +265,10 @@ fun MyScreen() {
 For each converted activity:
 
 - [ ] Builds successfully - [ ] Navigation works correctly - [ ] All
-      buttons/controls functional - [ ] State preserved on configuration
-      change - [ ] Thermal processing unaffected - [ ] No performance
-      regression - [ ] Visual design matches Material 3 - [ ] Accessibility
-      labels present
+  buttons/controls functional - [ ] State preserved on configuration
+  change - [ ] Thermal processing unaffected - [ ] No performance
+  regression - [ ] Visual design matches Material 3 - [ ] Accessibility
+  labels present
 
 ## Critical Warnings
 

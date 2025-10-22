@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/Formatter.java
+// Size: 101 bytes
+// Modified: 2025-10-21 16:32:00.068260500 +0100
+
+package com.androidplot.ui;
+
+/* loaded from: classes.dex */
+public abstract class Formatter {
+}

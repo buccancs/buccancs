@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/jcajce/JcaX509CertificateHolder.java
+// Size: 538 bytes
+// Modified: 2025-10-21 16:32:09.312588600 +0100
+
+package org.bouncycastle.cert.jcajce;
+
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+import org.bouncycastle.asn1.x509.Certificate;
+import org.bouncycastle.cert.X509CertificateHolder;
+
+/* loaded from: classes5.dex */
+public class JcaX509CertificateHolder extends X509CertificateHolder {
+    public JcaX509CertificateHolder(X509Certificate x509Certificate) throws CertificateEncodingException {
+        super(Certificate.getInstance(x509Certificate.getEncoded()));
+    }
+}

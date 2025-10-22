@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/testing/http/HttpTesting.java
+// Size: 355 bytes
+// Modified: 2025-10-21 16:32:03.937959000 +0100
+
+package com.google.api.client.testing.http;
+
+import com.google.api.client.http.GenericUrl;
+
+/* loaded from: classes.dex */
+public final class HttpTesting {
+    public static final String SIMPLE_URL = "http://google.com/";
+    public static final GenericUrl SIMPLE_GENERIC_URL = new GenericUrl(SIMPLE_URL);
+
+    private HttpTesting() {
+    }
+}

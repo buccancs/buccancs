@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/jcajce/CertHelper.java
+// Size: 590 bytes
+// Modified: 2025-10-21 16:32:00.605806800 +0100
+
+package org.bouncycastle.cert.jcajce;
+
+import java.security.NoSuchProviderException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+
+/* loaded from: classes5.dex */
+abstract class CertHelper {
+    CertHelper() {
+    }
+
+    protected abstract CertificateFactory createCertificateFactory(String str) throws CertificateException, NoSuchProviderException;
+
+    public CertificateFactory getCertificateFactory(String str) throws CertificateException, NoSuchProviderException {
+        return createCertificateFactory(str);
+    }
+}

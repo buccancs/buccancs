@@ -1,0 +1,3352 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/metrics/v1/DistributionValue.java
+// Size: 167261 bytes
+// Modified: 2025-10-21 16:32:02.990781900 +0100
+
+package io.opencensus.proto.metrics.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.MapEntry;
+import com.google.protobuf.MapField;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import com.google.protobuf.WireFormat;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes4.dex */
+public final class DistributionValue extends GeneratedMessageV3 implements DistributionValueOrBuilder {
+    public static final int BUCKETS_FIELD_NUMBER = 5;
+    public static final int BUCKET_OPTIONS_FIELD_NUMBER = 4;
+    public static final int COUNT_FIELD_NUMBER = 1;
+    private static final DistributionValue DEFAULT_INSTANCE = new DistributionValue();
+    private static final Parser<DistributionValue> PARSER = new AbstractParser<DistributionValue>() { // from class: io.opencensus.proto.metrics.v1.DistributionValue.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public DistributionValue m36780parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new DistributionValue(codedInputStream, extensionRegistryLite);
+        }
+    };
+    public static final int SUM_FIELD_NUMBER = 2;
+    public static final int SUM_OF_SQUARED_DEVIATION_FIELD_NUMBER = 3;
+    private static final long serialVersionUID = 0;
+    private int bitField0_;
+    private BucketOptions bucketOptions_;
+    private List<Bucket> buckets_;
+    private long count_;
+    private byte memoizedIsInitialized;
+    private double sumOfSquaredDeviation_;
+    private double sum_;
+
+    public interface BucketOptionsOrBuilder extends MessageOrBuilder {
+        BucketOptions.Explicit getExplicit();
+
+        BucketOptions.ExplicitOrBuilder getExplicitOrBuilder();
+
+        BucketOptions.TypeCase getTypeCase();
+
+        boolean hasExplicit();
+    }
+
+    public interface BucketOrBuilder extends MessageOrBuilder {
+        long getCount();
+
+        Exemplar getExemplar();
+
+        ExemplarOrBuilder getExemplarOrBuilder();
+
+        boolean hasExemplar();
+    }
+
+    public interface ExemplarOrBuilder extends MessageOrBuilder {
+        boolean containsAttachments(String str);
+
+        @Deprecated
+        Map<String, String> getAttachments();
+
+        int getAttachmentsCount();
+
+        Map<String, String> getAttachmentsMap();
+
+        String getAttachmentsOrDefault(String str, String str2);
+
+        String getAttachmentsOrThrow(String str);
+
+        Timestamp getTimestamp();
+
+        TimestampOrBuilder getTimestampOrBuilder();
+
+        double getValue();
+
+        boolean hasTimestamp();
+    }
+
+    public static DistributionValue getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<DistributionValue> parser() {
+        return PARSER;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public List<Bucket> getBucketsList() {
+        return this.buckets_;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public List<? extends BucketOrBuilder> getBucketsOrBuilderList() {
+        return this.buckets_;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public long getCount() {
+        return this.count_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public DistributionValue m36773getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<DistributionValue> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public double getSum() {
+        return this.sum_;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public double getSumOfSquaredDeviation() {
+        return this.sumOfSquaredDeviation_;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public boolean hasBucketOptions() {
+        return this.bucketOptions_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private DistributionValue(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private DistributionValue() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.count_ = 0L;
+        this.sum_ = 0.0d;
+        this.sumOfSquaredDeviation_ = 0.0d;
+        this.buckets_ = Collections.emptyList();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private DistributionValue(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (true) {
+            if (z) {
+                break;
+            }
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 8) {
+                            this.count_ = codedInputStream.readInt64();
+                        } else if (tag == 17) {
+                            this.sum_ = codedInputStream.readDouble();
+                        } else if (tag == 25) {
+                            this.sumOfSquaredDeviation_ = codedInputStream.readDouble();
+                        } else if (tag == 34) {
+                            BucketOptions bucketOptions = this.bucketOptions_;
+                            BucketOptions.Builder builderM36832toBuilder = bucketOptions != null ? bucketOptions.m36832toBuilder() : null;
+                            BucketOptions bucketOptions2 = (BucketOptions) codedInputStream.readMessage(BucketOptions.parser(), extensionRegistryLite);
+                            this.bucketOptions_ = bucketOptions2;
+                            if (builderM36832toBuilder != null) {
+                                builderM36832toBuilder.mergeFrom(bucketOptions2);
+                                this.bucketOptions_ = builderM36832toBuilder.m36839buildPartial();
+                            }
+                        } else if (tag != 42) {
+                            if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            if ((i & 16) != 16) {
+                                this.buckets_ = new ArrayList();
+                                i |= 16;
+                            }
+                            this.buckets_.add(codedInputStream.readMessage(Bucket.parser(), extensionRegistryLite));
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 16) == 16) {
+                    this.buckets_ = Collections.unmodifiableList(this.buckets_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_fieldAccessorTable.ensureFieldAccessorsInitialized(DistributionValue.class, Builder.class);
+    }
+
+    public static final class BucketOptions extends GeneratedMessageV3 implements BucketOptionsOrBuilder {
+        public static final int EXPLICIT_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private byte memoizedIsInitialized;
+        private int typeCase_;
+        private Object type_;
+        private static final BucketOptions DEFAULT_INSTANCE = new BucketOptions();
+        private static final Parser<BucketOptions> PARSER = new AbstractParser<BucketOptions>() { // from class: io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public BucketOptions m36834parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new BucketOptions(codedInputStream, extensionRegistryLite);
+            }
+        };
+
+        public interface ExplicitOrBuilder extends MessageOrBuilder {
+            double getBounds(int i);
+
+            int getBoundsCount();
+
+            List<Double> getBoundsList();
+        }
+
+        public static BucketOptions getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<BucketOptions> parser() {
+            return PARSER;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public BucketOptions m36827getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<BucketOptions> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+        public boolean hasExplicit() {
+            return this.typeCase_ == 1;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        private BucketOptions(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.typeCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private BucketOptions() {
+            this.typeCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        private BucketOptions(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag != 10) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                Explicit.Builder builderM36878toBuilder = this.typeCase_ == 1 ? ((Explicit) this.type_).m36878toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(Explicit.parser(), extensionRegistryLite);
+                                this.type_ = message;
+                                if (builderM36878toBuilder != null) {
+                                    builderM36878toBuilder.mergeFrom((Explicit) message);
+                                    this.type_ = builderM36878toBuilder.m36885buildPartial();
+                                }
+                                this.typeCase_ = 1;
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_fieldAccessorTable.ensureFieldAccessorsInitialized(BucketOptions.class, Builder.class);
+        }
+
+        public static final class Explicit extends GeneratedMessageV3 implements ExplicitOrBuilder {
+            public static final int BOUNDS_FIELD_NUMBER = 1;
+            private static final Explicit DEFAULT_INSTANCE = new Explicit();
+            private static final Parser<Explicit> PARSER = new AbstractParser<Explicit>() { // from class: io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Explicit.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public Explicit m36880parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new Explicit(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private static final long serialVersionUID = 0;
+            private int boundsMemoizedSerializedSize;
+            private List<Double> bounds_;
+            private byte memoizedIsInitialized;
+
+            public static Explicit getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<Explicit> parser() {
+                return PARSER;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.ExplicitOrBuilder
+            public List<Double> getBoundsList() {
+                return this.bounds_;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Explicit m36873getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public Parser<Explicit> getParserForType() {
+                return PARSER;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            private Explicit(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.boundsMemoizedSerializedSize = -1;
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private Explicit() {
+                this.boundsMemoizedSerializedSize = -1;
+                this.memoizedIsInitialized = (byte) -1;
+                this.bounds_ = Collections.emptyList();
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            private Explicit(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                boolean z2 = false;
+                while (true) {
+                    if (z) {
+                        break;
+                    }
+                    try {
+                        try {
+                            try {
+                                int tag = codedInputStream.readTag();
+                                if (tag != 0) {
+                                    if (tag == 9) {
+                                        if (!(z2 & true)) {
+                                            this.bounds_ = new ArrayList();
+                                            z2 |= true;
+                                        }
+                                        this.bounds_.add(Double.valueOf(codedInputStream.readDouble()));
+                                    } else if (tag != 10) {
+                                        if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                        }
+                                    } else {
+                                        int iPushLimit = codedInputStream.pushLimit(codedInputStream.readRawVarint32());
+                                        if (!(z2 & true) && codedInputStream.getBytesUntilLimit() > 0) {
+                                            this.bounds_ = new ArrayList();
+                                            z2 |= true;
+                                        }
+                                        while (codedInputStream.getBytesUntilLimit() > 0) {
+                                            this.bounds_.add(Double.valueOf(codedInputStream.readDouble()));
+                                        }
+                                        codedInputStream.popLimit(iPushLimit);
+                                    }
+                                }
+                                z = true;
+                            } catch (InvalidProtocolBufferException e) {
+                                throw e.setUnfinishedMessage(this);
+                            }
+                        } catch (IOException e2) {
+                            throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        if (z2 & true) {
+                            this.bounds_ = Collections.unmodifiableList(this.bounds_);
+                        }
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_descriptor;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_fieldAccessorTable.ensureFieldAccessorsInitialized(Explicit.class, Builder.class);
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.ExplicitOrBuilder
+            public int getBoundsCount() {
+                return this.bounds_.size();
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.ExplicitOrBuilder
+            public double getBounds(int i) {
+                return this.bounds_.get(i).doubleValue();
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                getSerializedSize();
+                if (getBoundsList().size() > 0) {
+                    codedOutputStream.writeUInt32NoTag(10);
+                    codedOutputStream.writeUInt32NoTag(this.boundsMemoizedSerializedSize);
+                }
+                for (int i = 0; i < this.bounds_.size(); i++) {
+                    codedOutputStream.writeDoubleNoTag(this.bounds_.get(i).doubleValue());
+                }
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                int size = getBoundsList().size() * 8;
+                int iComputeInt32SizeNoTag = !getBoundsList().isEmpty() ? size + 1 + CodedOutputStream.computeInt32SizeNoTag(size) : size;
+                this.boundsMemoizedSerializedSize = size;
+                int serializedSize = iComputeInt32SizeNoTag + this.unknownFields.getSerializedSize();
+                this.memoizedSize = serializedSize;
+                return serializedSize;
+            }
+
+            public boolean equals(Object obj) {
+                if (obj == this) {
+                    return true;
+                }
+                if (!(obj instanceof Explicit)) {
+                    return super.equals(obj);
+                }
+                Explicit explicit = (Explicit) obj;
+                return getBoundsList().equals(explicit.getBoundsList()) && this.unknownFields.equals(explicit.unknownFields);
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = 779 + getDescriptor().hashCode();
+                if (getBoundsCount() > 0) {
+                    iHashCode = (((iHashCode * 37) + 1) * 53) + getBoundsList().hashCode();
+                }
+                int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode2;
+                return iHashCode2;
+            }
+
+            public static Explicit parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (Explicit) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static Explicit parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Explicit) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static Explicit parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (Explicit) PARSER.parseFrom(byteString);
+            }
+
+            public static Explicit parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Explicit) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static Explicit parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (Explicit) PARSER.parseFrom(bArr);
+            }
+
+            public static Explicit parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Explicit) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static Explicit parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static Explicit parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static Explicit parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static Explicit parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static Explicit parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static Explicit parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36875newBuilderForType() {
+                return newBuilder();
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m36878toBuilder();
+            }
+
+            public static Builder newBuilder(Explicit explicit) {
+                return DEFAULT_INSTANCE.m36878toBuilder().mergeFrom(explicit);
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36878toBuilder() {
+                if (this == DEFAULT_INSTANCE) {
+                    return new Builder();
+                }
+                return new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ExplicitOrBuilder {
+                private int bitField0_;
+                private List<Double> bounds_;
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_descriptor;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_fieldAccessorTable.ensureFieldAccessorsInitialized(Explicit.class, Builder.class);
+                }
+
+                private Builder() {
+                    this.bounds_ = Collections.emptyList();
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    this.bounds_ = Collections.emptyList();
+                    maybeForceBuilderInitialization();
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = Explicit.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36889clear() {
+                    super.clear();
+                    this.bounds_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_Explicit_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Explicit m36902getDefaultInstanceForType() {
+                    return Explicit.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Explicit m36883build() throws UninitializedMessageException {
+                    Explicit explicitM36885buildPartial = m36885buildPartial();
+                    if (explicitM36885buildPartial.isInitialized()) {
+                        return explicitM36885buildPartial;
+                    }
+                    throw newUninitializedMessageException(explicitM36885buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Explicit m36885buildPartial() {
+                    Explicit explicit = new Explicit(this);
+                    if ((this.bitField0_ & 1) == 1) {
+                        this.bounds_ = Collections.unmodifiableList(this.bounds_);
+                        this.bitField0_ &= -2;
+                    }
+                    explicit.bounds_ = this.bounds_;
+                    onBuilt();
+                    return explicit;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36901clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36913setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36891clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36894clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36915setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36881addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m36906mergeFrom(Message message) {
+                    if (message instanceof Explicit) {
+                        return mergeFrom((Explicit) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(Explicit explicit) {
+                    if (explicit == Explicit.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (!explicit.bounds_.isEmpty()) {
+                        if (this.bounds_.isEmpty()) {
+                            this.bounds_ = explicit.bounds_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureBoundsIsMutable();
+                            this.bounds_.addAll(explicit.bounds_);
+                        }
+                        onChanged();
+                    }
+                    m36911mergeUnknownFields(explicit.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Explicit.Builder m36907mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Explicit.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.opencensus.proto.metrics.v1.DistributionValue$BucketOptions$Explicit r3 = (io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Explicit) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.opencensus.proto.metrics.v1.DistributionValue$BucketOptions$Explicit r4 = (io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Explicit) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Explicit.Builder.m36907mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.metrics.v1.DistributionValue$BucketOptions$Explicit$Builder");
+                }
+
+                private void ensureBoundsIsMutable() {
+                    if ((this.bitField0_ & 1) != 1) {
+                        this.bounds_ = new ArrayList(this.bounds_);
+                        this.bitField0_ |= 1;
+                    }
+                }
+
+                @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.ExplicitOrBuilder
+                public List<Double> getBoundsList() {
+                    return Collections.unmodifiableList(this.bounds_);
+                }
+
+                @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.ExplicitOrBuilder
+                public int getBoundsCount() {
+                    return this.bounds_.size();
+                }
+
+                @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.ExplicitOrBuilder
+                public double getBounds(int i) {
+                    return this.bounds_.get(i).doubleValue();
+                }
+
+                public Builder setBounds(int i, double d) {
+                    ensureBoundsIsMutable();
+                    this.bounds_.set(i, Double.valueOf(d));
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addBounds(double d) {
+                    ensureBoundsIsMutable();
+                    this.bounds_.add(Double.valueOf(d));
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addAllBounds(Iterable<? extends Double> iterable) {
+                    ensureBoundsIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.bounds_);
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearBounds() {
+                    this.bounds_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                    return this;
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m36917setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m36911mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public enum TypeCase implements Internal.EnumLite {
+            EXPLICIT(1),
+            TYPE_NOT_SET(0);
+
+            private final int value;
+
+            public static TypeCase forNumber(int i) {
+                if (i == 0) {
+                    return TYPE_NOT_SET;
+                }
+                if (i != 1) {
+                    return null;
+                }
+                return EXPLICIT;
+            }
+
+            public int getNumber() {
+                return this.value;
+            }
+
+            TypeCase(int i) {
+                this.value = i;
+            }
+
+            @Deprecated
+            public static TypeCase valueOf(int i) {
+                return forNumber(i);
+            }
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+        public TypeCase getTypeCase() {
+            return TypeCase.forNumber(this.typeCase_);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+        public Explicit getExplicit() {
+            if (this.typeCase_ == 1) {
+                return (Explicit) this.type_;
+            }
+            return Explicit.getDefaultInstance();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+        public ExplicitOrBuilder getExplicitOrBuilder() {
+            if (this.typeCase_ == 1) {
+                return (Explicit) this.type_;
+            }
+            return Explicit.getDefaultInstance();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.typeCase_ == 1) {
+                codedOutputStream.writeMessage(1, (Explicit) this.type_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = (this.typeCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (Explicit) this.type_) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeMessageSize;
+            return iComputeMessageSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof BucketOptions)) {
+                return super.equals(obj);
+            }
+            BucketOptions bucketOptions = (BucketOptions) obj;
+            boolean zEquals = getTypeCase().equals(bucketOptions.getTypeCase());
+            if (!zEquals) {
+                return false;
+            }
+            if (this.typeCase_ == 1 ? !(!zEquals || !getExplicit().equals(bucketOptions.getExplicit())) : zEquals) {
+                if (this.unknownFields.equals(bucketOptions.unknownFields)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (this.typeCase_ == 1) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getExplicit().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        public static BucketOptions parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (BucketOptions) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static BucketOptions parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (BucketOptions) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static BucketOptions parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (BucketOptions) PARSER.parseFrom(byteString);
+        }
+
+        public static BucketOptions parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (BucketOptions) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static BucketOptions parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (BucketOptions) PARSER.parseFrom(bArr);
+        }
+
+        public static BucketOptions parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (BucketOptions) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static BucketOptions parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static BucketOptions parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static BucketOptions parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static BucketOptions parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static BucketOptions parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static BucketOptions parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36829newBuilderForType() {
+            return newBuilder();
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m36832toBuilder();
+        }
+
+        public static Builder newBuilder(BucketOptions bucketOptions) {
+            return DEFAULT_INSTANCE.m36832toBuilder().mergeFrom(bucketOptions);
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36832toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements BucketOptionsOrBuilder {
+            private SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> explicitBuilder_;
+            private int typeCase_;
+            private Object type_;
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+            public boolean hasExplicit() {
+                return this.typeCase_ == 1;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_descriptor;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_fieldAccessorTable.ensureFieldAccessorsInitialized(BucketOptions.class, Builder.class);
+            }
+
+            private Builder() {
+                this.typeCase_ = 0;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.typeCase_ = 0;
+                maybeForceBuilderInitialization();
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = BucketOptions.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36843clear() {
+                super.clear();
+                this.typeCase_ = 0;
+                this.type_ = null;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_BucketOptions_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public BucketOptions m36856getDefaultInstanceForType() {
+                return BucketOptions.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public BucketOptions m36837build() throws UninitializedMessageException {
+                BucketOptions bucketOptionsM36839buildPartial = m36839buildPartial();
+                if (bucketOptionsM36839buildPartial.isInitialized()) {
+                    return bucketOptionsM36839buildPartial;
+                }
+                throw newUninitializedMessageException(bucketOptionsM36839buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public BucketOptions m36839buildPartial() {
+                BucketOptions bucketOptions = new BucketOptions(this);
+                if (this.typeCase_ == 1) {
+                    SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> singleFieldBuilderV3 = this.explicitBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        bucketOptions.type_ = this.type_;
+                    } else {
+                        bucketOptions.type_ = singleFieldBuilderV3.build();
+                    }
+                }
+                bucketOptions.typeCase_ = this.typeCase_;
+                onBuilt();
+                return bucketOptions;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36855clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36867setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36845clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36848clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36869setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36835addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36860mergeFrom(Message message) {
+                if (message instanceof BucketOptions) {
+                    return mergeFrom((BucketOptions) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(BucketOptions bucketOptions) {
+                if (bucketOptions == BucketOptions.getDefaultInstance()) {
+                    return this;
+                }
+                if (AnonymousClass2.$SwitchMap$io$opencensus$proto$metrics$v1$DistributionValue$BucketOptions$TypeCase[bucketOptions.getTypeCase().ordinal()] == 1) {
+                    mergeExplicit(bucketOptions.getExplicit());
+                }
+                m36865mergeUnknownFields(bucketOptions.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Builder m36861mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.access$1500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.metrics.v1.DistributionValue$BucketOptions r3 = (io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.metrics.v1.DistributionValue$BucketOptions r4 = (io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.metrics.v1.DistributionValue.BucketOptions.Builder.m36861mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.metrics.v1.DistributionValue$BucketOptions$Builder");
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+            public TypeCase getTypeCase() {
+                return TypeCase.forNumber(this.typeCase_);
+            }
+
+            public Builder clearType() {
+                this.typeCase_ = 0;
+                this.type_ = null;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+            public Explicit getExplicit() {
+                SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> singleFieldBuilderV3 = this.explicitBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.typeCase_ == 1) {
+                        return (Explicit) this.type_;
+                    }
+                    return Explicit.getDefaultInstance();
+                }
+                if (this.typeCase_ == 1) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                return Explicit.getDefaultInstance();
+            }
+
+            public Builder setExplicit(Explicit explicit) {
+                SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> singleFieldBuilderV3 = this.explicitBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    explicit.getClass();
+                    this.type_ = explicit;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(explicit);
+                }
+                this.typeCase_ = 1;
+                return this;
+            }
+
+            public Builder setExplicit(Explicit.Builder builder) {
+                SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> singleFieldBuilderV3 = this.explicitBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.type_ = builder.m36883build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m36883build());
+                }
+                this.typeCase_ = 1;
+                return this;
+            }
+
+            public Builder mergeExplicit(Explicit explicit) {
+                SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> singleFieldBuilderV3 = this.explicitBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.typeCase_ != 1 || this.type_ == Explicit.getDefaultInstance()) {
+                        this.type_ = explicit;
+                    } else {
+                        this.type_ = Explicit.newBuilder((Explicit) this.type_).mergeFrom(explicit).m36885buildPartial();
+                    }
+                    onChanged();
+                } else {
+                    if (this.typeCase_ == 1) {
+                        singleFieldBuilderV3.mergeFrom(explicit);
+                    }
+                    this.explicitBuilder_.setMessage(explicit);
+                }
+                this.typeCase_ = 1;
+                return this;
+            }
+
+            public Builder clearExplicit() {
+                SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> singleFieldBuilderV3 = this.explicitBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    if (this.typeCase_ == 1) {
+                        this.typeCase_ = 0;
+                        this.type_ = null;
+                    }
+                    singleFieldBuilderV3.clear();
+                } else if (this.typeCase_ == 1) {
+                    this.typeCase_ = 0;
+                    this.type_ = null;
+                    onChanged();
+                }
+                return this;
+            }
+
+            public Explicit.Builder getExplicitBuilder() {
+                return getExplicitFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOptionsOrBuilder
+            public ExplicitOrBuilder getExplicitOrBuilder() {
+                SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> singleFieldBuilderV3;
+                int i = this.typeCase_;
+                if (i == 1 && (singleFieldBuilderV3 = this.explicitBuilder_) != null) {
+                    return (ExplicitOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                if (i == 1) {
+                    return (Explicit) this.type_;
+                }
+                return Explicit.getDefaultInstance();
+            }
+
+            private SingleFieldBuilderV3<Explicit, Explicit.Builder, ExplicitOrBuilder> getExplicitFieldBuilder() {
+                if (this.explicitBuilder_ == null) {
+                    if (this.typeCase_ != 1) {
+                        this.type_ = Explicit.getDefaultInstance();
+                    }
+                    this.explicitBuilder_ = new SingleFieldBuilderV3<>((Explicit) this.type_, getParentForChildren(), isClean());
+                    this.type_ = null;
+                }
+                this.typeCase_ = 1;
+                onChanged();
+                return this.explicitBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m36871setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m36865mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    /* renamed from: io.opencensus.proto.metrics.v1.DistributionValue$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$opencensus$proto$metrics$v1$DistributionValue$BucketOptions$TypeCase;
+
+        static {
+            int[] iArr = new int[BucketOptions.TypeCase.values().length];
+            $SwitchMap$io$opencensus$proto$metrics$v1$DistributionValue$BucketOptions$TypeCase = iArr;
+            try {
+                iArr[BucketOptions.TypeCase.EXPLICIT.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$opencensus$proto$metrics$v1$DistributionValue$BucketOptions$TypeCase[BucketOptions.TypeCase.TYPE_NOT_SET.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+
+    public static final class Bucket extends GeneratedMessageV3 implements BucketOrBuilder {
+        public static final int COUNT_FIELD_NUMBER = 1;
+        public static final int EXEMPLAR_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private long count_;
+        private Exemplar exemplar_;
+        private byte memoizedIsInitialized;
+        private static final Bucket DEFAULT_INSTANCE = new Bucket();
+        private static final Parser<Bucket> PARSER = new AbstractParser<Bucket>() { // from class: io.opencensus.proto.metrics.v1.DistributionValue.Bucket.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Bucket m36788parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Bucket(codedInputStream, extensionRegistryLite);
+            }
+        };
+
+        public static Bucket getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Bucket> parser() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+        public long getCount() {
+            return this.count_;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Bucket m36781getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<Bucket> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+        public boolean hasExemplar() {
+            return this.exemplar_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        private Bucket(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Bucket() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.count_ = 0L;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        private Bucket(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 8) {
+                                this.count_ = codedInputStream.readInt64();
+                            } else if (tag != 18) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                Exemplar exemplar = this.exemplar_;
+                                Exemplar.Builder builderM36962toBuilder = exemplar != null ? exemplar.m36962toBuilder() : null;
+                                Exemplar exemplar2 = (Exemplar) codedInputStream.readMessage(Exemplar.parser(), extensionRegistryLite);
+                                this.exemplar_ = exemplar2;
+                                if (builderM36962toBuilder != null) {
+                                    builderM36962toBuilder.mergeFrom(exemplar2);
+                                    this.exemplar_ = builderM36962toBuilder.m36969buildPartial();
+                                }
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_fieldAccessorTable.ensureFieldAccessorsInitialized(Bucket.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+        public Exemplar getExemplar() {
+            Exemplar exemplar = this.exemplar_;
+            return exemplar == null ? Exemplar.getDefaultInstance() : exemplar;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+        public ExemplarOrBuilder getExemplarOrBuilder() {
+            return getExemplar();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            long j = this.count_;
+            if (j != 0) {
+                codedOutputStream.writeInt64(1, j);
+            }
+            if (this.exemplar_ != null) {
+                codedOutputStream.writeMessage(2, getExemplar());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            long j = this.count_;
+            int iComputeInt64Size = j != 0 ? CodedOutputStream.computeInt64Size(1, j) : 0;
+            if (this.exemplar_ != null) {
+                iComputeInt64Size += CodedOutputStream.computeMessageSize(2, getExemplar());
+            }
+            int serializedSize = iComputeInt64Size + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Bucket)) {
+                return super.equals(obj);
+            }
+            Bucket bucket = (Bucket) obj;
+            boolean z = getCount() == bucket.getCount() && hasExemplar() == bucket.hasExemplar();
+            if (!hasExemplar() ? z : !(!z || !getExemplar().equals(bucket.getExemplar()))) {
+                if (this.unknownFields.equals(bucket.unknownFields)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + Internal.hashLong(getCount());
+            if (hasExemplar()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getExemplar().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        public static Bucket parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Bucket) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Bucket parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Bucket) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Bucket parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Bucket) PARSER.parseFrom(byteString);
+        }
+
+        public static Bucket parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Bucket) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Bucket parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Bucket) PARSER.parseFrom(bArr);
+        }
+
+        public static Bucket parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Bucket) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Bucket parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Bucket parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Bucket parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Bucket parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Bucket parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Bucket parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36783newBuilderForType() {
+            return newBuilder();
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m36786toBuilder();
+        }
+
+        public static Builder newBuilder(Bucket bucket) {
+            return DEFAULT_INSTANCE.m36786toBuilder().mergeFrom(bucket);
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36786toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements BucketOrBuilder {
+            private long count_;
+            private SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> exemplarBuilder_;
+            private Exemplar exemplar_;
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+            public long getCount() {
+                return this.count_;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+            public boolean hasExemplar() {
+                return (this.exemplarBuilder_ == null && this.exemplar_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_descriptor;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_fieldAccessorTable.ensureFieldAccessorsInitialized(Bucket.class, Builder.class);
+            }
+
+            private Builder() {
+                this.exemplar_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.exemplar_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Bucket.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36797clear() {
+                super.clear();
+                this.count_ = 0L;
+                if (this.exemplarBuilder_ == null) {
+                    this.exemplar_ = null;
+                } else {
+                    this.exemplar_ = null;
+                    this.exemplarBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Bucket_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Bucket m36810getDefaultInstanceForType() {
+                return Bucket.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Bucket m36791build() throws UninitializedMessageException {
+                Bucket bucketM36793buildPartial = m36793buildPartial();
+                if (bucketM36793buildPartial.isInitialized()) {
+                    return bucketM36793buildPartial;
+                }
+                throw newUninitializedMessageException(bucketM36793buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Bucket m36793buildPartial() {
+                Bucket bucket = new Bucket(this);
+                bucket.count_ = this.count_;
+                SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> singleFieldBuilderV3 = this.exemplarBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    bucket.exemplar_ = this.exemplar_;
+                } else {
+                    bucket.exemplar_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return bucket;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36809clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36821setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36799clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36802clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36823setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36789addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36814mergeFrom(Message message) {
+                if (message instanceof Bucket) {
+                    return mergeFrom((Bucket) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Bucket bucket) {
+                if (bucket == Bucket.getDefaultInstance()) {
+                    return this;
+                }
+                if (bucket.getCount() != 0) {
+                    setCount(bucket.getCount());
+                }
+                if (bucket.hasExemplar()) {
+                    mergeExemplar(bucket.getExemplar());
+                }
+                m36819mergeUnknownFields(bucket.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.metrics.v1.DistributionValue.Bucket.Builder m36815mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.metrics.v1.DistributionValue.Bucket.access$2400()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.metrics.v1.DistributionValue$Bucket r3 = (io.opencensus.proto.metrics.v1.DistributionValue.Bucket) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.metrics.v1.DistributionValue$Bucket r4 = (io.opencensus.proto.metrics.v1.DistributionValue.Bucket) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.metrics.v1.DistributionValue.Bucket.Builder.m36815mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.metrics.v1.DistributionValue$Bucket$Builder");
+            }
+
+            public Builder setCount(long j) {
+                this.count_ = j;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearCount() {
+                this.count_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+            public Exemplar getExemplar() {
+                SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> singleFieldBuilderV3 = this.exemplarBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Exemplar exemplar = this.exemplar_;
+                return exemplar == null ? Exemplar.getDefaultInstance() : exemplar;
+            }
+
+            public Builder setExemplar(Exemplar exemplar) {
+                SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> singleFieldBuilderV3 = this.exemplarBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    exemplar.getClass();
+                    this.exemplar_ = exemplar;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(exemplar);
+                }
+                return this;
+            }
+
+            public Builder setExemplar(Exemplar.Builder builder) {
+                SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> singleFieldBuilderV3 = this.exemplarBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.exemplar_ = builder.m36967build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m36967build());
+                }
+                return this;
+            }
+
+            public Builder mergeExemplar(Exemplar exemplar) {
+                SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> singleFieldBuilderV3 = this.exemplarBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Exemplar exemplar2 = this.exemplar_;
+                    if (exemplar2 != null) {
+                        this.exemplar_ = Exemplar.newBuilder(exemplar2).mergeFrom(exemplar).m36969buildPartial();
+                    } else {
+                        this.exemplar_ = exemplar;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(exemplar);
+                }
+                return this;
+            }
+
+            public Builder clearExemplar() {
+                if (this.exemplarBuilder_ == null) {
+                    this.exemplar_ = null;
+                    onChanged();
+                } else {
+                    this.exemplar_ = null;
+                    this.exemplarBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Exemplar.Builder getExemplarBuilder() {
+                onChanged();
+                return getExemplarFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.BucketOrBuilder
+            public ExemplarOrBuilder getExemplarOrBuilder() {
+                SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> singleFieldBuilderV3 = this.exemplarBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (ExemplarOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Exemplar exemplar = this.exemplar_;
+                return exemplar == null ? Exemplar.getDefaultInstance() : exemplar;
+            }
+
+            private SingleFieldBuilderV3<Exemplar, Exemplar.Builder, ExemplarOrBuilder> getExemplarFieldBuilder() {
+                if (this.exemplarBuilder_ == null) {
+                    this.exemplarBuilder_ = new SingleFieldBuilderV3<>(getExemplar(), getParentForChildren(), isClean());
+                    this.exemplar_ = null;
+                }
+                return this.exemplarBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m36825setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m36819mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Exemplar extends GeneratedMessageV3 implements ExemplarOrBuilder {
+        public static final int ATTACHMENTS_FIELD_NUMBER = 3;
+        private static final Exemplar DEFAULT_INSTANCE = new Exemplar();
+        private static final Parser<Exemplar> PARSER = new AbstractParser<Exemplar>() { // from class: io.opencensus.proto.metrics.v1.DistributionValue.Exemplar.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Exemplar m36964parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Exemplar(codedInputStream, extensionRegistryLite);
+            }
+        };
+        public static final int TIMESTAMP_FIELD_NUMBER = 2;
+        public static final int VALUE_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private MapField<String, String> attachments_;
+        private int bitField0_;
+        private byte memoizedIsInitialized;
+        private Timestamp timestamp_;
+        private double value_;
+
+        public static Exemplar getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Exemplar> parser() {
+            return PARSER;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Exemplar m36957getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<Exemplar> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public double getValue() {
+            return this.value_;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public boolean hasTimestamp() {
+            return this.timestamp_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        private Exemplar(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Exemplar() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.value_ = 0.0d;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        private Exemplar(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            int i = 0;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 9) {
+                                    this.value_ = codedInputStream.readDouble();
+                                } else if (tag == 18) {
+                                    Timestamp timestamp = this.timestamp_;
+                                    Timestamp.Builder builder = timestamp != null ? timestamp.toBuilder() : null;
+                                    Timestamp message = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                                    this.timestamp_ = message;
+                                    if (builder != null) {
+                                        builder.mergeFrom(message);
+                                        this.timestamp_ = builder.buildPartial();
+                                    }
+                                } else if (tag != 26) {
+                                    if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    }
+                                } else {
+                                    if ((i & 4) != 4) {
+                                        this.attachments_ = MapField.newMapField(AttachmentsDefaultEntryHolder.defaultEntry);
+                                        i |= 4;
+                                    }
+                                    MapEntry message2 = codedInputStream.readMessage(AttachmentsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistryLite);
+                                    this.attachments_.getMutableMap().put(message2.getKey(), message2.getValue());
+                                }
+                            }
+                            z = true;
+                        } catch (InvalidProtocolBufferException e) {
+                            throw e.setUnfinishedMessage(this);
+                        }
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_descriptor;
+        }
+
+        protected MapField internalGetMapField(int i) {
+            if (i == 3) {
+                return internalGetAttachments();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_fieldAccessorTable.ensureFieldAccessorsInitialized(Exemplar.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public Timestamp getTimestamp() {
+            Timestamp timestamp = this.timestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public TimestampOrBuilder getTimestampOrBuilder() {
+            return getTimestamp();
+        }
+
+        private static final class AttachmentsDefaultEntryHolder {
+            static final MapEntry<String, String> defaultEntry = MapEntry.newDefaultInstance(MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_AttachmentsEntry_descriptor, WireFormat.FieldType.STRING, "", WireFormat.FieldType.STRING, "");
+
+            private AttachmentsDefaultEntryHolder() {
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public MapField<String, String> internalGetAttachments() {
+            MapField<String, String> mapField = this.attachments_;
+            return mapField == null ? MapField.emptyMapField(AttachmentsDefaultEntryHolder.defaultEntry) : mapField;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public int getAttachmentsCount() {
+            return internalGetAttachments().getMap().size();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public boolean containsAttachments(String str) {
+            str.getClass();
+            return internalGetAttachments().getMap().containsKey(str);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        @Deprecated
+        public Map<String, String> getAttachments() {
+            return getAttachmentsMap();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public Map<String, String> getAttachmentsMap() {
+            return internalGetAttachments().getMap();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public String getAttachmentsOrDefault(String str, String str2) {
+            str.getClass();
+            Map map = internalGetAttachments().getMap();
+            return map.containsKey(str) ? (String) map.get(str) : str2;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+        public String getAttachmentsOrThrow(String str) {
+            str.getClass();
+            Map map = internalGetAttachments().getMap();
+            if (!map.containsKey(str)) {
+                throw new IllegalArgumentException();
+            }
+            return (String) map.get(str);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            double d = this.value_;
+            if (d != 0.0d) {
+                codedOutputStream.writeDouble(1, d);
+            }
+            if (this.timestamp_ != null) {
+                codedOutputStream.writeMessage(2, getTimestamp());
+            }
+            GeneratedMessageV3.serializeStringMapTo(codedOutputStream, internalGetAttachments(), AttachmentsDefaultEntryHolder.defaultEntry, 3);
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            double d = this.value_;
+            int iComputeDoubleSize = d != 0.0d ? CodedOutputStream.computeDoubleSize(1, d) : 0;
+            if (this.timestamp_ != null) {
+                iComputeDoubleSize += CodedOutputStream.computeMessageSize(2, getTimestamp());
+            }
+            for (Map.Entry entry : internalGetAttachments().getMap().entrySet()) {
+                iComputeDoubleSize += CodedOutputStream.computeMessageSize(3, AttachmentsDefaultEntryHolder.defaultEntry.newBuilderForType().setKey(entry.getKey()).setValue(entry.getValue()).build());
+            }
+            int serializedSize = iComputeDoubleSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Exemplar)) {
+                return super.equals(obj);
+            }
+            Exemplar exemplar = (Exemplar) obj;
+            boolean z = Double.doubleToLongBits(getValue()) == Double.doubleToLongBits(exemplar.getValue()) && hasTimestamp() == exemplar.hasTimestamp();
+            if (!hasTimestamp() ? z : !(!z || !getTimestamp().equals(exemplar.getTimestamp()))) {
+                if (internalGetAttachments().equals(exemplar.internalGetAttachments()) && this.unknownFields.equals(exemplar.unknownFields)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + Internal.hashLong(Double.doubleToLongBits(getValue()));
+            if (hasTimestamp()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getTimestamp().hashCode();
+            }
+            if (!internalGetAttachments().getMap().isEmpty()) {
+                iHashCode = (((iHashCode * 37) + 3) * 53) + internalGetAttachments().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        public static Exemplar parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Exemplar) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Exemplar parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Exemplar) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Exemplar parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Exemplar) PARSER.parseFrom(byteString);
+        }
+
+        public static Exemplar parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Exemplar) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Exemplar parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Exemplar) PARSER.parseFrom(bArr);
+        }
+
+        public static Exemplar parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Exemplar) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Exemplar parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Exemplar parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Exemplar parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Exemplar parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Exemplar parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Exemplar parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36959newBuilderForType() {
+            return newBuilder();
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m36962toBuilder();
+        }
+
+        public static Builder newBuilder(Exemplar exemplar) {
+            return DEFAULT_INSTANCE.m36962toBuilder().mergeFrom(exemplar);
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36962toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ExemplarOrBuilder {
+            private MapField<String, String> attachments_;
+            private int bitField0_;
+            private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> timestampBuilder_;
+            private Timestamp timestamp_;
+            private double value_;
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public double getValue() {
+                return this.value_;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public boolean hasTimestamp() {
+                return (this.timestampBuilder_ == null && this.timestamp_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_descriptor;
+            }
+
+            protected MapField internalGetMapField(int i) {
+                if (i == 3) {
+                    return internalGetAttachments();
+                }
+                throw new RuntimeException("Invalid map field number: " + i);
+            }
+
+            protected MapField internalGetMutableMapField(int i) {
+                if (i == 3) {
+                    return internalGetMutableAttachments();
+                }
+                throw new RuntimeException("Invalid map field number: " + i);
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_fieldAccessorTable.ensureFieldAccessorsInitialized(Exemplar.class, Builder.class);
+            }
+
+            private Builder() {
+                this.timestamp_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.timestamp_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Exemplar.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36973clear() {
+                super.clear();
+                this.value_ = 0.0d;
+                if (this.timestampBuilder_ == null) {
+                    this.timestamp_ = null;
+                } else {
+                    this.timestamp_ = null;
+                    this.timestampBuilder_ = null;
+                }
+                internalGetMutableAttachments().clear();
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_Exemplar_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Exemplar m36986getDefaultInstanceForType() {
+                return Exemplar.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Exemplar m36967build() throws UninitializedMessageException {
+                Exemplar exemplarM36969buildPartial = m36969buildPartial();
+                if (exemplarM36969buildPartial.isInitialized()) {
+                    return exemplarM36969buildPartial;
+                }
+                throw newUninitializedMessageException(exemplarM36969buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Exemplar m36969buildPartial() {
+                Exemplar exemplar = new Exemplar(this);
+                exemplar.value_ = this.value_;
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    exemplar.timestamp_ = this.timestamp_;
+                } else {
+                    exemplar.timestamp_ = singleFieldBuilderV3.build();
+                }
+                exemplar.attachments_ = internalGetAttachments();
+                exemplar.attachments_.makeImmutable();
+                exemplar.bitField0_ = 0;
+                onBuilt();
+                return exemplar;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36985clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36997setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36975clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36978clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36999setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36965addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m36990mergeFrom(Message message) {
+                if (message instanceof Exemplar) {
+                    return mergeFrom((Exemplar) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Exemplar exemplar) {
+                if (exemplar == Exemplar.getDefaultInstance()) {
+                    return this;
+                }
+                if (exemplar.getValue() != 0.0d) {
+                    setValue(exemplar.getValue());
+                }
+                if (exemplar.hasTimestamp()) {
+                    mergeTimestamp(exemplar.getTimestamp());
+                }
+                internalGetMutableAttachments().mergeFrom(exemplar.internalGetAttachments());
+                m36995mergeUnknownFields(exemplar.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.metrics.v1.DistributionValue.Exemplar.Builder m36991mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.metrics.v1.DistributionValue.Exemplar.access$3600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.metrics.v1.DistributionValue$Exemplar r3 = (io.opencensus.proto.metrics.v1.DistributionValue.Exemplar) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.metrics.v1.DistributionValue$Exemplar r4 = (io.opencensus.proto.metrics.v1.DistributionValue.Exemplar) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.metrics.v1.DistributionValue.Exemplar.Builder.m36991mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.metrics.v1.DistributionValue$Exemplar$Builder");
+            }
+
+            public Builder setValue(double d) {
+                this.value_ = d;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearValue() {
+                this.value_ = 0.0d;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public Timestamp getTimestamp() {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Timestamp timestamp = this.timestamp_;
+                return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+            }
+
+            public Builder setTimestamp(Timestamp timestamp) {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    timestamp.getClass();
+                    this.timestamp_ = timestamp;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(timestamp);
+                }
+                return this;
+            }
+
+            public Builder setTimestamp(Timestamp.Builder builder) {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.timestamp_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeTimestamp(Timestamp timestamp) {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Timestamp timestamp2 = this.timestamp_;
+                    if (timestamp2 != null) {
+                        this.timestamp_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                    } else {
+                        this.timestamp_ = timestamp;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(timestamp);
+                }
+                return this;
+            }
+
+            public Builder clearTimestamp() {
+                if (this.timestampBuilder_ == null) {
+                    this.timestamp_ = null;
+                    onChanged();
+                } else {
+                    this.timestamp_ = null;
+                    this.timestampBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Timestamp.Builder getTimestampBuilder() {
+                onChanged();
+                return getTimestampFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public TimestampOrBuilder getTimestampOrBuilder() {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Timestamp timestamp = this.timestamp_;
+                return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+            }
+
+            private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getTimestampFieldBuilder() {
+                if (this.timestampBuilder_ == null) {
+                    this.timestampBuilder_ = new SingleFieldBuilderV3<>(getTimestamp(), getParentForChildren(), isClean());
+                    this.timestamp_ = null;
+                }
+                return this.timestampBuilder_;
+            }
+
+            private MapField<String, String> internalGetAttachments() {
+                MapField<String, String> mapField = this.attachments_;
+                return mapField == null ? MapField.emptyMapField(AttachmentsDefaultEntryHolder.defaultEntry) : mapField;
+            }
+
+            private MapField<String, String> internalGetMutableAttachments() {
+                onChanged();
+                if (this.attachments_ == null) {
+                    this.attachments_ = MapField.newMapField(AttachmentsDefaultEntryHolder.defaultEntry);
+                }
+                if (!this.attachments_.isMutable()) {
+                    this.attachments_ = this.attachments_.copy();
+                }
+                return this.attachments_;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public int getAttachmentsCount() {
+                return internalGetAttachments().getMap().size();
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public boolean containsAttachments(String str) {
+                str.getClass();
+                return internalGetAttachments().getMap().containsKey(str);
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            @Deprecated
+            public Map<String, String> getAttachments() {
+                return getAttachmentsMap();
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public Map<String, String> getAttachmentsMap() {
+                return internalGetAttachments().getMap();
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public String getAttachmentsOrDefault(String str, String str2) {
+                str.getClass();
+                Map map = internalGetAttachments().getMap();
+                return map.containsKey(str) ? (String) map.get(str) : str2;
+            }
+
+            @Override // io.opencensus.proto.metrics.v1.DistributionValue.ExemplarOrBuilder
+            public String getAttachmentsOrThrow(String str) {
+                str.getClass();
+                Map map = internalGetAttachments().getMap();
+                if (!map.containsKey(str)) {
+                    throw new IllegalArgumentException();
+                }
+                return (String) map.get(str);
+            }
+
+            public Builder clearAttachments() {
+                internalGetMutableAttachments().getMutableMap().clear();
+                return this;
+            }
+
+            public Builder removeAttachments(String str) {
+                str.getClass();
+                internalGetMutableAttachments().getMutableMap().remove(str);
+                return this;
+            }
+
+            @Deprecated
+            public Map<String, String> getMutableAttachments() {
+                return internalGetMutableAttachments().getMutableMap();
+            }
+
+            public Builder putAttachments(String str, String str2) {
+                str.getClass();
+                str2.getClass();
+                internalGetMutableAttachments().getMutableMap().put(str, str2);
+                return this;
+            }
+
+            public Builder putAllAttachments(Map<String, String> map) {
+                internalGetMutableAttachments().getMutableMap().putAll(map);
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m37001setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m36995mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public BucketOptions getBucketOptions() {
+        BucketOptions bucketOptions = this.bucketOptions_;
+        return bucketOptions == null ? BucketOptions.getDefaultInstance() : bucketOptions;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public BucketOptionsOrBuilder getBucketOptionsOrBuilder() {
+        return getBucketOptions();
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public int getBucketsCount() {
+        return this.buckets_.size();
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public Bucket getBuckets(int i) {
+        return this.buckets_.get(i);
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+    public BucketOrBuilder getBucketsOrBuilder(int i) {
+        return this.buckets_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        long j = this.count_;
+        if (j != 0) {
+            codedOutputStream.writeInt64(1, j);
+        }
+        double d = this.sum_;
+        if (d != 0.0d) {
+            codedOutputStream.writeDouble(2, d);
+        }
+        double d2 = this.sumOfSquaredDeviation_;
+        if (d2 != 0.0d) {
+            codedOutputStream.writeDouble(3, d2);
+        }
+        if (this.bucketOptions_ != null) {
+            codedOutputStream.writeMessage(4, getBucketOptions());
+        }
+        for (int i = 0; i < this.buckets_.size(); i++) {
+            codedOutputStream.writeMessage(5, this.buckets_.get(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        long j = this.count_;
+        int iComputeInt64Size = j != 0 ? CodedOutputStream.computeInt64Size(1, j) : 0;
+        double d = this.sum_;
+        if (d != 0.0d) {
+            iComputeInt64Size += CodedOutputStream.computeDoubleSize(2, d);
+        }
+        double d2 = this.sumOfSquaredDeviation_;
+        if (d2 != 0.0d) {
+            iComputeInt64Size += CodedOutputStream.computeDoubleSize(3, d2);
+        }
+        if (this.bucketOptions_ != null) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(4, getBucketOptions());
+        }
+        for (int i2 = 0; i2 < this.buckets_.size(); i2++) {
+            iComputeInt64Size += CodedOutputStream.computeMessageSize(5, this.buckets_.get(i2));
+        }
+        int serializedSize = iComputeInt64Size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof DistributionValue)) {
+            return super.equals(obj);
+        }
+        DistributionValue distributionValue = (DistributionValue) obj;
+        boolean z = getCount() == distributionValue.getCount() && Double.doubleToLongBits(getSum()) == Double.doubleToLongBits(distributionValue.getSum()) && Double.doubleToLongBits(getSumOfSquaredDeviation()) == Double.doubleToLongBits(distributionValue.getSumOfSquaredDeviation()) && hasBucketOptions() == distributionValue.hasBucketOptions();
+        if (!hasBucketOptions() ? z : !(!z || !getBucketOptions().equals(distributionValue.getBucketOptions()))) {
+            if (getBucketsList().equals(distributionValue.getBucketsList()) && this.unknownFields.equals(distributionValue.unknownFields)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + Internal.hashLong(getCount())) * 37) + 2) * 53) + Internal.hashLong(Double.doubleToLongBits(getSum()))) * 37) + 3) * 53) + Internal.hashLong(Double.doubleToLongBits(getSumOfSquaredDeviation()));
+        if (hasBucketOptions()) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getBucketOptions().hashCode();
+        }
+        if (getBucketsCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 5) * 53) + getBucketsList().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    public static DistributionValue parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (DistributionValue) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static DistributionValue parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (DistributionValue) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static DistributionValue parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (DistributionValue) PARSER.parseFrom(byteString);
+    }
+
+    public static DistributionValue parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (DistributionValue) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static DistributionValue parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (DistributionValue) PARSER.parseFrom(bArr);
+    }
+
+    public static DistributionValue parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (DistributionValue) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static DistributionValue parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static DistributionValue parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static DistributionValue parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static DistributionValue parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static DistributionValue parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static DistributionValue parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m36775newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m36778toBuilder();
+    }
+
+    public static Builder newBuilder(DistributionValue distributionValue) {
+        return DEFAULT_INSTANCE.m36778toBuilder().mergeFrom(distributionValue);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m36778toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements DistributionValueOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> bucketOptionsBuilder_;
+        private BucketOptions bucketOptions_;
+        private RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> bucketsBuilder_;
+        private List<Bucket> buckets_;
+        private long count_;
+        private double sumOfSquaredDeviation_;
+        private double sum_;
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public long getCount() {
+            return this.count_;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public double getSum() {
+            return this.sum_;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public double getSumOfSquaredDeviation() {
+            return this.sumOfSquaredDeviation_;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public boolean hasBucketOptions() {
+            return (this.bucketOptionsBuilder_ == null && this.bucketOptions_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_fieldAccessorTable.ensureFieldAccessorsInitialized(DistributionValue.class, Builder.class);
+        }
+
+        private Builder() {
+            this.bucketOptions_ = null;
+            this.buckets_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.bucketOptions_ = null;
+            this.buckets_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (DistributionValue.alwaysUseFieldBuilders) {
+                getBucketsFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36927clear() {
+            super.clear();
+            this.count_ = 0L;
+            this.sum_ = 0.0d;
+            this.sumOfSquaredDeviation_ = 0.0d;
+            if (this.bucketOptionsBuilder_ == null) {
+                this.bucketOptions_ = null;
+            } else {
+                this.bucketOptions_ = null;
+                this.bucketOptionsBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.buckets_ = Collections.emptyList();
+                this.bitField0_ &= -17;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_DistributionValue_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public DistributionValue m36940getDefaultInstanceForType() {
+            return DistributionValue.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public DistributionValue m36921build() throws UninitializedMessageException {
+            DistributionValue distributionValueM36923buildPartial = m36923buildPartial();
+            if (distributionValueM36923buildPartial.isInitialized()) {
+                return distributionValueM36923buildPartial;
+            }
+            throw newUninitializedMessageException(distributionValueM36923buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public DistributionValue m36923buildPartial() {
+            DistributionValue distributionValue = new DistributionValue(this);
+            distributionValue.count_ = this.count_;
+            distributionValue.sum_ = this.sum_;
+            distributionValue.sumOfSquaredDeviation_ = this.sumOfSquaredDeviation_;
+            SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> singleFieldBuilderV3 = this.bucketOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                distributionValue.bucketOptions_ = this.bucketOptions_;
+            } else {
+                distributionValue.bucketOptions_ = singleFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 16) == 16) {
+                    this.buckets_ = Collections.unmodifiableList(this.buckets_);
+                    this.bitField0_ &= -17;
+                }
+                distributionValue.buckets_ = this.buckets_;
+            } else {
+                distributionValue.buckets_ = repeatedFieldBuilderV3.build();
+            }
+            distributionValue.bitField0_ = 0;
+            onBuilt();
+            return distributionValue;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36939clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36951setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36929clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36932clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36953setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36919addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36944mergeFrom(Message message) {
+            if (message instanceof DistributionValue) {
+                return mergeFrom((DistributionValue) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(DistributionValue distributionValue) {
+            if (distributionValue == DistributionValue.getDefaultInstance()) {
+                return this;
+            }
+            if (distributionValue.getCount() != 0) {
+                setCount(distributionValue.getCount());
+            }
+            if (distributionValue.getSum() != 0.0d) {
+                setSum(distributionValue.getSum());
+            }
+            if (distributionValue.getSumOfSquaredDeviation() != 0.0d) {
+                setSumOfSquaredDeviation(distributionValue.getSumOfSquaredDeviation());
+            }
+            if (distributionValue.hasBucketOptions()) {
+                mergeBucketOptions(distributionValue.getBucketOptions());
+            }
+            if (this.bucketsBuilder_ == null) {
+                if (!distributionValue.buckets_.isEmpty()) {
+                    if (this.buckets_.isEmpty()) {
+                        this.buckets_ = distributionValue.buckets_;
+                        this.bitField0_ &= -17;
+                    } else {
+                        ensureBucketsIsMutable();
+                        this.buckets_.addAll(distributionValue.buckets_);
+                    }
+                    onChanged();
+                }
+            } else if (!distributionValue.buckets_.isEmpty()) {
+                if (!this.bucketsBuilder_.isEmpty()) {
+                    this.bucketsBuilder_.addAllMessages(distributionValue.buckets_);
+                } else {
+                    this.bucketsBuilder_.dispose();
+                    this.bucketsBuilder_ = null;
+                    this.buckets_ = distributionValue.buckets_;
+                    this.bitField0_ &= -17;
+                    this.bucketsBuilder_ = DistributionValue.alwaysUseFieldBuilders ? getBucketsFieldBuilder() : null;
+                }
+            }
+            m36949mergeUnknownFields(distributionValue.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.metrics.v1.DistributionValue.Builder m36945mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.metrics.v1.DistributionValue.access$5000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.metrics.v1.DistributionValue r3 = (io.opencensus.proto.metrics.v1.DistributionValue) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.metrics.v1.DistributionValue r4 = (io.opencensus.proto.metrics.v1.DistributionValue) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.metrics.v1.DistributionValue.Builder.m36945mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.metrics.v1.DistributionValue$Builder");
+        }
+
+        public Builder setCount(long j) {
+            this.count_ = j;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearCount() {
+            this.count_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder setSum(double d) {
+            this.sum_ = d;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSum() {
+            this.sum_ = 0.0d;
+            onChanged();
+            return this;
+        }
+
+        public Builder setSumOfSquaredDeviation(double d) {
+            this.sumOfSquaredDeviation_ = d;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSumOfSquaredDeviation() {
+            this.sumOfSquaredDeviation_ = 0.0d;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public BucketOptions getBucketOptions() {
+            SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> singleFieldBuilderV3 = this.bucketOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BucketOptions bucketOptions = this.bucketOptions_;
+            return bucketOptions == null ? BucketOptions.getDefaultInstance() : bucketOptions;
+        }
+
+        public Builder setBucketOptions(BucketOptions bucketOptions) {
+            SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> singleFieldBuilderV3 = this.bucketOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                bucketOptions.getClass();
+                this.bucketOptions_ = bucketOptions;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(bucketOptions);
+            }
+            return this;
+        }
+
+        public Builder setBucketOptions(BucketOptions.Builder builder) {
+            SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> singleFieldBuilderV3 = this.bucketOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.bucketOptions_ = builder.m36837build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m36837build());
+            }
+            return this;
+        }
+
+        public Builder mergeBucketOptions(BucketOptions bucketOptions) {
+            SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> singleFieldBuilderV3 = this.bucketOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BucketOptions bucketOptions2 = this.bucketOptions_;
+                if (bucketOptions2 != null) {
+                    this.bucketOptions_ = BucketOptions.newBuilder(bucketOptions2).mergeFrom(bucketOptions).m36839buildPartial();
+                } else {
+                    this.bucketOptions_ = bucketOptions;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(bucketOptions);
+            }
+            return this;
+        }
+
+        public Builder clearBucketOptions() {
+            if (this.bucketOptionsBuilder_ == null) {
+                this.bucketOptions_ = null;
+                onChanged();
+            } else {
+                this.bucketOptions_ = null;
+                this.bucketOptionsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BucketOptions.Builder getBucketOptionsBuilder() {
+            onChanged();
+            return getBucketOptionsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public BucketOptionsOrBuilder getBucketOptionsOrBuilder() {
+            SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> singleFieldBuilderV3 = this.bucketOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (BucketOptionsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BucketOptions bucketOptions = this.bucketOptions_;
+            return bucketOptions == null ? BucketOptions.getDefaultInstance() : bucketOptions;
+        }
+
+        private SingleFieldBuilderV3<BucketOptions, BucketOptions.Builder, BucketOptionsOrBuilder> getBucketOptionsFieldBuilder() {
+            if (this.bucketOptionsBuilder_ == null) {
+                this.bucketOptionsBuilder_ = new SingleFieldBuilderV3<>(getBucketOptions(), getParentForChildren(), isClean());
+                this.bucketOptions_ = null;
+            }
+            return this.bucketOptionsBuilder_;
+        }
+
+        private void ensureBucketsIsMutable() {
+            if ((this.bitField0_ & 16) != 16) {
+                this.buckets_ = new ArrayList(this.buckets_);
+                this.bitField0_ |= 16;
+            }
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public List<Bucket> getBucketsList() {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.buckets_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public int getBucketsCount() {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.buckets_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public Bucket getBuckets(int i) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.buckets_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setBuckets(int i, Bucket bucket) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                bucket.getClass();
+                ensureBucketsIsMutable();
+                this.buckets_.set(i, bucket);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, bucket);
+            }
+            return this;
+        }
+
+        public Builder setBuckets(int i, Bucket.Builder builder) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureBucketsIsMutable();
+                this.buckets_.set(i, builder.m36791build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m36791build());
+            }
+            return this;
+        }
+
+        public Builder addBuckets(Bucket bucket) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                bucket.getClass();
+                ensureBucketsIsMutable();
+                this.buckets_.add(bucket);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(bucket);
+            }
+            return this;
+        }
+
+        public Builder addBuckets(int i, Bucket bucket) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                bucket.getClass();
+                ensureBucketsIsMutable();
+                this.buckets_.add(i, bucket);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, bucket);
+            }
+            return this;
+        }
+
+        public Builder addBuckets(Bucket.Builder builder) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureBucketsIsMutable();
+                this.buckets_.add(builder.m36791build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m36791build());
+            }
+            return this;
+        }
+
+        public Builder addBuckets(int i, Bucket.Builder builder) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureBucketsIsMutable();
+                this.buckets_.add(i, builder.m36791build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m36791build());
+            }
+            return this;
+        }
+
+        public Builder addAllBuckets(Iterable<? extends Bucket> iterable) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureBucketsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.buckets_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearBuckets() {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.buckets_ = Collections.emptyList();
+                this.bitField0_ &= -17;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeBuckets(int i) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureBucketsIsMutable();
+                this.buckets_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public Bucket.Builder getBucketsBuilder(int i) {
+            return getBucketsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public BucketOrBuilder getBucketsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.buckets_.get(i);
+            }
+            return (BucketOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.DistributionValueOrBuilder
+        public List<? extends BucketOrBuilder> getBucketsOrBuilderList() {
+            RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> repeatedFieldBuilderV3 = this.bucketsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.buckets_);
+        }
+
+        public Bucket.Builder addBucketsBuilder() {
+            return getBucketsFieldBuilder().addBuilder(Bucket.getDefaultInstance());
+        }
+
+        public Bucket.Builder addBucketsBuilder(int i) {
+            return getBucketsFieldBuilder().addBuilder(i, Bucket.getDefaultInstance());
+        }
+
+        public List<Bucket.Builder> getBucketsBuilderList() {
+            return getBucketsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<Bucket, Bucket.Builder, BucketOrBuilder> getBucketsFieldBuilder() {
+            if (this.bucketsBuilder_ == null) {
+                this.bucketsBuilder_ = new RepeatedFieldBuilderV3<>(this.buckets_, (this.bitField0_ & 16) == 16, getParentForChildren(), isClean());
+                this.buckets_ = null;
+            }
+            return this.bucketsBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m36955setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m36949mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

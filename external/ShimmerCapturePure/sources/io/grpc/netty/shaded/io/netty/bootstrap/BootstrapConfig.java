@@ -1,0 +1,36 @@
+package io.grpc.netty.shaded.io.netty.bootstrap;
+
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.resolver.AddressResolverGroup;
+
+import java.net.SocketAddress;
+
+/* loaded from: classes3.dex */
+public final class BootstrapConfig extends AbstractBootstrapConfig<Bootstrap, Channel> {
+    BootstrapConfig(Bootstrap bootstrap) {
+        super(bootstrap);
+    }
+
+    public SocketAddress remoteAddress() {
+        return ((Bootstrap) this.bootstrap).remoteAddress();
+    }
+
+    public AddressResolverGroup<?> resolver() {
+        return ((Bootstrap) this.bootstrap).resolver();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.bootstrap.AbstractBootstrapConfig
+    public String toString() {
+        StringBuilder sb = new StringBuilder(super.toString());
+        sb.setLength(sb.length() - 1);
+        sb.append(", resolver: ");
+        sb.append(resolver());
+        SocketAddress socketAddressRemoteAddress = remoteAddress();
+        if (socketAddressRemoteAddress != null) {
+            sb.append(", remoteAddress: ");
+            sb.append(socketAddressRemoteAddress);
+        }
+        sb.append(')');
+        return sb.toString();
+    }
+}

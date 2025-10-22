@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/motion/utils/DifferentialInterpolator.java
+// Size: 202 bytes
+// Modified: 2025-10-21 16:31:59.822230700 +0100
+
+package androidx.constraintlayout.core.motion.utils;
+
+/* loaded from: classes.dex */
+public interface DifferentialInterpolator {
+    float getInterpolation(float f);
+
+    float getVelocity();
+}

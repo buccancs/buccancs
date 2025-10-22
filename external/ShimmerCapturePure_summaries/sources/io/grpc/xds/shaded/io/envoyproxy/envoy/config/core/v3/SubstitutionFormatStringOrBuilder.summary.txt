@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/SubstitutionFormatStringOrBuilder.java
+// Size: 679 bytes
+// Modified: 2025-10-21 16:32:02.707877600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Struct;
+import com.google.protobuf.StructOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SubstitutionFormatString;
+
+/* loaded from: classes6.dex */
+public interface SubstitutionFormatStringOrBuilder extends MessageOrBuilder {
+    SubstitutionFormatString.FormatCase getFormatCase();
+
+    Struct getJsonFormat();
+
+    StructOrBuilder getJsonFormatOrBuilder();
+
+    String getTextFormat();
+
+    ByteString getTextFormatBytes();
+
+    boolean hasJsonFormat();
+}

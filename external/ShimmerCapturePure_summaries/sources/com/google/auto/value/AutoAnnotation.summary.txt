@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/auto/value/AutoAnnotation.java
+// Size: 339 bytes
+// Modified: 2025-10-21 16:32:00.150828300 +0100
+
+package com.google.auto.value;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.SOURCE)
+/* loaded from: classes.dex */
+public @interface AutoAnnotation {
+}

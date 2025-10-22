@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/HttpEncodingStreamingContent.java
+// Size: 1056 bytes
+// Modified: 2025-10-21 16:32:03.345700600 +0100
+
+package com.google.api.client.http;
+
+import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.StreamingContent;
+import java.io.IOException;
+import java.io.OutputStream;
+
+/* loaded from: classes.dex */
+public final class HttpEncodingStreamingContent implements StreamingContent {
+    private final StreamingContent content;
+    private final HttpEncoding encoding;
+
+    public StreamingContent getContent() {
+        return this.content;
+    }
+
+    public HttpEncoding getEncoding() {
+        return this.encoding;
+    }
+
+    public HttpEncodingStreamingContent(StreamingContent streamingContent, HttpEncoding httpEncoding) {
+        this.content = (StreamingContent) Preconditions.checkNotNull(streamingContent);
+        this.encoding = (HttpEncoding) Preconditions.checkNotNull(httpEncoding);
+    }
+
+    @Override // com.google.api.client.util.StreamingContent
+    public void writeTo(OutputStream outputStream) throws IOException {
+        this.encoding.encode(this.content, outputStream);
+    }
+}

@@ -1,0 +1,1290 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/DeltaDiscoveryRequest.java
+// Size: 62227 bytes
+// Modified: 2025-10-21 16:32:06.868896600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.MapEntry;
+import com.google.protobuf.MapField;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import com.google.protobuf.WireFormat;
+import com.google.rpc.Status;
+import com.google.rpc.StatusOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public final class DeltaDiscoveryRequest extends GeneratedMessageV3 implements DeltaDiscoveryRequestOrBuilder {
+    public static final int ERROR_DETAIL_FIELD_NUMBER = 7;
+    public static final int INITIAL_RESOURCE_VERSIONS_FIELD_NUMBER = 5;
+    public static final int NODE_FIELD_NUMBER = 1;
+    public static final int RESOURCE_NAMES_SUBSCRIBE_FIELD_NUMBER = 3;
+    public static final int RESOURCE_NAMES_UNSUBSCRIBE_FIELD_NUMBER = 4;
+    public static final int RESPONSE_NONCE_FIELD_NUMBER = 6;
+    public static final int TYPE_URL_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private Status errorDetail_;
+    private MapField<String, String> initialResourceVersions_;
+    private byte memoizedIsInitialized;
+    private Node node_;
+    private LazyStringList resourceNamesSubscribe_;
+    private LazyStringList resourceNamesUnsubscribe_;
+    private volatile Object responseNonce_;
+    private volatile Object typeUrl_;
+    private static final DeltaDiscoveryRequest DEFAULT_INSTANCE = new DeltaDiscoveryRequest();
+    private static final Parser<DeltaDiscoveryRequest> PARSER = new AbstractParser<DeltaDiscoveryRequest>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public DeltaDiscoveryRequest m12450parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new DeltaDiscoveryRequest(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static DeltaDiscoveryRequest getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<DeltaDiscoveryRequest> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public DeltaDiscoveryRequest m12441getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<DeltaDiscoveryRequest> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    /* renamed from: getResourceNamesSubscribeList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo12443getResourceNamesSubscribeList() {
+        return this.resourceNamesSubscribe_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    /* renamed from: getResourceNamesUnsubscribeList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo12444getResourceNamesUnsubscribeList() {
+        return this.resourceNamesUnsubscribe_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public boolean hasErrorDetail() {
+        return this.errorDetail_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public boolean hasNode() {
+        return this.node_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private DeltaDiscoveryRequest(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private DeltaDiscoveryRequest() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.typeUrl_ = "";
+        this.resourceNamesSubscribe_ = LazyStringArrayList.EMPTY;
+        this.resourceNamesUnsubscribe_ = LazyStringArrayList.EMPTY;
+        this.responseNonce_ = "";
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new DeltaDiscoveryRequest();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private DeltaDiscoveryRequest(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Node node = this.node_;
+                            Node.Builder builderM16335toBuilder = node != null ? node.m16335toBuilder() : null;
+                            Node node2 = (Node) codedInputStream.readMessage(Node.parser(), extensionRegistryLite);
+                            this.node_ = node2;
+                            if (builderM16335toBuilder != null) {
+                                builderM16335toBuilder.mergeFrom(node2);
+                                this.node_ = builderM16335toBuilder.m16342buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            this.typeUrl_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 26) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 1) == 0) {
+                                this.resourceNamesSubscribe_ = new LazyStringArrayList();
+                                i |= 1;
+                            }
+                            this.resourceNamesSubscribe_.add(stringRequireUtf8);
+                        } else if (tag == 34) {
+                            String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 2) == 0) {
+                                this.resourceNamesUnsubscribe_ = new LazyStringArrayList();
+                                i |= 2;
+                            }
+                            this.resourceNamesUnsubscribe_.add(stringRequireUtf82);
+                        } else if (tag == 42) {
+                            if ((i & 4) == 0) {
+                                this.initialResourceVersions_ = MapField.newMapField(InitialResourceVersionsDefaultEntryHolder.defaultEntry);
+                                i |= 4;
+                            }
+                            MapEntry message = codedInputStream.readMessage(InitialResourceVersionsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistryLite);
+                            this.initialResourceVersions_.getMutableMap().put(message.getKey(), message.getValue());
+                        } else if (tag == 50) {
+                            this.responseNonce_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 58) {
+                            Status status = this.errorDetail_;
+                            Status.Builder builderM3997toBuilder = status != null ? status.m3997toBuilder() : null;
+                            Status status2 = (Status) codedInputStream.readMessage(Status.parser(), extensionRegistryLite);
+                            this.errorDetail_ = status2;
+                            if (builderM3997toBuilder != null) {
+                                builderM3997toBuilder.mergeFrom(status2);
+                                this.errorDetail_ = builderM3997toBuilder.m4004buildPartial();
+                            }
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.resourceNamesSubscribe_ = this.resourceNamesSubscribe_.getUnmodifiableView();
+                }
+                if ((i & 2) != 0) {
+                    this.resourceNamesUnsubscribe_ = this.resourceNamesUnsubscribe_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return DiscoveryProto.internal_static_envoy_api_v2_DeltaDiscoveryRequest_descriptor;
+    }
+
+    protected MapField internalGetMapField(int i) {
+        if (i == 5) {
+            return internalGetInitialResourceVersions();
+        }
+        throw new RuntimeException("Invalid map field number: " + i);
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return DiscoveryProto.internal_static_envoy_api_v2_DeltaDiscoveryRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(DeltaDiscoveryRequest.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public Node getNode() {
+        Node node = this.node_;
+        return node == null ? Node.getDefaultInstance() : node;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public NodeOrBuilder getNodeOrBuilder() {
+        return getNode();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public String getTypeUrl() {
+        Object obj = this.typeUrl_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.typeUrl_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public ByteString getTypeUrlBytes() {
+        Object obj = this.typeUrl_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.typeUrl_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public int getResourceNamesSubscribeCount() {
+        return this.resourceNamesSubscribe_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public String getResourceNamesSubscribe(int i) {
+        return (String) this.resourceNamesSubscribe_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public ByteString getResourceNamesSubscribeBytes(int i) {
+        return this.resourceNamesSubscribe_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public int getResourceNamesUnsubscribeCount() {
+        return this.resourceNamesUnsubscribe_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public String getResourceNamesUnsubscribe(int i) {
+        return (String) this.resourceNamesUnsubscribe_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public ByteString getResourceNamesUnsubscribeBytes(int i) {
+        return this.resourceNamesUnsubscribe_.getByteString(i);
+    }
+
+    private static final class InitialResourceVersionsDefaultEntryHolder {
+        static final MapEntry<String, String> defaultEntry = MapEntry.newDefaultInstance(DiscoveryProto.internal_static_envoy_api_v2_DeltaDiscoveryRequest_InitialResourceVersionsEntry_descriptor, WireFormat.FieldType.STRING, "", WireFormat.FieldType.STRING, "");
+
+        private InitialResourceVersionsDefaultEntryHolder() {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public MapField<String, String> internalGetInitialResourceVersions() {
+        MapField<String, String> mapField = this.initialResourceVersions_;
+        return mapField == null ? MapField.emptyMapField(InitialResourceVersionsDefaultEntryHolder.defaultEntry) : mapField;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public int getInitialResourceVersionsCount() {
+        return internalGetInitialResourceVersions().getMap().size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public boolean containsInitialResourceVersions(String str) {
+        str.getClass();
+        return internalGetInitialResourceVersions().getMap().containsKey(str);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    @Deprecated
+    public Map<String, String> getInitialResourceVersions() {
+        return getInitialResourceVersionsMap();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public Map<String, String> getInitialResourceVersionsMap() {
+        return internalGetInitialResourceVersions().getMap();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public String getInitialResourceVersionsOrDefault(String str, String str2) {
+        str.getClass();
+        Map map = internalGetInitialResourceVersions().getMap();
+        return map.containsKey(str) ? (String) map.get(str) : str2;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public String getInitialResourceVersionsOrThrow(String str) {
+        str.getClass();
+        Map map = internalGetInitialResourceVersions().getMap();
+        if (!map.containsKey(str)) {
+            throw new IllegalArgumentException();
+        }
+        return (String) map.get(str);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public String getResponseNonce() {
+        Object obj = this.responseNonce_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.responseNonce_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public ByteString getResponseNonceBytes() {
+        Object obj = this.responseNonce_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.responseNonce_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public Status getErrorDetail() {
+        Status status = this.errorDetail_;
+        return status == null ? Status.getDefaultInstance() : status;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+    public StatusOrBuilder getErrorDetailOrBuilder() {
+        return getErrorDetail();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.node_ != null) {
+            codedOutputStream.writeMessage(1, getNode());
+        }
+        if (!getTypeUrlBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.typeUrl_);
+        }
+        for (int i = 0; i < this.resourceNamesSubscribe_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.resourceNamesSubscribe_.getRaw(i));
+        }
+        for (int i2 = 0; i2 < this.resourceNamesUnsubscribe_.size(); i2++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 4, this.resourceNamesUnsubscribe_.getRaw(i2));
+        }
+        GeneratedMessageV3.serializeStringMapTo(codedOutputStream, internalGetInitialResourceVersions(), InitialResourceVersionsDefaultEntryHolder.defaultEntry, 5);
+        if (!getResponseNonceBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 6, this.responseNonce_);
+        }
+        if (this.errorDetail_ != null) {
+            codedOutputStream.writeMessage(7, getErrorDetail());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.node_ != null ? CodedOutputStream.computeMessageSize(1, getNode()) : 0;
+        if (!getTypeUrlBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(2, this.typeUrl_);
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.resourceNamesSubscribe_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.resourceNamesSubscribe_.getRaw(i2));
+        }
+        int size = iComputeMessageSize + iComputeStringSizeNoTag + mo12443getResourceNamesSubscribeList().size();
+        int iComputeStringSizeNoTag2 = 0;
+        for (int i3 = 0; i3 < this.resourceNamesUnsubscribe_.size(); i3++) {
+            iComputeStringSizeNoTag2 += computeStringSizeNoTag(this.resourceNamesUnsubscribe_.getRaw(i3));
+        }
+        int size2 = size + iComputeStringSizeNoTag2 + mo12444getResourceNamesUnsubscribeList().size();
+        for (Map.Entry entry : internalGetInitialResourceVersions().getMap().entrySet()) {
+            size2 += CodedOutputStream.computeMessageSize(5, InitialResourceVersionsDefaultEntryHolder.defaultEntry.newBuilderForType().setKey(entry.getKey()).setValue(entry.getValue()).build());
+        }
+        if (!getResponseNonceBytes().isEmpty()) {
+            size2 += GeneratedMessageV3.computeStringSize(6, this.responseNonce_);
+        }
+        if (this.errorDetail_ != null) {
+            size2 += CodedOutputStream.computeMessageSize(7, getErrorDetail());
+        }
+        int serializedSize = size2 + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof DeltaDiscoveryRequest)) {
+            return super.equals(obj);
+        }
+        DeltaDiscoveryRequest deltaDiscoveryRequest = (DeltaDiscoveryRequest) obj;
+        if (hasNode() != deltaDiscoveryRequest.hasNode()) {
+            return false;
+        }
+        if ((!hasNode() || getNode().equals(deltaDiscoveryRequest.getNode())) && getTypeUrl().equals(deltaDiscoveryRequest.getTypeUrl()) && mo12443getResourceNamesSubscribeList().equals(deltaDiscoveryRequest.mo12443getResourceNamesSubscribeList()) && mo12444getResourceNamesUnsubscribeList().equals(deltaDiscoveryRequest.mo12444getResourceNamesUnsubscribeList()) && internalGetInitialResourceVersions().equals(deltaDiscoveryRequest.internalGetInitialResourceVersions()) && getResponseNonce().equals(deltaDiscoveryRequest.getResponseNonce()) && hasErrorDetail() == deltaDiscoveryRequest.hasErrorDetail()) {
+            return (!hasErrorDetail() || getErrorDetail().equals(deltaDiscoveryRequest.getErrorDetail())) && this.unknownFields.equals(deltaDiscoveryRequest.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasNode()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getNode().hashCode();
+        }
+        int iHashCode2 = (((iHashCode * 37) + 2) * 53) + getTypeUrl().hashCode();
+        if (getResourceNamesSubscribeCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 3) * 53) + mo12443getResourceNamesSubscribeList().hashCode();
+        }
+        if (getResourceNamesUnsubscribeCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + mo12444getResourceNamesUnsubscribeList().hashCode();
+        }
+        if (!internalGetInitialResourceVersions().getMap().isEmpty()) {
+            iHashCode2 = (((iHashCode2 * 37) + 5) * 53) + internalGetInitialResourceVersions().hashCode();
+        }
+        int iHashCode3 = (((iHashCode2 * 37) + 6) * 53) + getResponseNonce().hashCode();
+        if (hasErrorDetail()) {
+            iHashCode3 = (((iHashCode3 * 37) + 7) * 53) + getErrorDetail().hashCode();
+        }
+        int iHashCode4 = (iHashCode3 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode4;
+        return iHashCode4;
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (DeltaDiscoveryRequest) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (DeltaDiscoveryRequest) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (DeltaDiscoveryRequest) PARSER.parseFrom(byteString);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (DeltaDiscoveryRequest) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (DeltaDiscoveryRequest) PARSER.parseFrom(bArr);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (DeltaDiscoveryRequest) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static DeltaDiscoveryRequest parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static DeltaDiscoveryRequest parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static DeltaDiscoveryRequest parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m12445newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m12448toBuilder();
+    }
+
+    public static Builder newBuilder(DeltaDiscoveryRequest deltaDiscoveryRequest) {
+        return DEFAULT_INSTANCE.m12448toBuilder().mergeFrom(deltaDiscoveryRequest);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m12448toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements DeltaDiscoveryRequestOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> errorDetailBuilder_;
+        private Status errorDetail_;
+        private MapField<String, String> initialResourceVersions_;
+        private SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> nodeBuilder_;
+        private Node node_;
+        private LazyStringList resourceNamesSubscribe_;
+        private LazyStringList resourceNamesUnsubscribe_;
+        private Object responseNonce_;
+        private Object typeUrl_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public boolean hasErrorDetail() {
+            return (this.errorDetailBuilder_ == null && this.errorDetail_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public boolean hasNode() {
+            return (this.nodeBuilder_ == null && this.node_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DiscoveryProto.internal_static_envoy_api_v2_DeltaDiscoveryRequest_descriptor;
+        }
+
+        protected MapField internalGetMapField(int i) {
+            if (i == 5) {
+                return internalGetInitialResourceVersions();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected MapField internalGetMutableMapField(int i) {
+            if (i == 5) {
+                return internalGetMutableInitialResourceVersions();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DiscoveryProto.internal_static_envoy_api_v2_DeltaDiscoveryRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(DeltaDiscoveryRequest.class, Builder.class);
+        }
+
+        private Builder() {
+            this.typeUrl_ = "";
+            this.resourceNamesSubscribe_ = LazyStringArrayList.EMPTY;
+            this.resourceNamesUnsubscribe_ = LazyStringArrayList.EMPTY;
+            this.responseNonce_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.typeUrl_ = "";
+            this.resourceNamesSubscribe_ = LazyStringArrayList.EMPTY;
+            this.resourceNamesUnsubscribe_ = LazyStringArrayList.EMPTY;
+            this.responseNonce_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = DeltaDiscoveryRequest.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12459clear() {
+            super.clear();
+            if (this.nodeBuilder_ == null) {
+                this.node_ = null;
+            } else {
+                this.node_ = null;
+                this.nodeBuilder_ = null;
+            }
+            this.typeUrl_ = "";
+            this.resourceNamesSubscribe_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            this.resourceNamesUnsubscribe_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            internalGetMutableInitialResourceVersions().clear();
+            this.responseNonce_ = "";
+            if (this.errorDetailBuilder_ == null) {
+                this.errorDetail_ = null;
+            } else {
+                this.errorDetail_ = null;
+                this.errorDetailBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return DiscoveryProto.internal_static_envoy_api_v2_DeltaDiscoveryRequest_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public DeltaDiscoveryRequest m12472getDefaultInstanceForType() {
+            return DeltaDiscoveryRequest.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public DeltaDiscoveryRequest m12453build() throws UninitializedMessageException {
+            DeltaDiscoveryRequest deltaDiscoveryRequestM12455buildPartial = m12455buildPartial();
+            if (deltaDiscoveryRequestM12455buildPartial.isInitialized()) {
+                return deltaDiscoveryRequestM12455buildPartial;
+            }
+            throw newUninitializedMessageException(deltaDiscoveryRequestM12455buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public DeltaDiscoveryRequest m12455buildPartial() {
+            DeltaDiscoveryRequest deltaDiscoveryRequest = new DeltaDiscoveryRequest(this);
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                deltaDiscoveryRequest.node_ = this.node_;
+            } else {
+                deltaDiscoveryRequest.node_ = singleFieldBuilderV3.build();
+            }
+            deltaDiscoveryRequest.typeUrl_ = this.typeUrl_;
+            if ((this.bitField0_ & 1) != 0) {
+                this.resourceNamesSubscribe_ = this.resourceNamesSubscribe_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            deltaDiscoveryRequest.resourceNamesSubscribe_ = this.resourceNamesSubscribe_;
+            if ((this.bitField0_ & 2) != 0) {
+                this.resourceNamesUnsubscribe_ = this.resourceNamesUnsubscribe_.getUnmodifiableView();
+                this.bitField0_ &= -3;
+            }
+            deltaDiscoveryRequest.resourceNamesUnsubscribe_ = this.resourceNamesUnsubscribe_;
+            deltaDiscoveryRequest.initialResourceVersions_ = internalGetInitialResourceVersions();
+            deltaDiscoveryRequest.initialResourceVersions_.makeImmutable();
+            deltaDiscoveryRequest.responseNonce_ = this.responseNonce_;
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV32 = this.errorDetailBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                deltaDiscoveryRequest.errorDetail_ = this.errorDetail_;
+            } else {
+                deltaDiscoveryRequest.errorDetail_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return deltaDiscoveryRequest;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12471clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12483setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12461clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12464clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12485setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12451addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m12476mergeFrom(Message message) {
+            if (message instanceof DeltaDiscoveryRequest) {
+                return mergeFrom((DeltaDiscoveryRequest) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(DeltaDiscoveryRequest deltaDiscoveryRequest) {
+            if (deltaDiscoveryRequest == DeltaDiscoveryRequest.getDefaultInstance()) {
+                return this;
+            }
+            if (deltaDiscoveryRequest.hasNode()) {
+                mergeNode(deltaDiscoveryRequest.getNode());
+            }
+            if (!deltaDiscoveryRequest.getTypeUrl().isEmpty()) {
+                this.typeUrl_ = deltaDiscoveryRequest.typeUrl_;
+                onChanged();
+            }
+            if (!deltaDiscoveryRequest.resourceNamesSubscribe_.isEmpty()) {
+                if (this.resourceNamesSubscribe_.isEmpty()) {
+                    this.resourceNamesSubscribe_ = deltaDiscoveryRequest.resourceNamesSubscribe_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureResourceNamesSubscribeIsMutable();
+                    this.resourceNamesSubscribe_.addAll(deltaDiscoveryRequest.resourceNamesSubscribe_);
+                }
+                onChanged();
+            }
+            if (!deltaDiscoveryRequest.resourceNamesUnsubscribe_.isEmpty()) {
+                if (this.resourceNamesUnsubscribe_.isEmpty()) {
+                    this.resourceNamesUnsubscribe_ = deltaDiscoveryRequest.resourceNamesUnsubscribe_;
+                    this.bitField0_ &= -3;
+                } else {
+                    ensureResourceNamesUnsubscribeIsMutable();
+                    this.resourceNamesUnsubscribe_.addAll(deltaDiscoveryRequest.resourceNamesUnsubscribe_);
+                }
+                onChanged();
+            }
+            internalGetMutableInitialResourceVersions().mergeFrom(deltaDiscoveryRequest.internalGetInitialResourceVersions());
+            if (!deltaDiscoveryRequest.getResponseNonce().isEmpty()) {
+                this.responseNonce_ = deltaDiscoveryRequest.responseNonce_;
+                onChanged();
+            }
+            if (deltaDiscoveryRequest.hasErrorDetail()) {
+                mergeErrorDetail(deltaDiscoveryRequest.getErrorDetail());
+            }
+            m12481mergeUnknownFields(deltaDiscoveryRequest.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest.Builder m12477mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest.access$1300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest.Builder.m12477mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequest$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public Node getNode() {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Node node = this.node_;
+            return node == null ? Node.getDefaultInstance() : node;
+        }
+
+        public Builder setNode(Node node) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                node.getClass();
+                this.node_ = node;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(node);
+            }
+            return this;
+        }
+
+        public Builder setNode(Node.Builder builder) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.node_ = builder.m16340build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m16340build());
+            }
+            return this;
+        }
+
+        public Builder mergeNode(Node node) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Node node2 = this.node_;
+                if (node2 != null) {
+                    this.node_ = Node.newBuilder(node2).mergeFrom(node).m16342buildPartial();
+                } else {
+                    this.node_ = node;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(node);
+            }
+            return this;
+        }
+
+        public Builder clearNode() {
+            if (this.nodeBuilder_ == null) {
+                this.node_ = null;
+                onChanged();
+            } else {
+                this.node_ = null;
+                this.nodeBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Node.Builder getNodeBuilder() {
+            onChanged();
+            return getNodeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public NodeOrBuilder getNodeOrBuilder() {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (NodeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Node node = this.node_;
+            return node == null ? Node.getDefaultInstance() : node;
+        }
+
+        private SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> getNodeFieldBuilder() {
+            if (this.nodeBuilder_ == null) {
+                this.nodeBuilder_ = new SingleFieldBuilderV3<>(getNode(), getParentForChildren(), isClean());
+                this.node_ = null;
+            }
+            return this.nodeBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public String getTypeUrl() {
+            Object obj = this.typeUrl_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.typeUrl_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public ByteString getTypeUrlBytes() {
+            Object obj = this.typeUrl_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.typeUrl_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setTypeUrl(String str) {
+            str.getClass();
+            this.typeUrl_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTypeUrl() {
+            this.typeUrl_ = DeltaDiscoveryRequest.getDefaultInstance().getTypeUrl();
+            onChanged();
+            return this;
+        }
+
+        public Builder setTypeUrlBytes(ByteString byteString) {
+            byteString.getClass();
+            DeltaDiscoveryRequest.checkByteStringIsUtf8(byteString);
+            this.typeUrl_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        private void ensureResourceNamesSubscribeIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.resourceNamesSubscribe_ = new LazyStringArrayList(this.resourceNamesSubscribe_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        /* renamed from: getResourceNamesSubscribeList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo12443getResourceNamesSubscribeList() {
+            return this.resourceNamesSubscribe_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public int getResourceNamesSubscribeCount() {
+            return this.resourceNamesSubscribe_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public String getResourceNamesSubscribe(int i) {
+            return (String) this.resourceNamesSubscribe_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public ByteString getResourceNamesSubscribeBytes(int i) {
+            return this.resourceNamesSubscribe_.getByteString(i);
+        }
+
+        public Builder setResourceNamesSubscribe(int i, String str) {
+            str.getClass();
+            ensureResourceNamesSubscribeIsMutable();
+            this.resourceNamesSubscribe_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addResourceNamesSubscribe(String str) {
+            str.getClass();
+            ensureResourceNamesSubscribeIsMutable();
+            this.resourceNamesSubscribe_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllResourceNamesSubscribe(Iterable<String> iterable) {
+            ensureResourceNamesSubscribeIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.resourceNamesSubscribe_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearResourceNamesSubscribe() {
+            this.resourceNamesSubscribe_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addResourceNamesSubscribeBytes(ByteString byteString) {
+            byteString.getClass();
+            DeltaDiscoveryRequest.checkByteStringIsUtf8(byteString);
+            ensureResourceNamesSubscribeIsMutable();
+            this.resourceNamesSubscribe_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureResourceNamesUnsubscribeIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.resourceNamesUnsubscribe_ = new LazyStringArrayList(this.resourceNamesUnsubscribe_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        /* renamed from: getResourceNamesUnsubscribeList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo12444getResourceNamesUnsubscribeList() {
+            return this.resourceNamesUnsubscribe_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public int getResourceNamesUnsubscribeCount() {
+            return this.resourceNamesUnsubscribe_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public String getResourceNamesUnsubscribe(int i) {
+            return (String) this.resourceNamesUnsubscribe_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public ByteString getResourceNamesUnsubscribeBytes(int i) {
+            return this.resourceNamesUnsubscribe_.getByteString(i);
+        }
+
+        public Builder setResourceNamesUnsubscribe(int i, String str) {
+            str.getClass();
+            ensureResourceNamesUnsubscribeIsMutable();
+            this.resourceNamesUnsubscribe_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addResourceNamesUnsubscribe(String str) {
+            str.getClass();
+            ensureResourceNamesUnsubscribeIsMutable();
+            this.resourceNamesUnsubscribe_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllResourceNamesUnsubscribe(Iterable<String> iterable) {
+            ensureResourceNamesUnsubscribeIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.resourceNamesUnsubscribe_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearResourceNamesUnsubscribe() {
+            this.resourceNamesUnsubscribe_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            onChanged();
+            return this;
+        }
+
+        public Builder addResourceNamesUnsubscribeBytes(ByteString byteString) {
+            byteString.getClass();
+            DeltaDiscoveryRequest.checkByteStringIsUtf8(byteString);
+            ensureResourceNamesUnsubscribeIsMutable();
+            this.resourceNamesUnsubscribe_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private MapField<String, String> internalGetInitialResourceVersions() {
+            MapField<String, String> mapField = this.initialResourceVersions_;
+            return mapField == null ? MapField.emptyMapField(InitialResourceVersionsDefaultEntryHolder.defaultEntry) : mapField;
+        }
+
+        private MapField<String, String> internalGetMutableInitialResourceVersions() {
+            onChanged();
+            if (this.initialResourceVersions_ == null) {
+                this.initialResourceVersions_ = MapField.newMapField(InitialResourceVersionsDefaultEntryHolder.defaultEntry);
+            }
+            if (!this.initialResourceVersions_.isMutable()) {
+                this.initialResourceVersions_ = this.initialResourceVersions_.copy();
+            }
+            return this.initialResourceVersions_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public int getInitialResourceVersionsCount() {
+            return internalGetInitialResourceVersions().getMap().size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public boolean containsInitialResourceVersions(String str) {
+            str.getClass();
+            return internalGetInitialResourceVersions().getMap().containsKey(str);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        @Deprecated
+        public Map<String, String> getInitialResourceVersions() {
+            return getInitialResourceVersionsMap();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public Map<String, String> getInitialResourceVersionsMap() {
+            return internalGetInitialResourceVersions().getMap();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public String getInitialResourceVersionsOrDefault(String str, String str2) {
+            str.getClass();
+            Map map = internalGetInitialResourceVersions().getMap();
+            return map.containsKey(str) ? (String) map.get(str) : str2;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public String getInitialResourceVersionsOrThrow(String str) {
+            str.getClass();
+            Map map = internalGetInitialResourceVersions().getMap();
+            if (!map.containsKey(str)) {
+                throw new IllegalArgumentException();
+            }
+            return (String) map.get(str);
+        }
+
+        public Builder clearInitialResourceVersions() {
+            internalGetMutableInitialResourceVersions().getMutableMap().clear();
+            return this;
+        }
+
+        public Builder removeInitialResourceVersions(String str) {
+            str.getClass();
+            internalGetMutableInitialResourceVersions().getMutableMap().remove(str);
+            return this;
+        }
+
+        @Deprecated
+        public Map<String, String> getMutableInitialResourceVersions() {
+            return internalGetMutableInitialResourceVersions().getMutableMap();
+        }
+
+        public Builder putInitialResourceVersions(String str, String str2) {
+            str.getClass();
+            str2.getClass();
+            internalGetMutableInitialResourceVersions().getMutableMap().put(str, str2);
+            return this;
+        }
+
+        public Builder putAllInitialResourceVersions(Map<String, String> map) {
+            internalGetMutableInitialResourceVersions().getMutableMap().putAll(map);
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public String getResponseNonce() {
+            Object obj = this.responseNonce_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.responseNonce_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public ByteString getResponseNonceBytes() {
+            Object obj = this.responseNonce_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.responseNonce_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setResponseNonce(String str) {
+            str.getClass();
+            this.responseNonce_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearResponseNonce() {
+            this.responseNonce_ = DeltaDiscoveryRequest.getDefaultInstance().getResponseNonce();
+            onChanged();
+            return this;
+        }
+
+        public Builder setResponseNonceBytes(ByteString byteString) {
+            byteString.getClass();
+            DeltaDiscoveryRequest.checkByteStringIsUtf8(byteString);
+            this.responseNonce_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public Status getErrorDetail() {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.errorDetailBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Status status = this.errorDetail_;
+            return status == null ? Status.getDefaultInstance() : status;
+        }
+
+        public Builder setErrorDetail(Status status) {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.errorDetailBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                status.getClass();
+                this.errorDetail_ = status;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(status);
+            }
+            return this;
+        }
+
+        public Builder setErrorDetail(Status.Builder builder) {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.errorDetailBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.errorDetail_ = builder.m4002build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m4002build());
+            }
+            return this;
+        }
+
+        public Builder mergeErrorDetail(Status status) {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.errorDetailBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Status status2 = this.errorDetail_;
+                if (status2 != null) {
+                    this.errorDetail_ = Status.newBuilder(status2).mergeFrom(status).m4004buildPartial();
+                } else {
+                    this.errorDetail_ = status;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(status);
+            }
+            return this;
+        }
+
+        public Builder clearErrorDetail() {
+            if (this.errorDetailBuilder_ == null) {
+                this.errorDetail_ = null;
+                onChanged();
+            } else {
+                this.errorDetail_ = null;
+                this.errorDetailBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Status.Builder getErrorDetailBuilder() {
+            onChanged();
+            return getErrorDetailFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DeltaDiscoveryRequestOrBuilder
+        public StatusOrBuilder getErrorDetailOrBuilder() {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.errorDetailBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (StatusOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Status status = this.errorDetail_;
+            return status == null ? Status.getDefaultInstance() : status;
+        }
+
+        private SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> getErrorDetailFieldBuilder() {
+            if (this.errorDetailBuilder_ == null) {
+                this.errorDetailBuilder_ = new SingleFieldBuilderV3<>(getErrorDetail(), getParentForChildren(), isClean());
+                this.errorDetail_ = null;
+            }
+            return this.errorDetailBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m12487setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m12481mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

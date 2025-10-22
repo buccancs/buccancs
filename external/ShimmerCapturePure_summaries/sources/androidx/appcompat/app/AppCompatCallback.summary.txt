@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/app/AppCompatCallback.java
+// Size: 362 bytes
+// Modified: 2025-10-21 16:32:00.692135800 +0100
+
+package androidx.appcompat.app;
+
+import androidx.appcompat.view.ActionMode;
+
+/* loaded from: classes.dex */
+public interface AppCompatCallback {
+    void onSupportActionModeFinished(ActionMode actionMode);
+
+    void onSupportActionModeStarted(ActionMode actionMode);
+
+    ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback);
+}

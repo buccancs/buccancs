@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/i18n/filter/UntrustedInput.java
+// Size: 444 bytes
+// Modified: 2025-10-21 16:32:00.609833300 +0100
+
+package org.bouncycastle.i18n.filter;
+
+/* loaded from: classes5.dex */
+public class UntrustedInput {
+    protected Object input;
+
+    public UntrustedInput(Object obj) {
+        this.input = obj;
+    }
+
+    public Object getInput() {
+        return this.input;
+    }
+
+    public String getString() {
+        return this.input.toString();
+    }
+
+    public String toString() {
+        return this.input.toString();
+    }
+}

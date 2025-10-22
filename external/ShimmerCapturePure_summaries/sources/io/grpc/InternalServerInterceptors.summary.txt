@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalServerInterceptors.java
+// Size: 1111 bytes
+// Modified: 2025-10-21 16:32:08.305512600 +0100
+
+package io.grpc;
+
+import io.grpc.ServerInterceptors;
+
+/* loaded from: classes2.dex */
+public final class InternalServerInterceptors {
+    public static <ReqT, RespT> ServerCallHandler<ReqT, RespT> interceptCallHandler(ServerInterceptor serverInterceptor, ServerCallHandler<ReqT, RespT> serverCallHandler) {
+        return ServerInterceptors.InterceptCallHandler.create(serverInterceptor, serverCallHandler);
+    }
+
+    public static <OrigReqT, OrigRespT, WrapReqT, WrapRespT> ServerMethodDefinition<WrapReqT, WrapRespT> wrapMethod(ServerMethodDefinition<OrigReqT, OrigRespT> serverMethodDefinition, MethodDescriptor<WrapReqT, WrapRespT> methodDescriptor) {
+        return ServerInterceptors.wrapMethod(serverMethodDefinition, methodDescriptor);
+    }
+
+    public static <ReqT, RespT> ServerCallHandler<ReqT, RespT> interceptCallHandlerCreate(ServerInterceptor serverInterceptor, ServerCallHandler<ReqT, RespT> serverCallHandler) {
+        return ServerInterceptors.InterceptCallHandler.create(serverInterceptor, serverCallHandler);
+    }
+
+    private InternalServerInterceptors() {
+    }
+}

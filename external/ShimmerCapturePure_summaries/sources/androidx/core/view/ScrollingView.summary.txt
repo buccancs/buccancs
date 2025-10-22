@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/ScrollingView.java
+// Size: 354 bytes
+// Modified: 2025-10-21 16:31:59.981810300 +0100
+
+package androidx.core.view;
+
+/* loaded from: classes.dex */
+public interface ScrollingView {
+    int computeHorizontalScrollExtent();
+
+    int computeHorizontalScrollOffset();
+
+    int computeHorizontalScrollRange();
+
+    int computeVerticalScrollExtent();
+
+    int computeVerticalScrollOffset();
+
+    int computeVerticalScrollRange();
+}

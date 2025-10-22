@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/emoji2/text/flatbuffer/ByteBufferUtil.java
+// Size: 527 bytes
+// Modified: 2025-10-21 16:32:00.065885100 +0100
+
+package androidx.emoji2.text.flatbuffer;
+
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public class ByteBufferUtil {
+    public static int getSizePrefix(ByteBuffer byteBuffer) {
+        return byteBuffer.getInt(byteBuffer.position());
+    }
+
+    public static ByteBuffer removeSizePrefix(ByteBuffer byteBuffer) {
+        ByteBuffer byteBufferDuplicate = byteBuffer.duplicate();
+        byteBufferDuplicate.position(byteBufferDuplicate.position() + 4);
+        return byteBufferDuplicate;
+    }
+}

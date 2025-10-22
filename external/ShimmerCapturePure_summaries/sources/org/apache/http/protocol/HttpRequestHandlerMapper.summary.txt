@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/protocol/HttpRequestHandlerMapper.java
+// Size: 214 bytes
+// Modified: 2025-10-21 16:32:04.279288800 +0100
+
+package org.apache.http.protocol;
+
+import org.apache.http.HttpRequest;
+
+/* loaded from: classes5.dex */
+public interface HttpRequestHandlerMapper {
+    HttpRequestHandler lookup(HttpRequest httpRequest);
+}

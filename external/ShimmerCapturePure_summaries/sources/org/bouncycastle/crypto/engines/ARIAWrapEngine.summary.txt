@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/engines/ARIAWrapEngine.java
+// Size: 295 bytes
+// Modified: 2025-10-21 16:32:06.623800400 +0100
+
+package org.bouncycastle.crypto.engines;
+
+/* loaded from: classes5.dex */
+public class ARIAWrapEngine extends RFC3394WrapEngine {
+    public ARIAWrapEngine() {
+        super(new ARIAEngine());
+    }
+
+    public ARIAWrapEngine(boolean z) {
+        super(new ARIAEngine(), z);
+    }
+}

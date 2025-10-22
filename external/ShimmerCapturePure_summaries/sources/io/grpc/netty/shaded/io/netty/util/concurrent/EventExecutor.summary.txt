@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/EventExecutor.java
+// Size: 620 bytes
+// Modified: 2025-10-21 16:32:03.397018300 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+/* loaded from: classes3.dex */
+public interface EventExecutor extends EventExecutorGroup {
+    boolean inEventLoop();
+
+    boolean inEventLoop(Thread thread);
+
+    <V> Future<V> newFailedFuture(Throwable th);
+
+    <V> ProgressivePromise<V> newProgressivePromise();
+
+    <V> Promise<V> newPromise();
+
+    <V> Future<V> newSucceededFuture(V v);
+
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutorGroup, io.grpc.netty.shaded.io.netty.channel.EventLoopGroup
+    EventExecutor next();
+
+    EventExecutorGroup parent();
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/tags/TagsComponent.java
+// Size: 420 bytes
+// Modified: 2025-10-21 16:32:04.485024800 +0100
+
+package io.opencensus.tags;
+
+import io.opencensus.tags.propagation.TagPropagationComponent;
+
+/* loaded from: classes4.dex */
+public abstract class TagsComponent {
+    public abstract TaggingState getState();
+
+    public abstract TagPropagationComponent getTagPropagationComponent();
+
+    public abstract Tagger getTagger();
+
+    @Deprecated
+    public abstract void setState(TaggingState taggingState);
+}

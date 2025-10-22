@@ -1,0 +1,602 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatcher;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes4.dex */
+public final class RegexMatchAndSubstitute extends GeneratedMessageV3 implements RegexMatchAndSubstituteOrBuilder {
+    public static final int PATTERN_FIELD_NUMBER = 1;
+    public static final int SUBSTITUTION_FIELD_NUMBER = 2;
+    private static final RegexMatchAndSubstitute DEFAULT_INSTANCE = new RegexMatchAndSubstitute();
+    private static final Parser<RegexMatchAndSubstitute> PARSER = new AbstractParser<RegexMatchAndSubstitute>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public RegexMatchAndSubstitute m33368parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new RegexMatchAndSubstitute(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private byte memoizedIsInitialized;
+    private RegexMatcher pattern_;
+    private volatile Object substitution_;
+
+    private RegexMatchAndSubstitute(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private RegexMatchAndSubstitute() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.substitution_ = "";
+    }
+
+    private RegexMatchAndSubstitute(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            RegexMatcher regexMatcher = this.pattern_;
+                            RegexMatcher.Builder builderM33412toBuilder = regexMatcher != null ? regexMatcher.m33412toBuilder() : null;
+                            RegexMatcher regexMatcher2 = (RegexMatcher) codedInputStream.readMessage(RegexMatcher.parser(), extensionRegistryLite);
+                            this.pattern_ = regexMatcher2;
+                            if (builderM33412toBuilder != null) {
+                                builderM33412toBuilder.mergeFrom(regexMatcher2);
+                                this.pattern_ = builderM33412toBuilder.m33419buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            this.substitution_ = codedInputStream.readStringRequireUtf8();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static RegexMatchAndSubstitute getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<RegexMatchAndSubstitute> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return RegexProto.internal_static_envoy_type_matcher_RegexMatchAndSubstitute_descriptor;
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (RegexMatchAndSubstitute) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RegexMatchAndSubstitute) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (RegexMatchAndSubstitute) PARSER.parseFrom(byteString);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RegexMatchAndSubstitute) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (RegexMatchAndSubstitute) PARSER.parseFrom(bArr);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RegexMatchAndSubstitute) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RegexMatchAndSubstitute parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static RegexMatchAndSubstitute parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static RegexMatchAndSubstitute parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m33366toBuilder();
+    }
+
+    public static Builder newBuilder(RegexMatchAndSubstitute regexMatchAndSubstitute) {
+        return DEFAULT_INSTANCE.m33366toBuilder().mergeFrom(regexMatchAndSubstitute);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public RegexMatchAndSubstitute m33361getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<RegexMatchAndSubstitute> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+    public boolean hasPattern() {
+        return this.pattern_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new RegexMatchAndSubstitute();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return RegexProto.internal_static_envoy_type_matcher_RegexMatchAndSubstitute_fieldAccessorTable.ensureFieldAccessorsInitialized(RegexMatchAndSubstitute.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+    public RegexMatcher getPattern() {
+        RegexMatcher regexMatcher = this.pattern_;
+        return regexMatcher == null ? RegexMatcher.getDefaultInstance() : regexMatcher;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+    public RegexMatcherOrBuilder getPatternOrBuilder() {
+        return getPattern();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+    public String getSubstitution() {
+        Object obj = this.substitution_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.substitution_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+    public ByteString getSubstitutionBytes() {
+        Object obj = this.substitution_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.substitution_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.pattern_ != null) {
+            codedOutputStream.writeMessage(1, getPattern());
+        }
+        if (!getSubstitutionBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.substitution_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.pattern_ != null ? CodedOutputStream.computeMessageSize(1, getPattern()) : 0;
+        if (!getSubstitutionBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(2, this.substitution_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof RegexMatchAndSubstitute)) {
+            return super.equals(obj);
+        }
+        RegexMatchAndSubstitute regexMatchAndSubstitute = (RegexMatchAndSubstitute) obj;
+        if (hasPattern() != regexMatchAndSubstitute.hasPattern()) {
+            return false;
+        }
+        return (!hasPattern() || getPattern().equals(regexMatchAndSubstitute.getPattern())) && getSubstitution().equals(regexMatchAndSubstitute.getSubstitution()) && this.unknownFields.equals(regexMatchAndSubstitute.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasPattern()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getPattern().hashCode();
+        }
+        int iHashCode2 = (((((iHashCode * 37) + 2) * 53) + getSubstitution().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m33363newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m33366toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RegexMatchAndSubstituteOrBuilder {
+        private SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> patternBuilder_;
+        private RegexMatcher pattern_;
+        private Object substitution_;
+
+        private Builder() {
+            this.substitution_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.substitution_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RegexProto.internal_static_envoy_type_matcher_RegexMatchAndSubstitute_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+        public boolean hasPattern() {
+            return (this.patternBuilder_ == null && this.pattern_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RegexProto.internal_static_envoy_type_matcher_RegexMatchAndSubstitute_fieldAccessorTable.ensureFieldAccessorsInitialized(RegexMatchAndSubstitute.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = RegexMatchAndSubstitute.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33377clear() {
+            super.clear();
+            if (this.patternBuilder_ == null) {
+                this.pattern_ = null;
+            } else {
+                this.pattern_ = null;
+                this.patternBuilder_ = null;
+            }
+            this.substitution_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return RegexProto.internal_static_envoy_type_matcher_RegexMatchAndSubstitute_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RegexMatchAndSubstitute m33390getDefaultInstanceForType() {
+            return RegexMatchAndSubstitute.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RegexMatchAndSubstitute m33371build() throws UninitializedMessageException {
+            RegexMatchAndSubstitute regexMatchAndSubstituteM33373buildPartial = m33373buildPartial();
+            if (regexMatchAndSubstituteM33373buildPartial.isInitialized()) {
+                return regexMatchAndSubstituteM33373buildPartial;
+            }
+            throw newUninitializedMessageException(regexMatchAndSubstituteM33373buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RegexMatchAndSubstitute m33373buildPartial() {
+            RegexMatchAndSubstitute regexMatchAndSubstitute = new RegexMatchAndSubstitute(this);
+            SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> singleFieldBuilderV3 = this.patternBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                regexMatchAndSubstitute.pattern_ = this.pattern_;
+            } else {
+                regexMatchAndSubstitute.pattern_ = singleFieldBuilderV3.build();
+            }
+            regexMatchAndSubstitute.substitution_ = this.substitution_;
+            onBuilt();
+            return regexMatchAndSubstitute;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33389clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33401setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33379clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33382clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33403setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33369addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m33394mergeFrom(Message message) {
+            if (message instanceof RegexMatchAndSubstitute) {
+                return mergeFrom((RegexMatchAndSubstitute) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(RegexMatchAndSubstitute regexMatchAndSubstitute) {
+            if (regexMatchAndSubstitute == RegexMatchAndSubstitute.getDefaultInstance()) {
+                return this;
+            }
+            if (regexMatchAndSubstitute.hasPattern()) {
+                mergePattern(regexMatchAndSubstitute.getPattern());
+            }
+            if (!regexMatchAndSubstitute.getSubstitution().isEmpty()) {
+                this.substitution_ = regexMatchAndSubstitute.substitution_;
+                onChanged();
+            }
+            m33399mergeUnknownFields(regexMatchAndSubstitute.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute.Builder m33395mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute.Builder.m33395mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstitute$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+        public RegexMatcher getPattern() {
+            SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> singleFieldBuilderV3 = this.patternBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            RegexMatcher regexMatcher = this.pattern_;
+            return regexMatcher == null ? RegexMatcher.getDefaultInstance() : regexMatcher;
+        }
+
+        public Builder setPattern(RegexMatcher regexMatcher) {
+            SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> singleFieldBuilderV3 = this.patternBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                regexMatcher.getClass();
+                this.pattern_ = regexMatcher;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(regexMatcher);
+            }
+            return this;
+        }
+
+        public Builder setPattern(RegexMatcher.Builder builder) {
+            SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> singleFieldBuilderV3 = this.patternBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.pattern_ = builder.m33417build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m33417build());
+            }
+            return this;
+        }
+
+        public Builder mergePattern(RegexMatcher regexMatcher) {
+            SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> singleFieldBuilderV3 = this.patternBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                RegexMatcher regexMatcher2 = this.pattern_;
+                if (regexMatcher2 != null) {
+                    this.pattern_ = RegexMatcher.newBuilder(regexMatcher2).mergeFrom(regexMatcher).m33419buildPartial();
+                } else {
+                    this.pattern_ = regexMatcher;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(regexMatcher);
+            }
+            return this;
+        }
+
+        public Builder clearPattern() {
+            if (this.patternBuilder_ == null) {
+                this.pattern_ = null;
+                onChanged();
+            } else {
+                this.pattern_ = null;
+                this.patternBuilder_ = null;
+            }
+            return this;
+        }
+
+        public RegexMatcher.Builder getPatternBuilder() {
+            onChanged();
+            return getPatternFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+        public RegexMatcherOrBuilder getPatternOrBuilder() {
+            SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> singleFieldBuilderV3 = this.patternBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (RegexMatcherOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            RegexMatcher regexMatcher = this.pattern_;
+            return regexMatcher == null ? RegexMatcher.getDefaultInstance() : regexMatcher;
+        }
+
+        private SingleFieldBuilderV3<RegexMatcher, RegexMatcher.Builder, RegexMatcherOrBuilder> getPatternFieldBuilder() {
+            if (this.patternBuilder_ == null) {
+                this.patternBuilder_ = new SingleFieldBuilderV3<>(getPattern(), getParentForChildren(), isClean());
+                this.pattern_ = null;
+            }
+            return this.patternBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+        public String getSubstitution() {
+            Object obj = this.substitution_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.substitution_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setSubstitution(String str) {
+            str.getClass();
+            this.substitution_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatchAndSubstituteOrBuilder
+        public ByteString getSubstitutionBytes() {
+            Object obj = this.substitution_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.substitution_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setSubstitutionBytes(ByteString byteString) {
+            byteString.getClass();
+            RegexMatchAndSubstitute.checkByteStringIsUtf8(byteString);
+            this.substitution_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSubstitution() {
+            this.substitution_ = RegexMatchAndSubstitute.getDefaultInstance().getSubstitution();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m33405setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m33399mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

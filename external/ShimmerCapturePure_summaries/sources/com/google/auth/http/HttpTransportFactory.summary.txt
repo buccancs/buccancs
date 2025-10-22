@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/auth/http/HttpTransportFactory.java
+// Size: 190 bytes
+// Modified: 2025-10-21 16:32:03.377910100 +0100
+
+package com.google.auth.http;
+
+import com.google.api.client.http.HttpTransport;
+
+/* loaded from: classes.dex */
+public interface HttpTransportFactory {
+    HttpTransport create();
+}

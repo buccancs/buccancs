@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/rules/MethodRule.java
+// Size: 277 bytes
+// Modified: 2025-10-21 16:32:03.630036300 +0100
+
+package org.junit.rules;
+
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
+
+/* loaded from: classes2.dex */
+public interface MethodRule {
+    Statement apply(Statement statement, FrameworkMethod frameworkMethod, Object obj);
+}

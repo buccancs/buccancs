@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/json/PackageVersion.java
+// Size: 528 bytes
+// Modified: 2025-10-21 16:32:03.660683400 +0100
+
+package com.fasterxml.jackson.core.json;
+
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.Versioned;
+import com.fasterxml.jackson.core.util.VersionUtil;
+
+/* loaded from: classes.dex */
+public final class PackageVersion implements Versioned {
+    public static final Version VERSION = VersionUtil.parseVersion("2.10.1", "com.fasterxml.jackson.core", "jackson-core");
+
+    @Override // com.fasterxml.jackson.core.Versioned
+    public Version version() {
+        return VERSION;
+    }
+}

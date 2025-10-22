@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/ByteProcessorUtils.java
+// Size: 314 bytes
+// Modified: 2025-10-21 16:32:00.259112200 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+/* loaded from: classes3.dex */
+final class ByteProcessorUtils {
+    static final byte CARRIAGE_RETURN = 13;
+    static final byte HTAB = 9;
+    static final byte LINE_FEED = 10;
+    static final byte SPACE = 32;
+
+    private ByteProcessorUtils() {
+    }
+}

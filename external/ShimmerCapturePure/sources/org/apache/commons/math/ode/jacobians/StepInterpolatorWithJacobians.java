@@ -1,0 +1,36 @@
+package org.apache.commons.math.ode.jacobians;
+
+import java.io.Externalizable;
+
+import org.apache.commons.math.ode.DerivativeException;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+@Deprecated
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ode/jacobians/StepInterpolatorWithJacobians.class */
+public interface StepInterpolatorWithJacobians extends Externalizable {
+    double getPreviousTime();
+
+    double getCurrentTime();
+
+    double getInterpolatedTime();
+
+    void setInterpolatedTime(double d);
+
+    double[] getInterpolatedY() throws DerivativeException;
+
+    double[][] getInterpolatedDyDy0() throws DerivativeException;
+
+    double[][] getInterpolatedDyDp() throws DerivativeException;
+
+    double[] getInterpolatedYDot() throws DerivativeException;
+
+    double[][] getInterpolatedDyDy0Dot() throws DerivativeException;
+
+    double[][] getInterpolatedDyDpDot() throws DerivativeException;
+
+    boolean isForward();
+
+    StepInterpolatorWithJacobians copy() throws DerivativeException;
+}

@@ -1,0 +1,187 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/cluster/v3/ClusterProto.java
+// Size: 33473 bytes
+// Modified: 2025-10-21 16:32:06.867385000 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.DurationProto;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import com.google.protobuf.WrappersProto;
+import envoy.annotations.Deprecation;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.CollectionEntryProto;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceLocatorProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.AddressProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BaseProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ConfigSourceProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HealthCheckProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ProtocolProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.EndpointProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3.PercentProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Migrate;
+import udpa.annotations.Security;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes6.dex */
+public final class ClusterProto {
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n%envoy/config/cluster/v3/cluster.proto\u0012\u0017envoy.config.cluster.v3\u001a-envoy/config/cluster/v3/circuit_breaker.proto\u001a$envoy/config/cluster/v3/filter.proto\u001a/envoy/config/cluster/v3/outlier_detection.proto\u001a\"envoy/config/core/v3/address.proto\u001a\u001fenvoy/config/core/v3/base.proto\u001a(envoy/config/core/v3/config_source.proto\u001a$envoy/config/core/v3/extension.proto\u001a'envoy/config/core/v3/health_check.proto\u001a#envoy/config/core/v3/protocol.proto\u001a'envoy/config/endpoint/v3/endpoint.proto\u001a\u001benvoy/type/v3/percent.proto\u001a\u0019google/protobuf/any.proto\u001a\u001egoogle/protobuf/duration.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001egoogle/protobuf/wrappers.proto\u001a#udpa/core/v1/collection_entry.proto\u001a#udpa/core/v1/resource_locator.proto\u001a#envoy/annotations/deprecation.proto\u001a\u001eudpa/annotations/migrate.proto\u001a\u001fudpa/annotations/security.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\u001a\u0017validate/validate.proto\"C\n\u0011ClusterCollection\u0012.\n\u0007entries\u0018\u0001 \u0001(\u000b2\u001d.udpa.core.v1.CollectionEntry\"ä6\n\u0007Cluster\u0012W\n\u0018transport_socket_matches\u0018+ \u0003(\u000b25.envoy.config.cluster.v3.Cluster.TransportSocketMatch\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012\u0015\n\ralt_stat_name\u0018\u001c \u0001(\t\u0012H\n\u0004type\u0018\u0002 \u0001(\u000e2..envoy.config.cluster.v3.Cluster.DiscoveryTypeB\búB\u0005\u0082\u0001\u0002\u0010\u0001H\u0000\u0012J\n\fcluster_type\u0018& \u0001(\u000b22.envoy.config.cluster.v3.Cluster.CustomClusterTypeH\u0000\u0012M\n\u0012eds_cluster_config\u0018\u0003 \u0001(\u000b21.envoy.config.cluster.v3.Cluster.EdsClusterConfig\u0012<\n\u000fconnect_timeout\u0018\u0004 \u0001(\u000b2\u0019.google.protobuf.DurationB\búB\u0005ª\u0001\u0002*\u0000\u0012P\n!per_connection_buffer_limit_bytes\u0018\u0005 \u0001(\u000b2\u001c.google.protobuf.UInt32ValueB\u0007\u008a\u0093·*\u0002\u0010\u0001\u0012H\n\tlb_policy\u0018\u0006 \u0001(\u000e2).envoy.config.cluster.v3.Cluster.LbPolicyB\núB\u0007\u0082\u0001\u0004\u0010\u0001 \u0007\u0012H\n\u000fload_assignment\u0018! \u0001(\u000b2/.envoy.config.endpoint.v3.ClusterLoadAssignment\u00128\n\rhealth_checks\u0018\b \u0003(\u000b2!.envoy.config.core.v3.HealthCheck\u0012A\n\u001bmax_requests_per_connection\u0018\t \u0001(\u000b2\u001c.google.protobuf.UInt32Value\u0012B\n\u0010circuit_breakers\u0018\n \u0001(\u000b2(.envoy.config.cluster.v3.CircuitBreakers\u0012Y\n\u001eupstream_http_protocol_options\u0018. \u0001(\u000b21.envoy.config.core.v3.UpstreamHttpProtocolOptions\u0012O\n\u001ccommon_http_protocol_options\u0018\u001d \u0001(\u000b2).envoy.config.core.v3.HttpProtocolOptions\u0012I\n\u0015http_protocol_options\u0018\r \u0001(\u000b2*.envoy.config.core.v3.Http1ProtocolOptions\u0012S\n\u0016http2_protocol_options\u0018\u000e \u0001(\u000b2*.envoy.config.core.v3.Http2ProtocolOptionsB\u0007\u008a\u0093·*\u0002\u0010\u0001\u0012m\n typed_extension_protocol_options\u0018$ \u0003(\u000b2C.envoy.config.cluster.v3.Cluster.TypedExtensionProtocolOptionsEntry\u0012A\n\u0010dns_refresh_rate\u0018\u0010 \u0001(\u000b2\u0019.google.protobuf.DurationB\fúB\tª\u0001\u0006*\u0004\u0010À\u0084=\u0012N\n\u0018dns_failure_refresh_rate\u0018, \u0001(\u000b2,.envoy.config.cluster.v3.Cluster.RefreshRate\u0012\u0017\n\u000frespect_dns_ttl\u0018' \u0001(\b\u0012U\n\u0011dns_lookup_family\u0018\u0011 \u0001(\u000e20.envoy.config.cluster.v3.Cluster.DnsLookupFamilyB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u00124\n\rdns_resolvers\u0018\u0012 \u0003(\u000b2\u001d.envoy.config.core.v3.Address\u0012\u001f\n\u0017use_tcp_for_dns_lookups\u0018- \u0001(\b\u0012D\n\u0011outlier_detection\u0018\u0013 \u0001(\u000b2).envoy.config.cluster.v3.OutlierDetection\u0012=\n\u0010cleanup_interval\u0018\u0014 \u0001(\u000b2\u0019.google.protobuf.DurationB\búB\u0005ª\u0001\u0002*\u0000\u0012>\n\u0014upstream_bind_config\u0018\u0015 \u0001(\u000b2 .envoy.config.core.v3.BindConfig\u0012I\n\u0010lb_subset_config\u0018\u0016 \u0001(\u000b2/.envoy.config.cluster.v3.Cluster.LbSubsetConfig\u0012P\n\u0013ring_hash_lb_config\u0018\u0017 \u0001(\u000b21.envoy.config.cluster.v3.Cluster.RingHashLbConfigH\u0001\u0012V\n\u0016original_dst_lb_config\u0018\" \u0001(\u000b24.envoy.config.cluster.v3.Cluster.OriginalDstLbConfigH\u0001\u0012X\n\u0017least_request_lb_config\u0018% \u0001(\u000b25.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigH\u0001\u0012I\n\u0010common_lb_config\u0018\u001b \u0001(\u000b2/.envoy.config.cluster.v3.Cluster.CommonLbConfig\u0012?\n\u0010transport_socket\u0018\u0018 \u0001(\u000b2%.envoy.config.core.v3.TransportSocket\u00120\n\bmetadata\u0018\u0019 \u0001(\u000b2\u001e.envoy.config.core.v3.Metadata\u0012U\n\u0012protocol_selection\u0018\u001a \u0001(\u000e29.envoy.config.cluster.v3.Cluster.ClusterProtocolSelection\u0012W\n\u001bupstream_connection_options\u0018\u001e \u0001(\u000b22.envoy.config.cluster.v3.UpstreamConnectionOptions\u00120\n(close_connections_on_host_health_failure\u0018\u001f \u0001(\b\u0012%\n\u001dignore_health_on_host_removal\u0018  \u0001(\b\u00120\n\u0007filters\u0018( \u0003(\u000b2\u001f.envoy.config.cluster.v3.Filter\u0012K\n\u0015load_balancing_policy\u0018) \u0001(\u000b2,.envoy.config.cluster.v3.LoadBalancingPolicy\u00126\n\nlrs_server\u0018* \u0001(\u000b2\".envoy.config.core.v3.ConfigSource\u0012!\n\u0015track_timeout_budgets\u0018/ \u0001(\bB\u0002\u0018\u0001\u0012C\n\u000fupstream_config\u00180 \u0001(\u000b2*.envoy.config.core.v3.TypedExtensionConfig\u0012G\n\u0013track_cluster_stats\u00181 \u0001(\u000b2*.envoy.config.cluster.v3.TrackClusterStats\u001aÈ\u0001\n\u0014TransportSocketMatch\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002\u0010\u0001\u0012&\n\u0005match\u0018\u0002 \u0001(\u000b2\u0017.google.protobuf.Struct\u0012?\n\u0010transport_socket\u0018\u0003 \u0001(\u000b2%.envoy.config.core.v3.TransportSocket:0\u009aÅ\u0088\u001e+\n)envoy.api.v2.Cluster.TransportSocketMatch\u001a\u0085\u0001\n\u0011CustomClusterType\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012*\n\ftyped_config\u0018\u0002 \u0001(\u000b2\u0014.google.protobuf.Any:-\u009aÅ\u0088\u001e(\n&envoy.api.v2.Cluster.CustomClusterType\u001aû\u0001\n\u0010EdsClusterConfig\u00126\n\neds_config\u0018\u0001 \u0001(\u000b2\".envoy.config.core.v3.ConfigSource\u0012,\n\fservice_name\u0018\u0002 \u0001(\tB\u0016ò\u0098þ\u008f\u0005\u0010\u0012\u000ename_specifier\u0012S\n\u0014eds_resource_locator\u0018\u0003 \u0001(\u000b2\u001d.udpa.core.v1.ResourceLocatorB\u0016ò\u0098þ\u008f\u0005\u0010\u0012\u000ename_specifier:,\u009aÅ\u0088\u001e'\n%envoy.api.v2.Cluster.EdsClusterConfig\u001aî\u0006\n\u000eLbSubsetConfig\u0012i\n\u000ffallback_policy\u0018\u0001 \u0001(\u000e2F.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetFallbackPolicyB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u0012/\n\u000edefault_subset\u0018\u0002 \u0001(\u000b2\u0017.google.protobuf.Struct\u0012Z\n\u0010subset_selectors\u0018\u0003 \u0003(\u000b2@.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector\u0012\u001d\n\u0015locality_weight_aware\u0018\u0004 \u0001(\b\u0012\u001d\n\u0015scale_locality_weight\u0018\u0005 \u0001(\b\u0012\u0016\n\u000epanic_mode_any\u0018\u0006 \u0001(\b\u0012\u0013\n\u000blist_as_any\u0018\u0007 \u0001(\b\u001aû\u0002\n\u0010LbSubsetSelector\u0012\f\n\u0004keys\u0018\u0001 \u0003(\t\u0012\u0082\u0001\n\u000ffallback_policy\u0018\u0002 \u0001(\u000e2_.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector.LbSubsetSelectorFallbackPolicyB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u0012\u001c\n\u0014fallback_keys_subset\u0018\u0003 \u0003(\t\"y\n\u001eLbSubsetSelectorFallbackPolicy\u0012\u000f\n\u000bNOT_DEFINED\u0010\u0000\u0012\u000f\n\u000bNO_FALLBACK\u0010\u0001\u0012\u0010\n\fANY_ENDPOINT\u0010\u0002\u0012\u0012\n\u000eDEFAULT_SUBSET\u0010\u0003\u0012\u000f\n\u000bKEYS_SUBSET\u0010\u0004:;\u009aÅ\u0088\u001e6\n4envoy.api.v2.Cluster.LbSubsetConfig.LbSubsetSelector\"O\n\u0016LbSubsetFallbackPolicy\u0012\u000f\n\u000bNO_FALLBACK\u0010\u0000\u0012\u0010\n\fANY_ENDPOINT\u0010\u0001\u0012\u0012\n\u000eDEFAULT_SUBSET\u0010\u0002:*\u009aÅ\u0088\u001e%\n#envoy.api.v2.Cluster.LbSubsetConfig\u001aÇ\u0001\n\u0014LeastRequestLbConfig\u0012;\n\fchoice_count\u0018\u0001 \u0001(\u000b2\u001c.google.protobuf.UInt32ValueB\u0007úB\u0004*\u0002(\u0002\u0012@\n\u0013active_request_bias\u0018\u0002 \u0001(\u000b2#.envoy.config.core.v3.RuntimeDouble:0\u009aÅ\u0088\u001e+\n)envoy.api.v2.Cluster.LeastRequestLbConfig\u001aá\u0002\n\u0010RingHashLbConfig\u0012C\n\u0011minimum_ring_size\u0018\u0001 \u0001(\u000b2\u001c.google.protobuf.UInt64ValueB\núB\u00072\u0005\u0018\u0080\u0080\u0080\u0004\u0012_\n\rhash_function\u0018\u0003 \u0001(\u000e2>.envoy.config.cluster.v3.Cluster.RingHashLbConfig.HashFunctionB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u0012C\n\u0011maximum_ring_size\u0018\u0004 \u0001(\u000b2\u001c.google.protobuf.UInt64ValueB\núB\u00072\u0005\u0018\u0080\u0080\u0080\u0004\".\n\fHashFunction\u0012\u000b\n\u0007XX_HASH\u0010\u0000\u0012\u0011\n\rMURMUR_HASH_2\u0010\u0001:,\u009aÅ\u0088\u001e'\n%envoy.api.v2.Cluster.RingHashLbConfigJ\u0004\b\u0002\u0010\u0003\u001a_\n\u0013OriginalDstLbConfig\u0012\u0017\n\u000fuse_http_header\u0018\u0001 \u0001(\b:/\u009aÅ\u0088\u001e*\n(envoy.api.v2.Cluster.OriginalDstLbConfig\u001a©\b\n\u000eCommonLbConfig\u00127\n\u0017healthy_panic_threshold\u0018\u0001 \u0001(\u000b2\u0016.envoy.type.v3.Percent\u0012a\n\u0014zone_aware_lb_config\u0018\u0002 \u0001(\u000b2A.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigH\u0000\u0012o\n\u001blocality_weighted_lb_config\u0018\u0003 \u0001(\u000b2H.envoy.config.cluster.v3.Cluster.CommonLbConfig.LocalityWeightedLbConfigH\u0000\u00126\n\u0013update_merge_window\u0018\u0004 \u0001(\u000b2\u0019.google.protobuf.Duration\u0012'\n\u001fignore_new_hosts_until_first_hc\u0018\u0005 \u0001(\b\u0012,\n$close_connections_on_host_set_change\u0018\u0006 \u0001(\b\u0012o\n\u001cconsistent_hashing_lb_config\u0018\u0007 \u0001(\u000b2I.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfig\u001aÙ\u0001\n\u0011ZoneAwareLbConfig\u0012/\n\u000frouting_enabled\u0018\u0001 \u0001(\u000b2\u0016.envoy.type.v3.Percent\u00126\n\u0010min_cluster_size\u0018\u0002 \u0001(\u000b2\u001c.google.protobuf.UInt64Value\u0012\u001d\n\u0015fail_traffic_on_panic\u0018\u0003 \u0001(\b:<\u009aÅ\u0088\u001e7\n5envoy.api.v2.Cluster.CommonLbConfig.ZoneAwareLbConfig\u001a_\n\u0018LocalityWeightedLbConfig:C\u009aÅ\u0088\u001e>\n<envoy.api.v2.Cluster.CommonLbConfig.LocalityWeightedLbConfig\u001a\u0083\u0001\n\u0019ConsistentHashingLbConfig\u0012 \n\u0018use_hostname_for_hashing\u0018\u0001 \u0001(\b:D\u009aÅ\u0088\u001e?\n=envoy.api.v2.Cluster.CommonLbConfig.ConsistentHashingLbConfig:*\u009aÅ\u0088\u001e%\n#envoy.api.v2.Cluster.CommonLbConfigB\u001b\n\u0019locality_config_specifier\u001a·\u0001\n\u000bRefreshRate\u0012@\n\rbase_interval\u0018\u0001 \u0001(\u000b2\u0019.google.protobuf.DurationB\u000eúB\u000bª\u0001\b\b\u0001*\u0004\u0010À\u0084=\u0012=\n\fmax_interval\u0018\u0002 \u0001(\u000b2\u0019.google.protobuf.DurationB\fúB\tª\u0001\u0006*\u0004\u0010À\u0084=:'\u009aÅ\u0088\u001e\"\n envoy.api.v2.Cluster.RefreshRate\u001aZ\n\"TypedExtensionProtocolOptionsEntry\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\t\u0012#\n\u0005value\u0018\u0002 \u0001(\u000b2\u0014.google.protobuf.Any:\u00028\u0001\"W\n\rDiscoveryType\u0012\n\n\u0006STATIC\u0010\u0000\u0012\u000e\n\nSTRICT_DNS\u0010\u0001\u0012\u000f\n\u000bLOGICAL_DNS\u0010\u0002\u0012\u0007\n\u0003EDS\u0010\u0003\u0012\u0010\n\fORIGINAL_DST\u0010\u0004\"¤\u0001\n\bLbPolicy\u0012\u000f\n\u000bROUND_ROBIN\u0010\u0000\u0012\u0011\n\rLEAST_REQUEST\u0010\u0001\u0012\r\n\tRING_HASH\u0010\u0002\u0012\n\n\u0006RANDOM\u0010\u0003\u0012\n\n\u0006MAGLEV\u0010\u0005\u0012\u0014\n\u0010CLUSTER_PROVIDED\u0010\u0006\u0012 \n\u001cLOAD_BALANCING_POLICY_CONFIG\u0010\u0007\"\u0004\b\u0004\u0010\u0004*\u000fORIGINAL_DST_LB\"5\n\u000fDnsLookupFamily\u0012\b\n\u0004AUTO\u0010\u0000\u0012\u000b\n\u0007V4_ONLY\u0010\u0001\u0012\u000b\n\u0007V6_ONLY\u0010\u0002\"T\n\u0018ClusterProtocolSelection\u0012\u001b\n\u0017USE_CONFIGURED_PROTOCOL\u0010\u0000\u0012\u001b\n\u0017USE_DOWNSTREAM_PROTOCOL\u0010\u0001:\u001b\u009aÅ\u0088\u001e\u0016\n\u0014envoy.api.v2.ClusterB\u0018\n\u0016cluster_discovery_typeB\u000b\n\tlb_configJ\u0004\b\f\u0010\rJ\u0004\b\u000f\u0010\u0010J\u0004\b\u0007\u0010\bJ\u0004\b\u000b\u0010\fJ\u0004\b#\u0010$R\u0005hostsR\u000btls_contextR\u001aextension_protocol_options\"\u0088\u0002\n\u0013LoadBalancingPolicy\u0012E\n\bpolicies\u0018\u0001 \u0003(\u000b23.envoy.config.cluster.v3.LoadBalancingPolicy.Policy\u001a\u0080\u0001\n\u0006Policy\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\u0012*\n\ftyped_config\u0018\u0003 \u0001(\u000b2\u0014.google.protobuf.Any:.\u009aÅ\u0088\u001e)\n'envoy.api.v2.LoadBalancingPolicy.PolicyJ\u0004\b\u0002\u0010\u0003R\u0006config:'\u009aÅ\u0088\u001e\"\n envoy.api.v2.LoadBalancingPolicy\"s\n\u0012UpstreamBindConfig\u00125\n\u000esource_address\u0018\u0001 \u0001(\u000b2\u001d.envoy.config.core.v3.Address:&\u009aÅ\u0088\u001e!\n\u001fenvoy.api.v2.UpstreamBindConfig\"\u0085\u0001\n\u0019UpstreamConnectionOptions\u00129\n\rtcp_keepalive\u0018\u0001 \u0001(\u000b2\".envoy.config.core.v3.TcpKeepalive:-\u009aÅ\u0088\u001e(\n&envoy.api.v2.UpstreamConnectionOptions\"L\n\u0011TrackClusterStats\u0012\u0017\n\u000ftimeout_budgets\u0018\u0001 \u0001(\b\u0012\u001e\n\u0016request_response_sizes\u0018\u0002 \u0001(\bB?\n%io.envoyproxy.envoy.config.cluster.v3B\fClusterProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{CircuitBreakerProto.getDescriptor(), FilterProto.getDescriptor(), OutlierDetectionProto.getDescriptor(), AddressProto.getDescriptor(), BaseProto.getDescriptor(), ConfigSourceProto.getDescriptor(), ExtensionProto.getDescriptor(), HealthCheckProto.getDescriptor(), ProtocolProto.getDescriptor(), EndpointProto.getDescriptor(), PercentProto.getDescriptor(), AnyProto.getDescriptor(), DurationProto.getDescriptor(), StructProto.getDescriptor(), WrappersProto.getDescriptor(), CollectionEntryProto.getDescriptor(), ResourceLocatorProto.getDescriptor(), Deprecation.getDescriptor(), Migrate.getDescriptor(), Security.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor(), Validate.getDescriptor()});
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_ClusterCollection_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_ClusterCollection_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_TypedExtensionProtocolOptionsEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_TypedExtensionProtocolOptionsEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_Cluster_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_Cluster_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_Policy_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_Policy_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_TrackClusterStats_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_TrackClusterStats_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_UpstreamBindConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_UpstreamBindConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_cluster_v3_UpstreamConnectionOptions_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_cluster_v3_UpstreamConnectionOptions_fieldAccessorTable;
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private ClusterProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_cluster_v3_ClusterCollection_descriptor = descriptor2;
+        internal_static_envoy_config_cluster_v3_ClusterCollection_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Entries"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_cluster_v3_Cluster_descriptor = descriptor3;
+        internal_static_envoy_config_cluster_v3_Cluster_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"TransportSocketMatches", "Name", "AltStatName", "Type", "ClusterType", "EdsClusterConfig", "ConnectTimeout", "PerConnectionBufferLimitBytes", "LbPolicy", "LoadAssignment", "HealthChecks", "MaxRequestsPerConnection", "CircuitBreakers", "UpstreamHttpProtocolOptions", "CommonHttpProtocolOptions", "HttpProtocolOptions", "Http2ProtocolOptions", "TypedExtensionProtocolOptions", "DnsRefreshRate", "DnsFailureRefreshRate", "RespectDnsTtl", "DnsLookupFamily", "DnsResolvers", "UseTcpForDnsLookups", "OutlierDetection", "CleanupInterval", "UpstreamBindConfig", "LbSubsetConfig", "RingHashLbConfig", "OriginalDstLbConfig", "LeastRequestLbConfig", "CommonLbConfig", "TransportSocket", "Metadata", "ProtocolSelection", "UpstreamConnectionOptions", "CloseConnectionsOnHostHealthFailure", "IgnoreHealthOnHostRemoval", "Filters", "LoadBalancingPolicy", "LrsServer", "TrackTimeoutBudgets", "UpstreamConfig", "TrackClusterStats", "ClusterDiscoveryType", "LbConfig"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(0);
+        internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_descriptor = descriptor4;
+        internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Name", "Match", "TransportSocket"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(1);
+        internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_descriptor = descriptor5;
+        internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"Name", "TypedConfig"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(2);
+        internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_descriptor = descriptor6;
+        internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"EdsConfig", "ServiceName", "EdsResourceLocator"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(3);
+        internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_descriptor = descriptor7;
+        internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"FallbackPolicy", "DefaultSubset", "SubsetSelectors", "LocalityWeightAware", "ScaleLocalityWeight", "PanicModeAny", "ListAsAny"});
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) descriptor7.getNestedTypes().get(0);
+        internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_descriptor = descriptor8;
+        internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[]{"Keys", "FallbackPolicy", "FallbackKeysSubset"});
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(4);
+        internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_descriptor = descriptor9;
+        internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"ChoiceCount", "ActiveRequestBias"});
+        Descriptors.Descriptor descriptor10 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(5);
+        internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_descriptor = descriptor10;
+        internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor10, new String[]{"MinimumRingSize", "HashFunction", "MaximumRingSize"});
+        Descriptors.Descriptor descriptor11 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(6);
+        internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_descriptor = descriptor11;
+        internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor11, new String[]{"UseHttpHeader"});
+        Descriptors.Descriptor descriptor12 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(7);
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_descriptor = descriptor12;
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor12, new String[]{"HealthyPanicThreshold", "ZoneAwareLbConfig", "LocalityWeightedLbConfig", "UpdateMergeWindow", "IgnoreNewHostsUntilFirstHc", "CloseConnectionsOnHostSetChange", "ConsistentHashingLbConfig", "LocalityConfigSpecifier"});
+        Descriptors.Descriptor descriptor13 = (Descriptors.Descriptor) descriptor12.getNestedTypes().get(0);
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_descriptor = descriptor13;
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor13, new String[]{"RoutingEnabled", "MinClusterSize", "FailTrafficOnPanic"});
+        Descriptors.Descriptor descriptor14 = (Descriptors.Descriptor) descriptor12.getNestedTypes().get(1);
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_descriptor = descriptor14;
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor14, new String[0]);
+        Descriptors.Descriptor descriptor15 = (Descriptors.Descriptor) descriptor12.getNestedTypes().get(2);
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_descriptor = descriptor15;
+        internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor15, new String[]{"UseHostnameForHashing"});
+        Descriptors.Descriptor descriptor16 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(8);
+        internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_descriptor = descriptor16;
+        internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor16, new String[]{"BaseInterval", "MaxInterval"});
+        Descriptors.Descriptor descriptor17 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(9);
+        internal_static_envoy_config_cluster_v3_Cluster_TypedExtensionProtocolOptionsEntry_descriptor = descriptor17;
+        internal_static_envoy_config_cluster_v3_Cluster_TypedExtensionProtocolOptionsEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor17, new String[]{"Key", "Value"});
+        Descriptors.Descriptor descriptor18 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_descriptor = descriptor18;
+        internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor18, new String[]{"Policies"});
+        Descriptors.Descriptor descriptor19 = (Descriptors.Descriptor) descriptor18.getNestedTypes().get(0);
+        internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_Policy_descriptor = descriptor19;
+        internal_static_envoy_config_cluster_v3_LoadBalancingPolicy_Policy_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor19, new String[]{"Name", "TypedConfig"});
+        Descriptors.Descriptor descriptor20 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_envoy_config_cluster_v3_UpstreamBindConfig_descriptor = descriptor20;
+        internal_static_envoy_config_cluster_v3_UpstreamBindConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor20, new String[]{"SourceAddress"});
+        Descriptors.Descriptor descriptor21 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(4);
+        internal_static_envoy_config_cluster_v3_UpstreamConnectionOptions_descriptor = descriptor21;
+        internal_static_envoy_config_cluster_v3_UpstreamConnectionOptions_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor21, new String[]{"TcpKeepalive"});
+        Descriptors.Descriptor descriptor22 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(5);
+        internal_static_envoy_config_cluster_v3_TrackClusterStats_descriptor = descriptor22;
+        internal_static_envoy_config_cluster_v3_TrackClusterStats_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor22, new String[]{"TimeoutBudgets", "RequestResponseSizes"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Migrate.fieldMigrate);
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Security.security);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        CircuitBreakerProto.getDescriptor();
+        FilterProto.getDescriptor();
+        OutlierDetectionProto.getDescriptor();
+        AddressProto.getDescriptor();
+        BaseProto.getDescriptor();
+        ConfigSourceProto.getDescriptor();
+        ExtensionProto.getDescriptor();
+        HealthCheckProto.getDescriptor();
+        ProtocolProto.getDescriptor();
+        EndpointProto.getDescriptor();
+        PercentProto.getDescriptor();
+        AnyProto.getDescriptor();
+        DurationProto.getDescriptor();
+        StructProto.getDescriptor();
+        WrappersProto.getDescriptor();
+        CollectionEntryProto.getDescriptor();
+        ResourceLocatorProto.getDescriptor();
+        Deprecation.getDescriptor();
+        Migrate.getDescriptor();
+        Security.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+        Validate.getDescriptor();
+    }
+}

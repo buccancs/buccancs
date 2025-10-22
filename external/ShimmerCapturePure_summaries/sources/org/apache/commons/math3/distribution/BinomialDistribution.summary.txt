@@ -1,0 +1,109 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/distribution/BinomialDistribution.java
+// Size: 3688 bytes
+// Modified: 2025-10-21 16:32:09.375271300 +0100
+
+package org.apache.commons.math3.distribution;
+
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.special.Beta;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class BinomialDistribution extends AbstractIntegerDistribution {
+    private static final long serialVersionUID = 6751309484392813623L;
+    private final int numberOfTrials;
+    private final double probabilityOfSuccess;
+
+    public int getNumberOfTrials() {
+        return this.numberOfTrials;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalMean() {
+        return this.numberOfTrials * this.probabilityOfSuccess;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalVariance() {
+        double d = this.probabilityOfSuccess;
+        return this.numberOfTrials * d * (1.0d - d);
+    }
+
+    public double getProbabilityOfSuccess() {
+        return this.probabilityOfSuccess;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportLowerBound() {
+        if (this.probabilityOfSuccess < 1.0d) {
+            return 0;
+        }
+        return this.numberOfTrials;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportUpperBound() {
+        if (this.probabilityOfSuccess > 0.0d) {
+            return this.numberOfTrials;
+        }
+        return 0;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public boolean isSupportConnected() {
+        return true;
+    }
+
+    public BinomialDistribution(int i, double d) {
+        this(new Well19937c(), i, d);
+    }
+
+    public BinomialDistribution(RandomGenerator randomGenerator, int i, double d) {
+        super(randomGenerator);
+        if (i < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_TRIALS, Integer.valueOf(i));
+        }
+        if (d < 0.0d || d > 1.0d) {
+            throw new OutOfRangeException(Double.valueOf(d), 0, 1);
+        }
+        this.probabilityOfSuccess = d;
+        this.numberOfTrials = i;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double probability(int i) {
+        double dLogProbability = logProbability(i);
+        if (dLogProbability == Double.NEGATIVE_INFINITY) {
+            return 0.0d;
+        }
+        return FastMath.exp(dLogProbability);
+    }
+
+    @Override // org.apache.commons.math3.distribution.AbstractIntegerDistribution
+    public double logProbability(int i) {
+        int i2 = this.numberOfTrials;
+        if (i2 == 0) {
+            return i == 0 ? 0.0d : Double.NEGATIVE_INFINITY;
+        }
+        if (i < 0 || i > i2) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        double d = this.probabilityOfSuccess;
+        return SaddlePointExpansion.logBinomialProbability(i, i2, d, 1.0d - d);
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double cumulativeProbability(int i) {
+        if (i < 0) {
+            return 0.0d;
+        }
+        if (i >= this.numberOfTrials) {
+            return 1.0d;
+        }
+        return 1.0d - Beta.regularizedBeta(this.probabilityOfSuccess, i + 1.0d, r0 - i);
+    }
+}

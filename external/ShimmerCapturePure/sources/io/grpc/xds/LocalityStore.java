@@ -1,0 +1,457 @@
+package io.grpc.xds;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import io.grpc.ConnectivityState;
+import io.grpc.InternalLogId;
+import io.grpc.LoadBalancer;
+import io.grpc.LoadBalancerProvider;
+import io.grpc.LoadBalancerRegistry;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.util.ForwardingLoadBalancerHelper;
+import io.grpc.xds.ClientLoadCounter;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.LoadStatsManager;
+import io.grpc.xds.OrcaOobUtil;
+import io.grpc.xds.ThreadSafeRandom;
+import io.grpc.xds.WeightedRandomPicker;
+import io.grpc.xds.XdsLogger;
+import io.grpc.xds.XdsSubchannelPickers;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
+
+import kotlin.time.DurationKt;
+
+/* loaded from: classes3.dex */
+interface LocalityStore {
+
+    void reset();
+
+    void updateDropPercentage(List<EnvoyProtoData.DropOverload> list);
+
+    void updateLocalityStore(Map<EnvoyProtoData.Locality, EnvoyProtoData.LocalityLbEndpoints> map);
+
+    void updateOobMetricsReportInterval(long j);
+
+    public static abstract class LocalityStoreFactory {
+        private static final LocalityStoreFactory DEFAULT_INSTANCE = new LocalityStoreFactory() { // from class: io.grpc.xds.LocalityStore.LocalityStoreFactory.1
+            @Override
+                // io.grpc.xds.LocalityStore.LocalityStoreFactory
+            LocalityStore newLocalityStore(InternalLogId internalLogId, LoadBalancer.Helper helper, LoadBalancerRegistry loadBalancerRegistry, LoadStatsManager.LoadStatsStore loadStatsStore) {
+                return new LocalityStoreImpl(internalLogId, helper, loadBalancerRegistry, loadStatsStore);
+            }
+        };
+
+        static LocalityStoreFactory getInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        abstract LocalityStore newLocalityStore(InternalLogId internalLogId, LoadBalancer.Helper helper, LoadBalancerRegistry loadBalancerRegistry, LoadStatsManager.LoadStatsStore loadStatsStore);
+    }
+
+    public static final class LocalityStoreImpl implements LocalityStore {
+        private static final long DELAYED_DELETION_TIMEOUT_MINUTES = 15;
+        private static final String ROUND_ROBIN = "round_robin";
+        private final LoadBalancer.Helper helper;
+        private final LoadBalancerProvider loadBalancerProvider;
+        private final LoadStatsManager.LoadStatsStore loadStatsStore;
+        private final Map<EnvoyProtoData.Locality, LocalityLbInfo> localityMap;
+        private final XdsLogger logger;
+        private final OrcaOobUtil orcaOobUtil;
+        private final OrcaPerRequestUtil orcaPerRequestUtil;
+        private final PriorityManager priorityManager;
+        private final ThreadSafeRandom random;
+        private List<EnvoyProtoData.DropOverload> dropOverloads;
+        private long metricsReportIntervalNano;
+
+        LocalityStoreImpl(InternalLogId internalLogId, LoadBalancer.Helper helper, LoadBalancerRegistry loadBalancerRegistry, LoadStatsManager.LoadStatsStore loadStatsStore) {
+            this(internalLogId, helper, loadBalancerRegistry, ThreadSafeRandom.ThreadSafeRandomImpl.instance, loadStatsStore, OrcaPerRequestUtil.getInstance(), OrcaOobUtil.getInstance());
+        }
+
+        LocalityStoreImpl(InternalLogId internalLogId, LoadBalancer.Helper helper, LoadBalancerRegistry loadBalancerRegistry, ThreadSafeRandom threadSafeRandom, LoadStatsManager.LoadStatsStore loadStatsStore, OrcaPerRequestUtil orcaPerRequestUtil, OrcaOobUtil orcaOobUtil) {
+            this.priorityManager = new PriorityManager();
+            this.localityMap = new HashMap();
+            this.dropOverloads = ImmutableList.of();
+            this.metricsReportIntervalNano = -1L;
+            this.helper = (LoadBalancer.Helper) Preconditions.checkNotNull(helper, "helper");
+            this.loadBalancerProvider = (LoadBalancerProvider) Preconditions.checkNotNull(loadBalancerRegistry.getProvider(ROUND_ROBIN), "Unable to find '%s' LoadBalancer", ROUND_ROBIN);
+            this.random = (ThreadSafeRandom) Preconditions.checkNotNull(threadSafeRandom, "random");
+            this.loadStatsStore = (LoadStatsManager.LoadStatsStore) Preconditions.checkNotNull(loadStatsStore, "loadStatsStore");
+            this.orcaPerRequestUtil = (OrcaPerRequestUtil) Preconditions.checkNotNull(orcaPerRequestUtil, "orcaPerRequestUtil");
+            this.orcaOobUtil = (OrcaOobUtil) Preconditions.checkNotNull(orcaOobUtil, "orcaOobUtil");
+            this.logger = XdsLogger.withLogId((InternalLogId) Preconditions.checkNotNull(internalLogId, "logId"));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public static ConnectivityState aggregateState(@Nullable ConnectivityState connectivityState, ConnectivityState connectivityState2) {
+            if (connectivityState == null) {
+                return connectivityState2;
+            }
+            if (connectivityState == ConnectivityState.READY || connectivityState2 == ConnectivityState.READY) {
+                return ConnectivityState.READY;
+            }
+            if (connectivityState == ConnectivityState.CONNECTING || connectivityState2 == ConnectivityState.CONNECTING) {
+                return ConnectivityState.CONNECTING;
+            }
+            return (connectivityState == ConnectivityState.IDLE || connectivityState2 == ConnectivityState.IDLE) ? ConnectivityState.IDLE : connectivityState;
+        }
+
+        @Override // io.grpc.xds.LocalityStore
+        public void reset() {
+            Iterator<EnvoyProtoData.Locality> it2 = this.localityMap.keySet().iterator();
+            while (it2.hasNext()) {
+                this.localityMap.get(it2.next()).shutdown();
+            }
+            this.localityMap.clear();
+            this.priorityManager.reset();
+        }
+
+        @Override // io.grpc.xds.LocalityStore
+        public void updateLocalityStore(Map<EnvoyProtoData.Locality, EnvoyProtoData.LocalityLbEndpoints> map) {
+            Set<EnvoyProtoData.Locality> setKeySet = map.keySet();
+            for (EnvoyProtoData.Locality locality : setKeySet) {
+                if (this.localityMap.containsKey(locality)) {
+                    this.localityMap.get(locality).refreshEndpoints(map.get(locality));
+                }
+            }
+            this.priorityManager.updateLocalities(map);
+            for (EnvoyProtoData.Locality locality2 : this.localityMap.keySet()) {
+                if (!setKeySet.contains(locality2)) {
+                    deactivate(locality2);
+                }
+            }
+        }
+
+        @Override // io.grpc.xds.LocalityStore
+        public void updateDropPercentage(List<EnvoyProtoData.DropOverload> list) {
+            this.dropOverloads = (List) Preconditions.checkNotNull(list, "dropOverloads");
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void deactivate(final EnvoyProtoData.Locality locality) {
+            if (!this.localityMap.containsKey(locality) || this.localityMap.get(locality).isDeactivated()) {
+                return;
+            }
+            final LocalityLbInfo localityLbInfo = this.localityMap.get(locality);
+            localityLbInfo.delayedDeletionTimer = this.helper.getSynchronizationContext().schedule(new Runnable() { // from class: io.grpc.xds.LocalityStore.LocalityStoreImpl.1DeletionTask
+                @Override // java.lang.Runnable
+                public void run() {
+                    localityLbInfo.shutdown();
+                    LocalityStoreImpl.this.localityMap.remove(locality);
+                }
+
+                public String toString() {
+                    return "DeletionTask: locality=" + locality;
+                }
+            }, DELAYED_DELETION_TIMEOUT_MINUTES, TimeUnit.MINUTES, this.helper.getScheduledExecutorService());
+        }
+
+        @Override // io.grpc.xds.LocalityStore
+        public void updateOobMetricsReportInterval(long j) {
+            this.metricsReportIntervalNano = j;
+            Iterator<LocalityLbInfo> it2 = this.localityMap.values().iterator();
+            while (it2.hasNext()) {
+                it2.next().childHelper.updateMetricsReportInterval(j);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void updatePicker(@Nullable ConnectivityState connectivityState, List<WeightedRandomPicker.WeightedChildPicker> list) {
+            LoadBalancer.SubchannelPicker weightedRandomPicker;
+            LoadBalancer.SubchannelPicker errorPicker;
+            if (list.isEmpty()) {
+                if (connectivityState == ConnectivityState.TRANSIENT_FAILURE) {
+                    errorPicker = new XdsSubchannelPickers.ErrorPicker(Status.UNAVAILABLE);
+                } else {
+                    errorPicker = XdsSubchannelPickers.BUFFER_PICKER;
+                }
+                weightedRandomPicker = errorPicker;
+            } else {
+                weightedRandomPicker = new WeightedRandomPicker(list);
+            }
+            if (!this.dropOverloads.isEmpty()) {
+                weightedRandomPicker = new DroppablePicker(this.dropOverloads, weightedRandomPicker, this.random, this.loadStatsStore);
+            }
+            if (connectivityState != null) {
+                this.helper.updateBalancingState(connectivityState, weightedRandomPicker);
+            }
+        }
+
+        private final class DroppablePicker extends LoadBalancer.SubchannelPicker {
+            final LoadBalancer.SubchannelPicker delegate;
+            final List<EnvoyProtoData.DropOverload> dropOverloads;
+            final LoadStatsManager.LoadStatsStore loadStatsStore;
+            final ThreadSafeRandom random;
+
+            DroppablePicker(List<EnvoyProtoData.DropOverload> list, LoadBalancer.SubchannelPicker subchannelPicker, ThreadSafeRandom threadSafeRandom, LoadStatsManager.LoadStatsStore loadStatsStore) {
+                this.dropOverloads = list;
+                this.delegate = subchannelPicker;
+                this.random = threadSafeRandom;
+                this.loadStatsStore = loadStatsStore;
+            }
+
+            @Override // io.grpc.LoadBalancer.SubchannelPicker
+            public LoadBalancer.PickResult pickSubchannel(LoadBalancer.PickSubchannelArgs pickSubchannelArgs) {
+                for (EnvoyProtoData.DropOverload dropOverload : this.dropOverloads) {
+                    if (this.random.nextInt(DurationKt.NANOS_IN_MILLIS) < dropOverload.getDropsPerMillion()) {
+                        LocalityStoreImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Drop request with category: {0}", dropOverload.getCategory());
+                        this.loadStatsStore.recordDroppedRequest(dropOverload.getCategory());
+                        return LoadBalancer.PickResult.withDrop(Status.UNAVAILABLE.withDescription("dropped by loadbalancer: " + dropOverload.toString()));
+                    }
+                }
+                return this.delegate.pickSubchannel(pickSubchannelArgs);
+            }
+
+            public String toString() {
+                return MoreObjects.toStringHelper(this).add("dropOverloads", this.dropOverloads).add("delegate", this.delegate).toString();
+            }
+        }
+
+        private final class LocalityLbInfo {
+            final LoadBalancer childBalancer;
+            final ChildHelper childHelper;
+            final EnvoyProtoData.Locality locality;
+            @Nullable
+            private SynchronizationContext.ScheduledHandle delayedDeletionTimer;
+
+            LocalityLbInfo(EnvoyProtoData.Locality locality) {
+                this.locality = (EnvoyProtoData.Locality) Preconditions.checkNotNull(locality, "locality");
+                ChildHelper childHelper = new ChildHelper(LocalityStoreImpl.this.loadStatsStore.addLocality(locality));
+                this.childHelper = childHelper;
+                this.childBalancer = LocalityStoreImpl.this.loadBalancerProvider.newLoadBalancer(childHelper);
+            }
+
+            boolean isDeactivated() {
+                return this.delayedDeletionTimer != null;
+            }
+
+            void refreshEndpoints(EnvoyProtoData.LocalityLbEndpoints localityLbEndpoints) {
+                final ArrayList arrayList = new ArrayList();
+                for (EnvoyProtoData.LbEndpoint lbEndpoint : localityLbEndpoints.getEndpoints()) {
+                    if (lbEndpoint.isHealthy()) {
+                        arrayList.add(lbEndpoint.getAddress());
+                    }
+                }
+                this.childHelper.getSynchronizationContext().execute(new Runnable() { // from class: io.grpc.xds.LocalityStore.LocalityStoreImpl.LocalityLbInfo.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        if (arrayList.isEmpty() && !LocalityLbInfo.this.childBalancer.canHandleEmptyAddressListFromNameResolution()) {
+                            LocalityLbInfo.this.childBalancer.handleNameResolutionError(Status.UNAVAILABLE.withDescription("Locality " + LocalityLbInfo.this.locality + " has no healthy endpoint"));
+                            return;
+                        }
+                        LocalityLbInfo.this.childBalancer.handleResolvedAddresses(LoadBalancer.ResolvedAddresses.newBuilder().setAddresses(arrayList).build());
+                    }
+                });
+            }
+
+            void shutdown() {
+                SynchronizationContext.ScheduledHandle scheduledHandle = this.delayedDeletionTimer;
+                if (scheduledHandle != null) {
+                    scheduledHandle.cancel();
+                    this.delayedDeletionTimer = null;
+                }
+                this.childBalancer.shutdown();
+                LocalityStoreImpl.this.loadStatsStore.removeLocality(this.locality);
+                LocalityStoreImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Shut down child balancer for locality {0}", this.locality);
+            }
+
+            void reactivate() {
+                SynchronizationContext.ScheduledHandle scheduledHandle = this.delayedDeletionTimer;
+                if (scheduledHandle != null) {
+                    scheduledHandle.cancel();
+                    this.delayedDeletionTimer = null;
+                }
+            }
+
+            class ChildHelper extends ForwardingLoadBalancerHelper {
+                private final OrcaOobUtil.OrcaReportingHelperWrapper orcaReportingHelperWrapper;
+                private LoadBalancer.SubchannelPicker currentChildPicker = XdsSubchannelPickers.BUFFER_PICKER;
+                private ConnectivityState currentChildState = ConnectivityState.CONNECTING;
+
+                ChildHelper(final ClientLoadCounter clientLoadCounter) {
+                    this.orcaReportingHelperWrapper = LocalityStoreImpl.this.orcaOobUtil.newOrcaReportingHelperWrapper(new ForwardingLoadBalancerHelper() { // from class: io.grpc.xds.LocalityStore.LocalityStoreImpl.LocalityLbInfo.ChildHelper.1
+                        @Override // io.grpc.util.ForwardingLoadBalancerHelper
+                        protected LoadBalancer.Helper delegate() {
+                            return LocalityStoreImpl.this.helper;
+                        }
+
+                        @Override // io.grpc.util.ForwardingLoadBalancerHelper, io.grpc.LoadBalancer.Helper
+                        public void updateBalancingState(ConnectivityState connectivityState, LoadBalancer.SubchannelPicker subchannelPicker) {
+                            LocalityStoreImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Update load balancing state for locality {0} to {1}", LocalityLbInfo.this.locality, connectivityState);
+                            ChildHelper.this.currentChildState = connectivityState;
+                            ChildHelper.this.currentChildPicker = new ClientLoadCounter.LoadRecordingSubchannelPicker(clientLoadCounter, new ClientLoadCounter.MetricsObservingSubchannelPicker(new ClientLoadCounter.MetricsRecordingListener(clientLoadCounter), subchannelPicker, LocalityStoreImpl.this.orcaPerRequestUtil));
+                            LocalityStoreImpl.this.priorityManager.updatePriorityState(LocalityStoreImpl.this.priorityManager.getPriority(LocalityLbInfo.this.locality));
+                        }
+
+                        @Override // io.grpc.util.ForwardingLoadBalancerHelper, io.grpc.LoadBalancer.Helper
+                        public String getAuthority() {
+                            return LocalityLbInfo.this.locality.getSubZone();
+                        }
+                    }, new ClientLoadCounter.MetricsRecordingListener(clientLoadCounter));
+                    if (LocalityStoreImpl.this.metricsReportIntervalNano > 0) {
+                        updateMetricsReportInterval(LocalityStoreImpl.this.metricsReportIntervalNano);
+                    }
+                }
+
+                void updateMetricsReportInterval(long j) {
+                    this.orcaReportingHelperWrapper.setReportingConfig(OrcaOobUtil.OrcaReportingConfig.newBuilder().setReportInterval(j, TimeUnit.NANOSECONDS).build());
+                }
+
+                @Override // io.grpc.util.ForwardingLoadBalancerHelper
+                protected LoadBalancer.Helper delegate() {
+                    return this.orcaReportingHelperWrapper.asHelper();
+                }
+            }
+        }
+
+        private final class PriorityManager {
+            private final List<List<EnvoyProtoData.Locality>> priorityTable;
+            private int currentPriority;
+            private SynchronizationContext.ScheduledHandle failOverTimer;
+            private Map<EnvoyProtoData.Locality, EnvoyProtoData.LocalityLbEndpoints> localityInfoMap;
+
+            private PriorityManager() {
+                this.priorityTable = new ArrayList();
+                this.localityInfoMap = ImmutableMap.of();
+                this.currentPriority = -1;
+            }
+
+            void updateLocalities(Map<EnvoyProtoData.Locality, EnvoyProtoData.LocalityLbEndpoints> map) {
+                this.localityInfoMap = map;
+                this.priorityTable.clear();
+                for (EnvoyProtoData.Locality locality : map.keySet()) {
+                    int priority = map.get(locality).getPriority();
+                    while (this.priorityTable.size() <= priority) {
+                        this.priorityTable.add(new ArrayList());
+                    }
+                    this.priorityTable.get(priority).add(locality);
+                }
+                if (LocalityStoreImpl.this.logger.isLoggable(XdsLogger.XdsLogLevel.INFO)) {
+                    for (int i = 0; i < this.priorityTable.size(); i++) {
+                        LocalityStoreImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Priority {0} contains localities: {1}", Integer.valueOf(i), this.priorityTable.get(i));
+                    }
+                }
+                if (this.priorityTable.isEmpty()) {
+                    LocalityStoreImpl.this.helper.updateBalancingState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(Status.UNAVAILABLE.withDescription("Received 0 locality")));
+                } else {
+                    this.currentPriority = -1;
+                    failOver();
+                }
+            }
+
+            void updatePriorityState(int i) {
+                if (i == -1 || i > this.currentPriority) {
+                    return;
+                }
+                ArrayList arrayList = new ArrayList();
+                ConnectivityState connectivityStateAggregateState = null;
+                for (EnvoyProtoData.Locality locality : this.priorityTable.get(i)) {
+                    if (!LocalityStoreImpl.this.localityMap.containsKey(locality)) {
+                        initLocality(locality);
+                    }
+                    LocalityLbInfo localityLbInfo = (LocalityLbInfo) LocalityStoreImpl.this.localityMap.get(locality);
+                    localityLbInfo.reactivate();
+                    ConnectivityState connectivityState = localityLbInfo.childHelper.currentChildState;
+                    LoadBalancer.SubchannelPicker subchannelPicker = localityLbInfo.childHelper.currentChildPicker;
+                    connectivityStateAggregateState = LocalityStoreImpl.aggregateState(connectivityStateAggregateState, connectivityState);
+                    if (ConnectivityState.READY == connectivityState) {
+                        arrayList.add(new WeightedRandomPicker.WeightedChildPicker(this.localityInfoMap.get(locality).getLocalityWeight(), subchannelPicker));
+                    }
+                }
+                LocalityStoreImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Update priority {0} state to {1}", Integer.valueOf(i), connectivityStateAggregateState);
+                if (i == this.currentPriority) {
+                    LocalityStoreImpl.this.updatePicker(connectivityStateAggregateState, arrayList);
+                    if (connectivityStateAggregateState == ConnectivityState.READY) {
+                        cancelFailOverTimer();
+                    } else if (connectivityStateAggregateState == ConnectivityState.TRANSIENT_FAILURE) {
+                        cancelFailOverTimer();
+                        failOver();
+                    } else if (this.failOverTimer == null) {
+                        failOver();
+                    }
+                } else if (connectivityStateAggregateState == ConnectivityState.READY) {
+                    LocalityStoreImpl.this.updatePicker(connectivityStateAggregateState, arrayList);
+                    cancelFailOverTimer();
+                    this.currentPriority = i;
+                }
+                if (connectivityStateAggregateState == ConnectivityState.READY) {
+                    for (int i2 = i + 1; i2 < this.priorityTable.size(); i2++) {
+                        Iterator<EnvoyProtoData.Locality> it2 = this.priorityTable.get(i2).iterator();
+                        while (it2.hasNext()) {
+                            LocalityStoreImpl.this.deactivate(it2.next());
+                        }
+                    }
+                }
+            }
+
+            int getPriority(EnvoyProtoData.Locality locality) {
+                if (this.localityInfoMap.containsKey(locality)) {
+                    return this.localityInfoMap.get(locality).getPriority();
+                }
+                return -1;
+            }
+
+            void reset() {
+                cancelFailOverTimer();
+                this.priorityTable.clear();
+                this.localityInfoMap = ImmutableMap.of();
+                this.currentPriority = -1;
+            }
+
+            private void cancelFailOverTimer() {
+                SynchronizationContext.ScheduledHandle scheduledHandle = this.failOverTimer;
+                if (scheduledHandle != null) {
+                    scheduledHandle.cancel();
+                    this.failOverTimer = null;
+                }
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public void failOver() {
+                if (this.currentPriority == this.priorityTable.size() - 1) {
+                    return;
+                }
+                int i = this.currentPriority + 1;
+                this.currentPriority = i;
+                boolean z = false;
+                for (EnvoyProtoData.Locality locality : this.priorityTable.get(i)) {
+                    if (LocalityStoreImpl.this.localityMap.containsKey(locality)) {
+                        ((LocalityLbInfo) LocalityStoreImpl.this.localityMap.get(locality)).reactivate();
+                        z = true;
+                    } else {
+                        initLocality(locality);
+                    }
+                }
+                if (!z) {
+                    this.failOverTimer = LocalityStoreImpl.this.helper.getSynchronizationContext().schedule(new Runnable() { // from class: io.grpc.xds.LocalityStore.LocalityStoreImpl.PriorityManager.1FailOverTask
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            LocalityStoreImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Failing over to priority {0}", Integer.valueOf(PriorityManager.this.currentPriority + 1));
+                            PriorityManager.this.failOverTimer = null;
+                            PriorityManager.this.failOver();
+                        }
+                    }, 10L, TimeUnit.SECONDS, LocalityStoreImpl.this.helper.getScheduledExecutorService());
+                }
+                updatePriorityState(this.currentPriority);
+            }
+
+            private void initLocality(EnvoyProtoData.Locality locality) {
+                LocalityStoreImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Create child balancer for locality {0}", locality);
+                LocalityLbInfo localityLbInfo = LocalityStoreImpl.this.new LocalityLbInfo(locality);
+                LocalityStoreImpl.this.localityMap.put(locality, localityLbInfo);
+                localityLbInfo.refreshEndpoints(this.localityInfoMap.get(locality));
+            }
+        }
+    }
+}

@@ -1,0 +1,205 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/interpolation/BicubicSplineInterpolatingFunction.java
+// Size: 10702 bytes
+// Modified: 2025-10-21 16:32:09.428700800 +0100
+
+package org.apache.commons.math3.analysis.interpolation;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import org.apache.commons.math3.analysis.BivariateFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.MathArrays;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class BicubicSplineInterpolatingFunction implements BivariateFunction {
+    private static final double[][] AINV = {new double[]{1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, 0.0d, 0.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, new double[]{-3.0d, 3.0d, 0.0d, 0.0d, -2.0d, -1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, new double[]{2.0d, -2.0d, 0.0d, 0.0d, 1.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 1.0d, 0.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, -3.0d, 3.0d, 0.0d, 0.0d, -2.0d, -1.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 2.0d, -2.0d, 0.0d, 0.0d, 1.0d, 1.0d, 0.0d, 0.0d}, new double[]{-3.0d, 0.0d, 3.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, -2.0d, 0.0d, -1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, 0.0d, 0.0d, -3.0d, 0.0d, 3.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, -2.0d, 0.0d, -1.0d, 0.0d}, new double[]{9.0d, -9.0d, -9.0d, 9.0d, 6.0d, 3.0d, -6.0d, -3.0d, 6.0d, -6.0d, 3.0d, -3.0d, 4.0d, 2.0d, 2.0d, 1.0d}, new double[]{-6.0d, 6.0d, 6.0d, -6.0d, -3.0d, -3.0d, 3.0d, 3.0d, -4.0d, 4.0d, -2.0d, 2.0d, -2.0d, -2.0d, -1.0d, -1.0d}, new double[]{2.0d, 0.0d, -2.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 1.0d, 0.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, 0.0d, 0.0d, 2.0d, 0.0d, -2.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 1.0d, 0.0d, 1.0d, 0.0d}, new double[]{-6.0d, 6.0d, 6.0d, -6.0d, -4.0d, -2.0d, 4.0d, 2.0d, -3.0d, 3.0d, -3.0d, 3.0d, -2.0d, -1.0d, -2.0d, -1.0d}, new double[]{4.0d, -4.0d, -4.0d, 4.0d, 2.0d, 2.0d, -2.0d, -2.0d, 2.0d, -2.0d, 2.0d, -2.0d, 1.0d, 1.0d, 1.0d, 1.0d}};
+    private static final int NUM_COEFF = 16;
+    private final BivariateFunction[][][] partialDerivatives;
+    private final BicubicSplineFunction[][] splines;
+    private final double[] xval;
+    private final double[] yval;
+
+    public BicubicSplineInterpolatingFunction(double[] dArr, double[] dArr2, double[][] dArr3, double[][] dArr4, double[][] dArr5, double[][] dArr6) throws NoDataException, DimensionMismatchException, NonMonotonicSequenceException {
+        this(dArr, dArr2, dArr3, dArr4, dArr5, dArr6, false);
+    }
+
+    public BicubicSplineInterpolatingFunction(double[] dArr, double[] dArr2, double[][] dArr3, double[][] dArr4, double[][] dArr5, double[][] dArr6, boolean z) throws NoDataException, NonMonotonicSequenceException, DimensionMismatchException {
+        int length = dArr.length;
+        int length2 = dArr2.length;
+        if (length == 0 || length2 == 0 || dArr3.length == 0 || dArr3[0].length == 0) {
+            throw new NoDataException();
+        }
+        if (length != dArr3.length) {
+            throw new DimensionMismatchException(length, dArr3.length);
+        }
+        if (length != dArr4.length) {
+            throw new DimensionMismatchException(length, dArr4.length);
+        }
+        if (length != dArr5.length) {
+            throw new DimensionMismatchException(length, dArr5.length);
+        }
+        if (length != dArr6.length) {
+            throw new DimensionMismatchException(length, dArr6.length);
+        }
+        MathArrays.checkOrder(dArr);
+        MathArrays.checkOrder(dArr2);
+        this.xval = (double[]) dArr.clone();
+        this.yval = (double[]) dArr2.clone();
+        char c = 1;
+        int i = length - 1;
+        int i2 = length2 - 1;
+        this.splines = (BicubicSplineFunction[][]) Array.newInstance((Class<?>) BicubicSplineFunction.class, i, i2);
+        int i3 = 0;
+        while (true) {
+            char c2 = 2;
+            if (i3 >= i) {
+                if (z) {
+                    this.partialDerivatives = (BivariateFunction[][][]) Array.newInstance((Class<?>) BivariateFunction.class, 5, i, i2);
+                    for (int i4 = 0; i4 < i; i4++) {
+                        for (int i5 = 0; i5 < i2; i5++) {
+                            BicubicSplineFunction bicubicSplineFunction = this.splines[i4][i5];
+                            this.partialDerivatives[0][i4][i5] = bicubicSplineFunction.partialDerivativeX();
+                            this.partialDerivatives[1][i4][i5] = bicubicSplineFunction.partialDerivativeY();
+                            this.partialDerivatives[2][i4][i5] = bicubicSplineFunction.partialDerivativeXX();
+                            this.partialDerivatives[3][i4][i5] = bicubicSplineFunction.partialDerivativeYY();
+                            this.partialDerivatives[4][i4][i5] = bicubicSplineFunction.partialDerivativeXY();
+                        }
+                    }
+                    return;
+                }
+                this.partialDerivatives = null;
+                return;
+            }
+            if (dArr3[i3].length != length2) {
+                throw new DimensionMismatchException(dArr3[i3].length, length2);
+            }
+            if (dArr4[i3].length != length2) {
+                throw new DimensionMismatchException(dArr4[i3].length, length2);
+            }
+            if (dArr5[i3].length != length2) {
+                throw new DimensionMismatchException(dArr5[i3].length, length2);
+            }
+            if (dArr6[i3].length != length2) {
+                throw new DimensionMismatchException(dArr6[i3].length, length2);
+            }
+            int i6 = i3 + 1;
+            int i7 = 0;
+            while (i7 < i2) {
+                int i8 = i7 + 1;
+                double[] dArr7 = new double[16];
+                double[] dArr8 = dArr3[i3];
+                dArr7[0] = dArr8[i7];
+                double[] dArr9 = dArr3[i6];
+                dArr7[c] = dArr9[i7];
+                dArr7[c2] = dArr8[i8];
+                dArr7[3] = dArr9[i8];
+                double[] dArr10 = dArr4[i3];
+                dArr7[4] = dArr10[i7];
+                double[] dArr11 = dArr4[i6];
+                dArr7[5] = dArr11[i7];
+                dArr7[6] = dArr10[i8];
+                dArr7[7] = dArr11[i8];
+                double[] dArr12 = dArr5[i3];
+                dArr7[8] = dArr12[i7];
+                double[] dArr13 = dArr5[i6];
+                dArr7[9] = dArr13[i7];
+                dArr7[10] = dArr12[i8];
+                dArr7[11] = dArr13[i8];
+                double[] dArr14 = dArr6[i3];
+                dArr7[12] = dArr14[i7];
+                double[] dArr15 = dArr6[i6];
+                dArr7[13] = dArr15[i7];
+                dArr7[14] = dArr14[i8];
+                dArr7[15] = dArr15[i8];
+                this.splines[i3][i7] = new BicubicSplineFunction(computeSplineCoefficients(dArr7), z);
+                i7 = i8;
+                c = 1;
+                c2 = 2;
+            }
+            i3 = i6;
+        }
+    }
+
+    @Override // org.apache.commons.math3.analysis.BivariateFunction
+    public double value(double d, double d2) throws OutOfRangeException {
+        int iSearchIndex = searchIndex(d, this.xval);
+        int iSearchIndex2 = searchIndex(d2, this.yval);
+        double[] dArr = this.xval;
+        double d3 = dArr[iSearchIndex];
+        double d4 = (d - d3) / (dArr[iSearchIndex + 1] - d3);
+        double[] dArr2 = this.yval;
+        double d5 = dArr2[iSearchIndex2];
+        return this.splines[iSearchIndex][iSearchIndex2].value(d4, (d2 - d5) / (dArr2[iSearchIndex2 + 1] - d5));
+    }
+
+    public boolean isValidPoint(double d, double d2) {
+        double[] dArr = this.xval;
+        if (d >= dArr[0] && d <= dArr[dArr.length - 1]) {
+            double[] dArr2 = this.yval;
+            if (d2 >= dArr2[0] && d2 <= dArr2[dArr2.length - 1]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double partialDerivativeX(double d, double d2) throws OutOfRangeException {
+        return partialDerivative(0, d, d2);
+    }
+
+    public double partialDerivativeY(double d, double d2) throws OutOfRangeException {
+        return partialDerivative(1, d, d2);
+    }
+
+    public double partialDerivativeXX(double d, double d2) throws OutOfRangeException {
+        return partialDerivative(2, d, d2);
+    }
+
+    public double partialDerivativeYY(double d, double d2) throws OutOfRangeException {
+        return partialDerivative(3, d, d2);
+    }
+
+    public double partialDerivativeXY(double d, double d2) throws OutOfRangeException {
+        return partialDerivative(4, d, d2);
+    }
+
+    private double partialDerivative(int i, double d, double d2) throws OutOfRangeException {
+        int iSearchIndex = searchIndex(d, this.xval);
+        int iSearchIndex2 = searchIndex(d2, this.yval);
+        double[] dArr = this.xval;
+        double d3 = dArr[iSearchIndex];
+        double d4 = (d - d3) / (dArr[iSearchIndex + 1] - d3);
+        double[] dArr2 = this.yval;
+        double d5 = dArr2[iSearchIndex2];
+        return this.partialDerivatives[i][iSearchIndex][iSearchIndex2].value(d4, (d2 - d5) / (dArr2[iSearchIndex2 + 1] - d5));
+    }
+
+    private int searchIndex(double d, double[] dArr) {
+        int iBinarySearch = Arrays.binarySearch(dArr, d);
+        if (iBinarySearch == -1 || iBinarySearch == (-dArr.length) - 1) {
+            throw new OutOfRangeException(Double.valueOf(d), Double.valueOf(dArr[0]), Double.valueOf(dArr[dArr.length - 1]));
+        }
+        if (iBinarySearch < 0) {
+            return (-iBinarySearch) - 2;
+        }
+        int length = dArr.length;
+        return iBinarySearch == length + (-1) ? length - 2 : iBinarySearch;
+    }
+
+    private double[] computeSplineCoefficients(double[] dArr) {
+        double[] dArr2 = new double[16];
+        for (int i = 0; i < 16; i++) {
+            double[] dArr3 = AINV[i];
+            double d = 0.0d;
+            for (int i2 = 0; i2 < 16; i2++) {
+                d += dArr3[i2] * dArr[i2];
+            }
+            dArr2[i] = d;
+        }
+        return dArr2;
+    }
+}

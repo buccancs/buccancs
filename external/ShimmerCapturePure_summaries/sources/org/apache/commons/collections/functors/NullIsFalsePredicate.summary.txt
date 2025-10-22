@@ -1,0 +1,38 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/NullIsFalsePredicate.java
+// Size: 1137 bytes
+// Modified: 2025-10-21 16:32:02.862767500 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import org.apache.commons.collections.Predicate;
+
+/* loaded from: classes5.dex */
+public final class NullIsFalsePredicate implements Predicate, PredicateDecorator, Serializable {
+    private static final long serialVersionUID = -2997501534564735525L;
+    private final Predicate iPredicate;
+
+    @Override // org.apache.commons.collections.functors.PredicateDecorator
+    public Predicate[] getPredicates() {
+        return new Predicate[]{this.iPredicate};
+    }
+
+    public static Predicate getInstance(Predicate predicate) {
+        if (predicate == null) {
+            throw new IllegalArgumentException("Predicate must not be null");
+        }
+        return new NullIsFalsePredicate(predicate);
+    }
+
+    public NullIsFalsePredicate(Predicate predicate) {
+        this.iPredicate = predicate;
+    }
+
+    @Override // org.apache.commons.collections.Predicate
+    public boolean evaluate(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return this.iPredicate.evaluate(obj);
+    }
+}

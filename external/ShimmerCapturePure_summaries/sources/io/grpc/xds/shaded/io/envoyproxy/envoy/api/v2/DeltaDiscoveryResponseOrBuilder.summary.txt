@@ -1,0 +1,43 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/DeltaDiscoveryResponseOrBuilder.java
+// Size: 963 bytes
+// Modified: 2025-10-21 16:32:03.211650200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface DeltaDiscoveryResponseOrBuilder extends MessageOrBuilder {
+    String getNonce();
+
+    ByteString getNonceBytes();
+
+    String getRemovedResources(int i);
+
+    ByteString getRemovedResourcesBytes(int i);
+
+    int getRemovedResourcesCount();
+
+    /* renamed from: getRemovedResourcesList */
+    List<String> mo12491getRemovedResourcesList();
+
+    Resource getResources(int i);
+
+    int getResourcesCount();
+
+    List<Resource> getResourcesList();
+
+    ResourceOrBuilder getResourcesOrBuilder(int i);
+
+    List<? extends ResourceOrBuilder> getResourcesOrBuilderList();
+
+    String getSystemVersionInfo();
+
+    ByteString getSystemVersionInfoBytes();
+
+    String getTypeUrl();
+
+    ByteString getTypeUrlBytes();
+}

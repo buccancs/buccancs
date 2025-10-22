@@ -1,0 +1,78 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/wiredProtocol/ErrorCodesWiredProtocol.java
+// Size: 5842 bytes
+// Modified: 2025-10-21 16:32:00.811522500 +0100
+
+package com.shimmerresearch.comms.wiredProtocol;
+
+import com.shimmerresearch.driverUtilities.AbstractErrorCodes;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public class ErrorCodesWiredProtocol extends AbstractErrorCodes {
+    public static final int ERROR_CODES_ID = 7;
+    public static final int ERR_NONE = 0;
+    public static final int SHIMMERUART_CMD_ERR_BATT_STATUS_GET = 7023;
+    public static final int SHIMMERUART_CMD_ERR_BT_FW_VERSION_INFO_GET = 7037;
+    public static final int SHIMMERUART_CMD_ERR_DAUGHTER_ID_GET = 7027;
+    public static final int SHIMMERUART_CMD_ERR_DAUGHTER_ID_SET = 7028;
+    public static final int SHIMMERUART_CMD_ERR_DAUGHTER_MEM_GET = 7029;
+    public static final int SHIMMERUART_CMD_ERR_DAUGHTER_MEM_SET = 7030;
+    public static final int SHIMMERUART_CMD_ERR_ENTER_BOOTLOADER_SET = 7038;
+    public static final int SHIMMERUART_CMD_ERR_INFOMEM_GET = 7031;
+    public static final int SHIMMERUART_CMD_ERR_INFOMEM_SET = 7032;
+    public static final int SHIMMERUART_CMD_ERR_MAC_ID_GET = 7021;
+    public static final int SHIMMERUART_CMD_ERR_RADIO_802154_GET_SETTINGS = 7034;
+    public static final int SHIMMERUART_CMD_ERR_RADIO_802154_RAW = 7036;
+    public static final int SHIMMERUART_CMD_ERR_RADIO_802154_SET_SETTINGS = 7033;
+    public static final int SHIMMERUART_CMD_ERR_RADIO_802154_SPECTRUM_ANALYSER = 7035;
+    public static final int SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_GET = 7024;
+    public static final int SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_SET = 7025;
+    public static final int SHIMMERUART_CMD_ERR_RTC_CURRENT_TIME_GET = 7026;
+    public static final int SHIMMERUART_CMD_ERR_VERSION_INFO_GET = 7022;
+    public static final int SHIMMERUART_COMM_ERR_CRC = 7006;
+    public static final int SHIMMERUART_COMM_ERR_MAC_CHANGE = 7017;
+    public static final int SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS = 7014;
+    public static final int SHIMMERUART_COMM_ERR_RESPONSE_BAD_ARG = 7011;
+    public static final int SHIMMERUART_COMM_ERR_RESPONSE_BAD_CMD = 7010;
+    public static final int SHIMMERUART_COMM_ERR_RESPONSE_BAD_CRC = 7012;
+    public static final int SHIMMERUART_COMM_ERR_RESPONSE_UNEXPECTED = 7013;
+    public static final int SHIMMERUART_COMM_ERR_TIMEOUT = 7005;
+    public static final int SHIMMERUART_INFOMEM_READ_REQEST_EXCEEDS_INFO_RANGE = 7002;
+    public static final int SHIMMERUART_INFOMEM_WRITE_BUFFER_EXCEEDS_INFO_RANGE = 7001;
+    public static final Map<Integer, String> mMapOfErrorCodes;
+
+    static {
+        TreeMap treeMap = new TreeMap();
+        treeMap.put(0, "SHIMMERUART_COMM_ERR_NONE");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_MAC_ID_GET), "Error reading MAC ID");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_VERSION_INFO_GET), "Error reading hw fw Shimmer version");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_BATT_STATUS_GET), "Error Reading Batt Status");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_SET), "Error writing RTC time");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_GET), "Error reading RTC config time");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_RTC_CURRENT_TIME_GET), "Error reading RTC current time");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_DAUGHTER_ID_SET), "Error writing expansion board ID");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_DAUGHTER_ID_GET), "Error reading expansion board ID");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_DAUGHTER_MEM_SET), "Error writing expansion board memory");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_DAUGHTER_MEM_GET), "Error reading expansion board memory");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_INFOMEM_SET), "Error writing InfoMem");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_INFOMEM_GET), "Error reading InfoMem");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_BT_FW_VERSION_INFO_GET), "Error reading BT FW version info");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_ENTER_BOOTLOADER_SET), "Error writing enter bootloader command");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_RADIO_802154_GET_SETTINGS), "Error reading 802.15.4 radio settings");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_RADIO_802154_SET_SETTINGS), "Error writing 802.15.4 radio settings");
+        treeMap.put(Integer.valueOf(SHIMMERUART_CMD_ERR_RADIO_802154_SPECTRUM_ANALYSER), "Error reading spectrum analyser");
+        treeMap.put(Integer.valueOf(SHIMMERUART_INFOMEM_WRITE_BUFFER_EXCEEDS_INFO_RANGE), "InfoMem write buffer exceeds InfoMem range");
+        treeMap.put(Integer.valueOf(SHIMMERUART_INFOMEM_READ_REQEST_EXCEEDS_INFO_RANGE), "InfoMem read request exceeds InfoMem range");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_TIMEOUT), "COM port timeout");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_CRC), "Bad CRC on received packet");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_RESPONSE_BAD_CMD), "Device responded with Bad_CMD");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_RESPONSE_BAD_ARG), "Device responded with Bad_ARG");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_RESPONSE_BAD_CRC), "Device responded with Bad_CRC");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_RESPONSE_UNEXPECTED), "ShimmerUART_Comm_Err_Response_Unexpected");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS), "ShimmerUART_Comm_Err_Message_Content");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_MAC_CHANGE), "Change of Shimmer before an undock was detected");
+        mMapOfErrorCodes = Collections.unmodifiableMap(treeMap);
+    }
+}

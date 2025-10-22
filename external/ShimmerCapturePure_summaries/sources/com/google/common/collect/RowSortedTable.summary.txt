@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/RowSortedTable.java
+// Size: 395 bytes
+// Modified: 2025-10-21 16:32:02.100767100 +0100
+
+package com.google.common.collect;
+
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.SortedSet;
+
+/* loaded from: classes.dex */
+public interface RowSortedTable<R, C, V> extends Table<R, C, V> {
+    @Override // com.google.common.collect.Table
+    SortedSet<R> rowKeySet();
+
+    @Override // com.google.common.collect.Table
+    SortedMap<R, Map<C, V>> rowMap();
+}

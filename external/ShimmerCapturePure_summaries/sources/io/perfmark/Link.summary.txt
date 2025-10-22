@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/perfmark/Link.java
+// Size: 218 bytes
+// Modified: 2025-10-21 16:32:00.467143200 +0100
+
+package io.perfmark;
+
+/* loaded from: classes4.dex */
+public final class Link {
+    final long linkId;
+
+    @Deprecated
+    public void link() {
+    }
+
+    Link(long j) {
+        this.linkId = j;
+    }
+}

@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/CancelClientStreamCommand.java
+// Size: 951 bytes
+// Modified: 2025-10-21 16:32:10.585615300 +0100
+
+package io.grpc.netty;
+
+import com.google.common.base.Preconditions;
+import io.grpc.Status;
+import io.grpc.netty.NettyClientStream;
+import io.grpc.netty.WriteQueue;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+class CancelClientStreamCommand extends WriteQueue.AbstractQueuedCommand {
+
+    @Nullable
+    private final Status reason;
+    private final NettyClientStream.TransportState stream;
+
+    @Nullable
+    Status reason() {
+        return this.reason;
+    }
+
+    NettyClientStream.TransportState stream() {
+        return this.stream;
+    }
+
+    CancelClientStreamCommand(NettyClientStream.TransportState transportState, Status status) {
+        this.stream = (NettyClientStream.TransportState) Preconditions.checkNotNull(transportState, "stream");
+        Preconditions.checkArgument(status == null || !status.isOk(), "Should not cancel with OK status");
+        this.reason = status;
+    }
+}

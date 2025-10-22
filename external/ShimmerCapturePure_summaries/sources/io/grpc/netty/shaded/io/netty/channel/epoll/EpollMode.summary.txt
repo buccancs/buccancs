@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/epoll/EpollMode.java
+// Size: 159 bytes
+// Modified: 2025-10-21 16:32:00.203596500 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.epoll;
+
+/* loaded from: classes3.dex */
+public enum EpollMode {
+    EDGE_TRIGGERED,
+    LEVEL_TRIGGERED
+}

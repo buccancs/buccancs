@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ml/neuralnet/twod/util/MapDataVisualization.java
+// Size: 308 bytes
+// Modified: 2025-10-21 16:32:04.544794800 +0100
+
+package org.apache.commons.math3.ml.neuralnet.twod.util;
+
+import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
+
+/* loaded from: classes5.dex */
+public interface MapDataVisualization {
+    double[][] computeImage(NeuronSquareMesh2D neuronSquareMesh2D, Iterable<double[]> iterable);
+}

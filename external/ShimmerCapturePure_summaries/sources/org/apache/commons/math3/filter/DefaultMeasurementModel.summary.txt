@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/filter/DefaultMeasurementModel.java
+// Size: 1294 bytes
+// Modified: 2025-10-21 16:32:06.955576700 +0100
+
+package org.apache.commons.math3.filter;
+
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+
+/* loaded from: classes5.dex */
+public class DefaultMeasurementModel implements MeasurementModel {
+    private RealMatrix measurementMatrix;
+    private RealMatrix measurementNoise;
+
+    @Override // org.apache.commons.math3.filter.MeasurementModel
+    public RealMatrix getMeasurementMatrix() {
+        return this.measurementMatrix;
+    }
+
+    @Override // org.apache.commons.math3.filter.MeasurementModel
+    public RealMatrix getMeasurementNoise() {
+        return this.measurementNoise;
+    }
+
+    public DefaultMeasurementModel(double[][] dArr, double[][] dArr2) throws NullArgumentException, NoDataException, DimensionMismatchException {
+        this(new Array2DRowRealMatrix(dArr), new Array2DRowRealMatrix(dArr2));
+    }
+
+    public DefaultMeasurementModel(RealMatrix realMatrix, RealMatrix realMatrix2) {
+        this.measurementMatrix = realMatrix;
+        this.measurementNoise = realMatrix2;
+    }
+}

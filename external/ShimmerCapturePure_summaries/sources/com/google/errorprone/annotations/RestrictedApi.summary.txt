@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/errorprone/annotations/RestrictedApi.java
+// Size: 593 bytes
+// Modified: 2025-10-21 16:32:00.152828900 +0100
+
+package com.google.errorprone.annotations;
+
+import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
+/* loaded from: classes.dex */
+public @interface RestrictedApi {
+    String allowedOnPath() default "";
+
+    String checkerName() default "RestrictedApi";
+
+    String explanation();
+
+    String link();
+
+    Class<? extends Annotation>[] whitelistAnnotations() default {};
+
+    Class<? extends Annotation>[] whitelistWithWarningAnnotations() default {};
+}

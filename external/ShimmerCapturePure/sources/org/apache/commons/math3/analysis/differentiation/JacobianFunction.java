@@ -1,0 +1,34 @@
+package org.apache.commons.math3.analysis.differentiation;
+
+import java.lang.reflect.Array;
+
+import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+
+/* loaded from: classes5.dex */
+public class JacobianFunction implements MultivariateMatrixFunction {
+    private final MultivariateDifferentiableVectorFunction f;
+
+    public JacobianFunction(MultivariateDifferentiableVectorFunction multivariateDifferentiableVectorFunction) {
+        this.f = multivariateDifferentiableVectorFunction;
+    }
+
+    @Override // org.apache.commons.math3.analysis.MultivariateMatrixFunction
+    public double[][] value(double[] dArr) throws MathIllegalArgumentException {
+        DerivativeStructure[] derivativeStructureArr = new DerivativeStructure[dArr.length];
+        for (int i = 0; i < dArr.length; i++) {
+            derivativeStructureArr[i] = new DerivativeStructure(dArr.length, 1, i, dArr[i]);
+        }
+        DerivativeStructure[] derivativeStructureArrValue = this.f.value(derivativeStructureArr);
+        double[][] dArr2 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, derivativeStructureArrValue.length, dArr.length);
+        int[] iArr = new int[dArr.length];
+        for (int i2 = 0; i2 < derivativeStructureArrValue.length; i2++) {
+            for (int i3 = 0; i3 < dArr.length; i3++) {
+                iArr[i3] = 1;
+                dArr2[i2][i3] = derivativeStructureArrValue[i2].getPartialDerivative(iArr);
+                iArr[i3] = 0;
+            }
+        }
+        return dArr2;
+    }
+}

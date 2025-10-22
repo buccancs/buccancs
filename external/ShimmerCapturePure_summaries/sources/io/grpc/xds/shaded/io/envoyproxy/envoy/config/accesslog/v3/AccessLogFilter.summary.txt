@@ -1,0 +1,2403 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/accesslog/v3/AccessLogFilter.java
+// Size: 121854 bytes
+// Modified: 2025-10-21 16:32:10.302358300 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AndFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.DurationFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.ExtensionFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.GrpcStatusFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.HeaderFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.NotHealthCheckFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.OrFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.ResponseFlagFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.RuntimeFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.StatusCodeFilter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.TraceableFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class AccessLogFilter extends GeneratedMessageV3 implements AccessLogFilterOrBuilder {
+    public static final int AND_FILTER_FIELD_NUMBER = 6;
+    public static final int DURATION_FILTER_FIELD_NUMBER = 2;
+    public static final int EXTENSION_FILTER_FIELD_NUMBER = 11;
+    public static final int GRPC_STATUS_FILTER_FIELD_NUMBER = 10;
+    public static final int HEADER_FILTER_FIELD_NUMBER = 8;
+    public static final int NOT_HEALTH_CHECK_FILTER_FIELD_NUMBER = 3;
+    public static final int OR_FILTER_FIELD_NUMBER = 7;
+    public static final int RESPONSE_FLAG_FILTER_FIELD_NUMBER = 9;
+    public static final int RUNTIME_FILTER_FIELD_NUMBER = 5;
+    public static final int STATUS_CODE_FILTER_FIELD_NUMBER = 1;
+    public static final int TRACEABLE_FILTER_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private int filterSpecifierCase_;
+    private Object filterSpecifier_;
+    private byte memoizedIsInitialized;
+    private static final AccessLogFilter DEFAULT_INSTANCE = new AccessLogFilter();
+    private static final Parser<AccessLogFilter> PARSER = new AbstractParser<AccessLogFilter>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public AccessLogFilter m19670parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new AccessLogFilter(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static AccessLogFilter getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<AccessLogFilter> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public AccessLogFilter m19663getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<AccessLogFilter> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasAndFilter() {
+        return this.filterSpecifierCase_ == 6;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasDurationFilter() {
+        return this.filterSpecifierCase_ == 2;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasExtensionFilter() {
+        return this.filterSpecifierCase_ == 11;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasGrpcStatusFilter() {
+        return this.filterSpecifierCase_ == 10;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasHeaderFilter() {
+        return this.filterSpecifierCase_ == 8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasNotHealthCheckFilter() {
+        return this.filterSpecifierCase_ == 3;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasOrFilter() {
+        return this.filterSpecifierCase_ == 7;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasResponseFlagFilter() {
+        return this.filterSpecifierCase_ == 9;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasRuntimeFilter() {
+        return this.filterSpecifierCase_ == 5;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasStatusCodeFilter() {
+        return this.filterSpecifierCase_ == 1;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public boolean hasTraceableFilter() {
+        return this.filterSpecifierCase_ == 4;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private AccessLogFilter(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.filterSpecifierCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private AccessLogFilter() {
+        this.filterSpecifierCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new AccessLogFilter();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private AccessLogFilter(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            StatusCodeFilter.Builder builderM20177toBuilder = this.filterSpecifierCase_ == 1 ? ((StatusCodeFilter) this.filterSpecifier_).m20177toBuilder() : null;
+                            MessageLite message = codedInputStream.readMessage(StatusCodeFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message;
+                            if (builderM20177toBuilder != null) {
+                                builderM20177toBuilder.mergeFrom((StatusCodeFilter) message);
+                                this.filterSpecifier_ = builderM20177toBuilder.m20184buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 1;
+                        case 18:
+                            DurationFilter.Builder builderM19807toBuilder = this.filterSpecifierCase_ == 2 ? ((DurationFilter) this.filterSpecifier_).m19807toBuilder() : null;
+                            MessageLite message2 = codedInputStream.readMessage(DurationFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message2;
+                            if (builderM19807toBuilder != null) {
+                                builderM19807toBuilder.mergeFrom((DurationFilter) message2);
+                                this.filterSpecifier_ = builderM19807toBuilder.m19814buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 2;
+                        case 26:
+                            NotHealthCheckFilter.Builder builderM19992toBuilder = this.filterSpecifierCase_ == 3 ? ((NotHealthCheckFilter) this.filterSpecifier_).m19992toBuilder() : null;
+                            MessageLite message3 = codedInputStream.readMessage(NotHealthCheckFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message3;
+                            if (builderM19992toBuilder != null) {
+                                builderM19992toBuilder.mergeFrom((NotHealthCheckFilter) message3);
+                                this.filterSpecifier_ = builderM19992toBuilder.m19999buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 3;
+                        case 34:
+                            TraceableFilter.Builder builderM20223toBuilder = this.filterSpecifierCase_ == 4 ? ((TraceableFilter) this.filterSpecifier_).m20223toBuilder() : null;
+                            MessageLite message4 = codedInputStream.readMessage(TraceableFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message4;
+                            if (builderM20223toBuilder != null) {
+                                builderM20223toBuilder.mergeFrom((TraceableFilter) message4);
+                                this.filterSpecifier_ = builderM20223toBuilder.m20230buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 4;
+                        case 42:
+                            RuntimeFilter.Builder builderM20131toBuilder = this.filterSpecifierCase_ == 5 ? ((RuntimeFilter) this.filterSpecifier_).m20131toBuilder() : null;
+                            MessageLite message5 = codedInputStream.readMessage(RuntimeFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message5;
+                            if (builderM20131toBuilder != null) {
+                                builderM20131toBuilder.mergeFrom((RuntimeFilter) message5);
+                                this.filterSpecifier_ = builderM20131toBuilder.m20138buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 5;
+                        case 50:
+                            AndFilter.Builder builderM19715toBuilder = this.filterSpecifierCase_ == 6 ? ((AndFilter) this.filterSpecifier_).m19714toBuilder() : null;
+                            MessageLite message6 = codedInputStream.readMessage(AndFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message6;
+                            if (builderM19715toBuilder != null) {
+                                builderM19715toBuilder.mergeFrom((AndFilter) message6);
+                                this.filterSpecifier_ = builderM19715toBuilder.m19721buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 6;
+                        case 58:
+                            OrFilter.Builder builderM20039toBuilder = this.filterSpecifierCase_ == 7 ? ((OrFilter) this.filterSpecifier_).m20038toBuilder() : null;
+                            MessageLite message7 = codedInputStream.readMessage(OrFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message7;
+                            if (builderM20039toBuilder != null) {
+                                builderM20039toBuilder.mergeFrom((OrFilter) message7);
+                                this.filterSpecifier_ = builderM20039toBuilder.m20045buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 7;
+                        case 66:
+                            HeaderFilter.Builder builderM19946toBuilder = this.filterSpecifierCase_ == 8 ? ((HeaderFilter) this.filterSpecifier_).m19946toBuilder() : null;
+                            MessageLite message8 = codedInputStream.readMessage(HeaderFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message8;
+                            if (builderM19946toBuilder != null) {
+                                builderM19946toBuilder.mergeFrom((HeaderFilter) message8);
+                                this.filterSpecifier_ = builderM19946toBuilder.m19953buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 8;
+                        case 74:
+                            ResponseFlagFilter.Builder builderM20085toBuilder = this.filterSpecifierCase_ == 9 ? ((ResponseFlagFilter) this.filterSpecifier_).m20085toBuilder() : null;
+                            MessageLite message9 = codedInputStream.readMessage(ResponseFlagFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message9;
+                            if (builderM20085toBuilder != null) {
+                                builderM20085toBuilder.mergeFrom((ResponseFlagFilter) message9);
+                                this.filterSpecifier_ = builderM20085toBuilder.m20092buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 9;
+                        case 82:
+                            GrpcStatusFilter.Builder builderM19899toBuilder = this.filterSpecifierCase_ == 10 ? ((GrpcStatusFilter) this.filterSpecifier_).m19899toBuilder() : null;
+                            MessageLite message10 = codedInputStream.readMessage(GrpcStatusFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message10;
+                            if (builderM19899toBuilder != null) {
+                                builderM19899toBuilder.mergeFrom((GrpcStatusFilter) message10);
+                                this.filterSpecifier_ = builderM19899toBuilder.m19906buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 10;
+                        case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                            ExtensionFilter.Builder builderM19853toBuilder = this.filterSpecifierCase_ == 11 ? ((ExtensionFilter) this.filterSpecifier_).m19853toBuilder() : null;
+                            MessageLite message11 = codedInputStream.readMessage(ExtensionFilter.parser(), extensionRegistryLite);
+                            this.filterSpecifier_ = message11;
+                            if (builderM19853toBuilder != null) {
+                                builderM19853toBuilder.mergeFrom((ExtensionFilter) message11);
+                                this.filterSpecifier_ = builderM19853toBuilder.m19860buildPartial();
+                            }
+                            this.filterSpecifierCase_ = 11;
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return AccesslogProto.internal_static_envoy_config_accesslog_v3_AccessLogFilter_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return AccesslogProto.internal_static_envoy_config_accesslog_v3_AccessLogFilter_fieldAccessorTable.ensureFieldAccessorsInitialized(AccessLogFilter.class, Builder.class);
+    }
+
+    public enum FilterSpecifierCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        STATUS_CODE_FILTER(1),
+        DURATION_FILTER(2),
+        NOT_HEALTH_CHECK_FILTER(3),
+        TRACEABLE_FILTER(4),
+        RUNTIME_FILTER(5),
+        AND_FILTER(6),
+        OR_FILTER(7),
+        HEADER_FILTER(8),
+        RESPONSE_FLAG_FILTER(9),
+        GRPC_STATUS_FILTER(10),
+        EXTENSION_FILTER(11),
+        FILTERSPECIFIER_NOT_SET(0);
+
+        private final int value;
+
+        public static FilterSpecifierCase forNumber(int i) {
+            switch (i) {
+                case 0:
+                    return FILTERSPECIFIER_NOT_SET;
+                case 1:
+                    return STATUS_CODE_FILTER;
+                case 2:
+                    return DURATION_FILTER;
+                case 3:
+                    return NOT_HEALTH_CHECK_FILTER;
+                case 4:
+                    return TRACEABLE_FILTER;
+                case 5:
+                    return RUNTIME_FILTER;
+                case 6:
+                    return AND_FILTER;
+                case 7:
+                    return OR_FILTER;
+                case 8:
+                    return HEADER_FILTER;
+                case 9:
+                    return RESPONSE_FLAG_FILTER;
+                case 10:
+                    return GRPC_STATUS_FILTER;
+                case 11:
+                    return EXTENSION_FILTER;
+                default:
+                    return null;
+            }
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+
+        FilterSpecifierCase(int i) {
+            this.value = i;
+        }
+
+        @Deprecated
+        public static FilterSpecifierCase valueOf(int i) {
+            return forNumber(i);
+        }
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public FilterSpecifierCase getFilterSpecifierCase() {
+        return FilterSpecifierCase.forNumber(this.filterSpecifierCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public StatusCodeFilter getStatusCodeFilter() {
+        if (this.filterSpecifierCase_ == 1) {
+            return (StatusCodeFilter) this.filterSpecifier_;
+        }
+        return StatusCodeFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public StatusCodeFilterOrBuilder getStatusCodeFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 1) {
+            return (StatusCodeFilter) this.filterSpecifier_;
+        }
+        return StatusCodeFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public DurationFilter getDurationFilter() {
+        if (this.filterSpecifierCase_ == 2) {
+            return (DurationFilter) this.filterSpecifier_;
+        }
+        return DurationFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public DurationFilterOrBuilder getDurationFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 2) {
+            return (DurationFilter) this.filterSpecifier_;
+        }
+        return DurationFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public NotHealthCheckFilter getNotHealthCheckFilter() {
+        if (this.filterSpecifierCase_ == 3) {
+            return (NotHealthCheckFilter) this.filterSpecifier_;
+        }
+        return NotHealthCheckFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public NotHealthCheckFilterOrBuilder getNotHealthCheckFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 3) {
+            return (NotHealthCheckFilter) this.filterSpecifier_;
+        }
+        return NotHealthCheckFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public TraceableFilter getTraceableFilter() {
+        if (this.filterSpecifierCase_ == 4) {
+            return (TraceableFilter) this.filterSpecifier_;
+        }
+        return TraceableFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public TraceableFilterOrBuilder getTraceableFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 4) {
+            return (TraceableFilter) this.filterSpecifier_;
+        }
+        return TraceableFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public RuntimeFilter getRuntimeFilter() {
+        if (this.filterSpecifierCase_ == 5) {
+            return (RuntimeFilter) this.filterSpecifier_;
+        }
+        return RuntimeFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public RuntimeFilterOrBuilder getRuntimeFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 5) {
+            return (RuntimeFilter) this.filterSpecifier_;
+        }
+        return RuntimeFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public AndFilter getAndFilter() {
+        if (this.filterSpecifierCase_ == 6) {
+            return (AndFilter) this.filterSpecifier_;
+        }
+        return AndFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public AndFilterOrBuilder getAndFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 6) {
+            return (AndFilter) this.filterSpecifier_;
+        }
+        return AndFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public OrFilter getOrFilter() {
+        if (this.filterSpecifierCase_ == 7) {
+            return (OrFilter) this.filterSpecifier_;
+        }
+        return OrFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public OrFilterOrBuilder getOrFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 7) {
+            return (OrFilter) this.filterSpecifier_;
+        }
+        return OrFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public HeaderFilter getHeaderFilter() {
+        if (this.filterSpecifierCase_ == 8) {
+            return (HeaderFilter) this.filterSpecifier_;
+        }
+        return HeaderFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public HeaderFilterOrBuilder getHeaderFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 8) {
+            return (HeaderFilter) this.filterSpecifier_;
+        }
+        return HeaderFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public ResponseFlagFilter getResponseFlagFilter() {
+        if (this.filterSpecifierCase_ == 9) {
+            return (ResponseFlagFilter) this.filterSpecifier_;
+        }
+        return ResponseFlagFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public ResponseFlagFilterOrBuilder getResponseFlagFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 9) {
+            return (ResponseFlagFilter) this.filterSpecifier_;
+        }
+        return ResponseFlagFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public GrpcStatusFilter getGrpcStatusFilter() {
+        if (this.filterSpecifierCase_ == 10) {
+            return (GrpcStatusFilter) this.filterSpecifier_;
+        }
+        return GrpcStatusFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public GrpcStatusFilterOrBuilder getGrpcStatusFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 10) {
+            return (GrpcStatusFilter) this.filterSpecifier_;
+        }
+        return GrpcStatusFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public ExtensionFilter getExtensionFilter() {
+        if (this.filterSpecifierCase_ == 11) {
+            return (ExtensionFilter) this.filterSpecifier_;
+        }
+        return ExtensionFilter.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+    public ExtensionFilterOrBuilder getExtensionFilterOrBuilder() {
+        if (this.filterSpecifierCase_ == 11) {
+            return (ExtensionFilter) this.filterSpecifier_;
+        }
+        return ExtensionFilter.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.filterSpecifierCase_ == 1) {
+            codedOutputStream.writeMessage(1, (StatusCodeFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 2) {
+            codedOutputStream.writeMessage(2, (DurationFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 3) {
+            codedOutputStream.writeMessage(3, (NotHealthCheckFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 4) {
+            codedOutputStream.writeMessage(4, (TraceableFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 5) {
+            codedOutputStream.writeMessage(5, (RuntimeFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 6) {
+            codedOutputStream.writeMessage(6, (AndFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 7) {
+            codedOutputStream.writeMessage(7, (OrFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 8) {
+            codedOutputStream.writeMessage(8, (HeaderFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 9) {
+            codedOutputStream.writeMessage(9, (ResponseFlagFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 10) {
+            codedOutputStream.writeMessage(10, (GrpcStatusFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 11) {
+            codedOutputStream.writeMessage(11, (ExtensionFilter) this.filterSpecifier_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.filterSpecifierCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (StatusCodeFilter) this.filterSpecifier_) : 0;
+        if (this.filterSpecifierCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (DurationFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (NotHealthCheckFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 4) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, (TraceableFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 5) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, (RuntimeFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 6) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(6, (AndFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 7) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(7, (OrFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 8) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(8, (HeaderFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 9) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(9, (ResponseFlagFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 10) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(10, (GrpcStatusFilter) this.filterSpecifier_);
+        }
+        if (this.filterSpecifierCase_ == 11) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(11, (ExtensionFilter) this.filterSpecifier_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof AccessLogFilter)) {
+            return super.equals(obj);
+        }
+        AccessLogFilter accessLogFilter = (AccessLogFilter) obj;
+        if (!getFilterSpecifierCase().equals(accessLogFilter.getFilterSpecifierCase())) {
+            return false;
+        }
+        switch (this.filterSpecifierCase_) {
+            case 1:
+                if (!getStatusCodeFilter().equals(accessLogFilter.getStatusCodeFilter())) {
+                    return false;
+                }
+                break;
+            case 2:
+                if (!getDurationFilter().equals(accessLogFilter.getDurationFilter())) {
+                    return false;
+                }
+                break;
+            case 3:
+                if (!getNotHealthCheckFilter().equals(accessLogFilter.getNotHealthCheckFilter())) {
+                    return false;
+                }
+                break;
+            case 4:
+                if (!getTraceableFilter().equals(accessLogFilter.getTraceableFilter())) {
+                    return false;
+                }
+                break;
+            case 5:
+                if (!getRuntimeFilter().equals(accessLogFilter.getRuntimeFilter())) {
+                    return false;
+                }
+                break;
+            case 6:
+                if (!getAndFilter().equals(accessLogFilter.getAndFilter())) {
+                    return false;
+                }
+                break;
+            case 7:
+                if (!getOrFilter().equals(accessLogFilter.getOrFilter())) {
+                    return false;
+                }
+                break;
+            case 8:
+                if (!getHeaderFilter().equals(accessLogFilter.getHeaderFilter())) {
+                    return false;
+                }
+                break;
+            case 9:
+                if (!getResponseFlagFilter().equals(accessLogFilter.getResponseFlagFilter())) {
+                    return false;
+                }
+                break;
+            case 10:
+                if (!getGrpcStatusFilter().equals(accessLogFilter.getGrpcStatusFilter())) {
+                    return false;
+                }
+                break;
+            case 11:
+                if (!getExtensionFilter().equals(accessLogFilter.getExtensionFilter())) {
+                    return false;
+                }
+                break;
+        }
+        return this.unknownFields.equals(accessLogFilter.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        switch (this.filterSpecifierCase_) {
+            case 1:
+                i = ((iHashCode2 * 37) + 1) * 53;
+                iHashCode = getStatusCodeFilter().hashCode();
+                break;
+            case 2:
+                i = ((iHashCode2 * 37) + 2) * 53;
+                iHashCode = getDurationFilter().hashCode();
+                break;
+            case 3:
+                i = ((iHashCode2 * 37) + 3) * 53;
+                iHashCode = getNotHealthCheckFilter().hashCode();
+                break;
+            case 4:
+                i = ((iHashCode2 * 37) + 4) * 53;
+                iHashCode = getTraceableFilter().hashCode();
+                break;
+            case 5:
+                i = ((iHashCode2 * 37) + 5) * 53;
+                iHashCode = getRuntimeFilter().hashCode();
+                break;
+            case 6:
+                i = ((iHashCode2 * 37) + 6) * 53;
+                iHashCode = getAndFilter().hashCode();
+                break;
+            case 7:
+                i = ((iHashCode2 * 37) + 7) * 53;
+                iHashCode = getOrFilter().hashCode();
+                break;
+            case 8:
+                i = ((iHashCode2 * 37) + 8) * 53;
+                iHashCode = getHeaderFilter().hashCode();
+                break;
+            case 9:
+                i = ((iHashCode2 * 37) + 9) * 53;
+                iHashCode = getResponseFlagFilter().hashCode();
+                break;
+            case 10:
+                i = ((iHashCode2 * 37) + 10) * 53;
+                iHashCode = getGrpcStatusFilter().hashCode();
+                break;
+            case 11:
+                i = ((iHashCode2 * 37) + 11) * 53;
+                iHashCode = getExtensionFilter().hashCode();
+                break;
+            default:
+                int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    public static AccessLogFilter parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (AccessLogFilter) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static AccessLogFilter parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (AccessLogFilter) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static AccessLogFilter parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (AccessLogFilter) PARSER.parseFrom(byteString);
+    }
+
+    public static AccessLogFilter parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (AccessLogFilter) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static AccessLogFilter parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (AccessLogFilter) PARSER.parseFrom(bArr);
+    }
+
+    public static AccessLogFilter parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (AccessLogFilter) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static AccessLogFilter parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static AccessLogFilter parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static AccessLogFilter parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static AccessLogFilter parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static AccessLogFilter parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static AccessLogFilter parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m19665newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m19668toBuilder();
+    }
+
+    public static Builder newBuilder(AccessLogFilter accessLogFilter) {
+        return DEFAULT_INSTANCE.m19668toBuilder().mergeFrom(accessLogFilter);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m19668toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements AccessLogFilterOrBuilder {
+        private SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> andFilterBuilder_;
+        private SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> durationFilterBuilder_;
+        private SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> extensionFilterBuilder_;
+        private int filterSpecifierCase_;
+        private Object filterSpecifier_;
+        private SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> grpcStatusFilterBuilder_;
+        private SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> headerFilterBuilder_;
+        private SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> notHealthCheckFilterBuilder_;
+        private SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> orFilterBuilder_;
+        private SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> responseFlagFilterBuilder_;
+        private SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> runtimeFilterBuilder_;
+        private SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> statusCodeFilterBuilder_;
+        private SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> traceableFilterBuilder_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasAndFilter() {
+            return this.filterSpecifierCase_ == 6;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasDurationFilter() {
+            return this.filterSpecifierCase_ == 2;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasExtensionFilter() {
+            return this.filterSpecifierCase_ == 11;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasGrpcStatusFilter() {
+            return this.filterSpecifierCase_ == 10;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasHeaderFilter() {
+            return this.filterSpecifierCase_ == 8;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasNotHealthCheckFilter() {
+            return this.filterSpecifierCase_ == 3;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasOrFilter() {
+            return this.filterSpecifierCase_ == 7;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasResponseFlagFilter() {
+            return this.filterSpecifierCase_ == 9;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasRuntimeFilter() {
+            return this.filterSpecifierCase_ == 5;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasStatusCodeFilter() {
+            return this.filterSpecifierCase_ == 1;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public boolean hasTraceableFilter() {
+            return this.filterSpecifierCase_ == 4;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return AccesslogProto.internal_static_envoy_config_accesslog_v3_AccessLogFilter_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return AccesslogProto.internal_static_envoy_config_accesslog_v3_AccessLogFilter_fieldAccessorTable.ensureFieldAccessorsInitialized(AccessLogFilter.class, Builder.class);
+        }
+
+        private Builder() {
+            this.filterSpecifierCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.filterSpecifierCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = AccessLogFilter.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19679clear() {
+            super.clear();
+            this.filterSpecifierCase_ = 0;
+            this.filterSpecifier_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return AccesslogProto.internal_static_envoy_config_accesslog_v3_AccessLogFilter_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public AccessLogFilter m19692getDefaultInstanceForType() {
+            return AccessLogFilter.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public AccessLogFilter m19673build() throws UninitializedMessageException {
+            AccessLogFilter accessLogFilterM19675buildPartial = m19675buildPartial();
+            if (accessLogFilterM19675buildPartial.isInitialized()) {
+                return accessLogFilterM19675buildPartial;
+            }
+            throw newUninitializedMessageException(accessLogFilterM19675buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public AccessLogFilter m19675buildPartial() {
+            AccessLogFilter accessLogFilter = new AccessLogFilter(this);
+            if (this.filterSpecifierCase_ == 1) {
+                SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> singleFieldBuilderV3 = this.statusCodeFilterBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 2) {
+                SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> singleFieldBuilderV32 = this.durationFilterBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 3) {
+                SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> singleFieldBuilderV33 = this.notHealthCheckFilterBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 4) {
+                SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> singleFieldBuilderV34 = this.traceableFilterBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV34.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 5) {
+                SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> singleFieldBuilderV35 = this.runtimeFilterBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV35.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 6) {
+                SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> singleFieldBuilderV36 = this.andFilterBuilder_;
+                if (singleFieldBuilderV36 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV36.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 7) {
+                SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> singleFieldBuilderV37 = this.orFilterBuilder_;
+                if (singleFieldBuilderV37 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV37.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 8) {
+                SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> singleFieldBuilderV38 = this.headerFilterBuilder_;
+                if (singleFieldBuilderV38 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV38.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 9) {
+                SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> singleFieldBuilderV39 = this.responseFlagFilterBuilder_;
+                if (singleFieldBuilderV39 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV39.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 10) {
+                SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> singleFieldBuilderV310 = this.grpcStatusFilterBuilder_;
+                if (singleFieldBuilderV310 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV310.build();
+                }
+            }
+            if (this.filterSpecifierCase_ == 11) {
+                SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> singleFieldBuilderV311 = this.extensionFilterBuilder_;
+                if (singleFieldBuilderV311 == null) {
+                    accessLogFilter.filterSpecifier_ = this.filterSpecifier_;
+                } else {
+                    accessLogFilter.filterSpecifier_ = singleFieldBuilderV311.build();
+                }
+            }
+            accessLogFilter.filterSpecifierCase_ = this.filterSpecifierCase_;
+            onBuilt();
+            return accessLogFilter;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19691clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19703setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19681clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19684clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19705setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19671addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m19696mergeFrom(Message message) {
+            if (message instanceof AccessLogFilter) {
+                return mergeFrom((AccessLogFilter) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(AccessLogFilter accessLogFilter) {
+            if (accessLogFilter == AccessLogFilter.getDefaultInstance()) {
+                return this;
+            }
+            switch (AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[accessLogFilter.getFilterSpecifierCase().ordinal()]) {
+                case 1:
+                    mergeStatusCodeFilter(accessLogFilter.getStatusCodeFilter());
+                    break;
+                case 2:
+                    mergeDurationFilter(accessLogFilter.getDurationFilter());
+                    break;
+                case 3:
+                    mergeNotHealthCheckFilter(accessLogFilter.getNotHealthCheckFilter());
+                    break;
+                case 4:
+                    mergeTraceableFilter(accessLogFilter.getTraceableFilter());
+                    break;
+                case 5:
+                    mergeRuntimeFilter(accessLogFilter.getRuntimeFilter());
+                    break;
+                case 6:
+                    mergeAndFilter(accessLogFilter.getAndFilter());
+                    break;
+                case 7:
+                    mergeOrFilter(accessLogFilter.getOrFilter());
+                    break;
+                case 8:
+                    mergeHeaderFilter(accessLogFilter.getHeaderFilter());
+                    break;
+                case 9:
+                    mergeResponseFlagFilter(accessLogFilter.getResponseFlagFilter());
+                    break;
+                case 10:
+                    mergeGrpcStatusFilter(accessLogFilter.getGrpcStatusFilter());
+                    break;
+                case 11:
+                    mergeExtensionFilter(accessLogFilter.getExtensionFilter());
+                    break;
+            }
+            m19701mergeUnknownFields(accessLogFilter.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter.Builder m19697mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter.Builder.m19697mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public FilterSpecifierCase getFilterSpecifierCase() {
+            return FilterSpecifierCase.forNumber(this.filterSpecifierCase_);
+        }
+
+        public Builder clearFilterSpecifier() {
+            this.filterSpecifierCase_ = 0;
+            this.filterSpecifier_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public StatusCodeFilter getStatusCodeFilter() {
+            SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> singleFieldBuilderV3 = this.statusCodeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 1) {
+                    return (StatusCodeFilter) this.filterSpecifier_;
+                }
+                return StatusCodeFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return StatusCodeFilter.getDefaultInstance();
+        }
+
+        public Builder setStatusCodeFilter(StatusCodeFilter statusCodeFilter) {
+            SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> singleFieldBuilderV3 = this.statusCodeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                statusCodeFilter.getClass();
+                this.filterSpecifier_ = statusCodeFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(statusCodeFilter);
+            }
+            this.filterSpecifierCase_ = 1;
+            return this;
+        }
+
+        public Builder setStatusCodeFilter(StatusCodeFilter.Builder builder) {
+            SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> singleFieldBuilderV3 = this.statusCodeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m20182build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20182build());
+            }
+            this.filterSpecifierCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeStatusCodeFilter(StatusCodeFilter statusCodeFilter) {
+            SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> singleFieldBuilderV3 = this.statusCodeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 1 || this.filterSpecifier_ == StatusCodeFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = statusCodeFilter;
+                } else {
+                    this.filterSpecifier_ = StatusCodeFilter.newBuilder((StatusCodeFilter) this.filterSpecifier_).mergeFrom(statusCodeFilter).m20184buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(statusCodeFilter);
+                }
+                this.statusCodeFilterBuilder_.setMessage(statusCodeFilter);
+            }
+            this.filterSpecifierCase_ = 1;
+            return this;
+        }
+
+        public Builder clearStatusCodeFilter() {
+            SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> singleFieldBuilderV3 = this.statusCodeFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 1) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 1) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public StatusCodeFilter.Builder getStatusCodeFilterBuilder() {
+            return getStatusCodeFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public StatusCodeFilterOrBuilder getStatusCodeFilterOrBuilder() {
+            SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.statusCodeFilterBuilder_) != null) {
+                return (StatusCodeFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (StatusCodeFilter) this.filterSpecifier_;
+            }
+            return StatusCodeFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<StatusCodeFilter, StatusCodeFilter.Builder, StatusCodeFilterOrBuilder> getStatusCodeFilterFieldBuilder() {
+            if (this.statusCodeFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 1) {
+                    this.filterSpecifier_ = StatusCodeFilter.getDefaultInstance();
+                }
+                this.statusCodeFilterBuilder_ = new SingleFieldBuilderV3<>((StatusCodeFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 1;
+            onChanged();
+            return this.statusCodeFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public DurationFilter getDurationFilter() {
+            SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> singleFieldBuilderV3 = this.durationFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 2) {
+                    return (DurationFilter) this.filterSpecifier_;
+                }
+                return DurationFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 2) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return DurationFilter.getDefaultInstance();
+        }
+
+        public Builder setDurationFilter(DurationFilter durationFilter) {
+            SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> singleFieldBuilderV3 = this.durationFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                durationFilter.getClass();
+                this.filterSpecifier_ = durationFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(durationFilter);
+            }
+            this.filterSpecifierCase_ = 2;
+            return this;
+        }
+
+        public Builder setDurationFilter(DurationFilter.Builder builder) {
+            SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> singleFieldBuilderV3 = this.durationFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m19812build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m19812build());
+            }
+            this.filterSpecifierCase_ = 2;
+            return this;
+        }
+
+        public Builder mergeDurationFilter(DurationFilter durationFilter) {
+            SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> singleFieldBuilderV3 = this.durationFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 2 || this.filterSpecifier_ == DurationFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = durationFilter;
+                } else {
+                    this.filterSpecifier_ = DurationFilter.newBuilder((DurationFilter) this.filterSpecifier_).mergeFrom(durationFilter).m19814buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 2) {
+                    singleFieldBuilderV3.mergeFrom(durationFilter);
+                }
+                this.durationFilterBuilder_.setMessage(durationFilter);
+            }
+            this.filterSpecifierCase_ = 2;
+            return this;
+        }
+
+        public Builder clearDurationFilter() {
+            SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> singleFieldBuilderV3 = this.durationFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 2) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 2) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public DurationFilter.Builder getDurationFilterBuilder() {
+            return getDurationFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public DurationFilterOrBuilder getDurationFilterOrBuilder() {
+            SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 2 && (singleFieldBuilderV3 = this.durationFilterBuilder_) != null) {
+                return (DurationFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 2) {
+                return (DurationFilter) this.filterSpecifier_;
+            }
+            return DurationFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<DurationFilter, DurationFilter.Builder, DurationFilterOrBuilder> getDurationFilterFieldBuilder() {
+            if (this.durationFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 2) {
+                    this.filterSpecifier_ = DurationFilter.getDefaultInstance();
+                }
+                this.durationFilterBuilder_ = new SingleFieldBuilderV3<>((DurationFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 2;
+            onChanged();
+            return this.durationFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public NotHealthCheckFilter getNotHealthCheckFilter() {
+            SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> singleFieldBuilderV3 = this.notHealthCheckFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 3) {
+                    return (NotHealthCheckFilter) this.filterSpecifier_;
+                }
+                return NotHealthCheckFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 3) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return NotHealthCheckFilter.getDefaultInstance();
+        }
+
+        public Builder setNotHealthCheckFilter(NotHealthCheckFilter notHealthCheckFilter) {
+            SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> singleFieldBuilderV3 = this.notHealthCheckFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                notHealthCheckFilter.getClass();
+                this.filterSpecifier_ = notHealthCheckFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(notHealthCheckFilter);
+            }
+            this.filterSpecifierCase_ = 3;
+            return this;
+        }
+
+        public Builder setNotHealthCheckFilter(NotHealthCheckFilter.Builder builder) {
+            SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> singleFieldBuilderV3 = this.notHealthCheckFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m19997build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m19997build());
+            }
+            this.filterSpecifierCase_ = 3;
+            return this;
+        }
+
+        public Builder mergeNotHealthCheckFilter(NotHealthCheckFilter notHealthCheckFilter) {
+            SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> singleFieldBuilderV3 = this.notHealthCheckFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 3 || this.filterSpecifier_ == NotHealthCheckFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = notHealthCheckFilter;
+                } else {
+                    this.filterSpecifier_ = NotHealthCheckFilter.newBuilder((NotHealthCheckFilter) this.filterSpecifier_).mergeFrom(notHealthCheckFilter).m19999buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 3) {
+                    singleFieldBuilderV3.mergeFrom(notHealthCheckFilter);
+                }
+                this.notHealthCheckFilterBuilder_.setMessage(notHealthCheckFilter);
+            }
+            this.filterSpecifierCase_ = 3;
+            return this;
+        }
+
+        public Builder clearNotHealthCheckFilter() {
+            SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> singleFieldBuilderV3 = this.notHealthCheckFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 3) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 3) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public NotHealthCheckFilter.Builder getNotHealthCheckFilterBuilder() {
+            return getNotHealthCheckFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public NotHealthCheckFilterOrBuilder getNotHealthCheckFilterOrBuilder() {
+            SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 3 && (singleFieldBuilderV3 = this.notHealthCheckFilterBuilder_) != null) {
+                return (NotHealthCheckFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 3) {
+                return (NotHealthCheckFilter) this.filterSpecifier_;
+            }
+            return NotHealthCheckFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<NotHealthCheckFilter, NotHealthCheckFilter.Builder, NotHealthCheckFilterOrBuilder> getNotHealthCheckFilterFieldBuilder() {
+            if (this.notHealthCheckFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 3) {
+                    this.filterSpecifier_ = NotHealthCheckFilter.getDefaultInstance();
+                }
+                this.notHealthCheckFilterBuilder_ = new SingleFieldBuilderV3<>((NotHealthCheckFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 3;
+            onChanged();
+            return this.notHealthCheckFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public TraceableFilter getTraceableFilter() {
+            SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> singleFieldBuilderV3 = this.traceableFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 4) {
+                    return (TraceableFilter) this.filterSpecifier_;
+                }
+                return TraceableFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 4) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return TraceableFilter.getDefaultInstance();
+        }
+
+        public Builder setTraceableFilter(TraceableFilter traceableFilter) {
+            SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> singleFieldBuilderV3 = this.traceableFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                traceableFilter.getClass();
+                this.filterSpecifier_ = traceableFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(traceableFilter);
+            }
+            this.filterSpecifierCase_ = 4;
+            return this;
+        }
+
+        public Builder setTraceableFilter(TraceableFilter.Builder builder) {
+            SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> singleFieldBuilderV3 = this.traceableFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m20228build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20228build());
+            }
+            this.filterSpecifierCase_ = 4;
+            return this;
+        }
+
+        public Builder mergeTraceableFilter(TraceableFilter traceableFilter) {
+            SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> singleFieldBuilderV3 = this.traceableFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 4 || this.filterSpecifier_ == TraceableFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = traceableFilter;
+                } else {
+                    this.filterSpecifier_ = TraceableFilter.newBuilder((TraceableFilter) this.filterSpecifier_).mergeFrom(traceableFilter).m20230buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 4) {
+                    singleFieldBuilderV3.mergeFrom(traceableFilter);
+                }
+                this.traceableFilterBuilder_.setMessage(traceableFilter);
+            }
+            this.filterSpecifierCase_ = 4;
+            return this;
+        }
+
+        public Builder clearTraceableFilter() {
+            SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> singleFieldBuilderV3 = this.traceableFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 4) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 4) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public TraceableFilter.Builder getTraceableFilterBuilder() {
+            return getTraceableFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public TraceableFilterOrBuilder getTraceableFilterOrBuilder() {
+            SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 4 && (singleFieldBuilderV3 = this.traceableFilterBuilder_) != null) {
+                return (TraceableFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 4) {
+                return (TraceableFilter) this.filterSpecifier_;
+            }
+            return TraceableFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<TraceableFilter, TraceableFilter.Builder, TraceableFilterOrBuilder> getTraceableFilterFieldBuilder() {
+            if (this.traceableFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 4) {
+                    this.filterSpecifier_ = TraceableFilter.getDefaultInstance();
+                }
+                this.traceableFilterBuilder_ = new SingleFieldBuilderV3<>((TraceableFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 4;
+            onChanged();
+            return this.traceableFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public RuntimeFilter getRuntimeFilter() {
+            SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> singleFieldBuilderV3 = this.runtimeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 5) {
+                    return (RuntimeFilter) this.filterSpecifier_;
+                }
+                return RuntimeFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 5) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return RuntimeFilter.getDefaultInstance();
+        }
+
+        public Builder setRuntimeFilter(RuntimeFilter runtimeFilter) {
+            SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> singleFieldBuilderV3 = this.runtimeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                runtimeFilter.getClass();
+                this.filterSpecifier_ = runtimeFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(runtimeFilter);
+            }
+            this.filterSpecifierCase_ = 5;
+            return this;
+        }
+
+        public Builder setRuntimeFilter(RuntimeFilter.Builder builder) {
+            SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> singleFieldBuilderV3 = this.runtimeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m20136build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20136build());
+            }
+            this.filterSpecifierCase_ = 5;
+            return this;
+        }
+
+        public Builder mergeRuntimeFilter(RuntimeFilter runtimeFilter) {
+            SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> singleFieldBuilderV3 = this.runtimeFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 5 || this.filterSpecifier_ == RuntimeFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = runtimeFilter;
+                } else {
+                    this.filterSpecifier_ = RuntimeFilter.newBuilder((RuntimeFilter) this.filterSpecifier_).mergeFrom(runtimeFilter).m20138buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 5) {
+                    singleFieldBuilderV3.mergeFrom(runtimeFilter);
+                }
+                this.runtimeFilterBuilder_.setMessage(runtimeFilter);
+            }
+            this.filterSpecifierCase_ = 5;
+            return this;
+        }
+
+        public Builder clearRuntimeFilter() {
+            SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> singleFieldBuilderV3 = this.runtimeFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 5) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 5) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public RuntimeFilter.Builder getRuntimeFilterBuilder() {
+            return getRuntimeFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public RuntimeFilterOrBuilder getRuntimeFilterOrBuilder() {
+            SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 5 && (singleFieldBuilderV3 = this.runtimeFilterBuilder_) != null) {
+                return (RuntimeFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 5) {
+                return (RuntimeFilter) this.filterSpecifier_;
+            }
+            return RuntimeFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<RuntimeFilter, RuntimeFilter.Builder, RuntimeFilterOrBuilder> getRuntimeFilterFieldBuilder() {
+            if (this.runtimeFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 5) {
+                    this.filterSpecifier_ = RuntimeFilter.getDefaultInstance();
+                }
+                this.runtimeFilterBuilder_ = new SingleFieldBuilderV3<>((RuntimeFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 5;
+            onChanged();
+            return this.runtimeFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public AndFilter getAndFilter() {
+            SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> singleFieldBuilderV3 = this.andFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 6) {
+                    return (AndFilter) this.filterSpecifier_;
+                }
+                return AndFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 6) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return AndFilter.getDefaultInstance();
+        }
+
+        public Builder setAndFilter(AndFilter andFilter) {
+            SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> singleFieldBuilderV3 = this.andFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                andFilter.getClass();
+                this.filterSpecifier_ = andFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(andFilter);
+            }
+            this.filterSpecifierCase_ = 6;
+            return this;
+        }
+
+        public Builder setAndFilter(AndFilter.Builder builder) {
+            SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> singleFieldBuilderV3 = this.andFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m19719build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m19719build());
+            }
+            this.filterSpecifierCase_ = 6;
+            return this;
+        }
+
+        public Builder mergeAndFilter(AndFilter andFilter) {
+            SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> singleFieldBuilderV3 = this.andFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 6 || this.filterSpecifier_ == AndFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = andFilter;
+                } else {
+                    this.filterSpecifier_ = AndFilter.newBuilder((AndFilter) this.filterSpecifier_).mergeFrom(andFilter).m19721buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 6) {
+                    singleFieldBuilderV3.mergeFrom(andFilter);
+                }
+                this.andFilterBuilder_.setMessage(andFilter);
+            }
+            this.filterSpecifierCase_ = 6;
+            return this;
+        }
+
+        public Builder clearAndFilter() {
+            SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> singleFieldBuilderV3 = this.andFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 6) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 6) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public AndFilter.Builder getAndFilterBuilder() {
+            return getAndFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public AndFilterOrBuilder getAndFilterOrBuilder() {
+            SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 6 && (singleFieldBuilderV3 = this.andFilterBuilder_) != null) {
+                return (AndFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 6) {
+                return (AndFilter) this.filterSpecifier_;
+            }
+            return AndFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<AndFilter, AndFilter.Builder, AndFilterOrBuilder> getAndFilterFieldBuilder() {
+            if (this.andFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 6) {
+                    this.filterSpecifier_ = AndFilter.getDefaultInstance();
+                }
+                this.andFilterBuilder_ = new SingleFieldBuilderV3<>((AndFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 6;
+            onChanged();
+            return this.andFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public OrFilter getOrFilter() {
+            SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> singleFieldBuilderV3 = this.orFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 7) {
+                    return (OrFilter) this.filterSpecifier_;
+                }
+                return OrFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 7) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return OrFilter.getDefaultInstance();
+        }
+
+        public Builder setOrFilter(OrFilter orFilter) {
+            SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> singleFieldBuilderV3 = this.orFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                orFilter.getClass();
+                this.filterSpecifier_ = orFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(orFilter);
+            }
+            this.filterSpecifierCase_ = 7;
+            return this;
+        }
+
+        public Builder setOrFilter(OrFilter.Builder builder) {
+            SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> singleFieldBuilderV3 = this.orFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m20043build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20043build());
+            }
+            this.filterSpecifierCase_ = 7;
+            return this;
+        }
+
+        public Builder mergeOrFilter(OrFilter orFilter) {
+            SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> singleFieldBuilderV3 = this.orFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 7 || this.filterSpecifier_ == OrFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = orFilter;
+                } else {
+                    this.filterSpecifier_ = OrFilter.newBuilder((OrFilter) this.filterSpecifier_).mergeFrom(orFilter).m20045buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 7) {
+                    singleFieldBuilderV3.mergeFrom(orFilter);
+                }
+                this.orFilterBuilder_.setMessage(orFilter);
+            }
+            this.filterSpecifierCase_ = 7;
+            return this;
+        }
+
+        public Builder clearOrFilter() {
+            SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> singleFieldBuilderV3 = this.orFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 7) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 7) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public OrFilter.Builder getOrFilterBuilder() {
+            return getOrFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public OrFilterOrBuilder getOrFilterOrBuilder() {
+            SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 7 && (singleFieldBuilderV3 = this.orFilterBuilder_) != null) {
+                return (OrFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 7) {
+                return (OrFilter) this.filterSpecifier_;
+            }
+            return OrFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<OrFilter, OrFilter.Builder, OrFilterOrBuilder> getOrFilterFieldBuilder() {
+            if (this.orFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 7) {
+                    this.filterSpecifier_ = OrFilter.getDefaultInstance();
+                }
+                this.orFilterBuilder_ = new SingleFieldBuilderV3<>((OrFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 7;
+            onChanged();
+            return this.orFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public HeaderFilter getHeaderFilter() {
+            SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> singleFieldBuilderV3 = this.headerFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 8) {
+                    return (HeaderFilter) this.filterSpecifier_;
+                }
+                return HeaderFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 8) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return HeaderFilter.getDefaultInstance();
+        }
+
+        public Builder setHeaderFilter(HeaderFilter headerFilter) {
+            SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> singleFieldBuilderV3 = this.headerFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                headerFilter.getClass();
+                this.filterSpecifier_ = headerFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(headerFilter);
+            }
+            this.filterSpecifierCase_ = 8;
+            return this;
+        }
+
+        public Builder setHeaderFilter(HeaderFilter.Builder builder) {
+            SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> singleFieldBuilderV3 = this.headerFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m19951build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m19951build());
+            }
+            this.filterSpecifierCase_ = 8;
+            return this;
+        }
+
+        public Builder mergeHeaderFilter(HeaderFilter headerFilter) {
+            SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> singleFieldBuilderV3 = this.headerFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 8 || this.filterSpecifier_ == HeaderFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = headerFilter;
+                } else {
+                    this.filterSpecifier_ = HeaderFilter.newBuilder((HeaderFilter) this.filterSpecifier_).mergeFrom(headerFilter).m19953buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 8) {
+                    singleFieldBuilderV3.mergeFrom(headerFilter);
+                }
+                this.headerFilterBuilder_.setMessage(headerFilter);
+            }
+            this.filterSpecifierCase_ = 8;
+            return this;
+        }
+
+        public Builder clearHeaderFilter() {
+            SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> singleFieldBuilderV3 = this.headerFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 8) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 8) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public HeaderFilter.Builder getHeaderFilterBuilder() {
+            return getHeaderFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public HeaderFilterOrBuilder getHeaderFilterOrBuilder() {
+            SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 8 && (singleFieldBuilderV3 = this.headerFilterBuilder_) != null) {
+                return (HeaderFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 8) {
+                return (HeaderFilter) this.filterSpecifier_;
+            }
+            return HeaderFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<HeaderFilter, HeaderFilter.Builder, HeaderFilterOrBuilder> getHeaderFilterFieldBuilder() {
+            if (this.headerFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 8) {
+                    this.filterSpecifier_ = HeaderFilter.getDefaultInstance();
+                }
+                this.headerFilterBuilder_ = new SingleFieldBuilderV3<>((HeaderFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 8;
+            onChanged();
+            return this.headerFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public ResponseFlagFilter getResponseFlagFilter() {
+            SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> singleFieldBuilderV3 = this.responseFlagFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 9) {
+                    return (ResponseFlagFilter) this.filterSpecifier_;
+                }
+                return ResponseFlagFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 9) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ResponseFlagFilter.getDefaultInstance();
+        }
+
+        public Builder setResponseFlagFilter(ResponseFlagFilter responseFlagFilter) {
+            SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> singleFieldBuilderV3 = this.responseFlagFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                responseFlagFilter.getClass();
+                this.filterSpecifier_ = responseFlagFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(responseFlagFilter);
+            }
+            this.filterSpecifierCase_ = 9;
+            return this;
+        }
+
+        public Builder setResponseFlagFilter(ResponseFlagFilter.Builder builder) {
+            SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> singleFieldBuilderV3 = this.responseFlagFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m20090build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20090build());
+            }
+            this.filterSpecifierCase_ = 9;
+            return this;
+        }
+
+        public Builder mergeResponseFlagFilter(ResponseFlagFilter responseFlagFilter) {
+            SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> singleFieldBuilderV3 = this.responseFlagFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 9 || this.filterSpecifier_ == ResponseFlagFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = responseFlagFilter;
+                } else {
+                    this.filterSpecifier_ = ResponseFlagFilter.newBuilder((ResponseFlagFilter) this.filterSpecifier_).mergeFrom(responseFlagFilter).m20092buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 9) {
+                    singleFieldBuilderV3.mergeFrom(responseFlagFilter);
+                }
+                this.responseFlagFilterBuilder_.setMessage(responseFlagFilter);
+            }
+            this.filterSpecifierCase_ = 9;
+            return this;
+        }
+
+        public Builder clearResponseFlagFilter() {
+            SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> singleFieldBuilderV3 = this.responseFlagFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 9) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 9) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ResponseFlagFilter.Builder getResponseFlagFilterBuilder() {
+            return getResponseFlagFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public ResponseFlagFilterOrBuilder getResponseFlagFilterOrBuilder() {
+            SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 9 && (singleFieldBuilderV3 = this.responseFlagFilterBuilder_) != null) {
+                return (ResponseFlagFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 9) {
+                return (ResponseFlagFilter) this.filterSpecifier_;
+            }
+            return ResponseFlagFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ResponseFlagFilter, ResponseFlagFilter.Builder, ResponseFlagFilterOrBuilder> getResponseFlagFilterFieldBuilder() {
+            if (this.responseFlagFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 9) {
+                    this.filterSpecifier_ = ResponseFlagFilter.getDefaultInstance();
+                }
+                this.responseFlagFilterBuilder_ = new SingleFieldBuilderV3<>((ResponseFlagFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 9;
+            onChanged();
+            return this.responseFlagFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public GrpcStatusFilter getGrpcStatusFilter() {
+            SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> singleFieldBuilderV3 = this.grpcStatusFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 10) {
+                    return (GrpcStatusFilter) this.filterSpecifier_;
+                }
+                return GrpcStatusFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 10) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return GrpcStatusFilter.getDefaultInstance();
+        }
+
+        public Builder setGrpcStatusFilter(GrpcStatusFilter grpcStatusFilter) {
+            SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> singleFieldBuilderV3 = this.grpcStatusFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                grpcStatusFilter.getClass();
+                this.filterSpecifier_ = grpcStatusFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(grpcStatusFilter);
+            }
+            this.filterSpecifierCase_ = 10;
+            return this;
+        }
+
+        public Builder setGrpcStatusFilter(GrpcStatusFilter.Builder builder) {
+            SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> singleFieldBuilderV3 = this.grpcStatusFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m19904build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m19904build());
+            }
+            this.filterSpecifierCase_ = 10;
+            return this;
+        }
+
+        public Builder mergeGrpcStatusFilter(GrpcStatusFilter grpcStatusFilter) {
+            SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> singleFieldBuilderV3 = this.grpcStatusFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 10 || this.filterSpecifier_ == GrpcStatusFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = grpcStatusFilter;
+                } else {
+                    this.filterSpecifier_ = GrpcStatusFilter.newBuilder((GrpcStatusFilter) this.filterSpecifier_).mergeFrom(grpcStatusFilter).m19906buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 10) {
+                    singleFieldBuilderV3.mergeFrom(grpcStatusFilter);
+                }
+                this.grpcStatusFilterBuilder_.setMessage(grpcStatusFilter);
+            }
+            this.filterSpecifierCase_ = 10;
+            return this;
+        }
+
+        public Builder clearGrpcStatusFilter() {
+            SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> singleFieldBuilderV3 = this.grpcStatusFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 10) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 10) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public GrpcStatusFilter.Builder getGrpcStatusFilterBuilder() {
+            return getGrpcStatusFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public GrpcStatusFilterOrBuilder getGrpcStatusFilterOrBuilder() {
+            SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 10 && (singleFieldBuilderV3 = this.grpcStatusFilterBuilder_) != null) {
+                return (GrpcStatusFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 10) {
+                return (GrpcStatusFilter) this.filterSpecifier_;
+            }
+            return GrpcStatusFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<GrpcStatusFilter, GrpcStatusFilter.Builder, GrpcStatusFilterOrBuilder> getGrpcStatusFilterFieldBuilder() {
+            if (this.grpcStatusFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 10) {
+                    this.filterSpecifier_ = GrpcStatusFilter.getDefaultInstance();
+                }
+                this.grpcStatusFilterBuilder_ = new SingleFieldBuilderV3<>((GrpcStatusFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 10;
+            onChanged();
+            return this.grpcStatusFilterBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public ExtensionFilter getExtensionFilter() {
+            SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> singleFieldBuilderV3 = this.extensionFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ == 11) {
+                    return (ExtensionFilter) this.filterSpecifier_;
+                }
+                return ExtensionFilter.getDefaultInstance();
+            }
+            if (this.filterSpecifierCase_ == 11) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ExtensionFilter.getDefaultInstance();
+        }
+
+        public Builder setExtensionFilter(ExtensionFilter extensionFilter) {
+            SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> singleFieldBuilderV3 = this.extensionFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                extensionFilter.getClass();
+                this.filterSpecifier_ = extensionFilter;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(extensionFilter);
+            }
+            this.filterSpecifierCase_ = 11;
+            return this;
+        }
+
+        public Builder setExtensionFilter(ExtensionFilter.Builder builder) {
+            SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> singleFieldBuilderV3 = this.extensionFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.filterSpecifier_ = builder.m19858build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m19858build());
+            }
+            this.filterSpecifierCase_ = 11;
+            return this;
+        }
+
+        public Builder mergeExtensionFilter(ExtensionFilter extensionFilter) {
+            SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> singleFieldBuilderV3 = this.extensionFilterBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.filterSpecifierCase_ != 11 || this.filterSpecifier_ == ExtensionFilter.getDefaultInstance()) {
+                    this.filterSpecifier_ = extensionFilter;
+                } else {
+                    this.filterSpecifier_ = ExtensionFilter.newBuilder((ExtensionFilter) this.filterSpecifier_).mergeFrom(extensionFilter).m19860buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.filterSpecifierCase_ == 11) {
+                    singleFieldBuilderV3.mergeFrom(extensionFilter);
+                }
+                this.extensionFilterBuilder_.setMessage(extensionFilter);
+            }
+            this.filterSpecifierCase_ = 11;
+            return this;
+        }
+
+        public Builder clearExtensionFilter() {
+            SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> singleFieldBuilderV3 = this.extensionFilterBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.filterSpecifierCase_ == 11) {
+                    this.filterSpecifierCase_ = 0;
+                    this.filterSpecifier_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.filterSpecifierCase_ == 11) {
+                this.filterSpecifierCase_ = 0;
+                this.filterSpecifier_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ExtensionFilter.Builder getExtensionFilterBuilder() {
+            return getExtensionFilterFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilterOrBuilder
+        public ExtensionFilterOrBuilder getExtensionFilterOrBuilder() {
+            SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> singleFieldBuilderV3;
+            int i = this.filterSpecifierCase_;
+            if (i == 11 && (singleFieldBuilderV3 = this.extensionFilterBuilder_) != null) {
+                return (ExtensionFilterOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 11) {
+                return (ExtensionFilter) this.filterSpecifier_;
+            }
+            return ExtensionFilter.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ExtensionFilter, ExtensionFilter.Builder, ExtensionFilterOrBuilder> getExtensionFilterFieldBuilder() {
+            if (this.extensionFilterBuilder_ == null) {
+                if (this.filterSpecifierCase_ != 11) {
+                    this.filterSpecifier_ = ExtensionFilter.getDefaultInstance();
+                }
+                this.extensionFilterBuilder_ = new SingleFieldBuilderV3<>((ExtensionFilter) this.filterSpecifier_, getParentForChildren(), isClean());
+                this.filterSpecifier_ = null;
+            }
+            this.filterSpecifierCase_ = 11;
+            onChanged();
+            return this.extensionFilterBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m19707setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m19701mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogFilter$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase;
+
+        static {
+            int[] iArr = new int[FilterSpecifierCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase = iArr;
+            try {
+                iArr[FilterSpecifierCase.STATUS_CODE_FILTER.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.DURATION_FILTER.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.NOT_HEALTH_CHECK_FILTER.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.TRACEABLE_FILTER.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.RUNTIME_FILTER.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.AND_FILTER.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.OR_FILTER.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.HEADER_FILTER.ordinal()] = 8;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.RESPONSE_FLAG_FILTER.ordinal()] = 9;
+            } catch (NoSuchFieldError unused9) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.GRPC_STATUS_FILTER.ordinal()] = 10;
+            } catch (NoSuchFieldError unused10) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.EXTENSION_FILTER.ordinal()] = 11;
+            } catch (NoSuchFieldError unused11) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$accesslog$v3$AccessLogFilter$FilterSpecifierCase[FilterSpecifierCase.FILTERSPECIFIER_NOT_SET.ordinal()] = 12;
+            } catch (NoSuchFieldError unused12) {
+            }
+        }
+    }
+}

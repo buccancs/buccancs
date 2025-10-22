@@ -1,0 +1,177 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/pl/flex_it/androidplot/MultitouchPlot.java
+// Size: 6797 bytes
+// Modified: 2025-10-21 16:32:12.011009300 +0100
+
+package pl.flex_it.androidplot;
+
+import android.content.Context;
+import android.graphics.PointF;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import com.androidplot.series.XYSeries;
+import com.androidplot.xy.BoundaryMode;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeriesFormatter;
+import com.androidplot.xy.XYSeriesRenderer;
+
+/* loaded from: classes2.dex */
+public class MultitouchPlot extends XYPlot implements View.OnTouchListener {
+    private static final int NONE = 0;
+    private static final int ONE_FINGER_DRAG = 1;
+    private static final int TWO_FINGERS_DRAG = 2;
+    private float distBetweenFingers;
+    private PointF firstFinger;
+    private float lastScrolling;
+    private Number maxXSeriesValue;
+    private Number maxYSeriesValue;
+    private Number minXSeriesValue;
+    private Number minYSeriesValue;
+    private int mode;
+    private Number newMaxX;
+    private Number newMinX;
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.androidplot.xy.XYPlot, com.androidplot.Plot
+    public XYSeriesRenderer a(Class cls) {
+        return null;
+    }
+
+    public MultitouchPlot(Context context, String str) {
+        super(context, str);
+        this.mode = 0;
+        initTouchHandling();
+    }
+
+    public MultitouchPlot(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        this.mode = 0;
+        initTouchHandling();
+    }
+
+    public MultitouchPlot(Context context, AttributeSet attributeSet, int i) {
+        super(context, attributeSet, i);
+        this.mode = 0;
+        initTouchHandling();
+    }
+
+    private void initTouchHandling() {
+        setOnTouchListener(this);
+    }
+
+    @Override // com.androidplot.xy.XYPlot
+    public boolean addSeries(XYSeries xYSeries, XYSeriesFormatter xYSeriesFormatter) {
+        for (int i = 0; i < xYSeries.size(); i++) {
+            Number number = this.minXSeriesValue;
+            if (number == null || number.doubleValue() > xYSeries.getX(i).doubleValue()) {
+                this.minXSeriesValue = xYSeries.getX(i);
+            }
+            Number number2 = this.maxXSeriesValue;
+            if (number2 == null || number2.doubleValue() < xYSeries.getX(i).doubleValue()) {
+                this.maxXSeriesValue = xYSeries.getX(i);
+            }
+            Number number3 = this.minYSeriesValue;
+            if (number3 == null || number3.doubleValue() > xYSeries.getY(i).doubleValue()) {
+                this.minYSeriesValue = xYSeries.getY(i);
+            }
+            Number number4 = this.maxYSeriesValue;
+            if (number4 == null || number4.doubleValue() < xYSeries.getX(i).doubleValue()) {
+                this.maxYSeriesValue = xYSeries.getY(i);
+            }
+        }
+        return super.addSeries(xYSeries, xYSeriesFormatter);
+    }
+
+    @Override // android.view.View.OnTouchListener
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        int action = motionEvent.getAction() & 255;
+        if (action == 0) {
+            this.firstFinger = new PointF(motionEvent.getX(), motionEvent.getY());
+            this.mode = 1;
+        } else if (action == 2) {
+            int i = this.mode;
+            if (i == 1) {
+                calculateMinMaxVals();
+                PointF pointF = this.firstFinger;
+                this.firstFinger = new PointF(motionEvent.getX(), motionEvent.getY());
+                float f = pointF.x - this.firstFinger.x;
+                this.lastScrolling = f;
+                scroll(f);
+                fixBoundariesForScroll();
+                setDomainBoundaries(this.newMinX, this.newMaxX, BoundaryMode.FIXED);
+                redraw();
+            } else if (i == 2) {
+                calculateMinMaxVals();
+                float f2 = this.distBetweenFingers;
+                float fDistance = distance(motionEvent);
+                if ((f2 <= 0.0f || fDistance >= 0.0f) && (f2 >= 0.0f || fDistance <= 0.0f)) {
+                    this.distBetweenFingers = fDistance;
+                    zoom(f2 / fDistance);
+                    fixBoundariesForZoom();
+                    setDomainBoundaries(this.newMinX, this.newMaxX, BoundaryMode.FIXED);
+                    redraw();
+                }
+            }
+        } else if (action == 5) {
+            float fDistance2 = distance(motionEvent);
+            this.distBetweenFingers = fDistance2;
+            if (fDistance2 > 5.0f || fDistance2 < -5.0f) {
+                this.mode = 2;
+            }
+        } else if (action == 6) {
+            this.mode = 1;
+        }
+        return true;
+    }
+
+    private void scroll(float f) {
+        float fFloatValue = getCalculatedMinX().floatValue();
+        float fFloatValue2 = getCalculatedMaxX().floatValue();
+        float width = f * ((fFloatValue2 - fFloatValue) / getWidth());
+        this.newMinX = Float.valueOf(fFloatValue + width);
+        this.newMaxX = Float.valueOf(fFloatValue2 + width);
+    }
+
+    private void fixBoundariesForScroll() {
+        float fFloatValue = this.newMaxX.floatValue() - this.newMinX.floatValue();
+        if (this.newMinX.floatValue() < this.minXSeriesValue.floatValue()) {
+            Number number = this.minXSeriesValue;
+            this.newMinX = number;
+            this.newMaxX = Float.valueOf(number.floatValue() + fFloatValue);
+        }
+        if (this.newMaxX.floatValue() > this.maxXSeriesValue.floatValue()) {
+            Number number2 = this.maxXSeriesValue;
+            this.newMaxX = number2;
+            this.newMinX = Float.valueOf(number2.floatValue() - fFloatValue);
+        }
+    }
+
+    private float distance(MotionEvent motionEvent) {
+        return motionEvent.getX(0) - motionEvent.getX(1);
+    }
+
+    private void zoom(float f) {
+        if (Float.isInfinite(f) || Float.isNaN(f)) {
+            return;
+        }
+        double d = f;
+        if (d <= -0.001d || d >= 0.001d) {
+            float fFloatValue = getCalculatedMinX().floatValue();
+            float fFloatValue2 = getCalculatedMaxX().floatValue();
+            float f2 = fFloatValue2 - fFloatValue;
+            float f3 = fFloatValue2 - (f2 / 2.0f);
+            float f4 = (f2 * f) / 2.0f;
+            this.newMinX = Float.valueOf(f3 - f4);
+            this.newMaxX = Float.valueOf(f3 + f4);
+        }
+    }
+
+    private void fixBoundariesForZoom() {
+        if (this.newMinX.floatValue() < this.minXSeriesValue.floatValue()) {
+            this.newMinX = this.minXSeriesValue;
+        }
+        if (this.newMaxX.floatValue() > this.maxXSeriesValue.floatValue()) {
+            this.newMaxX = this.maxXSeriesValue;
+        }
+    }
+}

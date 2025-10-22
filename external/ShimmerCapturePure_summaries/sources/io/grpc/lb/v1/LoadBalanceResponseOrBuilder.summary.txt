@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/lb/v1/LoadBalanceResponseOrBuilder.java
+// Size: 751 bytes
+// Modified: 2025-10-21 16:32:07.850985500 +0100
+
+package io.grpc.lb.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.lb.v1.LoadBalanceResponse;
+
+/* loaded from: classes2.dex */
+public interface LoadBalanceResponseOrBuilder extends MessageOrBuilder {
+    FallbackResponse getFallbackResponse();
+
+    FallbackResponseOrBuilder getFallbackResponseOrBuilder();
+
+    InitialLoadBalanceResponse getInitialResponse();
+
+    InitialLoadBalanceResponseOrBuilder getInitialResponseOrBuilder();
+
+    LoadBalanceResponse.LoadBalanceResponseTypeCase getLoadBalanceResponseTypeCase();
+
+    ServerList getServerList();
+
+    ServerListOrBuilder getServerListOrBuilder();
+
+    boolean hasFallbackResponse();
+
+    boolean hasInitialResponse();
+
+    boolean hasServerList();
+}

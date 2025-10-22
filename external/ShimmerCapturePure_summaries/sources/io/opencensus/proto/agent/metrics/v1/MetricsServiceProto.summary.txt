@@ -1,0 +1,54 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/agent/metrics/v1/MetricsServiceProto.java
+// Size: 4108 bytes
+// Modified: 2025-10-21 16:32:03.214649900 +0100
+
+package io.opencensus.proto.agent.metrics.v1;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import io.opencensus.proto.agent.common.v1.CommonProto;
+import io.opencensus.proto.metrics.v1.MetricsProto;
+import io.opencensus.proto.resource.v1.ResourceProto;
+
+/* loaded from: classes4.dex */
+public final class MetricsServiceProto {
+    private static Descriptors.FileDescriptor descriptor;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceRequest_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceRequest_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceResponse_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceResponse_fieldAccessorTable;
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private MetricsServiceProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n7opencensus/proto/agent/metrics/v1/metrics_service.proto\u0012!opencensus.proto.agent.metrics.v1\u001a-opencensus/proto/agent/common/v1/common.proto\u001a)opencensus/proto/metrics/v1/metrics.proto\u001a+opencensus/proto/resource/v1/resource.proto\"Ã\u0001\n\u001bExportMetricsServiceRequest\u00124\n\u0004node\u0018\u0001 \u0001(\u000b2&.opencensus.proto.agent.common.v1.Node\u00124\n\u0007metrics\u0018\u0002 \u0003(\u000b2#.opencensus.proto.metrics.v1.Metric\u00128\n\bresource\u0018\u0003 \u0001(\u000b2&.opencensus.proto.resource.v1.Resource\"\u001e\n\u001cExportMetricsServiceResponse2¢\u0001\n\u000eMetricsService\u0012\u008f\u0001\n\u0006Export\u0012>.opencensus.proto.agent.metrics.v1.ExportMetricsServiceRequest\u001a?.opencensus.proto.agent.metrics.v1.ExportMetricsServiceResponse\"\u0000(\u00010\u0001B\u0089\u0001\n$io.opencensus.proto.agent.metrics.v1B\u0013MetricsServiceProtoP\u0001ZJgithub.com/census-instrumentation/opencensus-proto/gen-go/agent/metrics/v1b\u0006proto3"}, new Descriptors.FileDescriptor[]{CommonProto.getDescriptor(), MetricsProto.getDescriptor(), ResourceProto.getDescriptor()}, new Descriptors.FileDescriptor.InternalDescriptorAssigner() { // from class: io.opencensus.proto.agent.metrics.v1.MetricsServiceProto.1
+            public ExtensionRegistry assignDescriptors(Descriptors.FileDescriptor fileDescriptor) {
+                Descriptors.FileDescriptor unused = MetricsServiceProto.descriptor = fileDescriptor;
+                return null;
+            }
+        });
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceRequest_descriptor = descriptor2;
+        internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceRequest_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Node", "Metrics", "Resource"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceResponse_descriptor = descriptor3;
+        internal_static_opencensus_proto_agent_metrics_v1_ExportMetricsServiceResponse_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[0]);
+        CommonProto.getDescriptor();
+        MetricsProto.getDescriptor();
+        ResourceProto.getDescriptor();
+    }
+}

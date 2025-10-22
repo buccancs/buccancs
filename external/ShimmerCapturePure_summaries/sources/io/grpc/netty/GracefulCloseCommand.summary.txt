@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/GracefulCloseCommand.java
+// Size: 388 bytes
+// Modified: 2025-10-21 16:32:05.814842400 +0100
+
+package io.grpc.netty;
+
+import io.grpc.Status;
+import io.grpc.netty.WriteQueue;
+
+/* loaded from: classes2.dex */
+class GracefulCloseCommand extends WriteQueue.AbstractQueuedCommand {
+    private final Status status;
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public GracefulCloseCommand(Status status) {
+        this.status = status;
+    }
+}

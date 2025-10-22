@@ -1,0 +1,70 @@
+package com.shimmerresearch.verisense.payloaddesign;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
+
+/* loaded from: classes2.dex */
+public class Compressor {
+    public static byte[] compress(byte[] bArr) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(bArr);
+        deflater.finish();
+        byte[] bArr2 = new byte[32767];
+        int iDeflate = deflater.deflate(bArr2);
+        byte[] bArr3 = new byte[iDeflate];
+        System.arraycopy(bArr2, 0, bArr3, 0, iDeflate);
+        return bArr3;
+    }
+
+    public static byte[] decompress(byte[] bArr) throws DataFormatException {
+        byte[] bArr2;
+        Inflater inflater = new Inflater();
+        int length = bArr.length;
+        inflater.setInput(bArr, 0, length);
+        ArrayList arrayList = new ArrayList();
+        while (true) {
+            bArr2 = null;
+            try {
+                if (inflater.needsInput()) {
+                    break;
+                }
+                byte[] bArr3 = new byte[length];
+                int iInflate = inflater.inflate(bArr3);
+                for (int i = 0; i < iInflate; i++) {
+                    arrayList.add(Byte.valueOf(bArr3[i]));
+                }
+            } catch (DataFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        int size = arrayList.size();
+        bArr2 = new byte[size];
+        for (int i2 = 0; i2 < size; i2++) {
+            bArr2[i2] = ((Byte) arrayList.get(i2)).byteValue();
+        }
+        inflater.end();
+        return bArr2;
+    }
+
+    public byte[] compress(String str) {
+        try {
+            return compress(str.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String decompressToString(byte[] bArr) throws DataFormatException {
+        byte[] bArrDecompress = decompress(bArr);
+        try {
+            return new String(bArrDecompress, 0, bArrDecompress.length, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}

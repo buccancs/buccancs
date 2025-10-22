@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/ScopedRouteConfigurationOrBuilder.java
+// Size: 628 bytes
+// Modified: 2025-10-21 16:32:02.377767900 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ScopedRouteConfiguration;
+
+/* loaded from: classes3.dex */
+public interface ScopedRouteConfigurationOrBuilder extends MessageOrBuilder {
+    ScopedRouteConfiguration.Key getKey();
+
+    ScopedRouteConfiguration.KeyOrBuilder getKeyOrBuilder();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    String getRouteConfigurationName();
+
+    ByteString getRouteConfigurationNameBytes();
+
+    boolean hasKey();
+}

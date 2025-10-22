@@ -1,0 +1,13 @@
+package com.shimmerresearch.algorithms;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ShimmerDevice;
+
+import java.util.LinkedHashMap;
+
+/* loaded from: classes2.dex */
+public interface AlgorithmLoaderInterface {
+    LinkedHashMap<String, AlgorithmDetails> getMapOfSupportedAlgorithms(ShimmerDevice shimmerDevice);
+
+    void initialiseSupportedAlgorithms(ShimmerDevice shimmerDevice, Configuration.COMMUNICATION_TYPE communication_type);
+}

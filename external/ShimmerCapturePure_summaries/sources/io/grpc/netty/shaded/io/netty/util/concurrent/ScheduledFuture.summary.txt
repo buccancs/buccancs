@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/ScheduledFuture.java
+// Size: 192 bytes
+// Modified: 2025-10-21 16:32:01.478736400 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+/* loaded from: classes3.dex */
+public interface ScheduledFuture<V> extends Future<V>, java.util.concurrent.ScheduledFuture<V> {
+}

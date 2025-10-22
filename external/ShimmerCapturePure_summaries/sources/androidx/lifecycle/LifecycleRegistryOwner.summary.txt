@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/LifecycleRegistryOwner.java
+// Size: 389 bytes
+// Modified: 2025-10-21 16:32:07.278733600 +0100
+
+package androidx.lifecycle;
+
+@Deprecated
+/* loaded from: classes.dex */
+public interface LifecycleRegistryOwner extends LifecycleOwner {
+    @Override // androidx.lifecycle.LifecycleOwner
+    LifecycleRegistry getLifecycle();
+
+    /* renamed from: androidx.lifecycle.LifecycleRegistryOwner$-CC, reason: invalid class name */
+    public final /* synthetic */ class CC {
+    }
+}

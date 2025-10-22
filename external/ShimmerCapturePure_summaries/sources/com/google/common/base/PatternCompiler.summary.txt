@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/PatternCompiler.java
+// Size: 168 bytes
+// Modified: 2025-10-21 16:32:02.097755400 +0100
+
+package com.google.common.base;
+
+/* loaded from: classes.dex */
+interface PatternCompiler {
+    CommonPattern compile(String str);
+
+    boolean isPcreLike();
+}

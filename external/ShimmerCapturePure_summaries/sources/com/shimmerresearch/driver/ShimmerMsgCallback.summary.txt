@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driver/ShimmerMsgCallback.java
+// Size: 155 bytes
+// Modified: 2025-10-21 16:32:00.810523100 +0100
+
+package com.shimmerresearch.driver;
+
+/* loaded from: classes2.dex */
+public interface ShimmerMsgCallback {
+    void newMsg(ShimmerMsg shimmerMsg);
+}

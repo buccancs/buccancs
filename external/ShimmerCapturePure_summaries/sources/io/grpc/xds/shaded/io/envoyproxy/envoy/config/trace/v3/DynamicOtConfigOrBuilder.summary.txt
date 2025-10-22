@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/trace/v3/DynamicOtConfigOrBuilder.java
+// Size: 505 bytes
+// Modified: 2025-10-21 16:32:00.318706400 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Struct;
+import com.google.protobuf.StructOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface DynamicOtConfigOrBuilder extends MessageOrBuilder {
+    Struct getConfig();
+
+    StructOrBuilder getConfigOrBuilder();
+
+    String getLibrary();
+
+    ByteString getLibraryBytes();
+
+    boolean hasConfig();
+}

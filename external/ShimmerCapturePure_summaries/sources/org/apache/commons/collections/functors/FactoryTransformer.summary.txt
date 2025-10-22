@@ -1,0 +1,35 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/FactoryTransformer.java
+// Size: 963 bytes
+// Modified: 2025-10-21 16:32:01.688758300 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import org.apache.commons.collections.Factory;
+import org.apache.commons.collections.Transformer;
+
+/* loaded from: classes5.dex */
+public class FactoryTransformer implements Transformer, Serializable {
+    private static final long serialVersionUID = -6817674502475353160L;
+    private final Factory iFactory;
+
+    public Factory getFactory() {
+        return this.iFactory;
+    }
+
+    public static Transformer getInstance(Factory factory) {
+        if (factory == null) {
+            throw new IllegalArgumentException("Factory must not be null");
+        }
+        return new FactoryTransformer(factory);
+    }
+
+    public FactoryTransformer(Factory factory) {
+        this.iFactory = factory;
+    }
+
+    @Override // org.apache.commons.collections.Transformer
+    public Object transform(Object obj) {
+        return this.iFactory.create();
+    }
+}

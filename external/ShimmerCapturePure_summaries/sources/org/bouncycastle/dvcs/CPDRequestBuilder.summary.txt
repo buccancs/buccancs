@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/dvcs/CPDRequestBuilder.java
+// Size: 522 bytes
+// Modified: 2025-10-21 16:32:11.358799300 +0100
+
+package org.bouncycastle.dvcs;
+
+import org.bouncycastle.asn1.dvcs.DVCSRequestInformationBuilder;
+import org.bouncycastle.asn1.dvcs.Data;
+import org.bouncycastle.asn1.dvcs.ServiceType;
+
+/* loaded from: classes5.dex */
+public class CPDRequestBuilder extends DVCSRequestBuilder {
+    public CPDRequestBuilder() {
+        super(new DVCSRequestInformationBuilder(ServiceType.CPD));
+    }
+
+    public DVCSRequest build(byte[] bArr) throws DVCSException {
+        return createDVCRequest(new Data(bArr));
+    }
+}

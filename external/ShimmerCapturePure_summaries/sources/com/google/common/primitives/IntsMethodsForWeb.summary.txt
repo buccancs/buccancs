@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/primitives/IntsMethodsForWeb.java
+// Size: 146 bytes
+// Modified: 2025-10-21 16:32:00.160846900 +0100
+
+package com.google.common.primitives;
+
+/* loaded from: classes.dex */
+abstract class IntsMethodsForWeb {
+    IntsMethodsForWeb() {
+    }
+}

@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/MaxEval.java
+// Size: 578 bytes
+// Modified: 2025-10-21 16:32:03.557182100 +0100
+
+package org.apache.commons.math3.optim;
+
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+
+/* loaded from: classes5.dex */
+public class MaxEval implements OptimizationData {
+    private final int maxEval;
+
+    public int getMaxEval() {
+        return this.maxEval;
+    }
+
+    public MaxEval(int i) {
+        if (i <= 0) {
+            throw new NotStrictlyPositiveException(Integer.valueOf(i));
+        }
+        this.maxEval = i;
+    }
+
+    public static MaxEval unlimited() {
+        return new MaxEval(Integer.MAX_VALUE);
+    }
+}

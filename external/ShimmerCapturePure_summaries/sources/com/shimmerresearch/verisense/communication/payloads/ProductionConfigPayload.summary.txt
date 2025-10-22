@@ -1,0 +1,70 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/communication/payloads/ProductionConfigPayload.java
+// Size: 3783 bytes
+// Modified: 2025-10-21 16:32:11.149620300 +0100
+
+package com.shimmerresearch.verisense.communication.payloads;
+
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ExpansionBoardDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.verisense.VerisenseDevice;
+import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class ProductionConfigPayload extends AbstractPayload implements Serializable {
+    public ExpansionBoardDetails expansionBoardDetails;
+    public String macIdShort;
+    public String manufacturingOrderNumber;
+    public ShimmerVerObject shimmerVerObject;
+    public String verisenseId;
+
+    public ProductionConfigPayload() {
+    }
+
+    public ProductionConfigPayload(String str, String str2, int i, int i2, int i3, int i4, int i5) {
+        this.macIdShort = str.toUpperCase();
+        this.manufacturingOrderNumber = str2;
+        this.expansionBoardDetails = new ExpansionBoardDetails(i, i2, 0);
+        this.shimmerVerObject = new ShimmerVerObject(-1, i3, i4, i5);
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public boolean parsePayloadContents(byte[] bArr) {
+        this.payloadContents = bArr;
+        this.isSuccess = false;
+        if (bArr[0] != 90) {
+            return false;
+        }
+        String verisenseId = parseVerisenseId(bArr, 1);
+        this.verisenseId = verisenseId;
+        this.manufacturingOrderNumber = verisenseId.substring(0, 8);
+        this.macIdShort = this.verisenseId.substring(8, 12);
+        this.expansionBoardDetails = new ExpansionBoardDetails(VerisenseDevice.correctHwVersion(bArr[7]), bArr[8], 0);
+        this.shimmerVerObject = new ShimmerVerObject(17, bArr[9], bArr[10], bArr.length >= 12 ? (int) parseByteArrayAtIndex(bArr, 11, ChannelDetails.CHANNEL_DATA_TYPE.UINT16) : 0);
+        this.isSuccess = true;
+        return this.isSuccess;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public byte[] generatePayloadContents() {
+        String str = this.manufacturingOrderNumber + this.macIdShort;
+        this.verisenseId = str;
+        byte[] bArrGenerateVerisenseIdBytes = generateVerisenseIdBytes(str);
+        byte[] bArr = {90, 0, 0, 0, 0, 0, 0, (byte) this.expansionBoardDetails.getExpansionBoardId(), (byte) this.expansionBoardDetails.getExpansionBoardRev(), (byte) this.shimmerVerObject.getFirmwareVersionMajor(), (byte) this.shimmerVerObject.getFirmwareVersionMinor(), (byte) (this.shimmerVerObject.getFirmwareVersionInternal() & 255), (byte) ((this.shimmerVerObject.getFirmwareVersionInternal() >> 8) & 255)};
+        System.arraycopy(bArrGenerateVerisenseIdBytes, 0, bArr, 1, bArrGenerateVerisenseIdBytes.length);
+        this.payloadContents = bArr;
+        return bArr;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public String generateDebugString() {
+        StringBuilder sb = new StringBuilder("ASM Production Config:");
+        sb.append("\tASM Identifier = " + this.verisenseId + StringUtils.LF);
+        sb.append("\tManufacturing Order Number = " + this.manufacturingOrderNumber + StringUtils.LF);
+        sb.append("\tMAC ID = " + this.macIdShort + StringUtils.LF);
+        sb.append("\tHW = v" + this.expansionBoardDetails.getExpansionBoardId() + "." + this.expansionBoardDetails.getExpansionBoardRev() + StringUtils.LF);
+        sb.append("\tFW = v" + this.shimmerVerObject.getFirmwareVersionMajor() + "." + this.shimmerVerObject.getFirmwareVersionMinor() + "." + this.shimmerVerObject.getFirmwareVersionInternal() + StringUtils.LF);
+        return sb.toString();
+    }
+}

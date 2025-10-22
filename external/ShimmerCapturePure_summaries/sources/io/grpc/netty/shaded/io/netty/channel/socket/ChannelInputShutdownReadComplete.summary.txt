@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/socket/ChannelInputShutdownReadComplete.java
+// Size: 316 bytes
+// Modified: 2025-10-21 16:32:00.228721300 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.socket;
+
+/* loaded from: classes3.dex */
+public final class ChannelInputShutdownReadComplete {
+    public static final ChannelInputShutdownReadComplete INSTANCE = new ChannelInputShutdownReadComplete();
+
+    private ChannelInputShutdownReadComplete() {
+    }
+}

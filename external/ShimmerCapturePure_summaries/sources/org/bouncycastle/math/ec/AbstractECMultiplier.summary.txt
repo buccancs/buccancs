@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/math/ec/AbstractECMultiplier.java
+// Size: 936 bytes
+// Modified: 2025-10-21 16:32:05.783708000 +0100
+
+package org.bouncycastle.math.ec;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public abstract class AbstractECMultiplier implements ECMultiplier {
+    protected ECPoint checkResult(ECPoint eCPoint) {
+        return ECAlgorithms.implCheckResult(eCPoint);
+    }
+
+    @Override // org.bouncycastle.math.ec.ECMultiplier
+    public ECPoint multiply(ECPoint eCPoint, BigInteger bigInteger) {
+        int iSignum = bigInteger.signum();
+        if (iSignum == 0 || eCPoint.isInfinity()) {
+            return eCPoint.getCurve().getInfinity();
+        }
+        ECPoint eCPointMultiplyPositive = multiplyPositive(eCPoint, bigInteger.abs());
+        if (iSignum <= 0) {
+            eCPointMultiplyPositive = eCPointMultiplyPositive.negate();
+        }
+        return checkResult(eCPointMultiplyPositive);
+    }
+
+    protected abstract ECPoint multiplyPositive(ECPoint eCPoint, BigInteger bigInteger);
+}

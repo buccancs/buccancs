@@ -1,0 +1,2152 @@
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class Security extends GeneratedMessageV3 implements SecurityOrBuilder {
+    public static final int OTHER_FIELD_NUMBER = 2;
+    public static final int TLS_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final Security DEFAULT_INSTANCE = new Security();
+    private static final Parser<Security> PARSER = new AbstractParser<Security>() { // from class: io.grpc.channelz.v1.Security.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Security m8414parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Security(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private byte memoizedIsInitialized;
+    private int modelCase_;
+    private Object model_;
+
+    private Security(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.modelCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Security() {
+        this.modelCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Security(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                Tls.Builder builderM8504toBuilder = this.modelCase_ == 1 ? ((Tls) this.model_).m8504toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(Tls.parser(), extensionRegistryLite);
+                                this.model_ = message;
+                                if (builderM8504toBuilder != null) {
+                                    builderM8504toBuilder.mergeFrom((Tls) message);
+                                    this.model_ = builderM8504toBuilder.m8511buildPartial();
+                                }
+                                this.modelCase_ = 1;
+                            } else if (tag == 18) {
+                                OtherSecurity.Builder builderM8458toBuilder = this.modelCase_ == 2 ? ((OtherSecurity) this.model_).m8458toBuilder() : null;
+                                MessageLite message2 = codedInputStream.readMessage(OtherSecurity.parser(), extensionRegistryLite);
+                                this.model_ = message2;
+                                if (builderM8458toBuilder != null) {
+                                    builderM8458toBuilder.mergeFrom((OtherSecurity) message2);
+                                    this.model_ = builderM8458toBuilder.m8465buildPartial();
+                                }
+                                this.modelCase_ = 2;
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Security getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Security> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_Security_descriptor;
+    }
+
+    public static Security parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Security) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Security parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Security) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Security parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Security) PARSER.parseFrom(byteString);
+    }
+
+    public static Security parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Security) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Security parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Security) PARSER.parseFrom(bArr);
+    }
+
+    public static Security parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Security) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Security parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Security parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Security parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Security parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Security parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Security parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m8412toBuilder();
+    }
+
+    public static Builder newBuilder(Security security) {
+        return DEFAULT_INSTANCE.m8412toBuilder().mergeFrom(security);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Security m8407getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Security> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.channelz.v1.SecurityOrBuilder
+    public boolean hasOther() {
+        return this.modelCase_ == 2;
+    }
+
+    @Override // io.grpc.channelz.v1.SecurityOrBuilder
+    public boolean hasTls() {
+        return this.modelCase_ == 1;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Security();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_Security_fieldAccessorTable.ensureFieldAccessorsInitialized(Security.class, Builder.class);
+    }
+
+    @Override // io.grpc.channelz.v1.SecurityOrBuilder
+    public ModelCase getModelCase() {
+        return ModelCase.forNumber(this.modelCase_);
+    }
+
+    @Override // io.grpc.channelz.v1.SecurityOrBuilder
+    public Tls getTls() {
+        if (this.modelCase_ == 1) {
+            return (Tls) this.model_;
+        }
+        return Tls.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.SecurityOrBuilder
+    public TlsOrBuilder getTlsOrBuilder() {
+        if (this.modelCase_ == 1) {
+            return (Tls) this.model_;
+        }
+        return Tls.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.SecurityOrBuilder
+    public OtherSecurity getOther() {
+        if (this.modelCase_ == 2) {
+            return (OtherSecurity) this.model_;
+        }
+        return OtherSecurity.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.SecurityOrBuilder
+    public OtherSecurityOrBuilder getOtherOrBuilder() {
+        if (this.modelCase_ == 2) {
+            return (OtherSecurity) this.model_;
+        }
+        return OtherSecurity.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.modelCase_ == 1) {
+            codedOutputStream.writeMessage(1, (Tls) this.model_);
+        }
+        if (this.modelCase_ == 2) {
+            codedOutputStream.writeMessage(2, (OtherSecurity) this.model_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.modelCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (Tls) this.model_) : 0;
+        if (this.modelCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (OtherSecurity) this.model_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Security)) {
+            return super.equals(obj);
+        }
+        Security security = (Security) obj;
+        if (!getModelCase().equals(security.getModelCase())) {
+            return false;
+        }
+        int i = this.modelCase_;
+        if (i == 1) {
+            if (!getTls().equals(security.getTls())) {
+                return false;
+            }
+        } else if (i == 2 && !getOther().equals(security.getOther())) {
+            return false;
+        }
+        return this.unknownFields.equals(security.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        int i2 = this.modelCase_;
+        if (i2 == 1) {
+            i = ((iHashCode2 * 37) + 1) * 53;
+            iHashCode = getTls().hashCode();
+        } else {
+            if (i2 == 2) {
+                i = ((iHashCode2 * 37) + 2) * 53;
+                iHashCode = getOther().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m8409newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m8412toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum ModelCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        TLS(1),
+        OTHER(2),
+        MODEL_NOT_SET(0);
+
+        private final int value;
+
+        ModelCase(int i) {
+            this.value = i;
+        }
+
+        public static ModelCase forNumber(int i) {
+            if (i == 0) {
+                return MODEL_NOT_SET;
+            }
+            if (i == 1) {
+                return TLS;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return OTHER;
+        }
+
+        @Deprecated
+        public static ModelCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public interface OtherSecurityOrBuilder extends MessageOrBuilder {
+        String getName();
+
+        ByteString getNameBytes();
+
+        Any getValue();
+
+        AnyOrBuilder getValueOrBuilder();
+
+        boolean hasValue();
+    }
+
+    public interface TlsOrBuilder extends MessageOrBuilder {
+        Tls.CipherSuiteCase getCipherSuiteCase();
+
+        ByteString getLocalCertificate();
+
+        String getOtherName();
+
+        ByteString getOtherNameBytes();
+
+        ByteString getRemoteCertificate();
+
+        String getStandardName();
+
+        ByteString getStandardNameBytes();
+    }
+
+    public static final class Tls extends GeneratedMessageV3 implements TlsOrBuilder {
+        public static final int LOCAL_CERTIFICATE_FIELD_NUMBER = 3;
+        public static final int OTHER_NAME_FIELD_NUMBER = 2;
+        public static final int REMOTE_CERTIFICATE_FIELD_NUMBER = 4;
+        public static final int STANDARD_NAME_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final Tls DEFAULT_INSTANCE = new Tls();
+        private static final Parser<Tls> PARSER = new AbstractParser<Tls>() { // from class: io.grpc.channelz.v1.Security.Tls.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Tls m8506parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Tls(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private int cipherSuiteCase_;
+        private Object cipherSuite_;
+        private ByteString localCertificate_;
+        private byte memoizedIsInitialized;
+        private ByteString remoteCertificate_;
+
+        private Tls(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.cipherSuiteCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Tls() {
+            this.cipherSuiteCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+            this.localCertificate_ = ByteString.EMPTY;
+            this.remoteCertificate_ = ByteString.EMPTY;
+        }
+
+        private Tls(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                                this.cipherSuiteCase_ = 1;
+                                this.cipherSuite_ = stringRequireUtf8;
+                            } else if (tag == 18) {
+                                String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                                this.cipherSuiteCase_ = 2;
+                                this.cipherSuite_ = stringRequireUtf82;
+                            } else if (tag == 26) {
+                                this.localCertificate_ = codedInputStream.readBytes();
+                            } else if (tag == 34) {
+                                this.remoteCertificate_ = codedInputStream.readBytes();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Tls getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Tls> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Security_Tls_descriptor;
+        }
+
+        public static Tls parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Tls) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Tls parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Tls) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Tls parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Tls) PARSER.parseFrom(byteString);
+        }
+
+        public static Tls parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Tls) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Tls parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Tls) PARSER.parseFrom(bArr);
+        }
+
+        public static Tls parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Tls) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Tls parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Tls parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Tls parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Tls parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Tls parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Tls parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m8504toBuilder();
+        }
+
+        public static Builder newBuilder(Tls tls) {
+            return DEFAULT_INSTANCE.m8504toBuilder().mergeFrom(tls);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Tls m8499getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+        public ByteString getLocalCertificate() {
+            return this.localCertificate_;
+        }
+
+        public Parser<Tls> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+        public ByteString getRemoteCertificate() {
+            return this.remoteCertificate_;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new Tls();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Security_Tls_fieldAccessorTable.ensureFieldAccessorsInitialized(Tls.class, Builder.class);
+        }
+
+        @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+        public CipherSuiteCase getCipherSuiteCase() {
+            return CipherSuiteCase.forNumber(this.cipherSuiteCase_);
+        }
+
+        @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+        public String getStandardName() {
+            String str = this.cipherSuiteCase_ == 1 ? this.cipherSuite_ : "";
+            if (str instanceof String) {
+                return (String) str;
+            }
+            String stringUtf8 = ((ByteString) str).toStringUtf8();
+            if (this.cipherSuiteCase_ == 1) {
+                this.cipherSuite_ = stringUtf8;
+            }
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+        public ByteString getStandardNameBytes() {
+            String str = this.cipherSuiteCase_ == 1 ? this.cipherSuite_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.cipherSuiteCase_ == 1) {
+                    this.cipherSuite_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+        public String getOtherName() {
+            String str = this.cipherSuiteCase_ == 2 ? this.cipherSuite_ : "";
+            if (str instanceof String) {
+                return (String) str;
+            }
+            String stringUtf8 = ((ByteString) str).toStringUtf8();
+            if (this.cipherSuiteCase_ == 2) {
+                this.cipherSuite_ = stringUtf8;
+            }
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+        public ByteString getOtherNameBytes() {
+            String str = this.cipherSuiteCase_ == 2 ? this.cipherSuite_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.cipherSuiteCase_ == 2) {
+                    this.cipherSuite_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.cipherSuiteCase_ == 1) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.cipherSuite_);
+            }
+            if (this.cipherSuiteCase_ == 2) {
+                GeneratedMessageV3.writeString(codedOutputStream, 2, this.cipherSuite_);
+            }
+            if (!this.localCertificate_.isEmpty()) {
+                codedOutputStream.writeBytes(3, this.localCertificate_);
+            }
+            if (!this.remoteCertificate_.isEmpty()) {
+                codedOutputStream.writeBytes(4, this.remoteCertificate_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = this.cipherSuiteCase_ == 1 ? GeneratedMessageV3.computeStringSize(1, this.cipherSuite_) : 0;
+            if (this.cipherSuiteCase_ == 2) {
+                iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.cipherSuite_);
+            }
+            if (!this.localCertificate_.isEmpty()) {
+                iComputeStringSize += CodedOutputStream.computeBytesSize(3, this.localCertificate_);
+            }
+            if (!this.remoteCertificate_.isEmpty()) {
+                iComputeStringSize += CodedOutputStream.computeBytesSize(4, this.remoteCertificate_);
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Tls)) {
+                return super.equals(obj);
+            }
+            Tls tls = (Tls) obj;
+            if (!getLocalCertificate().equals(tls.getLocalCertificate()) || !getRemoteCertificate().equals(tls.getRemoteCertificate()) || !getCipherSuiteCase().equals(tls.getCipherSuiteCase())) {
+                return false;
+            }
+            int i = this.cipherSuiteCase_;
+            if (i == 1) {
+                if (!getStandardName().equals(tls.getStandardName())) {
+                    return false;
+                }
+            } else if (i == 2 && !getOtherName().equals(tls.getOtherName())) {
+                return false;
+            }
+            return this.unknownFields.equals(tls.unknownFields);
+        }
+
+        public int hashCode() {
+            int i;
+            int iHashCode;
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode2 = ((((((((779 + getDescriptor().hashCode()) * 37) + 3) * 53) + getLocalCertificate().hashCode()) * 37) + 4) * 53) + getRemoteCertificate().hashCode();
+            int i2 = this.cipherSuiteCase_;
+            if (i2 == 1) {
+                i = ((iHashCode2 * 37) + 1) * 53;
+                iHashCode = getStandardName().hashCode();
+            } else {
+                if (i2 == 2) {
+                    i = ((iHashCode2 * 37) + 2) * 53;
+                    iHashCode = getOtherName().hashCode();
+                }
+                int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+            }
+            iHashCode2 = i + iHashCode;
+            int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode32;
+            return iHashCode32;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8501newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8504toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public enum CipherSuiteCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+            STANDARD_NAME(1),
+            OTHER_NAME(2),
+            CIPHERSUITE_NOT_SET(0);
+
+            private final int value;
+
+            CipherSuiteCase(int i) {
+                this.value = i;
+            }
+
+            public static CipherSuiteCase forNumber(int i) {
+                if (i == 0) {
+                    return CIPHERSUITE_NOT_SET;
+                }
+                if (i == 1) {
+                    return STANDARD_NAME;
+                }
+                if (i != 2) {
+                    return null;
+                }
+                return OTHER_NAME;
+            }
+
+            @Deprecated
+            public static CipherSuiteCase valueOf(int i) {
+                return forNumber(i);
+            }
+
+            public int getNumber() {
+                return this.value;
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TlsOrBuilder {
+            private int cipherSuiteCase_;
+            private Object cipherSuite_;
+            private ByteString localCertificate_;
+            private ByteString remoteCertificate_;
+
+            private Builder() {
+                this.cipherSuiteCase_ = 0;
+                this.localCertificate_ = ByteString.EMPTY;
+                this.remoteCertificate_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.cipherSuiteCase_ = 0;
+                this.localCertificate_ = ByteString.EMPTY;
+                this.remoteCertificate_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Security_Tls_descriptor;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+            public ByteString getLocalCertificate() {
+                return this.localCertificate_;
+            }
+
+            public Builder setLocalCertificate(ByteString byteString) {
+                byteString.getClass();
+                this.localCertificate_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+            public ByteString getRemoteCertificate() {
+                return this.remoteCertificate_;
+            }
+
+            public Builder setRemoteCertificate(ByteString byteString) {
+                byteString.getClass();
+                this.remoteCertificate_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Security_Tls_fieldAccessorTable.ensureFieldAccessorsInitialized(Tls.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Tls.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8515clear() {
+                super.clear();
+                this.localCertificate_ = ByteString.EMPTY;
+                this.remoteCertificate_ = ByteString.EMPTY;
+                this.cipherSuiteCase_ = 0;
+                this.cipherSuite_ = null;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Security_Tls_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Tls m8528getDefaultInstanceForType() {
+                return Tls.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Tls m8509build() throws UninitializedMessageException {
+                Tls tlsM8511buildPartial = m8511buildPartial();
+                if (tlsM8511buildPartial.isInitialized()) {
+                    return tlsM8511buildPartial;
+                }
+                throw newUninitializedMessageException(tlsM8511buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Tls m8511buildPartial() {
+                Tls tls = new Tls(this);
+                if (this.cipherSuiteCase_ == 1) {
+                    tls.cipherSuite_ = this.cipherSuite_;
+                }
+                if (this.cipherSuiteCase_ == 2) {
+                    tls.cipherSuite_ = this.cipherSuite_;
+                }
+                tls.localCertificate_ = this.localCertificate_;
+                tls.remoteCertificate_ = this.remoteCertificate_;
+                tls.cipherSuiteCase_ = this.cipherSuiteCase_;
+                onBuilt();
+                return tls;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8527clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8539setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8517clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8520clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8541setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8507addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8532mergeFrom(Message message) {
+                if (message instanceof Tls) {
+                    return mergeFrom((Tls) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Tls tls) {
+                if (tls == Tls.getDefaultInstance()) {
+                    return this;
+                }
+                if (tls.getLocalCertificate() != ByteString.EMPTY) {
+                    setLocalCertificate(tls.getLocalCertificate());
+                }
+                if (tls.getRemoteCertificate() != ByteString.EMPTY) {
+                    setRemoteCertificate(tls.getRemoteCertificate());
+                }
+                int i = AnonymousClass2.$SwitchMap$io$grpc$channelz$v1$Security$Tls$CipherSuiteCase[tls.getCipherSuiteCase().ordinal()];
+                if (i == 1) {
+                    this.cipherSuiteCase_ = 1;
+                    this.cipherSuite_ = tls.cipherSuite_;
+                    onChanged();
+                } else if (i == 2) {
+                    this.cipherSuiteCase_ = 2;
+                    this.cipherSuite_ = tls.cipherSuite_;
+                    onChanged();
+                }
+                m8537mergeUnknownFields(tls.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.channelz.v1.Security.Tls.Builder m8533mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Security.Tls.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.channelz.v1.Security$Tls r3 = (io.grpc.channelz.v1.Security.Tls) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.channelz.v1.Security$Tls r4 = (io.grpc.channelz.v1.Security.Tls) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Security.Tls.Builder.m8533mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Security$Tls$Builder");
+            }
+
+            @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+            public CipherSuiteCase getCipherSuiteCase() {
+                return CipherSuiteCase.forNumber(this.cipherSuiteCase_);
+            }
+
+            public Builder clearCipherSuite() {
+                this.cipherSuiteCase_ = 0;
+                this.cipherSuite_ = null;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+            public String getStandardName() {
+                String str = this.cipherSuiteCase_ == 1 ? this.cipherSuite_ : "";
+                if (!(str instanceof String)) {
+                    String stringUtf8 = ((ByteString) str).toStringUtf8();
+                    if (this.cipherSuiteCase_ == 1) {
+                        this.cipherSuite_ = stringUtf8;
+                    }
+                    return stringUtf8;
+                }
+                return (String) str;
+            }
+
+            public Builder setStandardName(String str) {
+                str.getClass();
+                this.cipherSuiteCase_ = 1;
+                this.cipherSuite_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+            public ByteString getStandardNameBytes() {
+                String str = this.cipherSuiteCase_ == 1 ? this.cipherSuite_ : "";
+                if (str instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                    if (this.cipherSuiteCase_ == 1) {
+                        this.cipherSuite_ = byteStringCopyFromUtf8;
+                    }
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) str;
+            }
+
+            public Builder setStandardNameBytes(ByteString byteString) {
+                byteString.getClass();
+                Tls.checkByteStringIsUtf8(byteString);
+                this.cipherSuiteCase_ = 1;
+                this.cipherSuite_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearStandardName() {
+                if (this.cipherSuiteCase_ == 1) {
+                    this.cipherSuiteCase_ = 0;
+                    this.cipherSuite_ = null;
+                    onChanged();
+                }
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+            public String getOtherName() {
+                String str = this.cipherSuiteCase_ == 2 ? this.cipherSuite_ : "";
+                if (!(str instanceof String)) {
+                    String stringUtf8 = ((ByteString) str).toStringUtf8();
+                    if (this.cipherSuiteCase_ == 2) {
+                        this.cipherSuite_ = stringUtf8;
+                    }
+                    return stringUtf8;
+                }
+                return (String) str;
+            }
+
+            public Builder setOtherName(String str) {
+                str.getClass();
+                this.cipherSuiteCase_ = 2;
+                this.cipherSuite_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.TlsOrBuilder
+            public ByteString getOtherNameBytes() {
+                String str = this.cipherSuiteCase_ == 2 ? this.cipherSuite_ : "";
+                if (str instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                    if (this.cipherSuiteCase_ == 2) {
+                        this.cipherSuite_ = byteStringCopyFromUtf8;
+                    }
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) str;
+            }
+
+            public Builder setOtherNameBytes(ByteString byteString) {
+                byteString.getClass();
+                Tls.checkByteStringIsUtf8(byteString);
+                this.cipherSuiteCase_ = 2;
+                this.cipherSuite_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearOtherName() {
+                if (this.cipherSuiteCase_ == 2) {
+                    this.cipherSuiteCase_ = 0;
+                    this.cipherSuite_ = null;
+                    onChanged();
+                }
+                return this;
+            }
+
+            public Builder clearLocalCertificate() {
+                this.localCertificate_ = Tls.getDefaultInstance().getLocalCertificate();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearRemoteCertificate() {
+                this.remoteCertificate_ = Tls.getDefaultInstance().getRemoteCertificate();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m8543setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m8537mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class OtherSecurity extends GeneratedMessageV3 implements OtherSecurityOrBuilder {
+        public static final int NAME_FIELD_NUMBER = 1;
+        public static final int VALUE_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final OtherSecurity DEFAULT_INSTANCE = new OtherSecurity();
+        private static final Parser<OtherSecurity> PARSER = new AbstractParser<OtherSecurity>() { // from class: io.grpc.channelz.v1.Security.OtherSecurity.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public OtherSecurity m8460parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new OtherSecurity(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object name_;
+        private Any value_;
+
+        private OtherSecurity(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private OtherSecurity() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.name_ = "";
+        }
+
+        private OtherSecurity(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.name_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                Any any = this.value_;
+                                Any.Builder builder = any != null ? any.toBuilder() : null;
+                                Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                                this.value_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.value_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static OtherSecurity getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<OtherSecurity> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Security_OtherSecurity_descriptor;
+        }
+
+        public static OtherSecurity parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (OtherSecurity) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static OtherSecurity parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OtherSecurity) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static OtherSecurity parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (OtherSecurity) PARSER.parseFrom(byteString);
+        }
+
+        public static OtherSecurity parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OtherSecurity) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static OtherSecurity parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (OtherSecurity) PARSER.parseFrom(bArr);
+        }
+
+        public static OtherSecurity parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OtherSecurity) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static OtherSecurity parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static OtherSecurity parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static OtherSecurity parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static OtherSecurity parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static OtherSecurity parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static OtherSecurity parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m8458toBuilder();
+        }
+
+        public static Builder newBuilder(OtherSecurity otherSecurity) {
+            return DEFAULT_INSTANCE.m8458toBuilder().mergeFrom(otherSecurity);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OtherSecurity m8453getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<OtherSecurity> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+        public boolean hasValue() {
+            return this.value_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new OtherSecurity();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Security_OtherSecurity_fieldAccessorTable.ensureFieldAccessorsInitialized(OtherSecurity.class, Builder.class);
+        }
+
+        @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.name_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+        public Any getValue() {
+            Any any = this.value_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+        public AnyOrBuilder getValueOrBuilder() {
+            return getValue();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+            }
+            if (this.value_ != null) {
+                codedOutputStream.writeMessage(2, getValue());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+            if (this.value_ != null) {
+                iComputeStringSize += CodedOutputStream.computeMessageSize(2, getValue());
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof OtherSecurity)) {
+                return super.equals(obj);
+            }
+            OtherSecurity otherSecurity = (OtherSecurity) obj;
+            if (getName().equals(otherSecurity.getName()) && hasValue() == otherSecurity.hasValue()) {
+                return (!hasValue() || getValue().equals(otherSecurity.getValue())) && this.unknownFields.equals(otherSecurity.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode();
+            if (hasValue()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getValue().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8455newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8458toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements OtherSecurityOrBuilder {
+            private Object name_;
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> valueBuilder_;
+            private Any value_;
+
+            private Builder() {
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Security_OtherSecurity_descriptor;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+            public boolean hasValue() {
+                return (this.valueBuilder_ == null && this.value_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Security_OtherSecurity_fieldAccessorTable.ensureFieldAccessorsInitialized(OtherSecurity.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = OtherSecurity.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8469clear() {
+                super.clear();
+                this.name_ = "";
+                if (this.valueBuilder_ == null) {
+                    this.value_ = null;
+                } else {
+                    this.value_ = null;
+                    this.valueBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Security_OtherSecurity_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OtherSecurity m8482getDefaultInstanceForType() {
+                return OtherSecurity.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OtherSecurity m8463build() throws UninitializedMessageException {
+                OtherSecurity otherSecurityM8465buildPartial = m8465buildPartial();
+                if (otherSecurityM8465buildPartial.isInitialized()) {
+                    return otherSecurityM8465buildPartial;
+                }
+                throw newUninitializedMessageException(otherSecurityM8465buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OtherSecurity m8465buildPartial() {
+                OtherSecurity otherSecurity = new OtherSecurity(this);
+                otherSecurity.name_ = this.name_;
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    otherSecurity.value_ = this.value_;
+                } else {
+                    otherSecurity.value_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return otherSecurity;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8481clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8493setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8471clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8474clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8495setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8461addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m8486mergeFrom(Message message) {
+                if (message instanceof OtherSecurity) {
+                    return mergeFrom((OtherSecurity) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(OtherSecurity otherSecurity) {
+                if (otherSecurity == OtherSecurity.getDefaultInstance()) {
+                    return this;
+                }
+                if (!otherSecurity.getName().isEmpty()) {
+                    this.name_ = otherSecurity.name_;
+                    onChanged();
+                }
+                if (otherSecurity.hasValue()) {
+                    mergeValue(otherSecurity.getValue());
+                }
+                m8491mergeUnknownFields(otherSecurity.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.channelz.v1.Security.OtherSecurity.Builder m8487mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Security.OtherSecurity.access$2000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.channelz.v1.Security$OtherSecurity r3 = (io.grpc.channelz.v1.Security.OtherSecurity) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.channelz.v1.Security$OtherSecurity r4 = (io.grpc.channelz.v1.Security.OtherSecurity) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Security.OtherSecurity.Builder.m8487mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Security$OtherSecurity$Builder");
+            }
+
+            @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+            public String getName() {
+                Object obj = this.name_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.name_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setName(String str) {
+                str.getClass();
+                this.name_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+            public ByteString getNameBytes() {
+                Object obj = this.name_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.name_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setNameBytes(ByteString byteString) {
+                byteString.getClass();
+                OtherSecurity.checkByteStringIsUtf8(byteString);
+                this.name_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearName() {
+                this.name_ = OtherSecurity.getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+            public Any getValue() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Any any = this.value_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            public Builder setValue(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    any.getClass();
+                    this.value_ = any;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(any);
+                }
+                return this;
+            }
+
+            public Builder setValue(Any.Builder builder) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.value_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeValue(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Any any2 = this.value_;
+                    if (any2 != null) {
+                        this.value_ = Any.newBuilder(any2).mergeFrom(any).buildPartial();
+                    } else {
+                        this.value_ = any;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(any);
+                }
+                return this;
+            }
+
+            public Builder clearValue() {
+                if (this.valueBuilder_ == null) {
+                    this.value_ = null;
+                    onChanged();
+                } else {
+                    this.value_ = null;
+                    this.valueBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Any.Builder getValueBuilder() {
+                onChanged();
+                return getValueFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.channelz.v1.Security.OtherSecurityOrBuilder
+            public AnyOrBuilder getValueOrBuilder() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Any any = this.value_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getValueFieldBuilder() {
+                if (this.valueBuilder_ == null) {
+                    this.valueBuilder_ = new SingleFieldBuilderV3<>(getValue(), getParentForChildren(), isClean());
+                    this.value_ = null;
+                }
+                return this.valueBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m8497setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m8491mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements SecurityOrBuilder {
+        private int modelCase_;
+        private Object model_;
+        private SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> otherBuilder_;
+        private SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> tlsBuilder_;
+
+        private Builder() {
+            this.modelCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.modelCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Security_descriptor;
+        }
+
+        @Override // io.grpc.channelz.v1.SecurityOrBuilder
+        public boolean hasOther() {
+            return this.modelCase_ == 2;
+        }
+
+        @Override // io.grpc.channelz.v1.SecurityOrBuilder
+        public boolean hasTls() {
+            return this.modelCase_ == 1;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Security_fieldAccessorTable.ensureFieldAccessorsInitialized(Security.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = Security.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8423clear() {
+            super.clear();
+            this.modelCase_ = 0;
+            this.model_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Security_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Security m8436getDefaultInstanceForType() {
+            return Security.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Security m8417build() throws UninitializedMessageException {
+            Security securityM8419buildPartial = m8419buildPartial();
+            if (securityM8419buildPartial.isInitialized()) {
+                return securityM8419buildPartial;
+            }
+            throw newUninitializedMessageException(securityM8419buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Security m8419buildPartial() {
+            Security security = new Security(this);
+            if (this.modelCase_ == 1) {
+                SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> singleFieldBuilderV3 = this.tlsBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    security.model_ = this.model_;
+                } else {
+                    security.model_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.modelCase_ == 2) {
+                SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> singleFieldBuilderV32 = this.otherBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    security.model_ = this.model_;
+                } else {
+                    security.model_ = singleFieldBuilderV32.build();
+                }
+            }
+            security.modelCase_ = this.modelCase_;
+            onBuilt();
+            return security;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8435clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8447setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8425clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8428clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8449setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8415addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m8440mergeFrom(Message message) {
+            if (message instanceof Security) {
+                return mergeFrom((Security) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Security security) {
+            if (security == Security.getDefaultInstance()) {
+                return this;
+            }
+            int i = AnonymousClass2.$SwitchMap$io$grpc$channelz$v1$Security$ModelCase[security.getModelCase().ordinal()];
+            if (i == 1) {
+                mergeTls(security.getTls());
+            } else if (i == 2) {
+                mergeOther(security.getOther());
+            }
+            m8445mergeUnknownFields(security.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.channelz.v1.Security.Builder m8441mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Security.access$3000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.channelz.v1.Security r3 = (io.grpc.channelz.v1.Security) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.channelz.v1.Security r4 = (io.grpc.channelz.v1.Security) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Security.Builder.m8441mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Security$Builder");
+        }
+
+        @Override // io.grpc.channelz.v1.SecurityOrBuilder
+        public ModelCase getModelCase() {
+            return ModelCase.forNumber(this.modelCase_);
+        }
+
+        public Builder clearModel() {
+            this.modelCase_ = 0;
+            this.model_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.SecurityOrBuilder
+        public Tls getTls() {
+            SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> singleFieldBuilderV3 = this.tlsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.modelCase_ == 1) {
+                    return (Tls) this.model_;
+                }
+                return Tls.getDefaultInstance();
+            }
+            if (this.modelCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Tls.getDefaultInstance();
+        }
+
+        public Builder setTls(Tls tls) {
+            SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> singleFieldBuilderV3 = this.tlsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                tls.getClass();
+                this.model_ = tls;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(tls);
+            }
+            this.modelCase_ = 1;
+            return this;
+        }
+
+        public Builder setTls(Tls.Builder builder) {
+            SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> singleFieldBuilderV3 = this.tlsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.model_ = builder.m8509build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m8509build());
+            }
+            this.modelCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeTls(Tls tls) {
+            SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> singleFieldBuilderV3 = this.tlsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.modelCase_ != 1 || this.model_ == Tls.getDefaultInstance()) {
+                    this.model_ = tls;
+                } else {
+                    this.model_ = Tls.newBuilder((Tls) this.model_).mergeFrom(tls).m8511buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.modelCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(tls);
+                }
+                this.tlsBuilder_.setMessage(tls);
+            }
+            this.modelCase_ = 1;
+            return this;
+        }
+
+        public Builder clearTls() {
+            SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> singleFieldBuilderV3 = this.tlsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.modelCase_ == 1) {
+                    this.modelCase_ = 0;
+                    this.model_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.modelCase_ == 1) {
+                this.modelCase_ = 0;
+                this.model_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Tls.Builder getTlsBuilder() {
+            return getTlsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SecurityOrBuilder
+        public TlsOrBuilder getTlsOrBuilder() {
+            SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> singleFieldBuilderV3;
+            int i = this.modelCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.tlsBuilder_) != null) {
+                return (TlsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (Tls) this.model_;
+            }
+            return Tls.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Tls, Tls.Builder, TlsOrBuilder> getTlsFieldBuilder() {
+            if (this.tlsBuilder_ == null) {
+                if (this.modelCase_ != 1) {
+                    this.model_ = Tls.getDefaultInstance();
+                }
+                this.tlsBuilder_ = new SingleFieldBuilderV3<>((Tls) this.model_, getParentForChildren(), isClean());
+                this.model_ = null;
+            }
+            this.modelCase_ = 1;
+            onChanged();
+            return this.tlsBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.SecurityOrBuilder
+        public OtherSecurity getOther() {
+            SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> singleFieldBuilderV3 = this.otherBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.modelCase_ == 2) {
+                    return (OtherSecurity) this.model_;
+                }
+                return OtherSecurity.getDefaultInstance();
+            }
+            if (this.modelCase_ == 2) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return OtherSecurity.getDefaultInstance();
+        }
+
+        public Builder setOther(OtherSecurity otherSecurity) {
+            SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> singleFieldBuilderV3 = this.otherBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                otherSecurity.getClass();
+                this.model_ = otherSecurity;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(otherSecurity);
+            }
+            this.modelCase_ = 2;
+            return this;
+        }
+
+        public Builder setOther(OtherSecurity.Builder builder) {
+            SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> singleFieldBuilderV3 = this.otherBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.model_ = builder.m8463build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m8463build());
+            }
+            this.modelCase_ = 2;
+            return this;
+        }
+
+        public Builder mergeOther(OtherSecurity otherSecurity) {
+            SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> singleFieldBuilderV3 = this.otherBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.modelCase_ != 2 || this.model_ == OtherSecurity.getDefaultInstance()) {
+                    this.model_ = otherSecurity;
+                } else {
+                    this.model_ = OtherSecurity.newBuilder((OtherSecurity) this.model_).mergeFrom(otherSecurity).m8465buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.modelCase_ == 2) {
+                    singleFieldBuilderV3.mergeFrom(otherSecurity);
+                }
+                this.otherBuilder_.setMessage(otherSecurity);
+            }
+            this.modelCase_ = 2;
+            return this;
+        }
+
+        public Builder clearOther() {
+            SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> singleFieldBuilderV3 = this.otherBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.modelCase_ == 2) {
+                    this.modelCase_ = 0;
+                    this.model_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.modelCase_ == 2) {
+                this.modelCase_ = 0;
+                this.model_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public OtherSecurity.Builder getOtherBuilder() {
+            return getOtherFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.SecurityOrBuilder
+        public OtherSecurityOrBuilder getOtherOrBuilder() {
+            SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> singleFieldBuilderV3;
+            int i = this.modelCase_;
+            if (i == 2 && (singleFieldBuilderV3 = this.otherBuilder_) != null) {
+                return (OtherSecurityOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 2) {
+                return (OtherSecurity) this.model_;
+            }
+            return OtherSecurity.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<OtherSecurity, OtherSecurity.Builder, OtherSecurityOrBuilder> getOtherFieldBuilder() {
+            if (this.otherBuilder_ == null) {
+                if (this.modelCase_ != 2) {
+                    this.model_ = OtherSecurity.getDefaultInstance();
+                }
+                this.otherBuilder_ = new SingleFieldBuilderV3<>((OtherSecurity) this.model_, getParentForChildren(), isClean());
+                this.model_ = null;
+            }
+            this.modelCase_ = 2;
+            onChanged();
+            return this.otherBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m8451setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m8445mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.channelz.v1.Security$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$channelz$v1$Security$ModelCase;
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$channelz$v1$Security$Tls$CipherSuiteCase;
+
+        static {
+            int[] iArr = new int[ModelCase.values().length];
+            $SwitchMap$io$grpc$channelz$v1$Security$ModelCase = iArr;
+            try {
+                iArr[ModelCase.TLS.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$grpc$channelz$v1$Security$ModelCase[ModelCase.OTHER.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$grpc$channelz$v1$Security$ModelCase[ModelCase.MODEL_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            int[] iArr2 = new int[Tls.CipherSuiteCase.values().length];
+            $SwitchMap$io$grpc$channelz$v1$Security$Tls$CipherSuiteCase = iArr2;
+            try {
+                iArr2[Tls.CipherSuiteCase.STANDARD_NAME.ordinal()] = 1;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$grpc$channelz$v1$Security$Tls$CipherSuiteCase[Tls.CipherSuiteCase.OTHER_NAME.ordinal()] = 2;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$io$grpc$channelz$v1$Security$Tls$CipherSuiteCase[Tls.CipherSuiteCase.CIPHERSUITE_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused6) {
+            }
+        }
+    }
+}

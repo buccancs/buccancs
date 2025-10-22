@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/emoji2/text/flatbuffer/UnionVector.java
+// Size: 416 bytes
+// Modified: 2025-10-21 16:32:01.977086600 +0100
+
+package androidx.emoji2.text.flatbuffer;
+
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public final class UnionVector extends BaseVector {
+    public UnionVector __assign(int i, int i2, ByteBuffer byteBuffer) {
+        __reset(i, i2, byteBuffer);
+        return this;
+    }
+
+    public Table get(Table table, int i) {
+        return Table.__union(table, __element(i), this.bb);
+    }
+}

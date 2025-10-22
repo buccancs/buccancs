@@ -1,0 +1,126 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/analysis/polynomials/PolynomialsUtils.java
+// Size: 6278 bytes
+// Modified: 2025-10-21 16:32:06.469701200 +0100
+
+package org.apache.commons.math.analysis.polynomials;
+
+import java.util.ArrayList;
+import org.apache.commons.math.fraction.BigFraction;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/polynomials/PolynomialsUtils.class */
+public class PolynomialsUtils {
+    private static final ArrayList<BigFraction> CHEBYSHEV_COEFFICIENTS = new ArrayList<>();
+    private static final ArrayList<BigFraction> HERMITE_COEFFICIENTS;
+    private static final ArrayList<BigFraction> LAGUERRE_COEFFICIENTS;
+    private static final ArrayList<BigFraction> LEGENDRE_COEFFICIENTS;
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/polynomials/PolynomialsUtils$RecurrenceCoefficientsGenerator.class */
+    private interface RecurrenceCoefficientsGenerator {
+        BigFraction[] generate(int i);
+    }
+
+    static {
+        CHEBYSHEV_COEFFICIENTS.add(BigFraction.ONE);
+        CHEBYSHEV_COEFFICIENTS.add(BigFraction.ZERO);
+        CHEBYSHEV_COEFFICIENTS.add(BigFraction.ONE);
+        HERMITE_COEFFICIENTS = new ArrayList<>();
+        HERMITE_COEFFICIENTS.add(BigFraction.ONE);
+        HERMITE_COEFFICIENTS.add(BigFraction.ZERO);
+        HERMITE_COEFFICIENTS.add(BigFraction.TWO);
+        LAGUERRE_COEFFICIENTS = new ArrayList<>();
+        LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
+        LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
+        LAGUERRE_COEFFICIENTS.add(BigFraction.MINUS_ONE);
+        LEGENDRE_COEFFICIENTS = new ArrayList<>();
+        LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
+        LEGENDRE_COEFFICIENTS.add(BigFraction.ZERO);
+        LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
+    }
+
+    private PolynomialsUtils() {
+    }
+
+    public static PolynomialFunction createChebyshevPolynomial(int degree) {
+        return buildPolynomial(degree, CHEBYSHEV_COEFFICIENTS, new RecurrenceCoefficientsGenerator() { // from class: org.apache.commons.math.analysis.polynomials.PolynomialsUtils.1
+            private final BigFraction[] coeffs = {BigFraction.ZERO, BigFraction.TWO, BigFraction.ONE};
+
+            @Override // org.apache.commons.math.analysis.polynomials.PolynomialsUtils.RecurrenceCoefficientsGenerator
+            public BigFraction[] generate(int k) {
+                return this.coeffs;
+            }
+        });
+    }
+
+    public static PolynomialFunction createHermitePolynomial(int degree) {
+        return buildPolynomial(degree, HERMITE_COEFFICIENTS, new RecurrenceCoefficientsGenerator() { // from class: org.apache.commons.math.analysis.polynomials.PolynomialsUtils.2
+            @Override // org.apache.commons.math.analysis.polynomials.PolynomialsUtils.RecurrenceCoefficientsGenerator
+            public BigFraction[] generate(int k) {
+                return new BigFraction[]{BigFraction.ZERO, BigFraction.TWO, new BigFraction(2 * k)};
+            }
+        });
+    }
+
+    public static PolynomialFunction createLaguerrePolynomial(int degree) {
+        return buildPolynomial(degree, LAGUERRE_COEFFICIENTS, new RecurrenceCoefficientsGenerator() { // from class: org.apache.commons.math.analysis.polynomials.PolynomialsUtils.3
+            @Override // org.apache.commons.math.analysis.polynomials.PolynomialsUtils.RecurrenceCoefficientsGenerator
+            public BigFraction[] generate(int k) {
+                int kP1 = k + 1;
+                return new BigFraction[]{new BigFraction((2 * k) + 1, kP1), new BigFraction(-1, kP1), new BigFraction(k, kP1)};
+            }
+        });
+    }
+
+    public static PolynomialFunction createLegendrePolynomial(int degree) {
+        return buildPolynomial(degree, LEGENDRE_COEFFICIENTS, new RecurrenceCoefficientsGenerator() { // from class: org.apache.commons.math.analysis.polynomials.PolynomialsUtils.4
+            @Override // org.apache.commons.math.analysis.polynomials.PolynomialsUtils.RecurrenceCoefficientsGenerator
+            public BigFraction[] generate(int k) {
+                int kP1 = k + 1;
+                return new BigFraction[]{BigFraction.ZERO, new BigFraction(k + kP1, kP1), new BigFraction(k, kP1)};
+            }
+        });
+    }
+
+    private static PolynomialFunction buildPolynomial(int degree, ArrayList<BigFraction> coefficients, RecurrenceCoefficientsGenerator generator) {
+        int maxDegree = ((int) FastMath.floor(FastMath.sqrt(2 * coefficients.size()))) - 1;
+        synchronized (PolynomialsUtils.class) {
+            if (degree > maxDegree) {
+                computeUpToDegree(degree, maxDegree, generator, coefficients);
+            }
+        }
+        int start = (degree * (degree + 1)) / 2;
+        double[] a = new double[degree + 1];
+        for (int i = 0; i <= degree; i++) {
+            a[i] = coefficients.get(start + i).doubleValue();
+        }
+        return new PolynomialFunction(a);
+    }
+
+    private static void computeUpToDegree(int degree, int maxDegree, RecurrenceCoefficientsGenerator generator, ArrayList<BigFraction> coefficients) {
+        int startK = ((maxDegree - 1) * maxDegree) / 2;
+        for (int k = maxDegree; k < degree; k++) {
+            int startKm1 = startK;
+            startK += k;
+            BigFraction[] ai = generator.generate(k);
+            BigFraction ck = coefficients.get(startK);
+            BigFraction ckm1 = coefficients.get(startKm1);
+            coefficients.add(ck.multiply(ai[0]).subtract(ckm1.multiply(ai[2])));
+            for (int i = 1; i < k; i++) {
+                BigFraction ckPrev = ck;
+                ck = coefficients.get(startK + i);
+                BigFraction ckm12 = coefficients.get(startKm1 + i);
+                coefficients.add(ck.multiply(ai[0]).add(ckPrev.multiply(ai[1])).subtract(ckm12.multiply(ai[2])));
+            }
+            BigFraction ckPrev2 = ck;
+            BigFraction ck2 = coefficients.get(startK + k);
+            coefficients.add(ck2.multiply(ai[0]).add(ckPrev2.multiply(ai[1])));
+            coefficients.add(ck2.multiply(ai[1]));
+        }
+    }
+}

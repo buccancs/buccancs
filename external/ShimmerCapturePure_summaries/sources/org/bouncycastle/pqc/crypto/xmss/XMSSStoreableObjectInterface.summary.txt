@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/xmss/XMSSStoreableObjectInterface.java
+// Size: 157 bytes
+// Modified: 2025-10-21 16:32:00.636899900 +0100
+
+package org.bouncycastle.pqc.crypto.xmss;
+
+/* loaded from: classes5.dex */
+public interface XMSSStoreableObjectInterface {
+    byte[] toByteArray();
+}

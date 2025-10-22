@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/UnknownSocksResponse.java
+// Size: 448 bytes
+// Modified: 2025-10-21 16:32:04.927645700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+
+/* loaded from: classes3.dex */
+public final class UnknownSocksResponse extends SocksResponse {
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.socks.SocksMessage
+    public void encodeAsByteBuf(ByteBuf byteBuf) {
+    }
+
+    public UnknownSocksResponse() {
+        super(SocksResponseType.UNKNOWN);
+    }
+}

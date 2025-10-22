@@ -1,0 +1,96 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/FieldBehavior.java
+// Size: 3073 bytes
+// Modified: 2025-10-21 16:32:01.204300800 +0100
+
+package com.google.api;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Internal;
+import com.google.protobuf.ProtocolMessageEnum;
+
+/* loaded from: classes.dex */
+public enum FieldBehavior implements ProtocolMessageEnum {
+    FIELD_BEHAVIOR_UNSPECIFIED(0),
+    OPTIONAL(1),
+    REQUIRED(2),
+    OUTPUT_ONLY(3),
+    INPUT_ONLY(4),
+    IMMUTABLE(5),
+    UNRECOGNIZED(-1);
+
+    public static final int FIELD_BEHAVIOR_UNSPECIFIED_VALUE = 0;
+    public static final int IMMUTABLE_VALUE = 5;
+    public static final int INPUT_ONLY_VALUE = 4;
+    public static final int OPTIONAL_VALUE = 1;
+    public static final int OUTPUT_ONLY_VALUE = 3;
+    public static final int REQUIRED_VALUE = 2;
+    private final int value;
+    private static final Internal.EnumLiteMap<FieldBehavior> internalValueMap = new Internal.EnumLiteMap<FieldBehavior>() { // from class: com.google.api.FieldBehavior.1
+        /* renamed from: findValueByNumber, reason: merged with bridge method [inline-methods] */
+        public FieldBehavior m1309findValueByNumber(int i) {
+            return FieldBehavior.forNumber(i);
+        }
+    };
+    private static final FieldBehavior[] VALUES = values();
+
+    public static FieldBehavior forNumber(int i) {
+        if (i == 0) {
+            return FIELD_BEHAVIOR_UNSPECIFIED;
+        }
+        if (i == 1) {
+            return OPTIONAL;
+        }
+        if (i == 2) {
+            return REQUIRED;
+        }
+        if (i == 3) {
+            return OUTPUT_ONLY;
+        }
+        if (i == 4) {
+            return INPUT_ONLY;
+        }
+        if (i != 5) {
+            return null;
+        }
+        return IMMUTABLE;
+    }
+
+    public static Internal.EnumLiteMap<FieldBehavior> internalGetValueMap() {
+        return internalValueMap;
+    }
+
+    public final int getNumber() {
+        if (this != UNRECOGNIZED) {
+            return this.value;
+        }
+        throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+    }
+
+    @Deprecated
+    public static FieldBehavior valueOf(int i) {
+        return forNumber(i);
+    }
+
+    public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+        return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+    }
+
+    public final Descriptors.EnumDescriptor getDescriptorForType() {
+        return getDescriptor();
+    }
+
+    public static final Descriptors.EnumDescriptor getDescriptor() {
+        return (Descriptors.EnumDescriptor) FieldBehaviorProto.getDescriptor().getEnumTypes().get(0);
+    }
+
+    public static FieldBehavior valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+        if (enumValueDescriptor.getType() == getDescriptor()) {
+            return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+        }
+        throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+    }
+
+    FieldBehavior(int i) {
+        this.value = i;
+    }
+}

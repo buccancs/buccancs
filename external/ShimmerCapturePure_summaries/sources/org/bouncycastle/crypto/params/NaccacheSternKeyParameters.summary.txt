@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/params/NaccacheSternKeyParameters.java
+// Size: 717 bytes
+// Modified: 2025-10-21 16:32:01.830771000 +0100
+
+package org.bouncycastle.crypto.params;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public class NaccacheSternKeyParameters extends AsymmetricKeyParameter {
+    private BigInteger g;
+    int lowerSigmaBound;
+    private BigInteger n;
+
+    public NaccacheSternKeyParameters(boolean z, BigInteger bigInteger, BigInteger bigInteger2, int i) {
+        super(z);
+        this.g = bigInteger;
+        this.n = bigInteger2;
+        this.lowerSigmaBound = i;
+    }
+
+    public BigInteger getG() {
+        return this.g;
+    }
+
+    public int getLowerSigmaBound() {
+        return this.lowerSigmaBound;
+    }
+
+    public BigInteger getModulus() {
+        return this.n;
+    }
+}

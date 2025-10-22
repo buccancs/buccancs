@@ -1,0 +1,124 @@
+package org.apache.commons.math.optimization.general;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
+import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealConvergenceChecker;
+import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/general/AbstractScalarDifferentiableOptimizer.class */
+public abstract class AbstractScalarDifferentiableOptimizer implements DifferentiableMultivariateRealOptimizer {
+    public static final int DEFAULT_MAX_ITERATIONS = 100;
+
+    @Deprecated
+    protected RealConvergenceChecker checker;
+
+    @Deprecated
+    protected GoalType goal;
+
+    @Deprecated
+    protected double[] point;
+    private int maxIterations;
+    private int iterations;
+    private int maxEvaluations;
+    private int evaluations;
+    private int gradientEvaluations;
+    private DifferentiableMultivariateRealFunction function;
+    private MultivariateVectorialFunction gradient;
+
+    protected AbstractScalarDifferentiableOptimizer() {
+        setConvergenceChecker(new SimpleScalarValueChecker());
+        setMaxIterations(100);
+        setMaxEvaluations(Integer.MAX_VALUE);
+    }
+
+    protected abstract RealPointValuePair doOptimize() throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public int getMaxIterations() {
+        return this.maxIterations;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public int getIterations() {
+        return this.iterations;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public int getMaxEvaluations() {
+        return this.maxEvaluations;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public int getEvaluations() {
+        return this.evaluations;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public int getGradientEvaluations() {
+        return this.gradientEvaluations;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public RealConvergenceChecker getConvergenceChecker() {
+        return this.checker;
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public void setConvergenceChecker(RealConvergenceChecker convergenceChecker) {
+        this.checker = convergenceChecker;
+    }
+
+    protected void incrementIterationsCounter() throws OptimizationException {
+        int i = this.iterations + 1;
+        this.iterations = i;
+        if (i > this.maxIterations) {
+            throw new OptimizationException(new MaxIterationsExceededException(this.maxIterations));
+        }
+    }
+
+    protected double[] computeObjectiveGradient(double[] evaluationPoint) throws FunctionEvaluationException {
+        this.gradientEvaluations++;
+        return this.gradient.value(evaluationPoint);
+    }
+
+    protected double computeObjectiveValue(double[] evaluationPoint) throws FunctionEvaluationException {
+        int i = this.evaluations + 1;
+        this.evaluations = i;
+        if (i > this.maxEvaluations) {
+            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(this.maxEvaluations), evaluationPoint);
+        }
+        return this.function.value(evaluationPoint);
+    }
+
+    @Override // org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+    public RealPointValuePair optimize(DifferentiableMultivariateRealFunction f, GoalType goalType, double[] startPoint) throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        this.iterations = 0;
+        this.evaluations = 0;
+        this.gradientEvaluations = 0;
+        this.function = f;
+        this.gradient = f.gradient();
+        this.goal = goalType;
+        this.point = (double[]) startPoint.clone();
+        return doOptimize();
+    }
+}

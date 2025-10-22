@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/ThreadSafeRandom.java
+// Size: 550 bytes
+// Modified: 2025-10-21 16:32:00.307654100 +0100
+
+package io.grpc.xds;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+/* loaded from: classes3.dex */
+interface ThreadSafeRandom {
+    int nextInt(int i);
+
+    public static final class ThreadSafeRandomImpl implements ThreadSafeRandom {
+        static final ThreadSafeRandom instance = new ThreadSafeRandomImpl();
+
+        private ThreadSafeRandomImpl() {
+        }
+
+        @Override // io.grpc.xds.ThreadSafeRandom
+        public int nextInt(int i) {
+            return ThreadLocalRandom.current().nextInt(i);
+        }
+    }
+}

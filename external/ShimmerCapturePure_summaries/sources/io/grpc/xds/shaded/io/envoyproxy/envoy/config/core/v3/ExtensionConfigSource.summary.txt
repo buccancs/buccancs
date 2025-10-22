@@ -1,0 +1,846 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/ExtensionConfigSource.java
+// Size: 41674 bytes
+// Modified: 2025-10-21 16:32:05.591518700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ConfigSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes6.dex */
+public final class ExtensionConfigSource extends GeneratedMessageV3 implements ExtensionConfigSourceOrBuilder {
+    public static final int APPLY_DEFAULT_CONFIG_WITHOUT_WARMING_FIELD_NUMBER = 3;
+    public static final int CONFIG_SOURCE_FIELD_NUMBER = 1;
+    public static final int DEFAULT_CONFIG_FIELD_NUMBER = 2;
+    private static final ExtensionConfigSource DEFAULT_INSTANCE = new ExtensionConfigSource();
+    private static final Parser<ExtensionConfigSource> PARSER = new AbstractParser<ExtensionConfigSource>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ExtensionConfigSource m22032parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ExtensionConfigSource(codedInputStream, extensionRegistryLite);
+        }
+    };
+    public static final int TYPE_URLS_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private boolean applyDefaultConfigWithoutWarming_;
+    private ConfigSource configSource_;
+    private Any defaultConfig_;
+    private byte memoizedIsInitialized;
+    private LazyStringList typeUrls_;
+
+    public static ExtensionConfigSource getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ExtensionConfigSource> parser() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public boolean getApplyDefaultConfigWithoutWarming() {
+        return this.applyDefaultConfigWithoutWarming_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ExtensionConfigSource m22024getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ExtensionConfigSource> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    /* renamed from: getTypeUrlsList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo22026getTypeUrlsList() {
+        return this.typeUrls_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public boolean hasConfigSource() {
+        return this.configSource_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public boolean hasDefaultConfig() {
+        return this.defaultConfig_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private ExtensionConfigSource(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ExtensionConfigSource() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.typeUrls_ = LazyStringArrayList.EMPTY;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new ExtensionConfigSource();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private ExtensionConfigSource(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        ConfigSource.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            ConfigSource configSource = this.configSource_;
+                            builder = configSource != null ? configSource.m21799toBuilder() : null;
+                            ConfigSource configSource2 = (ConfigSource) codedInputStream.readMessage(ConfigSource.parser(), extensionRegistryLite);
+                            this.configSource_ = configSource2;
+                            if (builder != null) {
+                                builder.mergeFrom(configSource2);
+                                this.configSource_ = builder.m21806buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            Any any = this.defaultConfig_;
+                            builder = any != null ? any.toBuilder() : null;
+                            Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                            this.defaultConfig_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.defaultConfig_ = builder.buildPartial();
+                            }
+                        } else if (tag == 24) {
+                            this.applyDefaultConfigWithoutWarming_ = codedInputStream.readBool();
+                        } else if (tag == 34) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if (!(z2 & true)) {
+                                this.typeUrls_ = new LazyStringArrayList();
+                                z2 |= true;
+                            }
+                            this.typeUrls_.add(stringRequireUtf8);
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.typeUrls_ = this.typeUrls_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ExtensionProto.internal_static_envoy_config_core_v3_ExtensionConfigSource_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ExtensionProto.internal_static_envoy_config_core_v3_ExtensionConfigSource_fieldAccessorTable.ensureFieldAccessorsInitialized(ExtensionConfigSource.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public ConfigSource getConfigSource() {
+        ConfigSource configSource = this.configSource_;
+        return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public ConfigSourceOrBuilder getConfigSourceOrBuilder() {
+        return getConfigSource();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public Any getDefaultConfig() {
+        Any any = this.defaultConfig_;
+        return any == null ? Any.getDefaultInstance() : any;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public AnyOrBuilder getDefaultConfigOrBuilder() {
+        return getDefaultConfig();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public int getTypeUrlsCount() {
+        return this.typeUrls_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public String getTypeUrls(int i) {
+        return (String) this.typeUrls_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+    public ByteString getTypeUrlsBytes(int i) {
+        return this.typeUrls_.getByteString(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.configSource_ != null) {
+            codedOutputStream.writeMessage(1, getConfigSource());
+        }
+        if (this.defaultConfig_ != null) {
+            codedOutputStream.writeMessage(2, getDefaultConfig());
+        }
+        boolean z = this.applyDefaultConfigWithoutWarming_;
+        if (z) {
+            codedOutputStream.writeBool(3, z);
+        }
+        for (int i = 0; i < this.typeUrls_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 4, this.typeUrls_.getRaw(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.configSource_ != null ? CodedOutputStream.computeMessageSize(1, getConfigSource()) : 0;
+        if (this.defaultConfig_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getDefaultConfig());
+        }
+        boolean z = this.applyDefaultConfigWithoutWarming_;
+        if (z) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(3, z);
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.typeUrls_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.typeUrls_.getRaw(i2));
+        }
+        int size = iComputeMessageSize + iComputeStringSizeNoTag + mo22026getTypeUrlsList().size() + this.unknownFields.getSerializedSize();
+        this.memoizedSize = size;
+        return size;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ExtensionConfigSource)) {
+            return super.equals(obj);
+        }
+        ExtensionConfigSource extensionConfigSource = (ExtensionConfigSource) obj;
+        if (hasConfigSource() != extensionConfigSource.hasConfigSource()) {
+            return false;
+        }
+        if ((!hasConfigSource() || getConfigSource().equals(extensionConfigSource.getConfigSource())) && hasDefaultConfig() == extensionConfigSource.hasDefaultConfig()) {
+            return (!hasDefaultConfig() || getDefaultConfig().equals(extensionConfigSource.getDefaultConfig())) && getApplyDefaultConfigWithoutWarming() == extensionConfigSource.getApplyDefaultConfigWithoutWarming() && mo22026getTypeUrlsList().equals(extensionConfigSource.mo22026getTypeUrlsList()) && this.unknownFields.equals(extensionConfigSource.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasConfigSource()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getConfigSource().hashCode();
+        }
+        if (hasDefaultConfig()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getDefaultConfig().hashCode();
+        }
+        int iHashBoolean = (((iHashCode * 37) + 3) * 53) + Internal.hashBoolean(getApplyDefaultConfigWithoutWarming());
+        if (getTypeUrlsCount() > 0) {
+            iHashBoolean = (((iHashBoolean * 37) + 4) * 53) + mo22026getTypeUrlsList().hashCode();
+        }
+        int iHashCode2 = (iHashBoolean * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    public static ExtensionConfigSource parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ExtensionConfigSource) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ExtensionConfigSource parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ExtensionConfigSource) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ExtensionConfigSource parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ExtensionConfigSource) PARSER.parseFrom(byteString);
+    }
+
+    public static ExtensionConfigSource parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ExtensionConfigSource) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ExtensionConfigSource parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ExtensionConfigSource) PARSER.parseFrom(bArr);
+    }
+
+    public static ExtensionConfigSource parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ExtensionConfigSource) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ExtensionConfigSource parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ExtensionConfigSource parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ExtensionConfigSource parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ExtensionConfigSource parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ExtensionConfigSource parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ExtensionConfigSource parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m22027newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m22030toBuilder();
+    }
+
+    public static Builder newBuilder(ExtensionConfigSource extensionConfigSource) {
+        return DEFAULT_INSTANCE.m22030toBuilder().mergeFrom(extensionConfigSource);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m22030toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ExtensionConfigSourceOrBuilder {
+        private boolean applyDefaultConfigWithoutWarming_;
+        private int bitField0_;
+        private SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> configSourceBuilder_;
+        private ConfigSource configSource_;
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> defaultConfigBuilder_;
+        private Any defaultConfig_;
+        private LazyStringList typeUrls_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public boolean getApplyDefaultConfigWithoutWarming() {
+            return this.applyDefaultConfigWithoutWarming_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public boolean hasConfigSource() {
+            return (this.configSourceBuilder_ == null && this.configSource_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public boolean hasDefaultConfig() {
+            return (this.defaultConfigBuilder_ == null && this.defaultConfig_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ExtensionProto.internal_static_envoy_config_core_v3_ExtensionConfigSource_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ExtensionProto.internal_static_envoy_config_core_v3_ExtensionConfigSource_fieldAccessorTable.ensureFieldAccessorsInitialized(ExtensionConfigSource.class, Builder.class);
+        }
+
+        private Builder() {
+            this.typeUrls_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.typeUrls_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ExtensionConfigSource.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22041clear() {
+            super.clear();
+            if (this.configSourceBuilder_ == null) {
+                this.configSource_ = null;
+            } else {
+                this.configSource_ = null;
+                this.configSourceBuilder_ = null;
+            }
+            if (this.defaultConfigBuilder_ == null) {
+                this.defaultConfig_ = null;
+            } else {
+                this.defaultConfig_ = null;
+                this.defaultConfigBuilder_ = null;
+            }
+            this.applyDefaultConfigWithoutWarming_ = false;
+            this.typeUrls_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ExtensionProto.internal_static_envoy_config_core_v3_ExtensionConfigSource_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ExtensionConfigSource m22054getDefaultInstanceForType() {
+            return ExtensionConfigSource.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ExtensionConfigSource m22035build() throws UninitializedMessageException {
+            ExtensionConfigSource extensionConfigSourceM22037buildPartial = m22037buildPartial();
+            if (extensionConfigSourceM22037buildPartial.isInitialized()) {
+                return extensionConfigSourceM22037buildPartial;
+            }
+            throw newUninitializedMessageException(extensionConfigSourceM22037buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ExtensionConfigSource m22037buildPartial() {
+            ExtensionConfigSource extensionConfigSource = new ExtensionConfigSource(this);
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.configSourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                extensionConfigSource.configSource_ = this.configSource_;
+            } else {
+                extensionConfigSource.configSource_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV32 = this.defaultConfigBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                extensionConfigSource.defaultConfig_ = this.defaultConfig_;
+            } else {
+                extensionConfigSource.defaultConfig_ = singleFieldBuilderV32.build();
+            }
+            extensionConfigSource.applyDefaultConfigWithoutWarming_ = this.applyDefaultConfigWithoutWarming_;
+            if ((this.bitField0_ & 1) != 0) {
+                this.typeUrls_ = this.typeUrls_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            extensionConfigSource.typeUrls_ = this.typeUrls_;
+            onBuilt();
+            return extensionConfigSource;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22053clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22065setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22043clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22046clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22067setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22033addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m22058mergeFrom(Message message) {
+            if (message instanceof ExtensionConfigSource) {
+                return mergeFrom((ExtensionConfigSource) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ExtensionConfigSource extensionConfigSource) {
+            if (extensionConfigSource == ExtensionConfigSource.getDefaultInstance()) {
+                return this;
+            }
+            if (extensionConfigSource.hasConfigSource()) {
+                mergeConfigSource(extensionConfigSource.getConfigSource());
+            }
+            if (extensionConfigSource.hasDefaultConfig()) {
+                mergeDefaultConfig(extensionConfigSource.getDefaultConfig());
+            }
+            if (extensionConfigSource.getApplyDefaultConfigWithoutWarming()) {
+                setApplyDefaultConfigWithoutWarming(extensionConfigSource.getApplyDefaultConfigWithoutWarming());
+            }
+            if (!extensionConfigSource.typeUrls_.isEmpty()) {
+                if (this.typeUrls_.isEmpty()) {
+                    this.typeUrls_ = extensionConfigSource.typeUrls_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureTypeUrlsIsMutable();
+                    this.typeUrls_.addAll(extensionConfigSource.typeUrls_);
+                }
+                onChanged();
+            }
+            m22063mergeUnknownFields(extensionConfigSource.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource.Builder m22059mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource.Builder.m22059mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSource$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public ConfigSource getConfigSource() {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.configSourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            ConfigSource configSource = this.configSource_;
+            return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+        }
+
+        public Builder setConfigSource(ConfigSource configSource) {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.configSourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                configSource.getClass();
+                this.configSource_ = configSource;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(configSource);
+            }
+            return this;
+        }
+
+        public Builder setConfigSource(ConfigSource.Builder builder) {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.configSourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.configSource_ = builder.m21804build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21804build());
+            }
+            return this;
+        }
+
+        public Builder mergeConfigSource(ConfigSource configSource) {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.configSourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ConfigSource configSource2 = this.configSource_;
+                if (configSource2 != null) {
+                    this.configSource_ = ConfigSource.newBuilder(configSource2).mergeFrom(configSource).m21806buildPartial();
+                } else {
+                    this.configSource_ = configSource;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(configSource);
+            }
+            return this;
+        }
+
+        public Builder clearConfigSource() {
+            if (this.configSourceBuilder_ == null) {
+                this.configSource_ = null;
+                onChanged();
+            } else {
+                this.configSource_ = null;
+                this.configSourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public ConfigSource.Builder getConfigSourceBuilder() {
+            onChanged();
+            return getConfigSourceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public ConfigSourceOrBuilder getConfigSourceOrBuilder() {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.configSourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ConfigSourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            ConfigSource configSource = this.configSource_;
+            return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+        }
+
+        private SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> getConfigSourceFieldBuilder() {
+            if (this.configSourceBuilder_ == null) {
+                this.configSourceBuilder_ = new SingleFieldBuilderV3<>(getConfigSource(), getParentForChildren(), isClean());
+                this.configSource_ = null;
+            }
+            return this.configSourceBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public Any getDefaultConfig() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.defaultConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Any any = this.defaultConfig_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        public Builder setDefaultConfig(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.defaultConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                any.getClass();
+                this.defaultConfig_ = any;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(any);
+            }
+            return this;
+        }
+
+        public Builder setDefaultConfig(Any.Builder builder) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.defaultConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.defaultConfig_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeDefaultConfig(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.defaultConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Any any2 = this.defaultConfig_;
+                if (any2 != null) {
+                    this.defaultConfig_ = Any.newBuilder(any2).mergeFrom(any).buildPartial();
+                } else {
+                    this.defaultConfig_ = any;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(any);
+            }
+            return this;
+        }
+
+        public Builder clearDefaultConfig() {
+            if (this.defaultConfigBuilder_ == null) {
+                this.defaultConfig_ = null;
+                onChanged();
+            } else {
+                this.defaultConfig_ = null;
+                this.defaultConfigBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Any.Builder getDefaultConfigBuilder() {
+            onChanged();
+            return getDefaultConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public AnyOrBuilder getDefaultConfigOrBuilder() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.defaultConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Any any = this.defaultConfig_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getDefaultConfigFieldBuilder() {
+            if (this.defaultConfigBuilder_ == null) {
+                this.defaultConfigBuilder_ = new SingleFieldBuilderV3<>(getDefaultConfig(), getParentForChildren(), isClean());
+                this.defaultConfig_ = null;
+            }
+            return this.defaultConfigBuilder_;
+        }
+
+        public Builder setApplyDefaultConfigWithoutWarming(boolean z) {
+            this.applyDefaultConfigWithoutWarming_ = z;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearApplyDefaultConfigWithoutWarming() {
+            this.applyDefaultConfigWithoutWarming_ = false;
+            onChanged();
+            return this;
+        }
+
+        private void ensureTypeUrlsIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.typeUrls_ = new LazyStringArrayList(this.typeUrls_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        /* renamed from: getTypeUrlsList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo22026getTypeUrlsList() {
+            return this.typeUrls_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public int getTypeUrlsCount() {
+            return this.typeUrls_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public String getTypeUrls(int i) {
+            return (String) this.typeUrls_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ExtensionConfigSourceOrBuilder
+        public ByteString getTypeUrlsBytes(int i) {
+            return this.typeUrls_.getByteString(i);
+        }
+
+        public Builder setTypeUrls(int i, String str) {
+            str.getClass();
+            ensureTypeUrlsIsMutable();
+            this.typeUrls_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addTypeUrls(String str) {
+            str.getClass();
+            ensureTypeUrlsIsMutable();
+            this.typeUrls_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllTypeUrls(Iterable<String> iterable) {
+            ensureTypeUrlsIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.typeUrls_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTypeUrls() {
+            this.typeUrls_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addTypeUrlsBytes(ByteString byteString) {
+            byteString.getClass();
+            ExtensionConfigSource.checkByteStringIsUtf8(byteString);
+            ensureTypeUrlsIsMutable();
+            this.typeUrls_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m22069setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m22063mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

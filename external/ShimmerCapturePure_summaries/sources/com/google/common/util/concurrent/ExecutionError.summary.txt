@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/ExecutionError.java
+// Size: 590 bytes
+// Modified: 2025-10-21 16:32:00.802493400 +0100
+
+package com.google.common.util.concurrent;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+public class ExecutionError extends Error {
+    private static final long serialVersionUID = 0;
+
+    protected ExecutionError() {
+    }
+
+    protected ExecutionError(@NullableDecl String str) {
+        super(str);
+    }
+
+    public ExecutionError(@NullableDecl String str, @NullableDecl Error error) {
+        super(str, error);
+    }
+
+    public ExecutionError(@NullableDecl Error error) {
+        super(error);
+    }
+}

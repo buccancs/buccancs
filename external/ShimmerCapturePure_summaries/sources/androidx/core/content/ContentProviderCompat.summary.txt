@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/content/ContentProviderCompat.java
+// Size: 534 bytes
+// Modified: 2025-10-21 16:32:00.082887100 +0100
+
+package androidx.core.content;
+
+import android.content.ContentProvider;
+import android.content.Context;
+
+/* loaded from: classes.dex */
+public final class ContentProviderCompat {
+    private ContentProviderCompat() {
+    }
+
+    public static Context requireContext(ContentProvider contentProvider) {
+        Context context = contentProvider.getContext();
+        if (context != null) {
+            return context;
+        }
+        throw new IllegalStateException("Cannot find context from the provider.");
+    }
+}

@@ -1174,12 +1174,9 @@ class MainViewModel @Inject constructor(
         }
 
     private fun SensorStreamStatus.toUiModel(): StreamUiModel {
-        val rate =
-            when {
-                sampleRateHz != null -> "${sampleRateHz.roundToInt()} Hz"
-                frameRateFps != null -> "${frameRateFps.roundToInt()} FPS"
-                else -> "n/a"
-            }
+        val rate = sampleRateHz?.let { "${it.roundToInt()} Hz" }
+            ?: frameRateFps?.let { "${it.roundToInt()} FPS" }
+            ?: "n/a"
         val bufferText =
             bufferedDurationSeconds?.let {
                 String.format(

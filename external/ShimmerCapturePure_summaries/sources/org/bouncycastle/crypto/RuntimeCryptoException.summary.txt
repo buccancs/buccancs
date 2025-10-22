@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/RuntimeCryptoException.java
+// Size: 261 bytes
+// Modified: 2025-10-21 16:32:00.580756300 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public class RuntimeCryptoException extends RuntimeException {
+    public RuntimeCryptoException() {
+    }
+
+    public RuntimeCryptoException(String str) {
+        super(str);
+    }
+}

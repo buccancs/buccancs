@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/slf4j/ILoggerFactory.java
+// Size: 128 bytes
+// Modified: 2025-10-21 16:32:01.920856200 +0100
+
+package org.slf4j;
+
+/* loaded from: classes2.dex */
+public interface ILoggerFactory {
+    Logger getLogger(String str);
+}

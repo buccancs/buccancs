@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/viewmodel/R.java
+// Size: 284 bytes
+// Modified: 2025-10-21 16:32:00.004123800 +0100
+
+package androidx.lifecycle.viewmodel;
+
+/* loaded from: classes.dex */
+public final class R {
+
+    public static final class id {
+        public static int view_tree_view_model_store_owner = 0x7f090172;
+
+        private id() {
+        }
+    }
+
+    private R() {
+    }
+}

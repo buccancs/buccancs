@@ -1,0 +1,249 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/payloaddesign/PayloadContentsDetailsV1_7.java
+// Size: 10982 bytes
+// Modified: 2025-10-21 16:32:13.836758300 +0100
+
+package com.shimmerresearch.verisense.payloaddesign;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.verisense.VerisenseDevice;
+import com.shimmerresearch.verisense.payloaddesign.DataBlockDetails;
+import com.shimmerresearch.verisense.sensors.SensorLSM6DS3;
+import com.shimmerresearch.verisense.sensors.SensorMAX86XXX;
+import java.io.IOException;
+
+/* loaded from: classes2.dex */
+public class PayloadContentsDetailsV1_7 extends PayloadContentsDetails {
+    private static double[] expectedPayloadTsDiffLimits = null;
+    private static final long serialVersionUID = -8809853619338894452L;
+    private int byteCountPerSet;
+    private int fifoBlockCount;
+    private boolean isSpiChWithHeaderByte;
+    private int sampleSetsInFifo;
+
+    public int getByteCountPerSet() {
+        return this.byteCountPerSet;
+    }
+
+    public int getFifoBlockCount() {
+        return this.fifoBlockCount;
+    }
+
+    public boolean getIsSpiChWithHeaderByte() {
+        return this.isSpiChWithHeaderByte;
+    }
+
+    public int getSampleSetsInFifo() {
+        return this.sampleSetsInFifo;
+    }
+
+    public void setByteCountPerSet(int i) {
+        this.byteCountPerSet = i;
+    }
+
+    public void setFifoBlockCount(int i) {
+        this.fifoBlockCount = i;
+    }
+
+    public void setIsSpiChWithHeaderByte(boolean z) {
+        this.isSpiChWithHeaderByte = z;
+    }
+
+    public void setSampleSetsInFifo(int i) {
+        this.sampleSetsInFifo = i;
+    }
+
+    public PayloadContentsDetailsV1_7(VerisenseDevice verisenseDevice) {
+        super(verisenseDevice);
+        this.fifoBlockCount = 0;
+        this.isSpiChWithHeaderByte = false;
+        this.sampleSetsInFifo = 0;
+        this.byteCountPerSet = 0;
+    }
+
+    @Override // com.shimmerresearch.verisense.payloaddesign.PayloadContentsDetails
+    public void parsePayloadContentsMetaData(int i) throws IOException {
+        int expectedDataPacketSize = this.verisenseDevice.getExpectedDataPacketSize(Configuration.COMMUNICATION_TYPE.SD);
+        int iCalculateFifoBlockSize = calculateFifoBlockSize();
+        int iCalculateNumberOfSampleSetsInFifo = iCalculateFifoBlockSize > 0 ? calculateNumberOfSampleSetsInFifo(iCalculateFifoBlockSize, expectedDataPacketSize) : 0;
+        boolean zIsSpiChannelEnabled = this.verisenseDevice.isSpiChannelEnabled();
+        if (zIsSpiChannelEnabled) {
+            iCalculateFifoBlockSize++;
+        }
+        int iFloor = (int) Math.floor(this.byteBuffer.length / iCalculateFifoBlockSize);
+        int i2 = iFloor * iCalculateNumberOfSampleSetsInFifo;
+        int i3 = iCalculateFifoBlockSize * iFloor;
+        long timeMinutesAtIndex = VerisenseTimeDetails.parseTimeMinutesAtIndex(this.byteBuffer, i3);
+        long timeTicksAtIndex = VerisenseTimeDetails.parseTimeTicksAtIndex(this.byteBuffer, i3 + 4);
+        getTimeDetailsRwc().setEndTimeAndCalculateMs(timeMinutesAtIndex, timeTicksAtIndex);
+        setFifoBlockCount(iFloor);
+        setIsSpiChWithHeaderByte(zIsSpiChannelEnabled);
+        setSampleSetsInFifo(iCalculateNumberOfSampleSetsInFifo);
+        setByteCountPerSet(expectedDataPacketSize);
+        DataBlockDetails.DATABLOCK_SENSOR_ID datablock_sensor_idFigureOutDatablockSensorId = figureOutDatablockSensorId();
+        DataBlockDetails dataBlockDetails = new DataBlockDetails(datablock_sensor_idFigureOutDatablockSensorId, getPayloadIndex(), 0, this.verisenseDevice.getOrCreateListOfSensorClassKeysForDataBlockId(datablock_sensor_idFigureOutDatablockSensorId), i, 0, timeTicksAtIndex, false);
+        dataBlockDetails.setSamplingRate(this.verisenseDevice.getSamplingRateShimmer());
+        dataBlockDetails.setSampleCount(i2);
+        dataBlockDetails.getTimeDetailsRwc().setEndTimeTicks(timeTicksAtIndex);
+        dataBlockDetails.setRwcEndTimeMinutesAndCalculateTimings(timeMinutesAtIndex);
+        this.listOfDataBlocksInOrder.add(dataBlockDetails);
+        this.setOfPayloadSensorIds.add(datablock_sensor_idFigureOutDatablockSensorId);
+        calculatePayloadStartTimeMsRwc();
+        int temperatureBytes = parseTemperatureBytes(i3 + 7);
+        if (temperatureBytes < this.byteBuffer.length) {
+            parseBatteryVoltageBytes(temperatureBytes);
+        }
+    }
+
+    private DataBlockDetails.DATABLOCK_SENSOR_ID figureOutDatablockSensorId() {
+        if (this.verisenseDevice.isSensorEnabled(2005)) {
+            return DataBlockDetails.DATABLOCK_SENSOR_ID.ACCEL_1;
+        }
+        if (this.verisenseDevice.isEitherLsm6ds3ChannelEnabled()) {
+            return DataBlockDetails.DATABLOCK_SENSOR_ID.GYRO_ACCEL2;
+        }
+        if (this.verisenseDevice.isHwPpgAndAnyMaxChEnabled()) {
+            return DataBlockDetails.DATABLOCK_SENSOR_ID.PPG;
+        }
+        return null;
+    }
+
+    @Override // com.shimmerresearch.verisense.payloaddesign.PayloadContentsDetails
+    public void parsePayloadSensorData() {
+        double startTimeRwcMs = getStartTimeRwcMs();
+        int byteCountPerSet = 0;
+        int i = 0;
+        for (int i2 = 0; i2 < getFifoBlockCount(); i2++) {
+            if (getIsSpiChWithHeaderByte()) {
+                byteCountPerSet++;
+            }
+            for (int i3 = 0; i3 < getSampleSetsInFifo(); i3++) {
+                int byteCountPerSet2 = getByteCountPerSet();
+                byte[] bArr = new byte[byteCountPerSet2];
+                System.arraycopy(this.byteBuffer, byteCountPerSet, bArr, 0, byteCountPerSet2);
+                setOjcArray(i, this.verisenseDevice.buildMsg(bArr, Configuration.COMMUNICATION_TYPE.SD, false, startTimeRwcMs));
+                startTimeRwcMs += getTimestampDiffInMs();
+                byteCountPerSet += getByteCountPerSet();
+                i++;
+            }
+        }
+    }
+
+    public static int calculatePayloadSensorDataMemAvailable(ShimmerVerObject shimmerVerObject) {
+        return 32757 - calculatePayloadHeaderBytesSize(shimmerVerObject);
+    }
+
+    public double getTimestampDiffInMs() {
+        return 1000.0d / this.verisenseDevice.getSamplingRateShimmer();
+    }
+
+    public double calculateTimestampDiffInS() {
+        return 1.0d / this.verisenseDevice.getSamplingRateShimmer();
+    }
+
+    public double calculateMaxPayloadDataSizeInMs() {
+        return calculateMaxPayloadDataSizeInSec() * 1000.0d;
+    }
+
+    public double calculateMaxPayloadDataSizeInSec() {
+        return (calculateFifoBlockSize() > 0 ? calculateNumberOfSampleSetsInFifo(r0) : 0) * calculateTimestampDiffInS() * calculateFifoBlocksInPayload();
+    }
+
+    public int calculateFifoBlockSize() {
+        if (this.verisenseDevice.isSensorEnabled(2005)) {
+            return this.verisenseDevice.calculateFifoBlockSize(AbstractSensor.SENSORS.LIS2DW12);
+        }
+        if (this.verisenseDevice.isEitherLsm6ds3ChannelEnabled()) {
+            return this.verisenseDevice.calculateFifoBlockSize(AbstractSensor.SENSORS.LSM6DS3);
+        }
+        if (this.verisenseDevice.isHwPpgAndAnyMaxChEnabled()) {
+            return this.verisenseDevice.calculateFifoBlockSize(AbstractSensor.SENSORS.MAX86916);
+        }
+        return 0;
+    }
+
+    /* JADX WARN: Type inference failed for: r0v7, types: [boolean, int] */
+    private int calculateFifoBlocksInPayload() {
+        if (this.verisenseDevice.isSensorEnabled(2005)) {
+            return 169;
+        }
+        if (this.verisenseDevice.isEitherLsm6ds3ChannelEnabled()) {
+            AbstractSensor sensorClass = this.verisenseDevice.getSensorClass(AbstractSensor.SENSORS.LSM6DS3);
+            if (sensorClass != null) {
+                return ((SensorLSM6DS3) sensorClass).calculateMaxPayloadsInFifo(calculatePayloadSensorDataMemAvailable(this.verisenseDevice.getShimmerVerObject()));
+            }
+        } else if (this.verisenseDevice.isHwPpgAndAnyMaxChEnabled()) {
+            ?? IsSensorEnabled = this.verisenseDevice.isSensorEnabled(2008);
+            int i = IsSensorEnabled;
+            if (this.verisenseDevice.isSensorEnabled(2009)) {
+                i = IsSensorEnabled + 1;
+            }
+            int i2 = i;
+            if (this.verisenseDevice.isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86150_ECG)) {
+                i2 = i + 1;
+            }
+            int i3 = i2;
+            if (this.verisenseDevice.isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_GREEN)) {
+                i3 = i2 + 1;
+            }
+            int i4 = i3;
+            if (this.verisenseDevice.isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_BLUE)) {
+                i4 = i3 + 1;
+            }
+            if (i4 == 1) {
+                return SensorMAX86XXX.MAX_FIFOS_IN_PAYLOAD_1_CHANNEL;
+            }
+            if (i4 == 2) {
+                return SensorMAX86XXX.MAX_FIFOS_IN_PAYLOAD_2_CHANNELS;
+            }
+            if (i4 == 3) {
+                return SensorMAX86XXX.MAX_FIFOS_IN_PAYLOAD_3_CHANNELS;
+            }
+            if (i4 == 4) {
+                return 160;
+            }
+        }
+        return 0;
+    }
+
+    public int calculateNumberOfSampleSetsInPayload(int i, int i2) {
+        return calculateNumberOfSampleSetsInFifo(i) * i2;
+    }
+
+    public int calculateNumberOfSampleSetsInFifo(int i) {
+        return calculateNumberOfSampleSetsInFifo(i, this.verisenseDevice.getExpectedDataPacketSize(Configuration.COMMUNICATION_TYPE.SD));
+    }
+
+    public int calculateNumberOfSampleSetsInFifo(int i, int i2) {
+        return i / i2;
+    }
+
+    public void setOjcArray(int i, ObjectCluster objectCluster) {
+        this.listOfDataBlocksInOrder.get(0).setOjcArrayAtIndex(i, objectCluster);
+    }
+
+    public ObjectCluster[] getOjcArray() {
+        return this.listOfDataBlocksInOrder.get(0).getOjcArray();
+    }
+
+    public double[] calculateExpectedPayloadTsDiffLimits() {
+        Double dValueOf = Double.valueOf(calculateMaxPayloadDataSizeInMs());
+        return new double[]{dValueOf.doubleValue() * 0.9d, dValueOf.doubleValue() * 1.1d};
+    }
+
+    public static void updateExpectedPayloadTsDiffLimits(PayloadContentsDetailsV1_7 payloadContentsDetailsV1_7) {
+        expectedPayloadTsDiffLimits = payloadContentsDetailsV1_7.calculateExpectedPayloadTsDiffLimits();
+    }
+
+    public boolean isTsDifferenceUnexpected(double d, double d2) {
+        if (!UtilCsvSplitting.isTsDifferenceOutsideOfLimits(expectedPayloadTsDiffLimits, d2, d)) {
+            return false;
+        }
+        double dAbs = Math.abs(d2 - d);
+        double[] dArr = expectedPayloadTsDiffLimits;
+        super.consolePrintTsDifferenceUnexpected("\n\tActual Diff (start->start)=" + dAbs + "ms\tThresholdAllowed Min=" + dArr[0] + "ms Max=" + dArr[1] + Configuration.CHANNEL_UNITS.MILLISECONDS);
+        return true;
+    }
+}

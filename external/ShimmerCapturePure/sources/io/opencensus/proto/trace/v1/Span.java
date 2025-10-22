@@ -1,0 +1,8677 @@
+package io.opencensus.proto.trace.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.MapEntry;
+import com.google.protobuf.MapField;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import com.google.protobuf.WireFormat;
+import io.opencensus.proto.resource.v1.Resource;
+import io.opencensus.proto.resource.v1.ResourceOrBuilder;
+import io.opencensus.proto.trace.v1.StackTrace;
+import io.opencensus.proto.trace.v1.Status;
+import io.opencensus.proto.trace.v1.TruncatableString;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes4.dex */
+public final class Span extends GeneratedMessageV3 implements SpanOrBuilder {
+    public static final int ATTRIBUTES_FIELD_NUMBER = 7;
+    public static final int CHILD_SPAN_COUNT_FIELD_NUMBER = 13;
+    public static final int END_TIME_FIELD_NUMBER = 6;
+    public static final int KIND_FIELD_NUMBER = 14;
+    public static final int LINKS_FIELD_NUMBER = 10;
+    public static final int NAME_FIELD_NUMBER = 4;
+    public static final int PARENT_SPAN_ID_FIELD_NUMBER = 3;
+    public static final int RESOURCE_FIELD_NUMBER = 16;
+    public static final int SAME_PROCESS_AS_PARENT_SPAN_FIELD_NUMBER = 12;
+    public static final int SPAN_ID_FIELD_NUMBER = 2;
+    public static final int STACK_TRACE_FIELD_NUMBER = 8;
+    public static final int START_TIME_FIELD_NUMBER = 5;
+    public static final int STATUS_FIELD_NUMBER = 11;
+    public static final int TIME_EVENTS_FIELD_NUMBER = 9;
+    public static final int TRACESTATE_FIELD_NUMBER = 15;
+    public static final int TRACE_ID_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final Span DEFAULT_INSTANCE = new Span();
+    private static final Parser<Span> PARSER = new AbstractParser<Span>() { // from class: io.opencensus.proto.trace.v1.Span.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Span m38072parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Span(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private Attributes attributes_;
+    private UInt32Value childSpanCount_;
+    private Timestamp endTime_;
+    private int kind_;
+    private Links links_;
+    private byte memoizedIsInitialized;
+    private TruncatableString name_;
+    private ByteString parentSpanId_;
+    private Resource resource_;
+    private BoolValue sameProcessAsParentSpan_;
+    private ByteString spanId_;
+    private StackTrace stackTrace_;
+    private Timestamp startTime_;
+    private Status status_;
+    private TimeEvents timeEvents_;
+    private ByteString traceId_;
+    private Tracestate tracestate_;
+
+    private Span(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Span() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.traceId_ = ByteString.EMPTY;
+        this.spanId_ = ByteString.EMPTY;
+        this.parentSpanId_ = ByteString.EMPTY;
+        this.kind_ = 0;
+    }
+
+    private Span(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        UInt32Value.Builder builderM38763toBuilder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            this.traceId_ = codedInputStream.readBytes();
+                        case 18:
+                            this.spanId_ = codedInputStream.readBytes();
+                        case 26:
+                            this.parentSpanId_ = codedInputStream.readBytes();
+                        case 34:
+                            TruncatableString truncatableString = this.name_;
+                            builderM38763toBuilder = truncatableString != null ? truncatableString.m38763toBuilder() : null;
+                            TruncatableString message = codedInputStream.readMessage(TruncatableString.parser(), extensionRegistryLite);
+                            this.name_ = message;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(message);
+                                this.name_ = builderM38763toBuilder.m38770buildPartial();
+                            }
+                        case 42:
+                            Timestamp timestamp = this.startTime_;
+                            builderM38763toBuilder = timestamp != null ? timestamp.toBuilder() : null;
+                            Timestamp message2 = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                            this.startTime_ = message2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(message2);
+                                this.startTime_ = builderM38763toBuilder.buildPartial();
+                            }
+                        case 50:
+                            Timestamp timestamp2 = this.endTime_;
+                            builderM38763toBuilder = timestamp2 != null ? timestamp2.toBuilder() : null;
+                            Timestamp message3 = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                            this.endTime_ = message3;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(message3);
+                                this.endTime_ = builderM38763toBuilder.buildPartial();
+                            }
+                        case 58:
+                            Attributes attributes = this.attributes_;
+                            builderM38763toBuilder = attributes != null ? attributes.m38078toBuilder() : null;
+                            Attributes attributes2 = (Attributes) codedInputStream.readMessage(Attributes.parser(), extensionRegistryLite);
+                            this.attributes_ = attributes2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(attributes2);
+                                this.attributes_ = builderM38763toBuilder.m38085buildPartial();
+                            }
+                        case 66:
+                            StackTrace stackTrace = this.stackTrace_;
+                            builderM38763toBuilder = stackTrace != null ? stackTrace.m38533toBuilder() : null;
+                            StackTrace stackTrace2 = (StackTrace) codedInputStream.readMessage(StackTrace.parser(), extensionRegistryLite);
+                            this.stackTrace_ = stackTrace2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(stackTrace2);
+                                this.stackTrace_ = builderM38763toBuilder.m38540buildPartial();
+                            }
+                        case 74:
+                            TimeEvents timeEvents = this.timeEvents_;
+                            builderM38763toBuilder = timeEvents != null ? timeEvents.m38395toBuilder() : null;
+                            TimeEvents timeEvents2 = (TimeEvents) codedInputStream.readMessage(TimeEvents.parser(), extensionRegistryLite);
+                            this.timeEvents_ = timeEvents2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(timeEvents2);
+                                this.timeEvents_ = builderM38763toBuilder.m38402buildPartial();
+                            }
+                        case 82:
+                            Links links = this.links_;
+                            builderM38763toBuilder = links != null ? links.m38209toBuilder() : null;
+                            Links links2 = (Links) codedInputStream.readMessage(Links.parser(), extensionRegistryLite);
+                            this.links_ = links2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(links2);
+                                this.links_ = builderM38763toBuilder.m38216buildPartial();
+                            }
+                        case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                            Status status = this.status_;
+                            builderM38763toBuilder = status != null ? status.m38671toBuilder() : null;
+                            Status status2 = (Status) codedInputStream.readMessage(Status.parser(), extensionRegistryLite);
+                            this.status_ = status2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(status2);
+                                this.status_ = builderM38763toBuilder.m38678buildPartial();
+                            }
+                        case 98:
+                            BoolValue boolValue = this.sameProcessAsParentSpan_;
+                            builderM38763toBuilder = boolValue != null ? boolValue.toBuilder() : null;
+                            BoolValue message4 = codedInputStream.readMessage(BoolValue.parser(), extensionRegistryLite);
+                            this.sameProcessAsParentSpan_ = message4;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(message4);
+                                this.sameProcessAsParentSpan_ = builderM38763toBuilder.buildPartial();
+                            }
+                        case 106:
+                            UInt32Value uInt32Value = this.childSpanCount_;
+                            builderM38763toBuilder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                            UInt32Value message5 = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.childSpanCount_ = message5;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(message5);
+                                this.childSpanCount_ = builderM38763toBuilder.buildPartial();
+                            }
+                        case 112:
+                            this.kind_ = codedInputStream.readEnum();
+                        case 122:
+                            Tracestate tracestate = this.tracestate_;
+                            builderM38763toBuilder = tracestate != null ? tracestate.m38441toBuilder() : null;
+                            Tracestate tracestate2 = (Tracestate) codedInputStream.readMessage(Tracestate.parser(), extensionRegistryLite);
+                            this.tracestate_ = tracestate2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(tracestate2);
+                                this.tracestate_ = builderM38763toBuilder.m38448buildPartial();
+                            }
+                        case 130:
+                            Resource resource = this.resource_;
+                            builderM38763toBuilder = resource != null ? resource.m37423toBuilder() : null;
+                            Resource resource2 = (Resource) codedInputStream.readMessage(Resource.parser(), extensionRegistryLite);
+                            this.resource_ = resource2;
+                            if (builderM38763toBuilder != null) {
+                                builderM38763toBuilder.mergeFrom(resource2);
+                                this.resource_ = builderM38763toBuilder.m37430buildPartial();
+                            }
+                        default:
+                            if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Span getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Span> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return TraceProto.internal_static_opencensus_proto_trace_v1_Span_descriptor;
+    }
+
+    public static Span parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Span) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Span parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Span) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Span parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Span) PARSER.parseFrom(byteString);
+    }
+
+    public static Span parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Span) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Span parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Span) PARSER.parseFrom(bArr);
+    }
+
+    public static Span parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Span) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Span parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Span parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Span parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Span parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Span parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Span parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m38070toBuilder();
+    }
+
+    public static Builder newBuilder(Span span) {
+        return DEFAULT_INSTANCE.m38070toBuilder().mergeFrom(span);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Span m38065getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public int getKindValue() {
+        return this.kind_;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public ByteString getParentSpanId() {
+        return this.parentSpanId_;
+    }
+
+    public Parser<Span> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public ByteString getSpanId() {
+        return this.spanId_;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public ByteString getTraceId() {
+        return this.traceId_;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasAttributes() {
+        return this.attributes_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasChildSpanCount() {
+        return this.childSpanCount_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasEndTime() {
+        return this.endTime_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasLinks() {
+        return this.links_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasName() {
+        return this.name_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasResource() {
+        return this.resource_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasSameProcessAsParentSpan() {
+        return this.sameProcessAsParentSpan_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasStackTrace() {
+        return this.stackTrace_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasStartTime() {
+        return this.startTime_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasStatus() {
+        return this.status_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasTimeEvents() {
+        return this.timeEvents_ != null;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public boolean hasTracestate() {
+        return this.tracestate_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return TraceProto.internal_static_opencensus_proto_trace_v1_Span_fieldAccessorTable.ensureFieldAccessorsInitialized(Span.class, Builder.class);
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public Tracestate getTracestate() {
+        Tracestate tracestate = this.tracestate_;
+        return tracestate == null ? Tracestate.getDefaultInstance() : tracestate;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public TracestateOrBuilder getTracestateOrBuilder() {
+        return getTracestate();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public TruncatableString getName() {
+        TruncatableString truncatableString = this.name_;
+        return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public TruncatableStringOrBuilder getNameOrBuilder() {
+        return getName();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public SpanKind getKind() {
+        SpanKind spanKindValueOf = SpanKind.valueOf(this.kind_);
+        return spanKindValueOf == null ? SpanKind.UNRECOGNIZED : spanKindValueOf;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public Timestamp getStartTime() {
+        Timestamp timestamp = this.startTime_;
+        return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public TimestampOrBuilder getStartTimeOrBuilder() {
+        return getStartTime();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public Timestamp getEndTime() {
+        Timestamp timestamp = this.endTime_;
+        return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public TimestampOrBuilder getEndTimeOrBuilder() {
+        return getEndTime();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public Attributes getAttributes() {
+        Attributes attributes = this.attributes_;
+        return attributes == null ? Attributes.getDefaultInstance() : attributes;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public AttributesOrBuilder getAttributesOrBuilder() {
+        return getAttributes();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public StackTrace getStackTrace() {
+        StackTrace stackTrace = this.stackTrace_;
+        return stackTrace == null ? StackTrace.getDefaultInstance() : stackTrace;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public StackTraceOrBuilder getStackTraceOrBuilder() {
+        return getStackTrace();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public TimeEvents getTimeEvents() {
+        TimeEvents timeEvents = this.timeEvents_;
+        return timeEvents == null ? TimeEvents.getDefaultInstance() : timeEvents;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public TimeEventsOrBuilder getTimeEventsOrBuilder() {
+        return getTimeEvents();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public Links getLinks() {
+        Links links = this.links_;
+        return links == null ? Links.getDefaultInstance() : links;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public LinksOrBuilder getLinksOrBuilder() {
+        return getLinks();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public Status getStatus() {
+        Status status = this.status_;
+        return status == null ? Status.getDefaultInstance() : status;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public StatusOrBuilder getStatusOrBuilder() {
+        return getStatus();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public Resource getResource() {
+        Resource resource = this.resource_;
+        return resource == null ? Resource.getDefaultInstance() : resource;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public ResourceOrBuilder getResourceOrBuilder() {
+        return getResource();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public BoolValue getSameProcessAsParentSpan() {
+        BoolValue boolValue = this.sameProcessAsParentSpan_;
+        return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public BoolValueOrBuilder getSameProcessAsParentSpanOrBuilder() {
+        return getSameProcessAsParentSpan();
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public UInt32Value getChildSpanCount() {
+        UInt32Value uInt32Value = this.childSpanCount_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+    public UInt32ValueOrBuilder getChildSpanCountOrBuilder() {
+        return getChildSpanCount();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!this.traceId_.isEmpty()) {
+            codedOutputStream.writeBytes(1, this.traceId_);
+        }
+        if (!this.spanId_.isEmpty()) {
+            codedOutputStream.writeBytes(2, this.spanId_);
+        }
+        if (!this.parentSpanId_.isEmpty()) {
+            codedOutputStream.writeBytes(3, this.parentSpanId_);
+        }
+        if (this.name_ != null) {
+            codedOutputStream.writeMessage(4, getName());
+        }
+        if (this.startTime_ != null) {
+            codedOutputStream.writeMessage(5, getStartTime());
+        }
+        if (this.endTime_ != null) {
+            codedOutputStream.writeMessage(6, getEndTime());
+        }
+        if (this.attributes_ != null) {
+            codedOutputStream.writeMessage(7, getAttributes());
+        }
+        if (this.stackTrace_ != null) {
+            codedOutputStream.writeMessage(8, getStackTrace());
+        }
+        if (this.timeEvents_ != null) {
+            codedOutputStream.writeMessage(9, getTimeEvents());
+        }
+        if (this.links_ != null) {
+            codedOutputStream.writeMessage(10, getLinks());
+        }
+        if (this.status_ != null) {
+            codedOutputStream.writeMessage(11, getStatus());
+        }
+        if (this.sameProcessAsParentSpan_ != null) {
+            codedOutputStream.writeMessage(12, getSameProcessAsParentSpan());
+        }
+        if (this.childSpanCount_ != null) {
+            codedOutputStream.writeMessage(13, getChildSpanCount());
+        }
+        if (this.kind_ != SpanKind.SPAN_KIND_UNSPECIFIED.getNumber()) {
+            codedOutputStream.writeEnum(14, this.kind_);
+        }
+        if (this.tracestate_ != null) {
+            codedOutputStream.writeMessage(15, getTracestate());
+        }
+        if (this.resource_ != null) {
+            codedOutputStream.writeMessage(16, getResource());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeBytesSize = !this.traceId_.isEmpty() ? CodedOutputStream.computeBytesSize(1, this.traceId_) : 0;
+        if (!this.spanId_.isEmpty()) {
+            iComputeBytesSize += CodedOutputStream.computeBytesSize(2, this.spanId_);
+        }
+        if (!this.parentSpanId_.isEmpty()) {
+            iComputeBytesSize += CodedOutputStream.computeBytesSize(3, this.parentSpanId_);
+        }
+        if (this.name_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(4, getName());
+        }
+        if (this.startTime_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(5, getStartTime());
+        }
+        if (this.endTime_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(6, getEndTime());
+        }
+        if (this.attributes_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(7, getAttributes());
+        }
+        if (this.stackTrace_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(8, getStackTrace());
+        }
+        if (this.timeEvents_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(9, getTimeEvents());
+        }
+        if (this.links_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(10, getLinks());
+        }
+        if (this.status_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(11, getStatus());
+        }
+        if (this.sameProcessAsParentSpan_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(12, getSameProcessAsParentSpan());
+        }
+        if (this.childSpanCount_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(13, getChildSpanCount());
+        }
+        if (this.kind_ != SpanKind.SPAN_KIND_UNSPECIFIED.getNumber()) {
+            iComputeBytesSize += CodedOutputStream.computeEnumSize(14, this.kind_);
+        }
+        if (this.tracestate_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(15, getTracestate());
+        }
+        if (this.resource_ != null) {
+            iComputeBytesSize += CodedOutputStream.computeMessageSize(16, getResource());
+        }
+        int serializedSize = iComputeBytesSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:108:0x017c  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x01a2  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x01ee  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0098  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0130  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0156  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public boolean equals(java.lang.Object r5) {
+        /*
+            Method dump skipped, instructions count: 533
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.equals(java.lang.Object):boolean");
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getTraceId().hashCode()) * 37) + 2) * 53) + getSpanId().hashCode();
+        if (hasTracestate()) {
+            iHashCode = (((iHashCode * 37) + 15) * 53) + getTracestate().hashCode();
+        }
+        int iHashCode2 = (((iHashCode * 37) + 3) * 53) + getParentSpanId().hashCode();
+        if (hasName()) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getName().hashCode();
+        }
+        int iHashCode3 = (((iHashCode2 * 37) + 14) * 53) + this.kind_;
+        if (hasStartTime()) {
+            iHashCode3 = (((iHashCode3 * 37) + 5) * 53) + getStartTime().hashCode();
+        }
+        if (hasEndTime()) {
+            iHashCode3 = (((iHashCode3 * 37) + 6) * 53) + getEndTime().hashCode();
+        }
+        if (hasAttributes()) {
+            iHashCode3 = (((iHashCode3 * 37) + 7) * 53) + getAttributes().hashCode();
+        }
+        if (hasStackTrace()) {
+            iHashCode3 = (((iHashCode3 * 37) + 8) * 53) + getStackTrace().hashCode();
+        }
+        if (hasTimeEvents()) {
+            iHashCode3 = (((iHashCode3 * 37) + 9) * 53) + getTimeEvents().hashCode();
+        }
+        if (hasLinks()) {
+            iHashCode3 = (((iHashCode3 * 37) + 10) * 53) + getLinks().hashCode();
+        }
+        if (hasStatus()) {
+            iHashCode3 = (((iHashCode3 * 37) + 11) * 53) + getStatus().hashCode();
+        }
+        if (hasResource()) {
+            iHashCode3 = (((iHashCode3 * 37) + 16) * 53) + getResource().hashCode();
+        }
+        if (hasSameProcessAsParentSpan()) {
+            iHashCode3 = (((iHashCode3 * 37) + 12) * 53) + getSameProcessAsParentSpan().hashCode();
+        }
+        if (hasChildSpanCount()) {
+            iHashCode3 = (((iHashCode3 * 37) + 13) * 53) + getChildSpanCount().hashCode();
+        }
+        int iHashCode4 = (iHashCode3 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode4;
+        return iHashCode4;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m38067newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m38070toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum SpanKind implements ProtocolMessageEnum {
+        SPAN_KIND_UNSPECIFIED(0),
+        SERVER(1),
+        CLIENT(2),
+        UNRECOGNIZED(-1);
+
+        public static final int CLIENT_VALUE = 2;
+        public static final int SERVER_VALUE = 1;
+        public static final int SPAN_KIND_UNSPECIFIED_VALUE = 0;
+        private static final Internal.EnumLiteMap<SpanKind> internalValueMap = new Internal.EnumLiteMap<SpanKind>() { // from class: io.opencensus.proto.trace.v1.Span.SpanKind.1
+            public SpanKind findValueByNumber(int i) {
+                return SpanKind.forNumber(i);
+            }
+        };
+        private static final SpanKind[] VALUES = values();
+        private final int value;
+
+        SpanKind(int i) {
+            this.value = i;
+        }
+
+        public static SpanKind forNumber(int i) {
+            if (i == 0) {
+                return SPAN_KIND_UNSPECIFIED;
+            }
+            if (i == 1) {
+                return SERVER;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return CLIENT;
+        }
+
+        public static Internal.EnumLiteMap<SpanKind> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static SpanKind valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) Span.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static SpanKind valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public interface AttributesOrBuilder extends MessageOrBuilder {
+        boolean containsAttributeMap(String str);
+
+        @Deprecated
+        Map<String, AttributeValue> getAttributeMap();
+
+        int getAttributeMapCount();
+
+        Map<String, AttributeValue> getAttributeMapMap();
+
+        AttributeValue getAttributeMapOrDefault(String str, AttributeValue attributeValue);
+
+        AttributeValue getAttributeMapOrThrow(String str);
+
+        int getDroppedAttributesCount();
+    }
+
+    public interface LinkOrBuilder extends MessageOrBuilder {
+        Attributes getAttributes();
+
+        AttributesOrBuilder getAttributesOrBuilder();
+
+        ByteString getSpanId();
+
+        ByteString getTraceId();
+
+        Link.Type getType();
+
+        int getTypeValue();
+
+        boolean hasAttributes();
+    }
+
+    public interface LinksOrBuilder extends MessageOrBuilder {
+        int getDroppedLinksCount();
+
+        Link getLink(int i);
+
+        int getLinkCount();
+
+        List<Link> getLinkList();
+
+        LinkOrBuilder getLinkOrBuilder(int i);
+
+        List<? extends LinkOrBuilder> getLinkOrBuilderList();
+    }
+
+    public interface TimeEventOrBuilder extends MessageOrBuilder {
+        TimeEvent.Annotation getAnnotation();
+
+        TimeEvent.AnnotationOrBuilder getAnnotationOrBuilder();
+
+        TimeEvent.MessageEvent getMessageEvent();
+
+        TimeEvent.MessageEventOrBuilder getMessageEventOrBuilder();
+
+        Timestamp getTime();
+
+        TimestampOrBuilder getTimeOrBuilder();
+
+        TimeEvent.ValueCase getValueCase();
+
+        boolean hasAnnotation();
+
+        boolean hasMessageEvent();
+
+        boolean hasTime();
+    }
+
+    public interface TimeEventsOrBuilder extends MessageOrBuilder {
+        int getDroppedAnnotationsCount();
+
+        int getDroppedMessageEventsCount();
+
+        TimeEvent getTimeEvent(int i);
+
+        int getTimeEventCount();
+
+        List<TimeEvent> getTimeEventList();
+
+        TimeEventOrBuilder getTimeEventOrBuilder(int i);
+
+        List<? extends TimeEventOrBuilder> getTimeEventOrBuilderList();
+    }
+
+    public interface TracestateOrBuilder extends MessageOrBuilder {
+        Tracestate.Entry getEntries(int i);
+
+        int getEntriesCount();
+
+        List<Tracestate.Entry> getEntriesList();
+
+        Tracestate.EntryOrBuilder getEntriesOrBuilder(int i);
+
+        List<? extends Tracestate.EntryOrBuilder> getEntriesOrBuilderList();
+    }
+
+    public static final class Tracestate extends GeneratedMessageV3 implements TracestateOrBuilder {
+        public static final int ENTRIES_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final Tracestate DEFAULT_INSTANCE = new Tracestate();
+        private static final Parser<Tracestate> PARSER = new AbstractParser<Tracestate>() { // from class: io.opencensus.proto.trace.v1.Span.Tracestate.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Tracestate m38443parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Tracestate(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private List<Entry> entries_;
+        private byte memoizedIsInitialized;
+
+        private Tracestate(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Tracestate() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.entries_ = Collections.emptyList();
+        }
+
+        private Tracestate(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (true) {
+                if (z) {
+                    break;
+                }
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag != 10) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                if (!(z2 & true)) {
+                                    this.entries_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.entries_.add(codedInputStream.readMessage(Entry.parser(), extensionRegistryLite));
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.entries_ = Collections.unmodifiableList(this.entries_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Tracestate getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Tracestate> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_descriptor;
+        }
+
+        public static Tracestate parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Tracestate) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Tracestate parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Tracestate) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Tracestate parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Tracestate) PARSER.parseFrom(byteString);
+        }
+
+        public static Tracestate parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Tracestate) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Tracestate parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Tracestate) PARSER.parseFrom(bArr);
+        }
+
+        public static Tracestate parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Tracestate) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Tracestate parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Tracestate parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Tracestate parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Tracestate parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Tracestate parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Tracestate parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38441toBuilder();
+        }
+
+        public static Builder newBuilder(Tracestate tracestate) {
+            return DEFAULT_INSTANCE.m38441toBuilder().mergeFrom(tracestate);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Tracestate m38436getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+        public List<Entry> getEntriesList() {
+            return this.entries_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+        public List<? extends EntryOrBuilder> getEntriesOrBuilderList() {
+            return this.entries_;
+        }
+
+        public Parser<Tracestate> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_fieldAccessorTable.ensureFieldAccessorsInitialized(Tracestate.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+        public int getEntriesCount() {
+            return this.entries_.size();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+        public Entry getEntries(int i) {
+            return this.entries_.get(i);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+        public EntryOrBuilder getEntriesOrBuilder(int i) {
+            return this.entries_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            for (int i = 0; i < this.entries_.size(); i++) {
+                codedOutputStream.writeMessage(1, this.entries_.get(i));
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = 0;
+            for (int i2 = 0; i2 < this.entries_.size(); i2++) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(1, this.entries_.get(i2));
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Tracestate)) {
+                return super.equals(obj);
+            }
+            Tracestate tracestate = (Tracestate) obj;
+            return getEntriesList().equals(tracestate.getEntriesList()) && this.unknownFields.equals(tracestate.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (getEntriesCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getEntriesList().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38438newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38441toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public interface EntryOrBuilder extends MessageOrBuilder {
+            String getKey();
+
+            ByteString getKeyBytes();
+
+            String getValue();
+
+            ByteString getValueBytes();
+        }
+
+        public static final class Entry extends GeneratedMessageV3 implements EntryOrBuilder {
+            public static final int KEY_FIELD_NUMBER = 1;
+            public static final int VALUE_FIELD_NUMBER = 2;
+            private static final long serialVersionUID = 0;
+            private static final Entry DEFAULT_INSTANCE = new Entry();
+            private static final Parser<Entry> PARSER = new AbstractParser<Entry>() { // from class: io.opencensus.proto.trace.v1.Span.Tracestate.Entry.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public Entry m38489parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new Entry(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private volatile Object key_;
+            private byte memoizedIsInitialized;
+            private volatile Object value_;
+
+            private Entry(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private Entry() {
+                this.memoizedIsInitialized = (byte) -1;
+                this.key_ = "";
+                this.value_ = "";
+            }
+
+            private Entry(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                while (!z) {
+                    try {
+                        try {
+                            try {
+                                int tag = codedInputStream.readTag();
+                                if (tag != 0) {
+                                    if (tag == 10) {
+                                        this.key_ = codedInputStream.readStringRequireUtf8();
+                                    } else if (tag != 18) {
+                                        if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                        }
+                                    } else {
+                                        this.value_ = codedInputStream.readStringRequireUtf8();
+                                    }
+                                }
+                                z = true;
+                            } catch (IOException e) {
+                                throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                            }
+                        } catch (InvalidProtocolBufferException e2) {
+                            throw e2.setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static Entry getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<Entry> parser() {
+                return PARSER;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_Entry_descriptor;
+            }
+
+            public static Entry parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (Entry) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static Entry parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Entry) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static Entry parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (Entry) PARSER.parseFrom(byteString);
+            }
+
+            public static Entry parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Entry) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static Entry parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (Entry) PARSER.parseFrom(bArr);
+            }
+
+            public static Entry parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Entry) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static Entry parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static Entry parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static Entry parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static Entry parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static Entry parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static Entry parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m38487toBuilder();
+            }
+
+            public static Builder newBuilder(Entry entry) {
+                return DEFAULT_INSTANCE.m38487toBuilder().mergeFrom(entry);
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Entry m38482getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public Parser<Entry> getParserForType() {
+                return PARSER;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_Entry_fieldAccessorTable.ensureFieldAccessorsInitialized(Entry.class, Builder.class);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+            public String getKey() {
+                Object obj = this.key_;
+                if (obj instanceof String) {
+                    return (String) obj;
+                }
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.key_ = stringUtf8;
+                return stringUtf8;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+            public ByteString getKeyBytes() {
+                Object obj = this.key_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.key_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+            public String getValue() {
+                Object obj = this.value_;
+                if (obj instanceof String) {
+                    return (String) obj;
+                }
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.value_ = stringUtf8;
+                return stringUtf8;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+            public ByteString getValueBytes() {
+                Object obj = this.value_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.value_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                if (!getKeyBytes().isEmpty()) {
+                    GeneratedMessageV3.writeString(codedOutputStream, 1, this.key_);
+                }
+                if (!getValueBytes().isEmpty()) {
+                    GeneratedMessageV3.writeString(codedOutputStream, 2, this.value_);
+                }
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                int iComputeStringSize = !getKeyBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.key_) : 0;
+                if (!getValueBytes().isEmpty()) {
+                    iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.value_);
+                }
+                int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+                this.memoizedSize = serializedSize;
+                return serializedSize;
+            }
+
+            public boolean equals(Object obj) {
+                if (obj == this) {
+                    return true;
+                }
+                if (!(obj instanceof Entry)) {
+                    return super.equals(obj);
+                }
+                Entry entry = (Entry) obj;
+                return getKey().equals(entry.getKey()) && getValue().equals(entry.getValue()) && this.unknownFields.equals(entry.unknownFields);
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getKey().hashCode()) * 37) + 2) * 53) + getValue().hashCode()) * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode;
+                return iHashCode;
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38484newBuilderForType() {
+                return newBuilder();
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38487toBuilder() {
+                if (this == DEFAULT_INSTANCE) {
+                    return new Builder();
+                }
+                return new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements EntryOrBuilder {
+                private Object key_;
+                private Object value_;
+
+                private Builder() {
+                    this.key_ = "";
+                    this.value_ = "";
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    this.key_ = "";
+                    this.value_ = "";
+                    maybeForceBuilderInitialization();
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_Entry_descriptor;
+                }
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_Entry_fieldAccessorTable.ensureFieldAccessorsInitialized(Entry.class, Builder.class);
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = Entry.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38498clear() {
+                    super.clear();
+                    this.key_ = "";
+                    this.value_ = "";
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_Entry_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Entry m38511getDefaultInstanceForType() {
+                    return Entry.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Entry m38492build() throws UninitializedMessageException {
+                    Entry entryM38494buildPartial = m38494buildPartial();
+                    if (entryM38494buildPartial.isInitialized()) {
+                        return entryM38494buildPartial;
+                    }
+                    throw newUninitializedMessageException(entryM38494buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Entry m38494buildPartial() {
+                    Entry entry = new Entry(this);
+                    entry.key_ = this.key_;
+                    entry.value_ = this.value_;
+                    onBuilt();
+                    return entry;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38510clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38522setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38500clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38503clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38524setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38490addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38515mergeFrom(Message message) {
+                    if (message instanceof Entry) {
+                        return mergeFrom((Entry) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(Entry entry) {
+                    if (entry == Entry.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (!entry.getKey().isEmpty()) {
+                        this.key_ = entry.key_;
+                        onChanged();
+                    }
+                    if (!entry.getValue().isEmpty()) {
+                        this.value_ = entry.value_;
+                        onChanged();
+                    }
+                    m38520mergeUnknownFields(entry.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.opencensus.proto.trace.v1.Span.Tracestate.Entry.Builder m38516mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.Tracestate.Entry.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.opencensus.proto.trace.v1.Span$Tracestate$Entry r3 = (io.opencensus.proto.trace.v1.Span.Tracestate.Entry) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.opencensus.proto.trace.v1.Span$Tracestate$Entry r4 = (io.opencensus.proto.trace.v1.Span.Tracestate.Entry) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.Tracestate.Entry.Builder.m38516mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$Tracestate$Entry$Builder");
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+                public String getKey() {
+                    Object obj = this.key_;
+                    if (!(obj instanceof String)) {
+                        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                        this.key_ = stringUtf8;
+                        return stringUtf8;
+                    }
+                    return (String) obj;
+                }
+
+                public Builder setKey(String str) {
+                    str.getClass();
+                    this.key_ = str;
+                    onChanged();
+                    return this;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+                public ByteString getKeyBytes() {
+                    Object obj = this.key_;
+                    if (obj instanceof String) {
+                        ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                        this.key_ = byteStringCopyFromUtf8;
+                        return byteStringCopyFromUtf8;
+                    }
+                    return (ByteString) obj;
+                }
+
+                public Builder setKeyBytes(ByteString byteString) {
+                    byteString.getClass();
+                    Entry.checkByteStringIsUtf8(byteString);
+                    this.key_ = byteString;
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearKey() {
+                    this.key_ = Entry.getDefaultInstance().getKey();
+                    onChanged();
+                    return this;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+                public String getValue() {
+                    Object obj = this.value_;
+                    if (!(obj instanceof String)) {
+                        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                        this.value_ = stringUtf8;
+                        return stringUtf8;
+                    }
+                    return (String) obj;
+                }
+
+                public Builder setValue(String str) {
+                    str.getClass();
+                    this.value_ = str;
+                    onChanged();
+                    return this;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.Tracestate.EntryOrBuilder
+                public ByteString getValueBytes() {
+                    Object obj = this.value_;
+                    if (obj instanceof String) {
+                        ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                        this.value_ = byteStringCopyFromUtf8;
+                        return byteStringCopyFromUtf8;
+                    }
+                    return (ByteString) obj;
+                }
+
+                public Builder setValueBytes(ByteString byteString) {
+                    byteString.getClass();
+                    Entry.checkByteStringIsUtf8(byteString);
+                    this.value_ = byteString;
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearValue() {
+                    this.value_ = Entry.getDefaultInstance().getValue();
+                    onChanged();
+                    return this;
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m38526setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m38520mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TracestateOrBuilder {
+            private int bitField0_;
+            private RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> entriesBuilder_;
+            private List<Entry> entries_;
+
+            private Builder() {
+                this.entries_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.entries_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_fieldAccessorTable.ensureFieldAccessorsInitialized(Tracestate.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (Tracestate.alwaysUseFieldBuilders) {
+                    getEntriesFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38452clear() {
+                super.clear();
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.entries_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Tracestate_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Tracestate m38465getDefaultInstanceForType() {
+                return Tracestate.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Tracestate m38446build() throws UninitializedMessageException {
+                Tracestate tracestateM38448buildPartial = m38448buildPartial();
+                if (tracestateM38448buildPartial.isInitialized()) {
+                    return tracestateM38448buildPartial;
+                }
+                throw newUninitializedMessageException(tracestateM38448buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Tracestate m38448buildPartial() {
+                Tracestate tracestate = new Tracestate(this);
+                int i = this.bitField0_;
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((i & 1) == 1) {
+                        this.entries_ = Collections.unmodifiableList(this.entries_);
+                        this.bitField0_ &= -2;
+                    }
+                    tracestate.entries_ = this.entries_;
+                } else {
+                    tracestate.entries_ = repeatedFieldBuilderV3.build();
+                }
+                onBuilt();
+                return tracestate;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38464clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38476setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38454clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38457clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38478setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38444addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38469mergeFrom(Message message) {
+                if (message instanceof Tracestate) {
+                    return mergeFrom((Tracestate) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Tracestate tracestate) {
+                if (tracestate == Tracestate.getDefaultInstance()) {
+                    return this;
+                }
+                if (this.entriesBuilder_ == null) {
+                    if (!tracestate.entries_.isEmpty()) {
+                        if (this.entries_.isEmpty()) {
+                            this.entries_ = tracestate.entries_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureEntriesIsMutable();
+                            this.entries_.addAll(tracestate.entries_);
+                        }
+                        onChanged();
+                    }
+                } else if (!tracestate.entries_.isEmpty()) {
+                    if (!this.entriesBuilder_.isEmpty()) {
+                        this.entriesBuilder_.addAllMessages(tracestate.entries_);
+                    } else {
+                        this.entriesBuilder_.dispose();
+                        this.entriesBuilder_ = null;
+                        this.entries_ = tracestate.entries_;
+                        this.bitField0_ &= -2;
+                        this.entriesBuilder_ = Tracestate.alwaysUseFieldBuilders ? getEntriesFieldBuilder() : null;
+                    }
+                }
+                m38474mergeUnknownFields(tracestate.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.Span.Tracestate.Builder m38470mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.Tracestate.access$1800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.Span$Tracestate r3 = (io.opencensus.proto.trace.v1.Span.Tracestate) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.Span$Tracestate r4 = (io.opencensus.proto.trace.v1.Span.Tracestate) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.Tracestate.Builder.m38470mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$Tracestate$Builder");
+            }
+
+            private void ensureEntriesIsMutable() {
+                if ((this.bitField0_ & 1) != 1) {
+                    this.entries_ = new ArrayList(this.entries_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+            public List<Entry> getEntriesList() {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.entries_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+            public int getEntriesCount() {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.entries_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+            public Entry getEntries(int i) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.entries_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setEntries(int i, Entry entry) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    entry.getClass();
+                    ensureEntriesIsMutable();
+                    this.entries_.set(i, entry);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, entry);
+                }
+                return this;
+            }
+
+            public Builder setEntries(int i, Entry.Builder builder) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureEntriesIsMutable();
+                    this.entries_.set(i, builder.m38492build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m38492build());
+                }
+                return this;
+            }
+
+            public Builder addEntries(Entry entry) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    entry.getClass();
+                    ensureEntriesIsMutable();
+                    this.entries_.add(entry);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(entry);
+                }
+                return this;
+            }
+
+            public Builder addEntries(int i, Entry entry) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    entry.getClass();
+                    ensureEntriesIsMutable();
+                    this.entries_.add(i, entry);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, entry);
+                }
+                return this;
+            }
+
+            public Builder addEntries(Entry.Builder builder) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureEntriesIsMutable();
+                    this.entries_.add(builder.m38492build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m38492build());
+                }
+                return this;
+            }
+
+            public Builder addEntries(int i, Entry.Builder builder) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureEntriesIsMutable();
+                    this.entries_.add(i, builder.m38492build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m38492build());
+                }
+                return this;
+            }
+
+            public Builder addAllEntries(Iterable<? extends Entry> iterable) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureEntriesIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.entries_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearEntries() {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.entries_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeEntries(int i) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureEntriesIsMutable();
+                    this.entries_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public Entry.Builder getEntriesBuilder(int i) {
+                return getEntriesFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+            public EntryOrBuilder getEntriesOrBuilder(int i) {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.entries_.get(i);
+                }
+                return (EntryOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TracestateOrBuilder
+            public List<? extends EntryOrBuilder> getEntriesOrBuilderList() {
+                RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> repeatedFieldBuilderV3 = this.entriesBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.entries_);
+            }
+
+            public Entry.Builder addEntriesBuilder() {
+                return getEntriesFieldBuilder().addBuilder(Entry.getDefaultInstance());
+            }
+
+            public Entry.Builder addEntriesBuilder(int i) {
+                return getEntriesFieldBuilder().addBuilder(i, Entry.getDefaultInstance());
+            }
+
+            public List<Entry.Builder> getEntriesBuilderList() {
+                return getEntriesFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<Entry, Entry.Builder, EntryOrBuilder> getEntriesFieldBuilder() {
+                if (this.entriesBuilder_ == null) {
+                    this.entriesBuilder_ = new RepeatedFieldBuilderV3<>(this.entries_, (this.bitField0_ & 1) == 1, getParentForChildren(), isClean());
+                    this.entries_ = null;
+                }
+                return this.entriesBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38480setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38474mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Attributes extends GeneratedMessageV3 implements AttributesOrBuilder {
+        public static final int ATTRIBUTE_MAP_FIELD_NUMBER = 1;
+        public static final int DROPPED_ATTRIBUTES_COUNT_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final Attributes DEFAULT_INSTANCE = new Attributes();
+        private static final Parser<Attributes> PARSER = new AbstractParser<Attributes>() { // from class: io.opencensus.proto.trace.v1.Span.Attributes.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Attributes m38080parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Attributes(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private MapField<String, AttributeValue> attributeMap_;
+        private int bitField0_;
+        private int droppedAttributesCount_;
+        private byte memoizedIsInitialized;
+
+        private Attributes(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Attributes() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.droppedAttributesCount_ = 0;
+        }
+
+        private Attributes(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                if (!(z2 & true)) {
+                                    this.attributeMap_ = MapField.newMapField(AttributeMapDefaultEntryHolder.defaultEntry);
+                                    z2 |= true;
+                                }
+                                MapEntry message = codedInputStream.readMessage(AttributeMapDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistryLite);
+                                this.attributeMap_.getMutableMap().put(message.getKey(), message.getValue());
+                            } else if (tag != 16) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                this.droppedAttributesCount_ = codedInputStream.readInt32();
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Attributes getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Attributes> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Attributes_descriptor;
+        }
+
+        public static Attributes parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Attributes) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Attributes parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Attributes) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Attributes parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Attributes) PARSER.parseFrom(byteString);
+        }
+
+        public static Attributes parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Attributes) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Attributes parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Attributes) PARSER.parseFrom(bArr);
+        }
+
+        public static Attributes parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Attributes) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Attributes parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Attributes parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Attributes parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Attributes parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Attributes parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Attributes parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38078toBuilder();
+        }
+
+        public static Builder newBuilder(Attributes attributes) {
+            return DEFAULT_INSTANCE.m38078toBuilder().mergeFrom(attributes);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Attributes m38073getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+        public int getDroppedAttributesCount() {
+            return this.droppedAttributesCount_;
+        }
+
+        public Parser<Attributes> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected MapField internalGetMapField(int i) {
+            if (i == 1) {
+                return internalGetAttributeMap();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Attributes_fieldAccessorTable.ensureFieldAccessorsInitialized(Attributes.class, Builder.class);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public MapField<String, AttributeValue> internalGetAttributeMap() {
+            MapField<String, AttributeValue> mapField = this.attributeMap_;
+            return mapField == null ? MapField.emptyMapField(AttributeMapDefaultEntryHolder.defaultEntry) : mapField;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+        public int getAttributeMapCount() {
+            return internalGetAttributeMap().getMap().size();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+        public boolean containsAttributeMap(String str) {
+            str.getClass();
+            return internalGetAttributeMap().getMap().containsKey(str);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+        @Deprecated
+        public Map<String, AttributeValue> getAttributeMap() {
+            return getAttributeMapMap();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+        public Map<String, AttributeValue> getAttributeMapMap() {
+            return internalGetAttributeMap().getMap();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+        public AttributeValue getAttributeMapOrDefault(String str, AttributeValue attributeValue) {
+            str.getClass();
+            Map map = internalGetAttributeMap().getMap();
+            return map.containsKey(str) ? (AttributeValue) map.get(str) : attributeValue;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+        public AttributeValue getAttributeMapOrThrow(String str) {
+            str.getClass();
+            Map map = internalGetAttributeMap().getMap();
+            if (!map.containsKey(str)) {
+                throw new IllegalArgumentException();
+            }
+            return (AttributeValue) map.get(str);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            GeneratedMessageV3.serializeStringMapTo(codedOutputStream, internalGetAttributeMap(), AttributeMapDefaultEntryHolder.defaultEntry, 1);
+            int i = this.droppedAttributesCount_;
+            if (i != 0) {
+                codedOutputStream.writeInt32(2, i);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeInt32Size = 0;
+            for (Map.Entry entry : internalGetAttributeMap().getMap().entrySet()) {
+                iComputeInt32Size += CodedOutputStream.computeMessageSize(1, AttributeMapDefaultEntryHolder.defaultEntry.newBuilderForType().setKey(entry.getKey()).setValue(entry.getValue()).build());
+            }
+            int i2 = this.droppedAttributesCount_;
+            if (i2 != 0) {
+                iComputeInt32Size += CodedOutputStream.computeInt32Size(2, i2);
+            }
+            int serializedSize = iComputeInt32Size + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Attributes)) {
+                return super.equals(obj);
+            }
+            Attributes attributes = (Attributes) obj;
+            return internalGetAttributeMap().equals(attributes.internalGetAttributeMap()) && getDroppedAttributesCount() == attributes.getDroppedAttributesCount() && this.unknownFields.equals(attributes.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (!internalGetAttributeMap().getMap().isEmpty()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + internalGetAttributeMap().hashCode();
+            }
+            int droppedAttributesCount = (((((iHashCode * 37) + 2) * 53) + getDroppedAttributesCount()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = droppedAttributesCount;
+            return droppedAttributesCount;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38075newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38078toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        private static final class AttributeMapDefaultEntryHolder {
+            static final MapEntry<String, AttributeValue> defaultEntry = MapEntry.newDefaultInstance(TraceProto.internal_static_opencensus_proto_trace_v1_Span_Attributes_AttributeMapEntry_descriptor, WireFormat.FieldType.STRING, "", WireFormat.FieldType.MESSAGE, AttributeValue.getDefaultInstance());
+
+            private AttributeMapDefaultEntryHolder() {
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements AttributesOrBuilder {
+            private MapField<String, AttributeValue> attributeMap_;
+            private int bitField0_;
+            private int droppedAttributesCount_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Attributes_descriptor;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+            public int getDroppedAttributesCount() {
+                return this.droppedAttributesCount_;
+            }
+
+            public Builder setDroppedAttributesCount(int i) {
+                this.droppedAttributesCount_ = i;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected MapField internalGetMapField(int i) {
+                if (i == 1) {
+                    return internalGetAttributeMap();
+                }
+                throw new RuntimeException("Invalid map field number: " + i);
+            }
+
+            protected MapField internalGetMutableMapField(int i) {
+                if (i == 1) {
+                    return internalGetMutableAttributeMap();
+                }
+                throw new RuntimeException("Invalid map field number: " + i);
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Attributes_fieldAccessorTable.ensureFieldAccessorsInitialized(Attributes.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Attributes.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38089clear() {
+                super.clear();
+                internalGetMutableAttributeMap().clear();
+                this.droppedAttributesCount_ = 0;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Attributes_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Attributes m38102getDefaultInstanceForType() {
+                return Attributes.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Attributes m38083build() throws UninitializedMessageException {
+                Attributes attributesM38085buildPartial = m38085buildPartial();
+                if (attributesM38085buildPartial.isInitialized()) {
+                    return attributesM38085buildPartial;
+                }
+                throw newUninitializedMessageException(attributesM38085buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Attributes m38085buildPartial() {
+                Attributes attributes = new Attributes(this);
+                attributes.attributeMap_ = internalGetAttributeMap();
+                attributes.attributeMap_.makeImmutable();
+                attributes.droppedAttributesCount_ = this.droppedAttributesCount_;
+                attributes.bitField0_ = 0;
+                onBuilt();
+                return attributes;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38101clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38113setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38091clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38094clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38115setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38081addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38106mergeFrom(Message message) {
+                if (message instanceof Attributes) {
+                    return mergeFrom((Attributes) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Attributes attributes) {
+                if (attributes == Attributes.getDefaultInstance()) {
+                    return this;
+                }
+                internalGetMutableAttributeMap().mergeFrom(attributes.internalGetAttributeMap());
+                if (attributes.getDroppedAttributesCount() != 0) {
+                    setDroppedAttributesCount(attributes.getDroppedAttributesCount());
+                }
+                m38111mergeUnknownFields(attributes.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.Span.Attributes.Builder m38107mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.Attributes.access$2900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.Span$Attributes r3 = (io.opencensus.proto.trace.v1.Span.Attributes) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.Span$Attributes r4 = (io.opencensus.proto.trace.v1.Span.Attributes) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.Attributes.Builder.m38107mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$Attributes$Builder");
+            }
+
+            private MapField<String, AttributeValue> internalGetAttributeMap() {
+                MapField<String, AttributeValue> mapField = this.attributeMap_;
+                return mapField == null ? MapField.emptyMapField(AttributeMapDefaultEntryHolder.defaultEntry) : mapField;
+            }
+
+            private MapField<String, AttributeValue> internalGetMutableAttributeMap() {
+                onChanged();
+                if (this.attributeMap_ == null) {
+                    this.attributeMap_ = MapField.newMapField(AttributeMapDefaultEntryHolder.defaultEntry);
+                }
+                if (!this.attributeMap_.isMutable()) {
+                    this.attributeMap_ = this.attributeMap_.copy();
+                }
+                return this.attributeMap_;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+            public int getAttributeMapCount() {
+                return internalGetAttributeMap().getMap().size();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+            public boolean containsAttributeMap(String str) {
+                str.getClass();
+                return internalGetAttributeMap().getMap().containsKey(str);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+            @Deprecated
+            public Map<String, AttributeValue> getAttributeMap() {
+                return getAttributeMapMap();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+            public Map<String, AttributeValue> getAttributeMapMap() {
+                return internalGetAttributeMap().getMap();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+            public AttributeValue getAttributeMapOrDefault(String str, AttributeValue attributeValue) {
+                str.getClass();
+                Map map = internalGetAttributeMap().getMap();
+                return map.containsKey(str) ? (AttributeValue) map.get(str) : attributeValue;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.AttributesOrBuilder
+            public AttributeValue getAttributeMapOrThrow(String str) {
+                str.getClass();
+                Map map = internalGetAttributeMap().getMap();
+                if (!map.containsKey(str)) {
+                    throw new IllegalArgumentException();
+                }
+                return (AttributeValue) map.get(str);
+            }
+
+            public Builder clearAttributeMap() {
+                internalGetMutableAttributeMap().getMutableMap().clear();
+                return this;
+            }
+
+            public Builder removeAttributeMap(String str) {
+                str.getClass();
+                internalGetMutableAttributeMap().getMutableMap().remove(str);
+                return this;
+            }
+
+            @Deprecated
+            public Map<String, AttributeValue> getMutableAttributeMap() {
+                return internalGetMutableAttributeMap().getMutableMap();
+            }
+
+            public Builder putAttributeMap(String str, AttributeValue attributeValue) {
+                str.getClass();
+                attributeValue.getClass();
+                internalGetMutableAttributeMap().getMutableMap().put(str, attributeValue);
+                return this;
+            }
+
+            public Builder putAllAttributeMap(Map<String, AttributeValue> map) {
+                internalGetMutableAttributeMap().getMutableMap().putAll(map);
+                return this;
+            }
+
+            public Builder clearDroppedAttributesCount() {
+                this.droppedAttributesCount_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38117setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38111mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class TimeEvent extends GeneratedMessageV3 implements TimeEventOrBuilder {
+        public static final int ANNOTATION_FIELD_NUMBER = 2;
+        public static final int MESSAGE_EVENT_FIELD_NUMBER = 3;
+        public static final int TIME_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final TimeEvent DEFAULT_INSTANCE = new TimeEvent();
+        private static final Parser<TimeEvent> PARSER = new AbstractParser<TimeEvent>() { // from class: io.opencensus.proto.trace.v1.Span.TimeEvent.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public TimeEvent m38258parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new TimeEvent(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private Timestamp time_;
+        private int valueCase_;
+        private Object value_;
+
+        private TimeEvent(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.valueCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private TimeEvent() {
+            this.valueCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private TimeEvent(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            Timestamp.Builder builderM38348toBuilder;
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                Timestamp timestamp = this.time_;
+                                builderM38348toBuilder = timestamp != null ? timestamp.toBuilder() : null;
+                                Timestamp message = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                                this.time_ = message;
+                                if (builderM38348toBuilder != null) {
+                                    builderM38348toBuilder.mergeFrom(message);
+                                    this.time_ = builderM38348toBuilder.buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                builderM38348toBuilder = this.valueCase_ == 2 ? ((Annotation) this.value_).m38264toBuilder() : null;
+                                Annotation message2 = codedInputStream.readMessage(Annotation.parser(), extensionRegistryLite);
+                                this.value_ = message2;
+                                if (builderM38348toBuilder != null) {
+                                    builderM38348toBuilder.mergeFrom(message2);
+                                    this.value_ = builderM38348toBuilder.m38271buildPartial();
+                                }
+                                this.valueCase_ = 2;
+                            } else if (tag != 26) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                builderM38348toBuilder = this.valueCase_ == 3 ? ((MessageEvent) this.value_).m38348toBuilder() : null;
+                                MessageEvent message3 = codedInputStream.readMessage(MessageEvent.parser(), extensionRegistryLite);
+                                this.value_ = message3;
+                                if (builderM38348toBuilder != null) {
+                                    builderM38348toBuilder.mergeFrom(message3);
+                                    this.value_ = builderM38348toBuilder.m38355buildPartial();
+                                }
+                                this.valueCase_ = 3;
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static TimeEvent getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<TimeEvent> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_descriptor;
+        }
+
+        public static TimeEvent parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (TimeEvent) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static TimeEvent parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TimeEvent) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static TimeEvent parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (TimeEvent) PARSER.parseFrom(byteString);
+        }
+
+        public static TimeEvent parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TimeEvent) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static TimeEvent parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (TimeEvent) PARSER.parseFrom(bArr);
+        }
+
+        public static TimeEvent parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TimeEvent) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static TimeEvent parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static TimeEvent parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TimeEvent parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static TimeEvent parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TimeEvent parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static TimeEvent parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38256toBuilder();
+        }
+
+        public static Builder newBuilder(TimeEvent timeEvent) {
+            return DEFAULT_INSTANCE.m38256toBuilder().mergeFrom(timeEvent);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public TimeEvent m38251getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<TimeEvent> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public boolean hasAnnotation() {
+            return this.valueCase_ == 2;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public boolean hasMessageEvent() {
+            return this.valueCase_ == 3;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public boolean hasTime() {
+            return this.time_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_fieldAccessorTable.ensureFieldAccessorsInitialized(TimeEvent.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public ValueCase getValueCase() {
+            return ValueCase.forNumber(this.valueCase_);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public Timestamp getTime() {
+            Timestamp timestamp = this.time_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public TimestampOrBuilder getTimeOrBuilder() {
+            return getTime();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public Annotation getAnnotation() {
+            if (this.valueCase_ == 2) {
+                return (Annotation) this.value_;
+            }
+            return Annotation.getDefaultInstance();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public AnnotationOrBuilder getAnnotationOrBuilder() {
+            if (this.valueCase_ == 2) {
+                return (Annotation) this.value_;
+            }
+            return Annotation.getDefaultInstance();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public MessageEvent getMessageEvent() {
+            if (this.valueCase_ == 3) {
+                return (MessageEvent) this.value_;
+            }
+            return MessageEvent.getDefaultInstance();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+        public MessageEventOrBuilder getMessageEventOrBuilder() {
+            if (this.valueCase_ == 3) {
+                return (MessageEvent) this.value_;
+            }
+            return MessageEvent.getDefaultInstance();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.time_ != null) {
+                codedOutputStream.writeMessage(1, getTime());
+            }
+            if (this.valueCase_ == 2) {
+                codedOutputStream.writeMessage(2, (Annotation) this.value_);
+            }
+            if (this.valueCase_ == 3) {
+                codedOutputStream.writeMessage(3, (MessageEvent) this.value_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.time_ != null ? CodedOutputStream.computeMessageSize(1, getTime()) : 0;
+            if (this.valueCase_ == 2) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (Annotation) this.value_);
+            }
+            if (this.valueCase_ == 3) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (MessageEvent) this.value_);
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0046  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public boolean equals(java.lang.Object r6) {
+            /*
+                r5 = this;
+                r0 = 1
+                if (r6 != r5) goto L4
+                return r0
+            L4:
+                boolean r1 = r6 instanceof io.opencensus.proto.trace.v1.Span.TimeEvent
+                if (r1 != 0) goto Ld
+                boolean r6 = super.equals(r6)
+                return r6
+            Ld:
+                io.opencensus.proto.trace.v1.Span$TimeEvent r6 = (io.opencensus.proto.trace.v1.Span.TimeEvent) r6
+                boolean r1 = r5.hasTime()
+                boolean r2 = r6.hasTime()
+                r3 = 0
+                if (r1 != r2) goto L1c
+                r1 = 1
+                goto L1d
+            L1c:
+                r1 = 0
+            L1d:
+                boolean r2 = r5.hasTime()
+                if (r2 == 0) goto L34
+                if (r1 == 0) goto L46
+                com.google.protobuf.Timestamp r1 = r5.getTime()
+                com.google.protobuf.Timestamp r2 = r6.getTime()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto L46
+                goto L36
+            L34:
+                if (r1 == 0) goto L46
+            L36:
+                io.opencensus.proto.trace.v1.Span$TimeEvent$ValueCase r1 = r5.getValueCase()
+                io.opencensus.proto.trace.v1.Span$TimeEvent$ValueCase r2 = r6.getValueCase()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto L46
+                r1 = 1
+                goto L47
+            L46:
+                r1 = 0
+            L47:
+                if (r1 != 0) goto L4a
+                return r3
+            L4a:
+                int r2 = r5.valueCase_
+                r4 = 2
+                if (r2 == r4) goto L66
+                r4 = 3
+                if (r2 == r4) goto L55
+                if (r1 == 0) goto L81
+                goto L76
+            L55:
+                if (r1 == 0) goto L81
+                io.opencensus.proto.trace.v1.Span$TimeEvent$MessageEvent r1 = r5.getMessageEvent()
+                io.opencensus.proto.trace.v1.Span$TimeEvent$MessageEvent r2 = r6.getMessageEvent()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto L81
+                goto L76
+            L66:
+                if (r1 == 0) goto L81
+                io.opencensus.proto.trace.v1.Span$TimeEvent$Annotation r1 = r5.getAnnotation()
+                io.opencensus.proto.trace.v1.Span$TimeEvent$Annotation r2 = r6.getAnnotation()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto L81
+            L76:
+                com.google.protobuf.UnknownFieldSet r1 = r5.unknownFields
+                com.google.protobuf.UnknownFieldSet r6 = r6.unknownFields
+                boolean r6 = r1.equals(r6)
+                if (r6 == 0) goto L81
+                goto L82
+            L81:
+                r0 = 0
+            L82:
+                return r0
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.TimeEvent.equals(java.lang.Object):boolean");
+        }
+
+        public int hashCode() {
+            int i;
+            int iHashCode;
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode2 = 779 + getDescriptor().hashCode();
+            if (hasTime()) {
+                iHashCode2 = (((iHashCode2 * 37) + 1) * 53) + getTime().hashCode();
+            }
+            int i2 = this.valueCase_;
+            if (i2 == 2) {
+                i = ((iHashCode2 * 37) + 2) * 53;
+                iHashCode = getAnnotation().hashCode();
+            } else {
+                if (i2 == 3) {
+                    i = ((iHashCode2 * 37) + 3) * 53;
+                    iHashCode = getMessageEvent().hashCode();
+                }
+                int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+            }
+            iHashCode2 = i + iHashCode;
+            int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode32;
+            return iHashCode32;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38253newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38256toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public enum ValueCase implements Internal.EnumLite {
+            ANNOTATION(2),
+            MESSAGE_EVENT(3),
+            VALUE_NOT_SET(0);
+
+            private final int value;
+
+            ValueCase(int i) {
+                this.value = i;
+            }
+
+            public static ValueCase forNumber(int i) {
+                if (i == 0) {
+                    return VALUE_NOT_SET;
+                }
+                if (i == 2) {
+                    return ANNOTATION;
+                }
+                if (i != 3) {
+                    return null;
+                }
+                return MESSAGE_EVENT;
+            }
+
+            @Deprecated
+            public static ValueCase valueOf(int i) {
+                return forNumber(i);
+            }
+
+            public int getNumber() {
+                return this.value;
+            }
+        }
+
+        public interface AnnotationOrBuilder extends MessageOrBuilder {
+            Attributes getAttributes();
+
+            AttributesOrBuilder getAttributesOrBuilder();
+
+            TruncatableString getDescription();
+
+            TruncatableStringOrBuilder getDescriptionOrBuilder();
+
+            boolean hasAttributes();
+
+            boolean hasDescription();
+        }
+
+        public interface MessageEventOrBuilder extends MessageOrBuilder {
+            long getCompressedSize();
+
+            long getId();
+
+            MessageEvent.Type getType();
+
+            int getTypeValue();
+
+            long getUncompressedSize();
+        }
+
+        public static final class Annotation extends GeneratedMessageV3 implements AnnotationOrBuilder {
+            public static final int ATTRIBUTES_FIELD_NUMBER = 2;
+            public static final int DESCRIPTION_FIELD_NUMBER = 1;
+            private static final long serialVersionUID = 0;
+            private static final Annotation DEFAULT_INSTANCE = new Annotation();
+            private static final Parser<Annotation> PARSER = new AbstractParser<Annotation>() { // from class: io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public Annotation m38266parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new Annotation(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private Attributes attributes_;
+            private TruncatableString description_;
+            private byte memoizedIsInitialized;
+
+            private Annotation(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private Annotation() {
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private Annotation(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                while (!z) {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    TruncatableString truncatableString = this.description_;
+                                    TruncatableString.Builder builderM38763toBuilder = truncatableString != null ? truncatableString.m38763toBuilder() : null;
+                                    TruncatableString truncatableString2 = (TruncatableString) codedInputStream.readMessage(TruncatableString.parser(), extensionRegistryLite);
+                                    this.description_ = truncatableString2;
+                                    if (builderM38763toBuilder != null) {
+                                        builderM38763toBuilder.mergeFrom(truncatableString2);
+                                        this.description_ = builderM38763toBuilder.m38770buildPartial();
+                                    }
+                                } else if (tag != 18) {
+                                    if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    }
+                                } else {
+                                    Attributes attributes = this.attributes_;
+                                    Attributes.Builder builderM38078toBuilder = attributes != null ? attributes.m38078toBuilder() : null;
+                                    Attributes attributes2 = (Attributes) codedInputStream.readMessage(Attributes.parser(), extensionRegistryLite);
+                                    this.attributes_ = attributes2;
+                                    if (builderM38078toBuilder != null) {
+                                        builderM38078toBuilder.mergeFrom(attributes2);
+                                        this.attributes_ = builderM38078toBuilder.m38085buildPartial();
+                                    }
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        } catch (InvalidProtocolBufferException e2) {
+                            throw e2.setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static Annotation getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<Annotation> parser() {
+                return PARSER;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_Annotation_descriptor;
+            }
+
+            public static Annotation parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (Annotation) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static Annotation parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Annotation) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static Annotation parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (Annotation) PARSER.parseFrom(byteString);
+            }
+
+            public static Annotation parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Annotation) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static Annotation parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (Annotation) PARSER.parseFrom(bArr);
+            }
+
+            public static Annotation parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (Annotation) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static Annotation parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static Annotation parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static Annotation parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static Annotation parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static Annotation parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static Annotation parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m38264toBuilder();
+            }
+
+            public static Builder newBuilder(Annotation annotation) {
+                return DEFAULT_INSTANCE.m38264toBuilder().mergeFrom(annotation);
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Annotation m38259getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public Parser<Annotation> getParserForType() {
+                return PARSER;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+            public boolean hasAttributes() {
+                return this.attributes_ != null;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+            public boolean hasDescription() {
+                return this.description_ != null;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_Annotation_fieldAccessorTable.ensureFieldAccessorsInitialized(Annotation.class, Builder.class);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+            public TruncatableString getDescription() {
+                TruncatableString truncatableString = this.description_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+            public TruncatableStringOrBuilder getDescriptionOrBuilder() {
+                return getDescription();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+            public Attributes getAttributes() {
+                Attributes attributes = this.attributes_;
+                return attributes == null ? Attributes.getDefaultInstance() : attributes;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+            public AttributesOrBuilder getAttributesOrBuilder() {
+                return getAttributes();
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                if (this.description_ != null) {
+                    codedOutputStream.writeMessage(1, getDescription());
+                }
+                if (this.attributes_ != null) {
+                    codedOutputStream.writeMessage(2, getAttributes());
+                }
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                int iComputeMessageSize = this.description_ != null ? CodedOutputStream.computeMessageSize(1, getDescription()) : 0;
+                if (this.attributes_ != null) {
+                    iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getAttributes());
+                }
+                int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+                this.memoizedSize = serializedSize;
+                return serializedSize;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:23:0x0042  */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public boolean equals(java.lang.Object r5) {
+                /*
+                    r4 = this;
+                    r0 = 1
+                    if (r5 != r4) goto L4
+                    return r0
+                L4:
+                    boolean r1 = r5 instanceof io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation
+                    if (r1 != 0) goto Ld
+                    boolean r5 = super.equals(r5)
+                    return r5
+                Ld:
+                    io.opencensus.proto.trace.v1.Span$TimeEvent$Annotation r5 = (io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation) r5
+                    boolean r1 = r4.hasDescription()
+                    boolean r2 = r5.hasDescription()
+                    r3 = 0
+                    if (r1 != r2) goto L1c
+                    r1 = 1
+                    goto L1d
+                L1c:
+                    r1 = 0
+                L1d:
+                    boolean r2 = r4.hasDescription()
+                    if (r2 == 0) goto L34
+                    if (r1 == 0) goto L42
+                    io.opencensus.proto.trace.v1.TruncatableString r1 = r4.getDescription()
+                    io.opencensus.proto.trace.v1.TruncatableString r2 = r5.getDescription()
+                    boolean r1 = r1.equals(r2)
+                    if (r1 == 0) goto L42
+                    goto L36
+                L34:
+                    if (r1 == 0) goto L42
+                L36:
+                    boolean r1 = r4.hasAttributes()
+                    boolean r2 = r5.hasAttributes()
+                    if (r1 != r2) goto L42
+                    r1 = 1
+                    goto L43
+                L42:
+                    r1 = 0
+                L43:
+                    boolean r2 = r4.hasAttributes()
+                    if (r2 == 0) goto L5a
+                    if (r1 == 0) goto L67
+                    io.opencensus.proto.trace.v1.Span$Attributes r1 = r4.getAttributes()
+                    io.opencensus.proto.trace.v1.Span$Attributes r2 = r5.getAttributes()
+                    boolean r1 = r1.equals(r2)
+                    if (r1 == 0) goto L67
+                    goto L5c
+                L5a:
+                    if (r1 == 0) goto L67
+                L5c:
+                    com.google.protobuf.UnknownFieldSet r1 = r4.unknownFields
+                    com.google.protobuf.UnknownFieldSet r5 = r5.unknownFields
+                    boolean r5 = r1.equals(r5)
+                    if (r5 == 0) goto L67
+                    goto L68
+                L67:
+                    r0 = 0
+                L68:
+                    return r0
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation.equals(java.lang.Object):boolean");
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = 779 + getDescriptor().hashCode();
+                if (hasDescription()) {
+                    iHashCode = (((iHashCode * 37) + 1) * 53) + getDescription().hashCode();
+                }
+                if (hasAttributes()) {
+                    iHashCode = (((iHashCode * 37) + 2) * 53) + getAttributes().hashCode();
+                }
+                int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode2;
+                return iHashCode2;
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38261newBuilderForType() {
+                return newBuilder();
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38264toBuilder() {
+                if (this == DEFAULT_INSTANCE) {
+                    return new Builder();
+                }
+                return new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements AnnotationOrBuilder {
+                private SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> attributesBuilder_;
+                private Attributes attributes_;
+                private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> descriptionBuilder_;
+                private TruncatableString description_;
+
+                private Builder() {
+                    this.description_ = null;
+                    this.attributes_ = null;
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    this.description_ = null;
+                    this.attributes_ = null;
+                    maybeForceBuilderInitialization();
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_Annotation_descriptor;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+                public boolean hasAttributes() {
+                    return (this.attributesBuilder_ == null && this.attributes_ == null) ? false : true;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+                public boolean hasDescription() {
+                    return (this.descriptionBuilder_ == null && this.description_ == null) ? false : true;
+                }
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_Annotation_fieldAccessorTable.ensureFieldAccessorsInitialized(Annotation.class, Builder.class);
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = Annotation.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38275clear() {
+                    super.clear();
+                    if (this.descriptionBuilder_ == null) {
+                        this.description_ = null;
+                    } else {
+                        this.description_ = null;
+                        this.descriptionBuilder_ = null;
+                    }
+                    if (this.attributesBuilder_ == null) {
+                        this.attributes_ = null;
+                    } else {
+                        this.attributes_ = null;
+                        this.attributesBuilder_ = null;
+                    }
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_Annotation_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Annotation m38288getDefaultInstanceForType() {
+                    return Annotation.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Annotation m38269build() throws UninitializedMessageException {
+                    Annotation annotationM38271buildPartial = m38271buildPartial();
+                    if (annotationM38271buildPartial.isInitialized()) {
+                        return annotationM38271buildPartial;
+                    }
+                    throw newUninitializedMessageException(annotationM38271buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Annotation m38271buildPartial() {
+                    Annotation annotation = new Annotation(this);
+                    SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.descriptionBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        annotation.description_ = this.description_;
+                    } else {
+                        annotation.description_ = singleFieldBuilderV3.build();
+                    }
+                    SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV32 = this.attributesBuilder_;
+                    if (singleFieldBuilderV32 == null) {
+                        annotation.attributes_ = this.attributes_;
+                    } else {
+                        annotation.attributes_ = singleFieldBuilderV32.build();
+                    }
+                    onBuilt();
+                    return annotation;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38287clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38299setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38277clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38280clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38301setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38267addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38292mergeFrom(Message message) {
+                    if (message instanceof Annotation) {
+                        return mergeFrom((Annotation) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(Annotation annotation) {
+                    if (annotation == Annotation.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (annotation.hasDescription()) {
+                        mergeDescription(annotation.getDescription());
+                    }
+                    if (annotation.hasAttributes()) {
+                        mergeAttributes(annotation.getAttributes());
+                    }
+                    m38297mergeUnknownFields(annotation.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation.Builder m38293mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation.access$3800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.opencensus.proto.trace.v1.Span$TimeEvent$Annotation r3 = (io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.opencensus.proto.trace.v1.Span$TimeEvent$Annotation r4 = (io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.TimeEvent.Annotation.Builder.m38293mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$TimeEvent$Annotation$Builder");
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+                public TruncatableString getDescription() {
+                    SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.descriptionBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return singleFieldBuilderV3.getMessage();
+                    }
+                    TruncatableString truncatableString = this.description_;
+                    return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+                }
+
+                public Builder setDescription(TruncatableString truncatableString) {
+                    SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.descriptionBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        truncatableString.getClass();
+                        this.description_ = truncatableString;
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(truncatableString);
+                    }
+                    return this;
+                }
+
+                public Builder setDescription(TruncatableString.Builder builder) {
+                    SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.descriptionBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        this.description_ = builder.m38768build();
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(builder.m38768build());
+                    }
+                    return this;
+                }
+
+                public Builder mergeDescription(TruncatableString truncatableString) {
+                    SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.descriptionBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        TruncatableString truncatableString2 = this.description_;
+                        if (truncatableString2 != null) {
+                            this.description_ = TruncatableString.newBuilder(truncatableString2).mergeFrom(truncatableString).m38770buildPartial();
+                        } else {
+                            this.description_ = truncatableString;
+                        }
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.mergeFrom(truncatableString);
+                    }
+                    return this;
+                }
+
+                public Builder clearDescription() {
+                    if (this.descriptionBuilder_ == null) {
+                        this.description_ = null;
+                        onChanged();
+                    } else {
+                        this.description_ = null;
+                        this.descriptionBuilder_ = null;
+                    }
+                    return this;
+                }
+
+                public TruncatableString.Builder getDescriptionBuilder() {
+                    onChanged();
+                    return getDescriptionFieldBuilder().getBuilder();
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+                public TruncatableStringOrBuilder getDescriptionOrBuilder() {
+                    SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.descriptionBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return (TruncatableStringOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                    }
+                    TruncatableString truncatableString = this.description_;
+                    return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+                }
+
+                private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> getDescriptionFieldBuilder() {
+                    if (this.descriptionBuilder_ == null) {
+                        this.descriptionBuilder_ = new SingleFieldBuilderV3<>(getDescription(), getParentForChildren(), isClean());
+                        this.description_ = null;
+                    }
+                    return this.descriptionBuilder_;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+                public Attributes getAttributes() {
+                    SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return singleFieldBuilderV3.getMessage();
+                    }
+                    Attributes attributes = this.attributes_;
+                    return attributes == null ? Attributes.getDefaultInstance() : attributes;
+                }
+
+                public Builder setAttributes(Attributes attributes) {
+                    SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        attributes.getClass();
+                        this.attributes_ = attributes;
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(attributes);
+                    }
+                    return this;
+                }
+
+                public Builder setAttributes(Attributes.Builder builder) {
+                    SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        this.attributes_ = builder.m38083build();
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(builder.m38083build());
+                    }
+                    return this;
+                }
+
+                public Builder mergeAttributes(Attributes attributes) {
+                    SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        Attributes attributes2 = this.attributes_;
+                        if (attributes2 != null) {
+                            this.attributes_ = Attributes.newBuilder(attributes2).mergeFrom(attributes).m38085buildPartial();
+                        } else {
+                            this.attributes_ = attributes;
+                        }
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.mergeFrom(attributes);
+                    }
+                    return this;
+                }
+
+                public Builder clearAttributes() {
+                    if (this.attributesBuilder_ == null) {
+                        this.attributes_ = null;
+                        onChanged();
+                    } else {
+                        this.attributes_ = null;
+                        this.attributesBuilder_ = null;
+                    }
+                    return this;
+                }
+
+                public Attributes.Builder getAttributesBuilder() {
+                    onChanged();
+                    return getAttributesFieldBuilder().getBuilder();
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.AnnotationOrBuilder
+                public AttributesOrBuilder getAttributesOrBuilder() {
+                    SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return (AttributesOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                    }
+                    Attributes attributes = this.attributes_;
+                    return attributes == null ? Attributes.getDefaultInstance() : attributes;
+                }
+
+                private SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> getAttributesFieldBuilder() {
+                    if (this.attributesBuilder_ == null) {
+                        this.attributesBuilder_ = new SingleFieldBuilderV3<>(getAttributes(), getParentForChildren(), isClean());
+                        this.attributes_ = null;
+                    }
+                    return this.attributesBuilder_;
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m38303setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m38297mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public static final class MessageEvent extends GeneratedMessageV3 implements MessageEventOrBuilder {
+            public static final int COMPRESSED_SIZE_FIELD_NUMBER = 4;
+            public static final int ID_FIELD_NUMBER = 2;
+            public static final int TYPE_FIELD_NUMBER = 1;
+            public static final int UNCOMPRESSED_SIZE_FIELD_NUMBER = 3;
+            private static final long serialVersionUID = 0;
+            private static final MessageEvent DEFAULT_INSTANCE = new MessageEvent();
+            private static final Parser<MessageEvent> PARSER = new AbstractParser<MessageEvent>() { // from class: io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEvent.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public MessageEvent m38350parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new MessageEvent(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private long compressedSize_;
+            private long id_;
+            private byte memoizedIsInitialized;
+            private int type_;
+            private long uncompressedSize_;
+
+            private MessageEvent(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private MessageEvent() {
+                this.memoizedIsInitialized = (byte) -1;
+                this.type_ = 0;
+                this.id_ = 0L;
+                this.uncompressedSize_ = 0L;
+                this.compressedSize_ = 0L;
+            }
+
+            private MessageEvent(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                while (!z) {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 8) {
+                                    this.type_ = codedInputStream.readEnum();
+                                } else if (tag == 16) {
+                                    this.id_ = codedInputStream.readUInt64();
+                                } else if (tag == 24) {
+                                    this.uncompressedSize_ = codedInputStream.readUInt64();
+                                } else if (tag != 32) {
+                                    if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    }
+                                } else {
+                                    this.compressedSize_ = codedInputStream.readUInt64();
+                                }
+                            }
+                            z = true;
+                        } catch (InvalidProtocolBufferException e) {
+                            throw e.setUnfinishedMessage(this);
+                        } catch (IOException e2) {
+                            throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static MessageEvent getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<MessageEvent> parser() {
+                return PARSER;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_MessageEvent_descriptor;
+            }
+
+            public static MessageEvent parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (MessageEvent) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static MessageEvent parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (MessageEvent) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static MessageEvent parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (MessageEvent) PARSER.parseFrom(byteString);
+            }
+
+            public static MessageEvent parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (MessageEvent) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static MessageEvent parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (MessageEvent) PARSER.parseFrom(bArr);
+            }
+
+            public static MessageEvent parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (MessageEvent) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static MessageEvent parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static MessageEvent parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static MessageEvent parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static MessageEvent parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static MessageEvent parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static MessageEvent parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m38348toBuilder();
+            }
+
+            public static Builder newBuilder(MessageEvent messageEvent) {
+                return DEFAULT_INSTANCE.m38348toBuilder().mergeFrom(messageEvent);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+            public long getCompressedSize() {
+                return this.compressedSize_;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MessageEvent m38343getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+            public long getId() {
+                return this.id_;
+            }
+
+            public Parser<MessageEvent> getParserForType() {
+                return PARSER;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+            public int getTypeValue() {
+                return this.type_;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+            public long getUncompressedSize() {
+                return this.uncompressedSize_;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_MessageEvent_fieldAccessorTable.ensureFieldAccessorsInitialized(MessageEvent.class, Builder.class);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+            public Type getType() {
+                Type typeValueOf = Type.valueOf(this.type_);
+                return typeValueOf == null ? Type.UNRECOGNIZED : typeValueOf;
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                if (this.type_ != Type.TYPE_UNSPECIFIED.getNumber()) {
+                    codedOutputStream.writeEnum(1, this.type_);
+                }
+                long j = this.id_;
+                if (j != 0) {
+                    codedOutputStream.writeUInt64(2, j);
+                }
+                long j2 = this.uncompressedSize_;
+                if (j2 != 0) {
+                    codedOutputStream.writeUInt64(3, j2);
+                }
+                long j3 = this.compressedSize_;
+                if (j3 != 0) {
+                    codedOutputStream.writeUInt64(4, j3);
+                }
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                int iComputeEnumSize = this.type_ != Type.TYPE_UNSPECIFIED.getNumber() ? CodedOutputStream.computeEnumSize(1, this.type_) : 0;
+                long j = this.id_;
+                if (j != 0) {
+                    iComputeEnumSize += CodedOutputStream.computeUInt64Size(2, j);
+                }
+                long j2 = this.uncompressedSize_;
+                if (j2 != 0) {
+                    iComputeEnumSize += CodedOutputStream.computeUInt64Size(3, j2);
+                }
+                long j3 = this.compressedSize_;
+                if (j3 != 0) {
+                    iComputeEnumSize += CodedOutputStream.computeUInt64Size(4, j3);
+                }
+                int serializedSize = iComputeEnumSize + this.unknownFields.getSerializedSize();
+                this.memoizedSize = serializedSize;
+                return serializedSize;
+            }
+
+            public boolean equals(Object obj) {
+                if (obj == this) {
+                    return true;
+                }
+                if (!(obj instanceof MessageEvent)) {
+                    return super.equals(obj);
+                }
+                MessageEvent messageEvent = (MessageEvent) obj;
+                return this.type_ == messageEvent.type_ && getId() == messageEvent.getId() && getUncompressedSize() == messageEvent.getUncompressedSize() && getCompressedSize() == messageEvent.getCompressedSize() && this.unknownFields.equals(messageEvent.unknownFields);
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = ((((((((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + this.type_) * 37) + 2) * 53) + Internal.hashLong(getId())) * 37) + 3) * 53) + Internal.hashLong(getUncompressedSize())) * 37) + 4) * 53) + Internal.hashLong(getCompressedSize())) * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode;
+                return iHashCode;
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38345newBuilderForType() {
+                return newBuilder();
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38348toBuilder() {
+                if (this == DEFAULT_INSTANCE) {
+                    return new Builder();
+                }
+                return new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public enum Type implements ProtocolMessageEnum {
+                TYPE_UNSPECIFIED(0),
+                SENT(1),
+                RECEIVED(2),
+                UNRECOGNIZED(-1);
+
+                public static final int RECEIVED_VALUE = 2;
+                public static final int SENT_VALUE = 1;
+                public static final int TYPE_UNSPECIFIED_VALUE = 0;
+                private static final Internal.EnumLiteMap<Type> internalValueMap = new Internal.EnumLiteMap<Type>() { // from class: io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEvent.Type.1
+                    public Type findValueByNumber(int i) {
+                        return Type.forNumber(i);
+                    }
+                };
+                private static final Type[] VALUES = values();
+                private final int value;
+
+                Type(int i) {
+                    this.value = i;
+                }
+
+                public static Type forNumber(int i) {
+                    if (i == 0) {
+                        return TYPE_UNSPECIFIED;
+                    }
+                    if (i == 1) {
+                        return SENT;
+                    }
+                    if (i != 2) {
+                        return null;
+                    }
+                    return RECEIVED;
+                }
+
+                public static Internal.EnumLiteMap<Type> internalGetValueMap() {
+                    return internalValueMap;
+                }
+
+                @Deprecated
+                public static Type valueOf(int i) {
+                    return forNumber(i);
+                }
+
+                public static final Descriptors.EnumDescriptor getDescriptor() {
+                    return (Descriptors.EnumDescriptor) MessageEvent.getDescriptor().getEnumTypes().get(0);
+                }
+
+                public static Type valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+                    if (enumValueDescriptor.getType() == getDescriptor()) {
+                        return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+                    }
+                    throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+                }
+
+                public final int getNumber() {
+                    if (this != UNRECOGNIZED) {
+                        return this.value;
+                    }
+                    throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+                }
+
+                public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+                    return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+                }
+
+                public final Descriptors.EnumDescriptor getDescriptorForType() {
+                    return getDescriptor();
+                }
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements MessageEventOrBuilder {
+                private long compressedSize_;
+                private long id_;
+                private int type_;
+                private long uncompressedSize_;
+
+                private Builder() {
+                    this.type_ = 0;
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    this.type_ = 0;
+                    maybeForceBuilderInitialization();
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_MessageEvent_descriptor;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+                public long getCompressedSize() {
+                    return this.compressedSize_;
+                }
+
+                public Builder setCompressedSize(long j) {
+                    this.compressedSize_ = j;
+                    onChanged();
+                    return this;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+                public long getId() {
+                    return this.id_;
+                }
+
+                public Builder setId(long j) {
+                    this.id_ = j;
+                    onChanged();
+                    return this;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+                public int getTypeValue() {
+                    return this.type_;
+                }
+
+                public Builder setTypeValue(int i) {
+                    this.type_ = i;
+                    onChanged();
+                    return this;
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+                public long getUncompressedSize() {
+                    return this.uncompressedSize_;
+                }
+
+                public Builder setUncompressedSize(long j) {
+                    this.uncompressedSize_ = j;
+                    onChanged();
+                    return this;
+                }
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_MessageEvent_fieldAccessorTable.ensureFieldAccessorsInitialized(MessageEvent.class, Builder.class);
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = MessageEvent.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38359clear() {
+                    super.clear();
+                    this.type_ = 0;
+                    this.id_ = 0L;
+                    this.uncompressedSize_ = 0L;
+                    this.compressedSize_ = 0L;
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_MessageEvent_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public MessageEvent m38372getDefaultInstanceForType() {
+                    return MessageEvent.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public MessageEvent m38353build() throws UninitializedMessageException {
+                    MessageEvent messageEventM38355buildPartial = m38355buildPartial();
+                    if (messageEventM38355buildPartial.isInitialized()) {
+                        return messageEventM38355buildPartial;
+                    }
+                    throw newUninitializedMessageException(messageEventM38355buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public MessageEvent m38355buildPartial() {
+                    MessageEvent messageEvent = new MessageEvent(this);
+                    messageEvent.type_ = this.type_;
+                    messageEvent.id_ = this.id_;
+                    messageEvent.uncompressedSize_ = this.uncompressedSize_;
+                    messageEvent.compressedSize_ = this.compressedSize_;
+                    onBuilt();
+                    return messageEvent;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38371clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38383setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38361clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38364clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38385setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38351addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m38376mergeFrom(Message message) {
+                    if (message instanceof MessageEvent) {
+                        return mergeFrom((MessageEvent) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(MessageEvent messageEvent) {
+                    if (messageEvent == MessageEvent.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (messageEvent.type_ != 0) {
+                        setTypeValue(messageEvent.getTypeValue());
+                    }
+                    if (messageEvent.getId() != 0) {
+                        setId(messageEvent.getId());
+                    }
+                    if (messageEvent.getUncompressedSize() != 0) {
+                        setUncompressedSize(messageEvent.getUncompressedSize());
+                    }
+                    if (messageEvent.getCompressedSize() != 0) {
+                        setCompressedSize(messageEvent.getCompressedSize());
+                    }
+                    m38381mergeUnknownFields(messageEvent.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEvent.Builder m38377mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEvent.access$4900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.opencensus.proto.trace.v1.Span$TimeEvent$MessageEvent r3 = (io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEvent) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.opencensus.proto.trace.v1.Span$TimeEvent$MessageEvent r4 = (io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEvent) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEvent.Builder.m38377mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$TimeEvent$MessageEvent$Builder");
+                }
+
+                @Override // io.opencensus.proto.trace.v1.Span.TimeEvent.MessageEventOrBuilder
+                public Type getType() {
+                    Type typeValueOf = Type.valueOf(this.type_);
+                    return typeValueOf == null ? Type.UNRECOGNIZED : typeValueOf;
+                }
+
+                public Builder setType(Type type) {
+                    type.getClass();
+                    this.type_ = type.getNumber();
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearType() {
+                    this.type_ = 0;
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearId() {
+                    this.id_ = 0L;
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearUncompressedSize() {
+                    this.uncompressedSize_ = 0L;
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearCompressedSize() {
+                    this.compressedSize_ = 0L;
+                    onChanged();
+                    return this;
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m38387setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m38381mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TimeEventOrBuilder {
+            private SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> annotationBuilder_;
+            private SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> messageEventBuilder_;
+            private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> timeBuilder_;
+            private Timestamp time_;
+            private int valueCase_;
+            private Object value_;
+
+            private Builder() {
+                this.valueCase_ = 0;
+                this.time_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.valueCase_ = 0;
+                this.time_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_descriptor;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public boolean hasAnnotation() {
+                return this.valueCase_ == 2;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public boolean hasMessageEvent() {
+                return this.valueCase_ == 3;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public boolean hasTime() {
+                return (this.timeBuilder_ == null && this.time_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_fieldAccessorTable.ensureFieldAccessorsInitialized(TimeEvent.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = TimeEvent.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38313clear() {
+                super.clear();
+                if (this.timeBuilder_ == null) {
+                    this.time_ = null;
+                } else {
+                    this.time_ = null;
+                    this.timeBuilder_ = null;
+                }
+                this.valueCase_ = 0;
+                this.value_ = null;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvent_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TimeEvent m38326getDefaultInstanceForType() {
+                return TimeEvent.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TimeEvent m38307build() throws UninitializedMessageException {
+                TimeEvent timeEventM38309buildPartial = m38309buildPartial();
+                if (timeEventM38309buildPartial.isInitialized()) {
+                    return timeEventM38309buildPartial;
+                }
+                throw newUninitializedMessageException(timeEventM38309buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TimeEvent m38309buildPartial() {
+                TimeEvent timeEvent = new TimeEvent(this);
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    timeEvent.time_ = this.time_;
+                } else {
+                    timeEvent.time_ = singleFieldBuilderV3.build();
+                }
+                if (this.valueCase_ == 2) {
+                    SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> singleFieldBuilderV32 = this.annotationBuilder_;
+                    if (singleFieldBuilderV32 == null) {
+                        timeEvent.value_ = this.value_;
+                    } else {
+                        timeEvent.value_ = singleFieldBuilderV32.build();
+                    }
+                }
+                if (this.valueCase_ == 3) {
+                    SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> singleFieldBuilderV33 = this.messageEventBuilder_;
+                    if (singleFieldBuilderV33 == null) {
+                        timeEvent.value_ = this.value_;
+                    } else {
+                        timeEvent.value_ = singleFieldBuilderV33.build();
+                    }
+                }
+                timeEvent.valueCase_ = this.valueCase_;
+                onBuilt();
+                return timeEvent;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38325clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38337setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38315clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38318clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38339setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38305addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38330mergeFrom(Message message) {
+                if (message instanceof TimeEvent) {
+                    return mergeFrom((TimeEvent) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(TimeEvent timeEvent) {
+                if (timeEvent == TimeEvent.getDefaultInstance()) {
+                    return this;
+                }
+                if (timeEvent.hasTime()) {
+                    mergeTime(timeEvent.getTime());
+                }
+                int i = AnonymousClass2.$SwitchMap$io$opencensus$proto$trace$v1$Span$TimeEvent$ValueCase[timeEvent.getValueCase().ordinal()];
+                if (i == 1) {
+                    mergeAnnotation(timeEvent.getAnnotation());
+                } else if (i == 2) {
+                    mergeMessageEvent(timeEvent.getMessageEvent());
+                }
+                m38335mergeUnknownFields(timeEvent.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.Span.TimeEvent.Builder m38331mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.TimeEvent.access$5900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.Span$TimeEvent r3 = (io.opencensus.proto.trace.v1.Span.TimeEvent) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.Span$TimeEvent r4 = (io.opencensus.proto.trace.v1.Span.TimeEvent) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.TimeEvent.Builder.m38331mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$TimeEvent$Builder");
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public ValueCase getValueCase() {
+                return ValueCase.forNumber(this.valueCase_);
+            }
+
+            public Builder clearValue() {
+                this.valueCase_ = 0;
+                this.value_ = null;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public Timestamp getTime() {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Timestamp timestamp = this.time_;
+                return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+            }
+
+            public Builder setTime(Timestamp timestamp) {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    timestamp.getClass();
+                    this.time_ = timestamp;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(timestamp);
+                }
+                return this;
+            }
+
+            public Builder setTime(Timestamp.Builder builder) {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.time_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeTime(Timestamp timestamp) {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Timestamp timestamp2 = this.time_;
+                    if (timestamp2 != null) {
+                        this.time_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                    } else {
+                        this.time_ = timestamp;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(timestamp);
+                }
+                return this;
+            }
+
+            public Builder clearTime() {
+                if (this.timeBuilder_ == null) {
+                    this.time_ = null;
+                    onChanged();
+                } else {
+                    this.time_ = null;
+                    this.timeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Timestamp.Builder getTimeBuilder() {
+                onChanged();
+                return getTimeFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public TimestampOrBuilder getTimeOrBuilder() {
+                SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Timestamp timestamp = this.time_;
+                return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+            }
+
+            private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getTimeFieldBuilder() {
+                if (this.timeBuilder_ == null) {
+                    this.timeBuilder_ = new SingleFieldBuilderV3<>(getTime(), getParentForChildren(), isClean());
+                    this.time_ = null;
+                }
+                return this.timeBuilder_;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public Annotation getAnnotation() {
+                SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> singleFieldBuilderV3 = this.annotationBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.valueCase_ == 2) {
+                        return (Annotation) this.value_;
+                    }
+                    return Annotation.getDefaultInstance();
+                }
+                if (this.valueCase_ == 2) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                return Annotation.getDefaultInstance();
+            }
+
+            public Builder setAnnotation(Annotation annotation) {
+                SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> singleFieldBuilderV3 = this.annotationBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    annotation.getClass();
+                    this.value_ = annotation;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(annotation);
+                }
+                this.valueCase_ = 2;
+                return this;
+            }
+
+            public Builder setAnnotation(Annotation.Builder builder) {
+                SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> singleFieldBuilderV3 = this.annotationBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.value_ = builder.m38269build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m38269build());
+                }
+                this.valueCase_ = 2;
+                return this;
+            }
+
+            public Builder mergeAnnotation(Annotation annotation) {
+                SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> singleFieldBuilderV3 = this.annotationBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.valueCase_ != 2 || this.value_ == Annotation.getDefaultInstance()) {
+                        this.value_ = annotation;
+                    } else {
+                        this.value_ = Annotation.newBuilder((Annotation) this.value_).mergeFrom(annotation).m38271buildPartial();
+                    }
+                    onChanged();
+                } else {
+                    if (this.valueCase_ == 2) {
+                        singleFieldBuilderV3.mergeFrom(annotation);
+                    }
+                    this.annotationBuilder_.setMessage(annotation);
+                }
+                this.valueCase_ = 2;
+                return this;
+            }
+
+            public Builder clearAnnotation() {
+                SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> singleFieldBuilderV3 = this.annotationBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    if (this.valueCase_ == 2) {
+                        this.valueCase_ = 0;
+                        this.value_ = null;
+                    }
+                    singleFieldBuilderV3.clear();
+                } else if (this.valueCase_ == 2) {
+                    this.valueCase_ = 0;
+                    this.value_ = null;
+                    onChanged();
+                }
+                return this;
+            }
+
+            public Annotation.Builder getAnnotationBuilder() {
+                return getAnnotationFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public AnnotationOrBuilder getAnnotationOrBuilder() {
+                SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> singleFieldBuilderV3;
+                int i = this.valueCase_;
+                if (i == 2 && (singleFieldBuilderV3 = this.annotationBuilder_) != null) {
+                    return (AnnotationOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                if (i == 2) {
+                    return (Annotation) this.value_;
+                }
+                return Annotation.getDefaultInstance();
+            }
+
+            private SingleFieldBuilderV3<Annotation, Annotation.Builder, AnnotationOrBuilder> getAnnotationFieldBuilder() {
+                if (this.annotationBuilder_ == null) {
+                    if (this.valueCase_ != 2) {
+                        this.value_ = Annotation.getDefaultInstance();
+                    }
+                    this.annotationBuilder_ = new SingleFieldBuilderV3<>((Annotation) this.value_, getParentForChildren(), isClean());
+                    this.value_ = null;
+                }
+                this.valueCase_ = 2;
+                onChanged();
+                return this.annotationBuilder_;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public MessageEvent getMessageEvent() {
+                SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> singleFieldBuilderV3 = this.messageEventBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.valueCase_ == 3) {
+                        return (MessageEvent) this.value_;
+                    }
+                    return MessageEvent.getDefaultInstance();
+                }
+                if (this.valueCase_ == 3) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                return MessageEvent.getDefaultInstance();
+            }
+
+            public Builder setMessageEvent(MessageEvent messageEvent) {
+                SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> singleFieldBuilderV3 = this.messageEventBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    messageEvent.getClass();
+                    this.value_ = messageEvent;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(messageEvent);
+                }
+                this.valueCase_ = 3;
+                return this;
+            }
+
+            public Builder setMessageEvent(MessageEvent.Builder builder) {
+                SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> singleFieldBuilderV3 = this.messageEventBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.value_ = builder.m38353build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m38353build());
+                }
+                this.valueCase_ = 3;
+                return this;
+            }
+
+            public Builder mergeMessageEvent(MessageEvent messageEvent) {
+                SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> singleFieldBuilderV3 = this.messageEventBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.valueCase_ != 3 || this.value_ == MessageEvent.getDefaultInstance()) {
+                        this.value_ = messageEvent;
+                    } else {
+                        this.value_ = MessageEvent.newBuilder((MessageEvent) this.value_).mergeFrom(messageEvent).m38355buildPartial();
+                    }
+                    onChanged();
+                } else {
+                    if (this.valueCase_ == 3) {
+                        singleFieldBuilderV3.mergeFrom(messageEvent);
+                    }
+                    this.messageEventBuilder_.setMessage(messageEvent);
+                }
+                this.valueCase_ = 3;
+                return this;
+            }
+
+            public Builder clearMessageEvent() {
+                SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> singleFieldBuilderV3 = this.messageEventBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    if (this.valueCase_ == 3) {
+                        this.valueCase_ = 0;
+                        this.value_ = null;
+                    }
+                    singleFieldBuilderV3.clear();
+                } else if (this.valueCase_ == 3) {
+                    this.valueCase_ = 0;
+                    this.value_ = null;
+                    onChanged();
+                }
+                return this;
+            }
+
+            public MessageEvent.Builder getMessageEventBuilder() {
+                return getMessageEventFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventOrBuilder
+            public MessageEventOrBuilder getMessageEventOrBuilder() {
+                SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> singleFieldBuilderV3;
+                int i = this.valueCase_;
+                if (i == 3 && (singleFieldBuilderV3 = this.messageEventBuilder_) != null) {
+                    return (MessageEventOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                if (i == 3) {
+                    return (MessageEvent) this.value_;
+                }
+                return MessageEvent.getDefaultInstance();
+            }
+
+            private SingleFieldBuilderV3<MessageEvent, MessageEvent.Builder, MessageEventOrBuilder> getMessageEventFieldBuilder() {
+                if (this.messageEventBuilder_ == null) {
+                    if (this.valueCase_ != 3) {
+                        this.value_ = MessageEvent.getDefaultInstance();
+                    }
+                    this.messageEventBuilder_ = new SingleFieldBuilderV3<>((MessageEvent) this.value_, getParentForChildren(), isClean());
+                    this.value_ = null;
+                }
+                this.valueCase_ = 3;
+                onChanged();
+                return this.messageEventBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38341setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38335mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    /* renamed from: io.opencensus.proto.trace.v1.Span$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$opencensus$proto$trace$v1$Span$TimeEvent$ValueCase;
+
+        static {
+            int[] iArr = new int[TimeEvent.ValueCase.values().length];
+            $SwitchMap$io$opencensus$proto$trace$v1$Span$TimeEvent$ValueCase = iArr;
+            try {
+                iArr[TimeEvent.ValueCase.ANNOTATION.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$opencensus$proto$trace$v1$Span$TimeEvent$ValueCase[TimeEvent.ValueCase.MESSAGE_EVENT.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$opencensus$proto$trace$v1$Span$TimeEvent$ValueCase[TimeEvent.ValueCase.VALUE_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+        }
+    }
+
+    public static final class TimeEvents extends GeneratedMessageV3 implements TimeEventsOrBuilder {
+        public static final int DROPPED_ANNOTATIONS_COUNT_FIELD_NUMBER = 2;
+        public static final int DROPPED_MESSAGE_EVENTS_COUNT_FIELD_NUMBER = 3;
+        public static final int TIME_EVENT_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final TimeEvents DEFAULT_INSTANCE = new TimeEvents();
+        private static final Parser<TimeEvents> PARSER = new AbstractParser<TimeEvents>() { // from class: io.opencensus.proto.trace.v1.Span.TimeEvents.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public TimeEvents m38397parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new TimeEvents(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private int bitField0_;
+        private int droppedAnnotationsCount_;
+        private int droppedMessageEventsCount_;
+        private byte memoizedIsInitialized;
+        private List<TimeEvent> timeEvent_;
+
+        private TimeEvents(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private TimeEvents() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.timeEvent_ = Collections.emptyList();
+            this.droppedAnnotationsCount_ = 0;
+            this.droppedMessageEventsCount_ = 0;
+        }
+
+        private TimeEvents(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (true) {
+                if (z) {
+                    break;
+                }
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    if (!(z2 & true)) {
+                                        this.timeEvent_ = new ArrayList();
+                                        z2 |= true;
+                                    }
+                                    this.timeEvent_.add(codedInputStream.readMessage(TimeEvent.parser(), extensionRegistryLite));
+                                } else if (tag == 16) {
+                                    this.droppedAnnotationsCount_ = codedInputStream.readInt32();
+                                } else if (tag != 24) {
+                                    if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    }
+                                } else {
+                                    this.droppedMessageEventsCount_ = codedInputStream.readInt32();
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.timeEvent_ = Collections.unmodifiableList(this.timeEvent_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static TimeEvents getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<TimeEvents> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvents_descriptor;
+        }
+
+        public static TimeEvents parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (TimeEvents) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static TimeEvents parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TimeEvents) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static TimeEvents parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (TimeEvents) PARSER.parseFrom(byteString);
+        }
+
+        public static TimeEvents parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TimeEvents) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static TimeEvents parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (TimeEvents) PARSER.parseFrom(bArr);
+        }
+
+        public static TimeEvents parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TimeEvents) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static TimeEvents parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static TimeEvents parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TimeEvents parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static TimeEvents parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TimeEvents parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static TimeEvents parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38395toBuilder();
+        }
+
+        public static Builder newBuilder(TimeEvents timeEvents) {
+            return DEFAULT_INSTANCE.m38395toBuilder().mergeFrom(timeEvents);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public TimeEvents m38390getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+        public int getDroppedAnnotationsCount() {
+            return this.droppedAnnotationsCount_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+        public int getDroppedMessageEventsCount() {
+            return this.droppedMessageEventsCount_;
+        }
+
+        public Parser<TimeEvents> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+        public List<TimeEvent> getTimeEventList() {
+            return this.timeEvent_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+        public List<? extends TimeEventOrBuilder> getTimeEventOrBuilderList() {
+            return this.timeEvent_;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvents_fieldAccessorTable.ensureFieldAccessorsInitialized(TimeEvents.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+        public int getTimeEventCount() {
+            return this.timeEvent_.size();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+        public TimeEvent getTimeEvent(int i) {
+            return this.timeEvent_.get(i);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+        public TimeEventOrBuilder getTimeEventOrBuilder(int i) {
+            return this.timeEvent_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            for (int i = 0; i < this.timeEvent_.size(); i++) {
+                codedOutputStream.writeMessage(1, this.timeEvent_.get(i));
+            }
+            int i2 = this.droppedAnnotationsCount_;
+            if (i2 != 0) {
+                codedOutputStream.writeInt32(2, i2);
+            }
+            int i3 = this.droppedMessageEventsCount_;
+            if (i3 != 0) {
+                codedOutputStream.writeInt32(3, i3);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeInt32Size = 0;
+            for (int i2 = 0; i2 < this.timeEvent_.size(); i2++) {
+                iComputeInt32Size += CodedOutputStream.computeMessageSize(1, this.timeEvent_.get(i2));
+            }
+            int i3 = this.droppedAnnotationsCount_;
+            if (i3 != 0) {
+                iComputeInt32Size += CodedOutputStream.computeInt32Size(2, i3);
+            }
+            int i4 = this.droppedMessageEventsCount_;
+            if (i4 != 0) {
+                iComputeInt32Size += CodedOutputStream.computeInt32Size(3, i4);
+            }
+            int serializedSize = iComputeInt32Size + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof TimeEvents)) {
+                return super.equals(obj);
+            }
+            TimeEvents timeEvents = (TimeEvents) obj;
+            return getTimeEventList().equals(timeEvents.getTimeEventList()) && getDroppedAnnotationsCount() == timeEvents.getDroppedAnnotationsCount() && getDroppedMessageEventsCount() == timeEvents.getDroppedMessageEventsCount() && this.unknownFields.equals(timeEvents.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (getTimeEventCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getTimeEventList().hashCode();
+            }
+            int droppedAnnotationsCount = (((((((((iHashCode * 37) + 2) * 53) + getDroppedAnnotationsCount()) * 37) + 3) * 53) + getDroppedMessageEventsCount()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = droppedAnnotationsCount;
+            return droppedAnnotationsCount;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38392newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38395toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TimeEventsOrBuilder {
+            private int bitField0_;
+            private int droppedAnnotationsCount_;
+            private int droppedMessageEventsCount_;
+            private RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> timeEventBuilder_;
+            private List<TimeEvent> timeEvent_;
+
+            private Builder() {
+                this.timeEvent_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.timeEvent_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvents_descriptor;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+            public int getDroppedAnnotationsCount() {
+                return this.droppedAnnotationsCount_;
+            }
+
+            public Builder setDroppedAnnotationsCount(int i) {
+                this.droppedAnnotationsCount_ = i;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+            public int getDroppedMessageEventsCount() {
+                return this.droppedMessageEventsCount_;
+            }
+
+            public Builder setDroppedMessageEventsCount(int i) {
+                this.droppedMessageEventsCount_ = i;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvents_fieldAccessorTable.ensureFieldAccessorsInitialized(TimeEvents.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (TimeEvents.alwaysUseFieldBuilders) {
+                    getTimeEventFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38406clear() {
+                super.clear();
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.timeEvent_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                this.droppedAnnotationsCount_ = 0;
+                this.droppedMessageEventsCount_ = 0;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_TimeEvents_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TimeEvents m38419getDefaultInstanceForType() {
+                return TimeEvents.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TimeEvents m38400build() throws UninitializedMessageException {
+                TimeEvents timeEventsM38402buildPartial = m38402buildPartial();
+                if (timeEventsM38402buildPartial.isInitialized()) {
+                    return timeEventsM38402buildPartial;
+                }
+                throw newUninitializedMessageException(timeEventsM38402buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TimeEvents m38402buildPartial() {
+                TimeEvents timeEvents = new TimeEvents(this);
+                int i = this.bitField0_;
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((i & 1) == 1) {
+                        this.timeEvent_ = Collections.unmodifiableList(this.timeEvent_);
+                        this.bitField0_ &= -2;
+                    }
+                    timeEvents.timeEvent_ = this.timeEvent_;
+                } else {
+                    timeEvents.timeEvent_ = repeatedFieldBuilderV3.build();
+                }
+                timeEvents.droppedAnnotationsCount_ = this.droppedAnnotationsCount_;
+                timeEvents.droppedMessageEventsCount_ = this.droppedMessageEventsCount_;
+                timeEvents.bitField0_ = 0;
+                onBuilt();
+                return timeEvents;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38418clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38430setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38408clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38411clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38432setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38398addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38423mergeFrom(Message message) {
+                if (message instanceof TimeEvents) {
+                    return mergeFrom((TimeEvents) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(TimeEvents timeEvents) {
+                if (timeEvents == TimeEvents.getDefaultInstance()) {
+                    return this;
+                }
+                if (this.timeEventBuilder_ == null) {
+                    if (!timeEvents.timeEvent_.isEmpty()) {
+                        if (this.timeEvent_.isEmpty()) {
+                            this.timeEvent_ = timeEvents.timeEvent_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureTimeEventIsMutable();
+                            this.timeEvent_.addAll(timeEvents.timeEvent_);
+                        }
+                        onChanged();
+                    }
+                } else if (!timeEvents.timeEvent_.isEmpty()) {
+                    if (!this.timeEventBuilder_.isEmpty()) {
+                        this.timeEventBuilder_.addAllMessages(timeEvents.timeEvent_);
+                    } else {
+                        this.timeEventBuilder_.dispose();
+                        this.timeEventBuilder_ = null;
+                        this.timeEvent_ = timeEvents.timeEvent_;
+                        this.bitField0_ &= -2;
+                        this.timeEventBuilder_ = TimeEvents.alwaysUseFieldBuilders ? getTimeEventFieldBuilder() : null;
+                    }
+                }
+                if (timeEvents.getDroppedAnnotationsCount() != 0) {
+                    setDroppedAnnotationsCount(timeEvents.getDroppedAnnotationsCount());
+                }
+                if (timeEvents.getDroppedMessageEventsCount() != 0) {
+                    setDroppedMessageEventsCount(timeEvents.getDroppedMessageEventsCount());
+                }
+                m38428mergeUnknownFields(timeEvents.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.Span.TimeEvents.Builder m38424mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.TimeEvents.access$7100()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.Span$TimeEvents r3 = (io.opencensus.proto.trace.v1.Span.TimeEvents) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.Span$TimeEvents r4 = (io.opencensus.proto.trace.v1.Span.TimeEvents) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.TimeEvents.Builder.m38424mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$TimeEvents$Builder");
+            }
+
+            private void ensureTimeEventIsMutable() {
+                if ((this.bitField0_ & 1) != 1) {
+                    this.timeEvent_ = new ArrayList(this.timeEvent_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+            public List<TimeEvent> getTimeEventList() {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.timeEvent_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+            public int getTimeEventCount() {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.timeEvent_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+            public TimeEvent getTimeEvent(int i) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.timeEvent_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setTimeEvent(int i, TimeEvent timeEvent) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    timeEvent.getClass();
+                    ensureTimeEventIsMutable();
+                    this.timeEvent_.set(i, timeEvent);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, timeEvent);
+                }
+                return this;
+            }
+
+            public Builder setTimeEvent(int i, TimeEvent.Builder builder) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureTimeEventIsMutable();
+                    this.timeEvent_.set(i, builder.m38307build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m38307build());
+                }
+                return this;
+            }
+
+            public Builder addTimeEvent(TimeEvent timeEvent) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    timeEvent.getClass();
+                    ensureTimeEventIsMutable();
+                    this.timeEvent_.add(timeEvent);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(timeEvent);
+                }
+                return this;
+            }
+
+            public Builder addTimeEvent(int i, TimeEvent timeEvent) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    timeEvent.getClass();
+                    ensureTimeEventIsMutable();
+                    this.timeEvent_.add(i, timeEvent);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, timeEvent);
+                }
+                return this;
+            }
+
+            public Builder addTimeEvent(TimeEvent.Builder builder) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureTimeEventIsMutable();
+                    this.timeEvent_.add(builder.m38307build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m38307build());
+                }
+                return this;
+            }
+
+            public Builder addTimeEvent(int i, TimeEvent.Builder builder) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureTimeEventIsMutable();
+                    this.timeEvent_.add(i, builder.m38307build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m38307build());
+                }
+                return this;
+            }
+
+            public Builder addAllTimeEvent(Iterable<? extends TimeEvent> iterable) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureTimeEventIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.timeEvent_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearTimeEvent() {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.timeEvent_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeTimeEvent(int i) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureTimeEventIsMutable();
+                    this.timeEvent_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public TimeEvent.Builder getTimeEventBuilder(int i) {
+                return getTimeEventFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+            public TimeEventOrBuilder getTimeEventOrBuilder(int i) {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.timeEvent_.get(i);
+                }
+                return (TimeEventOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.TimeEventsOrBuilder
+            public List<? extends TimeEventOrBuilder> getTimeEventOrBuilderList() {
+                RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> repeatedFieldBuilderV3 = this.timeEventBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.timeEvent_);
+            }
+
+            public TimeEvent.Builder addTimeEventBuilder() {
+                return getTimeEventFieldBuilder().addBuilder(TimeEvent.getDefaultInstance());
+            }
+
+            public TimeEvent.Builder addTimeEventBuilder(int i) {
+                return getTimeEventFieldBuilder().addBuilder(i, TimeEvent.getDefaultInstance());
+            }
+
+            public List<TimeEvent.Builder> getTimeEventBuilderList() {
+                return getTimeEventFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<TimeEvent, TimeEvent.Builder, TimeEventOrBuilder> getTimeEventFieldBuilder() {
+                if (this.timeEventBuilder_ == null) {
+                    this.timeEventBuilder_ = new RepeatedFieldBuilderV3<>(this.timeEvent_, (this.bitField0_ & 1) == 1, getParentForChildren(), isClean());
+                    this.timeEvent_ = null;
+                }
+                return this.timeEventBuilder_;
+            }
+
+            public Builder clearDroppedAnnotationsCount() {
+                this.droppedAnnotationsCount_ = 0;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearDroppedMessageEventsCount() {
+                this.droppedMessageEventsCount_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38434setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38428mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Link extends GeneratedMessageV3 implements LinkOrBuilder {
+        public static final int ATTRIBUTES_FIELD_NUMBER = 4;
+        public static final int SPAN_ID_FIELD_NUMBER = 2;
+        public static final int TRACE_ID_FIELD_NUMBER = 1;
+        public static final int TYPE_FIELD_NUMBER = 3;
+        private static final Link DEFAULT_INSTANCE = new Link();
+        private static final Parser<Link> PARSER = new AbstractParser<Link>() { // from class: io.opencensus.proto.trace.v1.Span.Link.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Link m38164parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Link(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private Attributes attributes_;
+        private byte memoizedIsInitialized;
+        private ByteString spanId_;
+        private ByteString traceId_;
+        private int type_;
+
+        private Link(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Link() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.traceId_ = ByteString.EMPTY;
+            this.spanId_ = ByteString.EMPTY;
+            this.type_ = 0;
+        }
+
+        private Link(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    this.traceId_ = codedInputStream.readBytes();
+                                } else if (tag == 18) {
+                                    this.spanId_ = codedInputStream.readBytes();
+                                } else if (tag == 24) {
+                                    this.type_ = codedInputStream.readEnum();
+                                } else if (tag != 34) {
+                                    if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    }
+                                } else {
+                                    Attributes attributes = this.attributes_;
+                                    Attributes.Builder builderM38078toBuilder = attributes != null ? attributes.m38078toBuilder() : null;
+                                    Attributes attributes2 = (Attributes) codedInputStream.readMessage(Attributes.parser(), extensionRegistryLite);
+                                    this.attributes_ = attributes2;
+                                    if (builderM38078toBuilder != null) {
+                                        builderM38078toBuilder.mergeFrom(attributes2);
+                                        this.attributes_ = builderM38078toBuilder.m38085buildPartial();
+                                    }
+                                }
+                            }
+                            z = true;
+                        } catch (InvalidProtocolBufferException e) {
+                            throw e.setUnfinishedMessage(this);
+                        }
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Link getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Link> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Link_descriptor;
+        }
+
+        public static Link parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Link) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Link parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Link) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Link parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Link) PARSER.parseFrom(byteString);
+        }
+
+        public static Link parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Link) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Link parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Link) PARSER.parseFrom(bArr);
+        }
+
+        public static Link parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Link) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Link parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Link parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Link parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Link parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Link parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Link parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38162toBuilder();
+        }
+
+        public static Builder newBuilder(Link link) {
+            return DEFAULT_INSTANCE.m38162toBuilder().mergeFrom(link);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Link m38157getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<Link> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+        public ByteString getSpanId() {
+            return this.spanId_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+        public ByteString getTraceId() {
+            return this.traceId_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+        public int getTypeValue() {
+            return this.type_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+        public boolean hasAttributes() {
+            return this.attributes_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Link_fieldAccessorTable.ensureFieldAccessorsInitialized(Link.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+        public Type getType() {
+            Type typeValueOf = Type.valueOf(this.type_);
+            return typeValueOf == null ? Type.UNRECOGNIZED : typeValueOf;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+        public Attributes getAttributes() {
+            Attributes attributes = this.attributes_;
+            return attributes == null ? Attributes.getDefaultInstance() : attributes;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+        public AttributesOrBuilder getAttributesOrBuilder() {
+            return getAttributes();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!this.traceId_.isEmpty()) {
+                codedOutputStream.writeBytes(1, this.traceId_);
+            }
+            if (!this.spanId_.isEmpty()) {
+                codedOutputStream.writeBytes(2, this.spanId_);
+            }
+            if (this.type_ != Type.TYPE_UNSPECIFIED.getNumber()) {
+                codedOutputStream.writeEnum(3, this.type_);
+            }
+            if (this.attributes_ != null) {
+                codedOutputStream.writeMessage(4, getAttributes());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeBytesSize = !this.traceId_.isEmpty() ? CodedOutputStream.computeBytesSize(1, this.traceId_) : 0;
+            if (!this.spanId_.isEmpty()) {
+                iComputeBytesSize += CodedOutputStream.computeBytesSize(2, this.spanId_);
+            }
+            if (this.type_ != Type.TYPE_UNSPECIFIED.getNumber()) {
+                iComputeBytesSize += CodedOutputStream.computeEnumSize(3, this.type_);
+            }
+            if (this.attributes_ != null) {
+                iComputeBytesSize += CodedOutputStream.computeMessageSize(4, getAttributes());
+            }
+            int serializedSize = iComputeBytesSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Link)) {
+                return super.equals(obj);
+            }
+            Link link = (Link) obj;
+            boolean z = getTraceId().equals(link.getTraceId()) && getSpanId().equals(link.getSpanId()) && this.type_ == link.type_ && hasAttributes() == link.hasAttributes();
+            if (!hasAttributes() ? z : !(!z || !getAttributes().equals(link.getAttributes()))) {
+                if (this.unknownFields.equals(link.unknownFields)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getTraceId().hashCode()) * 37) + 2) * 53) + getSpanId().hashCode()) * 37) + 3) * 53) + this.type_;
+            if (hasAttributes()) {
+                iHashCode = (((iHashCode * 37) + 4) * 53) + getAttributes().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38159newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38162toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public enum Type implements ProtocolMessageEnum {
+            TYPE_UNSPECIFIED(0),
+            CHILD_LINKED_SPAN(1),
+            PARENT_LINKED_SPAN(2),
+            UNRECOGNIZED(-1);
+
+            public static final int CHILD_LINKED_SPAN_VALUE = 1;
+            public static final int PARENT_LINKED_SPAN_VALUE = 2;
+            public static final int TYPE_UNSPECIFIED_VALUE = 0;
+            private static final Internal.EnumLiteMap<Type> internalValueMap = new Internal.EnumLiteMap<Type>() { // from class: io.opencensus.proto.trace.v1.Span.Link.Type.1
+                public Type findValueByNumber(int i) {
+                    return Type.forNumber(i);
+                }
+            };
+            private static final Type[] VALUES = values();
+            private final int value;
+
+            Type(int i) {
+                this.value = i;
+            }
+
+            public static Type forNumber(int i) {
+                if (i == 0) {
+                    return TYPE_UNSPECIFIED;
+                }
+                if (i == 1) {
+                    return CHILD_LINKED_SPAN;
+                }
+                if (i != 2) {
+                    return null;
+                }
+                return PARENT_LINKED_SPAN;
+            }
+
+            public static Internal.EnumLiteMap<Type> internalGetValueMap() {
+                return internalValueMap;
+            }
+
+            @Deprecated
+            public static Type valueOf(int i) {
+                return forNumber(i);
+            }
+
+            public static final Descriptors.EnumDescriptor getDescriptor() {
+                return (Descriptors.EnumDescriptor) Link.getDescriptor().getEnumTypes().get(0);
+            }
+
+            public static Type valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+                if (enumValueDescriptor.getType() == getDescriptor()) {
+                    return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+                }
+                throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+            }
+
+            public final int getNumber() {
+                if (this != UNRECOGNIZED) {
+                    return this.value;
+                }
+                throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+            }
+
+            public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+                return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+            }
+
+            public final Descriptors.EnumDescriptor getDescriptorForType() {
+                return getDescriptor();
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LinkOrBuilder {
+            private SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> attributesBuilder_;
+            private Attributes attributes_;
+            private ByteString spanId_;
+            private ByteString traceId_;
+            private int type_;
+
+            private Builder() {
+                this.traceId_ = ByteString.EMPTY;
+                this.spanId_ = ByteString.EMPTY;
+                this.type_ = 0;
+                this.attributes_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.traceId_ = ByteString.EMPTY;
+                this.spanId_ = ByteString.EMPTY;
+                this.type_ = 0;
+                this.attributes_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Link_descriptor;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+            public ByteString getSpanId() {
+                return this.spanId_;
+            }
+
+            public Builder setSpanId(ByteString byteString) {
+                byteString.getClass();
+                this.spanId_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+            public ByteString getTraceId() {
+                return this.traceId_;
+            }
+
+            public Builder setTraceId(ByteString byteString) {
+                byteString.getClass();
+                this.traceId_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+            public int getTypeValue() {
+                return this.type_;
+            }
+
+            public Builder setTypeValue(int i) {
+                this.type_ = i;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+            public boolean hasAttributes() {
+                return (this.attributesBuilder_ == null && this.attributes_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Link_fieldAccessorTable.ensureFieldAccessorsInitialized(Link.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Link.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38173clear() {
+                super.clear();
+                this.traceId_ = ByteString.EMPTY;
+                this.spanId_ = ByteString.EMPTY;
+                this.type_ = 0;
+                if (this.attributesBuilder_ == null) {
+                    this.attributes_ = null;
+                } else {
+                    this.attributes_ = null;
+                    this.attributesBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Link_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Link m38186getDefaultInstanceForType() {
+                return Link.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Link m38167build() throws UninitializedMessageException {
+                Link linkM38169buildPartial = m38169buildPartial();
+                if (linkM38169buildPartial.isInitialized()) {
+                    return linkM38169buildPartial;
+                }
+                throw newUninitializedMessageException(linkM38169buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Link m38169buildPartial() {
+                Link link = new Link(this);
+                link.traceId_ = this.traceId_;
+                link.spanId_ = this.spanId_;
+                link.type_ = this.type_;
+                SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    link.attributes_ = this.attributes_;
+                } else {
+                    link.attributes_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return link;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38185clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38197setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38175clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38178clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38199setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38165addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38190mergeFrom(Message message) {
+                if (message instanceof Link) {
+                    return mergeFrom((Link) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Link link) {
+                if (link == Link.getDefaultInstance()) {
+                    return this;
+                }
+                if (link.getTraceId() != ByteString.EMPTY) {
+                    setTraceId(link.getTraceId());
+                }
+                if (link.getSpanId() != ByteString.EMPTY) {
+                    setSpanId(link.getSpanId());
+                }
+                if (link.type_ != 0) {
+                    setTypeValue(link.getTypeValue());
+                }
+                if (link.hasAttributes()) {
+                    mergeAttributes(link.getAttributes());
+                }
+                m38195mergeUnknownFields(link.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.Span.Link.Builder m38191mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.Link.access$8200()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.Span$Link r3 = (io.opencensus.proto.trace.v1.Span.Link) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.Span$Link r4 = (io.opencensus.proto.trace.v1.Span.Link) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.Link.Builder.m38191mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$Link$Builder");
+            }
+
+            public Builder clearTraceId() {
+                this.traceId_ = Link.getDefaultInstance().getTraceId();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearSpanId() {
+                this.spanId_ = Link.getDefaultInstance().getSpanId();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+            public Type getType() {
+                Type typeValueOf = Type.valueOf(this.type_);
+                return typeValueOf == null ? Type.UNRECOGNIZED : typeValueOf;
+            }
+
+            public Builder setType(Type type) {
+                type.getClass();
+                this.type_ = type.getNumber();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearType() {
+                this.type_ = 0;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+            public Attributes getAttributes() {
+                SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Attributes attributes = this.attributes_;
+                return attributes == null ? Attributes.getDefaultInstance() : attributes;
+            }
+
+            public Builder setAttributes(Attributes attributes) {
+                SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    attributes.getClass();
+                    this.attributes_ = attributes;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(attributes);
+                }
+                return this;
+            }
+
+            public Builder setAttributes(Attributes.Builder builder) {
+                SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.attributes_ = builder.m38083build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m38083build());
+                }
+                return this;
+            }
+
+            public Builder mergeAttributes(Attributes attributes) {
+                SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Attributes attributes2 = this.attributes_;
+                    if (attributes2 != null) {
+                        this.attributes_ = Attributes.newBuilder(attributes2).mergeFrom(attributes).m38085buildPartial();
+                    } else {
+                        this.attributes_ = attributes;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(attributes);
+                }
+                return this;
+            }
+
+            public Builder clearAttributes() {
+                if (this.attributesBuilder_ == null) {
+                    this.attributes_ = null;
+                    onChanged();
+                } else {
+                    this.attributes_ = null;
+                    this.attributesBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Attributes.Builder getAttributesBuilder() {
+                onChanged();
+                return getAttributesFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinkOrBuilder
+            public AttributesOrBuilder getAttributesOrBuilder() {
+                SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (AttributesOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Attributes attributes = this.attributes_;
+                return attributes == null ? Attributes.getDefaultInstance() : attributes;
+            }
+
+            private SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> getAttributesFieldBuilder() {
+                if (this.attributesBuilder_ == null) {
+                    this.attributesBuilder_ = new SingleFieldBuilderV3<>(getAttributes(), getParentForChildren(), isClean());
+                    this.attributes_ = null;
+                }
+                return this.attributesBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38201setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38195mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Links extends GeneratedMessageV3 implements LinksOrBuilder {
+        public static final int DROPPED_LINKS_COUNT_FIELD_NUMBER = 2;
+        public static final int LINK_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final Links DEFAULT_INSTANCE = new Links();
+        private static final Parser<Links> PARSER = new AbstractParser<Links>() { // from class: io.opencensus.proto.trace.v1.Span.Links.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Links m38211parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Links(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private int bitField0_;
+        private int droppedLinksCount_;
+        private List<Link> link_;
+        private byte memoizedIsInitialized;
+
+        private Links(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Links() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.link_ = Collections.emptyList();
+            this.droppedLinksCount_ = 0;
+        }
+
+        private Links(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (true) {
+                if (z) {
+                    break;
+                }
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                if (!(z2 & true)) {
+                                    this.link_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.link_.add(codedInputStream.readMessage(Link.parser(), extensionRegistryLite));
+                            } else if (tag != 16) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                this.droppedLinksCount_ = codedInputStream.readInt32();
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.link_ = Collections.unmodifiableList(this.link_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Links getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Links> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Links_descriptor;
+        }
+
+        public static Links parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Links) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Links parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Links) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Links parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Links) PARSER.parseFrom(byteString);
+        }
+
+        public static Links parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Links) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Links parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Links) PARSER.parseFrom(bArr);
+        }
+
+        public static Links parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Links) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Links parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Links parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Links parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Links parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Links parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Links parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38209toBuilder();
+        }
+
+        public static Builder newBuilder(Links links) {
+            return DEFAULT_INSTANCE.m38209toBuilder().mergeFrom(links);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Links m38204getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+        public int getDroppedLinksCount() {
+            return this.droppedLinksCount_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+        public List<Link> getLinkList() {
+            return this.link_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+        public List<? extends LinkOrBuilder> getLinkOrBuilderList() {
+            return this.link_;
+        }
+
+        public Parser<Links> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Links_fieldAccessorTable.ensureFieldAccessorsInitialized(Links.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+        public int getLinkCount() {
+            return this.link_.size();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+        public Link getLink(int i) {
+            return this.link_.get(i);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+        public LinkOrBuilder getLinkOrBuilder(int i) {
+            return this.link_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            for (int i = 0; i < this.link_.size(); i++) {
+                codedOutputStream.writeMessage(1, this.link_.get(i));
+            }
+            int i2 = this.droppedLinksCount_;
+            if (i2 != 0) {
+                codedOutputStream.writeInt32(2, i2);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeInt32Size = 0;
+            for (int i2 = 0; i2 < this.link_.size(); i2++) {
+                iComputeInt32Size += CodedOutputStream.computeMessageSize(1, this.link_.get(i2));
+            }
+            int i3 = this.droppedLinksCount_;
+            if (i3 != 0) {
+                iComputeInt32Size += CodedOutputStream.computeInt32Size(2, i3);
+            }
+            int serializedSize = iComputeInt32Size + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Links)) {
+                return super.equals(obj);
+            }
+            Links links = (Links) obj;
+            return getLinkList().equals(links.getLinkList()) && getDroppedLinksCount() == links.getDroppedLinksCount() && this.unknownFields.equals(links.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (getLinkCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getLinkList().hashCode();
+            }
+            int droppedLinksCount = (((((iHashCode * 37) + 2) * 53) + getDroppedLinksCount()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = droppedLinksCount;
+            return droppedLinksCount;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38206newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38209toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LinksOrBuilder {
+            private int bitField0_;
+            private int droppedLinksCount_;
+            private RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> linkBuilder_;
+            private List<Link> link_;
+
+            private Builder() {
+                this.link_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.link_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Links_descriptor;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+            public int getDroppedLinksCount() {
+                return this.droppedLinksCount_;
+            }
+
+            public Builder setDroppedLinksCount(int i) {
+                this.droppedLinksCount_ = i;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Links_fieldAccessorTable.ensureFieldAccessorsInitialized(Links.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (Links.alwaysUseFieldBuilders) {
+                    getLinkFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38220clear() {
+                super.clear();
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.link_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                this.droppedLinksCount_ = 0;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_Span_Links_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Links m38233getDefaultInstanceForType() {
+                return Links.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Links m38214build() throws UninitializedMessageException {
+                Links linksM38216buildPartial = m38216buildPartial();
+                if (linksM38216buildPartial.isInitialized()) {
+                    return linksM38216buildPartial;
+                }
+                throw newUninitializedMessageException(linksM38216buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Links m38216buildPartial() {
+                Links links = new Links(this);
+                int i = this.bitField0_;
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((i & 1) == 1) {
+                        this.link_ = Collections.unmodifiableList(this.link_);
+                        this.bitField0_ &= -2;
+                    }
+                    links.link_ = this.link_;
+                } else {
+                    links.link_ = repeatedFieldBuilderV3.build();
+                }
+                links.droppedLinksCount_ = this.droppedLinksCount_;
+                links.bitField0_ = 0;
+                onBuilt();
+                return links;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38232clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38244setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38222clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38225clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38246setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38212addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38237mergeFrom(Message message) {
+                if (message instanceof Links) {
+                    return mergeFrom((Links) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Links links) {
+                if (links == Links.getDefaultInstance()) {
+                    return this;
+                }
+                if (this.linkBuilder_ == null) {
+                    if (!links.link_.isEmpty()) {
+                        if (this.link_.isEmpty()) {
+                            this.link_ = links.link_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureLinkIsMutable();
+                            this.link_.addAll(links.link_);
+                        }
+                        onChanged();
+                    }
+                } else if (!links.link_.isEmpty()) {
+                    if (!this.linkBuilder_.isEmpty()) {
+                        this.linkBuilder_.addAllMessages(links.link_);
+                    } else {
+                        this.linkBuilder_.dispose();
+                        this.linkBuilder_ = null;
+                        this.link_ = links.link_;
+                        this.bitField0_ &= -2;
+                        this.linkBuilder_ = Links.alwaysUseFieldBuilders ? getLinkFieldBuilder() : null;
+                    }
+                }
+                if (links.getDroppedLinksCount() != 0) {
+                    setDroppedLinksCount(links.getDroppedLinksCount());
+                }
+                m38242mergeUnknownFields(links.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.Span.Links.Builder m38238mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.Links.access$9300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.Span$Links r3 = (io.opencensus.proto.trace.v1.Span.Links) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.Span$Links r4 = (io.opencensus.proto.trace.v1.Span.Links) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.Links.Builder.m38238mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$Links$Builder");
+            }
+
+            private void ensureLinkIsMutable() {
+                if ((this.bitField0_ & 1) != 1) {
+                    this.link_ = new ArrayList(this.link_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+            public List<Link> getLinkList() {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.link_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+            public int getLinkCount() {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.link_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+            public Link getLink(int i) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.link_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setLink(int i, Link link) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    link.getClass();
+                    ensureLinkIsMutable();
+                    this.link_.set(i, link);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, link);
+                }
+                return this;
+            }
+
+            public Builder setLink(int i, Link.Builder builder) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureLinkIsMutable();
+                    this.link_.set(i, builder.m38167build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m38167build());
+                }
+                return this;
+            }
+
+            public Builder addLink(Link link) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    link.getClass();
+                    ensureLinkIsMutable();
+                    this.link_.add(link);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(link);
+                }
+                return this;
+            }
+
+            public Builder addLink(int i, Link link) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    link.getClass();
+                    ensureLinkIsMutable();
+                    this.link_.add(i, link);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, link);
+                }
+                return this;
+            }
+
+            public Builder addLink(Link.Builder builder) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureLinkIsMutable();
+                    this.link_.add(builder.m38167build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m38167build());
+                }
+                return this;
+            }
+
+            public Builder addLink(int i, Link.Builder builder) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureLinkIsMutable();
+                    this.link_.add(i, builder.m38167build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m38167build());
+                }
+                return this;
+            }
+
+            public Builder addAllLink(Iterable<? extends Link> iterable) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureLinkIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.link_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearLink() {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.link_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeLink(int i) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureLinkIsMutable();
+                    this.link_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public Link.Builder getLinkBuilder(int i) {
+                return getLinkFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+            public LinkOrBuilder getLinkOrBuilder(int i) {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.link_.get(i);
+                }
+                return (LinkOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.Span.LinksOrBuilder
+            public List<? extends LinkOrBuilder> getLinkOrBuilderList() {
+                RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> repeatedFieldBuilderV3 = this.linkBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.link_);
+            }
+
+            public Link.Builder addLinkBuilder() {
+                return getLinkFieldBuilder().addBuilder(Link.getDefaultInstance());
+            }
+
+            public Link.Builder addLinkBuilder(int i) {
+                return getLinkFieldBuilder().addBuilder(i, Link.getDefaultInstance());
+            }
+
+            public List<Link.Builder> getLinkBuilderList() {
+                return getLinkFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<Link, Link.Builder, LinkOrBuilder> getLinkFieldBuilder() {
+                if (this.linkBuilder_ == null) {
+                    this.linkBuilder_ = new RepeatedFieldBuilderV3<>(this.link_, (this.bitField0_ & 1) == 1, getParentForChildren(), isClean());
+                    this.link_ = null;
+                }
+                return this.linkBuilder_;
+            }
+
+            public Builder clearDroppedLinksCount() {
+                this.droppedLinksCount_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38248setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38242mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements SpanOrBuilder {
+        private SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> attributesBuilder_;
+        private Attributes attributes_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> childSpanCountBuilder_;
+        private UInt32Value childSpanCount_;
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> endTimeBuilder_;
+        private Timestamp endTime_;
+        private int kind_;
+        private SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> linksBuilder_;
+        private Links links_;
+        private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> nameBuilder_;
+        private TruncatableString name_;
+        private ByteString parentSpanId_;
+        private SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> resourceBuilder_;
+        private Resource resource_;
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> sameProcessAsParentSpanBuilder_;
+        private BoolValue sameProcessAsParentSpan_;
+        private ByteString spanId_;
+        private SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> stackTraceBuilder_;
+        private StackTrace stackTrace_;
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> startTimeBuilder_;
+        private Timestamp startTime_;
+        private SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> statusBuilder_;
+        private Status status_;
+        private SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> timeEventsBuilder_;
+        private TimeEvents timeEvents_;
+        private ByteString traceId_;
+        private SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> tracestateBuilder_;
+        private Tracestate tracestate_;
+
+        private Builder() {
+            this.traceId_ = ByteString.EMPTY;
+            this.spanId_ = ByteString.EMPTY;
+            this.tracestate_ = null;
+            this.parentSpanId_ = ByteString.EMPTY;
+            this.name_ = null;
+            this.kind_ = 0;
+            this.startTime_ = null;
+            this.endTime_ = null;
+            this.attributes_ = null;
+            this.stackTrace_ = null;
+            this.timeEvents_ = null;
+            this.links_ = null;
+            this.status_ = null;
+            this.resource_ = null;
+            this.sameProcessAsParentSpan_ = null;
+            this.childSpanCount_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.traceId_ = ByteString.EMPTY;
+            this.spanId_ = ByteString.EMPTY;
+            this.tracestate_ = null;
+            this.parentSpanId_ = ByteString.EMPTY;
+            this.name_ = null;
+            this.kind_ = 0;
+            this.startTime_ = null;
+            this.endTime_ = null;
+            this.attributes_ = null;
+            this.stackTrace_ = null;
+            this.timeEvents_ = null;
+            this.links_ = null;
+            this.status_ = null;
+            this.resource_ = null;
+            this.sameProcessAsParentSpan_ = null;
+            this.childSpanCount_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_descriptor;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public int getKindValue() {
+            return this.kind_;
+        }
+
+        public Builder setKindValue(int i) {
+            this.kind_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public ByteString getParentSpanId() {
+            return this.parentSpanId_;
+        }
+
+        public Builder setParentSpanId(ByteString byteString) {
+            byteString.getClass();
+            this.parentSpanId_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public ByteString getSpanId() {
+            return this.spanId_;
+        }
+
+        public Builder setSpanId(ByteString byteString) {
+            byteString.getClass();
+            this.spanId_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public ByteString getTraceId() {
+            return this.traceId_;
+        }
+
+        public Builder setTraceId(ByteString byteString) {
+            byteString.getClass();
+            this.traceId_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasAttributes() {
+            return (this.attributesBuilder_ == null && this.attributes_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasChildSpanCount() {
+            return (this.childSpanCountBuilder_ == null && this.childSpanCount_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasEndTime() {
+            return (this.endTimeBuilder_ == null && this.endTime_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasLinks() {
+            return (this.linksBuilder_ == null && this.links_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasName() {
+            return (this.nameBuilder_ == null && this.name_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasResource() {
+            return (this.resourceBuilder_ == null && this.resource_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasSameProcessAsParentSpan() {
+            return (this.sameProcessAsParentSpanBuilder_ == null && this.sameProcessAsParentSpan_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasStackTrace() {
+            return (this.stackTraceBuilder_ == null && this.stackTrace_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasStartTime() {
+            return (this.startTimeBuilder_ == null && this.startTime_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasStatus() {
+            return (this.statusBuilder_ == null && this.status_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasTimeEvents() {
+            return (this.timeEventsBuilder_ == null && this.timeEvents_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public boolean hasTracestate() {
+            return (this.tracestateBuilder_ == null && this.tracestate_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_fieldAccessorTable.ensureFieldAccessorsInitialized(Span.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = Span.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38127clear() {
+            super.clear();
+            this.traceId_ = ByteString.EMPTY;
+            this.spanId_ = ByteString.EMPTY;
+            if (this.tracestateBuilder_ == null) {
+                this.tracestate_ = null;
+            } else {
+                this.tracestate_ = null;
+                this.tracestateBuilder_ = null;
+            }
+            this.parentSpanId_ = ByteString.EMPTY;
+            if (this.nameBuilder_ == null) {
+                this.name_ = null;
+            } else {
+                this.name_ = null;
+                this.nameBuilder_ = null;
+            }
+            this.kind_ = 0;
+            if (this.startTimeBuilder_ == null) {
+                this.startTime_ = null;
+            } else {
+                this.startTime_ = null;
+                this.startTimeBuilder_ = null;
+            }
+            if (this.endTimeBuilder_ == null) {
+                this.endTime_ = null;
+            } else {
+                this.endTime_ = null;
+                this.endTimeBuilder_ = null;
+            }
+            if (this.attributesBuilder_ == null) {
+                this.attributes_ = null;
+            } else {
+                this.attributes_ = null;
+                this.attributesBuilder_ = null;
+            }
+            if (this.stackTraceBuilder_ == null) {
+                this.stackTrace_ = null;
+            } else {
+                this.stackTrace_ = null;
+                this.stackTraceBuilder_ = null;
+            }
+            if (this.timeEventsBuilder_ == null) {
+                this.timeEvents_ = null;
+            } else {
+                this.timeEvents_ = null;
+                this.timeEventsBuilder_ = null;
+            }
+            if (this.linksBuilder_ == null) {
+                this.links_ = null;
+            } else {
+                this.links_ = null;
+                this.linksBuilder_ = null;
+            }
+            if (this.statusBuilder_ == null) {
+                this.status_ = null;
+            } else {
+                this.status_ = null;
+                this.statusBuilder_ = null;
+            }
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            if (this.sameProcessAsParentSpanBuilder_ == null) {
+                this.sameProcessAsParentSpan_ = null;
+            } else {
+                this.sameProcessAsParentSpan_ = null;
+                this.sameProcessAsParentSpanBuilder_ = null;
+            }
+            if (this.childSpanCountBuilder_ == null) {
+                this.childSpanCount_ = null;
+            } else {
+                this.childSpanCount_ = null;
+                this.childSpanCountBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_Span_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Span m38140getDefaultInstanceForType() {
+            return Span.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Span m38121build() throws UninitializedMessageException {
+            Span spanM38123buildPartial = m38123buildPartial();
+            if (spanM38123buildPartial.isInitialized()) {
+                return spanM38123buildPartial;
+            }
+            throw newUninitializedMessageException(spanM38123buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Span m38123buildPartial() {
+            Span span = new Span(this);
+            span.traceId_ = this.traceId_;
+            span.spanId_ = this.spanId_;
+            SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> singleFieldBuilderV3 = this.tracestateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                span.tracestate_ = this.tracestate_;
+            } else {
+                span.tracestate_ = singleFieldBuilderV3.build();
+            }
+            span.parentSpanId_ = this.parentSpanId_;
+            SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV32 = this.nameBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                span.name_ = this.name_;
+            } else {
+                span.name_ = singleFieldBuilderV32.build();
+            }
+            span.kind_ = this.kind_;
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV33 = this.startTimeBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                span.startTime_ = this.startTime_;
+            } else {
+                span.startTime_ = singleFieldBuilderV33.build();
+            }
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV34 = this.endTimeBuilder_;
+            if (singleFieldBuilderV34 == null) {
+                span.endTime_ = this.endTime_;
+            } else {
+                span.endTime_ = singleFieldBuilderV34.build();
+            }
+            SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV35 = this.attributesBuilder_;
+            if (singleFieldBuilderV35 == null) {
+                span.attributes_ = this.attributes_;
+            } else {
+                span.attributes_ = singleFieldBuilderV35.build();
+            }
+            SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> singleFieldBuilderV36 = this.stackTraceBuilder_;
+            if (singleFieldBuilderV36 == null) {
+                span.stackTrace_ = this.stackTrace_;
+            } else {
+                span.stackTrace_ = singleFieldBuilderV36.build();
+            }
+            SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> singleFieldBuilderV37 = this.timeEventsBuilder_;
+            if (singleFieldBuilderV37 == null) {
+                span.timeEvents_ = this.timeEvents_;
+            } else {
+                span.timeEvents_ = singleFieldBuilderV37.build();
+            }
+            SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> singleFieldBuilderV38 = this.linksBuilder_;
+            if (singleFieldBuilderV38 == null) {
+                span.links_ = this.links_;
+            } else {
+                span.links_ = singleFieldBuilderV38.build();
+            }
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV39 = this.statusBuilder_;
+            if (singleFieldBuilderV39 == null) {
+                span.status_ = this.status_;
+            } else {
+                span.status_ = singleFieldBuilderV39.build();
+            }
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV310 = this.resourceBuilder_;
+            if (singleFieldBuilderV310 == null) {
+                span.resource_ = this.resource_;
+            } else {
+                span.resource_ = singleFieldBuilderV310.build();
+            }
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV311 = this.sameProcessAsParentSpanBuilder_;
+            if (singleFieldBuilderV311 == null) {
+                span.sameProcessAsParentSpan_ = this.sameProcessAsParentSpan_;
+            } else {
+                span.sameProcessAsParentSpan_ = singleFieldBuilderV311.build();
+            }
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV312 = this.childSpanCountBuilder_;
+            if (singleFieldBuilderV312 == null) {
+                span.childSpanCount_ = this.childSpanCount_;
+            } else {
+                span.childSpanCount_ = singleFieldBuilderV312.build();
+            }
+            onBuilt();
+            return span;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38139clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38151setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38129clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38132clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38153setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38119addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38144mergeFrom(Message message) {
+            if (message instanceof Span) {
+                return mergeFrom((Span) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Span span) {
+            if (span == Span.getDefaultInstance()) {
+                return this;
+            }
+            if (span.getTraceId() != ByteString.EMPTY) {
+                setTraceId(span.getTraceId());
+            }
+            if (span.getSpanId() != ByteString.EMPTY) {
+                setSpanId(span.getSpanId());
+            }
+            if (span.hasTracestate()) {
+                mergeTracestate(span.getTracestate());
+            }
+            if (span.getParentSpanId() != ByteString.EMPTY) {
+                setParentSpanId(span.getParentSpanId());
+            }
+            if (span.hasName()) {
+                mergeName(span.getName());
+            }
+            if (span.kind_ != 0) {
+                setKindValue(span.getKindValue());
+            }
+            if (span.hasStartTime()) {
+                mergeStartTime(span.getStartTime());
+            }
+            if (span.hasEndTime()) {
+                mergeEndTime(span.getEndTime());
+            }
+            if (span.hasAttributes()) {
+                mergeAttributes(span.getAttributes());
+            }
+            if (span.hasStackTrace()) {
+                mergeStackTrace(span.getStackTrace());
+            }
+            if (span.hasTimeEvents()) {
+                mergeTimeEvents(span.getTimeEvents());
+            }
+            if (span.hasLinks()) {
+                mergeLinks(span.getLinks());
+            }
+            if (span.hasStatus()) {
+                mergeStatus(span.getStatus());
+            }
+            if (span.hasResource()) {
+                mergeResource(span.getResource());
+            }
+            if (span.hasSameProcessAsParentSpan()) {
+                mergeSameProcessAsParentSpan(span.getSameProcessAsParentSpan());
+            }
+            if (span.hasChildSpanCount()) {
+                mergeChildSpanCount(span.getChildSpanCount());
+            }
+            m38149mergeUnknownFields(span.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.trace.v1.Span.Builder m38145mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.Span.access$11600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.trace.v1.Span r3 = (io.opencensus.proto.trace.v1.Span) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.trace.v1.Span r4 = (io.opencensus.proto.trace.v1.Span) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.Span.Builder.m38145mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.Span$Builder");
+        }
+
+        public Builder clearTraceId() {
+            this.traceId_ = Span.getDefaultInstance().getTraceId();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSpanId() {
+            this.spanId_ = Span.getDefaultInstance().getSpanId();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public Tracestate getTracestate() {
+            SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> singleFieldBuilderV3 = this.tracestateBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Tracestate tracestate = this.tracestate_;
+            return tracestate == null ? Tracestate.getDefaultInstance() : tracestate;
+        }
+
+        public Builder setTracestate(Tracestate tracestate) {
+            SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> singleFieldBuilderV3 = this.tracestateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                tracestate.getClass();
+                this.tracestate_ = tracestate;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(tracestate);
+            }
+            return this;
+        }
+
+        public Builder setTracestate(Tracestate.Builder builder) {
+            SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> singleFieldBuilderV3 = this.tracestateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.tracestate_ = builder.m38446build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38446build());
+            }
+            return this;
+        }
+
+        public Builder mergeTracestate(Tracestate tracestate) {
+            SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> singleFieldBuilderV3 = this.tracestateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Tracestate tracestate2 = this.tracestate_;
+                if (tracestate2 != null) {
+                    this.tracestate_ = Tracestate.newBuilder(tracestate2).mergeFrom(tracestate).m38448buildPartial();
+                } else {
+                    this.tracestate_ = tracestate;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(tracestate);
+            }
+            return this;
+        }
+
+        public Builder clearTracestate() {
+            if (this.tracestateBuilder_ == null) {
+                this.tracestate_ = null;
+                onChanged();
+            } else {
+                this.tracestate_ = null;
+                this.tracestateBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Tracestate.Builder getTracestateBuilder() {
+            onChanged();
+            return getTracestateFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public TracestateOrBuilder getTracestateOrBuilder() {
+            SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> singleFieldBuilderV3 = this.tracestateBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TracestateOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Tracestate tracestate = this.tracestate_;
+            return tracestate == null ? Tracestate.getDefaultInstance() : tracestate;
+        }
+
+        private SingleFieldBuilderV3<Tracestate, Tracestate.Builder, TracestateOrBuilder> getTracestateFieldBuilder() {
+            if (this.tracestateBuilder_ == null) {
+                this.tracestateBuilder_ = new SingleFieldBuilderV3<>(getTracestate(), getParentForChildren(), isClean());
+                this.tracestate_ = null;
+            }
+            return this.tracestateBuilder_;
+        }
+
+        public Builder clearParentSpanId() {
+            this.parentSpanId_ = Span.getDefaultInstance().getParentSpanId();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public TruncatableString getName() {
+            SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.nameBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TruncatableString truncatableString = this.name_;
+            return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+        }
+
+        public Builder setName(TruncatableString truncatableString) {
+            SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.nameBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                truncatableString.getClass();
+                this.name_ = truncatableString;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(truncatableString);
+            }
+            return this;
+        }
+
+        public Builder setName(TruncatableString.Builder builder) {
+            SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.nameBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.name_ = builder.m38768build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38768build());
+            }
+            return this;
+        }
+
+        public Builder mergeName(TruncatableString truncatableString) {
+            SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.nameBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TruncatableString truncatableString2 = this.name_;
+                if (truncatableString2 != null) {
+                    this.name_ = TruncatableString.newBuilder(truncatableString2).mergeFrom(truncatableString).m38770buildPartial();
+                } else {
+                    this.name_ = truncatableString;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(truncatableString);
+            }
+            return this;
+        }
+
+        public Builder clearName() {
+            if (this.nameBuilder_ == null) {
+                this.name_ = null;
+                onChanged();
+            } else {
+                this.name_ = null;
+                this.nameBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TruncatableString.Builder getNameBuilder() {
+            onChanged();
+            return getNameFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public TruncatableStringOrBuilder getNameOrBuilder() {
+            SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.nameBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TruncatableStringOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TruncatableString truncatableString = this.name_;
+            return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+        }
+
+        private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> getNameFieldBuilder() {
+            if (this.nameBuilder_ == null) {
+                this.nameBuilder_ = new SingleFieldBuilderV3<>(getName(), getParentForChildren(), isClean());
+                this.name_ = null;
+            }
+            return this.nameBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public SpanKind getKind() {
+            SpanKind spanKindValueOf = SpanKind.valueOf(this.kind_);
+            return spanKindValueOf == null ? SpanKind.UNRECOGNIZED : spanKindValueOf;
+        }
+
+        public Builder setKind(SpanKind spanKind) {
+            spanKind.getClass();
+            this.kind_ = spanKind.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearKind() {
+            this.kind_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public Timestamp getStartTime() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.startTimeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Timestamp timestamp = this.startTime_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        public Builder setStartTime(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.startTimeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timestamp.getClass();
+                this.startTime_ = timestamp;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timestamp);
+            }
+            return this;
+        }
+
+        public Builder setStartTime(Timestamp.Builder builder) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.startTimeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.startTime_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeStartTime(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.startTimeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Timestamp timestamp2 = this.startTime_;
+                if (timestamp2 != null) {
+                    this.startTime_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                } else {
+                    this.startTime_ = timestamp;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timestamp);
+            }
+            return this;
+        }
+
+        public Builder clearStartTime() {
+            if (this.startTimeBuilder_ == null) {
+                this.startTime_ = null;
+                onChanged();
+            } else {
+                this.startTime_ = null;
+                this.startTimeBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Timestamp.Builder getStartTimeBuilder() {
+            onChanged();
+            return getStartTimeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public TimestampOrBuilder getStartTimeOrBuilder() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.startTimeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Timestamp timestamp = this.startTime_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getStartTimeFieldBuilder() {
+            if (this.startTimeBuilder_ == null) {
+                this.startTimeBuilder_ = new SingleFieldBuilderV3<>(getStartTime(), getParentForChildren(), isClean());
+                this.startTime_ = null;
+            }
+            return this.startTimeBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public Timestamp getEndTime() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.endTimeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Timestamp timestamp = this.endTime_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        public Builder setEndTime(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.endTimeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timestamp.getClass();
+                this.endTime_ = timestamp;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timestamp);
+            }
+            return this;
+        }
+
+        public Builder setEndTime(Timestamp.Builder builder) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.endTimeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.endTime_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeEndTime(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.endTimeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Timestamp timestamp2 = this.endTime_;
+                if (timestamp2 != null) {
+                    this.endTime_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                } else {
+                    this.endTime_ = timestamp;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timestamp);
+            }
+            return this;
+        }
+
+        public Builder clearEndTime() {
+            if (this.endTimeBuilder_ == null) {
+                this.endTime_ = null;
+                onChanged();
+            } else {
+                this.endTime_ = null;
+                this.endTimeBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Timestamp.Builder getEndTimeBuilder() {
+            onChanged();
+            return getEndTimeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public TimestampOrBuilder getEndTimeOrBuilder() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.endTimeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Timestamp timestamp = this.endTime_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getEndTimeFieldBuilder() {
+            if (this.endTimeBuilder_ == null) {
+                this.endTimeBuilder_ = new SingleFieldBuilderV3<>(getEndTime(), getParentForChildren(), isClean());
+                this.endTime_ = null;
+            }
+            return this.endTimeBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public Attributes getAttributes() {
+            SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Attributes attributes = this.attributes_;
+            return attributes == null ? Attributes.getDefaultInstance() : attributes;
+        }
+
+        public Builder setAttributes(Attributes attributes) {
+            SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                attributes.getClass();
+                this.attributes_ = attributes;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(attributes);
+            }
+            return this;
+        }
+
+        public Builder setAttributes(Attributes.Builder builder) {
+            SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.attributes_ = builder.m38083build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38083build());
+            }
+            return this;
+        }
+
+        public Builder mergeAttributes(Attributes attributes) {
+            SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Attributes attributes2 = this.attributes_;
+                if (attributes2 != null) {
+                    this.attributes_ = Attributes.newBuilder(attributes2).mergeFrom(attributes).m38085buildPartial();
+                } else {
+                    this.attributes_ = attributes;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(attributes);
+            }
+            return this;
+        }
+
+        public Builder clearAttributes() {
+            if (this.attributesBuilder_ == null) {
+                this.attributes_ = null;
+                onChanged();
+            } else {
+                this.attributes_ = null;
+                this.attributesBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Attributes.Builder getAttributesBuilder() {
+            onChanged();
+            return getAttributesFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public AttributesOrBuilder getAttributesOrBuilder() {
+            SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> singleFieldBuilderV3 = this.attributesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (AttributesOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Attributes attributes = this.attributes_;
+            return attributes == null ? Attributes.getDefaultInstance() : attributes;
+        }
+
+        private SingleFieldBuilderV3<Attributes, Attributes.Builder, AttributesOrBuilder> getAttributesFieldBuilder() {
+            if (this.attributesBuilder_ == null) {
+                this.attributesBuilder_ = new SingleFieldBuilderV3<>(getAttributes(), getParentForChildren(), isClean());
+                this.attributes_ = null;
+            }
+            return this.attributesBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public StackTrace getStackTrace() {
+            SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> singleFieldBuilderV3 = this.stackTraceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            StackTrace stackTrace = this.stackTrace_;
+            return stackTrace == null ? StackTrace.getDefaultInstance() : stackTrace;
+        }
+
+        public Builder setStackTrace(StackTrace stackTrace) {
+            SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> singleFieldBuilderV3 = this.stackTraceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                stackTrace.getClass();
+                this.stackTrace_ = stackTrace;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(stackTrace);
+            }
+            return this;
+        }
+
+        public Builder setStackTrace(StackTrace.Builder builder) {
+            SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> singleFieldBuilderV3 = this.stackTraceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.stackTrace_ = builder.m38538build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38538build());
+            }
+            return this;
+        }
+
+        public Builder mergeStackTrace(StackTrace stackTrace) {
+            SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> singleFieldBuilderV3 = this.stackTraceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                StackTrace stackTrace2 = this.stackTrace_;
+                if (stackTrace2 != null) {
+                    this.stackTrace_ = StackTrace.newBuilder(stackTrace2).mergeFrom(stackTrace).m38540buildPartial();
+                } else {
+                    this.stackTrace_ = stackTrace;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(stackTrace);
+            }
+            return this;
+        }
+
+        public Builder clearStackTrace() {
+            if (this.stackTraceBuilder_ == null) {
+                this.stackTrace_ = null;
+                onChanged();
+            } else {
+                this.stackTrace_ = null;
+                this.stackTraceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public StackTrace.Builder getStackTraceBuilder() {
+            onChanged();
+            return getStackTraceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public StackTraceOrBuilder getStackTraceOrBuilder() {
+            SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> singleFieldBuilderV3 = this.stackTraceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (StackTraceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            StackTrace stackTrace = this.stackTrace_;
+            return stackTrace == null ? StackTrace.getDefaultInstance() : stackTrace;
+        }
+
+        private SingleFieldBuilderV3<StackTrace, StackTrace.Builder, StackTraceOrBuilder> getStackTraceFieldBuilder() {
+            if (this.stackTraceBuilder_ == null) {
+                this.stackTraceBuilder_ = new SingleFieldBuilderV3<>(getStackTrace(), getParentForChildren(), isClean());
+                this.stackTrace_ = null;
+            }
+            return this.stackTraceBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public TimeEvents getTimeEvents() {
+            SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> singleFieldBuilderV3 = this.timeEventsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TimeEvents timeEvents = this.timeEvents_;
+            return timeEvents == null ? TimeEvents.getDefaultInstance() : timeEvents;
+        }
+
+        public Builder setTimeEvents(TimeEvents timeEvents) {
+            SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> singleFieldBuilderV3 = this.timeEventsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timeEvents.getClass();
+                this.timeEvents_ = timeEvents;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timeEvents);
+            }
+            return this;
+        }
+
+        public Builder setTimeEvents(TimeEvents.Builder builder) {
+            SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> singleFieldBuilderV3 = this.timeEventsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.timeEvents_ = builder.m38400build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38400build());
+            }
+            return this;
+        }
+
+        public Builder mergeTimeEvents(TimeEvents timeEvents) {
+            SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> singleFieldBuilderV3 = this.timeEventsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TimeEvents timeEvents2 = this.timeEvents_;
+                if (timeEvents2 != null) {
+                    this.timeEvents_ = TimeEvents.newBuilder(timeEvents2).mergeFrom(timeEvents).m38402buildPartial();
+                } else {
+                    this.timeEvents_ = timeEvents;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timeEvents);
+            }
+            return this;
+        }
+
+        public Builder clearTimeEvents() {
+            if (this.timeEventsBuilder_ == null) {
+                this.timeEvents_ = null;
+                onChanged();
+            } else {
+                this.timeEvents_ = null;
+                this.timeEventsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TimeEvents.Builder getTimeEventsBuilder() {
+            onChanged();
+            return getTimeEventsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public TimeEventsOrBuilder getTimeEventsOrBuilder() {
+            SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> singleFieldBuilderV3 = this.timeEventsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TimeEventsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TimeEvents timeEvents = this.timeEvents_;
+            return timeEvents == null ? TimeEvents.getDefaultInstance() : timeEvents;
+        }
+
+        private SingleFieldBuilderV3<TimeEvents, TimeEvents.Builder, TimeEventsOrBuilder> getTimeEventsFieldBuilder() {
+            if (this.timeEventsBuilder_ == null) {
+                this.timeEventsBuilder_ = new SingleFieldBuilderV3<>(getTimeEvents(), getParentForChildren(), isClean());
+                this.timeEvents_ = null;
+            }
+            return this.timeEventsBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public Links getLinks() {
+            SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> singleFieldBuilderV3 = this.linksBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Links links = this.links_;
+            return links == null ? Links.getDefaultInstance() : links;
+        }
+
+        public Builder setLinks(Links links) {
+            SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> singleFieldBuilderV3 = this.linksBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                links.getClass();
+                this.links_ = links;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(links);
+            }
+            return this;
+        }
+
+        public Builder setLinks(Links.Builder builder) {
+            SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> singleFieldBuilderV3 = this.linksBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.links_ = builder.m38214build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38214build());
+            }
+            return this;
+        }
+
+        public Builder mergeLinks(Links links) {
+            SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> singleFieldBuilderV3 = this.linksBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Links links2 = this.links_;
+                if (links2 != null) {
+                    this.links_ = Links.newBuilder(links2).mergeFrom(links).m38216buildPartial();
+                } else {
+                    this.links_ = links;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(links);
+            }
+            return this;
+        }
+
+        public Builder clearLinks() {
+            if (this.linksBuilder_ == null) {
+                this.links_ = null;
+                onChanged();
+            } else {
+                this.links_ = null;
+                this.linksBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Links.Builder getLinksBuilder() {
+            onChanged();
+            return getLinksFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public LinksOrBuilder getLinksOrBuilder() {
+            SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> singleFieldBuilderV3 = this.linksBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (LinksOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Links links = this.links_;
+            return links == null ? Links.getDefaultInstance() : links;
+        }
+
+        private SingleFieldBuilderV3<Links, Links.Builder, LinksOrBuilder> getLinksFieldBuilder() {
+            if (this.linksBuilder_ == null) {
+                this.linksBuilder_ = new SingleFieldBuilderV3<>(getLinks(), getParentForChildren(), isClean());
+                this.links_ = null;
+            }
+            return this.linksBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public Status getStatus() {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.statusBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Status status = this.status_;
+            return status == null ? Status.getDefaultInstance() : status;
+        }
+
+        public Builder setStatus(Status status) {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.statusBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                status.getClass();
+                this.status_ = status;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(status);
+            }
+            return this;
+        }
+
+        public Builder setStatus(Status.Builder builder) {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.statusBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.status_ = builder.m38676build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38676build());
+            }
+            return this;
+        }
+
+        public Builder mergeStatus(Status status) {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.statusBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Status status2 = this.status_;
+                if (status2 != null) {
+                    this.status_ = Status.newBuilder(status2).mergeFrom(status).m38678buildPartial();
+                } else {
+                    this.status_ = status;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(status);
+            }
+            return this;
+        }
+
+        public Builder clearStatus() {
+            if (this.statusBuilder_ == null) {
+                this.status_ = null;
+                onChanged();
+            } else {
+                this.status_ = null;
+                this.statusBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Status.Builder getStatusBuilder() {
+            onChanged();
+            return getStatusFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public StatusOrBuilder getStatusOrBuilder() {
+            SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> singleFieldBuilderV3 = this.statusBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (StatusOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Status status = this.status_;
+            return status == null ? Status.getDefaultInstance() : status;
+        }
+
+        private SingleFieldBuilderV3<Status, Status.Builder, StatusOrBuilder> getStatusFieldBuilder() {
+            if (this.statusBuilder_ == null) {
+                this.statusBuilder_ = new SingleFieldBuilderV3<>(getStatus(), getParentForChildren(), isClean());
+                this.status_ = null;
+            }
+            return this.statusBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public Resource getResource() {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Resource resource = this.resource_;
+            return resource == null ? Resource.getDefaultInstance() : resource;
+        }
+
+        public Builder setResource(Resource resource) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                resource.getClass();
+                this.resource_ = resource;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(resource);
+            }
+            return this;
+        }
+
+        public Builder setResource(Resource.Builder builder) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.resource_ = builder.m37428build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m37428build());
+            }
+            return this;
+        }
+
+        public Builder mergeResource(Resource resource) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Resource resource2 = this.resource_;
+                if (resource2 != null) {
+                    this.resource_ = Resource.newBuilder(resource2).mergeFrom(resource).m37430buildPartial();
+                } else {
+                    this.resource_ = resource;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(resource);
+            }
+            return this;
+        }
+
+        public Builder clearResource() {
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+                onChanged();
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Resource.Builder getResourceBuilder() {
+            onChanged();
+            return getResourceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public ResourceOrBuilder getResourceOrBuilder() {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ResourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Resource resource = this.resource_;
+            return resource == null ? Resource.getDefaultInstance() : resource;
+        }
+
+        private SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> getResourceFieldBuilder() {
+            if (this.resourceBuilder_ == null) {
+                this.resourceBuilder_ = new SingleFieldBuilderV3<>(getResource(), getParentForChildren(), isClean());
+                this.resource_ = null;
+            }
+            return this.resourceBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public BoolValue getSameProcessAsParentSpan() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.sameProcessAsParentSpanBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BoolValue boolValue = this.sameProcessAsParentSpan_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        public Builder setSameProcessAsParentSpan(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.sameProcessAsParentSpanBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                boolValue.getClass();
+                this.sameProcessAsParentSpan_ = boolValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(boolValue);
+            }
+            return this;
+        }
+
+        public Builder setSameProcessAsParentSpan(BoolValue.Builder builder) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.sameProcessAsParentSpanBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.sameProcessAsParentSpan_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeSameProcessAsParentSpan(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.sameProcessAsParentSpanBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BoolValue boolValue2 = this.sameProcessAsParentSpan_;
+                if (boolValue2 != null) {
+                    this.sameProcessAsParentSpan_ = BoolValue.newBuilder(boolValue2).mergeFrom(boolValue).buildPartial();
+                } else {
+                    this.sameProcessAsParentSpan_ = boolValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(boolValue);
+            }
+            return this;
+        }
+
+        public Builder clearSameProcessAsParentSpan() {
+            if (this.sameProcessAsParentSpanBuilder_ == null) {
+                this.sameProcessAsParentSpan_ = null;
+                onChanged();
+            } else {
+                this.sameProcessAsParentSpan_ = null;
+                this.sameProcessAsParentSpanBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BoolValue.Builder getSameProcessAsParentSpanBuilder() {
+            onChanged();
+            return getSameProcessAsParentSpanFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public BoolValueOrBuilder getSameProcessAsParentSpanOrBuilder() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.sameProcessAsParentSpanBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BoolValue boolValue = this.sameProcessAsParentSpan_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> getSameProcessAsParentSpanFieldBuilder() {
+            if (this.sameProcessAsParentSpanBuilder_ == null) {
+                this.sameProcessAsParentSpanBuilder_ = new SingleFieldBuilderV3<>(getSameProcessAsParentSpan(), getParentForChildren(), isClean());
+                this.sameProcessAsParentSpan_ = null;
+            }
+            return this.sameProcessAsParentSpanBuilder_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public UInt32Value getChildSpanCount() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.childSpanCountBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.childSpanCount_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setChildSpanCount(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.childSpanCountBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.childSpanCount_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setChildSpanCount(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.childSpanCountBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.childSpanCount_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeChildSpanCount(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.childSpanCountBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.childSpanCount_;
+                if (uInt32Value2 != null) {
+                    this.childSpanCount_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.childSpanCount_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearChildSpanCount() {
+            if (this.childSpanCountBuilder_ == null) {
+                this.childSpanCount_ = null;
+                onChanged();
+            } else {
+                this.childSpanCount_ = null;
+                this.childSpanCountBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getChildSpanCountBuilder() {
+            onChanged();
+            return getChildSpanCountFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.SpanOrBuilder
+        public UInt32ValueOrBuilder getChildSpanCountOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.childSpanCountBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.childSpanCount_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getChildSpanCountFieldBuilder() {
+            if (this.childSpanCountBuilder_ == null) {
+                this.childSpanCountBuilder_ = new SingleFieldBuilderV3<>(getChildSpanCount(), getParentForChildren(), isClean());
+                this.childSpanCount_ = null;
+            }
+            return this.childSpanCountBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m38155setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m38149mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

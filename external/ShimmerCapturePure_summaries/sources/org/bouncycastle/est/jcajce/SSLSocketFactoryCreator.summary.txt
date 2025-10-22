@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/est/jcajce/SSLSocketFactoryCreator.java
+// Size: 246 bytes
+// Modified: 2025-10-21 16:32:00.673368700 +0100
+
+package org.bouncycastle.est.jcajce;
+
+import javax.net.ssl.SSLSocketFactory;
+
+/* loaded from: classes5.dex */
+public interface SSLSocketFactoryCreator {
+    SSLSocketFactory createFactory() throws Exception;
+
+    boolean isTrusted();
+}

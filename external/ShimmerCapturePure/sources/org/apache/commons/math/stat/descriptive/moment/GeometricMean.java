@@ -1,0 +1,91 @@
+package org.apache.commons.math.stat.descriptive.moment;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/moment/GeometricMean.class */
+public class GeometricMean extends AbstractStorelessUnivariateStatistic implements Serializable {
+    private static final long serialVersionUID = -8178734905303459453L;
+    private StorelessUnivariateStatistic sumOfLogs;
+
+    public GeometricMean() {
+        this.sumOfLogs = new SumOfLogs();
+    }
+
+    public GeometricMean(GeometricMean original) {
+        copy(original, this);
+    }
+
+    public GeometricMean(SumOfLogs sumOfLogs) {
+        this.sumOfLogs = sumOfLogs;
+    }
+
+    public static void copy(GeometricMean source, GeometricMean dest) {
+        dest.setData(source.getDataRef());
+        dest.sumOfLogs = source.sumOfLogs.copy();
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public GeometricMean copy() {
+        GeometricMean result = new GeometricMean();
+        copy(this, result);
+        return result;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void increment(double d) {
+        this.sumOfLogs.increment(d);
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public double getResult() {
+        if (this.sumOfLogs.getN() > 0) {
+            return FastMath.exp(this.sumOfLogs.getResult() / this.sumOfLogs.getN());
+        }
+        return Double.NaN;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void clear() {
+        this.sumOfLogs.clear();
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic
+    public double evaluate(double[] values, int begin, int length) {
+        return FastMath.exp(this.sumOfLogs.evaluate(values, begin, length) / length);
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public long getN() {
+        return this.sumOfLogs.getN();
+    }
+
+    public StorelessUnivariateStatistic getSumLogImpl() {
+        return this.sumOfLogs;
+    }
+
+    public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl) {
+        checkEmpty();
+        this.sumOfLogs = sumLogImpl;
+    }
+
+    private void checkEmpty() {
+        if (getN() > 0) {
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC, Long.valueOf(getN()));
+        }
+    }
+}

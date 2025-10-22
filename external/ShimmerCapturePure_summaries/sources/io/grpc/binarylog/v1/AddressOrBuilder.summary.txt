@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/binarylog/v1/AddressOrBuilder.java
+// Size: 376 bytes
+// Modified: 2025-10-21 16:32:02.205100300 +0100
+
+package io.grpc.binarylog.v1;
+
+import com.google.protobuf.ByteString;
+import io.grpc.binarylog.v1.Address;
+
+/* loaded from: classes2.dex */
+public interface AddressOrBuilder extends com.google.protobuf.MessageOrBuilder {
+    String getAddress();
+
+    ByteString getAddressBytes();
+
+    int getIpPort();
+
+    Address.Type getType();
+
+    int getTypeValue();
+}

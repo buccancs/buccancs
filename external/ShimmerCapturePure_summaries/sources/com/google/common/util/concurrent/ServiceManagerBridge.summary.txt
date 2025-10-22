@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/ServiceManagerBridge.java
+// Size: 287 bytes
+// Modified: 2025-10-21 16:32:07.821058800 +0100
+
+package com.google.common.util.concurrent;
+
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.util.concurrent.Service;
+
+/* loaded from: classes.dex */
+interface ServiceManagerBridge {
+    ImmutableMultimap<Service.State, Service> servicesByState();
+}

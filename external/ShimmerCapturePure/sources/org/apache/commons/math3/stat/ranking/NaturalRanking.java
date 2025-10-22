@@ -1,0 +1,295 @@
+package org.apache.commons.math3.stat.ranking;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.NotANumberException;
+import org.apache.commons.math3.random.RandomDataGenerator;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class NaturalRanking implements RankingAlgorithm {
+    public static final NaNStrategy DEFAULT_NAN_STRATEGY = NaNStrategy.FAILED;
+    public static final TiesStrategy DEFAULT_TIES_STRATEGY = TiesStrategy.AVERAGE;
+    private final NaNStrategy nanStrategy;
+    private final RandomDataGenerator randomData;
+    private final TiesStrategy tiesStrategy;
+
+    public NaturalRanking() {
+        this.tiesStrategy = DEFAULT_TIES_STRATEGY;
+        this.nanStrategy = DEFAULT_NAN_STRATEGY;
+        this.randomData = null;
+    }
+
+    public NaturalRanking(TiesStrategy tiesStrategy) {
+        this.tiesStrategy = tiesStrategy;
+        this.nanStrategy = DEFAULT_NAN_STRATEGY;
+        this.randomData = new RandomDataGenerator();
+    }
+
+    public NaturalRanking(NaNStrategy naNStrategy) {
+        this.nanStrategy = naNStrategy;
+        this.tiesStrategy = DEFAULT_TIES_STRATEGY;
+        this.randomData = null;
+    }
+
+    public NaturalRanking(NaNStrategy naNStrategy, TiesStrategy tiesStrategy) {
+        this.nanStrategy = naNStrategy;
+        this.tiesStrategy = tiesStrategy;
+        this.randomData = new RandomDataGenerator();
+    }
+
+    public NaturalRanking(RandomGenerator randomGenerator) {
+        this.tiesStrategy = TiesStrategy.RANDOM;
+        this.nanStrategy = DEFAULT_NAN_STRATEGY;
+        this.randomData = new RandomDataGenerator(randomGenerator);
+    }
+
+    public NaturalRanking(NaNStrategy naNStrategy, RandomGenerator randomGenerator) {
+        this.nanStrategy = naNStrategy;
+        this.tiesStrategy = TiesStrategy.RANDOM;
+        this.randomData = new RandomDataGenerator(randomGenerator);
+    }
+
+    public NaNStrategy getNanStrategy() {
+        return this.nanStrategy;
+    }
+
+    public TiesStrategy getTiesStrategy() {
+        return this.tiesStrategy;
+    }
+
+    @Override // org.apache.commons.math3.stat.ranking.RankingAlgorithm
+    public double[] rank(double[] dArr) {
+        IntDoublePair[] intDoublePairArrRemoveNaNs = new IntDoublePair[dArr.length];
+        for (int i = 0; i < dArr.length; i++) {
+            intDoublePairArrRemoveNaNs[i] = new IntDoublePair(dArr[i], i);
+        }
+        int i2 = AnonymousClass1.$SwitchMap$org$apache$commons$math3$stat$ranking$NaNStrategy[this.nanStrategy.ordinal()];
+        List<Integer> nanPositions = null;
+        if (i2 == 1) {
+            recodeNaNs(intDoublePairArrRemoveNaNs, Double.POSITIVE_INFINITY);
+        } else if (i2 == 2) {
+            recodeNaNs(intDoublePairArrRemoveNaNs, Double.NEGATIVE_INFINITY);
+        } else if (i2 == 3) {
+            intDoublePairArrRemoveNaNs = removeNaNs(intDoublePairArrRemoveNaNs);
+        } else if (i2 == 4) {
+            nanPositions = getNanPositions(intDoublePairArrRemoveNaNs);
+        } else if (i2 == 5) {
+            nanPositions = getNanPositions(intDoublePairArrRemoveNaNs);
+            if (nanPositions.size() > 0) {
+                throw new NotANumberException();
+            }
+        } else {
+            throw new MathInternalError();
+        }
+        Arrays.sort(intDoublePairArrRemoveNaNs);
+        double[] dArr2 = new double[intDoublePairArrRemoveNaNs.length];
+        dArr2[intDoublePairArrRemoveNaNs[0].getPosition()] = 1;
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(Integer.valueOf(intDoublePairArrRemoveNaNs[0].getPosition()));
+        int i3 = 1;
+        for (int i4 = 1; i4 < intDoublePairArrRemoveNaNs.length; i4++) {
+            if (Double.compare(intDoublePairArrRemoveNaNs[i4].getValue(), intDoublePairArrRemoveNaNs[i4 - 1].getValue()) > 0) {
+                i3 = i4 + 1;
+                if (arrayList.size() > 1) {
+                    resolveTie(dArr2, arrayList);
+                }
+                arrayList = new ArrayList();
+                arrayList.add(Integer.valueOf(intDoublePairArrRemoveNaNs[i4].getPosition()));
+            } else {
+                arrayList.add(Integer.valueOf(intDoublePairArrRemoveNaNs[i4].getPosition()));
+            }
+            dArr2[intDoublePairArrRemoveNaNs[i4].getPosition()] = i3;
+        }
+        if (arrayList.size() > 1) {
+            resolveTie(dArr2, arrayList);
+        }
+        if (this.nanStrategy == NaNStrategy.FIXED) {
+            restoreNaNs(dArr2, nanPositions);
+        }
+        return dArr2;
+    }
+
+    private IntDoublePair[] removeNaNs(IntDoublePair[] intDoublePairArr) {
+        if (!containsNaNs(intDoublePairArr)) {
+            return intDoublePairArr;
+        }
+        IntDoublePair[] intDoublePairArr2 = new IntDoublePair[intDoublePairArr.length];
+        int i = 0;
+        for (int i2 = 0; i2 < intDoublePairArr.length; i2++) {
+            if (Double.isNaN(intDoublePairArr[i2].getValue())) {
+                for (int i3 = i2 + 1; i3 < intDoublePairArr.length; i3++) {
+                    intDoublePairArr[i3] = new IntDoublePair(intDoublePairArr[i3].getValue(), intDoublePairArr[i3].getPosition() - 1);
+                }
+            } else {
+                intDoublePairArr2[i] = new IntDoublePair(intDoublePairArr[i2].getValue(), intDoublePairArr[i2].getPosition());
+                i++;
+            }
+        }
+        IntDoublePair[] intDoublePairArr3 = new IntDoublePair[i];
+        System.arraycopy(intDoublePairArr2, 0, intDoublePairArr3, 0, i);
+        return intDoublePairArr3;
+    }
+
+    private void recodeNaNs(IntDoublePair[] intDoublePairArr, double d) {
+        for (int i = 0; i < intDoublePairArr.length; i++) {
+            if (Double.isNaN(intDoublePairArr[i].getValue())) {
+                intDoublePairArr[i] = new IntDoublePair(d, intDoublePairArr[i].getPosition());
+            }
+        }
+    }
+
+    private boolean containsNaNs(IntDoublePair[] intDoublePairArr) {
+        for (IntDoublePair intDoublePair : intDoublePairArr) {
+            if (Double.isNaN(intDoublePair.getValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void resolveTie(double[] dArr, List<Integer> list) {
+        int i = 0;
+        double d = dArr[list.get(0).intValue()];
+        int size = list.size();
+        int i2 = AnonymousClass1.$SwitchMap$org$apache$commons$math3$stat$ranking$TiesStrategy[this.tiesStrategy.ordinal()];
+        if (i2 == 1) {
+            fill(dArr, list, (((d * 2.0d) + size) - 1.0d) / 2.0d);
+            return;
+        }
+        if (i2 == 2) {
+            fill(dArr, list, (d + size) - 1.0d);
+            return;
+        }
+        if (i2 == 3) {
+            fill(dArr, list, d);
+            return;
+        }
+        if (i2 == 4) {
+            Iterator<Integer> it2 = list.iterator();
+            long jRound = FastMath.round(d);
+            while (it2.hasNext()) {
+                dArr[it2.next().intValue()] = this.randomData.nextLong(jRound, (size + jRound) - 1);
+            }
+            return;
+        }
+        if (i2 == 5) {
+            Iterator<Integer> it3 = list.iterator();
+            long jRound2 = FastMath.round(d);
+            while (it3.hasNext()) {
+                dArr[it3.next().intValue()] = i + jRound2;
+                i++;
+            }
+            return;
+        }
+        throw new MathInternalError();
+    }
+
+    private void fill(double[] dArr, List<Integer> list, double d) {
+        Iterator<Integer> it2 = list.iterator();
+        while (it2.hasNext()) {
+            dArr[it2.next().intValue()] = d;
+        }
+    }
+
+    private void restoreNaNs(double[] dArr, List<Integer> list) {
+        if (list.size() == 0) {
+            return;
+        }
+        Iterator<Integer> it2 = list.iterator();
+        while (it2.hasNext()) {
+            dArr[it2.next().intValue()] = Double.NaN;
+        }
+    }
+
+    private List<Integer> getNanPositions(IntDoublePair[] intDoublePairArr) {
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < intDoublePairArr.length; i++) {
+            if (Double.isNaN(intDoublePairArr[i].getValue())) {
+                arrayList.add(Integer.valueOf(i));
+            }
+        }
+        return arrayList;
+    }
+
+    /* renamed from: org.apache.commons.math3.stat.ranking.NaturalRanking$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$org$apache$commons$math3$stat$ranking$NaNStrategy;
+        static final /* synthetic */ int[] $SwitchMap$org$apache$commons$math3$stat$ranking$TiesStrategy;
+
+        static {
+            int[] iArr = new int[TiesStrategy.values().length];
+            $SwitchMap$org$apache$commons$math3$stat$ranking$TiesStrategy = iArr;
+            try {
+                iArr[TiesStrategy.AVERAGE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$TiesStrategy[TiesStrategy.MAXIMUM.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$TiesStrategy[TiesStrategy.MINIMUM.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$TiesStrategy[TiesStrategy.RANDOM.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$TiesStrategy[TiesStrategy.SEQUENTIAL.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            int[] iArr2 = new int[NaNStrategy.values().length];
+            $SwitchMap$org$apache$commons$math3$stat$ranking$NaNStrategy = iArr2;
+            try {
+                iArr2[NaNStrategy.MAXIMAL.ordinal()] = 1;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$NaNStrategy[NaNStrategy.MINIMAL.ordinal()] = 2;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$NaNStrategy[NaNStrategy.REMOVED.ordinal()] = 3;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$NaNStrategy[NaNStrategy.FIXED.ordinal()] = 4;
+            } catch (NoSuchFieldError unused9) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$stat$ranking$NaNStrategy[NaNStrategy.FAILED.ordinal()] = 5;
+            } catch (NoSuchFieldError unused10) {
+            }
+        }
+    }
+
+    private static class IntDoublePair implements Comparable<IntDoublePair> {
+        private final int position;
+        private final double value;
+
+        IntDoublePair(double d, int i) {
+            this.value = d;
+            this.position = i;
+        }
+
+        public int getPosition() {
+            return this.position;
+        }
+
+        public double getValue() {
+            return this.value;
+        }
+
+        @Override // java.lang.Comparable
+        public int compareTo(IntDoublePair intDoublePair) {
+            return Double.compare(this.value, intDoublePair.value);
+        }
+    }
+}

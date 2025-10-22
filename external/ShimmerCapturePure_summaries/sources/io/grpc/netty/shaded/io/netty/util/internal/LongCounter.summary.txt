@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/LongCounter.java
+// Size: 218 bytes
+// Modified: 2025-10-21 16:32:00.251779600 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+/* loaded from: classes3.dex */
+public interface LongCounter {
+    void add(long j);
+
+    void decrement();
+
+    void increment();
+
+    long value();
+}

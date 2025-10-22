@@ -1,0 +1,134 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/sds/trust/SdsTrustManagerFactory.java
+// Size: 6918 bytes
+// Modified: 2025-10-21 16:32:09.120701400 +0100
+
+package io.grpc.xds.internal.sds.trust;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import io.grpc.alts.CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0;
+import io.grpc.netty.shaded.io.netty.handler.ssl.util.SimpleTrustManagerFactory;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertStoreException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.net.ssl.ManagerFactoryParameters;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509ExtendedTrustManager;
+
+/* loaded from: classes3.dex */
+public final class SdsTrustManagerFactory extends SimpleTrustManagerFactory {
+    private static final Logger logger = Logger.getLogger(SdsTrustManagerFactory.class.getName());
+    private SdsX509TrustManager sdsX509TrustManager;
+
+    public SdsTrustManagerFactory(CertificateValidationContext certificateValidationContext) throws IOException, CertificateException, CertStoreException {
+        this(getTrustedCaFromCertContext(certificateValidationContext), certificateValidationContext, false);
+    }
+
+    public SdsTrustManagerFactory(X509Certificate[] x509CertificateArr, CertificateValidationContext certificateValidationContext) throws CertStoreException {
+        this(x509CertificateArr, certificateValidationContext, true);
+    }
+
+    private SdsTrustManagerFactory(X509Certificate[] x509CertificateArr, CertificateValidationContext certificateValidationContext, boolean z) throws CertStoreException {
+        if (z) {
+            Preconditions.checkArgument(certificateValidationContext == null || !certificateValidationContext.hasTrustedCa(), "only static certificateValidationContext expected");
+        }
+        this.sdsX509TrustManager = createSdsX509TrustManager(x509CertificateArr, certificateValidationContext);
+    }
+
+    private static X509Certificate[] getTrustedCaFromCertContext(CertificateValidationContext certificateValidationContext) throws IOException, CertificateException {
+        DataSource.SpecifierCase specifierCase = certificateValidationContext.getTrustedCa().getSpecifierCase();
+        if (specifierCase == DataSource.SpecifierCase.FILENAME) {
+            String filename = certificateValidationContext.getTrustedCa().getFilename();
+            Preconditions.checkState(!Strings.isNullOrEmpty(filename), "trustedCa.file-name in certificateValidationContext cannot be empty");
+            return CertificateUtils.toX509Certificates(new File(filename));
+        }
+        if (specifierCase == DataSource.SpecifierCase.INLINE_BYTES) {
+            InputStream inputStreamNewInput = certificateValidationContext.getTrustedCa().getInlineBytes().newInput();
+            try {
+                X509Certificate[] x509Certificates = CertificateUtils.toX509Certificates(inputStreamNewInput);
+                if (inputStreamNewInput != null) {
+                    inputStreamNewInput.close();
+                }
+                return x509Certificates;
+            } catch (Throwable th) {
+                try {
+                    throw th;
+                } catch (Throwable th2) {
+                    if (inputStreamNewInput != null) {
+                        try {
+                            inputStreamNewInput.close();
+                        } catch (Throwable th3) {
+                            th.addSuppressed(th3);
+                        }
+                    }
+                    throw th2;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Not supported: " + specifierCase);
+    }
+
+    static SdsX509TrustManager createSdsX509TrustManager(X509Certificate[] x509CertificateArr, CertificateValidationContext certificateValidationContext) throws NoSuchAlgorithmException, IOException, KeyStoreException, CertificateException, CertStoreException {
+        try {
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            X509ExtendedTrustManager x509ExtendedTrustManagerM6314m = null;
+            keyStore.load(null, null);
+            int i = 0;
+            int i2 = 1;
+            for (X509Certificate x509Certificate : x509CertificateArr) {
+                keyStore.setCertificateEntry("alias" + i2, x509Certificate);
+                i2++;
+            }
+            trustManagerFactory.init(keyStore);
+            TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+            if (trustManagers != null) {
+                int length = trustManagers.length;
+                while (true) {
+                    if (i >= length) {
+                        break;
+                    }
+                    TrustManager trustManager = trustManagers[i];
+                    if (CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m$1(trustManager)) {
+                        x509ExtendedTrustManagerM6314m = CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m6314m((Object) trustManager);
+                        break;
+                    }
+                    i++;
+                }
+            }
+            if (x509ExtendedTrustManagerM6314m == null) {
+                throw new CertStoreException("Native X509 TrustManager not found.");
+            }
+            return new SdsX509TrustManager(certificateValidationContext, x509ExtendedTrustManagerM6314m);
+        } catch (IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e) {
+            logger.log(Level.SEVERE, "createSdsX509TrustManager", e);
+            throw new CertStoreException(e);
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.util.SimpleTrustManagerFactory
+    protected void engineInit(KeyStore keyStore) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.util.SimpleTrustManagerFactory
+    protected void engineInit(ManagerFactoryParameters managerFactoryParameters) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.util.SimpleTrustManagerFactory
+    protected TrustManager[] engineGetTrustManagers() {
+        return new TrustManager[]{this.sdsX509TrustManager};
+    }
+}

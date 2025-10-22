@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/TableOrder.java
+// Size: 126 bytes
+// Modified: 2025-10-21 16:32:00.075267400 +0100
+
+package com.androidplot.ui;
+
+/* loaded from: classes.dex */
+public enum TableOrder {
+    ROW_MAJOR,
+    COLUMN_MAJOR
+}

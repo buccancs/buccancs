@@ -1,0 +1,6 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/internal/package-info.java
+// Size: 35 bytes
+// Modified: 2025-10-21 16:31:59.948528300 +0100
+
+package androidx.core.internal;
+

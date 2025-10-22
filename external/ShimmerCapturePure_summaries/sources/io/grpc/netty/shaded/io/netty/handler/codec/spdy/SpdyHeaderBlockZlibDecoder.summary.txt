@@ -1,0 +1,100 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyHeaderBlockZlibDecoder.java
+// Size: 4205 bytes
+// Modified: 2025-10-21 16:32:06.849857100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
+
+/* loaded from: classes3.dex */
+final class SpdyHeaderBlockZlibDecoder extends SpdyHeaderBlockRawDecoder {
+    private static final int DEFAULT_BUFFER_CAPACITY = 4096;
+    private static final SpdyProtocolException INVALID_HEADER_BLOCK = new SpdyProtocolException("Invalid Header Block");
+    private ByteBuf decompressed;
+    private final Inflater decompressor;
+
+    SpdyHeaderBlockZlibDecoder(SpdyVersion spdyVersion, int i) {
+        super(spdyVersion, i);
+        this.decompressor = new Inflater();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockRawDecoder, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockDecoder
+    void decode(ByteBufAllocator byteBufAllocator, ByteBuf byteBuf, SpdyHeadersFrame spdyHeadersFrame) throws Exception {
+        int input = setInput(byteBuf);
+        while (decompress(byteBufAllocator, spdyHeadersFrame) > 0) {
+        }
+        if (this.decompressor.getRemaining() != 0) {
+            throw INVALID_HEADER_BLOCK;
+        }
+        byteBuf.skipBytes(input);
+    }
+
+    private int setInput(ByteBuf byteBuf) {
+        int i = byteBuf.readableBytes();
+        if (byteBuf.hasArray()) {
+            this.decompressor.setInput(byteBuf.array(), byteBuf.arrayOffset() + byteBuf.readerIndex(), i);
+        } else {
+            byte[] bArr = new byte[i];
+            byteBuf.getBytes(byteBuf.readerIndex(), bArr);
+            this.decompressor.setInput(bArr, 0, i);
+        }
+        return i;
+    }
+
+    private int decompress(ByteBufAllocator byteBufAllocator, SpdyHeadersFrame spdyHeadersFrame) throws Exception {
+        ensureBuffer(byteBufAllocator);
+        byte[] bArrArray = this.decompressed.array();
+        int iArrayOffset = this.decompressed.arrayOffset() + this.decompressed.writerIndex();
+        try {
+            int iInflate = this.decompressor.inflate(bArrArray, iArrayOffset, this.decompressed.writableBytes());
+            if (iInflate == 0 && this.decompressor.needsDictionary()) {
+                try {
+                    this.decompressor.setDictionary(SpdyCodecUtil.SPDY_DICT);
+                    iInflate = this.decompressor.inflate(bArrArray, iArrayOffset, this.decompressed.writableBytes());
+                } catch (IllegalArgumentException unused) {
+                    throw INVALID_HEADER_BLOCK;
+                }
+            }
+            if (spdyHeadersFrame != null) {
+                ByteBuf byteBuf = this.decompressed;
+                byteBuf.writerIndex(byteBuf.writerIndex() + iInflate);
+                decodeHeaderBlock(this.decompressed, spdyHeadersFrame);
+                this.decompressed.discardReadBytes();
+            }
+            return iInflate;
+        } catch (DataFormatException e) {
+            throw new SpdyProtocolException("Received invalid header block", e);
+        }
+    }
+
+    private void ensureBuffer(ByteBufAllocator byteBufAllocator) {
+        if (this.decompressed == null) {
+            this.decompressed = byteBufAllocator.heapBuffer(4096);
+        }
+        this.decompressed.ensureWritable(1);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockRawDecoder, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockDecoder
+    void endHeaderBlock(SpdyHeadersFrame spdyHeadersFrame) throws Exception {
+        super.endHeaderBlock(spdyHeadersFrame);
+        releaseBuffer();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockRawDecoder, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockDecoder
+    public void end() {
+        super.end();
+        releaseBuffer();
+        this.decompressor.end();
+    }
+
+    private void releaseBuffer() {
+        ByteBuf byteBuf = this.decompressed;
+        if (byteBuf != null) {
+            byteBuf.release();
+            this.decompressed = null;
+        }
+    }
+}

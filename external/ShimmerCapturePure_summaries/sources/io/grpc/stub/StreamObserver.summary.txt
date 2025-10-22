@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/stub/StreamObserver.java
+// Size: 184 bytes
+// Modified: 2025-10-21 16:32:00.277140500 +0100
+
+package io.grpc.stub;
+
+/* loaded from: classes3.dex */
+public interface StreamObserver<V> {
+    void onCompleted();
+
+    void onError(Throwable th);
+
+    void onNext(V v);
+}

@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/crmf/CRMFRuntimeException.java
+// Size: 394 bytes
+// Modified: 2025-10-21 16:32:00.593784300 +0100
+
+package org.bouncycastle.cert.crmf;
+
+/* loaded from: classes5.dex */
+public class CRMFRuntimeException extends RuntimeException {
+    private Throwable cause;
+
+    public CRMFRuntimeException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

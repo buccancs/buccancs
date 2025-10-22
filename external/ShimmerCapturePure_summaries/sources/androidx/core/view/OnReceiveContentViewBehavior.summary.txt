@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/OnReceiveContentViewBehavior.java
+// Size: 193 bytes
+// Modified: 2025-10-21 16:32:03.652628300 +0100
+
+package androidx.core.view;
+
+/* loaded from: classes.dex */
+public interface OnReceiveContentViewBehavior {
+    ContentInfoCompat onReceiveContent(ContentInfoCompat contentInfoCompat);
+}

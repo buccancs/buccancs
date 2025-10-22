@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/ResourceLeakTracker.java
+// Size: 205 bytes
+// Modified: 2025-10-21 16:32:00.253778700 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+/* loaded from: classes3.dex */
+public interface ResourceLeakTracker<T> {
+    boolean close(T t);
+
+    void record();
+
+    void record(Object obj);
+}

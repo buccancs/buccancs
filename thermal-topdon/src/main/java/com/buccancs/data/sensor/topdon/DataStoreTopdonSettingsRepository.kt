@@ -12,9 +12,9 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.buccancs.di.ApplicationScope
+import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
-import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
 import com.buccancs.domain.repository.TopdonSettingsRepository
@@ -137,7 +137,7 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
                 sanitized
         }
     }
-    
+
     override suspend fun setEmissivity(
         emissivity: Double
     ) {
@@ -147,7 +147,7 @@ class DataStoreTopdonSettingsRepository @Inject constructor(
                 clamped
         }
     }
-    
+
     override suspend fun setGainMode(
         mode: TopdonGainMode
     ) {

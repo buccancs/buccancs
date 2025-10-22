@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/RuntimeFeatureFlagOrBuilder.java
+// Size: 543 bytes
+// Modified: 2025-10-21 16:32:00.428520200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface RuntimeFeatureFlagOrBuilder extends MessageOrBuilder {
+    BoolValue getDefaultValue();
+
+    BoolValueOrBuilder getDefaultValueOrBuilder();
+
+    String getRuntimeKey();
+
+    ByteString getRuntimeKeyBytes();
+
+    boolean hasDefaultValue();
+}

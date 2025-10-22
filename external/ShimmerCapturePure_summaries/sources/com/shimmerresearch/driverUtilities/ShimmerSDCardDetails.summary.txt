@@ -1,0 +1,162 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driverUtilities/ShimmerSDCardDetails.java
+// Size: 4786 bytes
+// Modified: 2025-10-21 16:32:00.175964100 +0100
+
+package com.shimmerresearch.driverUtilities;
+
+import java.io.File;
+import java.io.Serializable;
+
+/* loaded from: classes2.dex */
+public class ShimmerSDCardDetails implements Serializable {
+    public static final long DRIVE_SPACE_USED_CHANGE_TIMEOUT_MS = 30000;
+    private static final long serialVersionUID = -3210542276033436303L;
+    protected long mDriveFreeSpaceBytes;
+    protected long mDriveTotalSpaceBytes;
+    protected long mDriveUsableSpaceBytes;
+    protected long mDriveUsedSpaceBytes;
+    public long mDriveUsedSpaceLastTimeChanged;
+    protected boolean mFirstSdAccess;
+    protected boolean mIsSDError;
+    protected boolean mIsSDLogging;
+    protected boolean mIsSDPresent;
+
+    private void updateDriveUsedSpace() {
+        this.mDriveUsedSpaceBytes = this.mDriveTotalSpaceBytes - this.mDriveFreeSpaceBytes;
+    }
+
+    public long getDriveFreeSpace() {
+        return this.mDriveFreeSpaceBytes;
+    }
+
+    public long getDriveTotalSpace() {
+        return this.mDriveTotalSpaceBytes;
+    }
+
+    public long getDriveUsableSpace() {
+        return this.mDriveUsableSpaceBytes;
+    }
+
+    public long getDriveUsedSpace() {
+        return this.mDriveUsedSpaceBytes;
+    }
+
+    public boolean isFirstSdAccess() {
+        return this.mFirstSdAccess;
+    }
+
+    public boolean isSDError() {
+        return this.mIsSDError;
+    }
+
+    public boolean isSDLogging() {
+        return this.mIsSDLogging;
+    }
+
+    public boolean isSDPresent() {
+        return this.mIsSDPresent;
+    }
+
+    public void setDriveUsedSpaceTotal(long j) {
+        this.mDriveTotalSpaceBytes = j;
+    }
+
+    public void setDriveUsedSpaceTotalKB(long j) {
+        this.mDriveTotalSpaceBytes = j * 1024;
+    }
+
+    public void setFirstSdAccess(boolean z) {
+        this.mFirstSdAccess = z;
+    }
+
+    public void setIsSDError(boolean z) {
+        this.mIsSDError = z;
+    }
+
+    public void setIsSDLogging(boolean z) {
+        this.mIsSDLogging = z;
+    }
+
+    public void setIsSDPresent(boolean z) {
+        this.mIsSDPresent = z;
+    }
+
+    public ShimmerSDCardDetails() {
+        this.mDriveTotalSpaceBytes = 0L;
+        this.mDriveUsableSpaceBytes = 0L;
+        this.mDriveFreeSpaceBytes = 0L;
+        this.mDriveUsedSpaceBytes = 0L;
+        this.mFirstSdAccess = true;
+        this.mIsSDPresent = true;
+        this.mIsSDError = false;
+        this.mIsSDLogging = false;
+        this.mDriveUsedSpaceLastTimeChanged = 0L;
+    }
+
+    public ShimmerSDCardDetails(File file) {
+        this.mDriveTotalSpaceBytes = 0L;
+        this.mDriveUsableSpaceBytes = 0L;
+        this.mDriveFreeSpaceBytes = 0L;
+        this.mDriveUsedSpaceBytes = 0L;
+        this.mFirstSdAccess = true;
+        this.mIsSDPresent = true;
+        this.mIsSDError = false;
+        this.mIsSDLogging = false;
+        this.mDriveUsedSpaceLastTimeChanged = 0L;
+        setDriveUsedSpaceTotal(file.getTotalSpace());
+        this.mDriveUsableSpaceBytes = file.getUsableSpace();
+        this.mDriveFreeSpaceBytes = file.getFreeSpace();
+        updateDriveUsedSpace();
+    }
+
+    public String getDriveTotalSpaceParsed() {
+        long j = this.mDriveTotalSpaceBytes;
+        return j == 0 ? "N/A" : spaceToString(j);
+    }
+
+    public long getDriveUsedSpaceKB() {
+        return this.mDriveUsedSpaceBytes / 1024;
+    }
+
+    public String getDriveUsedSpaceParsed() {
+        long j = this.mDriveUsedSpaceBytes;
+        return j == 0 ? "N/A" : spaceToString(j);
+    }
+
+    public void setDriveUsedSpaceKB(long j) {
+        setDriveUsedSpaceBytes(j * 1024);
+    }
+
+    public void setDriveUsedSpaceBytes(long j) {
+        if (j != this.mDriveUsedSpaceBytes) {
+            this.mDriveUsedSpaceLastTimeChanged = System.currentTimeMillis();
+        }
+        this.mDriveUsedSpaceBytes = j;
+    }
+
+    public boolean isSDSpaceIncreasing() {
+        return System.currentTimeMillis() - this.mDriveUsedSpaceLastTimeChanged < DRIVE_SPACE_USED_CHANGE_TIMEOUT_MS;
+    }
+
+    public static String spaceToString(long j) {
+        String str;
+        double d = ((j / 1024.0d) / 1024.0d) / 1024.0d;
+        if (d < 1.0d) {
+            d *= 1024.0d;
+            str = " MB";
+        } else {
+            str = " GB";
+        }
+        return String.format("%.2f", Double.valueOf(d)) + str;
+    }
+
+    public void setFirstDockRead() {
+        setFirstSdAccess(true);
+        setIsSDError(false);
+    }
+
+    public byte[] generateDriveStatusBytes() {
+        long driveUsedSpaceKB = getDriveUsedSpaceKB();
+        return new byte[]{(byte) (driveUsedSpaceKB & 255), (byte) ((driveUsedSpaceKB >> 8) & 255), (byte) ((driveUsedSpaceKB >> 16) & 255), (byte) ((driveUsedSpaceKB >> 24) & 255)};
+    }
+}

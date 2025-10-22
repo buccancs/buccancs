@@ -73,8 +73,8 @@ dependencies {
     implementation project(':libapp')
 
     implementation project(':libui')
-kapt libs.arouter.compiler
-implementation 'com.zoho.salesiq:mobilisten:7.0.0'
+    kapt libs.arouter.compiler
+    implementation 'com.zoho.salesiq:mobilisten:7.0.0'
 
     // Compose BOM
     def composeBom =
@@ -90,7 +90,7 @@ implementation 'com.zoho.salesiq:mobilisten:7.0.0'
     implementation 'androidx.compose.foundation:foundation'
 
     implementation 'androidx.compose.ui:ui'
-implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
     // Integration

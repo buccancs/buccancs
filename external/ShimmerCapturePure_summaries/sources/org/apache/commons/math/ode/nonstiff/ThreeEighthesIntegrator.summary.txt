@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/ode/nonstiff/ThreeEighthesIntegrator.java
+// Size: 829 bytes
+// Modified: 2025-10-21 16:32:06.185337700 +0100
+
+package org.apache.commons.math.ode.nonstiff;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ode/nonstiff/ThreeEighthesIntegrator.class */
+public class ThreeEighthesIntegrator extends RungeKuttaIntegrator {
+    private static final double[] STATIC_C = {0.3333333333333333d, 0.6666666666666666d, 1.0d};
+    private static final double[][] STATIC_A = {new double[]{0.3333333333333333d}, new double[]{-0.3333333333333333d, 1.0d}, new double[]{1.0d, -1.0d, 1.0d}};
+    private static final double[] STATIC_B = {0.125d, 0.375d, 0.375d, 0.125d};
+
+    public ThreeEighthesIntegrator(double step) {
+        super("3/8", STATIC_C, STATIC_A, STATIC_B, new ThreeEighthesStepInterpolator(), step);
+    }
+}

@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/it/gerdavax/android/bluetooth/LocalBluetoothDeviceListener.java
+// Size: 341 bytes
+// Modified: 2025-10-21 16:32:00.342794600 +0100
+
+package it.gerdavax.android.bluetooth;
+
+import java.util.ArrayList;
+
+/* loaded from: classes4.dex */
+public interface LocalBluetoothDeviceListener {
+    void bluetoothDisabled();
+
+    void bluetoothEnabled();
+
+    void deviceFound(String str);
+
+    void scanCompleted(ArrayList<String> arrayList);
+
+    void scanStarted();
+}

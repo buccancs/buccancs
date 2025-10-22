@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/auth/http/InternalAuthHttpConstants.java
+// Size: 199 bytes
+// Modified: 2025-10-21 16:32:00.142746000 +0100
+
+package com.google.auth.http;
+
+/* loaded from: classes.dex */
+class InternalAuthHttpConstants {
+    static final String BEARER_PREFIX = "Bearer ";
+
+    InternalAuthHttpConstants() {
+    }
+}

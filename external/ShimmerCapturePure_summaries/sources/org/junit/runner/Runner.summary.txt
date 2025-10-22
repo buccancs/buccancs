@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runner/Runner.java
+// Size: 414 bytes
+// Modified: 2025-10-21 16:32:03.325616100 +0100
+
+package org.junit.runner;
+
+import org.junit.runner.notification.RunNotifier;
+
+/* loaded from: classes2.dex */
+public abstract class Runner implements Describable {
+    @Override // org.junit.runner.Describable
+    public abstract Description getDescription();
+
+    public abstract void run(RunNotifier runNotifier);
+
+    public int testCount() {
+        return getDescription().testCount();
+    }
+}

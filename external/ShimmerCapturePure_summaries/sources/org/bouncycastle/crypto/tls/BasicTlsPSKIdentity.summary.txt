@@ -1,0 +1,42 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/BasicTlsPSKIdentity.java
+// Size: 1089 bytes
+// Modified: 2025-10-21 16:32:03.589849600 +0100
+
+package org.bouncycastle.crypto.tls;
+
+import org.bouncycastle.util.Arrays;
+import org.bouncycastle.util.Strings;
+
+/* loaded from: classes5.dex */
+public class BasicTlsPSKIdentity implements TlsPSKIdentity {
+    protected byte[] identity;
+    protected byte[] psk;
+
+    public BasicTlsPSKIdentity(String str, byte[] bArr) {
+        this.identity = Strings.toUTF8ByteArray(str);
+        this.psk = Arrays.clone(bArr);
+    }
+
+    public BasicTlsPSKIdentity(byte[] bArr, byte[] bArr2) {
+        this.identity = Arrays.clone(bArr);
+        this.psk = Arrays.clone(bArr2);
+    }
+
+    @Override // org.bouncycastle.crypto.tls.TlsPSKIdentity
+    public byte[] getPSK() {
+        return this.psk;
+    }
+
+    @Override // org.bouncycastle.crypto.tls.TlsPSKIdentity
+    public byte[] getPSKIdentity() {
+        return this.identity;
+    }
+
+    @Override // org.bouncycastle.crypto.tls.TlsPSKIdentity
+    public void notifyIdentityHint(byte[] bArr) {
+    }
+
+    @Override // org.bouncycastle.crypto.tls.TlsPSKIdentity
+    public void skipIdentityHint() {
+    }
+}

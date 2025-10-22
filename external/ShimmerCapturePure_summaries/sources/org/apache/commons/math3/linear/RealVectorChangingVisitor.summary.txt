@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/linear/RealVectorChangingVisitor.java
+// Size: 225 bytes
+// Modified: 2025-10-21 16:32:00.492781800 +0100
+
+package org.apache.commons.math3.linear;
+
+/* loaded from: classes5.dex */
+public interface RealVectorChangingVisitor {
+    double end();
+
+    void start(int i, int i2, int i3);
+
+    double visit(int i, double d);
+}

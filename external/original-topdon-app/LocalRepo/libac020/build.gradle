@@ -1,7 +1,7 @@
 configurations.maybeCreate(
-                "default"
-        )
+        "default"
+)
 artifacts.add(
-                "default",
-                file('libAC020sdk_USB_IR_1.1.1_2408291439.aar')
-        )
+        "default",
+        file('libAC020sdk_USB_IR_1.1.1_2408291439.aar')
+)

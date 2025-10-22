@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/content/UnusedAppRestrictionsBackportCallback.java
+// Size: 677 bytes
+// Modified: 2025-10-21 16:32:00.743916400 +0100
+
+package androidx.core.content;
+
+import android.os.RemoteException;
+import androidx.core.app.unusedapprestrictions.IUnusedAppRestrictionsBackportCallback;
+
+/* loaded from: classes.dex */
+public class UnusedAppRestrictionsBackportCallback {
+    private IUnusedAppRestrictionsBackportCallback mCallback;
+
+    public UnusedAppRestrictionsBackportCallback(IUnusedAppRestrictionsBackportCallback iUnusedAppRestrictionsBackportCallback) {
+        this.mCallback = iUnusedAppRestrictionsBackportCallback;
+    }
+
+    public void onResult(boolean z, boolean z2) throws RemoteException {
+        this.mCallback.onIsPermissionRevocationEnabledForAppResult(z, z2);
+    }
+}

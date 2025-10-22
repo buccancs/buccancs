@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/ChannelInboundInvoker.java
+// Size: 643 bytes
+// Modified: 2025-10-21 16:32:00.312661100 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+/* loaded from: classes3.dex */
+public interface ChannelInboundInvoker {
+    ChannelInboundInvoker fireChannelActive();
+
+    ChannelInboundInvoker fireChannelInactive();
+
+    ChannelInboundInvoker fireChannelRead(Object obj);
+
+    ChannelInboundInvoker fireChannelReadComplete();
+
+    ChannelInboundInvoker fireChannelRegistered();
+
+    ChannelInboundInvoker fireChannelUnregistered();
+
+    ChannelInboundInvoker fireChannelWritabilityChanged();
+
+    ChannelInboundInvoker fireExceptionCaught(Throwable th);
+
+    ChannelInboundInvoker fireUserEventTriggered(Object obj);
+}

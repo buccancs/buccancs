@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/it/gerdavax/easybluetooth/BtSocket.java
+// Size: 341 bytes
+// Modified: 2025-10-21 16:32:00.407998200 +0100
+
+package it.gerdavax.easybluetooth;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+/* loaded from: classes4.dex */
+public interface BtSocket {
+    void close() throws IOException;
+
+    InputStream getInputStream() throws Exception;
+
+    OutputStream getOutputStream() throws Exception;
+}

@@ -1,0 +1,95 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/it/gerdavax/easybluetooth/RemoteDevice2Impl.java
+// Size: 3574 bytes
+// Modified: 2025-10-21 16:32:08.040999300 +0100
+
+package it.gerdavax.easybluetooth;
+
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import it.gerdavax.util.Logger;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
+
+/* loaded from: classes4.dex */
+class RemoteDevice2Impl extends RemoteDevice {
+    private BluetoothDevice bd;
+    private final Logger log;
+    private int rssi;
+
+    @Override // it.gerdavax.easybluetooth.RemoteDevice
+    public int getRSSI() {
+        return this.rssi;
+    }
+
+    RemoteDevice2Impl(BluetoothDevice bluetoothDevice) {
+        this(bluetoothDevice, Integer.MIN_VALUE);
+    }
+
+    RemoteDevice2Impl(BluetoothDevice bluetoothDevice, int i) {
+        this.bd = null;
+        this.rssi = -1;
+        this.log = Logger.getLogger("EASYBT");
+        this.bd = bluetoothDevice;
+        this.rssi = i;
+    }
+
+    @Override // it.gerdavax.easybluetooth.RemoteDevice
+    public String getFriendlyName() {
+        return this.bd.getName();
+    }
+
+    @Override // it.gerdavax.easybluetooth.RemoteDevice
+    public String getAddress() {
+        return this.bd.getAddress();
+    }
+
+    @Override // it.gerdavax.easybluetooth.RemoteDevice
+    public BtSocket openSocket(UUID uuid) throws IOException {
+        this.log.i(this, "About to open socket to UUID " + uuid + "...");
+        BluetoothSocket bluetoothSocketCreateRfcommSocketToServiceRecord = this.bd.createRfcommSocketToServiceRecord(uuid);
+        this.log.i(this, "Socket to UUID " + uuid + " open!");
+        bluetoothSocketCreateRfcommSocketToServiceRecord.connect();
+        this.log.i(this, "Socket connected!");
+        return new BtSocket2Impl(bluetoothSocketCreateRfcommSocketToServiceRecord);
+    }
+
+    @Override // it.gerdavax.easybluetooth.RemoteDevice
+    public BtSocket openSocket(int i) throws IOException {
+        try {
+            this.log.i(this, "About to open socket to port " + i + "...");
+            BluetoothSocket bluetoothSocket = (BluetoothSocket) this.bd.getClass().getMethod("createRfcommSocket", Integer.TYPE).invoke(this.bd, Integer.valueOf(i));
+            this.log.i(this, "About to connect socket to port " + i + "...");
+            bluetoothSocket.connect();
+            this.log.i(this, "Socket to port " + i + " open!");
+            return new BtSocket2Impl(bluetoothSocket);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isBonded() {
+        return this.bd.getBondState() != 10;
+    }
+
+    @Override // it.gerdavax.easybluetooth.RemoteDevice
+    public boolean ensurePaired(String str) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        try {
+            if (!isBonded()) {
+                this.log.i(this, "Asking to create bond, then PIN insert");
+                if (str != null) {
+                    this.bd.getClass().getMethod("setPin", new byte[1].getClass()).invoke(this.bd, str.getBytes("UTF-8"));
+                }
+                this.bd.getClass().getMethod("createBond", new Class[0]).invoke(this.bd, new Object[0]);
+                if (str == null) {
+                    ((LocalDevice2Impl) LocalDevice.getInstance()).showDefaultPinInputActivity(this.bd, true);
+                }
+                return false;
+            }
+            this.log.i(this, "Device is already bonded!");
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

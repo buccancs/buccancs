@@ -1,0 +1,36 @@
+package io.opencensus.proto.metrics.v1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.opencensus.proto.metrics.v1.MetricDescriptor;
+
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface MetricDescriptorOrBuilder extends MessageOrBuilder {
+    String getDescription();
+
+    ByteString getDescriptionBytes();
+
+    LabelKey getLabelKeys(int i);
+
+    int getLabelKeysCount();
+
+    List<LabelKey> getLabelKeysList();
+
+    LabelKeyOrBuilder getLabelKeysOrBuilder(int i);
+
+    List<? extends LabelKeyOrBuilder> getLabelKeysOrBuilderList();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    MetricDescriptor.Type getType();
+
+    int getTypeValue();
+
+    String getUnit();
+
+    ByteString getUnitBytes();
+}

@@ -1,0 +1,305 @@
+package org.apache.commons.math.random;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/EmpiricalDistributionImpl.class */
+public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
+    private static final long serialVersionUID = 5729073523949762654L;
+    private final List<SummaryStatistics> binStats;
+    private final int binCount;
+    private final RandomData randomData;
+    private SummaryStatistics sampleStats;
+    private double max;
+    private double min;
+    private double delta;
+    private boolean loaded;
+    private double[] upperBounds;
+
+    public EmpiricalDistributionImpl() {
+        this.sampleStats = null;
+        this.max = Double.NEGATIVE_INFINITY;
+        this.min = Double.POSITIVE_INFINITY;
+        this.delta = 0.0d;
+        this.loaded = false;
+        this.upperBounds = null;
+        this.randomData = new RandomDataImpl();
+        this.binCount = 1000;
+        this.binStats = new ArrayList();
+    }
+
+    public EmpiricalDistributionImpl(int binCount) {
+        this.sampleStats = null;
+        this.max = Double.NEGATIVE_INFINITY;
+        this.min = Double.POSITIVE_INFINITY;
+        this.delta = 0.0d;
+        this.loaded = false;
+        this.upperBounds = null;
+        this.randomData = new RandomDataImpl();
+        this.binCount = binCount;
+        this.binStats = new ArrayList();
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public void load(double[] in) {
+        DataAdapter da = new ArrayDataAdapter(in);
+        try {
+            da.computeStats();
+            fillBinStats(in);
+            this.loaded = true;
+        } catch (IOException e) {
+            throw new MathRuntimeException(e);
+        }
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public void load(URL url) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        try {
+            DataAdapter da = new StreamDataAdapter(in);
+            da.computeStats();
+            if (this.sampleStats.getN() == 0) {
+                throw MathRuntimeException.createEOFException(LocalizedFormats.URL_CONTAINS_NO_DATA, url);
+            }
+            in = new BufferedReader(new InputStreamReader(url.openStream()));
+            fillBinStats(in);
+            this.loaded = true;
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) {
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public void load(File file) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader(file));
+        try {
+            DataAdapter da = new StreamDataAdapter(in);
+            da.computeStats();
+            in = new BufferedReader(new FileReader(file));
+            fillBinStats(in);
+            this.loaded = true;
+            try {
+                in.close();
+            } catch (IOException e) {
+            }
+        } catch (Throwable th) {
+            try {
+                in.close();
+            } catch (IOException e2) {
+            }
+            throw th;
+        }
+    }
+
+    private void fillBinStats(Object in) throws IOException {
+        this.min = this.sampleStats.getMin();
+        this.max = this.sampleStats.getMax();
+        this.delta = (this.max - this.min) / Double.valueOf(this.binCount).doubleValue();
+        if (!this.binStats.isEmpty()) {
+            this.binStats.clear();
+        }
+        for (int i = 0; i < this.binCount; i++) {
+            SummaryStatistics stats = new SummaryStatistics();
+            this.binStats.add(i, stats);
+        }
+        DataAdapterFactory aFactory = new DataAdapterFactory();
+        DataAdapter da = aFactory.getAdapter(in);
+        da.computeBinStats();
+        this.upperBounds = new double[this.binCount];
+        this.upperBounds[0] = this.binStats.get(0).getN() / this.sampleStats.getN();
+        for (int i2 = 1; i2 < this.binCount - 1; i2++) {
+            this.upperBounds[i2] = this.upperBounds[i2 - 1] + (this.binStats.get(i2).getN() / this.sampleStats.getN());
+        }
+        this.upperBounds[this.binCount - 1] = 1.0d;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int findBin(double value) {
+        return FastMath.min(FastMath.max(((int) FastMath.ceil((value - this.min) / this.delta)) - 1, 0), this.binCount - 1);
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public double getNextValue() throws IllegalStateException {
+        if (!this.loaded) {
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED, new Object[0]);
+        }
+        double x = FastMath.random();
+        for (int i = 0; i < this.binCount; i++) {
+            if (x <= this.upperBounds[i]) {
+                SummaryStatistics stats = this.binStats.get(i);
+                if (stats.getN() > 0) {
+                    if (stats.getStandardDeviation() > 0.0d) {
+                        return this.randomData.nextGaussian(stats.getMean(), stats.getStandardDeviation());
+                    }
+                    return stats.getMean();
+                }
+            }
+        }
+        throw new MathRuntimeException(LocalizedFormats.NO_BIN_SELECTED, new Object[0]);
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public StatisticalSummary getSampleStats() {
+        return this.sampleStats;
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public int getBinCount() {
+        return this.binCount;
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public List<SummaryStatistics> getBinStats() {
+        return this.binStats;
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public double[] getUpperBounds() {
+        double[] binUpperBounds = new double[this.binCount];
+        binUpperBounds[0] = this.min + this.delta;
+        for (int i = 1; i < this.binCount - 1; i++) {
+            binUpperBounds[i] = binUpperBounds[i - 1] + this.delta;
+        }
+        binUpperBounds[this.binCount - 1] = this.max;
+        return binUpperBounds;
+    }
+
+    public double[] getGeneratorUpperBounds() {
+        int len = this.upperBounds.length;
+        double[] out = new double[len];
+        System.arraycopy(this.upperBounds, 0, out, 0, len);
+        return out;
+    }
+
+    @Override // org.apache.commons.math.random.EmpiricalDistribution
+    public boolean isLoaded() {
+        return this.loaded;
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/EmpiricalDistributionImpl$DataAdapter.class */
+    private abstract class DataAdapter {
+        private DataAdapter() {
+        }
+
+        public abstract void computeBinStats() throws IOException;
+
+        public abstract void computeStats() throws IOException;
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/EmpiricalDistributionImpl$DataAdapterFactory.class */
+    private class DataAdapterFactory {
+        private DataAdapterFactory() {
+        }
+
+        public DataAdapter getAdapter(Object in) {
+            if (in instanceof BufferedReader) {
+                BufferedReader inputStream = (BufferedReader) in;
+                return EmpiricalDistributionImpl.this.new StreamDataAdapter(inputStream);
+            }
+            if (!(in instanceof double[])) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INPUT_DATA_FROM_UNSUPPORTED_DATASOURCE, in.getClass().getName(), BufferedReader.class.getName(), double[].class.getName());
+            }
+            double[] inputArray = (double[]) in;
+            return EmpiricalDistributionImpl.this.new ArrayDataAdapter(inputArray);
+        }
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/EmpiricalDistributionImpl$StreamDataAdapter.class */
+    private class StreamDataAdapter extends DataAdapter {
+        private BufferedReader inputStream;
+
+        public StreamDataAdapter(BufferedReader in) {
+            super();
+            this.inputStream = in;
+        }
+
+        @Override // org.apache.commons.math.random.EmpiricalDistributionImpl.DataAdapter
+        public void computeBinStats() throws IOException, NumberFormatException {
+            while (true) {
+                String str = this.inputStream.readLine();
+                if (str != null) {
+                    double val = Double.parseDouble(str);
+                    SummaryStatistics stats = (SummaryStatistics) EmpiricalDistributionImpl.this.binStats.get(EmpiricalDistributionImpl.this.findBin(val));
+                    stats.addValue(val);
+                } else {
+                    this.inputStream.close();
+                    this.inputStream = null;
+                    return;
+                }
+            }
+        }
+
+        @Override // org.apache.commons.math.random.EmpiricalDistributionImpl.DataAdapter
+        public void computeStats() throws IOException {
+            EmpiricalDistributionImpl.this.sampleStats = new SummaryStatistics();
+            while (true) {
+                String str = this.inputStream.readLine();
+                if (str != null) {
+                    double val = Double.valueOf(str).doubleValue();
+                    EmpiricalDistributionImpl.this.sampleStats.addValue(val);
+                } else {
+                    this.inputStream.close();
+                    this.inputStream = null;
+                    return;
+                }
+            }
+        }
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/EmpiricalDistributionImpl$ArrayDataAdapter.class */
+    private class ArrayDataAdapter extends DataAdapter {
+        private double[] inputArray;
+
+        public ArrayDataAdapter(double[] in) {
+            super();
+            this.inputArray = in;
+        }
+
+        @Override // org.apache.commons.math.random.EmpiricalDistributionImpl.DataAdapter
+        public void computeStats() throws IOException {
+            EmpiricalDistributionImpl.this.sampleStats = new SummaryStatistics();
+            for (int i = 0; i < this.inputArray.length; i++) {
+                EmpiricalDistributionImpl.this.sampleStats.addValue(this.inputArray[i]);
+            }
+        }
+
+        @Override // org.apache.commons.math.random.EmpiricalDistributionImpl.DataAdapter
+        public void computeBinStats() throws IOException {
+            for (int i = 0; i < this.inputArray.length; i++) {
+                SummaryStatistics stats = (SummaryStatistics) EmpiricalDistributionImpl.this.binStats.get(EmpiricalDistributionImpl.this.findBin(this.inputArray[i]));
+                stats.addValue(this.inputArray[i]);
+            }
+        }
+    }
+}

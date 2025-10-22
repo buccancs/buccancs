@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/MapDifference.java
+// Size: 785 bytes
+// Modified: 2025-10-21 16:32:01.292346300 +0100
+
+package com.google.common.collect;
+
+import com.google.errorprone.annotations.DoNotMock;
+import java.util.Map;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+@DoNotMock("Use Maps.difference")
+/* loaded from: classes.dex */
+public interface MapDifference<K, V> {
+
+    @DoNotMock("Use Maps.difference")
+    public interface ValueDifference<V> {
+        boolean equals(@NullableDecl Object obj);
+
+        int hashCode();
+
+        V leftValue();
+
+        V rightValue();
+    }
+
+    boolean areEqual();
+
+    Map<K, ValueDifference<V>> entriesDiffering();
+
+    Map<K, V> entriesInCommon();
+
+    Map<K, V> entriesOnlyOnLeft();
+
+    Map<K, V> entriesOnlyOnRight();
+
+    boolean equals(@NullableDecl Object obj);
+
+    int hashCode();
+}

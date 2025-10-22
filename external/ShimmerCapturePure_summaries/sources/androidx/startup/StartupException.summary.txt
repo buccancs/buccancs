@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/startup/StartupException.java
+// Size: 364 bytes
+// Modified: 2025-10-21 16:31:59.962751500 +0100
+
+package androidx.startup;
+
+/* loaded from: classes.dex */
+public final class StartupException extends RuntimeException {
+    public StartupException(String str) {
+        super(str);
+    }
+
+    public StartupException(Throwable th) {
+        super(th);
+    }
+
+    public StartupException(String str, Throwable th) {
+        super(str, th);
+    }
+}

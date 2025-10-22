@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/Strings.java
+// Size: 267 bytes
+// Modified: 2025-10-21 16:32:03.104065700 +0100
+
+package com.google.api.client.util;
+
+/* loaded from: classes.dex */
+public final class Strings {
+    public static boolean isNullOrEmpty(String str) {
+        return com.google.common.base.Strings.isNullOrEmpty(str);
+    }
+
+    private Strings() {
+    }
+}

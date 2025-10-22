@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/NestedScrollingParent3.java
+// Size: 257 bytes
+// Modified: 2025-10-21 16:32:01.135799700 +0100
+
+package androidx.core.view;
+
+import android.view.View;
+
+/* loaded from: classes.dex */
+public interface NestedScrollingParent3 extends NestedScrollingParent2 {
+    void onNestedScroll(View view, int i, int i2, int i3, int i4, int i5, int[] iArr);
+}

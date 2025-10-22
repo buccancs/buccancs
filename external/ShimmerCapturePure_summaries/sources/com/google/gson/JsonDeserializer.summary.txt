@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/JsonDeserializer.java
+// Size: 274 bytes
+// Modified: 2025-10-21 16:32:04.572159400 +0100
+
+package com.google.gson;
+
+import java.lang.reflect.Type;
+
+/* loaded from: classes.dex */
+public interface JsonDeserializer<T> {
+    T deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException;
+}

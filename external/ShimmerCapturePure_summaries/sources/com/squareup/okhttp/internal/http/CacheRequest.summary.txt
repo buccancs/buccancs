@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/squareup/okhttp/internal/http/CacheRequest.java
+// Size: 223 bytes
+// Modified: 2025-10-21 16:32:02.201101100 +0100
+
+package com.squareup.okhttp.internal.http;
+
+import java.io.IOException;
+import okio.Sink;
+
+/* loaded from: classes2.dex */
+public interface CacheRequest {
+    void abort();
+
+    Sink body() throws IOException;
+}

@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/io/CipherIOException.java
+// Size: 473 bytes
+// Modified: 2025-10-21 16:32:00.592782700 +0100
+
+package org.bouncycastle.crypto.io;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public class CipherIOException extends IOException {
+    private static final long serialVersionUID = 1;
+    private final Throwable cause;
+
+    public CipherIOException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

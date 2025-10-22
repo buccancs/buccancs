@@ -1,0 +1,6 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/testing/json/package-info.java
+// Size: 47 bytes
+// Modified: 2025-10-21 16:32:00.146745900 +0100
+
+package com.google.api.client.testing.json;
+

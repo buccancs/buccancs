@@ -1,0 +1,565 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/javax/vecmath/GVector.java
+// Size: 18191 bytes
+// Modified: 2025-10-21 16:32:07.630735900 +0100
+
+package javax.vecmath;
+
+import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes4.dex */
+public class GVector implements Serializable, Cloneable {
+    static final long serialVersionUID = 1398850036893875112L;
+    private int length;
+    double[] values;
+
+    public GVector(int i) {
+        this.length = i;
+        this.values = new double[i];
+        for (int i2 = 0; i2 < i; i2++) {
+            this.values[i2] = 0.0d;
+        }
+    }
+
+    public GVector(double[] dArr) {
+        this.length = dArr.length;
+        this.values = new double[dArr.length];
+        for (int i = 0; i < this.length; i++) {
+            this.values[i] = dArr[i];
+        }
+    }
+
+    public GVector(GVector gVector) {
+        int i = gVector.length;
+        this.values = new double[i];
+        this.length = i;
+        for (int i2 = 0; i2 < this.length; i2++) {
+            this.values[i2] = gVector.values[i2];
+        }
+    }
+
+    public GVector(Tuple2f tuple2f) {
+        this.values = new double[]{tuple2f.x, 0.0d};
+        this.values[1] = tuple2f.y;
+        this.length = 2;
+    }
+
+    public GVector(Tuple3f tuple3f) {
+        this.values = new double[]{tuple3f.x, 0.0d, 0.0d};
+        this.values[1] = tuple3f.y;
+        this.values[2] = tuple3f.z;
+        this.length = 3;
+    }
+
+    public GVector(Tuple3d tuple3d) {
+        this.values = new double[]{tuple3d.x, 0.0d, 0.0d};
+        this.values[1] = tuple3d.y;
+        this.values[2] = tuple3d.z;
+        this.length = 3;
+    }
+
+    public GVector(Tuple4f tuple4f) {
+        double[] dArr = new double[4];
+        this.values = dArr;
+        dArr[0] = tuple4f.x;
+        this.values[1] = tuple4f.y;
+        this.values[2] = tuple4f.z;
+        this.values[3] = tuple4f.w;
+        this.length = 4;
+    }
+
+    public GVector(Tuple4d tuple4d) {
+        double[] dArr = new double[4];
+        this.values = dArr;
+        dArr[0] = tuple4d.x;
+        this.values[1] = tuple4d.y;
+        this.values[2] = tuple4d.z;
+        this.values[3] = tuple4d.w;
+        this.length = 4;
+    }
+
+    public GVector(double[] dArr, int i) {
+        this.length = i;
+        this.values = new double[i];
+        for (int i2 = 0; i2 < i; i2++) {
+            this.values[i2] = dArr[i2];
+        }
+    }
+
+    public final double norm() {
+        double d = 0.0d;
+        for (int i = 0; i < this.length; i++) {
+            double d2 = this.values[i];
+            d += d2 * d2;
+        }
+        return Math.sqrt(d);
+    }
+
+    public final double normSquared() {
+        double d = 0.0d;
+        for (int i = 0; i < this.length; i++) {
+            double d2 = this.values[i];
+            d += d2 * d2;
+        }
+        return d;
+    }
+
+    public final void normalize(GVector gVector) {
+        if (this.length != gVector.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector0"));
+        }
+        double d = 0.0d;
+        for (int i = 0; i < this.length; i++) {
+            double d2 = gVector.values[i];
+            d += d2 * d2;
+        }
+        double dSqrt = 1.0d / Math.sqrt(d);
+        for (int i2 = 0; i2 < this.length; i2++) {
+            this.values[i2] = gVector.values[i2] * dSqrt;
+        }
+    }
+
+    public final void normalize() {
+        double d = 0.0d;
+        for (int i = 0; i < this.length; i++) {
+            double d2 = this.values[i];
+            d += d2 * d2;
+        }
+        double dSqrt = 1.0d / Math.sqrt(d);
+        for (int i2 = 0; i2 < this.length; i2++) {
+            double[] dArr = this.values;
+            dArr[i2] = dArr[i2] * dSqrt;
+        }
+    }
+
+    public final void scale(double d, GVector gVector) {
+        if (this.length != gVector.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector1"));
+        }
+        for (int i = 0; i < this.length; i++) {
+            this.values[i] = gVector.values[i] * d;
+        }
+    }
+
+    public final void scale(double d) {
+        for (int i = 0; i < this.length; i++) {
+            double[] dArr = this.values;
+            dArr[i] = dArr[i] * d;
+        }
+    }
+
+    public final void scaleAdd(double d, GVector gVector, GVector gVector2) {
+        int i = gVector2.length;
+        int i2 = gVector.length;
+        if (i != i2) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector2"));
+        }
+        if (this.length != i2) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector3"));
+        }
+        for (int i3 = 0; i3 < this.length; i3++) {
+            this.values[i3] = (gVector.values[i3] * d) + gVector2.values[i3];
+        }
+    }
+
+    public final void add(GVector gVector) {
+        if (this.length != gVector.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector4"));
+        }
+        for (int i = 0; i < this.length; i++) {
+            double[] dArr = this.values;
+            dArr[i] = dArr[i] + gVector.values[i];
+        }
+    }
+
+    public final void add(GVector gVector, GVector gVector2) {
+        int i = gVector.length;
+        if (i != gVector2.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector5"));
+        }
+        if (this.length != i) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector6"));
+        }
+        for (int i2 = 0; i2 < this.length; i2++) {
+            this.values[i2] = gVector.values[i2] + gVector2.values[i2];
+        }
+    }
+
+    public final void sub(GVector gVector) {
+        if (this.length != gVector.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector7"));
+        }
+        for (int i = 0; i < this.length; i++) {
+            double[] dArr = this.values;
+            dArr[i] = dArr[i] - gVector.values[i];
+        }
+    }
+
+    public final void sub(GVector gVector, GVector gVector2) {
+        int i = gVector.length;
+        if (i != gVector2.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector8"));
+        }
+        if (this.length != i) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector9"));
+        }
+        for (int i2 = 0; i2 < this.length; i2++) {
+            this.values[i2] = gVector.values[i2] - gVector2.values[i2];
+        }
+    }
+
+    public final void mul(GMatrix gMatrix, GVector gVector) {
+        double[] dArr;
+        if (gMatrix.getNumCol() != gVector.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector10"));
+        }
+        if (this.length != gMatrix.getNumRow()) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector11"));
+        }
+        if (gVector != this) {
+            dArr = gVector.values;
+        } else {
+            dArr = (double[]) this.values.clone();
+        }
+        for (int i = this.length - 1; i >= 0; i--) {
+            this.values[i] = 0.0d;
+            for (int i2 = gVector.length - 1; i2 >= 0; i2--) {
+                double[] dArr2 = this.values;
+                dArr2[i] = dArr2[i] + (gMatrix.values[i][i2] * dArr[i2]);
+            }
+        }
+    }
+
+    public final void mul(GVector gVector, GMatrix gMatrix) {
+        double[] dArr;
+        if (gMatrix.getNumRow() != gVector.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector12"));
+        }
+        if (this.length != gMatrix.getNumCol()) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector13"));
+        }
+        if (gVector != this) {
+            dArr = gVector.values;
+        } else {
+            dArr = (double[]) this.values.clone();
+        }
+        for (int i = this.length - 1; i >= 0; i--) {
+            this.values[i] = 0.0d;
+            for (int i2 = gVector.length - 1; i2 >= 0; i2--) {
+                double[] dArr2 = this.values;
+                dArr2[i] = dArr2[i] + (gMatrix.values[i2][i] * dArr[i2]);
+            }
+        }
+    }
+
+    public final void negate() {
+        for (int i = this.length - 1; i >= 0; i--) {
+            double[] dArr = this.values;
+            dArr[i] = dArr[i] * (-1.0d);
+        }
+    }
+
+    public final void zero() {
+        for (int i = 0; i < this.length; i++) {
+            this.values[i] = 0.0d;
+        }
+    }
+
+    public final void setSize(int i) {
+        double[] dArr = new double[i];
+        int i2 = this.length;
+        if (i2 >= i) {
+            i2 = i;
+        }
+        for (int i3 = 0; i3 < i2; i3++) {
+            dArr[i3] = this.values[i3];
+        }
+        this.length = i;
+        this.values = dArr;
+    }
+
+    public final void set(double[] dArr) {
+        for (int i = this.length - 1; i >= 0; i--) {
+            this.values[i] = dArr[i];
+        }
+    }
+
+    public final void set(GVector gVector) {
+        int i;
+        int i2 = this.length;
+        int i3 = gVector.length;
+        int i4 = 0;
+        if (i2 < i3) {
+            this.length = i3;
+            this.values = new double[i3];
+            while (i4 < this.length) {
+                this.values[i4] = gVector.values[i4];
+                i4++;
+            }
+            return;
+        }
+        while (true) {
+            i = gVector.length;
+            if (i4 >= i) {
+                break;
+            }
+            this.values[i4] = gVector.values[i4];
+            i4++;
+        }
+        while (i < this.length) {
+            this.values[i] = 0.0d;
+            i++;
+        }
+    }
+
+    public final void set(Tuple2f tuple2f) {
+        if (this.length < 2) {
+            this.length = 2;
+            this.values = new double[2];
+        }
+        this.values[0] = tuple2f.x;
+        this.values[1] = tuple2f.y;
+        for (int i = 2; i < this.length; i++) {
+            this.values[i] = 0.0d;
+        }
+    }
+
+    public final void set(Tuple3f tuple3f) {
+        if (this.length < 3) {
+            this.length = 3;
+            this.values = new double[3];
+        }
+        this.values[0] = tuple3f.x;
+        this.values[1] = tuple3f.y;
+        this.values[2] = tuple3f.z;
+        for (int i = 3; i < this.length; i++) {
+            this.values[i] = 0.0d;
+        }
+    }
+
+    public final void set(Tuple3d tuple3d) {
+        if (this.length < 3) {
+            this.length = 3;
+            this.values = new double[3];
+        }
+        this.values[0] = tuple3d.x;
+        this.values[1] = tuple3d.y;
+        this.values[2] = tuple3d.z;
+        for (int i = 3; i < this.length; i++) {
+            this.values[i] = 0.0d;
+        }
+    }
+
+    public final void set(Tuple4f tuple4f) {
+        if (this.length < 4) {
+            this.length = 4;
+            this.values = new double[4];
+        }
+        this.values[0] = tuple4f.x;
+        this.values[1] = tuple4f.y;
+        this.values[2] = tuple4f.z;
+        this.values[3] = tuple4f.w;
+        for (int i = 4; i < this.length; i++) {
+            this.values[i] = 0.0d;
+        }
+    }
+
+    public final void set(Tuple4d tuple4d) {
+        if (this.length < 4) {
+            this.length = 4;
+            this.values = new double[4];
+        }
+        this.values[0] = tuple4d.x;
+        this.values[1] = tuple4d.y;
+        this.values[2] = tuple4d.z;
+        this.values[3] = tuple4d.w;
+        for (int i = 4; i < this.length; i++) {
+            this.values[i] = 0.0d;
+        }
+    }
+
+    public final int getSize() {
+        return this.values.length;
+    }
+
+    public final double getElement(int i) {
+        return this.values[i];
+    }
+
+    public final void setElement(int i, double d) {
+        this.values[i] = d;
+    }
+
+    public String toString() {
+        StringBuffer stringBuffer = new StringBuffer(this.length * 8);
+        for (int i = 0; i < this.length; i++) {
+            stringBuffer.append(this.values[i]).append(StringUtils.SPACE);
+        }
+        return stringBuffer.toString();
+    }
+
+    public int hashCode() {
+        long jDoubleToLongBits = 1;
+        for (int i = 0; i < this.length; i++) {
+            jDoubleToLongBits = (jDoubleToLongBits * 31) + Double.doubleToLongBits(this.values[i]);
+        }
+        return (int) (jDoubleToLongBits ^ (jDoubleToLongBits >> 32));
+    }
+
+    public boolean equals(GVector gVector) {
+        try {
+            if (this.length != gVector.length) {
+                return false;
+            }
+            for (int i = 0; i < this.length; i++) {
+                if (this.values[i] != gVector.values[i]) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean equals(Object obj) {
+        try {
+            GVector gVector = (GVector) obj;
+            if (this.length != gVector.length) {
+                return false;
+            }
+            for (int i = 0; i < this.length; i++) {
+                if (this.values[i] != gVector.values[i]) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean epsilonEquals(GVector gVector, double d) {
+        if (this.length != gVector.length) {
+            return false;
+        }
+        for (int i = 0; i < this.length; i++) {
+            double d2 = this.values[i] - gVector.values[i];
+            if (d2 < 0.0d) {
+                d2 = -d2;
+            }
+            if (d2 > d) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public final double dot(GVector gVector) {
+        if (this.length != gVector.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector14"));
+        }
+        double d = 0.0d;
+        for (int i = 0; i < this.length; i++) {
+            d += this.values[i] * gVector.values[i];
+        }
+        return d;
+    }
+
+    public final void SVDBackSolve(GMatrix gMatrix, GMatrix gMatrix2, GMatrix gMatrix3, GVector gVector) {
+        if (gMatrix.nRow != gVector.getSize() || gMatrix.nRow != gMatrix.nCol || gMatrix.nRow != gMatrix2.nRow) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector15"));
+        }
+        if (gMatrix2.nCol != this.values.length || gMatrix2.nCol != gMatrix3.nCol || gMatrix2.nCol != gMatrix3.nRow) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector23"));
+        }
+        GMatrix gMatrix4 = new GMatrix(gMatrix.nRow, gMatrix2.nCol);
+        gMatrix4.mul(gMatrix, gMatrix3);
+        gMatrix4.mulTransposeRight(gMatrix, gMatrix2);
+        gMatrix4.invert();
+        mul(gMatrix4, gVector);
+    }
+
+    public final void LUDBackSolve(GMatrix gMatrix, GVector gVector, GVector gVector2) {
+        int i = gMatrix.nRow * gMatrix.nCol;
+        double[] dArr = new double[i];
+        double[] dArr2 = new double[i];
+        int[] iArr = new int[gVector.getSize()];
+        if (gMatrix.nRow != gVector.getSize()) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector16"));
+        }
+        if (gMatrix.nRow != gVector2.getSize()) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector24"));
+        }
+        if (gMatrix.nRow != gMatrix.nCol) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector25"));
+        }
+        for (int i2 = 0; i2 < gMatrix.nRow; i2++) {
+            for (int i3 = 0; i3 < gMatrix.nCol; i3++) {
+                dArr[(gMatrix.nCol * i2) + i3] = gMatrix.values[i2][i3];
+            }
+        }
+        for (int i4 = 0; i4 < i; i4++) {
+            dArr2[i4] = 0.0d;
+        }
+        for (int i5 = 0; i5 < gMatrix.nRow; i5++) {
+            dArr2[gMatrix.nCol * i5] = gVector.values[i5];
+        }
+        for (int i6 = 0; i6 < gMatrix.nCol; i6++) {
+            iArr[i6] = (int) gVector2.values[i6];
+        }
+        GMatrix.luBacksubstitution(gMatrix.nRow, dArr, iArr, dArr2);
+        for (int i7 = 0; i7 < gMatrix.nRow; i7++) {
+            this.values[i7] = dArr2[gMatrix.nCol * i7];
+        }
+    }
+
+    public final double angle(GVector gVector) {
+        return Math.acos(dot(gVector) / (norm() * gVector.norm()));
+    }
+
+    public final void interpolate(GVector gVector, GVector gVector2, float f) {
+        interpolate(gVector, gVector2, f);
+    }
+
+    public final void interpolate(GVector gVector, float f) {
+        interpolate(gVector, f);
+    }
+
+    public final void interpolate(GVector gVector, GVector gVector2, double d) {
+        int i = gVector2.length;
+        int i2 = gVector.length;
+        if (i != i2) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector20"));
+        }
+        if (this.length != i2) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector21"));
+        }
+        for (int i3 = 0; i3 < this.length; i3++) {
+            this.values[i3] = ((1.0d - d) * gVector.values[i3]) + (gVector2.values[i3] * d);
+        }
+    }
+
+    public final void interpolate(GVector gVector, double d) {
+        if (gVector.length != this.length) {
+            throw new MismatchedSizeException(VecMathI18N.getString("GVector22"));
+        }
+        for (int i = 0; i < this.length; i++) {
+            double[] dArr = this.values;
+            dArr[i] = ((1.0d - d) * dArr[i]) + (gVector.values[i] * d);
+        }
+    }
+
+    public Object clone() {
+        try {
+            GVector gVector = (GVector) super.clone();
+            gVector.values = new double[this.length];
+            for (int i = 0; i < this.length; i++) {
+                gVector.values[i] = this.values[i];
+            }
+            return gVector;
+        } catch (CloneNotSupportedException unused) {
+            throw new InternalError();
+        }
+    }
+}

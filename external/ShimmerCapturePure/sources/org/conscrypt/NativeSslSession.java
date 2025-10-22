@@ -1,0 +1,447 @@
+package org.conscrypt;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.security.Principal;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSessionContext;
+
+import org.conscrypt.NativeRef;
+import org.conscrypt.SSLUtils;
+
+/* loaded from: classes5.dex */
+abstract class NativeSslSession {
+    private static final Logger logger = Logger.getLogger(NativeSslSession.class.getName());
+
+    NativeSslSession() {
+    }
+
+    static NativeSslSession newInstance(NativeRef.SSL_SESSION ssl_session, ConscryptSession conscryptSession) throws SSLPeerUnverifiedException {
+        AbstractSessionContext abstractSessionContext = (AbstractSessionContext) conscryptSession.getSessionContext();
+        if (abstractSessionContext instanceof ClientSessionContext) {
+            return new Impl(abstractSessionContext, ssl_session, conscryptSession.getPeerHost(), conscryptSession.getPeerPort(), conscryptSession.getPeerCertificates(), getOcspResponse(conscryptSession), conscryptSession.getPeerSignedCertificateTimestamp());
+        }
+        return new Impl(abstractSessionContext, ssl_session, null, -1, null, null, null);
+    }
+
+    private static byte[] getOcspResponse(ConscryptSession conscryptSession) {
+        List<byte[]> statusResponses = conscryptSession.getStatusResponses();
+        if (statusResponses.size() >= 1) {
+            return statusResponses.get(0);
+        }
+        return null;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:20:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00a6  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    static org.conscrypt.NativeSslSession newInstance(org.conscrypt.AbstractSessionContext r14, byte[] r15, java.lang.String r16, int r17) throws java.io.IOException {
+        /*
+            java.lang.String r0 = "Unexpected type ID: "
+            java.nio.ByteBuffer r1 = java.nio.ByteBuffer.wrap(r15)
+            r2 = 0
+            int r3 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            boolean r4 = org.conscrypt.SSLUtils.SessionType.isSupportedType(r3)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            if (r4 == 0) goto Lce
+            int r0 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            checkRemaining(r1, r0)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            byte[] r0 = new byte[r0]     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.get(r0)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            int r4 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            checkRemaining(r1, r4)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.security.cert.X509Certificate[] r10 = new java.security.cert.X509Certificate[r4]     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r5 = 0
+        L27:
+            if (r5 >= r4) goto L5d
+            int r6 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            checkRemaining(r1, r6)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            byte[] r6 = new byte[r6]     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.get(r6)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            org.conscrypt.OpenSSLX509Certificate r6 = org.conscrypt.OpenSSLX509Certificate.fromX509Der(r6)     // Catch: java.lang.Exception -> L3e java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r10[r5] = r6     // Catch: java.lang.Exception -> L3e java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            int r5 = r5 + 1
+            goto L27
+        L3e:
+            java.io.IOException r0 = new java.io.IOException     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.lang.StringBuilder r1 = new java.lang.StringBuilder     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.<init>()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.lang.String r3 = "Can not read certificate "
+            r1.append(r3)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.append(r5)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.lang.String r3 = "/"
+            r1.append(r3)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.append(r4)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.lang.String r1 = r1.toString()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r0.<init>(r1)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            throw r0     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+        L5d:
+            org.conscrypt.SSLUtils$SessionType r4 = org.conscrypt.SSLUtils.SessionType.OPEN_SSL_WITH_OCSP     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            int r4 = r4.value     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            if (r3 < r4) goto L8f
+            int r4 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            checkRemaining(r1, r4)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r5 = 1
+            if (r4 < r5) goto L8f
+            int r6 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            checkRemaining(r1, r6)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            byte[] r6 = new byte[r6]     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.get(r6)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+        L79:
+            if (r5 >= r4) goto L8d
+            int r7 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            checkRemaining(r1, r7)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            int r8 = r1.position()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            int r8 = r8 + r7
+            r1.position(r8)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            int r5 = r5 + 1
+            goto L79
+        L8d:
+            r11 = r6
+            goto L90
+        L8f:
+            r11 = r2
+        L90:
+            org.conscrypt.SSLUtils$SessionType r4 = org.conscrypt.SSLUtils.SessionType.OPEN_SSL_WITH_TLS_SCT     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            int r4 = r4.value     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            if (r3 != r4) goto La6
+            int r3 = r1.getInt()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            checkRemaining(r1, r3)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            if (r3 <= 0) goto La6
+            byte[] r3 = new byte[r3]     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.get(r3)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r12 = r3
+            goto La7
+        La6:
+            r12 = r2
+        La7:
+            int r1 = r1.remaining()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            if (r1 == 0) goto Lb8
+            java.lang.AssertionError r0 = new java.lang.AssertionError     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.lang.String r1 = "Read entire session, but data still remains; rejecting"
+            r0.<init>(r1)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            log(r0)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            return r2
+        Lb8:
+            org.conscrypt.NativeRef$SSL_SESSION r7 = new org.conscrypt.NativeRef$SSL_SESSION     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            long r0 = org.conscrypt.NativeCrypto.d2i_SSL_SESSION(r0)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r7.<init>(r0)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            org.conscrypt.NativeSslSession$Impl r0 = new org.conscrypt.NativeSslSession$Impl     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r13 = 0
+            r5 = r0
+            r6 = r14
+            r8 = r16
+            r9 = r17
+            r5.<init>(r6, r7, r8, r9, r10, r11, r12)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            return r0
+        Lce:
+            java.io.IOException r1 = new java.io.IOException     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.lang.StringBuilder r4 = new java.lang.StringBuilder     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r4.<init>(r0)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r4.append(r3)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            java.lang.String r0 = r4.toString()     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            r1.<init>(r0)     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+            throw r1     // Catch: java.nio.BufferUnderflowException -> Le0 java.io.IOException -> Le5
+        Le0:
+            r0 = move-exception
+            log(r0)
+            return r2
+        Le5:
+            r0 = move-exception
+            log(r0)
+            return r2
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.conscrypt.NativeSslSession.newInstance(org.conscrypt.AbstractSessionContext, byte[], java.lang.String, int):org.conscrypt.NativeSslSession");
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void log(Throwable th) {
+        logger.log(Level.INFO, "Error inflating SSL session: {0}", th.getMessage() != null ? th.getMessage() : th.getClass().getName());
+    }
+
+    private static void checkRemaining(ByteBuffer byteBuffer, int i) throws IOException {
+        if (i < 0) {
+            throw new IOException("Length is negative: " + i);
+        }
+        if (i <= byteBuffer.remaining()) {
+            return;
+        }
+        throw new IOException("Length of blob is longer than available: " + i + " > " + byteBuffer.remaining());
+    }
+
+    abstract String getCipherSuite();
+
+    abstract byte[] getId();
+
+    abstract String getPeerHost();
+
+    abstract byte[] getPeerOcspStapledResponse();
+
+    abstract int getPeerPort();
+
+    abstract byte[] getPeerSignedCertificateTimestamp();
+
+    abstract String getProtocol();
+
+    abstract boolean isSingleUse();
+
+    abstract boolean isValid();
+
+    abstract void offerToResume(NativeSsl nativeSsl) throws SSLException;
+
+    abstract byte[] toBytes();
+
+    abstract SSLSession toSSLSession();
+
+    private static final class Impl extends NativeSslSession {
+        private final String cipherSuite;
+        private final AbstractSessionContext context;
+        private final String host;
+        private final X509Certificate[] peerCertificates;
+        private final byte[] peerOcspStapledResponse;
+        private final byte[] peerSignedCertificateTimestamp;
+        private final int port;
+        private final String protocol;
+        private final NativeRef.SSL_SESSION ref;
+
+        private Impl(AbstractSessionContext abstractSessionContext, NativeRef.SSL_SESSION ssl_session, String str, int i, X509Certificate[] x509CertificateArr, byte[] bArr, byte[] bArr2) {
+            this.context = abstractSessionContext;
+            this.host = str;
+            this.port = i;
+            this.peerCertificates = x509CertificateArr;
+            this.peerOcspStapledResponse = bArr;
+            this.peerSignedCertificateTimestamp = bArr2;
+            this.protocol = NativeCrypto.SSL_SESSION_get_version(ssl_session.address);
+            this.cipherSuite = NativeCrypto.cipherSuiteToJava(NativeCrypto.SSL_SESSION_cipher(ssl_session.address));
+            this.ref = ssl_session;
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        String getCipherSuite() {
+            return this.cipherSuite;
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        String getPeerHost() {
+            return this.host;
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        byte[] getPeerOcspStapledResponse() {
+            return this.peerOcspStapledResponse;
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        int getPeerPort() {
+            return this.port;
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        byte[] getPeerSignedCertificateTimestamp() {
+            return this.peerSignedCertificateTimestamp;
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        String getProtocol() {
+            return this.protocol;
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        byte[] getId() {
+            return NativeCrypto.SSL_SESSION_session_id(this.ref.address);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public long getCreationTime() {
+            return NativeCrypto.SSL_SESSION_get_time(this.ref.address);
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        boolean isValid() {
+            return System.currentTimeMillis() - (Math.max(0L, Math.min((long) this.context.getSessionTimeout(), NativeCrypto.SSL_SESSION_get_timeout(this.ref.address))) * 1000) < getCreationTime();
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        boolean isSingleUse() {
+            return NativeCrypto.SSL_SESSION_should_be_single_use(this.ref.address);
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        void offerToResume(NativeSsl nativeSsl) throws SSLException {
+            nativeSsl.offerToResumeSession(this.ref.address);
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        byte[] toBytes() throws IOException, CertificateEncodingException {
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+                dataOutputStream.writeInt(SSLUtils.SessionType.OPEN_SSL_WITH_TLS_SCT.value);
+                byte[] bArrI2d_SSL_SESSION = NativeCrypto.i2d_SSL_SESSION(this.ref.address);
+                dataOutputStream.writeInt(bArrI2d_SSL_SESSION.length);
+                dataOutputStream.write(bArrI2d_SSL_SESSION);
+                dataOutputStream.writeInt(this.peerCertificates.length);
+                for (X509Certificate x509Certificate : this.peerCertificates) {
+                    byte[] encoded = x509Certificate.getEncoded();
+                    dataOutputStream.writeInt(encoded.length);
+                    dataOutputStream.write(encoded);
+                }
+                if (this.peerOcspStapledResponse != null) {
+                    dataOutputStream.writeInt(1);
+                    dataOutputStream.writeInt(this.peerOcspStapledResponse.length);
+                    dataOutputStream.write(this.peerOcspStapledResponse);
+                } else {
+                    dataOutputStream.writeInt(0);
+                }
+                byte[] bArr = this.peerSignedCertificateTimestamp;
+                if (bArr != null) {
+                    dataOutputStream.writeInt(bArr.length);
+                    dataOutputStream.write(this.peerSignedCertificateTimestamp);
+                } else {
+                    dataOutputStream.writeInt(0);
+                }
+                return byteArrayOutputStream.toByteArray();
+            } catch (IOException e) {
+                NativeSslSession.logger.log(Level.WARNING, "Failed to convert saved SSL Session: ", (Throwable) e);
+                return null;
+            } catch (CertificateEncodingException e2) {
+                NativeSslSession.log(e2);
+                return null;
+            }
+        }
+
+        @Override
+            // org.conscrypt.NativeSslSession
+        SSLSession toSSLSession() {
+            return new SSLSession() { // from class: org.conscrypt.NativeSslSession.Impl.1
+                @Override // javax.net.ssl.SSLSession
+                public byte[] getId() {
+                    return Impl.this.getId();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public String getCipherSuite() {
+                    return Impl.this.getCipherSuite();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public String getProtocol() {
+                    return Impl.this.getProtocol();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public String getPeerHost() {
+                    return Impl.this.getPeerHost();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public int getPeerPort() {
+                    return Impl.this.getPeerPort();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public long getCreationTime() {
+                    return Impl.this.getCreationTime();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public boolean isValid() {
+                    return Impl.this.isValid();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public SSLSessionContext getSessionContext() {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public long getLastAccessedTime() {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public void invalidate() {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public void putValue(String str, Object obj) {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public Object getValue(String str) {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public void removeValue(String str) {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public String[] getValueNames() {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public Certificate[] getPeerCertificates() throws SSLPeerUnverifiedException {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public Certificate[] getLocalCertificates() {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public javax.security.cert.X509Certificate[] getPeerCertificateChain() throws SSLPeerUnverifiedException {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public Principal getPeerPrincipal() throws SSLPeerUnverifiedException {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public Principal getLocalPrincipal() {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public int getPacketBufferSize() {
+                    throw new UnsupportedOperationException();
+                }
+
+                @Override // javax.net.ssl.SSLSession
+                public int getApplicationBufferSize() {
+                    throw new UnsupportedOperationException();
+                }
+            };
+        }
+    }
+}

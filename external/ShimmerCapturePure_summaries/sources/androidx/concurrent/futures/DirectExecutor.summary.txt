@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/concurrent/futures/DirectExecutor.java
+// Size: 417 bytes
+// Modified: 2025-10-21 16:32:00.074266700 +0100
+
+package androidx.concurrent.futures;
+
+import java.util.concurrent.Executor;
+
+/* loaded from: classes.dex */
+public enum DirectExecutor implements Executor {
+    INSTANCE;
+
+    @Override // java.lang.Enum
+    public String toString() {
+        return "DirectExecutor";
+    }
+
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable runnable) {
+        runnable.run();
+    }
+}

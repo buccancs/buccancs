@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/DigestInputBuffer.java
+// Size: 346 bytes
+// Modified: 2025-10-21 16:32:01.004647400 +0100
+
+package org.bouncycastle.crypto.tls;
+
+import java.io.ByteArrayOutputStream;
+import org.bouncycastle.crypto.Digest;
+
+/* loaded from: classes5.dex */
+class DigestInputBuffer extends ByteArrayOutputStream {
+    DigestInputBuffer() {
+    }
+
+    void updateDigest(Digest digest) {
+        digest.update(this.buf, 0, this.count);
+    }
+}

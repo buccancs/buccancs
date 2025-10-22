@@ -1,0 +1,543 @@
+package io.opencensus.proto.stats.v1;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes4.dex */
+public final class Tag extends GeneratedMessageV3 implements TagOrBuilder {
+    public static final int KEY_FIELD_NUMBER = 1;
+    public static final int VALUE_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final Tag DEFAULT_INSTANCE = new Tag();
+    private static final Parser<Tag> PARSER = new AbstractParser<Tag>() { // from class: io.opencensus.proto.stats.v1.Tag.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Tag m37748parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Tag(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object key_;
+    private byte memoizedIsInitialized;
+    private volatile Object value_;
+
+    private Tag(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Tag() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.key_ = "";
+        this.value_ = "";
+    }
+
+    private Tag(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.key_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag != 18) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                this.value_ = codedInputStream.readStringRequireUtf8();
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Tag getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Tag> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return StatsProto.internal_static_opencensus_proto_stats_v1_Tag_descriptor;
+    }
+
+    public static Tag parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Tag) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Tag parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Tag) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Tag parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Tag) PARSER.parseFrom(byteString);
+    }
+
+    public static Tag parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Tag) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Tag parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Tag) PARSER.parseFrom(bArr);
+    }
+
+    public static Tag parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Tag) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Tag parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Tag parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Tag parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Tag parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Tag parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Tag parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m37746toBuilder();
+    }
+
+    public static Builder newBuilder(Tag tag) {
+        return DEFAULT_INSTANCE.m37746toBuilder().mergeFrom(tag);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Tag m37741getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Tag> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return StatsProto.internal_static_opencensus_proto_stats_v1_Tag_fieldAccessorTable.ensureFieldAccessorsInitialized(Tag.class, Builder.class);
+    }
+
+    @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+    public String getKey() {
+        Object obj = this.key_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.key_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+    public ByteString getKeyBytes() {
+        Object obj = this.key_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.key_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+    public String getValue() {
+        Object obj = this.value_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.value_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+    public ByteString getValueBytes() {
+        Object obj = this.value_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.value_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getKeyBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.key_);
+        }
+        if (!getValueBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.value_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getKeyBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.key_) : 0;
+        if (!getValueBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.value_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Tag)) {
+            return super.equals(obj);
+        }
+        Tag tag = (Tag) obj;
+        return getKey().equals(tag.getKey()) && getValue().equals(tag.getValue()) && this.unknownFields.equals(tag.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getKey().hashCode()) * 37) + 2) * 53) + getValue().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m37743newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m37746toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TagOrBuilder {
+        private Object key_;
+        private Object value_;
+
+        private Builder() {
+            this.key_ = "";
+            this.value_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.key_ = "";
+            this.value_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return StatsProto.internal_static_opencensus_proto_stats_v1_Tag_descriptor;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return StatsProto.internal_static_opencensus_proto_stats_v1_Tag_fieldAccessorTable.ensureFieldAccessorsInitialized(Tag.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = Tag.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37757clear() {
+            super.clear();
+            this.key_ = "";
+            this.value_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return StatsProto.internal_static_opencensus_proto_stats_v1_Tag_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Tag m37770getDefaultInstanceForType() {
+            return Tag.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Tag m37751build() throws UninitializedMessageException {
+            Tag tagM37753buildPartial = m37753buildPartial();
+            if (tagM37753buildPartial.isInitialized()) {
+                return tagM37753buildPartial;
+            }
+            throw newUninitializedMessageException(tagM37753buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Tag m37753buildPartial() {
+            Tag tag = new Tag(this);
+            tag.key_ = this.key_;
+            tag.value_ = this.value_;
+            onBuilt();
+            return tag;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37769clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37781setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37759clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37762clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37783setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37749addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37774mergeFrom(Message message) {
+            if (message instanceof Tag) {
+                return mergeFrom((Tag) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Tag tag) {
+            if (tag == Tag.getDefaultInstance()) {
+                return this;
+            }
+            if (!tag.getKey().isEmpty()) {
+                this.key_ = tag.key_;
+                onChanged();
+            }
+            if (!tag.getValue().isEmpty()) {
+                this.value_ = tag.value_;
+                onChanged();
+            }
+            m37779mergeUnknownFields(tag.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.stats.v1.Tag.Builder m37775mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.stats.v1.Tag.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.stats.v1.Tag r3 = (io.opencensus.proto.stats.v1.Tag) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.stats.v1.Tag r4 = (io.opencensus.proto.stats.v1.Tag) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.stats.v1.Tag.Builder.m37775mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.stats.v1.Tag$Builder");
+        }
+
+        @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+        public String getKey() {
+            Object obj = this.key_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.key_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setKey(String str) {
+            str.getClass();
+            this.key_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+        public ByteString getKeyBytes() {
+            Object obj = this.key_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.key_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setKeyBytes(ByteString byteString) {
+            byteString.getClass();
+            Tag.checkByteStringIsUtf8(byteString);
+            this.key_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearKey() {
+            this.key_ = Tag.getDefaultInstance().getKey();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+        public String getValue() {
+            Object obj = this.value_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.value_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setValue(String str) {
+            str.getClass();
+            this.value_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.stats.v1.TagOrBuilder
+        public ByteString getValueBytes() {
+            Object obj = this.value_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.value_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setValueBytes(ByteString byteString) {
+            byteString.getClass();
+            Tag.checkByteStringIsUtf8(byteString);
+            this.value_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearValue() {
+            this.value_ = Tag.getDefaultInstance().getValue();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m37785setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m37779mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

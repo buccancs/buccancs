@@ -1,0 +1,182 @@
+package org.apache.commons.math.optimization.general;
+
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.solvers.BrentSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/general/NonLinearConjugateGradientOptimizer.class */
+public class NonLinearConjugateGradientOptimizer extends AbstractScalarDifferentiableOptimizer {
+    private final ConjugateGradientFormula updateFormula;
+    private Preconditioner preconditioner = null;
+    private UnivariateRealSolver solver = null;
+    private double initialStep = 1.0d;
+
+    public NonLinearConjugateGradientOptimizer(ConjugateGradientFormula updateFormula) {
+        this.updateFormula = updateFormula;
+    }
+
+    public void setPreconditioner(Preconditioner preconditioner) {
+        this.preconditioner = preconditioner;
+    }
+
+    public void setLineSearchSolver(UnivariateRealSolver lineSearchSolver) {
+        this.solver = lineSearchSolver;
+    }
+
+    public void setInitialStep(double initialStep) {
+        if (initialStep <= 0.0d) {
+            this.initialStep = 1.0d;
+        } else {
+            this.initialStep = initialStep;
+        }
+    }
+
+    @Override // org.apache.commons.math.optimization.general.AbstractScalarDifferentiableOptimizer
+    protected RealPointValuePair doOptimize() throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        double beta;
+        try {
+            if (this.preconditioner == null) {
+                this.preconditioner = new IdentityPreconditioner();
+            }
+            if (this.solver == null) {
+                this.solver = new BrentSolver();
+            }
+            int n = this.point.length;
+            double[] r = computeObjectiveGradient(this.point);
+            if (this.goal == GoalType.MINIMIZE) {
+                for (int i = 0; i < n; i++) {
+                    r[i] = -r[i];
+                }
+            }
+            double[] steepestDescent = this.preconditioner.precondition(this.point, r);
+            double[] searchDirection = (double[]) steepestDescent.clone();
+            double delta = 0.0d;
+            for (int i2 = 0; i2 < n; i2++) {
+                delta += r[i2] * searchDirection[i2];
+            }
+            RealPointValuePair current = null;
+            while (true) {
+                double objective = computeObjectiveValue(this.point);
+                RealPointValuePair previous = current;
+                current = new RealPointValuePair(this.point, objective);
+                if (previous != null && this.checker.converged(getIterations(), previous, current)) {
+                    return current;
+                }
+                incrementIterationsCounter();
+                double dTd = 0.0d;
+                double[] arr$ = searchDirection;
+                for (double di : arr$) {
+                    dTd += di * di;
+                }
+                UnivariateRealFunction lsf = new LineSearchFunction(searchDirection);
+                double step = this.solver.solve(lsf, 0.0d, findUpperBound(lsf, 0.0d, this.initialStep));
+                for (int i3 = 0; i3 < this.point.length; i3++) {
+                    double[] dArr = this.point;
+                    int i4 = i3;
+                    dArr[i4] = dArr[i4] + (step * searchDirection[i3]);
+                }
+                double[] r2 = computeObjectiveGradient(this.point);
+                if (this.goal == GoalType.MINIMIZE) {
+                    for (int i5 = 0; i5 < n; i5++) {
+                        r2[i5] = -r2[i5];
+                    }
+                }
+                double deltaOld = delta;
+                double[] newSteepestDescent = this.preconditioner.precondition(this.point, r2);
+                delta = 0.0d;
+                for (int i6 = 0; i6 < n; i6++) {
+                    delta += r2[i6] * newSteepestDescent[i6];
+                }
+                if (this.updateFormula == ConjugateGradientFormula.FLETCHER_REEVES) {
+                    beta = delta / deltaOld;
+                } else {
+                    double deltaMid = 0.0d;
+                    for (int i7 = 0; i7 < r2.length; i7++) {
+                        deltaMid += r2[i7] * steepestDescent[i7];
+                    }
+                    beta = (delta - deltaMid) / deltaOld;
+                }
+                steepestDescent = newSteepestDescent;
+                if (getIterations() % n == 0 || beta < 0.0d) {
+                    searchDirection = (double[]) steepestDescent.clone();
+                } else {
+                    for (int i8 = 0; i8 < n; i8++) {
+                        searchDirection[i8] = steepestDescent[i8] + (beta * searchDirection[i8]);
+                    }
+                }
+            }
+        } catch (ConvergenceException ce) {
+            throw new OptimizationException(ce);
+        }
+    }
+
+    private double findUpperBound(UnivariateRealFunction f, double a, double h) throws FunctionEvaluationException, OptimizationException {
+        double yA = f.value(a);
+        double dMax = h;
+        while (true) {
+            double step = dMax;
+            if (step < Double.MAX_VALUE) {
+                double b = a + step;
+                double yB = f.value(b);
+                if (yA * yB > 0.0d) {
+                    dMax = step * FastMath.max(2.0d, yA / yB);
+                } else {
+                    return b;
+                }
+            } else {
+                throw new OptimizationException(LocalizedFormats.UNABLE_TO_BRACKET_OPTIMUM_IN_LINE_SEARCH, new Object[0]);
+            }
+        }
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/general/NonLinearConjugateGradientOptimizer$IdentityPreconditioner.class */
+    private static class IdentityPreconditioner implements Preconditioner {
+        private IdentityPreconditioner() {
+        }
+
+        @Override // org.apache.commons.math.optimization.general.Preconditioner
+        public double[] precondition(double[] variables, double[] r) {
+            return (double[]) r.clone();
+        }
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/general/NonLinearConjugateGradientOptimizer$LineSearchFunction.class */
+    private class LineSearchFunction implements UnivariateRealFunction {
+        private final double[] searchDirection;
+
+        public LineSearchFunction(double[] searchDirection) {
+            this.searchDirection = searchDirection;
+        }
+
+        @Override // org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double x) throws FunctionEvaluationException {
+            double[] shiftedPoint = (double[]) NonLinearConjugateGradientOptimizer.this.point.clone();
+            for (int i = 0; i < shiftedPoint.length; i++) {
+                int i2 = i;
+                shiftedPoint[i2] = shiftedPoint[i2] + (x * this.searchDirection[i]);
+            }
+            double[] gradient = NonLinearConjugateGradientOptimizer.this.computeObjectiveGradient(shiftedPoint);
+            double dotProduct = 0.0d;
+            for (int i3 = 0; i3 < gradient.length; i3++) {
+                dotProduct += gradient[i3] * this.searchDirection[i3];
+            }
+            return dotProduct;
+        }
+    }
+}

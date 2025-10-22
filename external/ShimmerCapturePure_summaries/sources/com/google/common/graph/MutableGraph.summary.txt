@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/graph/MutableGraph.java
+// Size: 367 bytes
+// Modified: 2025-10-21 16:32:05.807833600 +0100
+
+package com.google.common.graph;
+
+/* loaded from: classes.dex */
+public interface MutableGraph<N> extends Graph<N> {
+    boolean addNode(N n);
+
+    boolean putEdge(EndpointPair<N> endpointPair);
+
+    boolean putEdge(N n, N n2);
+
+    boolean removeEdge(EndpointPair<N> endpointPair);
+
+    boolean removeEdge(N n, N n2);
+
+    boolean removeNode(N n);
+}

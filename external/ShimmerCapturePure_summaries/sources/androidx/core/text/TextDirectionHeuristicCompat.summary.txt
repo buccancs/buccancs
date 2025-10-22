@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/text/TextDirectionHeuristicCompat.java
+// Size: 227 bytes
+// Modified: 2025-10-21 16:32:00.034598500 +0100
+
+package androidx.core.text;
+
+/* loaded from: classes.dex */
+public interface TextDirectionHeuristicCompat {
+    boolean isRtl(CharSequence charSequence, int i, int i2);
+
+    boolean isRtl(char[] cArr, int i, int i2);
+}

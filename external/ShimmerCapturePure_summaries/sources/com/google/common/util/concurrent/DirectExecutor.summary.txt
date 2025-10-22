@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/DirectExecutor.java
+// Size: 432 bytes
+// Modified: 2025-10-21 16:32:00.180007800 +0100
+
+package com.google.common.util.concurrent;
+
+import java.util.concurrent.Executor;
+
+/* loaded from: classes.dex */
+enum DirectExecutor implements Executor {
+    INSTANCE;
+
+    @Override // java.lang.Enum
+    public String toString() {
+        return "MoreExecutors.directExecutor()";
+    }
+
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable runnable) {
+        runnable.run();
+    }
+}

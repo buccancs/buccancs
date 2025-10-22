@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/Throwables.java
+// Size: 649 bytes
+// Modified: 2025-10-21 16:32:02.093745000 +0100
+
+package com.google.api.client.util;
+
+/* loaded from: classes.dex */
+public final class Throwables {
+    public static RuntimeException propagate(Throwable th) {
+        return com.google.common.base.Throwables.propagate(th);
+    }
+
+    public static void propagateIfPossible(Throwable th) {
+        if (th != null) {
+            com.google.common.base.Throwables.throwIfUnchecked(th);
+        }
+    }
+
+    public static <X extends Throwable> void propagateIfPossible(Throwable th, Class<X> cls) throws Throwable {
+        com.google.common.base.Throwables.propagateIfPossible(th, cls);
+    }
+
+    private Throwables() {
+    }
+}

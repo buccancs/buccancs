@@ -1,0 +1,68 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/FastThreadLocalThread.java
+// Size: 2290 bytes
+// Modified: 2025-10-21 16:32:03.159389800 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap;
+
+/* loaded from: classes3.dex */
+public class FastThreadLocalThread extends Thread {
+    private final boolean cleanupFastThreadLocals;
+    private InternalThreadLocalMap threadLocalMap;
+
+    public final void setThreadLocalMap(InternalThreadLocalMap internalThreadLocalMap) {
+        this.threadLocalMap = internalThreadLocalMap;
+    }
+
+    public final InternalThreadLocalMap threadLocalMap() {
+        return this.threadLocalMap;
+    }
+
+    public boolean willCleanupFastThreadLocals() {
+        return this.cleanupFastThreadLocals;
+    }
+
+    public FastThreadLocalThread() {
+        this.cleanupFastThreadLocals = false;
+    }
+
+    public FastThreadLocalThread(Runnable runnable) {
+        super(FastThreadLocalRunnable.wrap(runnable));
+        this.cleanupFastThreadLocals = true;
+    }
+
+    public FastThreadLocalThread(ThreadGroup threadGroup, Runnable runnable) {
+        super(threadGroup, FastThreadLocalRunnable.wrap(runnable));
+        this.cleanupFastThreadLocals = true;
+    }
+
+    public FastThreadLocalThread(String str) {
+        super(str);
+        this.cleanupFastThreadLocals = false;
+    }
+
+    public FastThreadLocalThread(ThreadGroup threadGroup, String str) {
+        super(threadGroup, str);
+        this.cleanupFastThreadLocals = false;
+    }
+
+    public FastThreadLocalThread(Runnable runnable, String str) {
+        super(FastThreadLocalRunnable.wrap(runnable), str);
+        this.cleanupFastThreadLocals = true;
+    }
+
+    public FastThreadLocalThread(ThreadGroup threadGroup, Runnable runnable, String str) {
+        super(threadGroup, FastThreadLocalRunnable.wrap(runnable), str);
+        this.cleanupFastThreadLocals = true;
+    }
+
+    public FastThreadLocalThread(ThreadGroup threadGroup, Runnable runnable, String str, long j) {
+        super(threadGroup, FastThreadLocalRunnable.wrap(runnable), str, j);
+        this.cleanupFastThreadLocals = true;
+    }
+
+    public static boolean willCleanupFastThreadLocals(Thread thread) {
+        return (thread instanceof FastThreadLocalThread) && ((FastThreadLocalThread) thread).willCleanupFastThreadLocals();
+    }
+}

@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/cache/package-info.java
+// Size: 126 bytes
+// Modified: 2025-10-21 16:32:02.100767100 +0100
+
+@ParametersAreNonnullByDefault
+package com.google.common.cache;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+

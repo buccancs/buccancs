@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/agent/trace/v1/ExportTraceServiceResponseOrBuilder.java
+// Size: 212 bytes
+// Modified: 2025-10-21 16:32:00.430526500 +0100
+
+package io.opencensus.proto.agent.trace.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface ExportTraceServiceResponseOrBuilder extends MessageOrBuilder {
+}

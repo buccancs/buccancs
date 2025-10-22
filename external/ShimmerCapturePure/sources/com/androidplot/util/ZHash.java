@@ -1,0 +1,112 @@
+package com.androidplot.util;
+
+import java.util.HashMap;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public class ZHash<KeyType, ValueType> implements ZIndexable<KeyType> {
+    private HashMap<KeyType, ValueType> a = new HashMap<>();
+    private ZLinkedList<KeyType> b = new ZLinkedList<>();
+
+    @Override // com.androidplot.util.ZIndexable
+    public List<KeyType> elements() {
+        return this.b;
+    }
+
+    public List<KeyType> getKeysAsList() {
+        return this.b;
+    }
+
+    public int size() {
+        return this.b.size();
+    }
+
+    public ValueType get(KeyType keytype) {
+        return this.a.get(keytype);
+    }
+
+    public synchronized void addToTop(KeyType keytype, ValueType valuetype) {
+        if (this.a.containsKey(keytype)) {
+            this.a.put(keytype, valuetype);
+        } else {
+            this.a.put(keytype, valuetype);
+            this.b.addToTop(keytype);
+        }
+    }
+
+    public synchronized void addToBottom(KeyType keytype, ValueType valuetype) {
+        if (this.a.containsKey(keytype)) {
+            this.a.put(keytype, valuetype);
+        } else {
+            this.a.put(keytype, valuetype);
+            this.b.addToBottom(keytype);
+        }
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public synchronized boolean moveToTop(KeyType keytype) {
+        if (!this.a.containsKey(keytype)) {
+            return false;
+        }
+        return this.b.moveToTop(keytype);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public synchronized boolean moveAbove(KeyType keytype, KeyType keytype2) {
+        if (keytype == keytype2) {
+            throw new IllegalArgumentException("Illegal argument to moveAbove(A, B); A cannot be equal to B.");
+        }
+        if (this.a.containsKey(keytype2) && this.a.containsKey(keytype)) {
+            return this.b.moveAbove(keytype, keytype2);
+        }
+        return false;
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public synchronized boolean moveBeneath(KeyType keytype, KeyType keytype2) {
+        if (keytype == keytype2) {
+            throw new IllegalArgumentException("Illegal argument to moveBeaneath(A, B); A cannot be equal to B.");
+        }
+        if (this.a.containsKey(keytype2) && this.a.containsKey(keytype)) {
+            return this.b.moveBeneath(keytype, keytype2);
+        }
+        return false;
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public synchronized boolean moveToBottom(KeyType keytype) {
+        if (!this.a.containsKey(keytype)) {
+            return false;
+        }
+        return this.b.moveToBottom(keytype);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public synchronized boolean moveUp(KeyType keytype) {
+        if (!this.a.containsKey(keytype)) {
+            return false;
+        }
+        return this.b.moveUp(keytype);
+    }
+
+    @Override // com.androidplot.util.ZIndexable
+    public synchronized boolean moveDown(KeyType keytype) {
+        if (!this.a.containsKey(keytype)) {
+            return false;
+        }
+        return this.b.moveDown(keytype);
+    }
+
+    public List<KeyType> keys() {
+        return elements();
+    }
+
+    public synchronized boolean remove(KeyType keytype) {
+        if (!this.a.containsKey(keytype)) {
+            return false;
+        }
+        this.a.remove(keytype);
+        this.b.remove(keytype);
+        return true;
+    }
+}

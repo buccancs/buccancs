@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/type/LatLngOrBuilder.java
+// Size: 230 bytes
+// Modified: 2025-10-21 16:32:00.215644300 +0100
+
+package com.google.type;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface LatLngOrBuilder extends MessageOrBuilder {
+    double getLatitude();
+
+    double getLongitude();
+}

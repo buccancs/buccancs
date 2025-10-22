@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/collection/ShortObjectMap.java
+// Size: 465 bytes
+// Modified: 2025-10-21 16:32:00.266113500 +0100
+
+package io.grpc.netty.shaded.io.netty.util.collection;
+
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public interface ShortObjectMap<V> extends Map<Short, V> {
+
+    public interface PrimitiveEntry<V> {
+        short key();
+
+        void setValue(V v);
+
+        V value();
+    }
+
+    boolean containsKey(short s);
+
+    Iterable<PrimitiveEntry<V>> entries();
+
+    V get(short s);
+
+    V put(short s, V v);
+
+    V remove(short s);
+}

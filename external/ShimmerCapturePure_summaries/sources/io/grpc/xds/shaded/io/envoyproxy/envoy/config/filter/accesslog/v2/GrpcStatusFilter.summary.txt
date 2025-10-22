@@ -1,0 +1,735 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/accesslog/v2/GrpcStatusFilter.java
+// Size: 34247 bytes
+// Modified: 2025-10-21 16:32:02.687835000 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public final class GrpcStatusFilter extends GeneratedMessageV3 implements GrpcStatusFilterOrBuilder {
+    public static final int EXCLUDE_FIELD_NUMBER = 2;
+    public static final int STATUSES_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private boolean exclude_;
+    private byte memoizedIsInitialized;
+    private int statusesMemoizedSerializedSize;
+    private List<Integer> statuses_;
+    private static final Internal.ListAdapter.Converter<Integer, Status> statuses_converter_ = new Internal.ListAdapter.Converter<Integer, Status>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter.1
+        public Status convert(Integer num) {
+            Status statusValueOf = Status.valueOf(num.intValue());
+            return statusValueOf == null ? Status.UNRECOGNIZED : statusValueOf;
+        }
+    };
+    private static final GrpcStatusFilter DEFAULT_INSTANCE = new GrpcStatusFilter();
+    private static final Parser<GrpcStatusFilter> PARSER = new AbstractParser<GrpcStatusFilter>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter.2
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public GrpcStatusFilter m25356parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new GrpcStatusFilter(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static GrpcStatusFilter getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<GrpcStatusFilter> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public GrpcStatusFilter m25349getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+    public boolean getExclude() {
+        return this.exclude_;
+    }
+
+    public Parser<GrpcStatusFilter> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+    public List<Integer> getStatusesValueList() {
+        return this.statuses_;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private GrpcStatusFilter(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private GrpcStatusFilter() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.statuses_ = Collections.emptyList();
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new GrpcStatusFilter();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private GrpcStatusFilter(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 8) {
+                            int i = codedInputStream.readEnum();
+                            if (!(z2 & true)) {
+                                this.statuses_ = new ArrayList();
+                                z2 |= true;
+                            }
+                            this.statuses_.add(Integer.valueOf(i));
+                        } else if (tag == 10) {
+                            int iPushLimit = codedInputStream.pushLimit(codedInputStream.readRawVarint32());
+                            while (codedInputStream.getBytesUntilLimit() > 0) {
+                                int i2 = codedInputStream.readEnum();
+                                if (!(z2 & true)) {
+                                    this.statuses_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.statuses_.add(Integer.valueOf(i2));
+                            }
+                            codedInputStream.popLimit(iPushLimit);
+                        } else if (tag == 16) {
+                            this.exclude_ = codedInputStream.readBool();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.statuses_ = Collections.unmodifiableList(this.statuses_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return AccesslogProto.internal_static_envoy_config_filter_accesslog_v2_GrpcStatusFilter_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return AccesslogProto.internal_static_envoy_config_filter_accesslog_v2_GrpcStatusFilter_fieldAccessorTable.ensureFieldAccessorsInitialized(GrpcStatusFilter.class, Builder.class);
+    }
+
+    public enum Status implements ProtocolMessageEnum {
+        OK(0),
+        CANCELED(1),
+        UNKNOWN(2),
+        INVALID_ARGUMENT(3),
+        DEADLINE_EXCEEDED(4),
+        NOT_FOUND(5),
+        ALREADY_EXISTS(6),
+        PERMISSION_DENIED(7),
+        RESOURCE_EXHAUSTED(8),
+        FAILED_PRECONDITION(9),
+        ABORTED(10),
+        OUT_OF_RANGE(11),
+        UNIMPLEMENTED(12),
+        INTERNAL(13),
+        UNAVAILABLE(14),
+        DATA_LOSS(15),
+        UNAUTHENTICATED(16),
+        UNRECOGNIZED(-1);
+
+        public static final int ABORTED_VALUE = 10;
+        public static final int ALREADY_EXISTS_VALUE = 6;
+        public static final int CANCELED_VALUE = 1;
+        public static final int DATA_LOSS_VALUE = 15;
+        public static final int DEADLINE_EXCEEDED_VALUE = 4;
+        public static final int FAILED_PRECONDITION_VALUE = 9;
+        public static final int INTERNAL_VALUE = 13;
+        public static final int INVALID_ARGUMENT_VALUE = 3;
+        public static final int NOT_FOUND_VALUE = 5;
+        public static final int OK_VALUE = 0;
+        public static final int OUT_OF_RANGE_VALUE = 11;
+        public static final int PERMISSION_DENIED_VALUE = 7;
+        public static final int RESOURCE_EXHAUSTED_VALUE = 8;
+        public static final int UNAUTHENTICATED_VALUE = 16;
+        public static final int UNAVAILABLE_VALUE = 14;
+        public static final int UNIMPLEMENTED_VALUE = 12;
+        public static final int UNKNOWN_VALUE = 2;
+        private final int value;
+        private static final Internal.EnumLiteMap<Status> internalValueMap = new Internal.EnumLiteMap<Status>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter.Status.1
+            public Status findValueByNumber(int i) {
+                return Status.forNumber(i);
+            }
+        };
+        private static final Status[] VALUES = values();
+
+        public static Status forNumber(int i) {
+            switch (i) {
+                case 0:
+                    return OK;
+                case 1:
+                    return CANCELED;
+                case 2:
+                    return UNKNOWN;
+                case 3:
+                    return INVALID_ARGUMENT;
+                case 4:
+                    return DEADLINE_EXCEEDED;
+                case 5:
+                    return NOT_FOUND;
+                case 6:
+                    return ALREADY_EXISTS;
+                case 7:
+                    return PERMISSION_DENIED;
+                case 8:
+                    return RESOURCE_EXHAUSTED;
+                case 9:
+                    return FAILED_PRECONDITION;
+                case 10:
+                    return ABORTED;
+                case 11:
+                    return OUT_OF_RANGE;
+                case 12:
+                    return UNIMPLEMENTED;
+                case 13:
+                    return INTERNAL;
+                case 14:
+                    return UNAVAILABLE;
+                case 15:
+                    return DATA_LOSS;
+                case 16:
+                    return UNAUTHENTICATED;
+                default:
+                    return null;
+            }
+        }
+
+        public static Internal.EnumLiteMap<Status> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        @Deprecated
+        public static Status valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) GrpcStatusFilter.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static Status valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        Status(int i) {
+            this.value = i;
+        }
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+    public List<Status> getStatusesList() {
+        return new Internal.ListAdapter(this.statuses_, statuses_converter_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+    public int getStatusesCount() {
+        return this.statuses_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+    public Status getStatuses(int i) {
+        return (Status) statuses_converter_.convert(this.statuses_.get(i));
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+    public int getStatusesValue(int i) {
+        return this.statuses_.get(i).intValue();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        getSerializedSize();
+        if (getStatusesList().size() > 0) {
+            codedOutputStream.writeUInt32NoTag(10);
+            codedOutputStream.writeUInt32NoTag(this.statusesMemoizedSerializedSize);
+        }
+        for (int i = 0; i < this.statuses_.size(); i++) {
+            codedOutputStream.writeEnumNoTag(this.statuses_.get(i).intValue());
+        }
+        boolean z = this.exclude_;
+        if (z) {
+            codedOutputStream.writeBool(2, z);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeEnumSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.statuses_.size(); i2++) {
+            iComputeEnumSizeNoTag += CodedOutputStream.computeEnumSizeNoTag(this.statuses_.get(i2).intValue());
+        }
+        int iComputeUInt32SizeNoTag = !getStatusesList().isEmpty() ? iComputeEnumSizeNoTag + 1 + CodedOutputStream.computeUInt32SizeNoTag(iComputeEnumSizeNoTag) : iComputeEnumSizeNoTag;
+        this.statusesMemoizedSerializedSize = iComputeEnumSizeNoTag;
+        boolean z = this.exclude_;
+        if (z) {
+            iComputeUInt32SizeNoTag += CodedOutputStream.computeBoolSize(2, z);
+        }
+        int serializedSize = iComputeUInt32SizeNoTag + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof GrpcStatusFilter)) {
+            return super.equals(obj);
+        }
+        GrpcStatusFilter grpcStatusFilter = (GrpcStatusFilter) obj;
+        return this.statuses_.equals(grpcStatusFilter.statuses_) && getExclude() == grpcStatusFilter.getExclude() && this.unknownFields.equals(grpcStatusFilter.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getStatusesCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + this.statuses_.hashCode();
+        }
+        int iHashBoolean = (((((iHashCode * 37) + 2) * 53) + Internal.hashBoolean(getExclude())) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashBoolean;
+        return iHashBoolean;
+    }
+
+    public static GrpcStatusFilter parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (GrpcStatusFilter) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static GrpcStatusFilter parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GrpcStatusFilter) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static GrpcStatusFilter parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (GrpcStatusFilter) PARSER.parseFrom(byteString);
+    }
+
+    public static GrpcStatusFilter parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GrpcStatusFilter) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static GrpcStatusFilter parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (GrpcStatusFilter) PARSER.parseFrom(bArr);
+    }
+
+    public static GrpcStatusFilter parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GrpcStatusFilter) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static GrpcStatusFilter parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static GrpcStatusFilter parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static GrpcStatusFilter parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static GrpcStatusFilter parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static GrpcStatusFilter parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static GrpcStatusFilter parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m25351newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m25354toBuilder();
+    }
+
+    public static Builder newBuilder(GrpcStatusFilter grpcStatusFilter) {
+        return DEFAULT_INSTANCE.m25354toBuilder().mergeFrom(grpcStatusFilter);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m25354toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements GrpcStatusFilterOrBuilder {
+        private int bitField0_;
+        private boolean exclude_;
+        private List<Integer> statuses_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+        public boolean getExclude() {
+            return this.exclude_;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return AccesslogProto.internal_static_envoy_config_filter_accesslog_v2_GrpcStatusFilter_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return AccesslogProto.internal_static_envoy_config_filter_accesslog_v2_GrpcStatusFilter_fieldAccessorTable.ensureFieldAccessorsInitialized(GrpcStatusFilter.class, Builder.class);
+        }
+
+        private Builder() {
+            this.statuses_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.statuses_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = GrpcStatusFilter.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25365clear() {
+            super.clear();
+            this.statuses_ = Collections.emptyList();
+            this.bitField0_ &= -2;
+            this.exclude_ = false;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return AccesslogProto.internal_static_envoy_config_filter_accesslog_v2_GrpcStatusFilter_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GrpcStatusFilter m25378getDefaultInstanceForType() {
+            return GrpcStatusFilter.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GrpcStatusFilter m25359build() throws UninitializedMessageException {
+            GrpcStatusFilter grpcStatusFilterM25361buildPartial = m25361buildPartial();
+            if (grpcStatusFilterM25361buildPartial.isInitialized()) {
+                return grpcStatusFilterM25361buildPartial;
+            }
+            throw newUninitializedMessageException(grpcStatusFilterM25361buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GrpcStatusFilter m25361buildPartial() {
+            GrpcStatusFilter grpcStatusFilter = new GrpcStatusFilter(this);
+            if ((this.bitField0_ & 1) != 0) {
+                this.statuses_ = Collections.unmodifiableList(this.statuses_);
+                this.bitField0_ &= -2;
+            }
+            grpcStatusFilter.statuses_ = this.statuses_;
+            grpcStatusFilter.exclude_ = this.exclude_;
+            onBuilt();
+            return grpcStatusFilter;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25377clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25389setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25367clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25370clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25391setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25357addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25382mergeFrom(Message message) {
+            if (message instanceof GrpcStatusFilter) {
+                return mergeFrom((GrpcStatusFilter) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(GrpcStatusFilter grpcStatusFilter) {
+            if (grpcStatusFilter == GrpcStatusFilter.getDefaultInstance()) {
+                return this;
+            }
+            if (!grpcStatusFilter.statuses_.isEmpty()) {
+                if (this.statuses_.isEmpty()) {
+                    this.statuses_ = grpcStatusFilter.statuses_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureStatusesIsMutable();
+                    this.statuses_.addAll(grpcStatusFilter.statuses_);
+                }
+                onChanged();
+            }
+            if (grpcStatusFilter.getExclude()) {
+                setExclude(grpcStatusFilter.getExclude());
+            }
+            m25387mergeUnknownFields(grpcStatusFilter.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter.Builder m25383mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter.Builder.m25383mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilter$Builder");
+        }
+
+        private void ensureStatusesIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.statuses_ = new ArrayList(this.statuses_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+        public List<Status> getStatusesList() {
+            return new Internal.ListAdapter(this.statuses_, GrpcStatusFilter.statuses_converter_);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+        public int getStatusesCount() {
+            return this.statuses_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+        public Status getStatuses(int i) {
+            return (Status) GrpcStatusFilter.statuses_converter_.convert(this.statuses_.get(i));
+        }
+
+        public Builder setStatuses(int i, Status status) {
+            status.getClass();
+            ensureStatusesIsMutable();
+            this.statuses_.set(i, Integer.valueOf(status.getNumber()));
+            onChanged();
+            return this;
+        }
+
+        public Builder addStatuses(Status status) {
+            status.getClass();
+            ensureStatusesIsMutable();
+            this.statuses_.add(Integer.valueOf(status.getNumber()));
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllStatuses(Iterable<? extends Status> iterable) {
+            ensureStatusesIsMutable();
+            Iterator<? extends Status> it2 = iterable.iterator();
+            while (it2.hasNext()) {
+                this.statuses_.add(Integer.valueOf(it2.next().getNumber()));
+            }
+            onChanged();
+            return this;
+        }
+
+        public Builder clearStatuses() {
+            this.statuses_ = Collections.emptyList();
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+        public List<Integer> getStatusesValueList() {
+            return Collections.unmodifiableList(this.statuses_);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.GrpcStatusFilterOrBuilder
+        public int getStatusesValue(int i) {
+            return this.statuses_.get(i).intValue();
+        }
+
+        public Builder setStatusesValue(int i, int i2) {
+            ensureStatusesIsMutable();
+            this.statuses_.set(i, Integer.valueOf(i2));
+            onChanged();
+            return this;
+        }
+
+        public Builder addStatusesValue(int i) {
+            ensureStatusesIsMutable();
+            this.statuses_.add(Integer.valueOf(i));
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllStatusesValue(Iterable<Integer> iterable) {
+            ensureStatusesIsMutable();
+            Iterator<Integer> it2 = iterable.iterator();
+            while (it2.hasNext()) {
+                this.statuses_.add(Integer.valueOf(it2.next().intValue()));
+            }
+            onChanged();
+            return this;
+        }
+
+        public Builder setExclude(boolean z) {
+            this.exclude_ = z;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearExclude() {
+            this.exclude_ = false;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m25393setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m25387mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

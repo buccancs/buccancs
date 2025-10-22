@@ -1,0 +1,29 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.rtsp;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpMessage;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpObjectDecoder;
+
+@Deprecated
+/* loaded from: classes3.dex */
+public abstract class RtspObjectDecoder extends HttpObjectDecoder {
+    protected RtspObjectDecoder() {
+        this(4096, 8192, 8192);
+    }
+
+    protected RtspObjectDecoder(int i, int i2, int i3) {
+        super(i, i2, i3 * 2, false);
+    }
+
+    protected RtspObjectDecoder(int i, int i2, int i3, boolean z) {
+        super(i, i2, i3 * 2, false, z);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpObjectDecoder
+    protected boolean isContentAlwaysEmpty(HttpMessage httpMessage) {
+        boolean zIsContentAlwaysEmpty = super.isContentAlwaysEmpty(httpMessage);
+        if (!zIsContentAlwaysEmpty && httpMessage.headers().contains(RtspHeaderNames.CONTENT_LENGTH)) {
+            return zIsContentAlwaysEmpty;
+        }
+        return true;
+    }
+}

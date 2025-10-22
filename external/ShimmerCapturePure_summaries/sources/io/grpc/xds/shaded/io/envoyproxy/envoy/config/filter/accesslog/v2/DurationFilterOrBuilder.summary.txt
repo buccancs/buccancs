@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/accesslog/v2/DurationFilterOrBuilder.java
+// Size: 361 bytes
+// Modified: 2025-10-21 16:32:04.665951200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface DurationFilterOrBuilder extends MessageOrBuilder {
+    ComparisonFilter getComparison();
+
+    ComparisonFilterOrBuilder getComparisonOrBuilder();
+
+    boolean hasComparison();
+}

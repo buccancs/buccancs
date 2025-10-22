@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optimization/MultivariateMultiStartOptimizer.java
+// Size: 590 bytes
+// Modified: 2025-10-21 16:32:07.669492300 +0100
+
+package org.apache.commons.math3.optimization;
+
+import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.random.RandomVectorGenerator;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class MultivariateMultiStartOptimizer extends BaseMultivariateMultiStartOptimizer<MultivariateFunction> implements MultivariateOptimizer {
+    public MultivariateMultiStartOptimizer(MultivariateOptimizer multivariateOptimizer, int i, RandomVectorGenerator randomVectorGenerator) {
+        super(multivariateOptimizer, i, randomVectorGenerator);
+    }
+}

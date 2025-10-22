@@ -1,0 +1,192 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.http.cookie;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+/* loaded from: classes3.dex */
+public final class ServerCookieDecoder extends CookieDecoder {
+    public static final ServerCookieDecoder STRICT = new ServerCookieDecoder(true);
+    public static final ServerCookieDecoder LAX = new ServerCookieDecoder(false);
+    private static final String RFC2965_DOMAIN = "$Domain";
+    private static final String RFC2965_PATH = "$Path";
+    private static final String RFC2965_PORT = "$Port";
+    private static final String RFC2965_VERSION = "$Version";
+
+    private ServerCookieDecoder(boolean z) {
+        super(z);
+    }
+
+    public List<Cookie> decodeAll(String str) {
+        ArrayList arrayList = new ArrayList();
+        decode(arrayList, str);
+        return Collections.unmodifiableList(arrayList);
+    }
+
+    public Set<Cookie> decode(String str) {
+        TreeSet treeSet = new TreeSet();
+        decode(treeSet, str);
+        return treeSet;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0060, code lost:
+    
+        r5 = r1 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0062, code lost:
+    
+        if (r5 != r0) goto L38;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0064, code lost:
+    
+        r8 = r1;
+        r1 = r5;
+        r9 = 0;
+        r10 = 0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0069, code lost:
+    
+        r6 = r14.indexOf(59, r5);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x006d, code lost:
+    
+        if (r6 <= 0) goto L41;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0070, code lost:
+    
+        r6 = r0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0071, code lost:
+    
+        r8 = r1;
+        r9 = r5;
+        r1 = r6;
+        r10 = r1;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x002c  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:48:0x0085 -> B:8:0x0025). Please report as a decompilation issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:50:0x008e -> B:8:0x0025). Please report as a decompilation issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:52:0x0096 -> B:8:0x0025). Please report as a decompilation issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:55:0x009f -> B:8:0x0025). Please report as a decompilation issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:56:0x00a1 -> B:8:0x0025). Please report as a decompilation issue!!! */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void decode(java.util.Collection<? super io.grpc.netty.shaded.io.netty.handler.codec.http.cookie.Cookie> r13, java.lang.String r14) {
+        /*
+            r12 = this;
+            java.lang.String r0 = "header"
+            java.lang.Object r0 = io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil.checkNotNull(r14, r0)
+            java.lang.String r0 = (java.lang.String) r0
+            int r0 = r0.length()
+            if (r0 != 0) goto Lf
+            return
+        Lf:
+            r2 = 1
+            r3 = 0
+            java.lang.String r4 = "$Version"
+            r5 = 0
+            r6 = 8
+            r1 = r14
+            boolean r1 = r1.regionMatches(r2, r3, r4, r5, r6)
+            r2 = 59
+            if (r1 == 0) goto L27
+            int r1 = r14.indexOf(r2)
+            r4 = 1
+            int r1 = r1 + r4
+        L25:
+            r7 = r1
+            goto L29
+        L27:
+            r4 = 0
+            r7 = 0
+        L29:
+            if (r7 != r0) goto L2c
+            return
+        L2c:
+            char r1 = r14.charAt(r7)
+            r5 = 9
+            if (r1 == r5) goto La5
+            r5 = 10
+            if (r1 == r5) goto La5
+            r5 = 11
+            if (r1 == r5) goto La5
+            r5 = 12
+            if (r1 == r5) goto La5
+            r5 = 13
+            if (r1 == r5) goto La5
+            r5 = 32
+            if (r1 == r5) goto La5
+            r5 = 44
+            if (r1 == r5) goto La5
+            if (r1 != r2) goto L50
+            goto La5
+        L50:
+            r1 = r7
+        L51:
+            char r5 = r14.charAt(r1)
+            r6 = -1
+            if (r5 != r2) goto L5c
+            r8 = r1
+        L59:
+            r9 = -1
+            r10 = -1
+            goto L7c
+        L5c:
+            r8 = 61
+            if (r5 != r8) goto L76
+            int r5 = r1 + 1
+            if (r5 != r0) goto L69
+            r8 = r1
+            r1 = r5
+            r9 = 0
+            r10 = 0
+            goto L7c
+        L69:
+            int r6 = r14.indexOf(r2, r5)
+            if (r6 <= 0) goto L70
+            goto L71
+        L70:
+            r6 = r0
+        L71:
+            r8 = r1
+            r9 = r5
+            r1 = r6
+            r10 = r1
+            goto L7c
+        L76:
+            int r1 = r1 + 1
+            if (r1 != r0) goto L51
+            r8 = r0
+            goto L59
+        L7c:
+            if (r4 == 0) goto L99
+            java.lang.String r5 = "$Path"
+            r6 = 5
+            boolean r5 = r14.regionMatches(r7, r5, r3, r6)
+            if (r5 != 0) goto L25
+            java.lang.String r5 = "$Domain"
+            r11 = 7
+            boolean r5 = r14.regionMatches(r7, r5, r3, r11)
+            if (r5 != 0) goto L25
+            java.lang.String r5 = "$Port"
+            boolean r5 = r14.regionMatches(r7, r5, r3, r6)
+            if (r5 == 0) goto L99
+            goto L25
+        L99:
+            r5 = r12
+            r6 = r14
+            io.grpc.netty.shaded.io.netty.handler.codec.http.cookie.DefaultCookie r5 = r5.initCookie(r6, r7, r8, r9, r10)
+            if (r5 == 0) goto L25
+            r13.add(r5)
+            goto L25
+        La5:
+            int r7 = r7 + 1
+            goto L29
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.handler.codec.http.cookie.ServerCookieDecoder.decode(java.util.Collection, java.lang.String):void");
+    }
+}

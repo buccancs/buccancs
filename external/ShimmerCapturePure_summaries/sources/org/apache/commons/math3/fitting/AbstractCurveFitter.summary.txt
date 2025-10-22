@@ -1,0 +1,71 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/fitting/AbstractCurveFitter.java
+// Size: 3263 bytes
+// Modified: 2025-10-21 16:32:10.161546000 +0100
+
+package org.apache.commons.math3.fitting;
+
+import java.util.Collection;
+import java.util.Iterator;
+import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+
+/* loaded from: classes5.dex */
+public abstract class AbstractCurveFitter {
+    protected abstract LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> collection);
+
+    public double[] fit(Collection<WeightedObservedPoint> collection) {
+        return getOptimizer().optimize(getProblem(collection)).getPoint().toArray();
+    }
+
+    protected LeastSquaresOptimizer getOptimizer() {
+        return new LevenbergMarquardtOptimizer();
+    }
+
+    protected static class TheoreticalValuesFunction {
+        private final ParametricUnivariateFunction f;
+        private final double[] points;
+
+        public TheoreticalValuesFunction(ParametricUnivariateFunction parametricUnivariateFunction, Collection<WeightedObservedPoint> collection) {
+            this.f = parametricUnivariateFunction;
+            this.points = new double[collection.size()];
+            Iterator<WeightedObservedPoint> it2 = collection.iterator();
+            int i = 0;
+            while (it2.hasNext()) {
+                this.points[i] = it2.next().getX();
+                i++;
+            }
+        }
+
+        public MultivariateVectorFunction getModelFunction() {
+            return new MultivariateVectorFunction() { // from class: org.apache.commons.math3.fitting.AbstractCurveFitter.TheoreticalValuesFunction.1
+                @Override // org.apache.commons.math3.analysis.MultivariateVectorFunction
+                public double[] value(double[] dArr) {
+                    int length = TheoreticalValuesFunction.this.points.length;
+                    double[] dArr2 = new double[length];
+                    for (int i = 0; i < length; i++) {
+                        dArr2[i] = TheoreticalValuesFunction.this.f.value(TheoreticalValuesFunction.this.points[i], dArr);
+                    }
+                    return dArr2;
+                }
+            };
+        }
+
+        public MultivariateMatrixFunction getModelFunctionJacobian() {
+            return new MultivariateMatrixFunction() { // from class: org.apache.commons.math3.fitting.AbstractCurveFitter.TheoreticalValuesFunction.2
+                @Override // org.apache.commons.math3.analysis.MultivariateMatrixFunction
+                public double[][] value(double[] dArr) {
+                    int length = TheoreticalValuesFunction.this.points.length;
+                    double[][] dArr2 = new double[length][];
+                    for (int i = 0; i < length; i++) {
+                        dArr2[i] = TheoreticalValuesFunction.this.f.gradient(TheoreticalValuesFunction.this.points[i], dArr);
+                    }
+                    return dArr2;
+                }
+            };
+        }
+    }
+}

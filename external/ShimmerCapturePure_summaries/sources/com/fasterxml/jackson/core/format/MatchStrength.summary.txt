@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/format/MatchStrength.java
+// Size: 195 bytes
+// Modified: 2025-10-21 16:32:00.108052600 +0100
+
+package com.fasterxml.jackson.core.format;
+
+/* loaded from: classes.dex */
+public enum MatchStrength {
+    NO_MATCH,
+    INCONCLUSIVE,
+    WEAK_MATCH,
+    SOLID_MATCH,
+    FULL_MATCH
+}

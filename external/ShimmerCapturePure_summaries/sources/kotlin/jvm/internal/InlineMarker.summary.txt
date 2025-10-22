@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/jvm/internal/InlineMarker.java
+// Size: 409 bytes
+// Modified: 2025-10-21 16:32:00.419495800 +0100
+
+package kotlin.jvm.internal;
+
+/* loaded from: classes4.dex */
+public class InlineMarker {
+    public static void afterInlineCall() {
+    }
+
+    public static void beforeInlineCall() {
+    }
+
+    public static void finallyEnd(int i) {
+    }
+
+    public static void finallyStart(int i) {
+    }
+
+    public static void mark(int i) {
+    }
+
+    public static void mark(String str) {
+    }
+}

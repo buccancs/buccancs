@@ -1,0 +1,860 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driver/shimmer4sdk/Shimmer4sdk.java
+// Size: 46782 bytes
+// Modified: 2025-10-21 16:32:09.672607300 +0100
+
+package com.shimmerresearch.driver.shimmer4sdk;
+
+import com.shimmerresearch.bluetooth.BluetoothProgressReportPerCmd;
+import com.shimmerresearch.bluetooth.BluetoothProgressReportPerDevice;
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.bluetooth.ShimmerDeviceCommsProtocolAdaptor;
+import com.shimmerresearch.comms.radioProtocol.CommsProtocolRadio;
+import com.shimmerresearch.comms.radioProtocol.RadioListener;
+import com.shimmerresearch.driver.CallbackObject;
+import com.shimmerresearch.driver.ConfigByteLayout;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.ShimmerDeviceCallbackAdapter;
+import com.shimmerresearch.driver.ShimmerMsg;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
+import com.shimmerresearch.driverUtilities.ExpansionBoardDetails;
+import com.shimmerresearch.driverUtilities.ShimmerBattStatusDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.exceptions.ShimmerException;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.SensorADC;
+import com.shimmerresearch.sensors.SensorBattVoltage;
+import com.shimmerresearch.sensors.SensorBridgeAmp;
+import com.shimmerresearch.sensors.SensorEXG;
+import com.shimmerresearch.sensors.SensorGSR;
+import com.shimmerresearch.sensors.SensorPPG;
+import com.shimmerresearch.sensors.SensorSTC3100;
+import com.shimmerresearch.sensors.SensorSTC3100Details;
+import com.shimmerresearch.sensors.SensorShimmerClock;
+import com.shimmerresearch.sensors.bmpX80.SensorBMP180;
+import com.shimmerresearch.sensors.bmpX80.SensorBMP280;
+import com.shimmerresearch.sensors.kionix.SensorKionixKXRB52042;
+import com.shimmerresearch.sensors.lsm303.SensorLSM303DLHC;
+import com.shimmerresearch.sensors.mpu9x50.SensorMPU9250;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+
+/* loaded from: classes2.dex */
+public class Shimmer4sdk extends ShimmerDevice {
+    private static final long serialVersionUID = 6916261534384275804L;
+    private boolean isOverrideShowRwcErrorLeds;
+    protected int mBluetoothBaudRate;
+    protected boolean mButtonStart;
+    protected boolean mCalibFileCreationFlag;
+    protected boolean mConfigFileCreationFlag;
+    protected transient ShimmerDeviceCallbackAdapter mDeviceCallbackAdapter;
+    protected boolean mDisableBluetooth;
+
+    @Deprecated
+    protected boolean mSendProgressReport;
+    private transient ShimmerDeviceCommsProtocolAdaptor mShimmerDeviceCommsProtocolAdaptor;
+    protected boolean mShowRtcErrorLeds;
+    public BluetoothProgressReportPerDevice progressReportPerDevice;
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    protected void interpretDataPacketFormat(Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    protected void interpretInqResponse(byte[] bArr) {
+    }
+
+    public boolean isButtonStart() {
+        return this.mButtonStart;
+    }
+
+    public boolean isDisableBluetooth() {
+        return this.mDisableBluetooth;
+    }
+
+    @Override // com.shimmerresearch.driver.BasicProcessWithCallBack
+    protected void processMsgFromCallback(ShimmerMsg shimmerMsg) {
+    }
+
+    public void setButtonStart(boolean z) {
+        this.mButtonStart = z;
+    }
+
+    public void setDisableBluetooth(boolean z) {
+        this.mDisableBluetooth = z;
+    }
+
+    public Shimmer4sdk() {
+        this.mSendProgressReport = true;
+        this.mButtonStart = true;
+        this.mDisableBluetooth = true;
+        this.mShowRtcErrorLeds = true;
+        this.mConfigFileCreationFlag = true;
+        this.mCalibFileCreationFlag = false;
+        this.isOverrideShowRwcErrorLeds = true;
+        this.mBluetoothBaudRate = 9;
+        this.mDeviceCallbackAdapter = new ShimmerDeviceCallbackAdapter(this);
+        this.mShimmerDeviceCommsProtocolAdaptor = new ShimmerDeviceCommsProtocolAdaptor(this);
+    }
+
+    public Shimmer4sdk(String str, int i, String str2, Configuration.COMMUNICATION_TYPE communication_type) {
+        this();
+        setDockInfo(str, i);
+        addCommunicationRoute(communication_type);
+        setSamplingRateShimmer(communication_type, 128.0d);
+        setMacIdFromUart(str2);
+        setSamplingRateShimmer(Configuration.COMMUNICATION_TYPE.SD, 128.0d);
+        setSamplingRateShimmer(Configuration.COMMUNICATION_TYPE.BLUETOOTH, 128.0d);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void setDefaultShimmerConfiguration() {
+        super.setDefaultShimmerConfiguration();
+        this.mInternalExpPower = 0;
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void sensorAndConfigMapsCreate() {
+        createMapOfSensorClasses();
+        super.sensorAndConfigMapsCreateCommon();
+    }
+
+    private void createMapOfSensorClasses() {
+        this.mMapOfSensorClasses = new LinkedHashMap<>();
+        addSensorClass(AbstractSensor.SENSORS.CLOCK, new SensorShimmerClock(this));
+        addSensorClass(AbstractSensor.SENSORS.KIONIXKXRB52042, new SensorKionixKXRB52042(this.mShimmerVerObject));
+        addSensorClass(AbstractSensor.SENSORS.LSM303, new SensorLSM303DLHC(this));
+        addSensorClass(AbstractSensor.SENSORS.MPU9X50, new SensorMPU9250(this));
+        addSensorClass(AbstractSensor.SENSORS.ADC, new SensorADC(this.mShimmerVerObject));
+        addSensorClass(AbstractSensor.SENSORS.Battery, new SensorBattVoltage(this));
+        addSensorClass(AbstractSensor.SENSORS.Bridge_Amplifier, new SensorBridgeAmp(this.mShimmerVerObject));
+        if (getExpansionBoardId() == 37 || getExpansionBoardId() == 47 || getHardwareVersion() == 58) {
+            addSensorClass(AbstractSensor.SENSORS.EXG, new SensorEXG(this));
+        }
+        if (getExpansionBoardId() == 14 || getExpansionBoardId() == 48 || getHardwareVersion() == 58) {
+            addSensorClass(AbstractSensor.SENSORS.GSR, new SensorGSR(this.mShimmerVerObject));
+        }
+        if ((getExpansionBoardId() == 14 || getExpansionBoardId() == 48 || getExpansionBoardId() == 38 || getHardwareVersion() == 58) && isSupportedDerivedSensors()) {
+            addSensorClass(AbstractSensor.SENSORS.PPG, new SensorPPG(this));
+        }
+        if (getExpansionBoardId() == 58) {
+            addSensorClass(AbstractSensor.SENSORS.BMP280, new SensorBMP280(this.mShimmerVerObject));
+            addSensorClass(AbstractSensor.SENSORS.STC3100, new SensorSTC3100(this.mShimmerVerObject));
+        } else {
+            addSensorClass(AbstractSensor.SENSORS.BMP180, new SensorBMP180(this.mShimmerVerObject));
+        }
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void createConfigBytesLayout() {
+        if (this.mShimmerVerObject.mHardwareVersion == -1) {
+            this.mConfigByteLayout = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), 58);
+        } else {
+            this.mConfigByteLayout = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), this.mShimmerVerObject.mHardwareVersion);
+        }
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void configBytesParse(byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        this.mInfoMemBytesOriginal = bArr;
+        String str = "";
+        if (!ConfigByteLayout.checkConfigBytesValid(bArr)) {
+            setDefaultShimmerConfiguration();
+            this.mConfigBytes = bArr;
+        } else {
+            createInfoMemLayoutObjectIfNeeded();
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) this.mConfigByteLayout;
+            this.mConfigBytes = bArr;
+            parseEnabledDerivedSensorsForMaps(configByteLayoutShimmer3, bArr);
+            overwriteEnabledSensors();
+            setSamplingRateShimmer(getSamplingClockFreq() / ((bArr[configByteLayoutShimmer3.idxShimmerSamplingRate] & configByteLayoutShimmer3.maskShimmerSamplingRate) + ((bArr[configByteLayoutShimmer3.idxShimmerSamplingRate + 1] & configByteLayoutShimmer3.maskShimmerSamplingRate) << 8)));
+            this.mInternalExpPower = (bArr[configByteLayoutShimmer3.idxConfigSetupByte3] >> configByteLayoutShimmer3.bitShiftEXPPowerEnable) & configByteLayoutShimmer3.maskEXPPowerEnable;
+            this.mBluetoothBaudRate = bArr[configByteLayoutShimmer3.idxBtCommBaudRate] & configByteLayoutShimmer3.maskBaudRate;
+            int i = configByteLayoutShimmer3.lengthShimmerName;
+            byte[] bArr2 = new byte[i];
+            System.arraycopy(bArr, configByteLayoutShimmer3.idxSDShimmerName, bArr2, 0, configByteLayoutShimmer3.lengthShimmerName);
+            String str2 = "";
+            for (int i2 = 0; i2 < i; i2++) {
+                char c = (char) bArr2[i2];
+                if (!UtilShimmer.isAsciiPrintable(c)) {
+                    break;
+                }
+                str2 = str2 + c;
+            }
+            int i3 = configByteLayoutShimmer3.lengthExperimentName;
+            byte[] bArr3 = new byte[i3];
+            System.arraycopy(bArr, configByteLayoutShimmer3.idxSDEXPIDName, bArr3, 0, configByteLayoutShimmer3.lengthExperimentName);
+            for (int i4 = 0; i4 < i3; i4++) {
+                char c2 = (char) bArr3[i4];
+                if (!UtilShimmer.isAsciiPrintable(c2)) {
+                    break;
+                }
+                str = str + c2;
+            }
+            this.mTrialName = new String(str);
+            int i5 = (configByteLayoutShimmer3.lengthConfigTimeBytes - 1) * 8;
+            this.mConfigTime = 0L;
+            for (int i6 = 0; i6 < configByteLayoutShimmer3.lengthConfigTimeBytes; i6++) {
+                this.mConfigTime += (bArr[configByteLayoutShimmer3.idxSDConfigTime0 + i6] & 255) << i5;
+                i5 -= 8;
+            }
+            this.mButtonStart = ((bArr[configByteLayoutShimmer3.idxSDExperimentConfig0] >> configByteLayoutShimmer3.bitShiftButtonStart) & configByteLayoutShimmer3.maskButtonStart) > 0;
+            this.mDisableBluetooth = ((bArr[configByteLayoutShimmer3.idxSDExperimentConfig0] >> configByteLayoutShimmer3.bitShiftDisableBluetooth) & configByteLayoutShimmer3.maskDisableBluetooth) > 0;
+            this.mShowRtcErrorLeds = ((bArr[configByteLayoutShimmer3.idxSDExperimentConfig0] >> configByteLayoutShimmer3.bitShiftShowErrorLedsRwc) & configByteLayoutShimmer3.maskShowErrorLedsRwc) > 0;
+            Iterator<AbstractSensor> it2 = this.mMapOfSensorClasses.values().iterator();
+            while (it2.hasNext()) {
+                it2.next().configBytesParse(this, this.mConfigBytes, communication_type);
+            }
+            generateParserMap();
+            str = str2;
+        }
+        checkAndCorrectShimmerName(str);
+    }
+
+    private void parseEnabledDerivedSensorsForMaps(ConfigByteLayoutShimmer3 configByteLayoutShimmer3, byte[] bArr) {
+        this.mEnabledSensors = (bArr[configByteLayoutShimmer3.idxSensors0] & configByteLayoutShimmer3.maskSensors) << configByteLayoutShimmer3.byteShiftSensors0;
+        this.mEnabledSensors += (bArr[configByteLayoutShimmer3.idxSensors1] & configByteLayoutShimmer3.maskSensors) << configByteLayoutShimmer3.byteShiftSensors1;
+        this.mEnabledSensors += (bArr[configByteLayoutShimmer3.idxSensors2] & configByteLayoutShimmer3.maskSensors) << configByteLayoutShimmer3.byteShiftSensors2;
+        this.mEnabledSensors += (bArr[configByteLayoutShimmer3.idxSensors3] & 255) << configByteLayoutShimmer3.bitShiftSensors3;
+        this.mEnabledSensors += (bArr[configByteLayoutShimmer3.idxSensors4] & 255) << configByteLayoutShimmer3.bitShiftSensors4;
+        this.mDerivedSensors = 0L;
+        if (configByteLayoutShimmer3.idxDerivedSensors0 > 0 && bArr[configByteLayoutShimmer3.idxDerivedSensors0] != ((byte) configByteLayoutShimmer3.maskDerivedChannelsByte) && configByteLayoutShimmer3.idxDerivedSensors1 > 0 && bArr[configByteLayoutShimmer3.idxDerivedSensors1] != ((byte) configByteLayoutShimmer3.maskDerivedChannelsByte)) {
+            this.mDerivedSensors |= (bArr[configByteLayoutShimmer3.idxDerivedSensors0] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors0;
+            this.mDerivedSensors |= (bArr[configByteLayoutShimmer3.idxDerivedSensors1] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors1;
+            if (configByteLayoutShimmer3.idxDerivedSensors2 > 0) {
+                this.mDerivedSensors |= (bArr[configByteLayoutShimmer3.idxDerivedSensors2] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors2;
+            }
+            if (this.mShimmerVerObject.isSupportedEightByteDerivedSensors()) {
+                this.mDerivedSensors |= (bArr[configByteLayoutShimmer3.idxDerivedSensors3] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors3;
+                this.mDerivedSensors |= (bArr[configByteLayoutShimmer3.idxDerivedSensors4] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors4;
+                this.mDerivedSensors |= (bArr[configByteLayoutShimmer3.idxDerivedSensors5] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors5;
+                this.mDerivedSensors |= (bArr[configByteLayoutShimmer3.idxDerivedSensors6] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors6;
+                this.mDerivedSensors = ((bArr[configByteLayoutShimmer3.idxDerivedSensors7] & configByteLayoutShimmer3.maskDerivedChannelsByte) << configByteLayoutShimmer3.byteShiftDerivedSensors7) | this.mDerivedSensors;
+            }
+        }
+        setEnabledAndDerivedSensorsAndUpdateMaps(this.mEnabledSensors, this.mDerivedSensors);
+    }
+
+    private void overwriteEnabledSensors() {
+        setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.HOST_SYSTEM_TIMESTAMP, true);
+        setSensorEnabledState(Configuration.Shimmer3.SENSOR_ID.SHIMMER_TIMESTAMP, true);
+        setSensorEnabledState(-100, true);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public byte[] configBytesGenerate(boolean z, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), 58);
+        if (this.mShimmerVerObject.mHardwareVersion != -1) {
+            configByteLayoutShimmer3 = new ConfigByteLayoutShimmer3(getFirmwareIdentifier(), getFirmwareVersionMajor(), getFirmwareVersionMinor(), getFirmwareVersionInternal(), this.mShimmerVerObject.mHardwareVersion);
+        }
+        this.mConfigBytes = configByteLayoutShimmer3.createConfigByteArrayEmpty();
+        refreshEnabledSensorsFromSensorMap();
+        int samplingClockFreq = (int) (getSamplingClockFreq() / getSamplingRateShimmer());
+        this.mConfigBytes[configByteLayoutShimmer3.idxShimmerSamplingRate] = (byte) (configByteLayoutShimmer3.maskShimmerSamplingRate & samplingClockFreq);
+        this.mConfigBytes[configByteLayoutShimmer3.idxShimmerSamplingRate + 1] = (byte) ((samplingClockFreq >> 8) & configByteLayoutShimmer3.maskShimmerSamplingRate);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSensors0] = (byte) ((this.mEnabledSensors >> configByteLayoutShimmer3.byteShiftSensors0) & configByteLayoutShimmer3.maskSensors);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSensors1] = (byte) ((this.mEnabledSensors >> configByteLayoutShimmer3.byteShiftSensors1) & configByteLayoutShimmer3.maskSensors);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSensors2] = (byte) ((this.mEnabledSensors >> configByteLayoutShimmer3.byteShiftSensors2) & configByteLayoutShimmer3.maskSensors);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSensors3] = (byte) ((this.mEnabledSensors >> configByteLayoutShimmer3.bitShiftSensors3) & 255);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSensors4] = (byte) ((this.mEnabledSensors >> configByteLayoutShimmer3.bitShiftSensors4) & 255);
+        this.mConfigBytes[configByteLayoutShimmer3.idxConfigSetupByte0] = 0;
+        this.mConfigBytes[configByteLayoutShimmer3.idxConfigSetupByte1] = 0;
+        this.mConfigBytes[configByteLayoutShimmer3.idxConfigSetupByte2] = 0;
+        this.mConfigBytes[configByteLayoutShimmer3.idxConfigSetupByte3] = 0;
+        checkIfInternalExpBrdPowerIsNeeded();
+        byte[] bArr = this.mConfigBytes;
+        int i = configByteLayoutShimmer3.idxConfigSetupByte3;
+        bArr[i] = (byte) (bArr[i] | ((byte) ((this.mInternalExpPower & configByteLayoutShimmer3.maskEXPPowerEnable) << configByteLayoutShimmer3.bitShiftEXPPowerEnable)));
+        if (configByteLayoutShimmer3.idxDerivedSensors0 > 0 && configByteLayoutShimmer3.idxDerivedSensors1 > 0) {
+            this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors0] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors0) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+            this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors1] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors1) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+            if (configByteLayoutShimmer3.idxDerivedSensors2 > 0) {
+                this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors2] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors2) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+            }
+            if (this.mShimmerVerObject.isSupportedEightByteDerivedSensors()) {
+                this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors3] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors3) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+                this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors4] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors4) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+                this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors5] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors5) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+                this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors6] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors6) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+                this.mConfigBytes[configByteLayoutShimmer3.idxDerivedSensors7] = (byte) ((this.mDerivedSensors >> configByteLayoutShimmer3.byteShiftDerivedSensors7) & configByteLayoutShimmer3.maskDerivedChannelsByte);
+            }
+        }
+        this.mBluetoothBaudRate = 9;
+        this.mConfigBytes[configByteLayoutShimmer3.idxBtCommBaudRate] = (byte) (this.mBluetoothBaudRate & configByteLayoutShimmer3.maskBaudRate);
+        Iterator<AbstractSensor> it2 = this.mMapOfSensorClasses.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().configBytesGenerate(this, this.mConfigBytes, communication_type);
+        }
+        for (int i2 = 0; i2 < configByteLayoutShimmer3.lengthShimmerName; i2++) {
+            if (i2 < this.mShimmerUserAssignedName.length()) {
+                this.mConfigBytes[configByteLayoutShimmer3.idxSDShimmerName + i2] = (byte) this.mShimmerUserAssignedName.charAt(i2);
+            } else {
+                this.mConfigBytes[configByteLayoutShimmer3.idxSDShimmerName + i2] = -1;
+            }
+        }
+        for (int i3 = 0; i3 < configByteLayoutShimmer3.lengthExperimentName; i3++) {
+            if (i3 < this.mTrialName.length()) {
+                this.mConfigBytes[configByteLayoutShimmer3.idxSDEXPIDName + i3] = (byte) this.mTrialName.charAt(i3);
+            } else {
+                this.mConfigBytes[configByteLayoutShimmer3.idxSDEXPIDName + i3] = -1;
+            }
+        }
+        this.mConfigBytes[configByteLayoutShimmer3.idxSDConfigTime0] = (byte) ((this.mConfigTime >> configByteLayoutShimmer3.bitShiftSDConfigTime0) & 255);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSDConfigTime1] = (byte) ((this.mConfigTime >> configByteLayoutShimmer3.bitShiftSDConfigTime1) & 255);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSDConfigTime2] = (byte) ((this.mConfigTime >> configByteLayoutShimmer3.bitShiftSDConfigTime2) & 255);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSDConfigTime3] = (byte) ((this.mConfigTime >> configByteLayoutShimmer3.bitShiftSDConfigTime3) & 255);
+        this.mConfigBytes[configByteLayoutShimmer3.idxSDExperimentConfig0] = (byte) ((this.mButtonStart ? configByteLayoutShimmer3.maskButtonStart : 0) << configByteLayoutShimmer3.bitShiftButtonStart);
+        byte[] bArr2 = this.mConfigBytes;
+        int i4 = configByteLayoutShimmer3.idxSDExperimentConfig0;
+        bArr2[i4] = (byte) (bArr2[i4] | ((byte) ((this.mDisableBluetooth ? configByteLayoutShimmer3.maskDisableBluetooth : 0) << configByteLayoutShimmer3.bitShiftDisableBluetooth)));
+        if (this.isOverrideShowRwcErrorLeds) {
+            byte[] bArr3 = this.mConfigBytes;
+            int i5 = configByteLayoutShimmer3.idxSDExperimentConfig0;
+            bArr3[i5] = (byte) (bArr3[i5] | ((byte) (configByteLayoutShimmer3.maskShowErrorLedsRwc << configByteLayoutShimmer3.bitShiftShowErrorLedsRwc)));
+        } else {
+            byte[] bArr4 = this.mConfigBytes;
+            int i6 = configByteLayoutShimmer3.idxSDExperimentConfig0;
+            bArr4[i6] = (byte) (bArr4[i6] | ((byte) ((this.mShowRtcErrorLeds ? configByteLayoutShimmer3.maskShowErrorLedsRwc : 0) << configByteLayoutShimmer3.bitShiftShowErrorLedsRwc)));
+        }
+        if (z) {
+            System.arraycopy(configByteLayoutShimmer3.invalidMacId, 0, this.mConfigBytes, configByteLayoutShimmer3.idxMacAddress, configByteLayoutShimmer3.lengthMacIdBytes);
+            this.mConfigBytes[configByteLayoutShimmer3.idxSDConfigDelayFlag] = 0;
+            int i7 = this.mConfigFileCreationFlag ? configByteLayoutShimmer3.maskSDCfgFileWriteFlag << configByteLayoutShimmer3.bitShiftSDCfgFileWriteFlag : 0;
+            byte[] bArr5 = this.mConfigBytes;
+            int i8 = configByteLayoutShimmer3.idxSDConfigDelayFlag;
+            bArr5[i8] = (byte) (((byte) i7) | bArr5[i8]);
+            byte[] bArr6 = this.mConfigBytes;
+            int i9 = configByteLayoutShimmer3.idxSDConfigDelayFlag;
+            bArr6[i9] = (byte) (bArr6[i9] | configByteLayoutShimmer3.bitShiftSDCfgFileWriteFlag);
+            int i10 = this.mCalibFileCreationFlag ? configByteLayoutShimmer3.maskSDCalibFileWriteFlag << configByteLayoutShimmer3.bitShiftSDCalibFileWriteFlag : 0;
+            byte[] bArr7 = this.mConfigBytes;
+            int i11 = configByteLayoutShimmer3.idxSDConfigDelayFlag;
+            bArr7[i11] = (byte) (((byte) i10) | bArr7[i11]);
+        }
+        if (z) {
+            System.arraycopy(configByteLayoutShimmer3.invalidMacId, 0, this.mConfigBytes, configByteLayoutShimmer3.idxMacAddress, configByteLayoutShimmer3.lengthMacIdBytes);
+            byte[] bArr8 = this.mConfigBytes;
+            int i12 = configByteLayoutShimmer3.idxSDConfigDelayFlag;
+            bArr8[i12] = (byte) (bArr8[i12] | configByteLayoutShimmer3.bitShiftSDCfgFileWriteFlag);
+        }
+        return this.mConfigBytes;
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public Shimmer4sdk deepClone() throws IOException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            new ObjectOutputStream(byteArrayOutputStream).writeObject(this);
+            return (Shimmer4sdk) new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray())).readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void setCommsProtocolRadio(CommsProtocolRadio commsProtocolRadio) {
+        super.setCommsProtocolRadio(commsProtocolRadio);
+        initializeRadio();
+    }
+
+    private void initializeRadio() {
+        setIsInitialised(false);
+        if (this.mCommsProtocolRadio != null) {
+            this.mCommsProtocolRadio.addRadioListener(new RadioListener() { // from class: com.shimmerresearch.driver.shimmer4sdk.Shimmer4sdk.1
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventAckReceived(int i) {
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventNewResponse(byte[] bArr) {
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventNewSyncPayloadReceived(int i, boolean z, double d, String str) {
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void hasStopStreamLoggedDataCallback(String str) {
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void isNowStreamLoggedDataCallback() {
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void connected() {
+                    Shimmer4sdk.this.setIsConnected(true);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void disconnected() {
+                    try {
+                        Shimmer4sdk.this.disconnect();
+                    } catch (ShimmerException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventNewPacket(byte[] bArr, long j) {
+                    Shimmer4sdk.this.buildMsg(bArr, Configuration.COMMUNICATION_TYPE.BLUETOOTH, false, j);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventResponseReceived(int i, Object obj) {
+                    if (i == 2) {
+                        Shimmer4sdk.this.inquiryDone();
+                        return;
+                    }
+                    if (i == 37) {
+                        Shimmer4sdk.this.setHardwareVersion(((Integer) obj).intValue());
+                        return;
+                    }
+                    if (i == 47) {
+                        if (obj != null) {
+                            ShimmerVerObject shimmerVerObject = (ShimmerVerObject) obj;
+                            shimmerVerObject.setHardwareVersion(Shimmer4sdk.this.getHardwareVersion());
+                            Shimmer4sdk.this.setShimmerVersionObjectAndCreateSensorMap(shimmerVerObject);
+                            return;
+                        }
+                        Shimmer4sdk.this.initialiseDevice();
+                        return;
+                    }
+                    if (i == 101) {
+                        Shimmer4sdk.this.setExpansionBoardDetails((ExpansionBoardDetails) obj);
+                        return;
+                    }
+                    if (i == 141) {
+                        Shimmer4sdk.this.configBytesParse((byte[]) obj);
+                        return;
+                    }
+                    if (i == 153) {
+                        Shimmer4sdk.this.calibByteDumpParse((byte[]) obj, CalibDetails.CALIB_READ_SOURCE.RADIO_DUMP);
+                        return;
+                    }
+                    if (i == 49) {
+                        return;
+                    }
+                    if (i == 113) {
+                        Shimmer4sdk.this.consolePrintLn("STATUS RESPONSE RECEIVED");
+                        return;
+                    }
+                    if (i == 148) {
+                        Shimmer4sdk.this.setBattStatusDetails((ShimmerBattStatusDetails) obj);
+                        return;
+                    }
+                    if (i == 144) {
+                        Shimmer4sdk.this.setLastReadRealTimeClockValue(((Long) obj).longValue());
+                        return;
+                    }
+                    if (i != 157) {
+                        Iterator it2 = Shimmer4sdk.this.mMapOfSensorClasses.values().iterator();
+                        while (it2.hasNext()) {
+                            if (((AbstractSensor) it2.next()).processResponse(i, obj, Configuration.COMMUNICATION_TYPE.BLUETOOTH)) {
+                                return;
+                            }
+                        }
+                        Shimmer4sdk.this.consolePrintLn("Unhandled Response In Shimmer4 class: " + UtilShimmer.bytesToHexStringWithSpacesFormatted(new byte[]{(byte) i}));
+                        return;
+                    }
+                    SensorSTC3100Details sensorSTC3100Details = (SensorSTC3100Details) obj;
+                    Shimmer4sdk.this.consolePrintLn(sensorSTC3100Details.getDebugString());
+                    AbstractSensor sensorClass = Shimmer4sdk.this.getSensorClass(AbstractSensor.SENSORS.STC3100);
+                    if (sensorClass == null || !(sensorClass instanceof SensorSTC3100)) {
+                        return;
+                    }
+                    ((SensorSTC3100) sensorClass).setStc3100Details(sensorSTC3100Details);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void startOperationCallback(ShimmerBluetooth.BT_STATE bt_state, int i) {
+                    Shimmer4sdk.this.startOperation(bt_state, i);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void finishOperationCallback(ShimmerBluetooth.BT_STATE bt_state) {
+                    Shimmer4sdk.this.finishOperation(bt_state);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void sendProgressReportCallback(BluetoothProgressReportPerCmd bluetoothProgressReportPerCmd) {
+                    Shimmer4sdk.this.sendProgressReport(bluetoothProgressReportPerCmd);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventLogAndStreamStatusChangedCallback(int i) {
+                    Shimmer4sdk.this.eventLogAndStreamStatusChanged(i);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventDockedStateChange() {
+                    Shimmer4sdk.this.dockedStateChange();
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void isNowStreamingCallback() {
+                    Shimmer4sdk.this.isNowStreaming();
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void hasStopStreamingCallback() {
+                    Shimmer4sdk.this.hasStopStreaming();
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void initialiseStreamingCallback() {
+                    Shimmer4sdk.this.mCommsProtocolRadio.stopTimerReadStatus();
+                    Shimmer4sdk.this.mCommsProtocolRadio.readRealTimeClock();
+                    Shimmer4sdk.this.initaliseDataProcessing();
+                    Shimmer4sdk.this.resetShimmerClock();
+                    Shimmer4sdk.this.resetPacketLossVariables();
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventSetIsDocked(boolean z) {
+                    Shimmer4sdk.this.setIsDocked(z);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventSetIsStreaming(boolean z) {
+                    Shimmer4sdk.this.setIsStreaming(z);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventSetIsSensing(boolean z) {
+                    Shimmer4sdk.this.setIsSensing(z);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventSetIsSDLogging(boolean z) {
+                    Shimmer4sdk.this.setIsSDLogging(z);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventSetIsInitialised(boolean z) {
+                    Shimmer4sdk.this.setIsInitialised(z);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventSetHaveAttemptedToRead(boolean z) {
+                    Shimmer4sdk.this.setHaveAttemptedToReadConfig(z);
+                }
+
+                @Override // com.shimmerresearch.comms.radioProtocol.RadioListener
+                public void eventError(ShimmerException shimmerException) {
+                    if (shimmerException != null) {
+                        Shimmer4sdk.this.consolePrint(shimmerException.getErrStringFormatted());
+                    } else {
+                        Shimmer4sdk.this.consolePrintLn("null error from CommsProtocol");
+                    }
+                }
+            });
+        }
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public ObjectCluster buildMsg(byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, boolean z, double d) {
+        ObjectCluster objectClusterBuildMsg = super.buildMsg(bArr, communication_type, z, d);
+        dataHandler(objectClusterBuildMsg);
+        return objectClusterBuildMsg;
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void connect() throws ShimmerException {
+        this.mShimmerDeviceCommsProtocolAdaptor.connect();
+    }
+
+    protected void eventLogAndStreamStatusChanged(int i) {
+        if (i == 147) {
+            if (isStreaming()) {
+                setBluetoothRadioState(ShimmerBluetooth.BT_STATE.STREAMING);
+                return;
+            } else if (isConnected()) {
+                setBluetoothRadioState(ShimmerBluetooth.BT_STATE.CONNECTED);
+                return;
+            } else {
+                setBluetoothRadioState(ShimmerBluetooth.BT_STATE.DISCONNECTED);
+                return;
+            }
+        }
+        if (isStreaming() && isSDLogging()) {
+            setBluetoothRadioState(ShimmerBluetooth.BT_STATE.STREAMING_AND_SDLOGGING);
+            return;
+        }
+        if (isStreaming()) {
+            setBluetoothRadioState(ShimmerBluetooth.BT_STATE.STREAMING);
+            return;
+        }
+        if (isSDLogging()) {
+            setBluetoothRadioState(ShimmerBluetooth.BT_STATE.SDLOGGING);
+        } else {
+            if (this.mIsStreaming || isSDLogging() || !isConnected() || this.mBluetoothRadioState == ShimmerBluetooth.BT_STATE.CONNECTED) {
+                return;
+            }
+            setBluetoothRadioState(ShimmerBluetooth.BT_STATE.CONNECTED);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void initialiseDevice() {
+        setHaveAttemptedToReadConfig(true);
+        if (this.mSendProgressReport) {
+            operationPrepare();
+            setBluetoothRadioState(ShimmerBluetooth.BT_STATE.CONNECTING);
+        }
+        this.mCommsProtocolRadio.readExpansionBoardID();
+        this.mCommsProtocolRadio.readLEDCommand();
+        readConfigBytes();
+        readCalibrationDump();
+        this.mCommsProtocolRadio.mRadioProtocol.writeBattStatusPeriod(1);
+        if (this.mMapOfSensorClasses.containsKey(AbstractSensor.SENSORS.BMP180)) {
+            this.mCommsProtocolRadio.readPressureCalibrationCoefficients();
+        }
+        if (isThisVerCompatibleWith(3, 3, 0, 5, 2) || isThisVerCompatibleWith(58, 12, 0, 0, 1)) {
+            this.mCommsProtocolRadio.readStatusLogAndStream();
+        }
+        if (isThisVerCompatibleWith(3, 3, 0, 5, 9) || isThisVerCompatibleWith(58, 12, 0, 0, 1)) {
+            this.mCommsProtocolRadio.readBattery();
+        }
+        this.mCommsProtocolRadio.inquiry();
+        if (this.mSendProgressReport) {
+            startOperation(ShimmerBluetooth.BT_STATE.CONNECTING, this.mCommsProtocolRadio.mRadioProtocol.getListofInstructions().size());
+            this.mCommsProtocolRadio.mRadioProtocol.setInstructionStackLock(false);
+        }
+        this.mCommsProtocolRadio.startTimerReadStatus();
+        this.mCommsProtocolRadio.startTimerReadBattStatus();
+        this.mCommsProtocolRadio.startTimerCheckIfAlive();
+    }
+
+    protected void hasStopStreaming() {
+        this.mDeviceCallbackAdapter.hasStopStreaming();
+        this.mCommsProtocolRadio.startTimerReadStatus();
+    }
+
+    protected void isNowStreaming() {
+        this.mDeviceCallbackAdapter.isNowStreaming();
+    }
+
+    @Deprecated
+    public void setSetting(long j, String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        Configuration.COMMUNICATION_TYPE communication_type2 = getSensorClass(j).setSettings(str, obj, communication_type).mCommType;
+        Configuration.COMMUNICATION_TYPE communication_type3 = Configuration.COMMUNICATION_TYPE.BLUETOOTH;
+    }
+
+    protected void dockedStateChange() {
+        sendCallBackMsg(7, new CallbackObject(7, getMacId(), getComPort()));
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public boolean setBluetoothRadioState(ShimmerBluetooth.BT_STATE bt_state) {
+        boolean bluetoothRadioState = super.setBluetoothRadioState(bt_state);
+        this.mDeviceCallbackAdapter.setBluetoothRadioState(bt_state, bluetoothRadioState);
+        return bluetoothRadioState;
+    }
+
+    protected void inquiryDone() {
+        this.mDeviceCallbackAdapter.inquiryDone();
+        isReadyForStreaming();
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void disconnect() throws ShimmerException {
+        super.disconnect();
+        clearCommsProtocolRadio();
+        setBluetoothRadioState(ShimmerBluetooth.BT_STATE.DISCONNECTED);
+    }
+
+    public void writeConfigBytes(byte[] bArr) {
+        if (this.mCommsProtocolRadio == null || this.mConfigByteLayout == null) {
+            return;
+        }
+        this.mCommsProtocolRadio.writeInfoMem(this.mConfigByteLayout.MSP430_5XX_INFOMEM_D_ADDRESS, bArr, this.mConfigByteLayout.MSP430_5XX_INFOMEM_LAST_ADDRESS);
+        readConfigBytes();
+    }
+
+    public void readConfigBytes() {
+        if (getFirmwareVersionCode() >= 6) {
+            createInfoMemLayoutObjectIfNeeded();
+            this.mCommsProtocolRadio.readInfoMem(this.mConfigByteLayout.MSP430_5XX_INFOMEM_D_ADDRESS, this.mConfigByteLayout.calculateConfigByteLength(), this.mConfigByteLayout.MSP430_5XX_INFOMEM_LAST_ADDRESS);
+        }
+    }
+
+    public void toggleLed() {
+        this.mCommsProtocolRadio.toggleLed();
+    }
+
+    public void writeCalibrationDump(byte[] bArr) {
+        this.mCommsProtocolRadio.writeCalibrationDump(bArr);
+    }
+
+    public void readCalibrationDump() {
+        this.mCommsProtocolRadio.readCalibrationDump();
+    }
+
+    public void writeEnabledSensors(long j) {
+        if (this.mCommsProtocolRadio == null || this.mCommsProtocolRadio.mRadioHal == null) {
+            return;
+        }
+        this.mCommsProtocolRadio.writeEnabledSensors(j);
+    }
+
+    public void inquiry() {
+        if (this.mCommsProtocolRadio == null || this.mCommsProtocolRadio.mRadioHal == null) {
+            return;
+        }
+        this.mCommsProtocolRadio.inquiry();
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void startSDLogging() {
+        if (this.mCommsProtocolRadio == null || this.mCommsProtocolRadio.mRadioHal == null) {
+            return;
+        }
+        this.mCommsProtocolRadio.startSDLogging();
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void stopSDLogging() {
+        if (this.mCommsProtocolRadio == null || this.mCommsProtocolRadio.mRadioHal == null) {
+            return;
+        }
+        this.mCommsProtocolRadio.stopSDLogging();
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    protected void dataHandler(ObjectCluster objectCluster) {
+        this.mDeviceCallbackAdapter.dataHandler(objectCluster);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void calculatePacketReceptionRateCurrent(int i) {
+        super.calculatePacketReceptionRateCurrent(i);
+        this.mDeviceCallbackAdapter.sendCallbackPacketReceptionRateCurrent();
+    }
+
+    protected void sendProgressReport(BluetoothProgressReportPerCmd bluetoothProgressReportPerCmd) {
+        this.mDeviceCallbackAdapter.sendProgressReport(bluetoothProgressReportPerCmd);
+    }
+
+    public void startOperation(ShimmerBluetooth.BT_STATE bt_state, int i) {
+        this.mDeviceCallbackAdapter.startOperation(bt_state, i);
+    }
+
+    public void finishOperation(ShimmerBluetooth.BT_STATE bt_state) {
+        this.mDeviceCallbackAdapter.finishOperation(bt_state);
+    }
+
+    public void isReadyForStreaming() {
+        if (this.mSendProgressReport) {
+            finishOperation(ShimmerBluetooth.BT_STATE.CONNECTING);
+        }
+        sendCallBackMsg(1, new CallbackObject(2, getMacId(), getComPort()));
+        restartTimersIfNull();
+        setBluetoothRadioState(ShimmerBluetooth.BT_STATE.CONNECTED);
+    }
+
+    private void restartTimersIfNull() {
+        if (this.mCommsProtocolRadio == null || this.mCommsProtocolRadio.mRadioProtocol == null) {
+            return;
+        }
+        this.mCommsProtocolRadio.mRadioProtocol.restartTimersIfNull();
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void generateConfigOptionsMap() {
+        super.generateConfigOptionsMap();
+        this.mConfigOptionsMapSensors.putAll(Configuration.Shimmer4.mConfigOptionsMapRef);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public LinkedHashMap<String, Object> generateConfigMap(Configuration.COMMUNICATION_TYPE communication_type) {
+        return super.generateConfigMap(communication_type);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public Object setConfigValueUsingConfigLabel(String str, String str2, Object obj) {
+        str2.hashCode();
+        if (str2.equals(Configuration.Shimmer3.GuiLabelConfig.USER_BUTTON_START)) {
+            setButtonStart(((Boolean) obj).booleanValue());
+        } else if (str2.equals(Configuration.Shimmer3.GuiLabelConfig.SD_STREAM_WHEN_RECORDING)) {
+            setDisableBluetooth(((Boolean) obj).booleanValue());
+        } else {
+            return super.setConfigValueUsingConfigLabel(str, str2, obj);
+        }
+        return null;
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public Object getConfigValueUsingConfigLabel(String str) {
+        str.hashCode();
+        if (str.equals(Configuration.Shimmer3.GuiLabelConfig.USER_BUTTON_START)) {
+            return Boolean.valueOf(isButtonStart());
+        }
+        if (str.equals(Configuration.Shimmer3.GuiLabelConfig.SD_STREAM_WHEN_RECORDING)) {
+            return Boolean.valueOf(isDisableBluetooth());
+        }
+        return super.getConfigValueUsingConfigLabel(str);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public boolean setIsDocked(boolean z) {
+        boolean isDocked = super.setIsDocked(z);
+        this.mShimmerDeviceCommsProtocolAdaptor.setIsDocked(z);
+        return isDocked;
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void setIsInitialised(boolean z) {
+        super.setIsInitialised(z);
+        this.mShimmerDeviceCommsProtocolAdaptor.setIsInitialised(z);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void setIsSensing(boolean z) {
+        super.setIsSensing(z);
+        this.mShimmerDeviceCommsProtocolAdaptor.setIsSensing(z);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void setIsStreaming(boolean z) {
+        super.setIsStreaming(z);
+        this.mShimmerDeviceCommsProtocolAdaptor.setIsStreaming(z);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void setIsSDLogging(boolean z) {
+        super.setIsSDLogging(z);
+        this.mShimmerDeviceCommsProtocolAdaptor.setIsSDLogging(z);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void setHaveAttemptedToReadConfig(boolean z) {
+        super.setHaveAttemptedToReadConfig(z);
+        this.mShimmerDeviceCommsProtocolAdaptor.setHaveAttemptedToReadConfig(z);
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public boolean isConnected() {
+        boolean zIsConnected = this.mShimmerDeviceCommsProtocolAdaptor.isConnected();
+        setIsConnected(zIsConnected);
+        return zIsConnected;
+    }
+
+    @Override // com.shimmerresearch.driver.ShimmerDevice
+    public void configureFromClone(ShimmerDevice shimmerDevice) throws ShimmerException {
+        super.configureFromClone(shimmerDevice);
+        writeConfigBytes(shimmerDevice.getShimmerConfigBytes());
+        writeCalibrationDump(shimmerDevice.calibByteDumpGenerate());
+    }
+}

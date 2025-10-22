@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/runtime/R.java
+// Size: 275 bytes
+// Modified: 2025-10-21 16:32:00.002122400 +0100
+
+package androidx.lifecycle.runtime;
+
+/* loaded from: classes.dex */
+public final class R {
+
+    public static final class id {
+        public static int view_tree_lifecycle_owner = 0x7f09016f;
+
+        private id() {
+        }
+    }
+
+    private R() {
+    }
+}

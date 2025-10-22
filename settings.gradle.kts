@@ -1,5 +1,5 @@
 import java.io.FileInputStream
-import java.util.Properties
+import java.util.*
 
 pluginManagement {
     repositories {
@@ -50,6 +50,9 @@ dependencyResolutionManagement {
 
 rootProject.name =
     "buccancs"
+
+// Continue executing remaining tasks even after failures to build other modules.
+gradle.startParameter.setContinueOnFailure(true)
 
 fun isWindowsPath(
     path: String

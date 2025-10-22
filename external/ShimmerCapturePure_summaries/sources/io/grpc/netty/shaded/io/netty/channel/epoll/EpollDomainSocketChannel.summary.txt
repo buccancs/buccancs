@@ -1,0 +1,196 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/epoll/EpollDomainSocketChannel.java
+// Size: 9255 bytes
+// Modified: 2025-10-21 16:32:13.802922500 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.epoll;
+
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOutboundBuffer;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPipeline;
+import io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel;
+import io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollStreamChannel;
+import io.grpc.netty.shaded.io.netty.channel.unix.DomainSocketAddress;
+import io.grpc.netty.shaded.io.netty.channel.unix.DomainSocketChannel;
+import io.grpc.netty.shaded.io.netty.channel.unix.DomainSocketReadMode;
+import io.grpc.netty.shaded.io.netty.channel.unix.FileDescriptor;
+import io.grpc.netty.shaded.io.netty.channel.unix.PeerCredentials;
+import java.io.IOException;
+import java.net.SocketAddress;
+
+/* loaded from: classes3.dex */
+public final class EpollDomainSocketChannel extends AbstractEpollStreamChannel implements DomainSocketChannel {
+    private final EpollDomainSocketChannelConfig config;
+    private volatile DomainSocketAddress local;
+    private volatile DomainSocketAddress remote;
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public EpollDomainSocketChannelConfig config() {
+        return this.config;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    public DomainSocketAddress localAddress0() {
+        return this.local;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    public DomainSocketAddress remoteAddress0() {
+        return this.remote;
+    }
+
+    public EpollDomainSocketChannel() {
+        super(LinuxSocket.newSocketDomain(), false);
+        this.config = new EpollDomainSocketChannelConfig(this);
+    }
+
+    EpollDomainSocketChannel(Channel channel, FileDescriptor fileDescriptor) {
+        super(channel, new LinuxSocket(fileDescriptor.intValue()));
+        this.config = new EpollDomainSocketChannelConfig(this);
+    }
+
+    public EpollDomainSocketChannel(int i) {
+        super(i);
+        this.config = new EpollDomainSocketChannelConfig(this);
+    }
+
+    public EpollDomainSocketChannel(Channel channel, LinuxSocket linuxSocket) {
+        super(channel, linuxSocket);
+        this.config = new EpollDomainSocketChannelConfig(this);
+    }
+
+    public EpollDomainSocketChannel(int i, boolean z) {
+        super(new LinuxSocket(i), z);
+        this.config = new EpollDomainSocketChannelConfig(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollStreamChannel, io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    public AbstractEpollChannel.AbstractEpollUnsafe newUnsafe() {
+        return new EpollDomainUnsafe(this, null);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected void doBind(SocketAddress socketAddress) throws Exception {
+        this.socket.bind(socketAddress);
+        this.local = (DomainSocketAddress) socketAddress;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel
+    protected boolean doConnect(SocketAddress socketAddress, SocketAddress socketAddress2) throws Exception {
+        if (!super.doConnect(socketAddress, socketAddress2)) {
+            return false;
+        }
+        this.local = (DomainSocketAddress) socketAddress2;
+        this.remote = (DomainSocketAddress) socketAddress;
+        return true;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public DomainSocketAddress remoteAddress() {
+        return (DomainSocketAddress) super.remoteAddress();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public DomainSocketAddress localAddress() {
+        return (DomainSocketAddress) super.localAddress();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollStreamChannel
+    protected int doWriteSingle(ChannelOutboundBuffer channelOutboundBuffer) throws Exception {
+        Object objCurrent = channelOutboundBuffer.current();
+        if ((objCurrent instanceof FileDescriptor) && this.socket.sendFd(((FileDescriptor) objCurrent).intValue()) > 0) {
+            channelOutboundBuffer.remove();
+            return 1;
+        }
+        return super.doWriteSingle(channelOutboundBuffer);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollStreamChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected Object filterOutboundMessage(Object obj) {
+        return obj instanceof FileDescriptor ? obj : super.filterOutboundMessage(obj);
+    }
+
+    public PeerCredentials peerCredentials() throws IOException {
+        return this.socket.getPeerCredentials();
+    }
+
+    private final class EpollDomainUnsafe extends AbstractEpollStreamChannel.EpollStreamUnsafe {
+        private EpollDomainUnsafe() {
+            super();
+        }
+
+        /* synthetic */ EpollDomainUnsafe(EpollDomainSocketChannel epollDomainSocketChannel, AnonymousClass1 anonymousClass1) {
+            this();
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollStreamChannel.EpollStreamUnsafe, io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel.AbstractEpollUnsafe
+        void epollInReady() {
+            int i = AnonymousClass1.$SwitchMap$io$netty$channel$unix$DomainSocketReadMode[EpollDomainSocketChannel.this.config().getReadMode().ordinal()];
+            if (i == 1) {
+                super.epollInReady();
+            } else {
+                if (i == 2) {
+                    epollInReadFd();
+                    return;
+                }
+                throw new Error();
+            }
+        }
+
+        private void epollInReadFd() {
+            if (EpollDomainSocketChannel.this.socket.isInputShutdown()) {
+                clearEpollIn0();
+                return;
+            }
+            EpollDomainSocketChannelConfig epollDomainSocketChannelConfigConfig = EpollDomainSocketChannel.this.config();
+            EpollRecvByteAllocatorHandle epollRecvByteAllocatorHandleRecvBufAllocHandle = recvBufAllocHandle();
+            epollRecvByteAllocatorHandleRecvBufAllocHandle.edgeTriggered(EpollDomainSocketChannel.this.isFlagSet(Native.EPOLLET));
+            ChannelPipeline channelPipelinePipeline = EpollDomainSocketChannel.this.pipeline();
+            epollRecvByteAllocatorHandleRecvBufAllocHandle.reset(epollDomainSocketChannelConfigConfig);
+            epollInBefore();
+            do {
+                try {
+                    epollRecvByteAllocatorHandleRecvBufAllocHandle.lastBytesRead(EpollDomainSocketChannel.this.socket.recvFd());
+                    int iLastBytesRead = epollRecvByteAllocatorHandleRecvBufAllocHandle.lastBytesRead();
+                    if (iLastBytesRead == -1) {
+                        close(voidPromise());
+                        return;
+                    } else {
+                        if (iLastBytesRead == 0) {
+                            break;
+                        }
+                        epollRecvByteAllocatorHandleRecvBufAllocHandle.incMessagesRead(1);
+                        this.readPending = false;
+                        channelPipelinePipeline.fireChannelRead((Object) new FileDescriptor(epollRecvByteAllocatorHandleRecvBufAllocHandle.lastBytesRead()));
+                    }
+                } finally {
+                    try {
+                    } finally {
+                    }
+                }
+            } while (epollRecvByteAllocatorHandleRecvBufAllocHandle.continueReading());
+            epollRecvByteAllocatorHandleRecvBufAllocHandle.readComplete();
+            channelPipelinePipeline.fireChannelReadComplete();
+        }
+    }
+
+    /* renamed from: io.grpc.netty.shaded.io.netty.channel.epoll.EpollDomainSocketChannel$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$io$netty$channel$unix$DomainSocketReadMode;
+
+        static {
+            int[] iArr = new int[DomainSocketReadMode.values().length];
+            $SwitchMap$io$netty$channel$unix$DomainSocketReadMode = iArr;
+            try {
+                iArr[DomainSocketReadMode.BYTES.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$netty$channel$unix$DomainSocketReadMode[DomainSocketReadMode.FILE_DESCRIPTORS.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/ImmutableMultisetGwtSerializationDependencies.java
+// Size: 233 bytes
+// Modified: 2025-10-21 16:32:04.582197200 +0100
+
+package com.google.common.collect;
+
+/* loaded from: classes.dex */
+abstract class ImmutableMultisetGwtSerializationDependencies<E> extends ImmutableCollection<E> {
+    ImmutableMultisetGwtSerializationDependencies() {
+    }
+}

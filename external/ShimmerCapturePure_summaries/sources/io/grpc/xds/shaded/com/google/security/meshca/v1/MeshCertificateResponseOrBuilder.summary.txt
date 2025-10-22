@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/com/google/security/meshca/v1/MeshCertificateResponseOrBuilder.java
+// Size: 485 bytes
+// Modified: 2025-10-21 16:32:00.301149100 +0100
+
+package io.grpc.xds.shaded.com.google.security.meshca.v1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface MeshCertificateResponseOrBuilder extends MessageOrBuilder {
+    String getCertChain(int i);
+
+    ByteString getCertChainBytes(int i);
+
+    int getCertChainCount();
+
+    /* renamed from: getCertChainList */
+    List<String> mo11557getCertChainList();
+}

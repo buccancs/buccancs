@@ -1,0 +1,50 @@
+package io.grpc.xds.shaded.com.github.udpa.udpa.core.v1;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class CollectionEntryProto {
+    static final Descriptors.Descriptor internal_static_udpa_core_v1_CollectionEntry_InlineEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_core_v1_CollectionEntry_InlineEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_udpa_core_v1_CollectionEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_core_v1_CollectionEntry_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n#udpa/core/v1/collection_entry.proto\u0012\fudpa.core.v1\u001a\u0019google/protobuf/any.proto\u001a\u001dudpa/annotations/status.proto\u001a#udpa/core/v1/resource_locator.proto\u001a\u0017validate/validate.proto\"\u0095\u0002\n\u000fCollectionEntry\u00120\n\u0007locator\u0018\u0001 \u0001(\u000b2\u001d.udpa.core.v1.ResourceLocatorH\u0000\u0012A\n\finline_entry\u0018\u0002 \u0001(\u000b2).udpa.core.v1.CollectionEntry.InlineEntryH\u0000\u001ar\n\u000bInlineEntry\u0012*\n\u0004name\u0018\u0001 \u0001(\tB\u001cúB\u0019r\u00172\u0015^[0-9a-zA-Z_\\-\\.~:]+$\u0012\u000f\n\u0007version\u0018\u0002 \u0001(\t\u0012&\n\bresource\u0018\u0003 \u0001(\u000b2\u0014.google.protobuf.AnyB\u0019\n\u0012resource_specifier\u0012\u0003øB\u0001B>\n\u001ccom.github.udpa.udpa.core.v1B\u0014CollectionEntryProtoP\u0001º\u0080ÈÑ\u0006\u0002\b\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{AnyProto.getDescriptor(), Status.getDescriptor(), ResourceLocatorProto.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_udpa_core_v1_CollectionEntry_descriptor = descriptor2;
+        internal_static_udpa_core_v1_CollectionEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Locator", "InlineEntry", "ResourceSpecifier"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_udpa_core_v1_CollectionEntry_InlineEntry_descriptor = descriptor3;
+        internal_static_udpa_core_v1_CollectionEntry_InlineEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Name", "Version", "Resource"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        AnyProto.getDescriptor();
+        Status.getDescriptor();
+        ResourceLocatorProto.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private CollectionEntryProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/longrunning/DeleteOperationRequestOrBuilder.java
+// Size: 293 bytes
+// Modified: 2025-10-21 16:32:00.158847500 +0100
+
+package com.google.longrunning;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface DeleteOperationRequestOrBuilder extends MessageOrBuilder {
+    String getName();
+
+    ByteString getNameBytes();
+}

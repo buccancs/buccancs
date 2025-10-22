@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/SizeLayoutType.java
+// Size: 136 bytes
+// Modified: 2025-10-21 16:32:00.073267000 +0100
+
+package com.androidplot.ui;
+
+/* loaded from: classes.dex */
+public enum SizeLayoutType {
+    ABSOLUTE,
+    RELATIVE,
+    FILL
+}

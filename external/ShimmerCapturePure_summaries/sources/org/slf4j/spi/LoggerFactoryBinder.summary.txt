@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/slf4j/spi/LoggerFactoryBinder.java
+// Size: 220 bytes
+// Modified: 2025-10-21 16:32:01.922857900 +0100
+
+package org.slf4j.spi;
+
+import org.slf4j.ILoggerFactory;
+
+/* loaded from: classes2.dex */
+public interface LoggerFactoryBinder {
+    ILoggerFactory getLoggerFactory();
+
+    String getLoggerFactoryClassStr();
+}

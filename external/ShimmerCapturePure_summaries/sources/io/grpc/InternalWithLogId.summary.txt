@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalWithLogId.java
+// Size: 125 bytes
+// Modified: 2025-10-21 16:32:02.173616100 +0100
+
+package io.grpc;
+
+/* loaded from: classes2.dex */
+public interface InternalWithLogId {
+    InternalLogId getLogId();
+}

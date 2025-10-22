@@ -1,0 +1,126 @@
+package com.shimmerresearch.driverUtilities;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class ExpansionBoardDetails implements Serializable {
+    public static final List<Integer> LIST_OF_UNITS_WITH_EXP_BRDS = Arrays.asList(3, 56, 57, 59, 58);
+    private static final long serialVersionUID = 1104467341565122266L;
+    public byte[] mExpBoardArray;
+    public int mExpansionBoardId;
+    public int mExpansionBoardRev;
+    public int mExpansionBoardRevSpecial;
+
+    public ExpansionBoardDetails(int i, int i2, int i3) {
+        this.mExpansionBoardId = -1;
+        this.mExpansionBoardRev = -1;
+        this.mExpansionBoardRevSpecial = -1;
+        this.mExpBoardArray = new byte[0];
+        parseExpansionBoardDetails(i, i2, i3);
+    }
+
+    public ExpansionBoardDetails(byte[] bArr) {
+        this.mExpansionBoardId = -1;
+        this.mExpansionBoardRev = -1;
+        this.mExpansionBoardRevSpecial = -1;
+        this.mExpBoardArray = new byte[0];
+        parseExpansionBoardDetails(bArr);
+    }
+
+    public ExpansionBoardDetails() {
+        this.mExpansionBoardId = -1;
+        this.mExpansionBoardRev = -1;
+        this.mExpansionBoardRevSpecial = -1;
+        this.mExpBoardArray = new byte[0];
+    }
+
+    public static byte[] generateExpBrdIdArrayEmpty() {
+        byte[] bArr = new byte[16];
+        for (int i = 0; i < 16; i++) {
+            bArr[i] = -1;
+        }
+        return bArr;
+    }
+
+    public static byte[] generateExpBrdIdArray(int i, int i2, int i3) {
+        byte[] bArrGenerateExpBrdIdArrayEmpty = generateExpBrdIdArrayEmpty();
+        bArrGenerateExpBrdIdArrayEmpty[0] = (byte) i;
+        bArrGenerateExpBrdIdArrayEmpty[1] = (byte) i2;
+        bArrGenerateExpBrdIdArrayEmpty[2] = (byte) i3;
+        bArrGenerateExpBrdIdArrayEmpty[3] = -1;
+        bArrGenerateExpBrdIdArrayEmpty[4] = -1;
+        return bArrGenerateExpBrdIdArrayEmpty;
+    }
+
+    public int getExpansionBoardId() {
+        return this.mExpansionBoardId;
+    }
+
+    public int getExpansionBoardRev() {
+        return this.mExpansionBoardRev;
+    }
+
+    public int getExpansionBoardRevSpecial() {
+        return this.mExpansionBoardRevSpecial;
+    }
+
+    public boolean isExpansionBoardValid() {
+        int i;
+        int i2;
+        int i3 = this.mExpansionBoardId;
+        return ((i3 == 0 && this.mExpansionBoardRev == 0 && this.mExpansionBoardRevSpecial == 0) || i3 == -1 || (i = this.mExpansionBoardRev) == -1 || (i2 = this.mExpansionBoardRevSpecial) == -1 || i3 == -2 || i == -2 || i2 == -2) ? false : true;
+    }
+
+    public void parseExpansionBoardDetails(int i, int i2, int i3) {
+        this.mExpansionBoardId = i;
+        this.mExpansionBoardRev = i2;
+        this.mExpansionBoardRevSpecial = i3;
+    }
+
+    public void parseExpansionBoardDetails(byte[] bArr) {
+        if (bArr != null) {
+            this.mExpBoardArray = bArr;
+            parseExpansionBoardDetails(bArr[0] & 255, bArr[1] & 255, bArr[2] & 255);
+        }
+    }
+
+    public String getExpansionBoardParsed() {
+        if (ShimmerVerDetails.mMapOfShimmerHardware.containsKey(Integer.valueOf(this.mExpansionBoardId))) {
+            return ShimmerVerDetails.mMapOfShimmerHardware.get(Integer.valueOf(this.mExpansionBoardId));
+        }
+        return getBoardVerString();
+    }
+
+    public String getExpansionBoardParsedWithVer() {
+        String boardVerString = getBoardVerString();
+        String expansionBoardParsed = getExpansionBoardParsed();
+        if (expansionBoardParsed.equals(boardVerString)) {
+            return expansionBoardParsed;
+        }
+        return expansionBoardParsed + " (" + boardVerString + ")";
+    }
+
+    public String getBoardVerString() {
+        return "SR" + this.mExpansionBoardId + "." + this.mExpansionBoardRev + "." + this.mExpansionBoardRevSpecial;
+    }
+
+    public HashMap<Integer, String> getMapOfByteDescriptions() {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(0, "SR number");
+        map.put(1, "Revision");
+        map.put(2, "Special Revision");
+        int i = this.mExpansionBoardId;
+        if (i == 57 || i == 56) {
+            map.put(5, "MAC_ID_1");
+            map.put(6, "MAC_ID_2");
+            map.put(7, "MAC_ID_3");
+            map.put(8, "MAC_ID_4");
+            map.put(9, "MAC_ID_5");
+            map.put(10, "MAC_ID_6");
+        }
+        return map;
+    }
+}

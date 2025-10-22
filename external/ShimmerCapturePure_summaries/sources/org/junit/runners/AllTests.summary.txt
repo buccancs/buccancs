@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runners/AllTests.java
+// Size: 243 bytes
+// Modified: 2025-10-21 16:32:03.042272400 +0100
+
+package org.junit.runners;
+
+import org.junit.internal.runners.SuiteMethod;
+
+/* loaded from: classes2.dex */
+public class AllTests extends SuiteMethod {
+    public AllTests(Class<?> cls) throws Throwable {
+        super(cls);
+    }
+}

@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/ReadableDuration.java
+// Size: 487 bytes
+// Modified: 2025-10-21 16:32:08.510717600 +0100
+
+package org.joda.time;
+
+/* loaded from: classes2.dex */
+public interface ReadableDuration extends Comparable<ReadableDuration> {
+    boolean equals(Object obj);
+
+    long getMillis();
+
+    int hashCode();
+
+    boolean isEqual(ReadableDuration readableDuration);
+
+    boolean isLongerThan(ReadableDuration readableDuration);
+
+    boolean isShorterThan(ReadableDuration readableDuration);
+
+    Duration toDuration();
+
+    Period toPeriod();
+
+    String toString();
+}

@@ -1,0 +1,393 @@
+package org.apache.commons.math3.geometry.euclidean.threed;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
+import org.apache.commons.math3.geometry.partitioning.BSPTree;
+import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
+import org.apache.commons.math3.geometry.partitioning.BoundaryAttribute;
+import org.apache.commons.math3.geometry.partitioning.Hyperplane;
+import org.apache.commons.math3.geometry.partitioning.Region;
+import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math3.geometry.partitioning.Transform;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
+    private static final double DEFAULT_TOLERANCE = 1.0E-10d;
+
+    public PolyhedronsSet(double d) {
+        super(d);
+    }
+
+    public PolyhedronsSet(BSPTree<Euclidean3D> bSPTree, double d) {
+        super(bSPTree, d);
+    }
+
+    public PolyhedronsSet(Collection<SubHyperplane<Euclidean3D>> collection, double d) {
+        super(collection, d);
+    }
+
+    public PolyhedronsSet(List<Vector3D> list, List<int[]> list2, double d) {
+        super(buildBoundary(list, list2, d), d);
+    }
+
+    public PolyhedronsSet(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
+        super(buildBoundary(d, d2, d3, d4, d5, d6, d7), d7);
+    }
+
+    @Deprecated
+    public PolyhedronsSet() {
+        this(1.0E-10d);
+    }
+
+    @Deprecated
+    public PolyhedronsSet(BSPTree<Euclidean3D> bSPTree) {
+        this(bSPTree, 1.0E-10d);
+    }
+
+    @Deprecated
+    public PolyhedronsSet(Collection<SubHyperplane<Euclidean3D>> collection) {
+        this(collection, 1.0E-10d);
+    }
+
+    @Deprecated
+    public PolyhedronsSet(double d, double d2, double d3, double d4, double d5, double d6) {
+        this(d, d2, d3, d4, d5, d6, 1.0E-10d);
+    }
+
+    private static BSPTree<Euclidean3D> buildBoundary(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
+        if (d >= d2 - d7 || d3 >= d4 - d7 || d5 >= d6 - d7) {
+            return new BSPTree<>(Boolean.FALSE);
+        }
+        return new RegionFactory().buildConvex(new Plane(new Vector3D(d, 0.0d, 0.0d), Vector3D.MINUS_I, d7), new Plane(new Vector3D(d2, 0.0d, 0.0d), Vector3D.PLUS_I, d7), new Plane(new Vector3D(0.0d, d3, 0.0d), Vector3D.MINUS_J, d7), new Plane(new Vector3D(0.0d, d4, 0.0d), Vector3D.PLUS_J, d7), new Plane(new Vector3D(0.0d, 0.0d, d5), Vector3D.MINUS_K, d7), new Plane(new Vector3D(0.0d, 0.0d, d6), Vector3D.PLUS_K, d7)).getTree(false);
+    }
+
+    private static List<SubHyperplane<Euclidean3D>> buildBoundary(List<Vector3D> list, List<int[]> list2, double d) {
+        int i = 0;
+        while (i < list.size() - 1) {
+            Vector3D vector3D = list.get(i);
+            i++;
+            for (int i2 = i; i2 < list.size(); i2++) {
+                if (Vector3D.distance(vector3D, list.get(i2)) <= d) {
+                    throw new MathIllegalArgumentException(LocalizedFormats.CLOSE_VERTICES, Double.valueOf(vector3D.getX()), Double.valueOf(vector3D.getY()), Double.valueOf(vector3D.getZ()));
+                }
+            }
+        }
+        int[][] iArrSuccessors = successors(list, list2, findReferences(list, list2));
+        int i3 = 0;
+        while (i3 < list.size()) {
+            for (int i4 : iArrSuccessors[i3]) {
+                if (i4 >= 0) {
+                    boolean z = false;
+                    for (int i5 : iArrSuccessors[i4]) {
+                        z = z || i5 == i3;
+                    }
+                    if (!z) {
+                        Vector3D vector3D2 = list.get(i3);
+                        Vector3D vector3D3 = list.get(i4);
+                        throw new MathIllegalArgumentException(LocalizedFormats.EDGE_CONNECTED_TO_ONE_FACET, Double.valueOf(vector3D2.getX()), Double.valueOf(vector3D2.getY()), Double.valueOf(vector3D2.getZ()), Double.valueOf(vector3D3.getX()), Double.valueOf(vector3D3.getY()), Double.valueOf(vector3D3.getZ()));
+                    }
+                }
+            }
+            i3++;
+        }
+        ArrayList arrayList = new ArrayList();
+        for (int[] iArr : list2) {
+            Plane plane = new Plane(list.get(iArr[0]), list.get(iArr[1]), list.get(iArr[2]), d);
+            Vector2D[] vector2DArr = new Vector2D[iArr.length];
+            for (int i6 = 0; i6 < iArr.length; i6++) {
+                Vector3D vector3D4 = list.get(iArr[i6]);
+                if (!plane.contains(vector3D4)) {
+                    throw new MathIllegalArgumentException(LocalizedFormats.OUT_OF_PLANE, Double.valueOf(vector3D4.getX()), Double.valueOf(vector3D4.getY()), Double.valueOf(vector3D4.getZ()));
+                }
+                vector2DArr[i6] = plane.toSubSpace((Vector<Euclidean3D>) vector3D4);
+            }
+            arrayList.add(new SubPlane(plane, new PolygonsSet(d, vector2DArr)));
+        }
+        return arrayList;
+    }
+
+    private static int[][] findReferences(List<Vector3D> list, List<int[]> list2) {
+        int[] iArr = new int[list.size()];
+        int iMax = 0;
+        for (int[] iArr2 : list2) {
+            if (iArr2.length < 3) {
+                throw new NumberIsTooSmallException(LocalizedFormats.WRONG_NUMBER_OF_POINTS, 3, Integer.valueOf(iArr2.length), true);
+            }
+            for (int i : iArr2) {
+                int i2 = iArr[i] + 1;
+                iArr[i] = i2;
+                iMax = FastMath.max(iMax, i2);
+            }
+        }
+        int[][] iArr3 = (int[][]) Array.newInstance((Class<?>) Integer.TYPE, list.size(), iMax);
+        for (int[] iArr4 : iArr3) {
+            Arrays.fill(iArr4, -1);
+        }
+        for (int i3 = 0; i3 < list2.size(); i3++) {
+            for (int i4 : list2.get(i3)) {
+                int i5 = 0;
+                while (i5 < iMax && iArr3[i4][i5] >= 0) {
+                    i5++;
+                }
+                iArr3[i4][i5] = i3;
+            }
+        }
+        return iArr3;
+    }
+
+    private static int[][] successors(List<Vector3D> list, List<int[]> list2, int[][] iArr) {
+        int i;
+        int[][] iArr2 = (int[][]) Array.newInstance((Class<?>) Integer.TYPE, list.size(), iArr[0].length);
+        for (int[] iArr3 : iArr2) {
+            Arrays.fill(iArr3, -1);
+        }
+        for (int i2 = 0; i2 < list.size(); i2++) {
+            for (int i3 = 0; i3 < iArr2[i2].length && (i = iArr[i2][i3]) >= 0; i3++) {
+                int[] iArr4 = list2.get(i);
+                int i4 = 0;
+                while (i4 < iArr4.length && iArr4[i4] != i2) {
+                    i4++;
+                }
+                iArr2[i2][i3] = iArr4[(i4 + 1) % iArr4.length];
+                for (int i5 = 0; i5 < i3; i5++) {
+                    int[] iArr5 = iArr2[i2];
+                    if (iArr5[i5] == iArr5[i3]) {
+                        Vector3D vector3D = list.get(i2);
+                        Vector3D vector3D2 = list.get(iArr2[i2][i3]);
+                        throw new MathIllegalArgumentException(LocalizedFormats.FACET_ORIENTATION_MISMATCH, Double.valueOf(vector3D.getX()), Double.valueOf(vector3D.getY()), Double.valueOf(vector3D.getZ()), Double.valueOf(vector3D2.getX()), Double.valueOf(vector3D2.getY()), Double.valueOf(vector3D2.getZ()));
+                    }
+                }
+            }
+        }
+        return iArr2;
+    }
+
+    @Override
+    // org.apache.commons.math3.geometry.partitioning.AbstractRegion, org.apache.commons.math3.geometry.partitioning.Region
+    public /* bridge */ /* synthetic */ AbstractRegion buildNew(BSPTree bSPTree) {
+        return buildNew((BSPTree<Euclidean3D>) bSPTree);
+    }
+
+    @Override
+    // org.apache.commons.math3.geometry.partitioning.AbstractRegion, org.apache.commons.math3.geometry.partitioning.Region
+    public /* bridge */ /* synthetic */ Region buildNew(BSPTree bSPTree) {
+        return buildNew((BSPTree<Euclidean3D>) bSPTree);
+    }
+
+    @Override
+    // org.apache.commons.math3.geometry.partitioning.AbstractRegion, org.apache.commons.math3.geometry.partitioning.Region
+    public PolyhedronsSet buildNew(BSPTree<Euclidean3D> bSPTree) {
+        return new PolyhedronsSet(bSPTree, getTolerance());
+    }
+
+    @Override // org.apache.commons.math3.geometry.partitioning.AbstractRegion
+    protected void computeGeometricalProperties() {
+        getTree(true).visit(new FacetsContributionVisitor());
+        if (getSize() < 0.0d) {
+            setSize(Double.POSITIVE_INFINITY);
+            setBarycenter((Point) Vector3D.NaN);
+        } else {
+            setSize(getSize() / 3.0d);
+            setBarycenter((Point) new Vector3D(1.0d / (getSize() * 4.0d), (Vector3D) getBarycenter()));
+        }
+    }
+
+    public SubHyperplane<Euclidean3D> firstIntersection(Vector3D vector3D, Line line) {
+        return recurseFirstIntersection(getTree(true), vector3D, line);
+    }
+
+    private SubHyperplane<Euclidean3D> recurseFirstIntersection(BSPTree<Euclidean3D> bSPTree, Vector3D vector3D, Line line) {
+        Vector3D vector3DIntersection;
+        SubHyperplane<Euclidean3D> subHyperplaneBoundaryFacet;
+        SubHyperplane<Euclidean3D> subHyperplaneBoundaryFacet2;
+        SubHyperplane<S> cut = bSPTree.getCut();
+        if (cut == 0) {
+            return null;
+        }
+        BSPTree<Euclidean3D> minus = bSPTree.getMinus();
+        BSPTree<Euclidean3D> plus = bSPTree.getPlus();
+        Plane plane = (Plane) cut.getHyperplane();
+        double offset = plane.getOffset((Point<Euclidean3D>) vector3D);
+        boolean z = FastMath.abs(offset) < getTolerance();
+        if (offset >= 0.0d) {
+            plus = minus;
+            minus = plus;
+        }
+        if (z && (subHyperplaneBoundaryFacet2 = boundaryFacet(vector3D, bSPTree)) != null) {
+            return subHyperplaneBoundaryFacet2;
+        }
+        SubHyperplane<Euclidean3D> subHyperplaneRecurseFirstIntersection = recurseFirstIntersection(minus, vector3D, line);
+        return subHyperplaneRecurseFirstIntersection != null ? subHyperplaneRecurseFirstIntersection : (z || (vector3DIntersection = plane.intersection(line)) == null || line.getAbscissa(vector3DIntersection) <= line.getAbscissa(vector3D) || (subHyperplaneBoundaryFacet = boundaryFacet(vector3DIntersection, bSPTree)) == null) ? recurseFirstIntersection(plus, vector3D, line) : subHyperplaneBoundaryFacet;
+    }
+
+    private SubHyperplane<Euclidean3D> boundaryFacet(Vector3D vector3D, BSPTree<Euclidean3D> bSPTree) {
+        Vector2D subSpace = ((Plane) bSPTree.getCut().getHyperplane()).toSubSpace((Point<Euclidean3D>) vector3D);
+        BoundaryAttribute boundaryAttribute = (BoundaryAttribute) bSPTree.getAttribute();
+        if (boundaryAttribute.getPlusOutside() != null && ((SubPlane) boundaryAttribute.getPlusOutside()).getRemainingRegion().checkPoint(subSpace) == Region.Location.INSIDE) {
+            return boundaryAttribute.getPlusOutside();
+        }
+        if (boundaryAttribute.getPlusInside() == null || ((SubPlane) boundaryAttribute.getPlusInside()).getRemainingRegion().checkPoint(subSpace) != Region.Location.INSIDE) {
+            return null;
+        }
+        return boundaryAttribute.getPlusInside();
+    }
+
+    public PolyhedronsSet rotate(Vector3D vector3D, Rotation rotation) {
+        return (PolyhedronsSet) applyTransform(new RotationTransform(vector3D, rotation));
+    }
+
+    public PolyhedronsSet translate(Vector3D vector3D) {
+        return (PolyhedronsSet) applyTransform(new TranslationTransform(vector3D));
+    }
+
+    private static class RotationTransform implements Transform<Euclidean3D, Euclidean2D> {
+        private Plane cachedOriginal;
+        private Transform<Euclidean2D, Euclidean1D> cachedTransform;
+        private Vector3D center;
+        private Rotation rotation;
+
+        RotationTransform(Vector3D vector3D, Rotation rotation) {
+            this.center = vector3D;
+            this.rotation = rotation;
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public /* bridge */ /* synthetic */ Point apply(Point point) {
+            return apply((Point<Euclidean3D>) point);
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public /* bridge */ /* synthetic */ Hyperplane apply(Hyperplane hyperplane) {
+            return apply((Hyperplane<Euclidean3D>) hyperplane);
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public Vector3D apply(Point<Euclidean3D> point) {
+            return new Vector3D(1.0d, this.center, 1.0d, this.rotation.applyTo(((Vector3D) point).subtract((Vector<Euclidean3D>) this.center)));
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public Plane apply(Hyperplane<Euclidean3D> hyperplane) {
+            return ((Plane) hyperplane).rotate(this.center, this.rotation);
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public SubHyperplane<Euclidean2D> apply(SubHyperplane<Euclidean2D> subHyperplane, Hyperplane<Euclidean3D> hyperplane, Hyperplane<Euclidean3D> hyperplane2) {
+            if (hyperplane != this.cachedOriginal) {
+                Plane plane = (Plane) hyperplane;
+                Plane plane2 = (Plane) hyperplane2;
+                Vector3D origin = plane.getOrigin();
+                Vector3D space = plane.toSpace((Point<Euclidean2D>) new Vector2D(1.0d, 0.0d));
+                Vector3D space2 = plane.toSpace((Point<Euclidean2D>) new Vector2D(0.0d, 1.0d));
+                Vector2D subSpace = plane2.toSubSpace((Point<Euclidean3D>) apply((Point<Euclidean3D>) origin));
+                Vector2D subSpace2 = plane2.toSubSpace((Point<Euclidean3D>) apply((Point<Euclidean3D>) space));
+                Vector2D subSpace3 = plane2.toSubSpace((Point<Euclidean3D>) apply((Point<Euclidean3D>) space2));
+                this.cachedOriginal = plane;
+                this.cachedTransform = org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(subSpace2.getX() - subSpace.getX(), subSpace2.getY() - subSpace.getY(), subSpace3.getX() - subSpace.getX(), subSpace3.getY() - subSpace.getY(), subSpace.getX(), subSpace.getY());
+            }
+            return ((org.apache.commons.math3.geometry.euclidean.twod.SubLine) subHyperplane).applyTransform(this.cachedTransform);
+        }
+    }
+
+    private static class TranslationTransform implements Transform<Euclidean3D, Euclidean2D> {
+        private Plane cachedOriginal;
+        private Transform<Euclidean2D, Euclidean1D> cachedTransform;
+        private Vector3D translation;
+
+        TranslationTransform(Vector3D vector3D) {
+            this.translation = vector3D;
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public /* bridge */ /* synthetic */ Point apply(Point point) {
+            return apply((Point<Euclidean3D>) point);
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public /* bridge */ /* synthetic */ Hyperplane apply(Hyperplane hyperplane) {
+            return apply((Hyperplane<Euclidean3D>) hyperplane);
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public Vector3D apply(Point<Euclidean3D> point) {
+            return new Vector3D(1.0d, (Vector3D) point, 1.0d, this.translation);
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public Plane apply(Hyperplane<Euclidean3D> hyperplane) {
+            return ((Plane) hyperplane).translate(this.translation);
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.Transform
+        public SubHyperplane<Euclidean2D> apply(SubHyperplane<Euclidean2D> subHyperplane, Hyperplane<Euclidean3D> hyperplane, Hyperplane<Euclidean3D> hyperplane2) {
+            if (hyperplane != this.cachedOriginal) {
+                Plane plane = (Plane) hyperplane;
+                Vector2D subSpace = ((Plane) hyperplane2).toSubSpace((Point<Euclidean3D>) apply((Point<Euclidean3D>) plane.getOrigin()));
+                this.cachedOriginal = plane;
+                this.cachedTransform = org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(1.0d, 0.0d, 0.0d, 1.0d, subSpace.getX(), subSpace.getY());
+            }
+            return ((org.apache.commons.math3.geometry.euclidean.twod.SubLine) subHyperplane).applyTransform(this.cachedTransform);
+        }
+    }
+
+    private class FacetsContributionVisitor implements BSPTreeVisitor<Euclidean3D> {
+        FacetsContributionVisitor() {
+            PolyhedronsSet.this.setSize(0.0d);
+            PolyhedronsSet.this.setBarycenter((Point) new Vector3D(0.0d, 0.0d, 0.0d));
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor
+        public void visitLeafNode(BSPTree<Euclidean3D> bSPTree) {
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor
+        public BSPTreeVisitor.Order visitOrder(BSPTree<Euclidean3D> bSPTree) {
+            return BSPTreeVisitor.Order.MINUS_SUB_PLUS;
+        }
+
+        @Override // org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor
+        public void visitInternalNode(BSPTree<Euclidean3D> bSPTree) {
+            BoundaryAttribute boundaryAttribute = (BoundaryAttribute) bSPTree.getAttribute();
+            if (boundaryAttribute.getPlusOutside() != null) {
+                addContribution(boundaryAttribute.getPlusOutside(), false);
+            }
+            if (boundaryAttribute.getPlusInside() != null) {
+                addContribution(boundaryAttribute.getPlusInside(), true);
+            }
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        private void addContribution(SubHyperplane<Euclidean3D> subHyperplane, boolean z) {
+            Region<Euclidean2D> remainingRegion = ((SubPlane) subHyperplane).getRemainingRegion();
+            double size = remainingRegion.getSize();
+            if (Double.isInfinite(size)) {
+                PolyhedronsSet.this.setSize(Double.POSITIVE_INFINITY);
+                PolyhedronsSet.this.setBarycenter((Point) Vector3D.NaN);
+                return;
+            }
+            Plane plane = (Plane) subHyperplane.getHyperplane();
+            Vector3D space = plane.toSpace((Point<Euclidean2D>) remainingRegion.getBarycenter());
+            double dDotProduct = size * space.dotProduct(plane.getNormal());
+            double d = z ? -dDotProduct : dDotProduct;
+            PolyhedronsSet polyhedronsSet = PolyhedronsSet.this;
+            polyhedronsSet.setSize(polyhedronsSet.getSize() + d);
+            PolyhedronsSet.this.setBarycenter((Point) new Vector3D(1.0d, (Vector3D) PolyhedronsSet.this.getBarycenter(), d, space));
+        }
+    }
+}

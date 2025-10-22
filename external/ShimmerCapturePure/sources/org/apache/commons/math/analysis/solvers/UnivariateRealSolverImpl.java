@@ -1,0 +1,132 @@
+package org.apache.commons.math.analysis.solvers;
+
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.ConvergingAlgorithmImpl;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+@Deprecated
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.class */
+public abstract class UnivariateRealSolverImpl extends ConvergingAlgorithmImpl implements UnivariateRealSolver {
+    protected double functionValueAccuracy;
+    protected double defaultFunctionValueAccuracy;
+    protected boolean resultComputed;
+    protected double result;
+    protected double functionValue;
+
+    @Deprecated
+    protected UnivariateRealFunction f;
+
+    @Deprecated
+    protected UnivariateRealSolverImpl(UnivariateRealFunction f, int defaultMaximalIterationCount, double defaultAbsoluteAccuracy) {
+        super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
+        this.resultComputed = false;
+        if (f == null) {
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
+        }
+        this.f = f;
+        this.defaultFunctionValueAccuracy = 1.0E-15d;
+        this.functionValueAccuracy = this.defaultFunctionValueAccuracy;
+    }
+
+    protected UnivariateRealSolverImpl(int defaultMaximalIterationCount, double defaultAbsoluteAccuracy) {
+        super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
+        this.resultComputed = false;
+        this.defaultFunctionValueAccuracy = 1.0E-15d;
+        this.functionValueAccuracy = this.defaultFunctionValueAccuracy;
+    }
+
+    protected void checkResultComputed() throws IllegalStateException {
+        if (!this.resultComputed) {
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE, new Object[0]);
+        }
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    public double getResult() throws IllegalStateException {
+        checkResultComputed();
+        return this.result;
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    public double getFunctionValue() throws IllegalStateException {
+        checkResultComputed();
+        return this.functionValue;
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    public double getFunctionValueAccuracy() {
+        return this.functionValueAccuracy;
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    public void setFunctionValueAccuracy(double accuracy) {
+        this.functionValueAccuracy = accuracy;
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    public void resetFunctionValueAccuracy() {
+        this.functionValueAccuracy = this.defaultFunctionValueAccuracy;
+    }
+
+    public double solve(int maxEval, UnivariateRealFunction function, double min, double max) throws FunctionEvaluationException, ConvergenceException {
+        throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN, new Object[0]);
+    }
+
+    public double solve(int maxEval, UnivariateRealFunction function, double min, double max, double startValue) throws FunctionEvaluationException, IllegalArgumentException, ConvergenceException {
+        throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN, new Object[0]);
+    }
+
+    protected final void setResult(double newResult, int iterationCount) {
+        this.result = newResult;
+        this.iterationCount = iterationCount;
+        this.resultComputed = true;
+    }
+
+    protected final void setResult(double x, double fx, int iterationCount) {
+        this.result = x;
+        this.functionValue = fx;
+        this.iterationCount = iterationCount;
+        this.resultComputed = true;
+    }
+
+    protected final void clearResult() {
+        this.iterationCount = 0;
+        this.resultComputed = false;
+    }
+
+    protected boolean isBracketing(double lower, double upper, UnivariateRealFunction function) throws FunctionEvaluationException {
+        double f1 = function.value(lower);
+        double f2 = function.value(upper);
+        return (f1 > 0.0d && f2 < 0.0d) || (f1 < 0.0d && f2 > 0.0d);
+    }
+
+    protected boolean isSequence(double start, double mid, double end) {
+        return start < mid && mid < end;
+    }
+
+    protected void verifyInterval(double lower, double upper) {
+        if (lower >= upper) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL, Double.valueOf(lower), Double.valueOf(upper));
+        }
+    }
+
+    protected void verifySequence(double lower, double initial, double upper) {
+        if (!isSequence(lower, initial, upper)) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS, Double.valueOf(lower), Double.valueOf(initial), Double.valueOf(upper));
+        }
+    }
+
+    protected void verifyBracketing(double lower, double upper, UnivariateRealFunction function) throws FunctionEvaluationException {
+        verifyInterval(lower, upper);
+        if (!isBracketing(lower, upper, function)) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, Double.valueOf(lower), Double.valueOf(upper), Double.valueOf(function.value(lower)), Double.valueOf(function.value(upper)));
+        }
+    }
+}

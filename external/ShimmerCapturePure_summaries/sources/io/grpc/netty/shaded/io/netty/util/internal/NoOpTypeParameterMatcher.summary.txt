@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/NoOpTypeParameterMatcher.java
+// Size: 320 bytes
+// Modified: 2025-10-21 16:32:01.500808900 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+/* loaded from: classes3.dex */
+public final class NoOpTypeParameterMatcher extends TypeParameterMatcher {
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.TypeParameterMatcher
+    public boolean match(Object obj) {
+        return true;
+    }
+}

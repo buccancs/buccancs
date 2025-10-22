@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/AbstractSubchannel.java
+// Size: 378 bytes
+// Modified: 2025-10-21 16:32:08.991524700 +0100
+
+package io.grpc.internal;
+
+import io.grpc.InternalChannelz;
+import io.grpc.InternalInstrumented;
+import io.grpc.LoadBalancer;
+
+/* loaded from: classes2.dex */
+abstract class AbstractSubchannel extends LoadBalancer.Subchannel {
+    abstract InternalInstrumented<InternalChannelz.ChannelStats> getInstrumentedInternalSubchannel();
+
+    AbstractSubchannel() {
+    }
+}

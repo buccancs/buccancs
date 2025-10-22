@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/state/CoreMotionScene.java
+// Size: 401 bytes
+// Modified: 2025-10-21 16:32:00.114061200 +0100
+
+package androidx.constraintlayout.core.state;
+
+/* loaded from: classes.dex */
+public interface CoreMotionScene {
+    String getConstraintSet(int i);
+
+    String getConstraintSet(String str);
+
+    String getTransition(String str);
+
+    void setConstraintSetContent(String str, String str2);
+
+    void setDebugName(String str);
+
+    void setTransitionContent(String str, String str2);
+}

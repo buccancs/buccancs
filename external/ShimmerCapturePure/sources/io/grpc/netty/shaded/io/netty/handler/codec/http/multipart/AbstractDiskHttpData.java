@@ -1,0 +1,364 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.http.multipart;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpConstants;
+import io.grpc.netty.shaded.io.netty.util.internal.EmptyArrays;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractDiskHttpData extends AbstractHttpData {
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance((Class<?>) AbstractDiskHttpData.class);
+    private File file;
+    private FileChannel fileChannel;
+    private boolean isRenamed;
+
+    protected AbstractDiskHttpData(String str, Charset charset, long j) {
+        super(str, charset, j);
+    }
+
+    private static byte[] readFrom(File file) throws IOException {
+        long length = file.length();
+        if (length > 2147483647L) {
+            throw new IllegalArgumentException("File too big to be loaded in memory");
+        }
+        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+        byte[] bArr = new byte[(int) length];
+        try {
+            FileChannel channel = randomAccessFile.getChannel();
+            ByteBuffer byteBufferWrap = ByteBuffer.wrap(bArr);
+            for (int i = 0; i < length; i += channel.read(byteBufferWrap)) {
+            }
+            return bArr;
+        } finally {
+            randomAccessFile.close();
+        }
+    }
+
+    protected abstract boolean deleteOnExit();
+
+    protected abstract String getBaseDirectory();
+
+    protected abstract String getDiskFilename();
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public File getFile() throws IOException {
+        return this.file;
+    }
+
+    protected abstract String getPostfix();
+
+    protected abstract String getPrefix();
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public boolean isInMemory() {
+        return false;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.AbstractHttpData, io.grpc.netty.shaded.io.netty.util.AbstractReferenceCounted, io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    public HttpData touch() {
+        return this;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.AbstractHttpData, io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    public HttpData touch(Object obj) {
+        return this;
+    }
+
+    private File tempFile() throws IOException {
+        String postfix;
+        File fileCreateTempFile;
+        String diskFilename = getDiskFilename();
+        if (diskFilename != null) {
+            postfix = "_" + diskFilename;
+        } else {
+            postfix = getPostfix();
+        }
+        if (getBaseDirectory() == null) {
+            fileCreateTempFile = File.createTempFile(getPrefix(), postfix);
+        } else {
+            fileCreateTempFile = File.createTempFile(getPrefix(), postfix, new File(getBaseDirectory()));
+        }
+        if (deleteOnExit()) {
+            fileCreateTempFile.deleteOnExit();
+        }
+        return fileCreateTempFile;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public void setContent(ByteBuf byteBuf) throws IOException {
+        ObjectUtil.checkNotNull(byteBuf, "buffer");
+        try {
+            this.size = byteBuf.readableBytes();
+            checkSize(this.size);
+            if (this.definedSize > 0 && this.definedSize < this.size) {
+                throw new IOException("Out of size: " + this.size + " > " + this.definedSize);
+            }
+            if (this.file == null) {
+                this.file = tempFile();
+            }
+            if (byteBuf.readableBytes() == 0) {
+                if (!this.file.createNewFile()) {
+                    if (this.file.length() == 0) {
+                        return;
+                    }
+                    if (!this.file.delete() || !this.file.createNewFile()) {
+                        throw new IOException("file exists already: " + this.file);
+                    }
+                }
+                return;
+            }
+            RandomAccessFile randomAccessFile = new RandomAccessFile(this.file, "rw");
+            try {
+                randomAccessFile.setLength(0L);
+                FileChannel channel = randomAccessFile.getChannel();
+                ByteBuffer byteBufferNioBuffer = byteBuf.nioBuffer();
+                int iWrite = 0;
+                while (iWrite < this.size) {
+                    iWrite += channel.write(byteBufferNioBuffer);
+                }
+                byteBuf.readerIndex(byteBuf.readerIndex() + iWrite);
+                channel.force(false);
+                randomAccessFile.close();
+                setCompleted();
+            } catch (Throwable th) {
+                randomAccessFile.close();
+                throw th;
+            }
+        } finally {
+            byteBuf.release();
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public void addContent(ByteBuf byteBuf, boolean z) throws IOException {
+        if (byteBuf != null) {
+            try {
+                int i = byteBuf.readableBytes();
+                long j = i;
+                checkSize(this.size + j);
+                if (this.definedSize > 0 && this.definedSize < this.size + j) {
+                    throw new IOException("Out of size: " + (this.size + j) + " > " + this.definedSize);
+                }
+                if (this.file == null) {
+                    this.file = tempFile();
+                }
+                if (this.fileChannel == null) {
+                    this.fileChannel = new RandomAccessFile(this.file, "rw").getChannel();
+                }
+                int i2 = byteBuf.readerIndex();
+                FileChannel fileChannel = this.fileChannel;
+                byteBuf.getBytes(i2, fileChannel, fileChannel.position(), i);
+                this.size += j;
+                byteBuf.readerIndex(byteBuf.readerIndex());
+            } finally {
+                byteBuf.release();
+            }
+        }
+        if (z) {
+            if (this.file == null) {
+                this.file = tempFile();
+            }
+            if (this.fileChannel == null) {
+                this.fileChannel = new RandomAccessFile(this.file, "rw").getChannel();
+            }
+            try {
+                this.fileChannel.force(false);
+                this.fileChannel.close();
+                this.fileChannel = null;
+                setCompleted();
+                return;
+            } catch (Throwable th) {
+                this.fileChannel.close();
+                throw th;
+            }
+        }
+        ObjectUtil.checkNotNull(byteBuf, "buffer");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public void setContent(File file) throws IOException {
+        long length = file.length();
+        checkSize(length);
+        this.size = length;
+        if (this.file != null) {
+            delete();
+        }
+        this.file = file;
+        this.isRenamed = true;
+        setCompleted();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public void setContent(InputStream inputStream) throws IOException {
+        ObjectUtil.checkNotNull(inputStream, "inputStream");
+        if (this.file != null) {
+            delete();
+        }
+        this.file = tempFile();
+        RandomAccessFile randomAccessFile = new RandomAccessFile(this.file, "rw");
+        try {
+            randomAccessFile.setLength(0L);
+            FileChannel channel = randomAccessFile.getChannel();
+            byte[] bArr = new byte[16384];
+            ByteBuffer byteBufferWrap = ByteBuffer.wrap(bArr);
+            int i = inputStream.read(bArr);
+            int iWrite = 0;
+            while (i > 0) {
+                byteBufferWrap.position(i).flip();
+                iWrite += channel.write(byteBufferWrap);
+                checkSize(iWrite);
+                i = inputStream.read(bArr);
+            }
+            channel.force(false);
+            randomAccessFile.close();
+            this.size = iWrite;
+            if (this.definedSize > 0 && this.definedSize < this.size) {
+                if (!this.file.delete()) {
+                    logger.warn("Failed to delete: {}", this.file);
+                }
+                this.file = null;
+                throw new IOException("Out of size: " + this.size + " > " + this.definedSize);
+            }
+            this.isRenamed = true;
+            setCompleted();
+        } catch (Throwable th) {
+            randomAccessFile.close();
+            throw th;
+        }
+    }
+
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:9:0x0012 -> B:15:0x0027). Please report as a decompilation issue!!! */
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public void delete() {
+        FileChannel fileChannel = this.fileChannel;
+        if (fileChannel != null) {
+            try {
+                try {
+                    try {
+                        fileChannel.force(false);
+                        this.fileChannel.close();
+                    } catch (IOException e) {
+                        logger.warn("Failed to force.", (Throwable) e);
+                        this.fileChannel.close();
+                    }
+                } catch (IOException e2) {
+                    logger.warn("Failed to close a file.", (Throwable) e2);
+                }
+                this.fileChannel = null;
+            } catch (Throwable th) {
+                try {
+                    this.fileChannel.close();
+                } catch (IOException e3) {
+                    logger.warn("Failed to close a file.", (Throwable) e3);
+                }
+                throw th;
+            }
+        }
+        if (this.isRenamed) {
+            return;
+        }
+        File file = this.file;
+        if (file != null && file.exists() && !this.file.delete()) {
+            logger.warn("Failed to delete: {}", this.file);
+        }
+        this.file = null;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public byte[] get() throws IOException {
+        File file = this.file;
+        if (file == null) {
+            return EmptyArrays.EMPTY_BYTES;
+        }
+        return readFrom(file);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public ByteBuf getByteBuf() throws IOException {
+        File file = this.file;
+        if (file == null) {
+            return Unpooled.EMPTY_BUFFER;
+        }
+        return Unpooled.wrappedBuffer(readFrom(file));
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public ByteBuf getChunk(int i) throws IOException {
+        if (this.file == null || i == 0) {
+            return Unpooled.EMPTY_BUFFER;
+        }
+        if (this.fileChannel == null) {
+            this.fileChannel = new RandomAccessFile(this.file, "r").getChannel();
+        }
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(i);
+        int i2 = 0;
+        while (true) {
+            if (i2 >= i) {
+                break;
+            }
+            try {
+                int i3 = this.fileChannel.read(byteBufferAllocate);
+                if (i3 == -1) {
+                    break;
+                }
+                i2 += i3;
+            } finally {
+                this.fileChannel.close();
+                this.fileChannel = null;
+            }
+        }
+        if (i2 == 0) {
+            return Unpooled.EMPTY_BUFFER;
+        }
+        byteBufferAllocate.flip();
+        ByteBuf byteBufWrappedBuffer = Unpooled.wrappedBuffer(byteBufferAllocate);
+        byteBufWrappedBuffer.readerIndex(0);
+        byteBufWrappedBuffer.writerIndex(i2);
+        return byteBufWrappedBuffer;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public String getString() throws IOException {
+        return getString(HttpConstants.DEFAULT_CHARSET);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    public String getString(Charset charset) throws IOException {
+        File file = this.file;
+        if (file == null) {
+            return "";
+        }
+        if (charset == null) {
+            return new String(readFrom(file), HttpConstants.DEFAULT_CHARSET.name());
+        }
+        return new String(readFrom(file), charset.name());
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:66:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x00d9  */
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.HttpData
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public boolean renameTo(java.io.File r20) throws java.lang.Throwable {
+        /*
+            Method dump skipped, instructions count: 231
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.AbstractDiskHttpData.renameTo(java.io.File):boolean");
+    }
+}

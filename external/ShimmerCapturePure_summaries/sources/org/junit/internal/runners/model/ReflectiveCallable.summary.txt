@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/runners/model/ReflectiveCallable.java
+// Size: 461 bytes
+// Modified: 2025-10-21 16:32:00.703656100 +0100
+
+package org.junit.internal.runners.model;
+
+import java.lang.reflect.InvocationTargetException;
+
+/* loaded from: classes2.dex */
+public abstract class ReflectiveCallable {
+    protected abstract Object runReflectiveCall() throws Throwable;
+
+    public Object run() throws Throwable {
+        try {
+            return runReflectiveCall();
+        } catch (InvocationTargetException e) {
+            throw e.getTargetException();
+        }
+    }
+}

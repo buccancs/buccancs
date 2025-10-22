@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/time/DurationUnitKt.java
+// Size: 347 bytes
+// Modified: 2025-10-21 16:32:05.255812000 +0100
+
+package kotlin.time;
+
+import kotlin.Metadata;
+
+@Metadata(d1 = {"kotlin/time/DurationUnitKt__DurationUnitJvmKt", "kotlin/time/DurationUnitKt__DurationUnitKt"}, k = 4, mv = {1, 9, 0}, xi = 49)
+/* loaded from: classes4.dex */
+public final class DurationUnitKt extends DurationUnitKt__DurationUnitKt {
+    private DurationUnitKt() {
+    }
+}

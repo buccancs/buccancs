@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/core/BuildVersionOrBuilder.java
+// Size: 667 bytes
+// Modified: 2025-10-21 16:32:03.178884600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Struct;
+import com.google.protobuf.StructOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.SemanticVersion;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.SemanticVersionOrBuilder;
+
+/* loaded from: classes3.dex */
+public interface BuildVersionOrBuilder extends MessageOrBuilder {
+    Struct getMetadata();
+
+    StructOrBuilder getMetadataOrBuilder();
+
+    SemanticVersion getVersion();
+
+    SemanticVersionOrBuilder getVersionOrBuilder();
+
+    boolean hasMetadata();
+
+    boolean hasVersion();
+}

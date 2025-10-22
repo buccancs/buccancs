@@ -1,0 +1,16 @@
+package com.shimmerresearch.androidradiodriver;
+
+import java.util.UUID;
+
+/* loaded from: classes2.dex */
+public class Shimmer3RAndroidRadioByteCommunication extends VerisenseBleAndroidRadioByteCommunication {
+    public Shimmer3RAndroidRadioByteCommunication(String str) {
+        super(str);
+        this.TxID = "65333333-A115-11E2-9E9A-0800200CA102";
+        this.RxID = "65333333-A115-11E2-9E9A-0800200CA101";
+        this.ServiceID = "65333333-A115-11E2-9E9A-0800200CA100";
+        this.sid = UUID.fromString(this.ServiceID);
+        this.txid = UUID.fromString(this.TxID);
+        this.rxid = UUID.fromString(this.RxID);
+    }
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/OutOfDirectMemoryError.java
+// Size: 306 bytes
+// Modified: 2025-10-21 16:32:00.267618500 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+/* loaded from: classes3.dex */
+public final class OutOfDirectMemoryError extends OutOfMemoryError {
+    private static final long serialVersionUID = 4228264016184011555L;
+
+    OutOfDirectMemoryError(String str) {
+        super(str);
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/io/HttpMessageWriterFactory.java
+// Size: 249 bytes
+// Modified: 2025-10-21 16:32:04.983374500 +0100
+
+package org.apache.http.io;
+
+import org.apache.http.HttpMessage;
+
+/* loaded from: classes5.dex */
+public interface HttpMessageWriterFactory<T extends HttpMessage> {
+    HttpMessageWriter<T> create(SessionOutputBuffer sessionOutputBuffer);
+}

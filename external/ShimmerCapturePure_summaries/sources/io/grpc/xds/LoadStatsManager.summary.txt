@@ -1,0 +1,94 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/LoadStatsManager.java
+// Size: 3469 bytes
+// Modified: 2025-10-21 16:32:09.525830500 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.xds.EnvoyProtoData;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class LoadStatsManager {
+    private final LoadStatsStoreFactory loadStatsStoreFactory;
+    private final Map<String, Map<String, ReferenceCounted<LoadStatsStore>>> loadStatsStores;
+
+    interface LoadStatsStore {
+        ClientLoadCounter addLocality(EnvoyProtoData.Locality locality);
+
+        EnvoyProtoData.ClusterStats generateLoadReport();
+
+        void recordDroppedRequest(String str);
+
+        void removeLocality(EnvoyProtoData.Locality locality);
+    }
+
+    interface LoadStatsStoreFactory {
+        LoadStatsStore newLoadStatsStore(String str, String str2);
+    }
+
+    LoadStatsManager() {
+        this(LoadStatsStoreImpl.getDefaultFactory());
+    }
+
+    LoadStatsManager(LoadStatsStoreFactory loadStatsStoreFactory) {
+        this.loadStatsStores = new HashMap();
+        this.loadStatsStoreFactory = loadStatsStoreFactory;
+    }
+
+    LoadStatsStore addLoadStats(String str, @Nullable String str2) {
+        if (!this.loadStatsStores.containsKey(str)) {
+            this.loadStatsStores.put(str, new HashMap());
+        }
+        Map<String, ReferenceCounted<LoadStatsStore>> map = this.loadStatsStores.get(str);
+        if (!map.containsKey(str2)) {
+            map.put(str2, ReferenceCounted.wrap(this.loadStatsStoreFactory.newLoadStatsStore(str, str2)));
+        }
+        ReferenceCounted<LoadStatsStore> referenceCounted = map.get(str2);
+        referenceCounted.retain();
+        return referenceCounted.get();
+    }
+
+    void removeLoadStats(String str, @Nullable String str2) {
+        Preconditions.checkState(this.loadStatsStores.containsKey(str) && this.loadStatsStores.get(str).containsKey(str2), "stats for cluster %s, cluster service %s not exits");
+        Map<String, ReferenceCounted<LoadStatsStore>> map = this.loadStatsStores.get(str);
+        ReferenceCounted<LoadStatsStore> referenceCounted = map.get(str2);
+        referenceCounted.release();
+        if (referenceCounted.getReferenceCount() == 0) {
+            map.remove(str2);
+        }
+        if (map.isEmpty()) {
+            this.loadStatsStores.remove(str);
+        }
+    }
+
+    List<EnvoyProtoData.ClusterStats> getClusterLoadReports(String str) {
+        ArrayList arrayList = new ArrayList();
+        Map<String, ReferenceCounted<LoadStatsStore>> map = this.loadStatsStores.get(str);
+        if (map == null) {
+            return arrayList;
+        }
+        Iterator<ReferenceCounted<LoadStatsStore>> it2 = map.values().iterator();
+        while (it2.hasNext()) {
+            arrayList.add(it2.next().get().generateLoadReport());
+        }
+        return arrayList;
+    }
+
+    List<EnvoyProtoData.ClusterStats> getAllLoadReports() {
+        ArrayList arrayList = new ArrayList();
+        Iterator<Map<String, ReferenceCounted<LoadStatsStore>>> it2 = this.loadStatsStores.values().iterator();
+        while (it2.hasNext()) {
+            Iterator<ReferenceCounted<LoadStatsStore>> it3 = it2.next().values().iterator();
+            while (it3.hasNext()) {
+                arrayList.add(it3.next().get().generateLoadReport());
+            }
+        }
+        return arrayList;
+    }
+}

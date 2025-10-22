@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/tags/propagation/TagContextBinarySerializer.java
+// Size: 380 bytes
+// Modified: 2025-10-21 16:32:02.842698600 +0100
+
+package io.opencensus.tags.propagation;
+
+import io.opencensus.tags.TagContext;
+
+/* loaded from: classes4.dex */
+public abstract class TagContextBinarySerializer {
+    public abstract TagContext fromByteArray(byte[] bArr) throws TagContextDeserializationException;
+
+    public abstract byte[] toByteArray(TagContext tagContext) throws TagContextSerializationException;
+}

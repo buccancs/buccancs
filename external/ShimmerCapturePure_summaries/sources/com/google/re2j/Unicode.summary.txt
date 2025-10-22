@@ -1,0 +1,139 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/re2j/Unicode.java
+// Size: 3915 bytes
+// Modified: 2025-10-21 16:32:01.209330600 +0100
+
+package com.google.re2j;
+
+/* loaded from: classes2.dex */
+class Unicode {
+    static final int MAX_ASCII = 127;
+    private static final int MAX_CASE = 3;
+    static final int MAX_FOLD = 66639;
+    static final int MAX_LATIN1 = 255;
+    static final int MAX_RUNE = 1114111;
+    static final int MIN_FOLD = 65;
+    private static final int REPLACEMENT_CHAR = 65533;
+
+    private static boolean is32(int[][] iArr, int i) {
+        int length = iArr.length;
+        int i2 = 0;
+        while (i2 < length) {
+            int i3 = ((length - i2) / 2) + i2;
+            int[] iArr2 = iArr[i3];
+            int i4 = iArr2[0];
+            if (i4 <= i && i <= iArr2[1]) {
+                return (i - i4) % iArr2[2] == 0;
+            }
+            if (i < i4) {
+                length = i3;
+            } else {
+                i2 = i3 + 1;
+            }
+        }
+        return false;
+    }
+
+    private static boolean is(int[][] iArr, int i) {
+        if (i > 255) {
+            return iArr.length > 0 && i >= iArr[0][0] && is32(iArr, i);
+        }
+        for (int[] iArr2 : iArr) {
+            if (i <= iArr2[1]) {
+                int i2 = iArr2[0];
+                return i >= i2 && (i - i2) % iArr2[2] == 0;
+            }
+        }
+        return false;
+    }
+
+    static boolean isUpper(int i) {
+        if (i <= 255) {
+            return Character.isUpperCase((char) i);
+        }
+        return is(UnicodeTables.Upper, i);
+    }
+
+    static boolean isLower(int i) {
+        if (i <= 255) {
+            return Character.isLowerCase((char) i);
+        }
+        return is(UnicodeTables.Lower, i);
+    }
+
+    static boolean isTitle(int i) {
+        if (i <= 255) {
+            return false;
+        }
+        return is(UnicodeTables.Title, i);
+    }
+
+    static boolean isPrint(int i) {
+        return i <= 255 ? (i >= 32 && i < 127) || (i >= 161 && i != 173) : is(UnicodeTables.L, i) || is(UnicodeTables.M, i) || is(UnicodeTables.N, i) || is(UnicodeTables.P, i) || is(UnicodeTables.S, i);
+    }
+
+    private static int to(int i, int i2, int[][] iArr) {
+        if (i < 0 || 3 <= i) {
+            return REPLACEMENT_CHAR;
+        }
+        int length = iArr.length;
+        int i3 = 0;
+        while (i3 < length) {
+            int i4 = ((length - i3) / 2) + i3;
+            int[] iArr2 = iArr[i4];
+            int i5 = iArr2[0];
+            int i6 = iArr2[1];
+            if (i5 <= i2 && i2 <= i6) {
+                int i7 = iArr2[i + 2];
+                if (i7 <= MAX_RUNE) {
+                    return i2 + i7;
+                }
+                return i5 + ((i & 1) | ((i2 - i5) & (-2)));
+            }
+            if (i2 < i5) {
+                length = i4;
+            } else {
+                i3 = i4 + 1;
+            }
+        }
+        return i2;
+    }
+
+    private static int to(int i, int i2) {
+        return to(i, i2, UnicodeTables.CASE_RANGES);
+    }
+
+    static int toUpper(int i) {
+        if (i <= 127) {
+            return (97 > i || i > 122) ? i : i - 32;
+        }
+        return to(0, i);
+    }
+
+    static int toLower(int i) {
+        if (i <= 127) {
+            return (65 > i || i > 90) ? i : i + 32;
+        }
+        return to(1, i);
+    }
+
+    static int simpleFold(int i) {
+        int length = UnicodeTables.CASE_ORBIT.length;
+        int i2 = 0;
+        while (i2 < length) {
+            int i3 = ((length - i2) / 2) + i2;
+            if (UnicodeTables.CASE_ORBIT[i3][0] < i) {
+                i2 = i3 + 1;
+            } else {
+                length = i3;
+            }
+        }
+        if (i2 < UnicodeTables.CASE_ORBIT.length && UnicodeTables.CASE_ORBIT[i2][0] == i) {
+            return UnicodeTables.CASE_ORBIT[i2][1];
+        }
+        int lower = toLower(i);
+        return lower != i ? lower : toUpper(i);
+    }
+
+    private Unicode() {
+    }
+}

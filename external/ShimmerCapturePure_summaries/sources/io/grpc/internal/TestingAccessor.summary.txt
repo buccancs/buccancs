@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/TestingAccessor.java
+// Size: 513 bytes
+// Modified: 2025-10-21 16:32:11.009931400 +0100
+
+package io.grpc.internal;
+
+/* loaded from: classes2.dex */
+public final class TestingAccessor {
+    public static void setStatsEnabled(AbstractManagedChannelImplBuilder<?> abstractManagedChannelImplBuilder, boolean z) {
+        abstractManagedChannelImplBuilder.setStatsEnabled(z);
+    }
+
+    public static void setStatsEnabled(AbstractServerImplBuilder<?> abstractServerImplBuilder, boolean z) {
+        abstractServerImplBuilder.setStatsEnabled(z);
+    }
+
+    private TestingAccessor() {
+    }
+}

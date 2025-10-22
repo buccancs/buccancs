@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/bluetooth/BluetoothProgressReportPerCmd.java
+// Size: 525 bytes
+// Modified: 2025-10-21 16:32:00.307148400 +0100
+
+package com.shimmerresearch.bluetooth;
+
+/* loaded from: classes2.dex */
+public class BluetoothProgressReportPerCmd {
+    public String mBluetoothAddress;
+    public String mComPort;
+    public int mCommandCompleted;
+    public int mNumberofRemainingCMDsInBuffer;
+
+    public BluetoothProgressReportPerCmd(int i, int i2, String str, String str2) {
+        this.mCommandCompleted = i;
+        this.mNumberofRemainingCMDsInBuffer = i2;
+        this.mBluetoothAddress = str;
+        this.mComPort = str2;
+    }
+}

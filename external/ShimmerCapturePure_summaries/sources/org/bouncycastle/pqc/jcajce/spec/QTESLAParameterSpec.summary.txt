@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/jcajce/spec/QTESLAParameterSpec.java
+// Size: 927 bytes
+// Modified: 2025-10-21 16:32:01.053816800 +0100
+
+package org.bouncycastle.pqc.jcajce.spec;
+
+import java.security.spec.AlgorithmParameterSpec;
+import org.bouncycastle.pqc.crypto.qtesla.QTESLASecurityCategory;
+
+/* loaded from: classes5.dex */
+public class QTESLAParameterSpec implements AlgorithmParameterSpec {
+    public static final String HEURISTIC_I = QTESLASecurityCategory.getName(0);
+    public static final String HEURISTIC_III_SIZE = QTESLASecurityCategory.getName(1);
+    public static final String HEURISTIC_III_SPEED = QTESLASecurityCategory.getName(2);
+    public static final String PROVABLY_SECURE_I = QTESLASecurityCategory.getName(3);
+    public static final String PROVABLY_SECURE_III = QTESLASecurityCategory.getName(4);
+    private String securityCategory;
+
+    public QTESLAParameterSpec(String str) {
+        this.securityCategory = str;
+    }
+
+    public String getSecurityCategory() {
+        return this.securityCategory;
+    }
+}

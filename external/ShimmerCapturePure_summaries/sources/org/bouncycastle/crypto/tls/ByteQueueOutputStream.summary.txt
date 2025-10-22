@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/ByteQueueOutputStream.java
+// Size: 639 bytes
+// Modified: 2025-10-21 16:32:01.842789100 +0100
+
+package org.bouncycastle.crypto.tls;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+/* loaded from: classes5.dex */
+public class ByteQueueOutputStream extends OutputStream {
+    private ByteQueue buffer = new ByteQueue();
+
+    public ByteQueue getBuffer() {
+        return this.buffer;
+    }
+
+    @Override // java.io.OutputStream
+    public void write(int i) throws IOException {
+        this.buffer.addData(new byte[]{(byte) i}, 0, 1);
+    }
+
+    @Override // java.io.OutputStream
+    public void write(byte[] bArr, int i, int i2) throws IOException {
+        this.buffer.addData(bArr, i, i2);
+    }
+}

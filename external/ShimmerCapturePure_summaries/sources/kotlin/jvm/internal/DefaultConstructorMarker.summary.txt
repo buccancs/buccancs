@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/jvm/internal/DefaultConstructorMarker.java
+// Size: 164 bytes
+// Modified: 2025-10-21 16:32:00.522362000 +0100
+
+package kotlin.jvm.internal;
+
+/* loaded from: classes4.dex */
+public final class DefaultConstructorMarker {
+    private DefaultConstructorMarker() {
+    }
+}

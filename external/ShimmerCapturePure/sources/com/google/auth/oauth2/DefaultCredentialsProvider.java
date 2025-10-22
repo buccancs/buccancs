@@ -1,0 +1,288 @@
+package com.google.auth.oauth2;
+
+import com.google.auth.http.HttpTransportFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/* loaded from: classes.dex */
+class DefaultCredentialsProvider {
+    public static final String SUPPRESS_GCLOUD_CREDS_WARNING_ENV_VAR = "SUPPRESS_GCLOUD_CREDS_WARNING";
+    static final String APP_ENGINE_SIGNAL_CLASS = "com.google.appengine.api.utils.SystemProperty";
+    static final String CLOUDSDK_CLIENT_ID = "764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com";
+    static final String CLOUDSDK_CONFIG_DIRECTORY = "gcloud";
+    static final String CLOUDSDK_CREDENTIALS_WARNING = "Your application has authenticated using end user credentials from Google Cloud SDK. We recommend that most server applications use service accounts instead. If your application continues to use end user credentials from Cloud SDK, you might receive a \"quota exceeded\" or \"API not enabled\" error. For more information about service accounts, see https://cloud.google.com/docs/authentication/.";
+    static final String CLOUD_SHELL_ENV_VAR = "DEVSHELL_CLIENT_PORT";
+    static final String CREDENTIAL_ENV_VAR = "GOOGLE_APPLICATION_CREDENTIALS";
+    static final String GCE_METADATA_HOST_ENV_VAR = "GCE_METADATA_HOST";
+    static final String HELP_PERMALINK = "https://developers.google.com/accounts/docs/application-default-credentials";
+    static final String NO_GCE_CHECK_ENV_VAR = "NO_GCE_CHECK";
+    static final String SKIP_APP_ENGINE_ENV_VAR = "GOOGLE_APPLICATION_CREDENTIALS_SKIP_APP_ENGINE";
+    static final String WELL_KNOWN_CREDENTIALS_FILE = "application_default_credentials.json";
+    static final DefaultCredentialsProvider DEFAULT = new DefaultCredentialsProvider();
+    static final String SPECIFICATION_VERSION = System.getProperty("java.specification.version");
+    static final String GAE_RUNTIME_VERSION = System.getProperty("com.google.appengine.runtime.version");
+    static final String RUNTIME_JETTY_LOGGER = System.getProperty("org.eclipse.jetty.util.log.class");
+    static final Logger LOGGER = Logger.getLogger(DefaultCredentialsProvider.class.getName());
+    private GoogleCredentials cachedCredentials = null;
+    private boolean checkedAppEngine = false;
+    private boolean checkedComputeEngine = false;
+
+    DefaultCredentialsProvider() {
+    }
+
+    final GoogleCredentials getDefaultCredentials(HttpTransportFactory httpTransportFactory) throws IOException {
+        synchronized (this) {
+            if (this.cachedCredentials == null) {
+                this.cachedCredentials = getDefaultCredentialsUnsynchronized(httpTransportFactory);
+            }
+            GoogleCredentials googleCredentials = this.cachedCredentials;
+            if (googleCredentials != null) {
+                return googleCredentials;
+            }
+            throw new IOException(String.format("The Application Default Credentials are not available. They are available if running in Google Compute Engine. Otherwise, the environment variable %s must be defined pointing to a file defining the credentials. See %s for more information.", CREDENTIAL_ENV_VAR, HELP_PERMALINK));
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00c1  */
+    /* JADX WARN: Removed duplicated region for block: B:67:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private final com.google.auth.oauth2.GoogleCredentials getDefaultCredentialsUnsynchronized(com.google.auth.http.HttpTransportFactory r10) throws java.lang.Throwable {
+        /*
+            r9 = this;
+            java.lang.String r0 = "GOOGLE_APPLICATION_CREDENTIALS"
+            java.lang.String r1 = r9.getEnv(r0)
+            r2 = 1
+            r3 = 0
+            r4 = 2
+            r5 = 0
+            if (r1 == 0) goto L65
+            int r6 = r1.length()
+            if (r6 <= 0) goto L65
+            java.io.File r6 = new java.io.File     // Catch: java.lang.Throwable -> L3b java.security.AccessControlException -> L3d java.io.IOException -> L45
+            r6.<init>(r1)     // Catch: java.lang.Throwable -> L3b java.security.AccessControlException -> L3d java.io.IOException -> L45
+            boolean r7 = r9.isFile(r6)     // Catch: java.lang.Throwable -> L3b java.security.AccessControlException -> L3d java.io.IOException -> L45
+            if (r7 == 0) goto L33
+            java.io.InputStream r6 = r9.readStream(r6)     // Catch: java.lang.Throwable -> L3b java.security.AccessControlException -> L3d java.io.IOException -> L45
+            com.google.auth.oauth2.GoogleCredentials r0 = com.google.auth.oauth2.GoogleCredentials.fromStream(r6, r10)     // Catch: java.lang.Throwable -> L2b java.security.AccessControlException -> L2e java.io.IOException -> L30
+            if (r6 == 0) goto L66
+            r6.close()
+            goto L66
+        L2b:
+            r10 = move-exception
+            r5 = r6
+            goto L5f
+        L2e:
+            goto L3f
+        L30:
+            r10 = move-exception
+            r5 = r6
+            goto L46
+        L33:
+            java.io.IOException r6 = new java.io.IOException     // Catch: java.lang.Throwable -> L3b java.security.AccessControlException -> L3d java.io.IOException -> L45
+            java.lang.String r7 = "File does not exist."
+            r6.<init>(r7)     // Catch: java.lang.Throwable -> L3b java.security.AccessControlException -> L3d java.io.IOException -> L45
+            throw r6     // Catch: java.lang.Throwable -> L3b java.security.AccessControlException -> L3d java.io.IOException -> L45
+        L3b:
+            r10 = move-exception
+            goto L5f
+        L3d:
+            r6 = r5
+        L3f:
+            if (r6 == 0) goto L65
+            r6.close()
+            goto L65
+        L45:
+            r10 = move-exception
+        L46:
+            java.io.IOException r6 = new java.io.IOException     // Catch: java.lang.Throwable -> L3b
+            java.lang.String r7 = "Error reading credential file from environment variable %s, value '%s': %s"
+            r8 = 3
+            java.lang.Object[] r8 = new java.lang.Object[r8]     // Catch: java.lang.Throwable -> L3b
+            r8[r3] = r0     // Catch: java.lang.Throwable -> L3b
+            r8[r2] = r1     // Catch: java.lang.Throwable -> L3b
+            java.lang.String r0 = r10.getMessage()     // Catch: java.lang.Throwable -> L3b
+            r8[r4] = r0     // Catch: java.lang.Throwable -> L3b
+            java.lang.String r0 = java.lang.String.format(r7, r8)     // Catch: java.lang.Throwable -> L3b
+            r6.<init>(r0, r10)     // Catch: java.lang.Throwable -> L3b
+            throw r6     // Catch: java.lang.Throwable -> L3b
+        L5f:
+            if (r5 == 0) goto L64
+            r5.close()
+        L64:
+            throw r10
+        L65:
+            r0 = r5
+        L66:
+            if (r0 != 0) goto La7
+            java.io.File r1 = r9.getWellKnownCredentialsFile()
+            boolean r6 = r9.isFile(r1)     // Catch: java.lang.Throwable -> L80 java.security.AccessControlException -> L82 java.io.IOException -> L8a
+            if (r6 == 0) goto L7a
+            java.io.InputStream r5 = r9.readStream(r1)     // Catch: java.lang.Throwable -> L80 java.security.AccessControlException -> L82 java.io.IOException -> L8a
+            com.google.auth.oauth2.GoogleCredentials r0 = com.google.auth.oauth2.GoogleCredentials.fromStream(r5, r10)     // Catch: java.lang.Throwable -> L80 java.security.AccessControlException -> L82 java.io.IOException -> L8a
+        L7a:
+            if (r5 == 0) goto L86
+        L7c:
+            r5.close()
+            goto L86
+        L80:
+            r10 = move-exception
+            goto La1
+        L82:
+            if (r5 == 0) goto L86
+            goto L7c
+        L86:
+            r9.warnAboutProblematicCredentials(r0)
+            goto La7
+        L8a:
+            r10 = move-exception
+            java.io.IOException r0 = new java.io.IOException     // Catch: java.lang.Throwable -> L80
+            java.lang.String r6 = "Error reading credential file from location %s: %s"
+            java.lang.Object[] r4 = new java.lang.Object[r4]     // Catch: java.lang.Throwable -> L80
+            r4[r3] = r1     // Catch: java.lang.Throwable -> L80
+            java.lang.String r10 = r10.getMessage()     // Catch: java.lang.Throwable -> L80
+            r4[r2] = r10     // Catch: java.lang.Throwable -> L80
+            java.lang.String r10 = java.lang.String.format(r6, r4)     // Catch: java.lang.Throwable -> L80
+            r0.<init>(r10)     // Catch: java.lang.Throwable -> L80
+            throw r0     // Catch: java.lang.Throwable -> L80
+        La1:
+            if (r5 == 0) goto La6
+            r5.close()
+        La6:
+            throw r10
+        La7:
+            if (r0 != 0) goto Lb9
+            boolean r1 = r9.isOnGAEStandard7()
+            if (r1 == 0) goto Lb9
+            boolean r1 = r9.skipAppEngineCredentialsCheck()
+            if (r1 != 0) goto Lb9
+            com.google.auth.oauth2.GoogleCredentials r0 = r9.tryGetAppEngineCredential()
+        Lb9:
+            if (r0 != 0) goto Lbf
+            com.google.auth.oauth2.GoogleCredentials r0 = r9.tryGetCloudShellCredentials()
+        Lbf:
+            if (r0 != 0) goto Lc5
+            com.google.auth.oauth2.GoogleCredentials r0 = r9.tryGetComputeCredentials(r10)
+        Lc5:
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.auth.oauth2.DefaultCredentialsProvider.getDefaultCredentialsUnsynchronized(com.google.auth.http.HttpTransportFactory):com.google.auth.oauth2.GoogleCredentials");
+    }
+
+    private void warnAboutProblematicCredentials(GoogleCredentials googleCredentials) {
+        if ((googleCredentials instanceof UserCredentials) && ((UserCredentials) googleCredentials).getClientId().equals(CLOUDSDK_CLIENT_ID) && !Boolean.parseBoolean(getEnv(SUPPRESS_GCLOUD_CREDS_WARNING_ENV_VAR))) {
+            LOGGER.log(Level.WARNING, CLOUDSDK_CREDENTIALS_WARNING);
+        }
+    }
+
+    private final File getWellKnownCredentialsFile() {
+        File file;
+        File file2;
+        String lowerCase = getProperty("os.name", "").toLowerCase(Locale.US);
+        String env = getEnv("CLOUDSDK_CONFIG");
+        if (env != null) {
+            file2 = new File(env);
+        } else {
+            if (lowerCase.indexOf("windows") >= 0) {
+                file = new File(new File(getEnv("APPDATA")), CLOUDSDK_CONFIG_DIRECTORY);
+            } else {
+                file = new File(new File(getProperty("user.home", ""), ".config"), CLOUDSDK_CONFIG_DIRECTORY);
+            }
+            file2 = file;
+        }
+        return new File(file2, WELL_KNOWN_CREDENTIALS_FILE);
+    }
+
+    private boolean runningOnAppEngine() throws NoSuchFieldException {
+        try {
+            try {
+                Field field = forName(APP_ENGINE_SIGNAL_CLASS).getField("environment");
+                return field.getType().getMethod("value", new Class[0]).invoke(field.get(null), new Object[0]) != null;
+            } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException |
+                     SecurityException | InvocationTargetException e) {
+                throw new RuntimeException(String.format("Unexpected error trying to determine if runnning on Google App Engine: %s", e.getMessage()), e);
+            }
+        } catch (ClassNotFoundException unused) {
+            return false;
+        }
+    }
+
+    private GoogleCredentials tryGetCloudShellCredentials() {
+        String env = getEnv(CLOUD_SHELL_ENV_VAR);
+        if (env != null) {
+            return CloudShellCredentials.create(Integer.parseInt(env));
+        }
+        return null;
+    }
+
+    private GoogleCredentials tryGetAppEngineCredential() throws NoSuchFieldException, IOException {
+        if (this.checkedAppEngine) {
+            return null;
+        }
+        boolean zRunningOnAppEngine = runningOnAppEngine();
+        this.checkedAppEngine = true;
+        if (zRunningOnAppEngine) {
+            return new AppEngineCredentials(Collections.emptyList());
+        }
+        return null;
+    }
+
+    private final GoogleCredentials tryGetComputeCredentials(HttpTransportFactory httpTransportFactory) {
+        if (this.checkedComputeEngine) {
+            return null;
+        }
+        boolean zRunningOnComputeEngine = ComputeEngineCredentials.runningOnComputeEngine(httpTransportFactory, this);
+        this.checkedComputeEngine = true;
+        if (zRunningOnComputeEngine) {
+            return ComputeEngineCredentials.newBuilder().setHttpTransportFactory(httpTransportFactory).build();
+        }
+        return null;
+    }
+
+    private boolean skipAppEngineCredentialsCheck() {
+        String env = getEnv(SKIP_APP_ENGINE_ENV_VAR);
+        if (env != null) {
+            return env.equalsIgnoreCase("true") || env.equals("1");
+        }
+        return false;
+    }
+
+    protected boolean isOnGAEStandard7() {
+        return GAE_RUNTIME_VERSION != null && (SPECIFICATION_VERSION.equals("1.7") || RUNTIME_JETTY_LOGGER == null);
+    }
+
+    Class<?> forName(String str) throws ClassNotFoundException {
+        return Class.forName(str);
+    }
+
+    String getEnv(String str) {
+        return System.getenv(str);
+    }
+
+    String getProperty(String str, String str2) {
+        return System.getProperty(str, str2);
+    }
+
+    boolean isFile(File file) {
+        return file.isFile();
+    }
+
+    InputStream readStream(File file) throws FileNotFoundException {
+        return new FileInputStream(file);
+    }
+}

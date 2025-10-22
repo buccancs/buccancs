@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/binarylog/v1/MessageOrBuilder.java
+// Size: 244 bytes
+// Modified: 2025-10-21 16:32:00.263111500 +0100
+
+package io.grpc.binarylog.v1;
+
+import com.google.protobuf.ByteString;
+
+/* loaded from: classes2.dex */
+public interface MessageOrBuilder extends com.google.protobuf.MessageOrBuilder {
+    ByteString getData();
+
+    int getLength();
+}

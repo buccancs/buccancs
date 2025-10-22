@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/widget/PopupMenuCompat.java
+// Size: 353 bytes
+// Modified: 2025-10-21 16:32:00.004123800 +0100
+
+package androidx.core.widget;
+
+import android.view.View;
+import android.widget.PopupMenu;
+
+/* loaded from: classes.dex */
+public final class PopupMenuCompat {
+    private PopupMenuCompat() {
+    }
+
+    public static View.OnTouchListener getDragToOpenListener(Object obj) {
+        return ((PopupMenu) obj).getDragToOpenListener();
+    }
+}

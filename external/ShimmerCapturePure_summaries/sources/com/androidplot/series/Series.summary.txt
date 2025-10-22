@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/series/Series.java
+// Size: 140 bytes
+// Modified: 2025-10-21 16:32:00.050558900 +0100
+
+package com.androidplot.series;
+
+/* loaded from: classes.dex */
+public interface Series {
+    String getTitle();
+
+    int size();
+}

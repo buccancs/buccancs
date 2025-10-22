@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socksx/v4/Socks4CommandRequest.java
+// Size: 267 bytes
+// Modified: 2025-10-21 16:32:03.152917400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socksx.v4;
+
+/* loaded from: classes3.dex */
+public interface Socks4CommandRequest extends Socks4Message {
+    String dstAddr();
+
+    int dstPort();
+
+    Socks4CommandType type();
+
+    String userId();
+}

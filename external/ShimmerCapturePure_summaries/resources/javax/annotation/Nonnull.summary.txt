@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/resources/javax/annotation/Nonnull.java
+// Size: 706 bytes
+// Modified: 2025-10-21 16:31:58.373345500 +0100
+
+package javax.annotation;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.annotation.meta.TypeQualifier;
+import javax.annotation.meta.TypeQualifierValidator;
+import javax.annotation.meta.When;
+
+@Documented
+@TypeQualifier
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Nonnull {
+    When when() default When.ALWAYS;
+
+    static class Checker implements TypeQualifierValidator<Nonnull> {
+
+        public When forConstantValue(Nonnull qualifierqualifierArgument,
+                Object value) {
+            if (value == null)
+                return When.NEVER;
+            return When.ALWAYS;
+        }
+    }
+}

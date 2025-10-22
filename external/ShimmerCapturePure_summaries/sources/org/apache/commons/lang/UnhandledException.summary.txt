@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang/UnhandledException.java
+// Size: 451 bytes
+// Modified: 2025-10-21 16:32:02.867778500 +0100
+
+package org.apache.commons.lang;
+
+import org.apache.commons.lang.exception.NestableRuntimeException;
+
+/* loaded from: classes5.dex */
+public class UnhandledException extends NestableRuntimeException {
+    private static final long serialVersionUID = 1832101364842773720L;
+
+    public UnhandledException(Throwable th) {
+        super(th);
+    }
+
+    public UnhandledException(String str, Throwable th) {
+        super(str, th);
+    }
+}

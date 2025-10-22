@@ -1,0 +1,133 @@
+package io.grpc.alts.internal;
+
+import com.google.common.base.Preconditions;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+
+import java.nio.ByteBuffer;
+import java.security.GeneralSecurityException;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+final class AltsChannelCrypter implements ChannelCrypterNetty {
+    private static final int COUNTER_LENGTH = 12;
+    private static final int COUNTER_OVERFLOW_LENGTH = 8;
+    private static final int KEY_LENGTH = AesGcmHkdfAeadCrypter.getKeyLength();
+    private static final int TAG_LENGTH = 16;
+    private final AeadCrypter aeadCrypter;
+    private final byte[] inCounter;
+    private final byte[] oldCounter = new byte[12];
+    private final byte[] outCounter;
+
+    AltsChannelCrypter(byte[] bArr, boolean z) {
+        byte[] bArr2 = new byte[12];
+        this.outCounter = bArr2;
+        byte[] bArr3 = new byte[12];
+        this.inCounter = bArr3;
+        Preconditions.checkArgument(bArr.length == KEY_LENGTH);
+        bArr2 = z ? bArr3 : bArr2;
+        bArr2[bArr2.length - 1] = -128;
+        this.aeadCrypter = new AesGcmHkdfAeadCrypter(bArr);
+    }
+
+    static int getCounterLength() {
+        return 12;
+    }
+
+    static int getKeyLength() {
+        return KEY_LENGTH;
+    }
+
+    static void incrementCounter(byte[] bArr, byte[] bArr2) throws GeneralSecurityException {
+        System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
+        int i = 0;
+        while (i < 8) {
+            byte b = (byte) (bArr[i] + 1);
+            bArr[i] = b;
+            if (b != 0) {
+                break;
+            } else {
+                i++;
+            }
+        }
+        if (i != 8) {
+            return;
+        }
+        System.arraycopy(bArr2, 0, bArr, 0, bArr.length);
+        throw new GeneralSecurityException("Counter has overflowed.");
+    }
+
+    @Override // io.grpc.alts.internal.ChannelCrypterNetty
+    public void destroy() {
+    }
+
+    @Override // io.grpc.alts.internal.ChannelCrypterNetty
+    public int getSuffixLength() {
+        return 16;
+    }
+
+    @Override // io.grpc.alts.internal.ChannelCrypterNetty
+    public void encrypt(ByteBuf byteBuf, List<ByteBuf> list) throws GeneralSecurityException {
+        int iWritableBytes = byteBuf.writableBytes();
+        byte[] bArr = new byte[iWritableBytes];
+        int i = iWritableBytes - 16;
+        ByteBuf byteBufWrappedBuffer = Unpooled.wrappedBuffer(bArr, 0, i);
+        byteBufWrappedBuffer.resetWriterIndex();
+        Iterator<ByteBuf> it2 = list.iterator();
+        while (it2.hasNext()) {
+            byteBufWrappedBuffer.writeBytes(it2.next());
+        }
+        this.aeadCrypter.encrypt(ByteBuffer.wrap(bArr), ByteBuffer.wrap(bArr, 0, i), incrementOutCounter());
+        byteBuf.writeBytes(bArr);
+    }
+
+    @Override // io.grpc.alts.internal.ChannelCrypterNetty
+    public void decrypt(ByteBuf byteBuf, ByteBuf byteBuf2, List<ByteBuf> list) throws GeneralSecurityException {
+        byte[] bArr = new byte[byteBuf.writableBytes()];
+        ByteBuf byteBufWrappedBuffer = Unpooled.wrappedBuffer(bArr);
+        byteBufWrappedBuffer.resetWriterIndex();
+        Iterator<ByteBuf> it2 = list.iterator();
+        while (it2.hasNext()) {
+            byteBufWrappedBuffer.writeBytes(it2.next());
+        }
+        byteBufWrappedBuffer.writeBytes(byteBuf2);
+        decryptInternal(byteBuf, bArr);
+    }
+
+    @Override // io.grpc.alts.internal.ChannelCrypterNetty
+    public void decrypt(ByteBuf byteBuf, ByteBuf byteBuf2) throws GeneralSecurityException {
+        byte[] bArr = new byte[byteBuf2.readableBytes()];
+        ByteBuf byteBufWrappedBuffer = Unpooled.wrappedBuffer(bArr);
+        byteBufWrappedBuffer.resetWriterIndex();
+        byteBufWrappedBuffer.writeBytes(byteBuf2);
+        decryptInternal(byteBuf, bArr);
+    }
+
+    private void decryptInternal(ByteBuf byteBuf, byte[] bArr) throws GeneralSecurityException {
+        this.aeadCrypter.decrypt(ByteBuffer.wrap(bArr), ByteBuffer.wrap(bArr), incrementInCounter());
+        byteBuf.writeBytes(bArr, 0, bArr.length - 16);
+    }
+
+    private byte[] incrementInCounter() throws GeneralSecurityException {
+        incrementCounter(this.inCounter, this.oldCounter);
+        return this.oldCounter;
+    }
+
+    private byte[] incrementOutCounter() throws GeneralSecurityException {
+        incrementCounter(this.outCounter, this.oldCounter);
+        return this.oldCounter;
+    }
+
+    void incrementInCounterForTesting(int i) throws GeneralSecurityException {
+        for (int i2 = 0; i2 < i; i2++) {
+            incrementInCounter();
+        }
+    }
+
+    void incrementOutCounterForTesting(int i) throws GeneralSecurityException {
+        for (int i2 = 0; i2 < i; i2++) {
+            incrementOutCounter();
+        }
+    }
+}

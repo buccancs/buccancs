@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/junit/framework/AssertionFailedError.java
+// Size: 419 bytes
+// Modified: 2025-10-21 16:32:00.487774200 +0100
+
+package junit.framework;
+
+/* loaded from: classes4.dex */
+public class AssertionFailedError extends AssertionError {
+    private static final long serialVersionUID = 1;
+
+    private static String defaultString(String str) {
+        return str == null ? "" : str;
+    }
+
+    public AssertionFailedError() {
+    }
+
+    public AssertionFailedError(String str) {
+        super(defaultString(str));
+    }
+}

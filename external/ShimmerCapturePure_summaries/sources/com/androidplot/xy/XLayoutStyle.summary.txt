@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/XLayoutStyle.java
+// Size: 243 bytes
+// Modified: 2025-10-21 16:32:00.088907700 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public enum XLayoutStyle {
+    ABSOLUTE_FROM_LEFT,
+    ABSOLUTE_FROM_RIGHT,
+    ABSOLUTE_FROM_CENTER,
+    RELATIVE_TO_LEFT,
+    RELATIVE_TO_RIGHT,
+    RELATIVE_TO_CENTER
+}

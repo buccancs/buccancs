@@ -1,0 +1,72 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/linear/BigMatrix.java
+// Size: 2226 bytes
+// Modified: 2025-10-21 16:32:00.955370300 +0100
+
+package org.apache.commons.math.linear;
+
+import java.math.BigDecimal;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+@Deprecated
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/BigMatrix.class */
+public interface BigMatrix extends AnyMatrix {
+    BigMatrix copy();
+
+    BigMatrix add(BigMatrix bigMatrix) throws IllegalArgumentException;
+
+    BigMatrix subtract(BigMatrix bigMatrix) throws IllegalArgumentException;
+
+    BigMatrix scalarAdd(BigDecimal bigDecimal);
+
+    BigMatrix scalarMultiply(BigDecimal bigDecimal);
+
+    BigMatrix multiply(BigMatrix bigMatrix) throws IllegalArgumentException;
+
+    BigMatrix preMultiply(BigMatrix bigMatrix) throws IllegalArgumentException;
+
+    BigDecimal[][] getData();
+
+    double[][] getDataAsDoubleArray();
+
+    int getRoundingMode();
+
+    BigDecimal getNorm();
+
+    BigMatrix getSubMatrix(int i, int i2, int i3, int i4) throws MatrixIndexException;
+
+    BigMatrix getSubMatrix(int[] iArr, int[] iArr2) throws MatrixIndexException;
+
+    BigMatrix getRowMatrix(int i) throws MatrixIndexException;
+
+    BigMatrix getColumnMatrix(int i) throws MatrixIndexException;
+
+    BigDecimal[] getRow(int i) throws MatrixIndexException;
+
+    double[] getRowAsDoubleArray(int i) throws MatrixIndexException;
+
+    BigDecimal[] getColumn(int i) throws MatrixIndexException;
+
+    double[] getColumnAsDoubleArray(int i) throws MatrixIndexException;
+
+    BigDecimal getEntry(int i, int i2) throws MatrixIndexException;
+
+    double getEntryAsDouble(int i, int i2) throws MatrixIndexException;
+
+    BigMatrix transpose();
+
+    BigMatrix inverse() throws InvalidMatrixException;
+
+    BigDecimal getDeterminant() throws InvalidMatrixException;
+
+    BigDecimal getTrace();
+
+    BigDecimal[] operate(BigDecimal[] bigDecimalArr) throws IllegalArgumentException;
+
+    BigDecimal[] preMultiply(BigDecimal[] bigDecimalArr) throws IllegalArgumentException;
+
+    BigDecimal[] solve(BigDecimal[] bigDecimalArr) throws InvalidMatrixException, IllegalArgumentException;
+
+    BigMatrix solve(BigMatrix bigMatrix) throws InvalidMatrixException, IllegalArgumentException;
+}

@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/escape/Platform.java
+// Size: 579 bytes
+// Modified: 2025-10-21 16:32:00.122577200 +0100
+
+package com.google.api.client.util.escape;
+
+/* loaded from: classes.dex */
+final class Platform {
+    private static final ThreadLocal<char[]> DEST_TL = new ThreadLocal<char[]>() { // from class: com.google.api.client.util.escape.Platform.1
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // java.lang.ThreadLocal
+        public char[] initialValue() {
+            return new char[1024];
+        }
+    };
+
+    private Platform() {
+    }
+
+    static char[] charBufferFromThreadLocal() {
+        return DEST_TL.get();
+    }
+}

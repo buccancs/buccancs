@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optimization/Weight.java
+// Size: 862 bytes
+// Modified: 2025-10-21 16:32:07.895568900 +0100
+
+package org.apache.commons.math3.optimization;
+
+import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.NonSquareMatrixException;
+import org.apache.commons.math3.linear.RealMatrix;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class Weight implements OptimizationData {
+    private final RealMatrix weightMatrix;
+
+    public Weight(double[] dArr) {
+        this.weightMatrix = new DiagonalMatrix(dArr);
+    }
+
+    public Weight(RealMatrix realMatrix) {
+        if (realMatrix.getColumnDimension() != realMatrix.getRowDimension()) {
+            throw new NonSquareMatrixException(realMatrix.getColumnDimension(), realMatrix.getRowDimension());
+        }
+        this.weightMatrix = realMatrix.copy();
+    }
+
+    public RealMatrix getWeight() {
+        return this.weightMatrix.copy();
+    }
+}

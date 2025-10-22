@@ -1,0 +1,263 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/XdsNameResolver.java
+// Size: 14606 bytes
+// Modified: 2025-10-21 16:32:12.863922800 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
+import com.google.gson.Gson;
+import com.google.re2j.Pattern;
+import io.grpc.Attributes;
+import io.grpc.InternalLogId;
+import io.grpc.NameResolver;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.BackoffPolicy;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.internal.ObjectPool;
+import io.grpc.xds.Bootstrapper;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.RouteMatch;
+import io.grpc.xds.XdsClient;
+import io.grpc.xds.XdsLogger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class XdsNameResolver extends NameResolver {
+    private final String authority;
+    private final BackoffPolicy.Provider backoffPolicyProvider;
+    private final Bootstrapper bootstrapper;
+    private final XdsClient.XdsChannelFactory channelFactory;
+    private final XdsLogger logger;
+    private final NameResolver.ServiceConfigParser serviceConfigParser;
+    private final Supplier<Stopwatch> stopwatchSupplier;
+    private final SynchronizationContext syncContext;
+    private final ScheduledExecutorService timeService;
+
+    @Nullable
+    private XdsClient xdsClient;
+
+    @Nullable
+    private ObjectPool<XdsClient> xdsClientPool;
+
+    @Override // io.grpc.NameResolver
+    public String getServiceAuthority() {
+        return this.authority;
+    }
+
+    XdsNameResolver(String str, NameResolver.Args args, BackoffPolicy.Provider provider, Supplier<Stopwatch> supplier, XdsClient.XdsChannelFactory xdsChannelFactory, Bootstrapper bootstrapper) {
+        this.authority = GrpcUtil.checkAuthority((String) Preconditions.checkNotNull(str, "name"));
+        this.channelFactory = (XdsClient.XdsChannelFactory) Preconditions.checkNotNull(xdsChannelFactory, "channelFactory");
+        this.syncContext = (SynchronizationContext) Preconditions.checkNotNull(args.getSynchronizationContext(), "syncContext");
+        this.timeService = (ScheduledExecutorService) Preconditions.checkNotNull(args.getScheduledExecutorService(), "timeService");
+        this.serviceConfigParser = (NameResolver.ServiceConfigParser) Preconditions.checkNotNull(args.getServiceConfigParser(), "serviceConfigParser");
+        this.backoffPolicyProvider = (BackoffPolicy.Provider) Preconditions.checkNotNull(provider, "backoffPolicyProvider");
+        this.stopwatchSupplier = (Supplier) Preconditions.checkNotNull(supplier, "stopwatchSupplier");
+        this.bootstrapper = (Bootstrapper) Preconditions.checkNotNull(bootstrapper, "bootstrapper");
+        XdsLogger xdsLoggerWithLogId = XdsLogger.withLogId(InternalLogId.allocate("xds-resolver", str));
+        this.logger = xdsLoggerWithLogId;
+        xdsLoggerWithLogId.log(XdsLogger.XdsLogLevel.INFO, "Created resolver for {0}", str);
+    }
+
+    @Override // io.grpc.NameResolver
+    public void start(NameResolver.Listener2 listener2) {
+        try {
+            Bootstrapper.BootstrapInfo bootstrap = this.bootstrapper.readBootstrap();
+            final List<Bootstrapper.ServerInfo> servers = bootstrap.getServers();
+            final EnvoyProtoData.Node node = bootstrap.getNode();
+            if (servers.isEmpty()) {
+                listener2.onError(Status.UNAVAILABLE.withDescription("No management server provided by bootstrap"));
+                return;
+            }
+            XdsClient.RefCountedXdsClientObjectPool refCountedXdsClientObjectPool = new XdsClient.RefCountedXdsClientObjectPool(new XdsClient.XdsClientFactory() { // from class: io.grpc.xds.XdsNameResolver.1
+                @Override // io.grpc.xds.XdsClient.XdsClientFactory
+                XdsClient createXdsClient() {
+                    return new XdsClientImpl(XdsNameResolver.this.authority, servers, XdsNameResolver.this.channelFactory, node, XdsNameResolver.this.syncContext, XdsNameResolver.this.timeService, XdsNameResolver.this.backoffPolicyProvider, XdsNameResolver.this.stopwatchSupplier);
+                }
+            });
+            this.xdsClientPool = refCountedXdsClientObjectPool;
+            XdsClient object = refCountedXdsClientObjectPool.getObject();
+            this.xdsClient = object;
+            object.watchConfigData(this.authority, new ConfigWatcherImpl(listener2));
+        } catch (Exception e) {
+            listener2.onError(Status.UNAVAILABLE.withDescription("Failed to bootstrap").withCause(e));
+        }
+    }
+
+    private class ConfigWatcherImpl implements XdsClient.ConfigWatcher {
+        final NameResolver.Listener2 listener;
+
+        ConfigWatcherImpl(NameResolver.Listener2 listener2) {
+            this.listener = listener2;
+        }
+
+        @Override // io.grpc.xds.XdsClient.ConfigWatcher
+        public void onConfigChanged(XdsClient.ConfigUpdate configUpdate) {
+            ImmutableMap<String, ?> immutableMapGenerateWeightedTargetRawConfig;
+            if (configUpdate.getRoutes().size() > 1) {
+                XdsNameResolver.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Received config update with {0} routes from xDS client {1}", Integer.valueOf(configUpdate.getRoutes().size()), XdsNameResolver.this.xdsClient);
+                immutableMapGenerateWeightedTargetRawConfig = XdsNameResolver.generateXdsRoutingRawConfig(configUpdate.getRoutes());
+            } else {
+                EnvoyProtoData.Route route = (EnvoyProtoData.Route) Iterables.getOnlyElement(configUpdate.getRoutes());
+                EnvoyProtoData.RouteAction routeAction = route.getRouteAction();
+                String cluster = route.getRouteAction().getCluster();
+                if (routeAction.getCluster() != null) {
+                    XdsNameResolver.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Received config update from xDS client {0}: cluster_name={1}", XdsNameResolver.this.xdsClient, cluster);
+                    immutableMapGenerateWeightedTargetRawConfig = XdsNameResolver.generateCdsRawConfig(cluster);
+                } else {
+                    XdsNameResolver.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Received config update with one weighted cluster route from xDS client {0}", XdsNameResolver.this.xdsClient);
+                    immutableMapGenerateWeightedTargetRawConfig = XdsNameResolver.generateWeightedTargetRawConfig(route.getRouteAction().getWeightedCluster());
+                }
+            }
+            ImmutableMap immutableMapOf = ImmutableMap.of("loadBalancingConfig", ImmutableList.of(immutableMapGenerateWeightedTargetRawConfig));
+            if (XdsNameResolver.this.logger.isLoggable(XdsLogger.XdsLogLevel.INFO)) {
+                XdsNameResolver.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Generated service config:\n{0}", new Gson().toJson(immutableMapOf));
+            }
+            this.listener.onResult(NameResolver.ResolutionResult.newBuilder().setAddresses(ImmutableList.of()).setAttributes(Attributes.newBuilder().set(XdsAttributes.XDS_CLIENT_POOL, XdsNameResolver.this.xdsClientPool).build()).setServiceConfig(XdsNameResolver.this.serviceConfigParser.parseServiceConfig(immutableMapOf)).build());
+        }
+
+        @Override // io.grpc.xds.XdsClient.ResourceWatcher
+        public void onResourceDoesNotExist(String str) {
+            XdsNameResolver.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Resource {0} is unavailable", str);
+            this.listener.onResult(NameResolver.ResolutionResult.newBuilder().setServiceConfig(XdsNameResolver.this.serviceConfigParser.parseServiceConfig(Collections.emptyMap())).build());
+        }
+
+        @Override // io.grpc.xds.XdsClient.ResourceWatcher
+        public void onError(Status status) {
+            XdsNameResolver.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Received error from xDS client {0}: {1}", XdsNameResolver.this.xdsClient, status.getDescription());
+            this.listener.onError(status);
+        }
+    }
+
+    static ImmutableMap<String, ?> generateXdsRoutingRawConfig(List<EnvoyProtoData.Route> list) {
+        String string;
+        ImmutableMap<String, ?> immutableMapGenerateWeightedTargetRawConfig;
+        String str;
+        ArrayList arrayList = new ArrayList();
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        HashMap map = new HashMap();
+        for (EnvoyProtoData.Route route : list) {
+            EnvoyProtoData.RouteAction routeAction = route.getRouteAction();
+            if (map.containsKey(routeAction)) {
+                str = (String) map.get(routeAction);
+            } else {
+                if (routeAction.getCluster() != null) {
+                    string = "cds:" + routeAction.getCluster();
+                    immutableMapGenerateWeightedTargetRawConfig = generateCdsRawConfig(routeAction.getCluster());
+                } else {
+                    StringBuilder sb = new StringBuilder("weighted:");
+                    List<EnvoyProtoData.ClusterWeight> weightedCluster = routeAction.getWeightedCluster();
+                    Iterator<EnvoyProtoData.ClusterWeight> it2 = weightedCluster.iterator();
+                    while (it2.hasNext()) {
+                        sb.append(it2.next().getName());
+                        sb.append('_');
+                    }
+                    sb.append(routeAction.hashCode());
+                    string = sb.toString();
+                    if (linkedHashMap.containsKey(string)) {
+                        string = string + "_" + map.size();
+                    }
+                    immutableMapGenerateWeightedTargetRawConfig = generateWeightedTargetRawConfig(weightedCluster);
+                }
+                map.put(routeAction, string);
+                linkedHashMap.put(string, ImmutableMap.of("childPolicy", ImmutableList.of(immutableMapGenerateWeightedTargetRawConfig)));
+                str = string;
+            }
+            arrayList.add(convertToRawRoute(route.getRouteMatch(), str));
+        }
+        return ImmutableMap.of("xds_routing_experimental", ImmutableMap.of("route", (Map) Collections.unmodifiableList(arrayList), "action", Collections.unmodifiableMap(linkedHashMap)));
+    }
+
+    static ImmutableMap<String, ?> convertToRawRoute(RouteMatch routeMatch, String str) {
+        ImmutableMap.Builder builder = new ImmutableMap.Builder();
+        RouteMatch.PathMatcher pathMatch = routeMatch.getPathMatch();
+        String path = pathMatch.getPath();
+        String prefix = pathMatch.getPrefix();
+        Pattern regEx = pathMatch.getRegEx();
+        if (path != null) {
+            builder.put("path", path);
+        }
+        if (prefix != null) {
+            builder.put("prefix", prefix);
+        }
+        if (regEx != null) {
+            builder.put("regex", regEx.pattern());
+        }
+        ImmutableList.Builder builder2 = new ImmutableList.Builder();
+        for (RouteMatch.HeaderMatcher headerMatcher : routeMatch.getHeaderMatchers()) {
+            ImmutableMap.Builder builder3 = new ImmutableMap.Builder();
+            builder3.put("name", headerMatcher.getName());
+            String exactMatch = headerMatcher.getExactMatch();
+            Pattern regExMatch = headerMatcher.getRegExMatch();
+            RouteMatch.HeaderMatcher.Range rangeMatch = headerMatcher.getRangeMatch();
+            Boolean presentMatch = headerMatcher.getPresentMatch();
+            String prefixMatch = headerMatcher.getPrefixMatch();
+            String suffixMatch = headerMatcher.getSuffixMatch();
+            if (exactMatch != null) {
+                builder3.put("exactMatch", exactMatch);
+            }
+            if (regExMatch != null) {
+                builder3.put("regexMatch", regExMatch.pattern());
+            }
+            if (rangeMatch != null) {
+                builder3.put("rangeMatch", ImmutableMap.of("start", Long.valueOf(rangeMatch.getStart()), "end", Long.valueOf(rangeMatch.getEnd())));
+            }
+            if (presentMatch != null) {
+                builder3.put("presentMatch", presentMatch);
+            }
+            if (prefixMatch != null) {
+                builder3.put("prefixMatch", prefixMatch);
+            }
+            if (suffixMatch != null) {
+                builder3.put("suffixMatch", suffixMatch);
+            }
+            builder3.put("invertMatch", Boolean.valueOf(headerMatcher.isInvertedMatch()));
+            builder2.add((ImmutableList.Builder) builder3.build());
+        }
+        ImmutableList immutableListBuild = builder2.build();
+        if (!immutableListBuild.isEmpty()) {
+            builder.put("headers", immutableListBuild);
+        }
+        RouteMatch.FractionMatcher fractionMatch = routeMatch.getFractionMatch();
+        if (fractionMatch != null) {
+            builder.put("matchFraction", ImmutableMap.of("numerator", Integer.valueOf(fractionMatch.getNumerator()), "denominator", Integer.valueOf(fractionMatch.getDenominator())));
+        }
+        builder.put("action", str);
+        return builder.build();
+    }
+
+    static ImmutableMap<String, ?> generateWeightedTargetRawConfig(List<EnvoyProtoData.ClusterWeight> list) {
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        for (EnvoyProtoData.ClusterWeight clusterWeight : list) {
+            linkedHashMap.put(clusterWeight.getName(), ImmutableMap.of("weight", (ImmutableList) Double.valueOf(clusterWeight.getWeight()), "childPolicy", ImmutableList.of(generateCdsRawConfig(clusterWeight.getName()))));
+        }
+        return ImmutableMap.of("weighted_target_experimental", ImmutableMap.of("targets", linkedHashMap));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static ImmutableMap<String, ?> generateCdsRawConfig(String str) {
+        return ImmutableMap.of("cds_experimental", ImmutableMap.of("cluster", str));
+    }
+
+    @Override // io.grpc.NameResolver
+    public void shutdown() {
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Shutdown");
+        XdsClient xdsClient = this.xdsClient;
+        if (xdsClient != null) {
+            this.xdsClient = this.xdsClientPool.returnObject(xdsClient);
+        }
+    }
+}

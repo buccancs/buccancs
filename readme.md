@@ -117,3 +117,43 @@ physical hardware
 
 Please raise issues or craft pull requests against the simplified documentation
 structure introduced in October
+
+## Shared Run Configurations and Logical Bundles
+
+This repository now includes shared JetBrains run configurations under the .run/ directory and new Gradle bundle tasks
+to harmonize common build/run entry points.
+
+Quick usage (Windows PowerShell or Command Prompt):
+
+- Build everything: gradlew.bat build
+- Build curated external projects only: gradlew.bat externalBuild
+- Build all internal bundles and curated externals: gradlew.bat bundleAll
+- Build Android app fast path: gradlew.bat :app:assembleDebug
+- Run desktop app: gradlew.bat :desktop:run
+
+Logical bundle tasks:
+
+- bundleCore – Builds core/shared modules (protocol, domain, core, storage, common-ui, sdk if present)
+- bundleDesktop – Builds the desktop application and its prerequisites
+- bundleAndroid – Assembles the Android app (assembleDebug)
+- bundleThermal – Builds all modules starting with thermal-
+- bundleTopdon – Builds all modules starting with topdon-
+- bundleAll – Runs all of the above plus curated external builds
+
+Shared IDE run configurations (.run/):
+
+- Build - All.run.xml – Gradle build
+- External - Build Curated.run.xml – Gradle externalBuild
+- Bundles - All.run.xml – Gradle bundleAll
+- Bundle - Core.run.xml – Gradle bundleCore
+- Bundle - Desktop.run.xml – Gradle bundleDesktop
+- Bundle - Android.run.xml – Gradle bundleAndroid
+- Bundle - Thermal.run.xml – Gradle bundleThermal
+- Bundle - Topdon.run.xml – Gradle bundleTopdon
+- Desktop Run.run.xml – Gradle :desktop:run
+- Desktop Headless Server.run.xml – Gradle :desktop:runHeadlessServer (available when the task exists)
+
+Notes:
+
+- Tests are disabled by default; enable with -Ptests.enabled=true.
+- The Android SDK is auto-detected; see local.properties and settings.gradle.kts for detection logic.

@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/lb/v1/ClientStatsOrBuilder.java
+// Size: 914 bytes
+// Modified: 2025-10-21 16:32:03.154919100 +0100
+
+package io.grpc.lb.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface ClientStatsOrBuilder extends MessageOrBuilder {
+    ClientStatsPerToken getCallsFinishedWithDrop(int i);
+
+    int getCallsFinishedWithDropCount();
+
+    List<ClientStatsPerToken> getCallsFinishedWithDropList();
+
+    ClientStatsPerTokenOrBuilder getCallsFinishedWithDropOrBuilder(int i);
+
+    List<? extends ClientStatsPerTokenOrBuilder> getCallsFinishedWithDropOrBuilderList();
+
+    long getNumCallsFinished();
+
+    long getNumCallsFinishedKnownReceived();
+
+    long getNumCallsFinishedWithClientFailedToSend();
+
+    long getNumCallsStarted();
+
+    Timestamp getTimestamp();
+
+    TimestampOrBuilder getTimestampOrBuilder();
+
+    boolean hasTimestamp();
+}

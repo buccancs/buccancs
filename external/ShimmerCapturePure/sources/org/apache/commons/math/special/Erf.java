@@ -1,0 +1,32 @@
+package org.apache.commons.math.special;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/special/Erf.class */
+public class Erf {
+    private Erf() {
+    }
+
+    public static double erf(double x) throws MathException {
+        if (FastMath.abs(x) > 40.0d) {
+            return x > 0.0d ? 1.0d : -1.0d;
+        }
+        double ret = Gamma.regularizedGammaP(0.5d, x * x, 1.0E-15d, 10000);
+        if (x < 0.0d) {
+            ret = -ret;
+        }
+        return ret;
+    }
+
+    public static double erfc(double x) throws MathException {
+        if (FastMath.abs(x) > 40.0d) {
+            return x > 0.0d ? 0.0d : 2.0d;
+        }
+        double ret = Gamma.regularizedGammaQ(0.5d, x * x, 1.0E-15d, 10000);
+        return x < 0.0d ? 2.0d - ret : ret;
+    }
+}

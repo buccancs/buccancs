@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/multidex/R.java
+// Size: 115 bytes
+// Modified: 2025-10-21 16:32:00.069266600 +0100
+
+package androidx.multidex;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

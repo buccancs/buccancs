@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/spec/ElGamalGenParameterSpec.java
+// Size: 386 bytes
+// Modified: 2025-10-21 16:32:00.650503500 +0100
+
+package org.bouncycastle.jce.spec;
+
+import java.security.spec.AlgorithmParameterSpec;
+
+/* loaded from: classes5.dex */
+public class ElGamalGenParameterSpec implements AlgorithmParameterSpec {
+    private int primeSize;
+
+    public ElGamalGenParameterSpec(int i) {
+        this.primeSize = i;
+    }
+
+    public int getPrimeSize() {
+        return this.primeSize;
+    }
+}

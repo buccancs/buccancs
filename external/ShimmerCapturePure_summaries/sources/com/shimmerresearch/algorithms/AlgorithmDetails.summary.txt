@@ -1,0 +1,139 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/algorithms/AlgorithmDetails.java
+// Size: 5769 bytes
+// Modified: 2025-10-21 16:32:04.395509000 +0100
+
+package com.shimmerresearch.algorithms;
+
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public class AlgorithmDetails implements Serializable {
+    private static final long serialVersionUID = -8249918413235100868L;
+    public String mAlgorithmName;
+    public ChannelDetails.CHANNEL_TYPE mChannelType;
+    public String mDatabaseChannelHandle;
+    public long mDerivedSensorBitmapID;
+    public String mGuiFriendlyName;
+    public List<String> mListOfAssociatedSensorChannels;
+    public List<ChannelDetails> mListOfChannelDetails;
+
+    @Deprecated
+    public List<Integer> mListOfCompatableExpBoards;
+    public List<Integer> mListOfRequiredSensors;
+    public SENSOR_CHECK_METHOD mSensorCheckMethod;
+    public String mUnits;
+
+    public enum SENSOR_CHECK_METHOD {
+        ALL,
+        ANY
+    }
+
+    public List<ChannelDetails> getChannelDetails() {
+        return this.mListOfChannelDetails;
+    }
+
+    public AlgorithmDetails(List<Integer> list, String str) {
+        this.mAlgorithmName = "";
+        this.mGuiFriendlyName = "";
+        this.mDatabaseChannelHandle = "";
+        this.mListOfChannelDetails = new ArrayList();
+        this.mUnits = "";
+        this.mChannelType = ChannelDetails.CHANNEL_TYPE.CAL;
+        this.mDerivedSensorBitmapID = 0L;
+        this.mListOfRequiredSensors = new ArrayList();
+        this.mListOfAssociatedSensorChannels = new ArrayList();
+        this.mListOfCompatableExpBoards = new ArrayList();
+        this.mSensorCheckMethod = SENSOR_CHECK_METHOD.ALL;
+        if (list != null) {
+            this.mListOfRequiredSensors = list;
+        }
+        this.mUnits = str;
+    }
+
+    public AlgorithmDetails(List<Integer> list, String str, SENSOR_CHECK_METHOD sensor_check_method) {
+        this(list, str);
+        this.mSensorCheckMethod = sensor_check_method;
+    }
+
+    public AlgorithmDetails(String str, String str2, List<String> list, long j, List<Integer> list2, String str3) {
+        this(list2, str3);
+        this.mAlgorithmName = str;
+        this.mGuiFriendlyName = str2;
+        this.mListOfAssociatedSensorChannels = list;
+        this.mDerivedSensorBitmapID = j;
+        this.mListOfChannelDetails.add(generateChannelDetails());
+    }
+
+    public AlgorithmDetails(String str, String str2, String str3, List<String> list, long j, List<Integer> list2, String str4) {
+        this(str, str2, list, j, list2, str4);
+        this.mDatabaseChannelHandle = str3;
+        this.mListOfChannelDetails.clear();
+        this.mListOfChannelDetails.add(generateChannelDetails());
+    }
+
+    public AlgorithmDetails(String str, String str2, List<String> list, long j, List<Integer> list2, String str3, List<ChannelDetails> list3) {
+        this(str, str2, list, j, list2, str3);
+        this.mListOfChannelDetails = list3;
+    }
+
+    public AlgorithmDetails(String str, String str2, List<String> list, long j, List<Integer> list2, String str3, SENSOR_CHECK_METHOD sensor_check_method, List<ChannelDetails> list3) {
+        this(str, str2, list, j, list2, str3);
+        this.mSensorCheckMethod = sensor_check_method;
+        this.mListOfChannelDetails = list3;
+    }
+
+    public AlgorithmDetails(String str, String str2, List<String> list, long j, List<Integer> list2, List<Integer> list3, String str3) {
+        this(str, str2, list, j, list3, str3);
+        this.mListOfCompatableExpBoards = list2;
+    }
+
+    public String[] getSignalStringArray() {
+        return new String[]{"TEMP_SHIMMER_NAME", this.mAlgorithmName, this.mChannelType.toString(), this.mUnits};
+    }
+
+    private ChannelDetails generateChannelDetails() {
+        return new ChannelDetails(this.mAlgorithmName, this.mGuiFriendlyName, this.mDatabaseChannelHandle, this.mUnits, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(this.mChannelType));
+    }
+
+    public static LinkedHashMap<String, AlgorithmDetails> loadAlgorithmsWhereSensorsAreAvailable(ShimmerDevice shimmerDevice, Map<String, AlgorithmDetails> map) {
+        LinkedHashMap<String, AlgorithmDetails> linkedHashMap = new LinkedHashMap<>();
+        LinkedHashMap<Integer, SensorDetails> sensorMap = shimmerDevice.getSensorMap();
+        for (Map.Entry<String, AlgorithmDetails> entry : map.entrySet()) {
+            AlgorithmDetails value = entry.getValue();
+            if (value.mSensorCheckMethod == SENSOR_CHECK_METHOD.ANY) {
+                Iterator<Integer> it2 = value.mListOfRequiredSensors.iterator();
+                while (true) {
+                    if (!it2.hasNext()) {
+                        break;
+                    }
+                    if (sensorMap.containsKey(it2.next())) {
+                        linkedHashMap.put(entry.getKey(), value);
+                        break;
+                    }
+                }
+            } else if (value.mSensorCheckMethod == SENSOR_CHECK_METHOD.ALL) {
+                Iterator<Integer> it3 = value.mListOfRequiredSensors.iterator();
+                while (true) {
+                    if (it3.hasNext()) {
+                        if (!sensorMap.containsKey(it3.next())) {
+                            break;
+                        }
+                    } else {
+                        linkedHashMap.put(entry.getKey(), value);
+                        break;
+                    }
+                }
+            }
+        }
+        return linkedHashMap;
+    }
+}

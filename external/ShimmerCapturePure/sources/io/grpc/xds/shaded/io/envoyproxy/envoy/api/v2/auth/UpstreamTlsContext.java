@@ -1,0 +1,793 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class UpstreamTlsContext extends GeneratedMessageV3 implements UpstreamTlsContextOrBuilder {
+    public static final int ALLOW_RENEGOTIATION_FIELD_NUMBER = 3;
+    public static final int COMMON_TLS_CONTEXT_FIELD_NUMBER = 1;
+    public static final int MAX_SESSION_KEYS_FIELD_NUMBER = 4;
+    public static final int SNI_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final UpstreamTlsContext DEFAULT_INSTANCE = new UpstreamTlsContext();
+    private static final Parser<UpstreamTlsContext> PARSER = new AbstractParser<UpstreamTlsContext>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public UpstreamTlsContext m13983parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new UpstreamTlsContext(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private boolean allowRenegotiation_;
+    private CommonTlsContext commonTlsContext_;
+    private UInt32Value maxSessionKeys_;
+    private byte memoizedIsInitialized;
+    private volatile Object sni_;
+
+    private UpstreamTlsContext(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private UpstreamTlsContext() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.sni_ = "";
+    }
+
+    private UpstreamTlsContext(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        CommonTlsContext.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                CommonTlsContext commonTlsContext = this.commonTlsContext_;
+                                builder = commonTlsContext != null ? commonTlsContext.m13518toBuilder() : null;
+                                CommonTlsContext commonTlsContext2 = (CommonTlsContext) codedInputStream.readMessage(CommonTlsContext.parser(), extensionRegistryLite);
+                                this.commonTlsContext_ = commonTlsContext2;
+                                if (builder != null) {
+                                    builder.mergeFrom(commonTlsContext2);
+                                    this.commonTlsContext_ = builder.m13525buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                this.sni_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 24) {
+                                this.allowRenegotiation_ = codedInputStream.readBool();
+                            } else if (tag == 34) {
+                                UInt32Value uInt32Value = this.maxSessionKeys_;
+                                builder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                                UInt32Value message = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                                this.maxSessionKeys_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.maxSessionKeys_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    }
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static UpstreamTlsContext getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<UpstreamTlsContext> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return TlsProto.internal_static_envoy_api_v2_auth_UpstreamTlsContext_descriptor;
+    }
+
+    public static UpstreamTlsContext parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (UpstreamTlsContext) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static UpstreamTlsContext parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamTlsContext) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static UpstreamTlsContext parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (UpstreamTlsContext) PARSER.parseFrom(byteString);
+    }
+
+    public static UpstreamTlsContext parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamTlsContext) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static UpstreamTlsContext parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (UpstreamTlsContext) PARSER.parseFrom(bArr);
+    }
+
+    public static UpstreamTlsContext parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamTlsContext) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static UpstreamTlsContext parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static UpstreamTlsContext parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpstreamTlsContext parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static UpstreamTlsContext parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpstreamTlsContext parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static UpstreamTlsContext parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m13981toBuilder();
+    }
+
+    public static Builder newBuilder(UpstreamTlsContext upstreamTlsContext) {
+        return DEFAULT_INSTANCE.m13981toBuilder().mergeFrom(upstreamTlsContext);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public boolean getAllowRenegotiation() {
+        return this.allowRenegotiation_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public UpstreamTlsContext m13976getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<UpstreamTlsContext> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public boolean hasCommonTlsContext() {
+        return this.commonTlsContext_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public boolean hasMaxSessionKeys() {
+        return this.maxSessionKeys_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new UpstreamTlsContext();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return TlsProto.internal_static_envoy_api_v2_auth_UpstreamTlsContext_fieldAccessorTable.ensureFieldAccessorsInitialized(UpstreamTlsContext.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public CommonTlsContext getCommonTlsContext() {
+        CommonTlsContext commonTlsContext = this.commonTlsContext_;
+        return commonTlsContext == null ? CommonTlsContext.getDefaultInstance() : commonTlsContext;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public CommonTlsContextOrBuilder getCommonTlsContextOrBuilder() {
+        return getCommonTlsContext();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public String getSni() {
+        Object obj = this.sni_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.sni_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public ByteString getSniBytes() {
+        Object obj = this.sni_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.sni_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public UInt32Value getMaxSessionKeys() {
+        UInt32Value uInt32Value = this.maxSessionKeys_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+    public UInt32ValueOrBuilder getMaxSessionKeysOrBuilder() {
+        return getMaxSessionKeys();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.commonTlsContext_ != null) {
+            codedOutputStream.writeMessage(1, getCommonTlsContext());
+        }
+        if (!getSniBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.sni_);
+        }
+        boolean z = this.allowRenegotiation_;
+        if (z) {
+            codedOutputStream.writeBool(3, z);
+        }
+        if (this.maxSessionKeys_ != null) {
+            codedOutputStream.writeMessage(4, getMaxSessionKeys());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.commonTlsContext_ != null ? CodedOutputStream.computeMessageSize(1, getCommonTlsContext()) : 0;
+        if (!getSniBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(2, this.sni_);
+        }
+        boolean z = this.allowRenegotiation_;
+        if (z) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(3, z);
+        }
+        if (this.maxSessionKeys_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, getMaxSessionKeys());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof UpstreamTlsContext)) {
+            return super.equals(obj);
+        }
+        UpstreamTlsContext upstreamTlsContext = (UpstreamTlsContext) obj;
+        if (hasCommonTlsContext() != upstreamTlsContext.hasCommonTlsContext()) {
+            return false;
+        }
+        if ((!hasCommonTlsContext() || getCommonTlsContext().equals(upstreamTlsContext.getCommonTlsContext())) && getSni().equals(upstreamTlsContext.getSni()) && getAllowRenegotiation() == upstreamTlsContext.getAllowRenegotiation() && hasMaxSessionKeys() == upstreamTlsContext.hasMaxSessionKeys()) {
+            return (!hasMaxSessionKeys() || getMaxSessionKeys().equals(upstreamTlsContext.getMaxSessionKeys())) && this.unknownFields.equals(upstreamTlsContext.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasCommonTlsContext()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getCommonTlsContext().hashCode();
+        }
+        int iHashCode2 = (((((((iHashCode * 37) + 2) * 53) + getSni().hashCode()) * 37) + 3) * 53) + Internal.hashBoolean(getAllowRenegotiation());
+        if (hasMaxSessionKeys()) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getMaxSessionKeys().hashCode();
+        }
+        int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode3;
+        return iHashCode3;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13978newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13981toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements UpstreamTlsContextOrBuilder {
+        private boolean allowRenegotiation_;
+        private SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> commonTlsContextBuilder_;
+        private CommonTlsContext commonTlsContext_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> maxSessionKeysBuilder_;
+        private UInt32Value maxSessionKeys_;
+        private Object sni_;
+
+        private Builder() {
+            this.sni_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.sni_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TlsProto.internal_static_envoy_api_v2_auth_UpstreamTlsContext_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public boolean getAllowRenegotiation() {
+            return this.allowRenegotiation_;
+        }
+
+        public Builder setAllowRenegotiation(boolean z) {
+            this.allowRenegotiation_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public boolean hasCommonTlsContext() {
+            return (this.commonTlsContextBuilder_ == null && this.commonTlsContext_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public boolean hasMaxSessionKeys() {
+            return (this.maxSessionKeysBuilder_ == null && this.maxSessionKeys_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TlsProto.internal_static_envoy_api_v2_auth_UpstreamTlsContext_fieldAccessorTable.ensureFieldAccessorsInitialized(UpstreamTlsContext.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = UpstreamTlsContext.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13992clear() {
+            super.clear();
+            if (this.commonTlsContextBuilder_ == null) {
+                this.commonTlsContext_ = null;
+            } else {
+                this.commonTlsContext_ = null;
+                this.commonTlsContextBuilder_ = null;
+            }
+            this.sni_ = "";
+            this.allowRenegotiation_ = false;
+            if (this.maxSessionKeysBuilder_ == null) {
+                this.maxSessionKeys_ = null;
+            } else {
+                this.maxSessionKeys_ = null;
+                this.maxSessionKeysBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return TlsProto.internal_static_envoy_api_v2_auth_UpstreamTlsContext_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamTlsContext m14005getDefaultInstanceForType() {
+            return UpstreamTlsContext.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamTlsContext m13986build() throws UninitializedMessageException {
+            UpstreamTlsContext upstreamTlsContextM13988buildPartial = m13988buildPartial();
+            if (upstreamTlsContextM13988buildPartial.isInitialized()) {
+                return upstreamTlsContextM13988buildPartial;
+            }
+            throw newUninitializedMessageException(upstreamTlsContextM13988buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamTlsContext m13988buildPartial() {
+            UpstreamTlsContext upstreamTlsContext = new UpstreamTlsContext(this);
+            SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> singleFieldBuilderV3 = this.commonTlsContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                upstreamTlsContext.commonTlsContext_ = this.commonTlsContext_;
+            } else {
+                upstreamTlsContext.commonTlsContext_ = singleFieldBuilderV3.build();
+            }
+            upstreamTlsContext.sni_ = this.sni_;
+            upstreamTlsContext.allowRenegotiation_ = this.allowRenegotiation_;
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV32 = this.maxSessionKeysBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                upstreamTlsContext.maxSessionKeys_ = this.maxSessionKeys_;
+            } else {
+                upstreamTlsContext.maxSessionKeys_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return upstreamTlsContext;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14004clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14016setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13994clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13997clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14018setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13984addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m14009mergeFrom(Message message) {
+            if (message instanceof UpstreamTlsContext) {
+                return mergeFrom((UpstreamTlsContext) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(UpstreamTlsContext upstreamTlsContext) {
+            if (upstreamTlsContext == UpstreamTlsContext.getDefaultInstance()) {
+                return this;
+            }
+            if (upstreamTlsContext.hasCommonTlsContext()) {
+                mergeCommonTlsContext(upstreamTlsContext.getCommonTlsContext());
+            }
+            if (!upstreamTlsContext.getSni().isEmpty()) {
+                this.sni_ = upstreamTlsContext.sni_;
+                onChanged();
+            }
+            if (upstreamTlsContext.getAllowRenegotiation()) {
+                setAllowRenegotiation(upstreamTlsContext.getAllowRenegotiation());
+            }
+            if (upstreamTlsContext.hasMaxSessionKeys()) {
+                mergeMaxSessionKeys(upstreamTlsContext.getMaxSessionKeys());
+            }
+            m14014mergeUnknownFields(upstreamTlsContext.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext.Builder m14010mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext.Builder.m14010mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContext$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public CommonTlsContext getCommonTlsContext() {
+            SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> singleFieldBuilderV3 = this.commonTlsContextBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            CommonTlsContext commonTlsContext = this.commonTlsContext_;
+            return commonTlsContext == null ? CommonTlsContext.getDefaultInstance() : commonTlsContext;
+        }
+
+        public Builder setCommonTlsContext(CommonTlsContext commonTlsContext) {
+            SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> singleFieldBuilderV3 = this.commonTlsContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                commonTlsContext.getClass();
+                this.commonTlsContext_ = commonTlsContext;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(commonTlsContext);
+            }
+            return this;
+        }
+
+        public Builder setCommonTlsContext(CommonTlsContext.Builder builder) {
+            SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> singleFieldBuilderV3 = this.commonTlsContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.commonTlsContext_ = builder.m13523build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m13523build());
+            }
+            return this;
+        }
+
+        public Builder mergeCommonTlsContext(CommonTlsContext commonTlsContext) {
+            SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> singleFieldBuilderV3 = this.commonTlsContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                CommonTlsContext commonTlsContext2 = this.commonTlsContext_;
+                if (commonTlsContext2 != null) {
+                    this.commonTlsContext_ = CommonTlsContext.newBuilder(commonTlsContext2).mergeFrom(commonTlsContext).m13525buildPartial();
+                } else {
+                    this.commonTlsContext_ = commonTlsContext;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(commonTlsContext);
+            }
+            return this;
+        }
+
+        public Builder clearCommonTlsContext() {
+            if (this.commonTlsContextBuilder_ == null) {
+                this.commonTlsContext_ = null;
+                onChanged();
+            } else {
+                this.commonTlsContext_ = null;
+                this.commonTlsContextBuilder_ = null;
+            }
+            return this;
+        }
+
+        public CommonTlsContext.Builder getCommonTlsContextBuilder() {
+            onChanged();
+            return getCommonTlsContextFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public CommonTlsContextOrBuilder getCommonTlsContextOrBuilder() {
+            SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> singleFieldBuilderV3 = this.commonTlsContextBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (CommonTlsContextOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            CommonTlsContext commonTlsContext = this.commonTlsContext_;
+            return commonTlsContext == null ? CommonTlsContext.getDefaultInstance() : commonTlsContext;
+        }
+
+        private SingleFieldBuilderV3<CommonTlsContext, CommonTlsContext.Builder, CommonTlsContextOrBuilder> getCommonTlsContextFieldBuilder() {
+            if (this.commonTlsContextBuilder_ == null) {
+                this.commonTlsContextBuilder_ = new SingleFieldBuilderV3<>(getCommonTlsContext(), getParentForChildren(), isClean());
+                this.commonTlsContext_ = null;
+            }
+            return this.commonTlsContextBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public String getSni() {
+            Object obj = this.sni_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.sni_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setSni(String str) {
+            str.getClass();
+            this.sni_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public ByteString getSniBytes() {
+            Object obj = this.sni_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.sni_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setSniBytes(ByteString byteString) {
+            byteString.getClass();
+            UpstreamTlsContext.checkByteStringIsUtf8(byteString);
+            this.sni_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSni() {
+            this.sni_ = UpstreamTlsContext.getDefaultInstance().getSni();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAllowRenegotiation() {
+            this.allowRenegotiation_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public UInt32Value getMaxSessionKeys() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxSessionKeysBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.maxSessionKeys_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setMaxSessionKeys(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxSessionKeysBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.maxSessionKeys_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setMaxSessionKeys(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxSessionKeysBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.maxSessionKeys_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMaxSessionKeys(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxSessionKeysBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.maxSessionKeys_;
+                if (uInt32Value2 != null) {
+                    this.maxSessionKeys_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.maxSessionKeys_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearMaxSessionKeys() {
+            if (this.maxSessionKeysBuilder_ == null) {
+                this.maxSessionKeys_ = null;
+                onChanged();
+            } else {
+                this.maxSessionKeys_ = null;
+                this.maxSessionKeysBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getMaxSessionKeysBuilder() {
+            onChanged();
+            return getMaxSessionKeysFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.UpstreamTlsContextOrBuilder
+        public UInt32ValueOrBuilder getMaxSessionKeysOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxSessionKeysBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.maxSessionKeys_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getMaxSessionKeysFieldBuilder() {
+            if (this.maxSessionKeysBuilder_ == null) {
+                this.maxSessionKeysBuilder_ = new SingleFieldBuilderV3<>(getMaxSessionKeys(), getParentForChildren(), isClean());
+                this.maxSessionKeys_ = null;
+            }
+            return this.maxSessionKeysBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m14020setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m14014mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

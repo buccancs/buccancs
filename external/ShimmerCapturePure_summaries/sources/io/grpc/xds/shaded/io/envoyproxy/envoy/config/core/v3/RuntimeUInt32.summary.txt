@@ -1,0 +1,500 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/RuntimeUInt32.java
+// Size: 23954 bytes
+// Modified: 2025-10-21 16:32:04.642913000 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes6.dex */
+public final class RuntimeUInt32 extends GeneratedMessageV3 implements RuntimeUInt32OrBuilder {
+    public static final int DEFAULT_VALUE_FIELD_NUMBER = 2;
+    public static final int RUNTIME_KEY_FIELD_NUMBER = 3;
+    private static final long serialVersionUID = 0;
+    private int defaultValue_;
+    private byte memoizedIsInitialized;
+    private volatile Object runtimeKey_;
+    private static final RuntimeUInt32 DEFAULT_INSTANCE = new RuntimeUInt32();
+    private static final Parser<RuntimeUInt32> PARSER = new AbstractParser<RuntimeUInt32>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public RuntimeUInt32 m24064parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new RuntimeUInt32(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static RuntimeUInt32 getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<RuntimeUInt32> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public RuntimeUInt32 m24057getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32OrBuilder
+    public int getDefaultValue() {
+        return this.defaultValue_;
+    }
+
+    public Parser<RuntimeUInt32> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private RuntimeUInt32(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private RuntimeUInt32() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.runtimeKey_ = "";
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new RuntimeUInt32();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private RuntimeUInt32(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 16) {
+                                this.defaultValue_ = codedInputStream.readUInt32();
+                            } else if (tag == 26) {
+                                this.runtimeKey_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return BaseProto.internal_static_envoy_config_core_v3_RuntimeUInt32_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return BaseProto.internal_static_envoy_config_core_v3_RuntimeUInt32_fieldAccessorTable.ensureFieldAccessorsInitialized(RuntimeUInt32.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32OrBuilder
+    public String getRuntimeKey() {
+        Object obj = this.runtimeKey_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.runtimeKey_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32OrBuilder
+    public ByteString getRuntimeKeyBytes() {
+        Object obj = this.runtimeKey_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.runtimeKey_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        int i = this.defaultValue_;
+        if (i != 0) {
+            codedOutputStream.writeUInt32(2, i);
+        }
+        if (!getRuntimeKeyBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.runtimeKey_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int i2 = this.defaultValue_;
+        int iComputeUInt32Size = i2 != 0 ? CodedOutputStream.computeUInt32Size(2, i2) : 0;
+        if (!getRuntimeKeyBytes().isEmpty()) {
+            iComputeUInt32Size += GeneratedMessageV3.computeStringSize(3, this.runtimeKey_);
+        }
+        int serializedSize = iComputeUInt32Size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof RuntimeUInt32)) {
+            return super.equals(obj);
+        }
+        RuntimeUInt32 runtimeUInt32 = (RuntimeUInt32) obj;
+        return getDefaultValue() == runtimeUInt32.getDefaultValue() && getRuntimeKey().equals(runtimeUInt32.getRuntimeKey()) && this.unknownFields.equals(runtimeUInt32.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 2) * 53) + getDefaultValue()) * 37) + 3) * 53) + getRuntimeKey().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    public static RuntimeUInt32 parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (RuntimeUInt32) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static RuntimeUInt32 parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RuntimeUInt32) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static RuntimeUInt32 parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (RuntimeUInt32) PARSER.parseFrom(byteString);
+    }
+
+    public static RuntimeUInt32 parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RuntimeUInt32) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static RuntimeUInt32 parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (RuntimeUInt32) PARSER.parseFrom(bArr);
+    }
+
+    public static RuntimeUInt32 parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RuntimeUInt32) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static RuntimeUInt32 parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static RuntimeUInt32 parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RuntimeUInt32 parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static RuntimeUInt32 parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RuntimeUInt32 parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static RuntimeUInt32 parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m24059newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m24062toBuilder();
+    }
+
+    public static Builder newBuilder(RuntimeUInt32 runtimeUInt32) {
+        return DEFAULT_INSTANCE.m24062toBuilder().mergeFrom(runtimeUInt32);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m24062toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RuntimeUInt32OrBuilder {
+        private int defaultValue_;
+        private Object runtimeKey_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32OrBuilder
+        public int getDefaultValue() {
+            return this.defaultValue_;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return BaseProto.internal_static_envoy_config_core_v3_RuntimeUInt32_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return BaseProto.internal_static_envoy_config_core_v3_RuntimeUInt32_fieldAccessorTable.ensureFieldAccessorsInitialized(RuntimeUInt32.class, Builder.class);
+        }
+
+        private Builder() {
+            this.runtimeKey_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.runtimeKey_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = RuntimeUInt32.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24073clear() {
+            super.clear();
+            this.defaultValue_ = 0;
+            this.runtimeKey_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return BaseProto.internal_static_envoy_config_core_v3_RuntimeUInt32_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RuntimeUInt32 m24086getDefaultInstanceForType() {
+            return RuntimeUInt32.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RuntimeUInt32 m24067build() throws UninitializedMessageException {
+            RuntimeUInt32 runtimeUInt32M24069buildPartial = m24069buildPartial();
+            if (runtimeUInt32M24069buildPartial.isInitialized()) {
+                return runtimeUInt32M24069buildPartial;
+            }
+            throw newUninitializedMessageException(runtimeUInt32M24069buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RuntimeUInt32 m24069buildPartial() {
+            RuntimeUInt32 runtimeUInt32 = new RuntimeUInt32(this);
+            runtimeUInt32.defaultValue_ = this.defaultValue_;
+            runtimeUInt32.runtimeKey_ = this.runtimeKey_;
+            onBuilt();
+            return runtimeUInt32;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24085clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24097setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24075clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24078clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24099setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24065addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24090mergeFrom(Message message) {
+            if (message instanceof RuntimeUInt32) {
+                return mergeFrom((RuntimeUInt32) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(RuntimeUInt32 runtimeUInt32) {
+            if (runtimeUInt32 == RuntimeUInt32.getDefaultInstance()) {
+                return this;
+            }
+            if (runtimeUInt32.getDefaultValue() != 0) {
+                setDefaultValue(runtimeUInt32.getDefaultValue());
+            }
+            if (!runtimeUInt32.getRuntimeKey().isEmpty()) {
+                this.runtimeKey_ = runtimeUInt32.runtimeKey_;
+                onChanged();
+            }
+            m24095mergeUnknownFields(runtimeUInt32.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32.Builder m24091mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32 r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32 r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32.Builder.m24091mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32$Builder");
+        }
+
+        public Builder setDefaultValue(int i) {
+            this.defaultValue_ = i;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearDefaultValue() {
+            this.defaultValue_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32OrBuilder
+        public String getRuntimeKey() {
+            Object obj = this.runtimeKey_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.runtimeKey_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeUInt32OrBuilder
+        public ByteString getRuntimeKeyBytes() {
+            Object obj = this.runtimeKey_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.runtimeKey_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setRuntimeKey(String str) {
+            str.getClass();
+            this.runtimeKey_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRuntimeKey() {
+            this.runtimeKey_ = RuntimeUInt32.getDefaultInstance().getRuntimeKey();
+            onChanged();
+            return this;
+        }
+
+        public Builder setRuntimeKeyBytes(ByteString byteString) {
+            byteString.getClass();
+            RuntimeUInt32.checkByteStringIsUtf8(byteString);
+            this.runtimeKey_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m24101setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m24095mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/ImmediateExecutor.java
+// Size: 559 bytes
+// Modified: 2025-10-21 16:32:00.867756700 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.util.concurrent.Executor;
+
+/* loaded from: classes3.dex */
+public final class ImmediateExecutor implements Executor {
+    public static final ImmediateExecutor INSTANCE = new ImmediateExecutor();
+
+    private ImmediateExecutor() {
+    }
+
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable runnable) {
+        ((Runnable) ObjectUtil.checkNotNull(runnable, "command")).run();
+    }
+}

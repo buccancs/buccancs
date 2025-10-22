@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/ProjectPropertiesOrBuilder.java
+// Size: 445 bytes
+// Modified: 2025-10-21 16:32:03.364879700 +0100
+
+package com.google.api;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public interface ProjectPropertiesOrBuilder extends MessageOrBuilder {
+    Property getProperties(int i);
+
+    int getPropertiesCount();
+
+    List<Property> getPropertiesList();
+
+    PropertyOrBuilder getPropertiesOrBuilder(int i);
+
+    List<? extends PropertyOrBuilder> getPropertiesOrBuilderList();
+}

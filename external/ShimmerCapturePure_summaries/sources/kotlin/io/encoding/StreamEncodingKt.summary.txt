@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/io/encoding/StreamEncodingKt.java
+// Size: 364 bytes
+// Modified: 2025-10-21 16:32:05.702957300 +0100
+
+package kotlin.io.encoding;
+
+import kotlin.Metadata;
+
+/* compiled from: Base64IOStream.kt */
+@Metadata(d1 = {"kotlin/io/encoding/StreamEncodingKt__Base64IOStreamKt"}, k = 4, mv = {1, 9, 0}, xi = 49)
+/* loaded from: classes4.dex */
+public final class StreamEncodingKt extends StreamEncodingKt__Base64IOStreamKt {
+    private StreamEncodingKt() {
+    }
+}

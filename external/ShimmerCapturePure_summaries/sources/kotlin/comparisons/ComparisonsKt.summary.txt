@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/comparisons/ComparisonsKt.java
+// Size: 414 bytes
+// Modified: 2025-10-21 16:32:05.120708400 +0100
+
+package kotlin.comparisons;
+
+import kotlin.Metadata;
+
+@Metadata(d1 = {"kotlin/comparisons/ComparisonsKt__ComparisonsKt", "kotlin/comparisons/ComparisonsKt___ComparisonsJvmKt", "kotlin/comparisons/ComparisonsKt___ComparisonsKt"}, k = 4, mv = {1, 9, 0}, xi = 49)
+/* loaded from: classes4.dex */
+public final class ComparisonsKt extends ComparisonsKt___ComparisonsKt {
+    private ComparisonsKt() {
+    }
+}

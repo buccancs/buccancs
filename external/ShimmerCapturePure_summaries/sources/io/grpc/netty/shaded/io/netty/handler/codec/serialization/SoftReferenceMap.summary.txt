@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/serialization/SoftReferenceMap.java
+// Size: 510 bytes
+// Modified: 2025-10-21 16:32:00.856718400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.serialization;
+
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+final class SoftReferenceMap<K, V> extends ReferenceMap<K, V> {
+    SoftReferenceMap(Map<K, Reference<V>> map) {
+        super(map);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.serialization.ReferenceMap
+    Reference<V> fold(V v) {
+        return new SoftReference(v);
+    }
+}

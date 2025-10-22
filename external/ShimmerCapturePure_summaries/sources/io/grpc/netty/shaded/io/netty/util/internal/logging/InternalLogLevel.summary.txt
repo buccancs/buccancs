@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/logging/InternalLogLevel.java
+// Size: 189 bytes
+// Modified: 2025-10-21 16:32:00.287695000 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.logging;
+
+/* loaded from: classes3.dex */
+public enum InternalLogLevel {
+    TRACE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR
+}

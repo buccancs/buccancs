@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/SocksMessage.java
+// Size: 803 bytes
+// Modified: 2025-10-21 16:32:03.958351900 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class SocksMessage {
+    private final SocksProtocolVersion protocolVersion = SocksProtocolVersion.SOCKS5;
+    private final SocksMessageType type;
+
+    @Deprecated
+    public abstract void encodeAsByteBuf(ByteBuf byteBuf);
+
+    public SocksProtocolVersion protocolVersion() {
+        return this.protocolVersion;
+    }
+
+    public SocksMessageType type() {
+        return this.type;
+    }
+
+    protected SocksMessage(SocksMessageType socksMessageType) {
+        this.type = (SocksMessageType) ObjectUtil.checkNotNull(socksMessageType, "type");
+    }
+}

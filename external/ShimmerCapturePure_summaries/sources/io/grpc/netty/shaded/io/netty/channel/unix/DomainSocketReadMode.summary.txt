@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/unix/DomainSocketReadMode.java
+// Size: 161 bytes
+// Modified: 2025-10-21 16:32:00.238149200 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.unix;
+
+/* loaded from: classes3.dex */
+public enum DomainSocketReadMode {
+    BYTES,
+    FILE_DESCRIPTORS
+}

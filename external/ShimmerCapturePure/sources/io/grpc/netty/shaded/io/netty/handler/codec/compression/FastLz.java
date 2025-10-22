@@ -1,0 +1,87 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.compression;
+
+/* loaded from: classes3.dex */
+final class FastLz {
+    static final byte BLOCK_TYPE_COMPRESSED = 1;
+    static final byte BLOCK_TYPE_NON_COMPRESSED = 0;
+    static final byte BLOCK_WITHOUT_CHECKSUM = 0;
+    static final byte BLOCK_WITH_CHECKSUM = 16;
+    static final int CHECKSUM_OFFSET = 4;
+    static final int LEVEL_1 = 1;
+    static final int LEVEL_2 = 2;
+    static final int LEVEL_AUTO = 0;
+    static final int MAGIC_NUMBER = 4607066;
+    static final int MAX_CHUNK_LENGTH = 65535;
+    static final int MIN_LENGTH_TO_COMPRESSION = 32;
+    static final int OPTIONS_OFFSET = 3;
+    private static final int HASH_LOG = 13;
+    private static final int HASH_MASK = 8191;
+    private static final int HASH_SIZE = 8192;
+    private static final int MAX_COPY = 32;
+    private static final int MAX_DISTANCE = 8191;
+    private static final int MAX_FARDISTANCE = 73725;
+    private static final int MAX_LEN = 264;
+    private static final int MIN_RECOMENDED_LENGTH_FOR_LEVEL_2 = 65536;
+
+    private FastLz() {
+    }
+
+    static int calculateOutputBufferLength(int i) {
+        return Math.max((int) (i * 1.06d), 66);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:109:0x01fa  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x0205  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0211  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0116  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x014c  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0165  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0175 A[PHI: r15
+  0x0175: PHI (r15v12 int) = (r15v2 int), (r15v5 int), (r15v8 int), (r15v11 int) binds: [B:80:0x0173, B:86:0x0195, B:92:0x01b3, B:98:0x01d1] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0186 A[PHI: r14
+  0x0186: PHI (r14v11 int) = (r14v2 int), (r14v5 int), (r14v8 int) binds: [B:83:0x0184, B:89:0x01a4, B:95:0x01c2] A[DONT_GENERATE, DONT_INLINE]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    static int compress(byte[] r26, int r27, int r28, byte[] r29, int r30, int r31) {
+        /*
+            Method dump skipped, instructions count: 925
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.handler.codec.compression.FastLz.compress(byte[], int, int, byte[], int, int):int");
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0099  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00d4  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00e3  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00eb  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0111  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    static int decompress(byte[] r29, int r30, int r31, byte[] r32, int r33, int r34) {
+        /*
+            Method dump skipped, instructions count: 425
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.handler.codec.compression.FastLz.decompress(byte[], int, int, byte[], int, int):int");
+    }
+
+    private static int hashFunction(byte[] bArr, int i) {
+        int u16 = readU16(bArr, i);
+        return ((readU16(bArr, i + 1) ^ (u16 >> 3)) ^ u16) & 8191;
+    }
+
+    private static int readU16(byte[] bArr, int i) {
+        int i2 = i + 1;
+        if (i2 >= bArr.length) {
+            return bArr[i] & 255;
+        }
+        return (bArr[i] & 255) | ((bArr[i2] & 255) << 8);
+    }
+}

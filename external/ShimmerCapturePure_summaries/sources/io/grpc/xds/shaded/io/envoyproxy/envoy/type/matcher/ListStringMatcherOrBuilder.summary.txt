@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/type/matcher/ListStringMatcherOrBuilder.java
+// Size: 493 bytes
+// Modified: 2025-10-21 16:32:04.738929600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface ListStringMatcherOrBuilder extends MessageOrBuilder {
+    StringMatcher getPatterns(int i);
+
+    int getPatternsCount();
+
+    List<StringMatcher> getPatternsList();
+
+    StringMatcherOrBuilder getPatternsOrBuilder(int i);
+
+    List<? extends StringMatcherOrBuilder> getPatternsOrBuilderList();
+}

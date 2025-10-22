@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/path/CertPathValidation.java
+// Size: 379 bytes
+// Modified: 2025-10-21 16:32:08.049047900 +0100
+
+package org.bouncycastle.cert.path;
+
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.util.Memoable;
+
+/* loaded from: classes5.dex */
+public interface CertPathValidation extends Memoable {
+    void validate(CertPathValidationContext certPathValidationContext, X509CertificateHolder x509CertificateHolder) throws CertPathValidationException;
+}

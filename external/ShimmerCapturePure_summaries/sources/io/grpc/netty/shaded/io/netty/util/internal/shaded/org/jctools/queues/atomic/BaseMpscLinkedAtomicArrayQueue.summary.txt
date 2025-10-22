@@ -1,0 +1,443 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/shaded/org/jctools/queues/atomic/BaseMpscLinkedAtomicArrayQueue.java
+// Size: 21541 bytes
+// Modified: 2025-10-21 16:32:05.414751000 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic;
+
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueueUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.QueueProgressIndicators;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.PortableJvmInfo;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.Pow2;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.RangeUtil;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+
+/* loaded from: classes3.dex */
+abstract class BaseMpscLinkedAtomicArrayQueue<E> extends BaseMpscLinkedAtomicArrayQueueColdProducerFields<E> implements MessagePassingQueue<E>, QueueProgressIndicators {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final int CONTINUE_TO_P_INDEX_CAS = 0;
+    private static final int QUEUE_FULL = 2;
+    private static final int QUEUE_RESIZE = 3;
+    private static final int RETRY = 1;
+    private static final Object JUMP = new Object();
+    private static final Object BUFFER_CONSUMED = new Object();
+
+    protected abstract long availableInQueue(long j, long j2);
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public abstract int capacity();
+
+    protected abstract long getCurrentBufferCapacity(long j);
+
+    protected abstract int getNextBufferSize(AtomicReferenceArray<E> atomicReferenceArray);
+
+    public BaseMpscLinkedAtomicArrayQueue(int i) {
+        RangeUtil.checkGreaterThanOrEqual(i, 2, "initialCapacity");
+        int iRoundToPowerOfTwo = Pow2.roundToPowerOfTwo(i);
+        long j = (iRoundToPowerOfTwo - 1) << 1;
+        AtomicReferenceArray<E> atomicReferenceArrayAllocateRefArray = AtomicQueueUtil.allocateRefArray(iRoundToPowerOfTwo + 1);
+        this.producerBuffer = atomicReferenceArrayAllocateRefArray;
+        this.producerMask = j;
+        this.consumerBuffer = atomicReferenceArrayAllocateRefArray;
+        this.consumerMask = j;
+        soProducerLimit(j);
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int size() {
+        long jLvProducerIndex;
+        long jLvConsumerIndex;
+        long jLvConsumerIndex2 = lvConsumerIndex();
+        while (true) {
+            jLvProducerIndex = lvProducerIndex();
+            jLvConsumerIndex = lvConsumerIndex();
+            if (jLvConsumerIndex2 == jLvConsumerIndex) {
+                break;
+            }
+            jLvConsumerIndex2 = jLvConsumerIndex;
+        }
+        long j = (jLvProducerIndex - jLvConsumerIndex) >> 1;
+        if (j > 2147483647L) {
+            return Integer.MAX_VALUE;
+        }
+        return (int) j;
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public boolean isEmpty() {
+        return lvConsumerIndex() == lvProducerIndex();
+    }
+
+    @Override // java.util.AbstractCollection
+    public String toString() {
+        return getClass().getName();
+    }
+
+    @Override // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public boolean offer(E e) {
+        if (e == null) {
+            throw null;
+        }
+        while (true) {
+            long jLvProducerLimit = lvProducerLimit();
+            long jLvProducerIndex = lvProducerIndex();
+            if ((jLvProducerIndex & 1) != 1) {
+                long j = this.producerMask;
+                AtomicReferenceArray<E> atomicReferenceArray = this.producerBuffer;
+                if (jLvProducerLimit <= jLvProducerIndex) {
+                    int iOfferSlowPath = offerSlowPath(j, jLvProducerIndex, jLvProducerLimit);
+                    if (iOfferSlowPath == 1) {
+                        continue;
+                    } else {
+                        if (iOfferSlowPath == 2) {
+                            return false;
+                        }
+                        if (iOfferSlowPath == 3) {
+                            resize(j, atomicReferenceArray, jLvProducerIndex, e, null);
+                            return true;
+                        }
+                    }
+                }
+                if (casProducerIndex(jLvProducerIndex, 2 + jLvProducerIndex)) {
+                    AtomicQueueUtil.soRefElement(atomicReferenceArray, AtomicQueueUtil.modifiedCalcCircularRefElementOffset(jLvProducerIndex, j), e);
+                    return true;
+                }
+            }
+        }
+    }
+
+    @Override // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E poll() {
+        AtomicReferenceArray<E> atomicReferenceArray = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        int iModifiedCalcCircularRefElementOffset = AtomicQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j);
+        E e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset);
+        if (e == null) {
+            if (jLpConsumerIndex == lvProducerIndex()) {
+                return null;
+            }
+            do {
+                e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset);
+            } while (e == null);
+        }
+        if (e == JUMP) {
+            return newBufferPoll(nextBuffer(atomicReferenceArray, j), jLpConsumerIndex);
+        }
+        AtomicQueueUtil.soRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset, null);
+        soConsumerIndex(jLpConsumerIndex + 2);
+        return e;
+    }
+
+    @Override // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E peek() {
+        AtomicReferenceArray<E> atomicReferenceArray = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        int iModifiedCalcCircularRefElementOffset = AtomicQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j);
+        E e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset);
+        if (e == null && jLpConsumerIndex != lvProducerIndex()) {
+            do {
+                e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset);
+            } while (e == null);
+        }
+        return e == JUMP ? newBufferPeek(nextBuffer(atomicReferenceArray, j), jLpConsumerIndex) : e;
+    }
+
+    private int offerSlowPath(long j, long j2, long j3) {
+        long jLvConsumerIndex = lvConsumerIndex();
+        long currentBufferCapacity = getCurrentBufferCapacity(j) + jLvConsumerIndex;
+        if (currentBufferCapacity > j2) {
+            return !casProducerLimit(j3, currentBufferCapacity) ? 1 : 0;
+        }
+        if (availableInQueue(j2, jLvConsumerIndex) <= 0) {
+            return 2;
+        }
+        return casProducerIndex(j2, 1 + j2) ? 3 : 1;
+    }
+
+    private AtomicReferenceArray<E> nextBuffer(AtomicReferenceArray<E> atomicReferenceArray, long j) {
+        int iNextArrayOffset = nextArrayOffset(j);
+        AtomicReferenceArray<E> atomicReferenceArray2 = (AtomicReferenceArray) AtomicQueueUtil.lvRefElement(atomicReferenceArray, iNextArrayOffset);
+        this.consumerBuffer = atomicReferenceArray2;
+        this.consumerMask = (AtomicQueueUtil.length(atomicReferenceArray2) - 2) << 1;
+        AtomicQueueUtil.soRefElement(atomicReferenceArray, iNextArrayOffset, BUFFER_CONSUMED);
+        return atomicReferenceArray2;
+    }
+
+    private static int nextArrayOffset(long j) {
+        return AtomicQueueUtil.modifiedCalcCircularRefElementOffset(j + 2, Long.MAX_VALUE);
+    }
+
+    private E newBufferPoll(AtomicReferenceArray<E> atomicReferenceArray, long j) {
+        int iModifiedCalcCircularRefElementOffset = AtomicQueueUtil.modifiedCalcCircularRefElementOffset(j, this.consumerMask);
+        E e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset);
+        if (e == null) {
+            throw new IllegalStateException("new buffer must have at least one element");
+        }
+        AtomicQueueUtil.soRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset, null);
+        soConsumerIndex(j + 2);
+        return e;
+    }
+
+    private E newBufferPeek(AtomicReferenceArray<E> atomicReferenceArray, long j) {
+        E e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, AtomicQueueUtil.modifiedCalcCircularRefElementOffset(j, this.consumerMask));
+        if (e != null) {
+            return e;
+        }
+        throw new IllegalStateException("new buffer must have at least one element");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.QueueProgressIndicators
+    public long currentProducerIndex() {
+        return lvProducerIndex() / 2;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.QueueProgressIndicators
+    public long currentConsumerIndex() {
+        return lvConsumerIndex() / 2;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public boolean relaxedOffer(E e) {
+        return offer(e);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E relaxedPoll() {
+        AtomicReferenceArray<E> atomicReferenceArray = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        int iModifiedCalcCircularRefElementOffset = AtomicQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j);
+        E e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset);
+        if (e == null) {
+            return null;
+        }
+        if (e == JUMP) {
+            return newBufferPoll(nextBuffer(atomicReferenceArray, j), jLpConsumerIndex);
+        }
+        AtomicQueueUtil.soRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset, null);
+        soConsumerIndex(jLpConsumerIndex + 2);
+        return e;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E relaxedPeek() {
+        AtomicReferenceArray<E> atomicReferenceArray = this.consumerBuffer;
+        long jLpConsumerIndex = lpConsumerIndex();
+        long j = this.consumerMask;
+        E e = (E) AtomicQueueUtil.lvRefElement(atomicReferenceArray, AtomicQueueUtil.modifiedCalcCircularRefElementOffset(jLpConsumerIndex, j));
+        return e == JUMP ? newBufferPeek(nextBuffer(atomicReferenceArray, j), jLpConsumerIndex) : e;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int fill(MessagePassingQueue.Supplier<E> supplier) {
+        int iCapacity = capacity();
+        long j = 0;
+        do {
+            int iFill = fill(supplier, PortableJvmInfo.RECOMENDED_OFFER_BATCH);
+            if (iFill == 0) {
+                return (int) j;
+            }
+            j += iFill;
+        } while (j <= iCapacity);
+        return (int) j;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int fill(MessagePassingQueue.Supplier<E> supplier, int i) {
+        long j;
+        if (supplier == null) {
+            throw new IllegalArgumentException("supplier is null");
+        }
+        if (i < 0) {
+            throw new IllegalArgumentException("limit is negative:" + i);
+        }
+        if (i == 0) {
+            return 0;
+        }
+        while (true) {
+            long jLvProducerLimit = lvProducerLimit();
+            long jLvProducerIndex = lvProducerIndex();
+            if ((jLvProducerIndex & 1) != 1) {
+                long j2 = this.producerMask;
+                AtomicReferenceArray<E> atomicReferenceArray = this.producerBuffer;
+                long jMin = Math.min(jLvProducerLimit, (i * 2) + jLvProducerIndex);
+                if (jLvProducerIndex >= jLvProducerLimit) {
+                    int iOfferSlowPath = offerSlowPath(j2, jLvProducerIndex, jLvProducerLimit);
+                    if (iOfferSlowPath != 0 && iOfferSlowPath != 1) {
+                        if (iOfferSlowPath == 2) {
+                            return 0;
+                        }
+                        if (iOfferSlowPath == 3) {
+                            resize(j2, atomicReferenceArray, jLvProducerIndex, null, supplier);
+                            return 1;
+                        }
+                        j = jMin;
+                    }
+                } else {
+                    j = jMin;
+                }
+                if (casProducerIndex(jLvProducerIndex, j)) {
+                    int i2 = (int) ((j - jLvProducerIndex) / 2);
+                    for (int i3 = 0; i3 < i2; i3++) {
+                        AtomicQueueUtil.soRefElement(atomicReferenceArray, AtomicQueueUtil.modifiedCalcCircularRefElementOffset((i3 * 2) + jLvProducerIndex, j2), supplier.get());
+                    }
+                    return i2;
+                }
+            }
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public void fill(MessagePassingQueue.Supplier<E> supplier, MessagePassingQueue.WaitStrategy waitStrategy, MessagePassingQueue.ExitCondition exitCondition) {
+        MessagePassingQueueUtil.fill(this, supplier, waitStrategy, exitCondition);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int drain(MessagePassingQueue.Consumer<E> consumer) {
+        return drain(consumer, capacity());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int drain(MessagePassingQueue.Consumer<E> consumer, int i) {
+        return MessagePassingQueueUtil.drain(this, consumer, i);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public void drain(MessagePassingQueue.Consumer<E> consumer, MessagePassingQueue.WaitStrategy waitStrategy, MessagePassingQueue.ExitCondition exitCondition) {
+        MessagePassingQueueUtil.drain(this, consumer, waitStrategy, exitCondition);
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+    public Iterator<E> iterator() {
+        return new WeakIterator(this.consumerBuffer, lvConsumerIndex(), lvProducerIndex());
+    }
+
+    private static class WeakIterator<E> implements Iterator<E> {
+        private AtomicReferenceArray<E> currentBuffer;
+        private int mask;
+        private E nextElement;
+        private long nextIndex;
+        private final long pIndex;
+
+        @Override // java.util.Iterator
+        public boolean hasNext() {
+            return this.nextElement != null;
+        }
+
+        WeakIterator(AtomicReferenceArray<E> atomicReferenceArray, long j, long j2) {
+            this.pIndex = j2 >> 1;
+            this.nextIndex = j >> 1;
+            setBuffer(atomicReferenceArray);
+            this.nextElement = getNext();
+        }
+
+        @Override // java.util.Iterator
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
+
+        @Override // java.util.Iterator
+        public E next() {
+            E e = this.nextElement;
+            if (e == null) {
+                throw new NoSuchElementException();
+            }
+            this.nextElement = getNext();
+            return e;
+        }
+
+        private void setBuffer(AtomicReferenceArray<E> atomicReferenceArray) {
+            this.currentBuffer = atomicReferenceArray;
+            this.mask = AtomicQueueUtil.length(atomicReferenceArray) - 2;
+        }
+
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
+        
+            return null;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        private E getNext() {
+            /*
+                r7 = this;
+            L0:
+                long r0 = r7.nextIndex
+                long r2 = r7.pIndex
+                r4 = 0
+                int r5 = (r0 > r2 ? 1 : (r0 == r2 ? 0 : -1))
+                if (r5 >= 0) goto L53
+                r2 = 1
+                long r2 = r2 + r0
+                r7.nextIndex = r2
+                java.util.concurrent.atomic.AtomicReferenceArray<E> r2 = r7.currentBuffer
+                int r3 = r7.mask
+                long r5 = (long) r3
+                int r3 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.AtomicQueueUtil.calcCircularRefElementOffset(r0, r5)
+                java.lang.Object r2 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.AtomicQueueUtil.lvRefElement(r2, r3)
+                if (r2 != 0) goto L1e
+                goto L0
+            L1e:
+                java.lang.Object r3 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseMpscLinkedAtomicArrayQueue.access$000()
+                if (r2 == r3) goto L25
+                return r2
+            L25:
+                int r2 = r7.mask
+                int r2 = r2 + 1
+                java.util.concurrent.atomic.AtomicReferenceArray<E> r3 = r7.currentBuffer
+                long r5 = (long) r2
+                int r2 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.AtomicQueueUtil.calcRefElementOffset(r5)
+                java.lang.Object r2 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.AtomicQueueUtil.lvRefElement(r3, r2)
+                java.lang.Object r3 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseMpscLinkedAtomicArrayQueue.access$100()
+                if (r2 == r3) goto L53
+                if (r2 != 0) goto L3d
+                goto L53
+            L3d:
+                java.util.concurrent.atomic.AtomicReferenceArray r2 = (java.util.concurrent.atomic.AtomicReferenceArray) r2
+                r7.setBuffer(r2)
+                java.util.concurrent.atomic.AtomicReferenceArray<E> r2 = r7.currentBuffer
+                int r3 = r7.mask
+                long r3 = (long) r3
+                int r0 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.AtomicQueueUtil.calcCircularRefElementOffset(r0, r3)
+                java.lang.Object r0 = io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.AtomicQueueUtil.lvRefElement(r2, r0)
+                if (r0 != 0) goto L52
+                goto L0
+            L52:
+                return r0
+            L53:
+                return r4
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseMpscLinkedAtomicArrayQueue.WeakIterator.getNext():java.lang.Object");
+        }
+    }
+
+    private void resize(long j, AtomicReferenceArray<E> atomicReferenceArray, long j2, E e, MessagePassingQueue.Supplier<E> supplier) {
+        int nextBufferSize = getNextBufferSize(atomicReferenceArray);
+        try {
+            AtomicReferenceArray<E> atomicReferenceArrayAllocateRefArray = AtomicQueueUtil.allocateRefArray(nextBufferSize);
+            this.producerBuffer = atomicReferenceArrayAllocateRefArray;
+            long j3 = (nextBufferSize - 2) << 1;
+            this.producerMask = j3;
+            int iModifiedCalcCircularRefElementOffset = AtomicQueueUtil.modifiedCalcCircularRefElementOffset(j2, j);
+            int iModifiedCalcCircularRefElementOffset2 = AtomicQueueUtil.modifiedCalcCircularRefElementOffset(j2, j3);
+            if (e == null) {
+                e = supplier.get();
+            }
+            AtomicQueueUtil.soRefElement(atomicReferenceArrayAllocateRefArray, iModifiedCalcCircularRefElementOffset2, e);
+            AtomicQueueUtil.soRefElement(atomicReferenceArray, nextArrayOffset(j), atomicReferenceArrayAllocateRefArray);
+            long jAvailableInQueue = availableInQueue(j2, lvConsumerIndex());
+            RangeUtil.checkPositive(jAvailableInQueue, "availableInQueue");
+            soProducerLimit(Math.min(j3, jAvailableInQueue) + j2);
+            soProducerIndex(j2 + 2);
+            AtomicQueueUtil.soRefElement(atomicReferenceArray, iModifiedCalcCircularRefElementOffset, JUMP);
+        } catch (OutOfMemoryError e2) {
+            soProducerIndex(j2);
+            throw e2;
+        }
+    }
+}

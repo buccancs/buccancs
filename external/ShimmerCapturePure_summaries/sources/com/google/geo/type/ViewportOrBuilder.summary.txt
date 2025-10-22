@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/geo/type/ViewportOrBuilder.java
+// Size: 434 bytes
+// Modified: 2025-10-21 16:32:03.138162100 +0100
+
+package com.google.geo.type;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.type.LatLng;
+import com.google.type.LatLngOrBuilder;
+
+/* loaded from: classes.dex */
+public interface ViewportOrBuilder extends MessageOrBuilder {
+    LatLng getHigh();
+
+    LatLngOrBuilder getHighOrBuilder();
+
+    LatLng getLow();
+
+    LatLngOrBuilder getLowOrBuilder();
+
+    boolean hasHigh();
+
+    boolean hasLow();
+}

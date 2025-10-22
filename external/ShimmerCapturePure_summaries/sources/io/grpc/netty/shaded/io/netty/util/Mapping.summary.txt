@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/Mapping.java
+// Size: 141 bytes
+// Modified: 2025-10-21 16:32:00.241748600 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+/* loaded from: classes3.dex */
+public interface Mapping<IN, OUT> {
+    OUT map(IN in);
+}

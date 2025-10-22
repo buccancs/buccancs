@@ -15,7 +15,7 @@ import com.buccancs.application.monitoring.AlertType
 import com.buccancs.ui.HealthAlertUi
 import com.buccancs.ui.common.HorizontalDivider
 import com.buccancs.ui.theme.Spacing
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun HealthAlertsCard(

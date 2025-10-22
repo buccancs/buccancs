@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/xmss/XMSSNode.java
+// Size: 710 bytes
+// Modified: 2025-10-21 16:32:03.334659000 +0100
+
+package org.bouncycastle.pqc.crypto.xmss;
+
+import java.io.Serializable;
+
+/* loaded from: classes5.dex */
+public final class XMSSNode implements Serializable {
+    private static final long serialVersionUID = 1;
+    private final int height;
+    private final byte[] value;
+
+    protected XMSSNode(int i, byte[] bArr) {
+        this.height = i;
+        this.value = bArr;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public XMSSNode clone() {
+        return new XMSSNode(getHeight(), getValue());
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public byte[] getValue() {
+        return XMSSUtil.cloneArray(this.value);
+    }
+}

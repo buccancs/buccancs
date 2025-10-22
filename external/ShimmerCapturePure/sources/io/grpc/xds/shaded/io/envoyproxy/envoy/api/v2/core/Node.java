@@ -1,0 +1,2084 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.Struct;
+import com.google.protobuf.StructOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Address;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BuildVersion;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Extension;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Locality;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public final class Node extends GeneratedMessageV3 implements NodeOrBuilder {
+    public static final int BUILD_VERSION_FIELD_NUMBER = 5;
+    public static final int CLIENT_FEATURES_FIELD_NUMBER = 10;
+    public static final int CLUSTER_FIELD_NUMBER = 2;
+    public static final int EXTENSIONS_FIELD_NUMBER = 9;
+    public static final int ID_FIELD_NUMBER = 1;
+    public static final int LISTENING_ADDRESSES_FIELD_NUMBER = 11;
+    public static final int LOCALITY_FIELD_NUMBER = 4;
+    public static final int METADATA_FIELD_NUMBER = 3;
+    public static final int USER_AGENT_BUILD_VERSION_FIELD_NUMBER = 8;
+    public static final int USER_AGENT_NAME_FIELD_NUMBER = 6;
+    public static final int USER_AGENT_VERSION_FIELD_NUMBER = 7;
+    private static final long serialVersionUID = 0;
+    private static final Node DEFAULT_INSTANCE = new Node();
+    private static final Parser<Node> PARSER = new AbstractParser<Node>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Node m16337parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Node(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object buildVersion_;
+    private LazyStringList clientFeatures_;
+    private volatile Object cluster_;
+    private List<Extension> extensions_;
+    private volatile Object id_;
+    private List<Address> listeningAddresses_;
+    private Locality locality_;
+    private byte memoizedIsInitialized;
+    private Struct metadata_;
+    private volatile Object userAgentName_;
+    private int userAgentVersionTypeCase_;
+    private Object userAgentVersionType_;
+
+    private Node(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.userAgentVersionTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Node() {
+        this.userAgentVersionTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.id_ = "";
+        this.cluster_ = "";
+        this.buildVersion_ = "";
+        this.userAgentName_ = "";
+        this.extensions_ = Collections.emptyList();
+        this.clientFeatures_ = LazyStringArrayList.EMPTY;
+        this.listeningAddresses_ = Collections.emptyList();
+    }
+
+    private Node(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Struct.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            this.id_ = codedInputStream.readStringRequireUtf8();
+                        case 18:
+                            this.cluster_ = codedInputStream.readStringRequireUtf8();
+                        case 26:
+                            Struct struct = this.metadata_;
+                            builder = struct != null ? struct.toBuilder() : null;
+                            Struct message = codedInputStream.readMessage(Struct.parser(), extensionRegistryLite);
+                            this.metadata_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.metadata_ = builder.buildPartial();
+                            }
+                        case 34:
+                            Locality locality = this.locality_;
+                            builder = locality != null ? locality.m16242toBuilder() : null;
+                            Locality locality2 = (Locality) codedInputStream.readMessage(Locality.parser(), extensionRegistryLite);
+                            this.locality_ = locality2;
+                            if (builder != null) {
+                                builder.mergeFrom(locality2);
+                                this.locality_ = builder.m16249buildPartial();
+                            }
+                        case 42:
+                            this.buildVersion_ = codedInputStream.readStringRequireUtf8();
+                        case 50:
+                            this.userAgentName_ = codedInputStream.readStringRequireUtf8();
+                        case 58:
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            this.userAgentVersionTypeCase_ = 7;
+                            this.userAgentVersionType_ = stringRequireUtf8;
+                        case 66:
+                            builder = this.userAgentVersionTypeCase_ == 8 ? ((BuildVersion) this.userAgentVersionType_).m14536toBuilder() : null;
+                            MessageLite message2 = codedInputStream.readMessage(BuildVersion.parser(), extensionRegistryLite);
+                            this.userAgentVersionType_ = message2;
+                            if (builder != null) {
+                                builder.mergeFrom((BuildVersion) message2);
+                                this.userAgentVersionType_ = builder.m14543buildPartial();
+                            }
+                            this.userAgentVersionTypeCase_ = 8;
+                        case 74:
+                            if ((i & 1) == 0) {
+                                this.extensions_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.extensions_.add(codedInputStream.readMessage(Extension.parser(), extensionRegistryLite));
+                        case 82:
+                            String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 2) == 0) {
+                                this.clientFeatures_ = new LazyStringArrayList();
+                                i |= 2;
+                            }
+                            this.clientFeatures_.add(stringRequireUtf82);
+                        case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                            if ((i & 4) == 0) {
+                                this.listeningAddresses_ = new ArrayList();
+                                i |= 4;
+                            }
+                            this.listeningAddresses_.add(codedInputStream.readMessage(Address.parser(), extensionRegistryLite));
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.extensions_ = Collections.unmodifiableList(this.extensions_);
+                }
+                if ((i & 2) != 0) {
+                    this.clientFeatures_ = this.clientFeatures_.getUnmodifiableView();
+                }
+                if ((i & 4) != 0) {
+                    this.listeningAddresses_ = Collections.unmodifiableList(this.listeningAddresses_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Node getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Node> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return BaseProto.internal_static_envoy_api_v2_core_Node_descriptor;
+    }
+
+    public static Node parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Node) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Node parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Node) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Node parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Node) PARSER.parseFrom(byteString);
+    }
+
+    public static Node parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Node) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Node parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Node) PARSER.parseFrom(bArr);
+    }
+
+    public static Node parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Node) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Node parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Node parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Node parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Node parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Node parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Node parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m16335toBuilder();
+    }
+
+    public static Builder newBuilder(Node node) {
+        return DEFAULT_INSTANCE.m16335toBuilder().mergeFrom(node);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    /* renamed from: getClientFeaturesList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo16329getClientFeaturesList() {
+        return this.clientFeatures_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Node m16330getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public List<Extension> getExtensionsList() {
+        return this.extensions_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public List<? extends ExtensionOrBuilder> getExtensionsOrBuilderList() {
+        return this.extensions_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public List<Address> getListeningAddressesList() {
+        return this.listeningAddresses_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public List<? extends AddressOrBuilder> getListeningAddressesOrBuilderList() {
+        return this.listeningAddresses_;
+    }
+
+    public Parser<Node> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public boolean hasLocality() {
+        return this.locality_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public boolean hasMetadata() {
+        return this.metadata_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public boolean hasUserAgentBuildVersion() {
+        return this.userAgentVersionTypeCase_ == 8;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Node();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return BaseProto.internal_static_envoy_api_v2_core_Node_fieldAccessorTable.ensureFieldAccessorsInitialized(Node.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public UserAgentVersionTypeCase getUserAgentVersionTypeCase() {
+        return UserAgentVersionTypeCase.forNumber(this.userAgentVersionTypeCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public String getId() {
+        Object obj = this.id_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.id_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public ByteString getIdBytes() {
+        Object obj = this.id_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.id_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public String getCluster() {
+        Object obj = this.cluster_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.cluster_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public ByteString getClusterBytes() {
+        Object obj = this.cluster_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.cluster_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public Struct getMetadata() {
+        Struct struct = this.metadata_;
+        return struct == null ? Struct.getDefaultInstance() : struct;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public StructOrBuilder getMetadataOrBuilder() {
+        return getMetadata();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public Locality getLocality() {
+        Locality locality = this.locality_;
+        return locality == null ? Locality.getDefaultInstance() : locality;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public LocalityOrBuilder getLocalityOrBuilder() {
+        return getLocality();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    @Deprecated
+    public String getBuildVersion() {
+        Object obj = this.buildVersion_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.buildVersion_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    @Deprecated
+    public ByteString getBuildVersionBytes() {
+        Object obj = this.buildVersion_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.buildVersion_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public String getUserAgentName() {
+        Object obj = this.userAgentName_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.userAgentName_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public ByteString getUserAgentNameBytes() {
+        Object obj = this.userAgentName_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.userAgentName_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public String getUserAgentVersion() {
+        String str = this.userAgentVersionTypeCase_ == 7 ? this.userAgentVersionType_ : "";
+        if (str instanceof String) {
+            return (String) str;
+        }
+        String stringUtf8 = ((ByteString) str).toStringUtf8();
+        if (this.userAgentVersionTypeCase_ == 7) {
+            this.userAgentVersionType_ = stringUtf8;
+        }
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public ByteString getUserAgentVersionBytes() {
+        String str = this.userAgentVersionTypeCase_ == 7 ? this.userAgentVersionType_ : "";
+        if (str instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+            if (this.userAgentVersionTypeCase_ == 7) {
+                this.userAgentVersionType_ = byteStringCopyFromUtf8;
+            }
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) str;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public BuildVersion getUserAgentBuildVersion() {
+        if (this.userAgentVersionTypeCase_ == 8) {
+            return (BuildVersion) this.userAgentVersionType_;
+        }
+        return BuildVersion.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public BuildVersionOrBuilder getUserAgentBuildVersionOrBuilder() {
+        if (this.userAgentVersionTypeCase_ == 8) {
+            return (BuildVersion) this.userAgentVersionType_;
+        }
+        return BuildVersion.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public int getExtensionsCount() {
+        return this.extensions_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public Extension getExtensions(int i) {
+        return this.extensions_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public ExtensionOrBuilder getExtensionsOrBuilder(int i) {
+        return this.extensions_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public int getClientFeaturesCount() {
+        return this.clientFeatures_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public String getClientFeatures(int i) {
+        return (String) this.clientFeatures_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public ByteString getClientFeaturesBytes(int i) {
+        return this.clientFeatures_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public int getListeningAddressesCount() {
+        return this.listeningAddresses_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public Address getListeningAddresses(int i) {
+        return this.listeningAddresses_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+    public AddressOrBuilder getListeningAddressesOrBuilder(int i) {
+        return this.listeningAddresses_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getIdBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.id_);
+        }
+        if (!getClusterBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.cluster_);
+        }
+        if (this.metadata_ != null) {
+            codedOutputStream.writeMessage(3, getMetadata());
+        }
+        if (this.locality_ != null) {
+            codedOutputStream.writeMessage(4, getLocality());
+        }
+        if (!getBuildVersionBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 5, this.buildVersion_);
+        }
+        if (!getUserAgentNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 6, this.userAgentName_);
+        }
+        if (this.userAgentVersionTypeCase_ == 7) {
+            GeneratedMessageV3.writeString(codedOutputStream, 7, this.userAgentVersionType_);
+        }
+        if (this.userAgentVersionTypeCase_ == 8) {
+            codedOutputStream.writeMessage(8, (BuildVersion) this.userAgentVersionType_);
+        }
+        for (int i = 0; i < this.extensions_.size(); i++) {
+            codedOutputStream.writeMessage(9, this.extensions_.get(i));
+        }
+        for (int i2 = 0; i2 < this.clientFeatures_.size(); i2++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 10, this.clientFeatures_.getRaw(i2));
+        }
+        for (int i3 = 0; i3 < this.listeningAddresses_.size(); i3++) {
+            codedOutputStream.writeMessage(11, this.listeningAddresses_.get(i3));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getIdBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.id_) : 0;
+        if (!getClusterBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.cluster_);
+        }
+        if (this.metadata_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(3, getMetadata());
+        }
+        if (this.locality_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(4, getLocality());
+        }
+        if (!getBuildVersionBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(5, this.buildVersion_);
+        }
+        if (!getUserAgentNameBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(6, this.userAgentName_);
+        }
+        if (this.userAgentVersionTypeCase_ == 7) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(7, this.userAgentVersionType_);
+        }
+        if (this.userAgentVersionTypeCase_ == 8) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(8, (BuildVersion) this.userAgentVersionType_);
+        }
+        for (int i2 = 0; i2 < this.extensions_.size(); i2++) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(9, this.extensions_.get(i2));
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i3 = 0; i3 < this.clientFeatures_.size(); i3++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.clientFeatures_.getRaw(i3));
+        }
+        int size = iComputeStringSize + iComputeStringSizeNoTag + mo16329getClientFeaturesList().size();
+        for (int i4 = 0; i4 < this.listeningAddresses_.size(); i4++) {
+            size += CodedOutputStream.computeMessageSize(11, this.listeningAddresses_.get(i4));
+        }
+        int serializedSize = size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Node)) {
+            return super.equals(obj);
+        }
+        Node node = (Node) obj;
+        if (!getId().equals(node.getId()) || !getCluster().equals(node.getCluster()) || hasMetadata() != node.hasMetadata()) {
+            return false;
+        }
+        if ((hasMetadata() && !getMetadata().equals(node.getMetadata())) || hasLocality() != node.hasLocality()) {
+            return false;
+        }
+        if ((hasLocality() && !getLocality().equals(node.getLocality())) || !getBuildVersion().equals(node.getBuildVersion()) || !getUserAgentName().equals(node.getUserAgentName()) || !getExtensionsList().equals(node.getExtensionsList()) || !mo16329getClientFeaturesList().equals(node.mo16329getClientFeaturesList()) || !getListeningAddressesList().equals(node.getListeningAddressesList()) || !getUserAgentVersionTypeCase().equals(node.getUserAgentVersionTypeCase())) {
+            return false;
+        }
+        int i = this.userAgentVersionTypeCase_;
+        if (i == 7) {
+            if (!getUserAgentVersion().equals(node.getUserAgentVersion())) {
+                return false;
+            }
+        } else if (i == 8 && !getUserAgentBuildVersion().equals(node.getUserAgentBuildVersion())) {
+            return false;
+        }
+        return this.unknownFields.equals(node.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = ((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getId().hashCode()) * 37) + 2) * 53) + getCluster().hashCode();
+        if (hasMetadata()) {
+            iHashCode2 = (((iHashCode2 * 37) + 3) * 53) + getMetadata().hashCode();
+        }
+        if (hasLocality()) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getLocality().hashCode();
+        }
+        int iHashCode3 = (((((((iHashCode2 * 37) + 5) * 53) + getBuildVersion().hashCode()) * 37) + 6) * 53) + getUserAgentName().hashCode();
+        if (getExtensionsCount() > 0) {
+            iHashCode3 = (((iHashCode3 * 37) + 9) * 53) + getExtensionsList().hashCode();
+        }
+        if (getClientFeaturesCount() > 0) {
+            iHashCode3 = (((iHashCode3 * 37) + 10) * 53) + mo16329getClientFeaturesList().hashCode();
+        }
+        if (getListeningAddressesCount() > 0) {
+            iHashCode3 = (((iHashCode3 * 37) + 11) * 53) + getListeningAddressesList().hashCode();
+        }
+        int i2 = this.userAgentVersionTypeCase_;
+        if (i2 == 7) {
+            i = ((iHashCode3 * 37) + 7) * 53;
+            iHashCode = getUserAgentVersion().hashCode();
+        } else {
+            if (i2 == 8) {
+                i = ((iHashCode3 * 37) + 8) * 53;
+                iHashCode = getUserAgentBuildVersion().hashCode();
+            }
+            int iHashCode4 = (iHashCode3 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode4;
+            return iHashCode4;
+        }
+        iHashCode3 = i + iHashCode;
+        int iHashCode42 = (iHashCode3 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode42;
+        return iHashCode42;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16332newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16335toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum UserAgentVersionTypeCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        USER_AGENT_VERSION(7),
+        USER_AGENT_BUILD_VERSION(8),
+        USERAGENTVERSIONTYPE_NOT_SET(0);
+
+        private final int value;
+
+        UserAgentVersionTypeCase(int i) {
+            this.value = i;
+        }
+
+        public static UserAgentVersionTypeCase forNumber(int i) {
+            if (i == 0) {
+                return USERAGENTVERSIONTYPE_NOT_SET;
+            }
+            if (i == 7) {
+                return USER_AGENT_VERSION;
+            }
+            if (i != 8) {
+                return null;
+            }
+            return USER_AGENT_BUILD_VERSION;
+        }
+
+        @Deprecated
+        public static UserAgentVersionTypeCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements NodeOrBuilder {
+        private int bitField0_;
+        private Object buildVersion_;
+        private LazyStringList clientFeatures_;
+        private Object cluster_;
+        private RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> extensionsBuilder_;
+        private List<Extension> extensions_;
+        private Object id_;
+        private RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> listeningAddressesBuilder_;
+        private List<Address> listeningAddresses_;
+        private SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> localityBuilder_;
+        private Locality locality_;
+        private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> metadataBuilder_;
+        private Struct metadata_;
+        private SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> userAgentBuildVersionBuilder_;
+        private Object userAgentName_;
+        private int userAgentVersionTypeCase_;
+        private Object userAgentVersionType_;
+
+        private Builder() {
+            this.userAgentVersionTypeCase_ = 0;
+            this.id_ = "";
+            this.cluster_ = "";
+            this.buildVersion_ = "";
+            this.userAgentName_ = "";
+            this.extensions_ = Collections.emptyList();
+            this.clientFeatures_ = LazyStringArrayList.EMPTY;
+            this.listeningAddresses_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.userAgentVersionTypeCase_ = 0;
+            this.id_ = "";
+            this.cluster_ = "";
+            this.buildVersion_ = "";
+            this.userAgentName_ = "";
+            this.extensions_ = Collections.emptyList();
+            this.clientFeatures_ = LazyStringArrayList.EMPTY;
+            this.listeningAddresses_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return BaseProto.internal_static_envoy_api_v2_core_Node_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public boolean hasLocality() {
+            return (this.localityBuilder_ == null && this.locality_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public boolean hasMetadata() {
+            return (this.metadataBuilder_ == null && this.metadata_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public boolean hasUserAgentBuildVersion() {
+            return this.userAgentVersionTypeCase_ == 8;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return BaseProto.internal_static_envoy_api_v2_core_Node_fieldAccessorTable.ensureFieldAccessorsInitialized(Node.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (Node.alwaysUseFieldBuilders) {
+                getExtensionsFieldBuilder();
+                getListeningAddressesFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16346clear() {
+            super.clear();
+            this.id_ = "";
+            this.cluster_ = "";
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            if (this.localityBuilder_ == null) {
+                this.locality_ = null;
+            } else {
+                this.locality_ = null;
+                this.localityBuilder_ = null;
+            }
+            this.buildVersion_ = "";
+            this.userAgentName_ = "";
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.extensions_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            this.clientFeatures_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV32 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.listeningAddresses_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            this.userAgentVersionTypeCase_ = 0;
+            this.userAgentVersionType_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return BaseProto.internal_static_envoy_api_v2_core_Node_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Node m16359getDefaultInstanceForType() {
+            return Node.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Node m16340build() throws UninitializedMessageException {
+            Node nodeM16342buildPartial = m16342buildPartial();
+            if (nodeM16342buildPartial.isInitialized()) {
+                return nodeM16342buildPartial;
+            }
+            throw newUninitializedMessageException(nodeM16342buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Node m16342buildPartial() {
+            Node node = new Node(this);
+            node.id_ = this.id_;
+            node.cluster_ = this.cluster_;
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                node.metadata_ = this.metadata_;
+            } else {
+                node.metadata_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV32 = this.localityBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                node.locality_ = this.locality_;
+            } else {
+                node.locality_ = singleFieldBuilderV32.build();
+            }
+            node.buildVersion_ = this.buildVersion_;
+            node.userAgentName_ = this.userAgentName_;
+            if (this.userAgentVersionTypeCase_ == 7) {
+                node.userAgentVersionType_ = this.userAgentVersionType_;
+            }
+            if (this.userAgentVersionTypeCase_ == 8) {
+                SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> singleFieldBuilderV33 = this.userAgentBuildVersionBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    node.userAgentVersionType_ = this.userAgentVersionType_;
+                } else {
+                    node.userAgentVersionType_ = singleFieldBuilderV33.build();
+                }
+            }
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.extensions_ = Collections.unmodifiableList(this.extensions_);
+                    this.bitField0_ &= -2;
+                }
+                node.extensions_ = this.extensions_;
+            } else {
+                node.extensions_ = repeatedFieldBuilderV3.build();
+            }
+            if ((this.bitField0_ & 2) != 0) {
+                this.clientFeatures_ = this.clientFeatures_.getUnmodifiableView();
+                this.bitField0_ &= -3;
+            }
+            node.clientFeatures_ = this.clientFeatures_;
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV32 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 4) != 0) {
+                    this.listeningAddresses_ = Collections.unmodifiableList(this.listeningAddresses_);
+                    this.bitField0_ &= -5;
+                }
+                node.listeningAddresses_ = this.listeningAddresses_;
+            } else {
+                node.listeningAddresses_ = repeatedFieldBuilderV32.build();
+            }
+            node.userAgentVersionTypeCase_ = this.userAgentVersionTypeCase_;
+            onBuilt();
+            return node;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16358clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16370setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16348clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16351clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16372setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16338addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16363mergeFrom(Message message) {
+            if (message instanceof Node) {
+                return mergeFrom((Node) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Node node) {
+            if (node == Node.getDefaultInstance()) {
+                return this;
+            }
+            if (!node.getId().isEmpty()) {
+                this.id_ = node.id_;
+                onChanged();
+            }
+            if (!node.getCluster().isEmpty()) {
+                this.cluster_ = node.cluster_;
+                onChanged();
+            }
+            if (node.hasMetadata()) {
+                mergeMetadata(node.getMetadata());
+            }
+            if (node.hasLocality()) {
+                mergeLocality(node.getLocality());
+            }
+            if (!node.getBuildVersion().isEmpty()) {
+                this.buildVersion_ = node.buildVersion_;
+                onChanged();
+            }
+            if (!node.getUserAgentName().isEmpty()) {
+                this.userAgentName_ = node.userAgentName_;
+                onChanged();
+            }
+            if (this.extensionsBuilder_ == null) {
+                if (!node.extensions_.isEmpty()) {
+                    if (this.extensions_.isEmpty()) {
+                        this.extensions_ = node.extensions_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureExtensionsIsMutable();
+                        this.extensions_.addAll(node.extensions_);
+                    }
+                    onChanged();
+                }
+            } else if (!node.extensions_.isEmpty()) {
+                if (!this.extensionsBuilder_.isEmpty()) {
+                    this.extensionsBuilder_.addAllMessages(node.extensions_);
+                } else {
+                    this.extensionsBuilder_.dispose();
+                    this.extensionsBuilder_ = null;
+                    this.extensions_ = node.extensions_;
+                    this.bitField0_ &= -2;
+                    this.extensionsBuilder_ = Node.alwaysUseFieldBuilders ? getExtensionsFieldBuilder() : null;
+                }
+            }
+            if (!node.clientFeatures_.isEmpty()) {
+                if (this.clientFeatures_.isEmpty()) {
+                    this.clientFeatures_ = node.clientFeatures_;
+                    this.bitField0_ &= -3;
+                } else {
+                    ensureClientFeaturesIsMutable();
+                    this.clientFeatures_.addAll(node.clientFeatures_);
+                }
+                onChanged();
+            }
+            if (this.listeningAddressesBuilder_ == null) {
+                if (!node.listeningAddresses_.isEmpty()) {
+                    if (this.listeningAddresses_.isEmpty()) {
+                        this.listeningAddresses_ = node.listeningAddresses_;
+                        this.bitField0_ &= -5;
+                    } else {
+                        ensureListeningAddressesIsMutable();
+                        this.listeningAddresses_.addAll(node.listeningAddresses_);
+                    }
+                    onChanged();
+                }
+            } else if (!node.listeningAddresses_.isEmpty()) {
+                if (!this.listeningAddressesBuilder_.isEmpty()) {
+                    this.listeningAddressesBuilder_.addAllMessages(node.listeningAddresses_);
+                } else {
+                    this.listeningAddressesBuilder_.dispose();
+                    this.listeningAddressesBuilder_ = null;
+                    this.listeningAddresses_ = node.listeningAddresses_;
+                    this.bitField0_ &= -5;
+                    this.listeningAddressesBuilder_ = Node.alwaysUseFieldBuilders ? getListeningAddressesFieldBuilder() : null;
+                }
+            }
+            int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$api$v2$core$Node$UserAgentVersionTypeCase[node.getUserAgentVersionTypeCase().ordinal()];
+            if (i == 1) {
+                this.userAgentVersionTypeCase_ = 7;
+                this.userAgentVersionType_ = node.userAgentVersionType_;
+                onChanged();
+            } else if (i == 2) {
+                mergeUserAgentBuildVersion(node.getUserAgentBuildVersion());
+            }
+            m16368mergeUnknownFields(node.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node.Builder m16364mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node.access$1800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node.Builder.m16364mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public UserAgentVersionTypeCase getUserAgentVersionTypeCase() {
+            return UserAgentVersionTypeCase.forNumber(this.userAgentVersionTypeCase_);
+        }
+
+        public Builder clearUserAgentVersionType() {
+            this.userAgentVersionTypeCase_ = 0;
+            this.userAgentVersionType_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public String getId() {
+            Object obj = this.id_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.id_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setId(String str) {
+            str.getClass();
+            this.id_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public ByteString getIdBytes() {
+            Object obj = this.id_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.id_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setIdBytes(ByteString byteString) {
+            byteString.getClass();
+            Node.checkByteStringIsUtf8(byteString);
+            this.id_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearId() {
+            this.id_ = Node.getDefaultInstance().getId();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public String getCluster() {
+            Object obj = this.cluster_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.cluster_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setCluster(String str) {
+            str.getClass();
+            this.cluster_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public ByteString getClusterBytes() {
+            Object obj = this.cluster_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.cluster_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setClusterBytes(ByteString byteString) {
+            byteString.getClass();
+            Node.checkByteStringIsUtf8(byteString);
+            this.cluster_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearCluster() {
+            this.cluster_ = Node.getDefaultInstance().getCluster();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public Struct getMetadata() {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Struct struct = this.metadata_;
+            return struct == null ? Struct.getDefaultInstance() : struct;
+        }
+
+        public Builder setMetadata(Struct struct) {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                struct.getClass();
+                this.metadata_ = struct;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(struct);
+            }
+            return this;
+        }
+
+        public Builder setMetadata(Struct.Builder builder) {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.metadata_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMetadata(Struct struct) {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Struct struct2 = this.metadata_;
+                if (struct2 != null) {
+                    this.metadata_ = Struct.newBuilder(struct2).mergeFrom(struct).buildPartial();
+                } else {
+                    this.metadata_ = struct;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(struct);
+            }
+            return this;
+        }
+
+        public Builder clearMetadata() {
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+                onChanged();
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Struct.Builder getMetadataBuilder() {
+            onChanged();
+            return getMetadataFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public StructOrBuilder getMetadataOrBuilder() {
+            SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Struct struct = this.metadata_;
+            return struct == null ? Struct.getDefaultInstance() : struct;
+        }
+
+        private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> getMetadataFieldBuilder() {
+            if (this.metadataBuilder_ == null) {
+                this.metadataBuilder_ = new SingleFieldBuilderV3<>(getMetadata(), getParentForChildren(), isClean());
+                this.metadata_ = null;
+            }
+            return this.metadataBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public Locality getLocality() {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Locality locality = this.locality_;
+            return locality == null ? Locality.getDefaultInstance() : locality;
+        }
+
+        public Builder setLocality(Locality locality) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                locality.getClass();
+                this.locality_ = locality;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(locality);
+            }
+            return this;
+        }
+
+        public Builder setLocality(Locality.Builder builder) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.locality_ = builder.m16247build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m16247build());
+            }
+            return this;
+        }
+
+        public Builder mergeLocality(Locality locality) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Locality locality2 = this.locality_;
+                if (locality2 != null) {
+                    this.locality_ = Locality.newBuilder(locality2).mergeFrom(locality).m16249buildPartial();
+                } else {
+                    this.locality_ = locality;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(locality);
+            }
+            return this;
+        }
+
+        public Builder clearLocality() {
+            if (this.localityBuilder_ == null) {
+                this.locality_ = null;
+                onChanged();
+            } else {
+                this.locality_ = null;
+                this.localityBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Locality.Builder getLocalityBuilder() {
+            onChanged();
+            return getLocalityFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public LocalityOrBuilder getLocalityOrBuilder() {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (LocalityOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Locality locality = this.locality_;
+            return locality == null ? Locality.getDefaultInstance() : locality;
+        }
+
+        private SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> getLocalityFieldBuilder() {
+            if (this.localityBuilder_ == null) {
+                this.localityBuilder_ = new SingleFieldBuilderV3<>(getLocality(), getParentForChildren(), isClean());
+                this.locality_ = null;
+            }
+            return this.localityBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        @Deprecated
+        public String getBuildVersion() {
+            Object obj = this.buildVersion_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.buildVersion_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Deprecated
+        public Builder setBuildVersion(String str) {
+            str.getClass();
+            this.buildVersion_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        @Deprecated
+        public ByteString getBuildVersionBytes() {
+            Object obj = this.buildVersion_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.buildVersion_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Deprecated
+        public Builder setBuildVersionBytes(ByteString byteString) {
+            byteString.getClass();
+            Node.checkByteStringIsUtf8(byteString);
+            this.buildVersion_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Deprecated
+        public Builder clearBuildVersion() {
+            this.buildVersion_ = Node.getDefaultInstance().getBuildVersion();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public String getUserAgentName() {
+            Object obj = this.userAgentName_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.userAgentName_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setUserAgentName(String str) {
+            str.getClass();
+            this.userAgentName_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public ByteString getUserAgentNameBytes() {
+            Object obj = this.userAgentName_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.userAgentName_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setUserAgentNameBytes(ByteString byteString) {
+            byteString.getClass();
+            Node.checkByteStringIsUtf8(byteString);
+            this.userAgentName_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearUserAgentName() {
+            this.userAgentName_ = Node.getDefaultInstance().getUserAgentName();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public String getUserAgentVersion() {
+            String str = this.userAgentVersionTypeCase_ == 7 ? this.userAgentVersionType_ : "";
+            if (!(str instanceof String)) {
+                String stringUtf8 = ((ByteString) str).toStringUtf8();
+                if (this.userAgentVersionTypeCase_ == 7) {
+                    this.userAgentVersionType_ = stringUtf8;
+                }
+                return stringUtf8;
+            }
+            return (String) str;
+        }
+
+        public Builder setUserAgentVersion(String str) {
+            str.getClass();
+            this.userAgentVersionTypeCase_ = 7;
+            this.userAgentVersionType_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public ByteString getUserAgentVersionBytes() {
+            String str = this.userAgentVersionTypeCase_ == 7 ? this.userAgentVersionType_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.userAgentVersionTypeCase_ == 7) {
+                    this.userAgentVersionType_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public Builder setUserAgentVersionBytes(ByteString byteString) {
+            byteString.getClass();
+            Node.checkByteStringIsUtf8(byteString);
+            this.userAgentVersionTypeCase_ = 7;
+            this.userAgentVersionType_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearUserAgentVersion() {
+            if (this.userAgentVersionTypeCase_ == 7) {
+                this.userAgentVersionTypeCase_ = 0;
+                this.userAgentVersionType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public BuildVersion getUserAgentBuildVersion() {
+            SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> singleFieldBuilderV3 = this.userAgentBuildVersionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.userAgentVersionTypeCase_ == 8) {
+                    return (BuildVersion) this.userAgentVersionType_;
+                }
+                return BuildVersion.getDefaultInstance();
+            }
+            if (this.userAgentVersionTypeCase_ == 8) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return BuildVersion.getDefaultInstance();
+        }
+
+        public Builder setUserAgentBuildVersion(BuildVersion buildVersion) {
+            SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> singleFieldBuilderV3 = this.userAgentBuildVersionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                buildVersion.getClass();
+                this.userAgentVersionType_ = buildVersion;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(buildVersion);
+            }
+            this.userAgentVersionTypeCase_ = 8;
+            return this;
+        }
+
+        public Builder setUserAgentBuildVersion(BuildVersion.Builder builder) {
+            SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> singleFieldBuilderV3 = this.userAgentBuildVersionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.userAgentVersionType_ = builder.m14541build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m14541build());
+            }
+            this.userAgentVersionTypeCase_ = 8;
+            return this;
+        }
+
+        public Builder mergeUserAgentBuildVersion(BuildVersion buildVersion) {
+            SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> singleFieldBuilderV3 = this.userAgentBuildVersionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.userAgentVersionTypeCase_ != 8 || this.userAgentVersionType_ == BuildVersion.getDefaultInstance()) {
+                    this.userAgentVersionType_ = buildVersion;
+                } else {
+                    this.userAgentVersionType_ = BuildVersion.newBuilder((BuildVersion) this.userAgentVersionType_).mergeFrom(buildVersion).m14543buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.userAgentVersionTypeCase_ == 8) {
+                    singleFieldBuilderV3.mergeFrom(buildVersion);
+                }
+                this.userAgentBuildVersionBuilder_.setMessage(buildVersion);
+            }
+            this.userAgentVersionTypeCase_ = 8;
+            return this;
+        }
+
+        public Builder clearUserAgentBuildVersion() {
+            SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> singleFieldBuilderV3 = this.userAgentBuildVersionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.userAgentVersionTypeCase_ == 8) {
+                    this.userAgentVersionTypeCase_ = 0;
+                    this.userAgentVersionType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.userAgentVersionTypeCase_ == 8) {
+                this.userAgentVersionTypeCase_ = 0;
+                this.userAgentVersionType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public BuildVersion.Builder getUserAgentBuildVersionBuilder() {
+            return getUserAgentBuildVersionFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public BuildVersionOrBuilder getUserAgentBuildVersionOrBuilder() {
+            SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> singleFieldBuilderV3;
+            int i = this.userAgentVersionTypeCase_;
+            if (i == 8 && (singleFieldBuilderV3 = this.userAgentBuildVersionBuilder_) != null) {
+                return (BuildVersionOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 8) {
+                return (BuildVersion) this.userAgentVersionType_;
+            }
+            return BuildVersion.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<BuildVersion, BuildVersion.Builder, BuildVersionOrBuilder> getUserAgentBuildVersionFieldBuilder() {
+            if (this.userAgentBuildVersionBuilder_ == null) {
+                if (this.userAgentVersionTypeCase_ != 8) {
+                    this.userAgentVersionType_ = BuildVersion.getDefaultInstance();
+                }
+                this.userAgentBuildVersionBuilder_ = new SingleFieldBuilderV3<>((BuildVersion) this.userAgentVersionType_, getParentForChildren(), isClean());
+                this.userAgentVersionType_ = null;
+            }
+            this.userAgentVersionTypeCase_ = 8;
+            onChanged();
+            return this.userAgentBuildVersionBuilder_;
+        }
+
+        private void ensureExtensionsIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.extensions_ = new ArrayList(this.extensions_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public List<Extension> getExtensionsList() {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.extensions_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public int getExtensionsCount() {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.extensions_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public Extension getExtensions(int i) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.extensions_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setExtensions(int i, Extension extension) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                extension.getClass();
+                ensureExtensionsIsMutable();
+                this.extensions_.set(i, extension);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, extension);
+            }
+            return this;
+        }
+
+        public Builder setExtensions(int i, Extension.Builder builder) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureExtensionsIsMutable();
+                this.extensions_.set(i, builder.m14817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m14817build());
+            }
+            return this;
+        }
+
+        public Builder addExtensions(Extension extension) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                extension.getClass();
+                ensureExtensionsIsMutable();
+                this.extensions_.add(extension);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(extension);
+            }
+            return this;
+        }
+
+        public Builder addExtensions(int i, Extension extension) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                extension.getClass();
+                ensureExtensionsIsMutable();
+                this.extensions_.add(i, extension);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, extension);
+            }
+            return this;
+        }
+
+        public Builder addExtensions(Extension.Builder builder) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureExtensionsIsMutable();
+                this.extensions_.add(builder.m14817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m14817build());
+            }
+            return this;
+        }
+
+        public Builder addExtensions(int i, Extension.Builder builder) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureExtensionsIsMutable();
+                this.extensions_.add(i, builder.m14817build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m14817build());
+            }
+            return this;
+        }
+
+        public Builder addAllExtensions(Iterable<? extends Extension> iterable) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureExtensionsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.extensions_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearExtensions() {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.extensions_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeExtensions(int i) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureExtensionsIsMutable();
+                this.extensions_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public Extension.Builder getExtensionsBuilder(int i) {
+            return getExtensionsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public ExtensionOrBuilder getExtensionsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.extensions_.get(i);
+            }
+            return (ExtensionOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public List<? extends ExtensionOrBuilder> getExtensionsOrBuilderList() {
+            RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> repeatedFieldBuilderV3 = this.extensionsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.extensions_);
+        }
+
+        public Extension.Builder addExtensionsBuilder() {
+            return getExtensionsFieldBuilder().addBuilder(Extension.getDefaultInstance());
+        }
+
+        public Extension.Builder addExtensionsBuilder(int i) {
+            return getExtensionsFieldBuilder().addBuilder(i, Extension.getDefaultInstance());
+        }
+
+        public List<Extension.Builder> getExtensionsBuilderList() {
+            return getExtensionsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<Extension, Extension.Builder, ExtensionOrBuilder> getExtensionsFieldBuilder() {
+            if (this.extensionsBuilder_ == null) {
+                this.extensionsBuilder_ = new RepeatedFieldBuilderV3<>(this.extensions_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.extensions_ = null;
+            }
+            return this.extensionsBuilder_;
+        }
+
+        private void ensureClientFeaturesIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.clientFeatures_ = new LazyStringArrayList(this.clientFeatures_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        /* renamed from: getClientFeaturesList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo16329getClientFeaturesList() {
+            return this.clientFeatures_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public int getClientFeaturesCount() {
+            return this.clientFeatures_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public String getClientFeatures(int i) {
+            return (String) this.clientFeatures_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public ByteString getClientFeaturesBytes(int i) {
+            return this.clientFeatures_.getByteString(i);
+        }
+
+        public Builder setClientFeatures(int i, String str) {
+            str.getClass();
+            ensureClientFeaturesIsMutable();
+            this.clientFeatures_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addClientFeatures(String str) {
+            str.getClass();
+            ensureClientFeaturesIsMutable();
+            this.clientFeatures_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllClientFeatures(Iterable<String> iterable) {
+            ensureClientFeaturesIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.clientFeatures_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearClientFeatures() {
+            this.clientFeatures_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            onChanged();
+            return this;
+        }
+
+        public Builder addClientFeaturesBytes(ByteString byteString) {
+            byteString.getClass();
+            Node.checkByteStringIsUtf8(byteString);
+            ensureClientFeaturesIsMutable();
+            this.clientFeatures_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureListeningAddressesIsMutable() {
+            if ((this.bitField0_ & 4) == 0) {
+                this.listeningAddresses_ = new ArrayList(this.listeningAddresses_);
+                this.bitField0_ |= 4;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public List<Address> getListeningAddressesList() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.listeningAddresses_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public int getListeningAddressesCount() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.listeningAddresses_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public Address getListeningAddresses(int i) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.listeningAddresses_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setListeningAddresses(int i, Address address) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                address.getClass();
+                ensureListeningAddressesIsMutable();
+                this.listeningAddresses_.set(i, address);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, address);
+            }
+            return this;
+        }
+
+        public Builder setListeningAddresses(int i, Address.Builder builder) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureListeningAddressesIsMutable();
+                this.listeningAddresses_.set(i, builder.m14262build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m14262build());
+            }
+            return this;
+        }
+
+        public Builder addListeningAddresses(Address address) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                address.getClass();
+                ensureListeningAddressesIsMutable();
+                this.listeningAddresses_.add(address);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(address);
+            }
+            return this;
+        }
+
+        public Builder addListeningAddresses(int i, Address address) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                address.getClass();
+                ensureListeningAddressesIsMutable();
+                this.listeningAddresses_.add(i, address);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, address);
+            }
+            return this;
+        }
+
+        public Builder addListeningAddresses(Address.Builder builder) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureListeningAddressesIsMutable();
+                this.listeningAddresses_.add(builder.m14262build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m14262build());
+            }
+            return this;
+        }
+
+        public Builder addListeningAddresses(int i, Address.Builder builder) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureListeningAddressesIsMutable();
+                this.listeningAddresses_.add(i, builder.m14262build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m14262build());
+            }
+            return this;
+        }
+
+        public Builder addAllListeningAddresses(Iterable<? extends Address> iterable) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureListeningAddressesIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.listeningAddresses_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearListeningAddresses() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.listeningAddresses_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeListeningAddresses(int i) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureListeningAddressesIsMutable();
+                this.listeningAddresses_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public Address.Builder getListeningAddressesBuilder(int i) {
+            return getListeningAddressesFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public AddressOrBuilder getListeningAddressesOrBuilder(int i) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.listeningAddresses_.get(i);
+            }
+            return (AddressOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder
+        public List<? extends AddressOrBuilder> getListeningAddressesOrBuilderList() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.listeningAddressesBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.listeningAddresses_);
+        }
+
+        public Address.Builder addListeningAddressesBuilder() {
+            return getListeningAddressesFieldBuilder().addBuilder(Address.getDefaultInstance());
+        }
+
+        public Address.Builder addListeningAddressesBuilder(int i) {
+            return getListeningAddressesFieldBuilder().addBuilder(i, Address.getDefaultInstance());
+        }
+
+        public List<Address.Builder> getListeningAddressesBuilderList() {
+            return getListeningAddressesFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> getListeningAddressesFieldBuilder() {
+            if (this.listeningAddressesBuilder_ == null) {
+                this.listeningAddressesBuilder_ = new RepeatedFieldBuilderV3<>(this.listeningAddresses_, (this.bitField0_ & 4) != 0, getParentForChildren(), isClean());
+                this.listeningAddresses_ = null;
+            }
+            return this.listeningAddressesBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16374setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16368mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$api$v2$core$Node$UserAgentVersionTypeCase;
+
+        static {
+            int[] iArr = new int[UserAgentVersionTypeCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$api$v2$core$Node$UserAgentVersionTypeCase = iArr;
+            try {
+                iArr[UserAgentVersionTypeCase.USER_AGENT_VERSION.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$core$Node$UserAgentVersionTypeCase[UserAgentVersionTypeCase.USER_AGENT_BUILD_VERSION.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$core$Node$UserAgentVersionTypeCase[UserAgentVersionTypeCase.USERAGENTVERSIONTYPE_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+        }
+    }
+}

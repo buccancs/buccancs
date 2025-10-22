@@ -1,0 +1,62 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/DefaultHttpMessage.java
+// Size: 2319 bytes
+// Modified: 2025-10-21 16:32:10.239618900 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class DefaultHttpMessage extends DefaultHttpObject implements HttpMessage {
+    private static final int HASH_CODE_PRIME = 31;
+    private final HttpHeaders headers;
+    private HttpVersion version;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpMessage
+    public HttpHeaders headers() {
+        return this.headers;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpMessage
+    public HttpVersion protocolVersion() {
+        return this.version;
+    }
+
+    protected DefaultHttpMessage(HttpVersion httpVersion) {
+        this(httpVersion, true, false);
+    }
+
+    protected DefaultHttpMessage(HttpVersion httpVersion, boolean z, boolean z2) {
+        this(httpVersion, z2 ? new CombinedHttpHeaders(z) : new DefaultHttpHeaders(z));
+    }
+
+    protected DefaultHttpMessage(HttpVersion httpVersion, HttpHeaders httpHeaders) {
+        this.version = (HttpVersion) ObjectUtil.checkNotNull(httpVersion, "version");
+        this.headers = (HttpHeaders) ObjectUtil.checkNotNull(httpHeaders, "headers");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpMessage
+    @Deprecated
+    public HttpVersion getProtocolVersion() {
+        return protocolVersion();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.DefaultHttpObject
+    public int hashCode() {
+        return ((((this.headers.hashCode() + 31) * 31) + this.version.hashCode()) * 31) + super.hashCode();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.DefaultHttpObject
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DefaultHttpMessage)) {
+            return false;
+        }
+        DefaultHttpMessage defaultHttpMessage = (DefaultHttpMessage) obj;
+        return headers().equals(defaultHttpMessage.headers()) && protocolVersion().equals(defaultHttpMessage.protocolVersion()) && super.equals(obj);
+    }
+
+    public HttpMessage setProtocolVersion(HttpVersion httpVersion) {
+        this.version = (HttpVersion) ObjectUtil.checkNotNull(httpVersion, "version");
+        return this;
+    }
+}

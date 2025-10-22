@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/alts/internal/RpcProtocolVersionsOrBuilder.java
+// Size: 567 bytes
+// Modified: 2025-10-21 16:32:02.208611300 +0100
+
+package io.grpc.alts.internal;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.alts.internal.RpcProtocolVersions;
+
+/* loaded from: classes2.dex */
+public interface RpcProtocolVersionsOrBuilder extends MessageOrBuilder {
+    RpcProtocolVersions.Version getMaxRpcVersion();
+
+    RpcProtocolVersions.VersionOrBuilder getMaxRpcVersionOrBuilder();
+
+    RpcProtocolVersions.Version getMinRpcVersion();
+
+    RpcProtocolVersions.VersionOrBuilder getMinRpcVersionOrBuilder();
+
+    boolean hasMaxRpcVersion();
+
+    boolean hasMinRpcVersion();
+}

@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/UncheckedTimeoutException.java
+// Size: 646 bytes
+// Modified: 2025-10-21 16:32:00.805493700 +0100
+
+package com.google.common.util.concurrent;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+public class UncheckedTimeoutException extends RuntimeException {
+    private static final long serialVersionUID = 0;
+
+    public UncheckedTimeoutException() {
+    }
+
+    public UncheckedTimeoutException(@NullableDecl String str) {
+        super(str);
+    }
+
+    public UncheckedTimeoutException(@NullableDecl Throwable th) {
+        super(th);
+    }
+
+    public UncheckedTimeoutException(@NullableDecl String str, @NullableDecl Throwable th) {
+        super(str, th);
+    }
+}

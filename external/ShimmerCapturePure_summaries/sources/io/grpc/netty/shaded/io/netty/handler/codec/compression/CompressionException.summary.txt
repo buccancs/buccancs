@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/compression/CompressionException.java
+// Size: 606 bytes
+// Modified: 2025-10-21 16:32:01.453987100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.compression;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.EncoderException;
+
+/* loaded from: classes3.dex */
+public class CompressionException extends EncoderException {
+    private static final long serialVersionUID = 5603413481274811897L;
+
+    public CompressionException() {
+    }
+
+    public CompressionException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public CompressionException(String str) {
+        super(str);
+    }
+
+    public CompressionException(Throwable th) {
+        super(th);
+    }
+}

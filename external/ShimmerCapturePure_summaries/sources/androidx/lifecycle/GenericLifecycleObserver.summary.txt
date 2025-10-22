@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/GenericLifecycleObserver.java
+// Size: 155 bytes
+// Modified: 2025-10-21 16:32:03.342703100 +0100
+
+package androidx.lifecycle;
+
+@Deprecated
+/* loaded from: classes.dex */
+public interface GenericLifecycleObserver extends LifecycleEventObserver {
+}

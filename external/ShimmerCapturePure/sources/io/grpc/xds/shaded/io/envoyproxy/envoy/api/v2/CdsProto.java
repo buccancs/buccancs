@@ -1,0 +1,48 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.api.AnnotationsProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import udpa.annotations.Migrate;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class CdsProto {
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_CdsDummy_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_CdsDummy_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n\u0016envoy/api/v2/cds.proto\u0012\fenvoy.api.v2\u001a\u001cenvoy/api/v2/discovery.proto\u001a\u001cgoogle/api/annotations.proto\u001a envoy/annotations/resource.proto\u001a\u001eudpa/annotations/migrate.proto\u001a\u001dudpa/annotations/status.proto\u001a\u001aenvoy/api/v2/cluster.proto\"\n\n\bCdsDummy2í\u0002\n\u0017ClusterDiscoveryService\u0012W\n\u000eStreamClusters\u0012\u001e.envoy.api.v2.DiscoveryRequest\u001a\u001f.envoy.api.v2.DiscoveryResponse\"\u0000(\u00010\u0001\u0012`\n\rDeltaClusters\u0012#.envoy.api.v2.DeltaDiscoveryRequest\u001a$.envoy.api.v2.DeltaDiscoveryResponse\"\u0000(\u00010\u0001\u0012y\n\rFetchClusters\u0012\u001e.envoy.api.v2.DiscoveryRequest\u001a\u001f.envoy.api.v2.DiscoveryResponse\"'\u0082Óä\u0093\u0002\u0018\"\u0016/v2/discovery:clusters\u0082Óä\u0093\u0002\u0003:\u0001*\u001a\u001c\u008a¤\u0096ó\u0007\u0016\n\u0014envoy.api.v2.ClusterBS\n\u001aio.envoyproxy.envoy.api.v2B\bCdsProtoP\u0001\u0088\u0001\u0001ò\u0098þ\u008f\u0005\u001a\u0012\u0018envoy.service.cluster.v3º\u0080ÈÑ\u0006\u0002\u0010\u0001P\u0005b\u0006proto3"}, new Descriptors.FileDescriptor[]{DiscoveryProto.getDescriptor(), AnnotationsProto.getDescriptor(), envoy.annotations.Resource.getDescriptor(), Migrate.getDescriptor(), Status.getDescriptor(), ClusterProto.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_api_v2_CdsDummy_descriptor = descriptor2;
+        internal_static_envoy_api_v2_CdsDummy_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[0]);
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(envoy.annotations.Resource.resource);
+        extensionRegistryNewInstance.add(AnnotationsProto.http);
+        extensionRegistryNewInstance.add(Migrate.fileMigrate);
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        DiscoveryProto.getDescriptor();
+        AnnotationsProto.getDescriptor();
+        envoy.annotations.Resource.getDescriptor();
+        Migrate.getDescriptor();
+        Status.getDescriptor();
+        ClusterProto.getDescriptor();
+    }
+
+    private CdsProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/StreamIdHolder.java
+// Size: 150 bytes
+// Modified: 2025-10-21 16:32:01.443969200 +0100
+
+package io.grpc.netty;
+
+import io.perfmark.Tag;
+
+/* loaded from: classes2.dex */
+interface StreamIdHolder {
+    int id();
+
+    Tag tag();
+}

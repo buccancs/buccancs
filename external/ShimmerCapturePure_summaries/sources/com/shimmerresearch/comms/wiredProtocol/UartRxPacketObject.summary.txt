@@ -1,0 +1,156 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/wiredProtocol/UartRxPacketObject.java
+// Size: 6526 bytes
+// Modified: 2025-10-21 16:32:05.363669200 +0100
+
+package com.shimmerresearch.comms.wiredProtocol;
+
+import com.shimmerresearch.comms.wiredProtocol.UartPacketDetails;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import java.util.Arrays;
+
+/* loaded from: classes2.dex */
+public class UartRxPacketObject {
+    public static final int UNKNOWN = -1;
+    public byte[] mAmPktPayload;
+    public int mAmPktRadioDestId;
+    public byte mAmPktType;
+    public byte[] mCrc;
+    public byte[] mLeftOverBytes;
+    public byte[] mPayload;
+    public int mPayloadLength;
+    public byte[] mRxPacket;
+    public long mSystemTimeMillis;
+    public byte mUartCommandByte;
+    public byte mUartComponentByte;
+    public byte mUartPropertyByte;
+
+    public byte[] getPayload() {
+        return this.mPayload;
+    }
+
+    public UartRxPacketObject(byte[] bArr) {
+        this.mRxPacket = null;
+        this.mUartCommandByte = (byte) -1;
+        this.mUartComponentByte = (byte) -1;
+        this.mUartPropertyByte = (byte) -1;
+        this.mPayloadLength = -1;
+        this.mPayload = null;
+        this.mCrc = null;
+        this.mAmPktRadioDestId = -1;
+        this.mAmPktType = (byte) -1;
+        this.mAmPktPayload = null;
+        this.mLeftOverBytes = null;
+        this.mSystemTimeMillis = -1L;
+        if (bArr[0] == UartPacketDetails.PACKET_HEADER.getBytes()[0]) {
+            byte b = bArr[1];
+            this.mUartCommandByte = b;
+            int i = 4;
+            if (b == UartPacketDetails.UART_PACKET_CMD.DATA_RESPONSE.toCmdByte() || this.mUartCommandByte == UartPacketDetails.UART_PACKET_CMD.READ.toCmdByte() || this.mUartCommandByte == UartPacketDetails.UART_PACKET_CMD.WRITE.toCmdByte()) {
+                int i2 = bArr[2] & 255;
+                this.mPayloadLength = i2;
+                this.mUartComponentByte = bArr[3];
+                this.mUartPropertyByte = bArr[4];
+                this.mPayload = Arrays.copyOfRange(bArr, 5, i2 + 3);
+                if (this.mUartCommandByte == UartPacketDetails.UART_PACKET_CMD.WRITE.toCmdByte() && this.mUartComponentByte == UartPacketDetails.UART_COMPONENT.RADIO_802154.toCmdByte() && this.mUartPropertyByte == UartPacketDetails.UART_COMPONENT_AND_PROPERTY.RADIO_802154.TX_TO_SHIMMER.mPropertyByte) {
+                    byte[] bArr2 = this.mPayload;
+                    if (bArr2.length >= 3) {
+                        this.mAmPktRadioDestId = ((bArr2[1] & 255) << 8) | (bArr2[0] & 255);
+                        this.mAmPktType = bArr2[2];
+                        if (bArr2.length > 3) {
+                            byte[] bArr3 = new byte[bArr2.length - 3];
+                            this.mAmPktPayload = bArr3;
+                            System.arraycopy(bArr2, 3, bArr3, 0, bArr3.length);
+                        }
+                    }
+                }
+                int i3 = this.mPayloadLength;
+                this.mCrc = Arrays.copyOfRange(bArr, i3 + 4, i3 + 5);
+                i = this.mPayloadLength + 5;
+            } else {
+                this.mCrc = Arrays.copyOfRange(bArr, 2, 3);
+            }
+            this.mRxPacket = Arrays.copyOfRange(bArr, 0, i);
+            if (bArr.length > i) {
+                this.mLeftOverBytes = Arrays.copyOfRange(bArr, i + 1, bArr.length);
+                return;
+            }
+            return;
+        }
+        this.mLeftOverBytes = Arrays.copyOfRange(bArr, 1, bArr.length);
+    }
+
+    public UartRxPacketObject(byte[] bArr, long j) {
+        this(bArr);
+        this.mSystemTimeMillis = j;
+    }
+
+    public UartRxPacketObject() {
+        this.mRxPacket = null;
+        this.mUartCommandByte = (byte) -1;
+        this.mUartComponentByte = (byte) -1;
+        this.mUartPropertyByte = (byte) -1;
+        this.mPayloadLength = -1;
+        this.mPayload = null;
+        this.mCrc = null;
+        this.mAmPktRadioDestId = -1;
+        this.mAmPktType = (byte) -1;
+        this.mAmPktPayload = null;
+        this.mLeftOverBytes = null;
+        this.mSystemTimeMillis = -1L;
+    }
+
+    public String getUartCommandParsed() {
+        UartPacketDetails.UART_PACKET_CMD uartCommandParsed = UartPacketDetails.getUartCommandParsed(this.mUartCommandByte);
+        if (uartCommandParsed != null) {
+            return uartCommandParsed.toString();
+        }
+        return UtilShimmer.byteToHexStringFormatted(this.mUartCommandByte);
+    }
+
+    public String getUartComponentParsed() {
+        UartPacketDetails.UART_COMPONENT uartComponentParsed = UartPacketDetails.getUartComponentParsed(this.mUartComponentByte);
+        if (uartComponentParsed != null) {
+            return uartComponentParsed.toString();
+        }
+        return UtilShimmer.byteToHexStringFormatted(this.mUartComponentByte);
+    }
+
+    public String getUartPropertyParsed() {
+        UartComponentPropertyDetails uartPropertyParsed = UartPacketDetails.getUartPropertyParsed(this.mUartComponentByte, this.mUartPropertyByte);
+        if (uartPropertyParsed != null) {
+            return uartPropertyParsed.mPropertyName;
+        }
+        return UtilShimmer.byteToHexStringFormatted(this.mUartPropertyByte);
+    }
+
+    public String getConsoleString() {
+        String str;
+        String str2;
+        String uartCommandParsed = getUartCommandParsed();
+        String str3 = "";
+        if (this.mUartComponentByte == -1) {
+            str = "";
+        } else {
+            str = "\tComponent:" + getUartComponentParsed();
+        }
+        if (this.mUartPropertyByte == -1) {
+            str2 = "";
+        } else {
+            str2 = "\tProperty:" + getUartPropertyParsed();
+        }
+        String str4 = "Command:" + uartCommandParsed + str + str2;
+        byte[] bArr = this.mPayload;
+        if (bArr != null) {
+            str3 = "\tPayload(" + bArr.length + "):" + UtilShimmer.bytesToHexStringWithSpacesFormatted(bArr);
+        }
+        String str5 = str4 + str3;
+        byte b = this.mAmPktType;
+        if (b == -1) {
+            return str5;
+        }
+        String strByteToHexStringFormatted = UtilShimmer.byteToHexStringFormatted((byte) (b & 255));
+        String strIntToHexStringFormatted = UtilShimmer.intToHexStringFormatted(this.mAmPktRadioDestId, 2, true);
+        byte[] bArr2 = this.mAmPktPayload;
+        return str5 + "\n\tAM Packet -> \tType=" + strByteToHexStringFormatted + "\tDest=" + strIntToHexStringFormatted + "\tPayload=" + (bArr2 == null ? "NULL" : UtilShimmer.bytesToHexStringWithSpacesFormatted(bArr2));
+    }
+}

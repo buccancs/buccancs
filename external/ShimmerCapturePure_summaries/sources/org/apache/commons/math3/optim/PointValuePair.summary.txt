@@ -1,0 +1,52 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/PointValuePair.java
+// Size: 1429 bytes
+// Modified: 2025-10-21 16:32:00.971053800 +0100
+
+package org.apache.commons.math3.optim;
+
+import java.io.Serializable;
+import org.apache.commons.math3.util.Pair;
+
+/* loaded from: classes5.dex */
+public class PointValuePair extends Pair<double[], Double> implements Serializable {
+    private static final long serialVersionUID = 20120513;
+
+    public PointValuePair(double[] dArr, double d) {
+        this(dArr, d, true);
+    }
+
+    public PointValuePair(double[] dArr, double d, boolean z) {
+        super(z ? dArr == null ? null : (double[]) dArr.clone() : dArr, Double.valueOf(d));
+    }
+
+    public double[] getPoint() {
+        double[] key = getKey();
+        if (key == null) {
+            return null;
+        }
+        return (double[]) key.clone();
+    }
+
+    public double[] getPointRef() {
+        return getKey();
+    }
+
+    private Object writeReplace() {
+        return new DataTransferObject(getKey(), getValue().doubleValue());
+    }
+
+    private static class DataTransferObject implements Serializable {
+        private static final long serialVersionUID = 20120513;
+        private final double[] point;
+        private final double value;
+
+        DataTransferObject(double[] dArr, double d) {
+            this.point = (double[]) dArr.clone();
+            this.value = d;
+        }
+
+        private Object readResolve() {
+            return new PointValuePair(this.point, this.value, false);
+        }
+    }
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/html/HtmlEscapers.java
+// Size: 581 bytes
+// Modified: 2025-10-21 16:32:04.912087700 +0100
+
+package com.google.common.html;
+
+import com.google.common.escape.Escaper;
+import com.google.common.escape.Escapers;
+import kotlin.text.Typography;
+
+/* loaded from: classes.dex */
+public final class HtmlEscapers {
+    private static final Escaper HTML_ESCAPER = Escapers.builder().addEscape('\"', "&quot;").addEscape('\'', "&#39;").addEscape(Typography.amp, "&amp;").addEscape(Typography.less, "&lt;").addEscape(Typography.greater, "&gt;").build();
+
+    public static Escaper htmlEscaper() {
+        return HTML_ESCAPER;
+    }
+
+    private HtmlEscapers() {
+    }
+}

@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/BlockingOperationException.java
+// Size: 559 bytes
+// Modified: 2025-10-21 16:32:00.270631800 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+/* loaded from: classes3.dex */
+public class BlockingOperationException extends IllegalStateException {
+    private static final long serialVersionUID = 2462223247762460301L;
+
+    public BlockingOperationException() {
+    }
+
+    public BlockingOperationException(String str) {
+        super(str);
+    }
+
+    public BlockingOperationException(Throwable th) {
+        super(th);
+    }
+
+    public BlockingOperationException(String str, Throwable th) {
+        super(str, th);
+    }
+}

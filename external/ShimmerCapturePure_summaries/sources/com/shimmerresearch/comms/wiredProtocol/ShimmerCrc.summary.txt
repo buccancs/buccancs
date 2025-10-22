@@ -1,0 +1,43 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/wiredProtocol/ShimmerCrc.java
+// Size: 1919 bytes
+// Modified: 2025-10-21 16:32:04.129822600 +0100
+
+package com.shimmerresearch.comms.wiredProtocol;
+
+import com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.sensors.lisxmdl.SensorLIS3MDL;
+
+/* loaded from: classes2.dex */
+public class ShimmerCrc {
+    protected static int shimmerUartCrcByte(int i, byte b) {
+        int i2 = i & 65535;
+        int i3 = ((i2 << 8) | (i2 >>> 8)) ^ (b & 255);
+        int i4 = i3 ^ ((i3 & 255) >>> 4);
+        int i5 = i4 ^ (i4 << 12);
+        return (i5 ^ ((i5 & 255) << 5)) & 65535;
+    }
+
+    public static byte[] shimmerUartCrcCalc(byte[] bArr, int i) {
+        int iShimmerUartCrcByte = shimmerUartCrcByte(45258, bArr[0]);
+        for (int i2 = 1; i2 < i; i2++) {
+            iShimmerUartCrcByte = shimmerUartCrcByte(iShimmerUartCrcByte, bArr[i2]);
+        }
+        if (i % 2 > 0) {
+            iShimmerUartCrcByte = shimmerUartCrcByte(iShimmerUartCrcByte, (byte) 0);
+        }
+        return new byte[]{(byte) (iShimmerUartCrcByte & 255), (byte) ((iShimmerUartCrcByte >> 8) & 255)};
+    }
+
+    public static boolean shimmerUartCrcCheck(byte[] bArr) {
+        byte[] bArrShimmerUartCrcCalc = shimmerUartCrcCalc(bArr, bArr.length - 2);
+        return bArrShimmerUartCrcCalc[0] == bArr[bArr.length + (-2)] && bArrShimmerUartCrcCalc[1] == bArr[bArr.length - 1];
+    }
+
+    public static void main(String[] strArr) {
+        byte[] bArr = {0, -74, -8, ByteSourceJsonBootstrapper.UTF8_BOM_2, -1, -128, 0, 1, -128, 0, 1, -1, -128, 0, 1, -128, 0, 1, ShimmerObject.GET_CALIB_DUMP_COMMAND, SensorLIS3MDL.ALT_MAG_CALIBRATION_RESPONSE};
+        System.out.println("Valid CRC?:\t" + shimmerUartCrcCheck(bArr));
+        System.out.println("CRC Bytes should be [LSB MSB]:\t" + UtilShimmer.bytesToHexStringWithSpacesFormatted(shimmerUartCrcCalc(bArr, 18)));
+    }
+}

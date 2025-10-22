@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/clustering/Clusterable.java
+// Size: 247 bytes
+// Modified: 2025-10-21 16:32:00.547665700 +0100
+
+package org.apache.commons.math3.stat.clustering;
+
+import java.util.Collection;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public interface Clusterable<T> {
+    T centroidOf(Collection<T> collection);
+
+    double distanceFrom(T t);
+}

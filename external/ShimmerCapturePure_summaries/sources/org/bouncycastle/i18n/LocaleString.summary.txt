@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/i18n/LocaleString.java
+// Size: 746 bytes
+// Modified: 2025-10-21 16:32:04.317768200 +0100
+
+package org.bouncycastle.i18n;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Locale;
+
+/* loaded from: classes5.dex */
+public class LocaleString extends LocalizedMessage {
+    public LocaleString(String str, String str2) {
+        super(str, str2);
+    }
+
+    public LocaleString(String str, String str2, String str3) throws UnsupportedEncodingException, NullPointerException {
+        super(str, str2, str3);
+    }
+
+    public LocaleString(String str, String str2, String str3, Object[] objArr) throws UnsupportedEncodingException, NullPointerException {
+        super(str, str2, str3, objArr);
+    }
+
+    public String getLocaleString(Locale locale) {
+        return getEntry(null, locale, null);
+    }
+}

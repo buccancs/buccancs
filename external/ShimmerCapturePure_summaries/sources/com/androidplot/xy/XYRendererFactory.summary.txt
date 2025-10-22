@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/XYRendererFactory.java
+// Size: 100 bytes
+// Modified: 2025-10-21 16:32:00.111060300 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public class XYRendererFactory {
+}

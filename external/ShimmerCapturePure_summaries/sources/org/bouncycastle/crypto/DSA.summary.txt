@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/DSA.java
+// Size: 334 bytes
+// Modified: 2025-10-21 16:32:00.984087300 +0100
+
+package org.bouncycastle.crypto;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public interface DSA {
+    BigInteger[] generateSignature(byte[] bArr);
+
+    void init(boolean z, CipherParameters cipherParameters);
+
+    boolean verifySignature(byte[] bArr, BigInteger bigInteger, BigInteger bigInteger2);
+}

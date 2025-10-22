@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/linear/DefaultFieldMatrixPreservingVisitor.java
+// Size: 1060 bytes
+// Modified: 2025-10-21 16:32:03.251470000 +0100
+
+package org.apache.commons.math.linear;
+
+import org.apache.commons.math.FieldElement;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/DefaultFieldMatrixPreservingVisitor.class */
+public class DefaultFieldMatrixPreservingVisitor<T extends FieldElement<T>> implements FieldMatrixPreservingVisitor<T> {
+    private final T zero;
+
+    public DefaultFieldMatrixPreservingVisitor(T zero) {
+        this.zero = zero;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldMatrixPreservingVisitor
+    public void start(int rows, int columns, int startRow, int endRow, int startColumn, int endColumn) {
+    }
+
+    @Override // org.apache.commons.math.linear.FieldMatrixPreservingVisitor
+    public void visit(int row, int column, T value) throws MatrixVisitorException {
+    }
+
+    @Override // org.apache.commons.math.linear.FieldMatrixPreservingVisitor
+    public T end() {
+        return this.zero;
+    }
+}

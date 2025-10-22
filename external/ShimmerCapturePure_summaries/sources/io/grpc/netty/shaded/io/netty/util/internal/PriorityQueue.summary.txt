@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/PriorityQueue.java
+// Size: 309 bytes
+// Modified: 2025-10-21 16:32:00.269631600 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import java.util.Queue;
+
+/* loaded from: classes3.dex */
+public interface PriorityQueue<T> extends Queue<T> {
+    void clearIgnoringIndexes();
+
+    boolean containsTyped(T t);
+
+    void priorityChanged(T t);
+
+    boolean removeTyped(T t);
+}

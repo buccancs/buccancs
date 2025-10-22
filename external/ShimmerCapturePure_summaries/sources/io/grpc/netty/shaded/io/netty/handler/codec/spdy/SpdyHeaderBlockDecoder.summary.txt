@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyHeaderBlockDecoder.java
+// Size: 700 bytes
+// Modified: 2025-10-21 16:32:06.852856600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+
+/* loaded from: classes3.dex */
+abstract class SpdyHeaderBlockDecoder {
+    abstract void decode(ByteBufAllocator byteBufAllocator, ByteBuf byteBuf, SpdyHeadersFrame spdyHeadersFrame) throws Exception;
+
+    abstract void end();
+
+    abstract void endHeaderBlock(SpdyHeadersFrame spdyHeadersFrame) throws Exception;
+
+    SpdyHeaderBlockDecoder() {
+    }
+
+    static SpdyHeaderBlockDecoder newInstance(SpdyVersion spdyVersion, int i) {
+        return new SpdyHeaderBlockZlibDecoder(spdyVersion, i);
+    }
+}

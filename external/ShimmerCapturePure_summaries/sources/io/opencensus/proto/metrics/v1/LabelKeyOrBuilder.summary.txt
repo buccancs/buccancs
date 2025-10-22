@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/metrics/v1/LabelKeyOrBuilder.java
+// Size: 358 bytes
+// Modified: 2025-10-21 16:32:00.444074500 +0100
+
+package io.opencensus.proto.metrics.v1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface LabelKeyOrBuilder extends MessageOrBuilder {
+    String getDescription();
+
+    ByteString getDescriptionBytes();
+
+    String getKey();
+
+    ByteString getKeyBytes();
+}

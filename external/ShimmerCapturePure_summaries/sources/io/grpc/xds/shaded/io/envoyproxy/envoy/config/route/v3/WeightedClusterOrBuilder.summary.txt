@@ -1,0 +1,35 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/route/v3/WeightedClusterOrBuilder.java
+// Size: 977 bytes
+// Modified: 2025-10-21 16:32:04.287842600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.WeightedCluster;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface WeightedClusterOrBuilder extends MessageOrBuilder {
+    WeightedCluster.ClusterWeight getClusters(int i);
+
+    int getClustersCount();
+
+    List<WeightedCluster.ClusterWeight> getClustersList();
+
+    WeightedCluster.ClusterWeightOrBuilder getClustersOrBuilder(int i);
+
+    List<? extends WeightedCluster.ClusterWeightOrBuilder> getClustersOrBuilderList();
+
+    String getRuntimeKeyPrefix();
+
+    ByteString getRuntimeKeyPrefixBytes();
+
+    UInt32Value getTotalWeight();
+
+    UInt32ValueOrBuilder getTotalWeightOrBuilder();
+
+    boolean hasTotalWeight();
+}

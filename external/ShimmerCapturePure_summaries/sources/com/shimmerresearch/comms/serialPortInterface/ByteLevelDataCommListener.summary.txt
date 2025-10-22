@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/serialPortInterface/ByteLevelDataCommListener.java
+// Size: 201 bytes
+// Modified: 2025-10-21 16:32:00.247764300 +0100
+
+package com.shimmerresearch.comms.serialPortInterface;
+
+/* loaded from: classes2.dex */
+public interface ByteLevelDataCommListener {
+    void eventConnected();
+
+    void eventDisconnected();
+}

@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/services/BinaryLogs.java
+// Size: 671 bytes
+// Modified: 2025-10-21 16:32:05.738706300 +0100
+
+package io.grpc.services;
+
+import io.grpc.BinaryLog;
+import java.io.IOException;
+
+/* loaded from: classes3.dex */
+public final class BinaryLogs {
+    public static BinaryLog createBinaryLog() throws IOException {
+        return new BinaryLogProviderImpl();
+    }
+
+    @Deprecated
+    public static BinaryLog createBinaryLog(BinaryLogSink binaryLogSink) throws IOException {
+        return new BinaryLogProviderImpl(binaryLogSink);
+    }
+
+    public static BinaryLog createBinaryLog(BinaryLogSink binaryLogSink, String str) throws IOException {
+        return new BinaryLogProviderImpl(binaryLogSink, str);
+    }
+
+    private BinaryLogs() {
+    }
+}

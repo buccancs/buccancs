@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/AsyncFunction.java
+// Size: 262 bytes
+// Modified: 2025-10-21 16:32:02.107777900 +0100
+
+package com.google.common.util.concurrent;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+public interface AsyncFunction<I, O> {
+    ListenableFuture<O> apply(@NullableDecl I i) throws Exception;
+}

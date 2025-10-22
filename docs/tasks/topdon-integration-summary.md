@@ -13,10 +13,11 @@ Refresh it whenever new phases land so the hardware story stays discoverable.
 **Objective**  
 Render real-time thermal frames from the TC001 inside `ThermalPreviewScreen`.
 
-**Key Changes**  
-- Added TC001 vendor/product IDs to `app/src/main/res/xml/device_filter.xml`.  
+**Key Changes**
+
+- Added TC001 vendor/product IDs to `app/src/main/res/xml/device_filter.xml`.
 - Switched `DefaultTopdonThermalClient` to `UVCType.USB_TYPE_IR` so the SDK
-  streams raw 16-bit thermal data.  
+  streams raw 16-bit thermal data.
 - Registered `CommonParams.DataFlowMode.USB_STREAM_DIRECT` to bypass H.264
   conversion and feed frames straight into the temperature pipeline.
 
@@ -32,13 +33,14 @@ renders at ~12–15 FPS with correct temperature values.
 Expose palette, emissivity, gain mode, distance, and shutter controls that write
 directly to the TC001 hardware.
 
-**Key Changes**  
+**Key Changes**
+
 - Added IRCMD helpers in `DefaultTopdonThermalClient.applySettings`
-  (`setPalette`, `setEmissivity`, `setDistance`, `setShutterMode`).  
+  (`setPalette`, `setEmissivity`, `setDistance`, `setShutterMode`).
 - Extended the domain models (`TopdonPalette.ARCTIC`, `TopdonGainMode`,
-  emissivity property) and repository APIs (`setEmissivity`, `setGainMode`).  
+  emissivity property) and repository APIs (`setEmissivity`, `setGainMode`).
 - Persisted settings with `DataStoreTopdonSettingsRepository`, mirroring behaviour
-  in the in-memory implementation for simulation.  
+  in the in-memory implementation for simulation.
 - Synced UI state through `TopdonViewModel`, so reconnects reapply stored values.
 
 **Result**  
@@ -66,9 +68,9 @@ Repositories & Clients
 
 ## Next Focus Areas (Phase 3 Candidates)
 
-1. HDR/temperature calibration and advanced noise filtering.  
-2. Hardware-triggered capture (shutter button, burst capture).  
-3. Synchronized RGB/IR recording pipeline with metadata alignment.  
-4. Regression harness that replays captured frames for native regressions.  
-5. Palette/temperature histogram overlay for in-field diagnostics.  
+1. HDR/temperature calibration and advanced noise filtering.
+2. Hardware-triggered capture (shutter button, burst capture).
+3. Synchronized RGB/IR recording pipeline with metadata alignment.
+4. Regression harness that replays captured frames for native regressions.
+5. Palette/temperature histogram overlay for in-field diagnostics.
 6. Refined settings UX (contextual tooltips, grouping, quick presets).

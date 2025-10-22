@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/format/PeriodParser.java
+// Size: 265 bytes
+// Modified: 2025-10-21 16:32:03.325616100 +0100
+
+package org.joda.time.format;
+
+import java.util.Locale;
+import org.joda.time.ReadWritablePeriod;
+
+/* loaded from: classes2.dex */
+public interface PeriodParser {
+    int parseInto(ReadWritablePeriod readWritablePeriod, String str, int i, Locale locale);
+}

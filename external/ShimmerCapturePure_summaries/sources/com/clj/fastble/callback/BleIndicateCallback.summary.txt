@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/callback/BleIndicateCallback.java
+// Size: 378 bytes
+// Modified: 2025-10-21 16:32:01.183245800 +0100
+
+package com.clj.fastble.callback;
+
+import com.clj.fastble.exception.BleException;
+
+/* loaded from: classes.dex */
+public abstract class BleIndicateCallback extends BleBaseCallback {
+    public abstract void onCharacteristicChanged(byte[] bArr);
+
+    public abstract void onIndicateFailure(BleException bleException);
+
+    public abstract void onIndicateSuccess();
+}

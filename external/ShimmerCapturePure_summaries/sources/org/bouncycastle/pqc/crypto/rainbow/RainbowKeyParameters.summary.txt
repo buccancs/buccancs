@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/rainbow/RainbowKeyParameters.java
+// Size: 429 bytes
+// Modified: 2025-10-21 16:32:01.905240100 +0100
+
+package org.bouncycastle.pqc.crypto.rainbow;
+
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+
+/* loaded from: classes5.dex */
+public class RainbowKeyParameters extends AsymmetricKeyParameter {
+    private int docLength;
+
+    public RainbowKeyParameters(boolean z, int i) {
+        super(z);
+        this.docLength = i;
+    }
+
+    public int getDocLength() {
+        return this.docLength;
+    }
+}

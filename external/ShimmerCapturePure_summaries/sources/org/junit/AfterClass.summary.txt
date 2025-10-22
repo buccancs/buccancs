@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/AfterClass.java
+// Size: 325 bytes
+// Modified: 2025-10-21 16:32:00.693136900 +0100
+
+package org.junit;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+/* loaded from: classes2.dex */
+public @interface AfterClass {
+}

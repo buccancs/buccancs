@@ -1,0 +1,519 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes4.dex */
+public final class FilterAction extends GeneratedMessageV3 implements FilterActionOrBuilder {
+    public static final int ACTION_FIELD_NUMBER = 1;
+    private static final FilterAction DEFAULT_INSTANCE = new FilterAction();
+    private static final Parser<FilterAction> PARSER = new AbstractParser<FilterAction>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public FilterAction m27946parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new FilterAction(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private Any action_;
+    private byte memoizedIsInitialized;
+
+    private FilterAction(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private FilterAction() {
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private FilterAction(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                Any any = this.action_;
+                                Any.Builder builder = any != null ? any.toBuilder() : null;
+                                Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                                this.action_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.action_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static FilterAction getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<FilterAction> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return RouteComponentsProto.internal_static_envoy_config_route_v3_FilterAction_descriptor;
+    }
+
+    public static FilterAction parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (FilterAction) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static FilterAction parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (FilterAction) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static FilterAction parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (FilterAction) PARSER.parseFrom(byteString);
+    }
+
+    public static FilterAction parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (FilterAction) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static FilterAction parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (FilterAction) PARSER.parseFrom(bArr);
+    }
+
+    public static FilterAction parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (FilterAction) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static FilterAction parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static FilterAction parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static FilterAction parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static FilterAction parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static FilterAction parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static FilterAction parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m27944toBuilder();
+    }
+
+    public static Builder newBuilder(FilterAction filterAction) {
+        return DEFAULT_INSTANCE.m27944toBuilder().mergeFrom(filterAction);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public FilterAction m27939getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<FilterAction> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterActionOrBuilder
+    public boolean hasAction() {
+        return this.action_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new FilterAction();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return RouteComponentsProto.internal_static_envoy_config_route_v3_FilterAction_fieldAccessorTable.ensureFieldAccessorsInitialized(FilterAction.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterActionOrBuilder
+    public Any getAction() {
+        Any any = this.action_;
+        return any == null ? Any.getDefaultInstance() : any;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterActionOrBuilder
+    public AnyOrBuilder getActionOrBuilder() {
+        return getAction();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.action_ != null) {
+            codedOutputStream.writeMessage(1, getAction());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = (this.action_ != null ? CodedOutputStream.computeMessageSize(1, getAction()) : 0) + this.unknownFields.getSerializedSize();
+        this.memoizedSize = iComputeMessageSize;
+        return iComputeMessageSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof FilterAction)) {
+            return super.equals(obj);
+        }
+        FilterAction filterAction = (FilterAction) obj;
+        if (hasAction() != filterAction.hasAction()) {
+            return false;
+        }
+        return (!hasAction() || getAction().equals(filterAction.getAction())) && this.unknownFields.equals(filterAction.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasAction()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getAction().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m27941newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m27944toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements FilterActionOrBuilder {
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> actionBuilder_;
+        private Any action_;
+
+        private Builder() {
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_FilterAction_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterActionOrBuilder
+        public boolean hasAction() {
+            return (this.actionBuilder_ == null && this.action_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_FilterAction_fieldAccessorTable.ensureFieldAccessorsInitialized(FilterAction.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = FilterAction.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27955clear() {
+            super.clear();
+            if (this.actionBuilder_ == null) {
+                this.action_ = null;
+            } else {
+                this.action_ = null;
+                this.actionBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_FilterAction_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FilterAction m27968getDefaultInstanceForType() {
+            return FilterAction.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FilterAction m27949build() throws UninitializedMessageException {
+            FilterAction filterActionM27951buildPartial = m27951buildPartial();
+            if (filterActionM27951buildPartial.isInitialized()) {
+                return filterActionM27951buildPartial;
+            }
+            throw newUninitializedMessageException(filterActionM27951buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FilterAction m27951buildPartial() {
+            FilterAction filterAction = new FilterAction(this);
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.actionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                filterAction.action_ = this.action_;
+            } else {
+                filterAction.action_ = singleFieldBuilderV3.build();
+            }
+            onBuilt();
+            return filterAction;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27967clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27979setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27957clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27960clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27981setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27947addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m27972mergeFrom(Message message) {
+            if (message instanceof FilterAction) {
+                return mergeFrom((FilterAction) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(FilterAction filterAction) {
+            if (filterAction == FilterAction.getDefaultInstance()) {
+                return this;
+            }
+            if (filterAction.hasAction()) {
+                mergeAction(filterAction.getAction());
+            }
+            m27977mergeUnknownFields(filterAction.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction.Builder m27973mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction.Builder.m27973mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterAction$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterActionOrBuilder
+        public Any getAction() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.actionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Any any = this.action_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        public Builder setAction(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.actionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                any.getClass();
+                this.action_ = any;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(any);
+            }
+            return this;
+        }
+
+        public Builder setAction(Any.Builder builder) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.actionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.action_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeAction(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.actionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Any any2 = this.action_;
+                if (any2 != null) {
+                    this.action_ = Any.newBuilder(any2).mergeFrom(any).buildPartial();
+                } else {
+                    this.action_ = any;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(any);
+            }
+            return this;
+        }
+
+        public Builder clearAction() {
+            if (this.actionBuilder_ == null) {
+                this.action_ = null;
+                onChanged();
+            } else {
+                this.action_ = null;
+                this.actionBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Any.Builder getActionBuilder() {
+            onChanged();
+            return getActionFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.FilterActionOrBuilder
+        public AnyOrBuilder getActionOrBuilder() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.actionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Any any = this.action_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getActionFieldBuilder() {
+            if (this.actionBuilder_ == null) {
+                this.actionBuilder_ = new SingleFieldBuilderV3<>(getAction(), getParentForChildren(), isClean());
+                this.action_ = null;
+            }
+            return this.actionBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m27983setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m27977mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

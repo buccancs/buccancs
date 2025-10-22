@@ -1,0 +1,80 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driverUtilities/ByteUtils.java
+// Size: 2740 bytes
+// Modified: 2025-10-21 16:32:00.303148300 +0100
+
+package com.shimmerresearch.driverUtilities;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+/* loaded from: classes2.dex */
+public class ByteUtils {
+    private static int longSize = 8;
+    private static int shortSize = 8;
+
+    public static byte[] longToBytes(long j) {
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(longSize);
+        byteBufferAllocate.putLong(0, j);
+        return byteBufferAllocate.array();
+    }
+
+    public static long bytesToLong(byte[] bArr) {
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(longSize);
+        byteBufferAllocate.put(bArr, 0, bArr.length);
+        return byteBufferAllocate.getLong();
+    }
+
+    public static long bytesToLong(byte[] bArr, ByteOrder byteOrder) {
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(longSize);
+        byteBufferAllocate.order(byteOrder);
+        byteBufferAllocate.put(bArr, 0, bArr.length);
+        return byteBufferAllocate.getLong();
+    }
+
+    public static byte[] shortToBytes(short s, ByteOrder byteOrder) {
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(shortSize);
+        byteBufferAllocate.putShort(0, s).order(byteOrder);
+        return byteBufferAllocate.array();
+    }
+
+    public static short bytesToShort(byte[] bArr, ByteOrder byteOrder) {
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(2);
+        byteBufferAllocate.order(byteOrder);
+        byteBufferAllocate.put(bArr);
+        return byteBufferAllocate.getShort(0);
+    }
+
+    public static byte[] intToByteArray(int i, ByteOrder byteOrder) {
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(4);
+        byteBufferAllocate.order(byteOrder);
+        byteBufferAllocate.putInt(i);
+        return byteBufferAllocate.array();
+    }
+
+    public static byte[] removeFirstByte(byte[] bArr) {
+        if (bArr == null || bArr.length <= 1) {
+            return new byte[0];
+        }
+        int length = bArr.length - 1;
+        byte[] bArr2 = new byte[length];
+        System.arraycopy(bArr, 1, bArr2, 0, length);
+        return bArr2;
+    }
+
+    public static byte[] removeFirstBytes(byte[] bArr, int i) {
+        if (bArr == null || bArr.length <= i) {
+            return new byte[0];
+        }
+        int length = bArr.length - i;
+        byte[] bArr2 = new byte[length];
+        System.arraycopy(bArr, i, bArr2, 0, length);
+        return bArr2;
+    }
+
+    public static byte[] joinArrays(byte[] bArr, byte[] bArr2) {
+        byte[] bArr3 = new byte[bArr.length + bArr2.length];
+        System.arraycopy(bArr, 0, bArr3, 0, bArr.length);
+        System.arraycopy(bArr2, 0, bArr3, bArr.length, bArr2.length);
+        return bArr3;
+    }
+}

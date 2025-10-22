@@ -1,0 +1,469 @@
+package io.grpc.netty;
+
+import io.netty.handler.codec.Headers;
+import io.netty.handler.codec.http2.Http2Headers;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/* loaded from: classes2.dex */
+abstract class AbstractHttp2Headers implements Http2Headers {
+    AbstractHttp2Headers() {
+    }
+
+    public /* bridge */ /* synthetic */ Headers add(Headers headers) {
+        return m9604add((Headers<? extends CharSequence, ? extends CharSequence, ?>) headers);
+    }
+
+    public /* bridge */ /* synthetic */ Headers add(Object obj, Iterable iterable) {
+        return add((CharSequence) obj, (Iterable<? extends CharSequence>) iterable);
+    }
+
+    public /* bridge */ /* synthetic */ Headers addObject(Object obj, Iterable iterable) {
+        return addObject((CharSequence) obj, (Iterable<?>) iterable);
+    }
+
+    public /* bridge */ /* synthetic */ Headers set(Headers headers) {
+        return m9606set((Headers<? extends CharSequence, ? extends CharSequence, ?>) headers);
+    }
+
+    public /* bridge */ /* synthetic */ Headers set(Object obj, Iterable iterable) {
+        return set((CharSequence) obj, (Iterable<? extends CharSequence>) iterable);
+    }
+
+    public /* bridge */ /* synthetic */ Headers setAll(Headers headers) {
+        return m9607setAll((Headers<? extends CharSequence, ? extends CharSequence, ?>) headers);
+    }
+
+    public /* bridge */ /* synthetic */ Headers setObject(Object obj, Iterable iterable) {
+        return setObject((CharSequence) obj, (Iterable<?>) iterable);
+    }
+
+    public Iterator<CharSequence> valueIterator(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public int size() {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Set<CharSequence> names() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // 
+    public CharSequence get(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence get(CharSequence charSequence, CharSequence charSequence2) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence getAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence getAndRemove(CharSequence charSequence, CharSequence charSequence2) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // 
+    public List<CharSequence> getAll(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public List<CharSequence> getAllAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Boolean getBoolean(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean getBoolean(CharSequence charSequence, boolean z) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Byte getByte(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public byte getByte(CharSequence charSequence, byte b) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Character getChar(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public char getChar(CharSequence charSequence, char c) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Short getShort(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public short getShort(CharSequence charSequence, short s) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Integer getInt(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public int getInt(CharSequence charSequence, int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Long getLong(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public long getLong(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Float getFloat(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public float getFloat(CharSequence charSequence, float f) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Double getDouble(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public double getDouble(CharSequence charSequence, double d) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Long getTimeMillis(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public long getTimeMillis(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Boolean getBooleanAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean getBooleanAndRemove(CharSequence charSequence, boolean z) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Byte getByteAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public byte getByteAndRemove(CharSequence charSequence, byte b) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Character getCharAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public char getCharAndRemove(CharSequence charSequence, char c) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Short getShortAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public short getShortAndRemove(CharSequence charSequence, short s) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Integer getIntAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public int getIntAndRemove(CharSequence charSequence, int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Long getLongAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public long getLongAndRemove(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Float getFloatAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public float getFloatAndRemove(CharSequence charSequence, float f) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Double getDoubleAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public double getDoubleAndRemove(CharSequence charSequence, double d) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Long getTimeMillisAndRemove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public long getTimeMillisAndRemove(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean contains(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean contains(CharSequence charSequence, CharSequence charSequence2) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean contains(CharSequence charSequence, CharSequence charSequence2, boolean z) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsObject(CharSequence charSequence, Object obj) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsBoolean(CharSequence charSequence, boolean z) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsByte(CharSequence charSequence, byte b) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsChar(CharSequence charSequence, char c) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsShort(CharSequence charSequence, short s) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsInt(CharSequence charSequence, int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsLong(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsFloat(CharSequence charSequence, float f) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsDouble(CharSequence charSequence, double d) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean containsTimeMillis(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers add(CharSequence charSequence, CharSequence... charSequenceArr) {
+        throw new UnsupportedOperationException();
+    }
+
+    /* renamed from: add, reason: collision with other method in class */
+    public Http2Headers m9604add(Headers<? extends CharSequence, ? extends CharSequence, ?> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // 
+    public Http2Headers add(CharSequence charSequence, CharSequence charSequence2) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers add(CharSequence charSequence, Iterable<? extends CharSequence> iterable) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addObject(CharSequence charSequence, Object obj) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addObject(CharSequence charSequence, Iterable<?> iterable) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addObject(CharSequence charSequence, Object... objArr) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addBoolean(CharSequence charSequence, boolean z) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addByte(CharSequence charSequence, byte b) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addChar(CharSequence charSequence, char c) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addShort(CharSequence charSequence, short s) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addInt(CharSequence charSequence, int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addLong(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addFloat(CharSequence charSequence, float f) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addDouble(CharSequence charSequence, double d) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers addTimeMillis(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    /* renamed from: set, reason: collision with other method in class */
+    public Http2Headers m9606set(Headers<? extends CharSequence, ? extends CharSequence, ?> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers set(CharSequence charSequence, CharSequence charSequence2) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers set(CharSequence charSequence, Iterable<? extends CharSequence> iterable) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers set(CharSequence charSequence, CharSequence... charSequenceArr) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setObject(CharSequence charSequence, Object obj) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setObject(CharSequence charSequence, Iterable<?> iterable) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setObject(CharSequence charSequence, Object... objArr) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setBoolean(CharSequence charSequence, boolean z) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setByte(CharSequence charSequence, byte b) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setChar(CharSequence charSequence, char c) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setShort(CharSequence charSequence, short s) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setInt(CharSequence charSequence, int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setLong(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setFloat(CharSequence charSequence, float f) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setDouble(CharSequence charSequence, double d) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers setTimeMillis(CharSequence charSequence, long j) {
+        throw new UnsupportedOperationException();
+    }
+
+    /* renamed from: setAll, reason: collision with other method in class */
+    public Http2Headers m9607setAll(Headers<? extends CharSequence, ? extends CharSequence, ?> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean remove(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers clear() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Iterator<Map.Entry<CharSequence, CharSequence>> iterator() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers method(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence method() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers scheme(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence scheme() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers authority(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence authority() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers path(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence path() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Http2Headers status(CharSequence charSequence) {
+        throw new UnsupportedOperationException();
+    }
+
+    public CharSequence status() {
+        throw new UnsupportedOperationException();
+    }
+}

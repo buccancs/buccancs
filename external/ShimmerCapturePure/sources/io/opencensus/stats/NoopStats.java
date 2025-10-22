@@ -1,0 +1,183 @@
+package io.opencensus.stats;
+
+import io.opencensus.common.Functions;
+import io.opencensus.common.Timestamp;
+import io.opencensus.internal.Utils;
+import io.opencensus.stats.Measure;
+import io.opencensus.stats.View;
+import io.opencensus.stats.ViewData;
+import io.opencensus.tags.TagContext;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes4.dex */
+final class NoopStats {
+    private NoopStats() {
+    }
+
+    static StatsComponent newNoopStatsComponent() {
+        return new NoopStatsComponent();
+    }
+
+    static StatsRecorder getNoopStatsRecorder() {
+        return NoopStatsRecorder.INSTANCE;
+    }
+
+    static MeasureMap newNoopMeasureMap() {
+        return new NoopMeasureMap();
+    }
+
+    static ViewManager newNoopViewManager() {
+        return new NoopViewManager();
+    }
+
+    private static final class NoopStatsComponent extends StatsComponent {
+        private final ViewManager viewManager;
+        private volatile boolean isRead;
+
+        private NoopStatsComponent() {
+            this.viewManager = NoopStats.newNoopViewManager();
+        }
+
+        @Override // io.opencensus.stats.StatsComponent
+        public ViewManager getViewManager() {
+            return this.viewManager;
+        }
+
+        @Override // io.opencensus.stats.StatsComponent
+        public StatsRecorder getStatsRecorder() {
+            return NoopStats.getNoopStatsRecorder();
+        }
+
+        @Override // io.opencensus.stats.StatsComponent
+        public StatsCollectionState getState() {
+            this.isRead = true;
+            return StatsCollectionState.DISABLED;
+        }
+
+        @Override // io.opencensus.stats.StatsComponent
+        @Deprecated
+        public void setState(StatsCollectionState statsCollectionState) {
+            Utils.checkNotNull(statsCollectionState, "state");
+            Utils.checkState(!this.isRead, "State was already read, cannot set state.");
+        }
+    }
+
+    private static final class NoopStatsRecorder extends StatsRecorder {
+        static final StatsRecorder INSTANCE = new NoopStatsRecorder();
+
+        private NoopStatsRecorder() {
+        }
+
+        @Override // io.opencensus.stats.StatsRecorder
+        public MeasureMap newMeasureMap() {
+            return NoopStats.newNoopMeasureMap();
+        }
+    }
+
+    private static final class NoopMeasureMap extends MeasureMap {
+        private static final Logger logger = Logger.getLogger(NoopMeasureMap.class.getName());
+        private boolean hasUnsupportedValues;
+
+        private NoopMeasureMap() {
+        }
+
+        @Override // io.opencensus.stats.MeasureMap
+        public MeasureMap put(Measure.MeasureDouble measureDouble, double d) {
+            if (d < 0.0d) {
+                this.hasUnsupportedValues = true;
+            }
+            return this;
+        }
+
+        @Override // io.opencensus.stats.MeasureMap
+        public MeasureMap put(Measure.MeasureLong measureLong, long j) {
+            if (j < 0) {
+                this.hasUnsupportedValues = true;
+            }
+            return this;
+        }
+
+        @Override // io.opencensus.stats.MeasureMap
+        public void record() {
+        }
+
+        @Override // io.opencensus.stats.MeasureMap
+        public void record(TagContext tagContext) {
+            Utils.checkNotNull(tagContext, "tags");
+            if (this.hasUnsupportedValues) {
+                logger.log(Level.WARNING, "Dropping values, value to record must be non-negative.");
+            }
+        }
+    }
+
+    private static final class NoopViewManager extends ViewManager {
+        private static final Timestamp ZERO_TIMESTAMP = Timestamp.create(0, 0);
+        private final Map<View.Name, View> registeredViews;
+        @Nullable
+        private volatile Set<View> exportedViews;
+
+        private NoopViewManager() {
+            this.registeredViews = new HashMap();
+        }
+
+        private static Set<View> filterExportedViews(Collection<View> collection) {
+            HashSet hashSet = new HashSet();
+            for (View view : collection) {
+                if (!(view.getWindow() instanceof View.AggregationWindow.Interval)) {
+                    hashSet.add(view);
+                }
+            }
+            return Collections.unmodifiableSet(hashSet);
+        }
+
+        @Override // io.opencensus.stats.ViewManager
+        public void registerView(View view) {
+            Utils.checkNotNull(view, "newView");
+            synchronized (this.registeredViews) {
+                this.exportedViews = null;
+                View view2 = this.registeredViews.get(view.getName());
+                Utils.checkArgument(view2 == null || view.equals(view2), "A different view with the same name already exists.");
+                if (view2 == null) {
+                    this.registeredViews.put(view.getName(), view);
+                }
+            }
+        }
+
+        @Override // io.opencensus.stats.ViewManager
+        @Nullable
+        public ViewData getView(View.Name name) {
+            Utils.checkNotNull(name, "name");
+            synchronized (this.registeredViews) {
+                View view = this.registeredViews.get(name);
+                if (view == null) {
+                    return null;
+                }
+                Map mapEmptyMap = Collections.emptyMap();
+                View.AggregationWindow window = view.getWindow();
+                Timestamp timestamp = ZERO_TIMESTAMP;
+                return ViewData.create(view, mapEmptyMap, (ViewData.AggregationWindowData) window.match(Functions.returnConstant(ViewData.AggregationWindowData.CumulativeData.create(timestamp, timestamp)), Functions.returnConstant(ViewData.AggregationWindowData.IntervalData.create(timestamp)), Functions.throwAssertionError()));
+            }
+        }
+
+        @Override // io.opencensus.stats.ViewManager
+        public Set<View> getAllExportedViews() {
+            Set<View> setFilterExportedViews = this.exportedViews;
+            if (setFilterExportedViews == null) {
+                synchronized (this.registeredViews) {
+                    setFilterExportedViews = filterExportedViews(this.registeredViews.values());
+                    this.exportedViews = setFilterExportedViews;
+                }
+            }
+            return setFilterExportedViews;
+        }
+    }
+}

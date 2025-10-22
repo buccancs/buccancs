@@ -1,0 +1,6 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/internal/package-info.java
+// Size: 35 bytes
+// Modified: 2025-10-21 16:32:00.325706200 +0100
+
+package io.opencensus.internal;
+

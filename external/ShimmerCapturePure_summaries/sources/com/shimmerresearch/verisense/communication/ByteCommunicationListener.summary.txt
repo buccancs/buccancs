@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/communication/ByteCommunicationListener.java
+// Size: 247 bytes
+// Modified: 2025-10-21 16:32:01.498192000 +0100
+
+package com.shimmerresearch.verisense.communication;
+
+/* loaded from: classes2.dex */
+public interface ByteCommunicationListener {
+    void eventConnected();
+
+    void eventDisconnected();
+
+    void eventNewBytesReceived(byte[] bArr);
+}

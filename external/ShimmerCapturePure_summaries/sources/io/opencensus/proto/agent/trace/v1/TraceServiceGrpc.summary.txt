@@ -1,0 +1,219 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/agent/trace/v1/TraceServiceGrpc.java
+// Size: 10784 bytes
+// Modified: 2025-10-21 16:32:12.985512200 +0100
+
+package io.opencensus.proto.agent.trace.v1;
+
+import com.google.protobuf.Descriptors;
+import io.grpc.BindableService;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.MethodDescriptor;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServiceDescriptor;
+import io.grpc.protobuf.ProtoFileDescriptorSupplier;
+import io.grpc.protobuf.ProtoMethodDescriptorSupplier;
+import io.grpc.protobuf.ProtoServiceDescriptorSupplier;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.stub.AbstractStub;
+import io.grpc.stub.ClientCalls;
+import io.grpc.stub.ServerCalls;
+import io.grpc.stub.StreamObserver;
+
+/* loaded from: classes4.dex */
+public final class TraceServiceGrpc {
+    private static final int METHODID_CONFIG = 0;
+    private static final int METHODID_EXPORT = 1;
+    public static final String SERVICE_NAME = "opencensus.proto.agent.trace.v1.TraceService";
+    private static volatile MethodDescriptor<CurrentLibraryConfig, UpdatedLibraryConfig> getConfigMethod;
+    private static volatile MethodDescriptor<ExportTraceServiceRequest, ExportTraceServiceResponse> getExportMethod;
+    private static volatile ServiceDescriptor serviceDescriptor;
+
+    private TraceServiceGrpc() {
+    }
+
+    public static MethodDescriptor<CurrentLibraryConfig, UpdatedLibraryConfig> getConfigMethod() {
+        MethodDescriptor<CurrentLibraryConfig, UpdatedLibraryConfig> methodDescriptorBuild = getConfigMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (TraceServiceGrpc.class) {
+                methodDescriptorBuild = getConfigMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "Config")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(CurrentLibraryConfig.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(UpdatedLibraryConfig.getDefaultInstance())).setSchemaDescriptor(new TraceServiceMethodDescriptorSupplier("Config")).build();
+                    getConfigMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ExportTraceServiceRequest, ExportTraceServiceResponse> getExportMethod() {
+        MethodDescriptor<ExportTraceServiceRequest, ExportTraceServiceResponse> methodDescriptorBuild = getExportMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (TraceServiceGrpc.class) {
+                methodDescriptorBuild = getExportMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "Export")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ExportTraceServiceRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ExportTraceServiceResponse.getDefaultInstance())).setSchemaDescriptor(new TraceServiceMethodDescriptorSupplier("Export")).build();
+                    getExportMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static TraceServiceStub newStub(Channel channel) {
+        return new TraceServiceStub(channel);
+    }
+
+    public static TraceServiceBlockingStub newBlockingStub(Channel channel) {
+        return new TraceServiceBlockingStub(channel);
+    }
+
+    public static TraceServiceFutureStub newFutureStub(Channel channel) {
+        return new TraceServiceFutureStub(channel);
+    }
+
+    public static abstract class TraceServiceImplBase implements BindableService {
+        public StreamObserver<CurrentLibraryConfig> config(StreamObserver<UpdatedLibraryConfig> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(TraceServiceGrpc.getConfigMethod(), streamObserver);
+        }
+
+        public StreamObserver<ExportTraceServiceRequest> export(StreamObserver<ExportTraceServiceResponse> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(TraceServiceGrpc.getExportMethod(), streamObserver);
+        }
+
+        @Override // io.grpc.BindableService
+        public final ServerServiceDefinition bindService() {
+            return ServerServiceDefinition.builder(TraceServiceGrpc.getServiceDescriptor()).addMethod(TraceServiceGrpc.getConfigMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 0))).addMethod(TraceServiceGrpc.getExportMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 1))).build();
+        }
+    }
+
+    public static final class TraceServiceStub extends AbstractStub<TraceServiceStub> {
+        private TraceServiceStub(Channel channel) {
+            super(channel);
+        }
+
+        private TraceServiceStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public TraceServiceStub build(Channel channel, CallOptions callOptions) {
+            return new TraceServiceStub(channel, callOptions);
+        }
+
+        public StreamObserver<CurrentLibraryConfig> config(StreamObserver<UpdatedLibraryConfig> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(TraceServiceGrpc.getConfigMethod(), getCallOptions()), streamObserver);
+        }
+
+        public StreamObserver<ExportTraceServiceRequest> export(StreamObserver<ExportTraceServiceResponse> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(TraceServiceGrpc.getExportMethod(), getCallOptions()), streamObserver);
+        }
+    }
+
+    public static final class TraceServiceBlockingStub extends AbstractStub<TraceServiceBlockingStub> {
+        private TraceServiceBlockingStub(Channel channel) {
+            super(channel);
+        }
+
+        private TraceServiceBlockingStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public TraceServiceBlockingStub build(Channel channel, CallOptions callOptions) {
+            return new TraceServiceBlockingStub(channel, callOptions);
+        }
+    }
+
+    public static final class TraceServiceFutureStub extends AbstractStub<TraceServiceFutureStub> {
+        private TraceServiceFutureStub(Channel channel) {
+            super(channel);
+        }
+
+        private TraceServiceFutureStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public TraceServiceFutureStub build(Channel channel, CallOptions callOptions) {
+            return new TraceServiceFutureStub(channel, callOptions);
+        }
+    }
+
+    private static final class MethodHandlers<Req, Resp> implements ServerCalls.UnaryMethod<Req, Resp>, ServerCalls.ServerStreamingMethod<Req, Resp>, ServerCalls.ClientStreamingMethod<Req, Resp>, ServerCalls.BidiStreamingMethod<Req, Resp> {
+        private final int methodId;
+        private final TraceServiceImplBase serviceImpl;
+
+        MethodHandlers(TraceServiceImplBase traceServiceImplBase, int i) {
+            this.serviceImpl = traceServiceImplBase;
+            this.methodId = i;
+        }
+
+        @Override // io.grpc.stub.ServerCalls.UnaryMethod, io.grpc.stub.ServerCalls.UnaryRequestMethod, io.grpc.stub.ServerCalls.ServerStreamingMethod
+        public void invoke(Req req, StreamObserver<Resp> streamObserver) {
+            throw new AssertionError();
+        }
+
+        @Override // io.grpc.stub.ServerCalls.ClientStreamingMethod, io.grpc.stub.ServerCalls.StreamingRequestMethod, io.grpc.stub.ServerCalls.BidiStreamingMethod
+        public StreamObserver<Req> invoke(StreamObserver<Resp> streamObserver) {
+            int i = this.methodId;
+            if (i == 0) {
+                return (StreamObserver<Req>) this.serviceImpl.config(streamObserver);
+            }
+            if (i == 1) {
+                return (StreamObserver<Req>) this.serviceImpl.export(streamObserver);
+            }
+            throw new AssertionError();
+        }
+    }
+
+    private static abstract class TraceServiceBaseDescriptorSupplier implements ProtoFileDescriptorSupplier, ProtoServiceDescriptorSupplier {
+        TraceServiceBaseDescriptorSupplier() {
+        }
+
+        @Override // io.grpc.protobuf.ProtoFileDescriptorSupplier
+        public Descriptors.FileDescriptor getFileDescriptor() {
+            return TraceServiceProto.getDescriptor();
+        }
+
+        @Override // io.grpc.protobuf.ProtoServiceDescriptorSupplier
+        public Descriptors.ServiceDescriptor getServiceDescriptor() {
+            return getFileDescriptor().findServiceByName("TraceService");
+        }
+    }
+
+    private static final class TraceServiceFileDescriptorSupplier extends TraceServiceBaseDescriptorSupplier {
+        TraceServiceFileDescriptorSupplier() {
+        }
+    }
+
+    private static final class TraceServiceMethodDescriptorSupplier extends TraceServiceBaseDescriptorSupplier implements ProtoMethodDescriptorSupplier {
+        private final String methodName;
+
+        TraceServiceMethodDescriptorSupplier(String str) {
+            this.methodName = str;
+        }
+
+        @Override // io.grpc.protobuf.ProtoMethodDescriptorSupplier
+        public Descriptors.MethodDescriptor getMethodDescriptor() {
+            return getServiceDescriptor().findMethodByName(this.methodName);
+        }
+    }
+
+    public static ServiceDescriptor getServiceDescriptor() {
+        ServiceDescriptor serviceDescriptorBuild = serviceDescriptor;
+        if (serviceDescriptorBuild == null) {
+            synchronized (TraceServiceGrpc.class) {
+                serviceDescriptorBuild = serviceDescriptor;
+                if (serviceDescriptorBuild == null) {
+                    serviceDescriptorBuild = ServiceDescriptor.newBuilder(SERVICE_NAME).setSchemaDescriptor(new TraceServiceFileDescriptorSupplier()).addMethod(getConfigMethod()).addMethod(getExportMethod()).build();
+                    serviceDescriptor = serviceDescriptorBuild;
+                }
+            }
+        }
+        return serviceDescriptorBuild;
+    }
+}

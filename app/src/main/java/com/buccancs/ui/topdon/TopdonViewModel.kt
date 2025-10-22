@@ -8,18 +8,20 @@ import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.domain.model.TopdonDeviceState
+import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
-import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.repository.TopdonDeviceRepository
 import com.buccancs.domain.repository.TopdonSettingsRepository
 import com.buccancs.ui.components.topdon.MeasurementMode
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget
+import com.buccancs.ui.topdon.thermal.clampToFrame
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Area
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Line
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Spot
+import com.buccancs.ui.topdon.thermal.clampToFrame
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,7 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import kotlin.time.Instant
 

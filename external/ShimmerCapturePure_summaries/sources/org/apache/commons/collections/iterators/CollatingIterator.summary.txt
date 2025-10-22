@@ -1,0 +1,196 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/iterators/CollatingIterator.java
+// Size: 5805 bytes
+// Modified: 2025-10-21 16:32:04.141846600 +0100
+
+package org.apache.commons.collections.iterators;
+
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import org.apache.commons.collections.list.UnmodifiableList;
+
+/* loaded from: classes5.dex */
+public class CollatingIterator implements Iterator {
+    private Comparator comparator;
+    private ArrayList iterators;
+    private int lastReturned;
+    private BitSet valueSet;
+    private ArrayList values;
+
+    public Comparator getComparator() {
+        return this.comparator;
+    }
+
+    public CollatingIterator() {
+        this((Comparator) null, 2);
+    }
+
+    public CollatingIterator(Comparator comparator) {
+        this(comparator, 2);
+    }
+
+    public CollatingIterator(Comparator comparator, int i) throws IllegalStateException {
+        this.comparator = null;
+        this.iterators = null;
+        this.values = null;
+        this.valueSet = null;
+        this.lastReturned = -1;
+        this.iterators = new ArrayList(i);
+        setComparator(comparator);
+    }
+
+    public CollatingIterator(Comparator comparator, Iterator it2, Iterator it3) throws IllegalStateException {
+        this(comparator, 2);
+        addIterator(it2);
+        addIterator(it3);
+    }
+
+    public CollatingIterator(Comparator comparator, Iterator[] itArr) throws IllegalStateException {
+        this(comparator, itArr.length);
+        for (Iterator it2 : itArr) {
+            addIterator(it2);
+        }
+    }
+
+    public CollatingIterator(Comparator comparator, Collection collection) throws IllegalStateException {
+        this(comparator, collection.size());
+        Iterator it2 = collection.iterator();
+        while (it2.hasNext()) {
+            addIterator((Iterator) it2.next());
+        }
+    }
+
+    public void addIterator(Iterator it2) throws IllegalStateException {
+        checkNotStarted();
+        if (it2 == null) {
+            throw new NullPointerException("Iterator must not be null");
+        }
+        this.iterators.add(it2);
+    }
+
+    public void setIterator(int i, Iterator it2) throws IllegalStateException {
+        checkNotStarted();
+        if (it2 == null) {
+            throw new NullPointerException("Iterator must not be null");
+        }
+        this.iterators.set(i, it2);
+    }
+
+    public List getIterators() {
+        return UnmodifiableList.decorate(this.iterators);
+    }
+
+    public void setComparator(Comparator comparator) throws IllegalStateException {
+        checkNotStarted();
+        this.comparator = comparator;
+    }
+
+    @Override // java.util.Iterator
+    public boolean hasNext() {
+        start();
+        return anyValueSet(this.valueSet) || anyHasNext(this.iterators);
+    }
+
+    @Override // java.util.Iterator
+    public Object next() throws NoSuchElementException {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        int iLeast = least();
+        if (iLeast == -1) {
+            throw new NoSuchElementException();
+        }
+        Object obj = this.values.get(iLeast);
+        clear(iLeast);
+        this.lastReturned = iLeast;
+        return obj;
+    }
+
+    @Override // java.util.Iterator
+    public void remove() {
+        int i = this.lastReturned;
+        if (i == -1) {
+            throw new IllegalStateException("No value can be removed at present");
+        }
+        ((Iterator) this.iterators.get(i)).remove();
+    }
+
+    private void start() {
+        if (this.values == null) {
+            this.values = new ArrayList(this.iterators.size());
+            this.valueSet = new BitSet(this.iterators.size());
+            for (int i = 0; i < this.iterators.size(); i++) {
+                this.values.add(null);
+                this.valueSet.clear(i);
+            }
+        }
+    }
+
+    private boolean set(int i) {
+        Iterator it2 = (Iterator) this.iterators.get(i);
+        if (it2.hasNext()) {
+            this.values.set(i, it2.next());
+            this.valueSet.set(i);
+            return true;
+        }
+        this.values.set(i, null);
+        this.valueSet.clear(i);
+        return false;
+    }
+
+    private void clear(int i) {
+        this.values.set(i, null);
+        this.valueSet.clear(i);
+    }
+
+    private void checkNotStarted() throws IllegalStateException {
+        if (this.values != null) {
+            throw new IllegalStateException("Can't do that after next or hasNext has been called.");
+        }
+    }
+
+    private int least() {
+        Object obj = null;
+        int i = -1;
+        for (int i2 = 0; i2 < this.values.size(); i2++) {
+            if (!this.valueSet.get(i2)) {
+                set(i2);
+            }
+            if (this.valueSet.get(i2)) {
+                if (i == -1) {
+                    obj = this.values.get(i2);
+                    i = i2;
+                } else {
+                    Object obj2 = this.values.get(i2);
+                    if (this.comparator.compare(obj2, obj) < 0) {
+                        i = i2;
+                        obj = obj2;
+                    }
+                }
+            }
+        }
+        return i;
+    }
+
+    private boolean anyValueSet(BitSet bitSet) {
+        for (int i = 0; i < bitSet.size(); i++) {
+            if (bitSet.get(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean anyHasNext(ArrayList arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (((Iterator) arrayList.get(i)).hasNext()) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

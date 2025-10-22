@@ -1,0 +1,71 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/endpoint/v3/EndpointComponentsProto.java
+// Size: 7069 bytes
+// Modified: 2025-10-21 16:32:06.338030300 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.WrappersProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.AddressProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BaseProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HealthCheckProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes6.dex */
+public final class EndpointComponentsProto {
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n2envoy/config/endpoint/v3/endpoint_components.proto\u0012\u0018envoy.config.endpoint.v3\u001a\"envoy/config/core/v3/address.proto\u001a\u001fenvoy/config/core/v3/base.proto\u001a'envoy/config/core/v3/health_check.proto\u001a\u001egoogle/protobuf/wrappers.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\u001a\u0017validate/validate.proto\"Å\u0002\n\bEndpoint\u0012.\n\u0007address\u0018\u0001 \u0001(\u000b2\u001d.envoy.config.core.v3.Address\u0012Q\n\u0013health_check_config\u0018\u0002 \u0001(\u000b24.envoy.config.endpoint.v3.Endpoint.HealthCheckConfig\u0012\u0010\n\bhostname\u0018\u0003 \u0001(\t\u001a}\n\u0011HealthCheckConfig\u0012\u001d\n\nport_value\u0018\u0001 \u0001(\rB\túB\u0006*\u0004\u0018ÿÿ\u0003\u0012\u0010\n\bhostname\u0018\u0002 \u0001(\t:7\u009aÅ\u0088\u001e2\n0envoy.api.v2.endpoint.Endpoint.HealthCheckConfig:%\u009aÅ\u0088\u001e \n\u001eenvoy.api.v2.endpoint.Endpoint\"Ì\u0002\n\nLbEndpoint\u00126\n\bendpoint\u0018\u0001 \u0001(\u000b2\".envoy.config.endpoint.v3.EndpointH\u0000\u0012\u0017\n\rendpoint_name\u0018\u0005 \u0001(\tH\u0000\u00129\n\rhealth_status\u0018\u0002 \u0001(\u000e2\".envoy.config.core.v3.HealthStatus\u00120\n\bmetadata\u0018\u0003 \u0001(\u000b2\u001e.envoy.config.core.v3.Metadata\u0012D\n\u0015load_balancing_weight\u0018\u0004 \u0001(\u000b2\u001c.google.protobuf.UInt32ValueB\u0007úB\u0004*\u0002(\u0001:'\u009aÅ\u0088\u001e\"\n envoy.api.v2.endpoint.LbEndpointB\u0011\n\u000fhost_identifier\"È\u0002\n\u0013LocalityLbEndpoints\u00120\n\blocality\u0018\u0001 \u0001(\u000b2\u001e.envoy.config.core.v3.Locality\u0012:\n\flb_endpoints\u0018\u0002 \u0003(\u000b2$.envoy.config.endpoint.v3.LbEndpoint\u0012D\n\u0015load_balancing_weight\u0018\u0003 \u0001(\u000b2\u001c.google.protobuf.UInt32ValueB\u0007úB\u0004*\u0002(\u0001\u0012\u001a\n\bpriority\u0018\u0005 \u0001(\rB\búB\u0005*\u0003\u0018\u0080\u0001\u0012/\n\tproximity\u0018\u0006 \u0001(\u000b2\u001c.google.protobuf.UInt32Value:0\u009aÅ\u0088\u001e+\n)envoy.api.v2.endpoint.LocalityLbEndpointsBK\n&io.envoyproxy.envoy.config.endpoint.v3B\u0017EndpointComponentsProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{AddressProto.getDescriptor(), BaseProto.getDescriptor(), HealthCheckProto.getDescriptor(), WrappersProto.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor(), Validate.getDescriptor()});
+    static final Descriptors.Descriptor internal_static_envoy_config_endpoint_v3_Endpoint_HealthCheckConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_endpoint_v3_Endpoint_HealthCheckConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_endpoint_v3_Endpoint_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_endpoint_v3_Endpoint_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_endpoint_v3_LbEndpoint_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_endpoint_v3_LbEndpoint_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_endpoint_v3_LocalityLbEndpoints_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_endpoint_v3_LocalityLbEndpoints_fieldAccessorTable;
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private EndpointComponentsProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_endpoint_v3_Endpoint_descriptor = descriptor2;
+        internal_static_envoy_config_endpoint_v3_Endpoint_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Address", "HealthCheckConfig", "Hostname"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_envoy_config_endpoint_v3_Endpoint_HealthCheckConfig_descriptor = descriptor3;
+        internal_static_envoy_config_endpoint_v3_Endpoint_HealthCheckConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"PortValue", "Hostname"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_endpoint_v3_LbEndpoint_descriptor = descriptor4;
+        internal_static_envoy_config_endpoint_v3_LbEndpoint_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Endpoint", "EndpointName", "HealthStatus", "Metadata", "LoadBalancingWeight", "HostIdentifier"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_envoy_config_endpoint_v3_LocalityLbEndpoints_descriptor = descriptor5;
+        internal_static_envoy_config_endpoint_v3_LocalityLbEndpoints_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"Locality", "LbEndpoints", "LoadBalancingWeight", "Priority", "Proximity"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        AddressProto.getDescriptor();
+        BaseProto.getDescriptor();
+        HealthCheckProto.getDescriptor();
+        WrappersProto.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+        Validate.getDescriptor();
+    }
+}

@@ -1,0 +1,96 @@
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+import java.util.List;
+import java.util.concurrent.Executor;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLSessionContext;
+
+/* loaded from: classes3.dex */
+public abstract class DelegatingSslContext extends SslContext {
+    private final SslContext ctx;
+
+    protected DelegatingSslContext(SslContext sslContext) {
+        this.ctx = (SslContext) ObjectUtil.checkNotNull(sslContext, "ctx");
+    }
+
+    protected abstract void initEngine(SSLEngine sSLEngine);
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final boolean isClient() {
+        return this.ctx.isClient();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final List<String> cipherSuites() {
+        return this.ctx.cipherSuites();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final long sessionCacheSize() {
+        return this.ctx.sessionCacheSize();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final long sessionTimeout() {
+        return this.ctx.sessionTimeout();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final ApplicationProtocolNegotiator applicationProtocolNegotiator() {
+        return this.ctx.applicationProtocolNegotiator();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final SSLEngine newEngine(ByteBufAllocator byteBufAllocator) {
+        SSLEngine sSLEngineNewEngine = this.ctx.newEngine(byteBufAllocator);
+        initEngine(sSLEngineNewEngine);
+        return sSLEngineNewEngine;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final SSLEngine newEngine(ByteBufAllocator byteBufAllocator, String str, int i) {
+        SSLEngine sSLEngineNewEngine = this.ctx.newEngine(byteBufAllocator, str, i);
+        initEngine(sSLEngineNewEngine);
+        return sSLEngineNewEngine;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    protected final SslHandler newHandler(ByteBufAllocator byteBufAllocator, boolean z) {
+        SslHandler sslHandlerNewHandler = this.ctx.newHandler(byteBufAllocator, z);
+        initHandler(sslHandlerNewHandler);
+        return sslHandlerNewHandler;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    protected final SslHandler newHandler(ByteBufAllocator byteBufAllocator, String str, int i, boolean z) {
+        SslHandler sslHandlerNewHandler = this.ctx.newHandler(byteBufAllocator, str, i, z);
+        initHandler(sslHandlerNewHandler);
+        return sslHandlerNewHandler;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    protected SslHandler newHandler(ByteBufAllocator byteBufAllocator, boolean z, Executor executor) {
+        SslHandler sslHandlerNewHandler = this.ctx.newHandler(byteBufAllocator, z, executor);
+        initHandler(sslHandlerNewHandler);
+        return sslHandlerNewHandler;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    protected SslHandler newHandler(ByteBufAllocator byteBufAllocator, String str, int i, boolean z, Executor executor) {
+        SslHandler sslHandlerNewHandler = this.ctx.newHandler(byteBufAllocator, str, i, z, executor);
+        initHandler(sslHandlerNewHandler);
+        return sslHandlerNewHandler;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+    public final SSLSessionContext sessionContext() {
+        return this.ctx.sessionContext();
+    }
+
+    protected void initHandler(SslHandler sslHandler) {
+        initEngine(sslHandler.engine());
+    }
+}

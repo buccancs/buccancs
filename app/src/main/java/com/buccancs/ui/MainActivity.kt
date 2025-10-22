@@ -116,9 +116,9 @@ class MainActivity :
 
     override fun isRecognisedDevice(device: android.hardware.usb.UsbDevice): Boolean =
         device.vendorId in SUPPORTED_USB_VENDOR_IDS ||
-            device.deviceClass == UsbConstants.USB_CLASS_VIDEO ||
-            (device.deviceClass == UsbConstants.USB_CLASS_MISC &&
-                device.deviceSubclass == USB_SUBCLASS_UVC_COLLECTION)
+                device.deviceClass == UsbConstants.USB_CLASS_VIDEO ||
+                (device.deviceClass == UsbConstants.USB_CLASS_MISC &&
+                        device.deviceSubclass == USB_SUBCLASS_UVC_COLLECTION)
 
     companion object {
         private val SUPPORTED_USB_VENDOR_IDS =
@@ -154,8 +154,8 @@ class MainActivity :
             intent.getStringExtra(EXTRA_SHIMMER_DEVICE_NAME)
         val mode =
             intent.getStringExtra(EXTRA_SHIMMER_AUTO_LAUNCH_MODE)
-                ?.let {
-                    runCatching(ShimmerAutoLaunchMode::valueOf).getOrNull()
+                ?.let { value ->
+                    runCatching { ShimmerAutoLaunchMode.valueOf(value) }.getOrNull()
                 } ?: ShimmerAutoLaunchMode.ASK
 
         shimmerAutoLaunchEvents.tryEmit(

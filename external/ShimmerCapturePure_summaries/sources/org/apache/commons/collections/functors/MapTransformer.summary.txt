@@ -1,0 +1,35 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/MapTransformer.java
+// Size: 853 bytes
+// Modified: 2025-10-21 16:32:02.861767800 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import java.util.Map;
+import org.apache.commons.collections.Transformer;
+
+/* loaded from: classes5.dex */
+public final class MapTransformer implements Transformer, Serializable {
+    private static final long serialVersionUID = 862391807045468939L;
+    private final Map iMap;
+
+    public Map getMap() {
+        return this.iMap;
+    }
+
+    public static Transformer getInstance(Map map) {
+        if (map == null) {
+            return ConstantTransformer.NULL_INSTANCE;
+        }
+        return new MapTransformer(map);
+    }
+
+    private MapTransformer(Map map) {
+        this.iMap = map;
+    }
+
+    @Override // org.apache.commons.collections.Transformer
+    public Object transform(Object obj) {
+        return this.iMap.get(obj);
+    }
+}

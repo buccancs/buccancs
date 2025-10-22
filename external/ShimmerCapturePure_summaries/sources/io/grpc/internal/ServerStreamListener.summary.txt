@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/ServerStreamListener.java
+// Size: 214 bytes
+// Modified: 2025-10-21 16:32:05.373735300 +0100
+
+package io.grpc.internal;
+
+import io.grpc.Status;
+
+/* loaded from: classes2.dex */
+public interface ServerStreamListener extends StreamListener {
+    void closed(Status status);
+
+    void halfClosed();
+}

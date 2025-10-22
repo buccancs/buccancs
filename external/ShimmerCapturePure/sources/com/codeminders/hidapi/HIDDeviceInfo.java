@@ -1,0 +1,66 @@
+package com.codeminders.hidapi;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public class HIDDeviceInfo {
+    private int interface_number;
+    private String manufacturer_string;
+    private String path;
+    private int product_id;
+    private String product_string;
+    private int release_number;
+    private String serial_number;
+    private int usage;
+    private int usage_page;
+    private int vendor_id;
+
+    HIDDeviceInfo() {
+    }
+
+    public int getInterface_number() {
+        return this.interface_number;
+    }
+
+    public String getManufacturer_string() {
+        return this.manufacturer_string;
+    }
+
+    public String getPath() {
+        return this.path;
+    }
+
+    public int getProduct_id() {
+        return this.product_id;
+    }
+
+    public String getProduct_string() {
+        return this.product_string;
+    }
+
+    public int getRelease_number() {
+        return this.release_number;
+    }
+
+    public String getSerial_number() {
+        return this.serial_number;
+    }
+
+    public int getUsage() {
+        return this.usage;
+    }
+
+    public int getUsage_page() {
+        return this.usage_page;
+    }
+
+    public int getVendor_id() {
+        return this.vendor_id;
+    }
+
+    public native HIDDevice open() throws IOException;
+
+    public String toString() {
+        return "HIDDeviceInfo [path=" + this.path + ", vendor_id=" + this.vendor_id + ", product_id=" + this.product_id + ", serial_number=" + this.serial_number + ", release_number=" + this.release_number + ", manufacturer_string=" + this.manufacturer_string + ", product_string=" + this.product_string + ", usage_page=" + this.usage_page + ", usage=" + this.usage + ", interface_number=" + this.interface_number + "]";
+    }
+}

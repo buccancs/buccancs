@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/AbstractEventLoopGroup.java
+// Size: 455 bytes
+// Modified: 2025-10-21 16:32:06.518785900 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.AbstractEventExecutorGroup;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractEventLoopGroup extends AbstractEventExecutorGroup implements EventLoopGroup {
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutorGroup, io.grpc.netty.shaded.io.netty.channel.EventLoopGroup
+    public abstract EventLoop next();
+}

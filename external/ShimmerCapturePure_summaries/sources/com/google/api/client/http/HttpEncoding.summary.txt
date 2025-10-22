@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/HttpEncoding.java
+// Size: 345 bytes
+// Modified: 2025-10-21 16:32:00.788960500 +0100
+
+package com.google.api.client.http;
+
+import com.google.api.client.util.StreamingContent;
+import java.io.IOException;
+import java.io.OutputStream;
+
+/* loaded from: classes.dex */
+public interface HttpEncoding {
+    void encode(StreamingContent streamingContent, OutputStream outputStream) throws IOException;
+
+    String getName();
+}

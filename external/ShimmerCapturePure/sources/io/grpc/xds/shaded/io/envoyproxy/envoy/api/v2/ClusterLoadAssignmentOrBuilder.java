@@ -1,0 +1,47 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ClusterLoadAssignment;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.Endpoint;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpoints;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.LocalityLbEndpointsOrBuilder;
+
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public interface ClusterLoadAssignmentOrBuilder extends MessageOrBuilder {
+    boolean containsNamedEndpoints(String str);
+
+    String getClusterName();
+
+    ByteString getClusterNameBytes();
+
+    LocalityLbEndpoints getEndpoints(int i);
+
+    int getEndpointsCount();
+
+    List<LocalityLbEndpoints> getEndpointsList();
+
+    LocalityLbEndpointsOrBuilder getEndpointsOrBuilder(int i);
+
+    List<? extends LocalityLbEndpointsOrBuilder> getEndpointsOrBuilderList();
+
+    @Deprecated
+    Map<String, Endpoint> getNamedEndpoints();
+
+    int getNamedEndpointsCount();
+
+    Map<String, Endpoint> getNamedEndpointsMap();
+
+    Endpoint getNamedEndpointsOrDefault(String str, Endpoint endpoint);
+
+    Endpoint getNamedEndpointsOrThrow(String str);
+
+    ClusterLoadAssignment.Policy getPolicy();
+
+    ClusterLoadAssignment.PolicyOrBuilder getPolicyOrBuilder();
+
+    boolean hasPolicy();
+}

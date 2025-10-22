@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/interpolator/R.java
+// Size: 119 bytes
+// Modified: 2025-10-21 16:31:59.976774900 +0100
+
+package androidx.interpolator;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

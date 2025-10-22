@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/ControlPlaneOrBuilder.java
+// Size: 326 bytes
+// Modified: 2025-10-21 16:32:00.342794600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface ControlPlaneOrBuilder extends MessageOrBuilder {
+    String getIdentifier();
+
+    ByteString getIdentifierBytes();
+}

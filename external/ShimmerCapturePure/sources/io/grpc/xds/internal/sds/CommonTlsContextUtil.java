@@ -1,0 +1,69 @@
+package io.grpc.xds.internal.sds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.TlsCertificate;
+
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class CommonTlsContextUtil {
+    private CommonTlsContextUtil() {
+    }
+
+    static boolean hasAllSecretsUsingFilename(CommonTlsContext commonTlsContext) {
+        return commonTlsContext != null && (commonTlsContext.getTlsCertificatesCount() > 0 || commonTlsContext.hasValidationContext());
+    }
+
+    static boolean hasAllSecretsUsingSds(CommonTlsContext commonTlsContext) {
+        return commonTlsContext != null && (commonTlsContext.getTlsCertificateSdsSecretConfigsCount() > 0 || commonTlsContext.hasValidationContextSdsSecretConfig());
+    }
+
+    static boolean hasCertProviderInstance(CommonTlsContext commonTlsContext) {
+        return commonTlsContext != null && (commonTlsContext.hasTlsCertificateCertificateProviderInstance() || hasCertProviderValidationContext(commonTlsContext));
+    }
+
+    private static boolean hasCertProviderValidationContext(CommonTlsContext commonTlsContext) {
+        if (commonTlsContext.hasCombinedValidationContext()) {
+            return commonTlsContext.getCombinedValidationContext().hasValidationContextCertificateProviderInstance();
+        }
+        return commonTlsContext.hasValidationContextCertificateProviderInstance();
+    }
+
+    @Nullable
+    static CertificateValidationContext getCertificateValidationContext(CommonTlsContext commonTlsContext) {
+        Preconditions.checkNotNull(commonTlsContext, "commonTlsContext");
+        CommonTlsContext.ValidationContextTypeCase validationContextTypeCase = commonTlsContext.getValidationContextTypeCase();
+        Preconditions.checkState(validationContextTypeCase == CommonTlsContext.ValidationContextTypeCase.VALIDATION_CONTEXT || validationContextTypeCase == CommonTlsContext.ValidationContextTypeCase.VALIDATIONCONTEXTTYPE_NOT_SET, "incorrect ValidationContextTypeCase");
+        if (validationContextTypeCase == CommonTlsContext.ValidationContextTypeCase.VALIDATION_CONTEXT) {
+            return commonTlsContext.getValidationContext();
+        }
+        return null;
+    }
+
+    @Nullable
+    static CertificateValidationContext validateCertificateContext(@Nullable CertificateValidationContext certificateValidationContext, boolean z) {
+        if (certificateValidationContext == null || !certificateValidationContext.hasTrustedCa()) {
+            Preconditions.checkArgument(z, "certContext is required");
+            return null;
+        }
+        Preconditions.checkArgument(certificateValidationContext.getTrustedCa().getSpecifierCase() == DataSource.SpecifierCase.FILENAME, "filename expected");
+        return certificateValidationContext;
+    }
+
+    @Nullable
+    static TlsCertificate validateTlsCertificate(@Nullable TlsCertificate tlsCertificate, boolean z) {
+        if (tlsCertificate == null) {
+            Preconditions.checkArgument(z, "tlsCertificate is required");
+            return null;
+        }
+        if (z && tlsCertificate.getPrivateKey().getSpecifierCase() == DataSource.SpecifierCase.SPECIFIER_NOT_SET && tlsCertificate.getCertificateChain().getSpecifierCase() == DataSource.SpecifierCase.SPECIFIER_NOT_SET) {
+            return null;
+        }
+        Preconditions.checkArgument(tlsCertificate.getPrivateKey().getSpecifierCase() == DataSource.SpecifierCase.FILENAME, "filename expected");
+        Preconditions.checkArgument(tlsCertificate.getCertificateChain().getSpecifierCase() == DataSource.SpecifierCase.FILENAME, "filename expected");
+        return tlsCertificate;
+    }
+}

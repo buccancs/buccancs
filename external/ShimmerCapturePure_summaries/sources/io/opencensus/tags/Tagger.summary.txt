@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/tags/Tagger.java
+// Size: 495 bytes
+// Modified: 2025-10-21 16:32:04.483026200 +0100
+
+package io.opencensus.tags;
+
+import io.opencensus.common.Scope;
+
+/* loaded from: classes4.dex */
+public abstract class Tagger {
+    public abstract TagContextBuilder currentBuilder();
+
+    public abstract TagContext empty();
+
+    public abstract TagContextBuilder emptyBuilder();
+
+    public abstract TagContext getCurrentTagContext();
+
+    public abstract TagContextBuilder toBuilder(TagContext tagContext);
+
+    public abstract Scope withTagContext(TagContext tagContext);
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/modes/gcm/GCMMultiplier.java
+// Size: 181 bytes
+// Modified: 2025-10-21 16:32:00.597291100 +0100
+
+package org.bouncycastle.crypto.modes.gcm;
+
+/* loaded from: classes5.dex */
+public interface GCMMultiplier {
+    void init(byte[] bArr);
+
+    void multiplyH(byte[] bArr);
+}

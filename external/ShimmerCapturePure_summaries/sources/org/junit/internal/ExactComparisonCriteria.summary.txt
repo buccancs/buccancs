@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/ExactComparisonCriteria.java
+// Size: 333 bytes
+// Modified: 2025-10-21 16:32:05.023883600 +0100
+
+package org.junit.internal;
+
+import org.junit.Assert;
+
+/* loaded from: classes2.dex */
+public class ExactComparisonCriteria extends ComparisonCriteria {
+    @Override // org.junit.internal.ComparisonCriteria
+    protected void assertElementsEqual(Object obj, Object obj2) {
+        Assert.assertEquals(obj, obj2);
+    }
+}

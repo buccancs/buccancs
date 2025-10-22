@@ -1,0 +1,1280 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/jtransforms/dct/FloatDCT_2D.java
+// Size: 58791 bytes
+// Modified: 2025-10-21 16:32:09.386812400 +0100
+
+package org.jtransforms.dct;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.math3.util.FastMath;
+import org.jtransforms.utils.CommonUtils;
+import pl.edu.icm.jlargearrays.ConcurrencyUtils;
+import pl.edu.icm.jlargearrays.FloatLargeArray;
+import pl.edu.icm.jlargearrays.LargeArray;
+
+/* loaded from: classes2.dex */
+public class FloatDCT_2D {
+    private int columns;
+    private long columnsl;
+    private FloatDCT_1D dctColumns;
+    private FloatDCT_1D dctRows;
+    private boolean isPowerOfTwo;
+    private int rows;
+    private long rowsl;
+    private boolean useThreads;
+
+    public FloatDCT_2D(long j, long j2) {
+        this.isPowerOfTwo = false;
+        this.useThreads = false;
+        if (j <= 1 || j2 <= 1) {
+            throw new IllegalArgumentException("rows and columns must be greater than 1");
+        }
+        this.rows = (int) j;
+        this.columns = (int) j2;
+        this.rowsl = j;
+        this.columnsl = j2;
+        long j3 = j * j2;
+        if (j3 >= CommonUtils.getThreadsBeginN_2D()) {
+            this.useThreads = true;
+        }
+        if (CommonUtils.isPowerOf2(j) && CommonUtils.isPowerOf2(j2)) {
+            this.isPowerOfTwo = true;
+        }
+        CommonUtils.setUseLargeArrays(j3 > ((long) LargeArray.getMaxSizeOf32bitArray()));
+        FloatDCT_1D floatDCT_1D = new FloatDCT_1D(j);
+        this.dctRows = floatDCT_1D;
+        if (j == j2) {
+            this.dctColumns = floatDCT_1D;
+        } else {
+            this.dctColumns = new FloatDCT_1D(j2);
+        }
+    }
+
+    public void forward(final float[] fArr, final boolean z) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            if (numberOfThreads > 1 && this.useThreads) {
+                ddxt2d_subth(-1, fArr, z);
+                ddxt2d0_subth(-1, fArr, z);
+                return;
+            } else {
+                ddxt2d_sub(-1, fArr, z);
+                while (i3 < this.rows) {
+                    this.dctColumns.forward(fArr, this.columns * i3, z);
+                    i3++;
+                }
+                return;
+            }
+        }
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && this.columns >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i4 = i2 / numberOfThreads;
+            int i5 = 0;
+            while (i5 < numberOfThreads) {
+                final int i6 = i5 * i4;
+                final int i7 = i5 == numberOfThreads + (-1) ? this.rows : i6 + i4;
+                futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i8 = i6; i8 < i7; i8++) {
+                            FloatDCT_2D.this.dctColumns.forward(fArr, FloatDCT_2D.this.columns * i8, z);
+                        }
+                    }
+                });
+                i5++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i8 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i9 = i3 * i8;
+                final int i10 = i3 == numberOfThreads + (-1) ? this.columns : i9 + i8;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.2
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatDCT_2D.this.rows];
+                        for (int i11 = i9; i11 < i10; i11++) {
+                            for (int i12 = 0; i12 < FloatDCT_2D.this.rows; i12++) {
+                                fArr2[i12] = fArr[(FloatDCT_2D.this.columns * i12) + i11];
+                            }
+                            FloatDCT_2D.this.dctRows.forward(fArr2, z);
+                            for (int i13 = 0; i13 < FloatDCT_2D.this.rows; i13++) {
+                                fArr[(FloatDCT_2D.this.columns * i13) + i11] = fArr2[i13];
+                            }
+                        }
+                    }
+                });
+                i3++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e4);
+                return;
+            }
+        }
+        int i11 = 0;
+        while (true) {
+            i = this.rows;
+            if (i11 >= i) {
+                break;
+            }
+            this.dctColumns.forward(fArr, this.columns * i11, z);
+            i11++;
+        }
+        float[] fArr2 = new float[i];
+        for (int i12 = 0; i12 < this.columns; i12++) {
+            for (int i13 = 0; i13 < this.rows; i13++) {
+                fArr2[i13] = fArr[(this.columns * i13) + i12];
+            }
+            this.dctRows.forward(fArr2, z);
+            for (int i14 = 0; i14 < this.rows; i14++) {
+                fArr[(this.columns * i14) + i12] = fArr2[i14];
+            }
+        }
+    }
+
+    public void forward(final FloatLargeArray floatLargeArray, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        if (this.isPowerOfTwo) {
+            if (numberOfThreads > 1 && this.useThreads) {
+                ddxt2d_subth(-1, floatLargeArray, z);
+                ddxt2d0_subth(-1, floatLargeArray, z);
+                return;
+            }
+            ddxt2d_sub(-1, floatLargeArray, z);
+            for (long j = 0; j < this.rowsl; j++) {
+                this.dctColumns.forward(floatLargeArray, this.columnsl * j, z);
+            }
+            return;
+        }
+        int i = 0;
+        if (numberOfThreads > 1 && this.useThreads) {
+            long j2 = this.rowsl;
+            long j3 = numberOfThreads;
+            if (j2 >= j3 && this.columnsl >= j3) {
+                Future[] futureArr = new Future[numberOfThreads];
+                long j4 = j2 / j3;
+                int i2 = 0;
+                while (i2 < numberOfThreads) {
+                    final long j5 = i2 * j4;
+                    final long j6 = i2 == numberOfThreads + (-1) ? this.rowsl : j5 + j4;
+                    futureArr[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.3
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            for (long j7 = j5; j7 < j6; j7++) {
+                                FloatDCT_2D.this.dctColumns.forward(floatLargeArray, FloatDCT_2D.this.columnsl * j7, z);
+                            }
+                        }
+                    });
+                    i2++;
+                    j3 = j3;
+                }
+                long j7 = j3;
+                String str = null;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr);
+                } catch (InterruptedException e) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+                } catch (ExecutionException e2) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+                }
+                long j8 = this.columnsl / j7;
+                while (i < numberOfThreads) {
+                    final long j9 = i * j8;
+                    final long j10 = i == numberOfThreads + (-1) ? this.columnsl : j9 + j8;
+                    futureArr[i] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.4
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            FloatLargeArray floatLargeArray2 = new FloatLargeArray(FloatDCT_2D.this.rowsl, false);
+                            for (long j11 = j9; j11 < j10; j11++) {
+                                for (long j12 = 0; j12 < FloatDCT_2D.this.rowsl; j12++) {
+                                    floatLargeArray2.setFloat(j12, floatLargeArray.getFloat((FloatDCT_2D.this.columnsl * j12) + j11));
+                                }
+                                FloatDCT_2D.this.dctRows.forward(floatLargeArray2, z);
+                                for (long j13 = 0; j13 < FloatDCT_2D.this.rowsl; j13++) {
+                                    floatLargeArray.setFloat((FloatDCT_2D.this.columnsl * j13) + j11, floatLargeArray2.getFloat(j13));
+                                }
+                            }
+                        }
+                    });
+                    i++;
+                    str = str;
+                    numberOfThreads = numberOfThreads;
+                }
+                String str2 = str;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr);
+                    return;
+                } catch (InterruptedException e3) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+                    return;
+                } catch (ExecutionException e4) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+                    return;
+                }
+            }
+        }
+        for (long j11 = 0; j11 < this.rowsl; j11++) {
+            this.dctColumns.forward(floatLargeArray, this.columnsl * j11, z);
+        }
+        FloatLargeArray floatLargeArray2 = new FloatLargeArray(this.rowsl, false);
+        for (long j12 = 0; j12 < this.columnsl; j12++) {
+            for (long j13 = 0; j13 < this.rowsl; j13++) {
+                floatLargeArray2.setFloat(j13, floatLargeArray.getFloat((this.columnsl * j13) + j12));
+            }
+            this.dctRows.forward(floatLargeArray2, z);
+            for (long j14 = 0; j14 < this.rowsl; j14++) {
+                floatLargeArray.setFloat((this.columnsl * j14) + j12, floatLargeArray2.getFloat(j14));
+            }
+        }
+    }
+
+    public void forward(final float[][] fArr, final boolean z) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            if (numberOfThreads > 1 && this.useThreads) {
+                ddxt2d_subth(-1, fArr, z);
+                ddxt2d0_subth(-1, fArr, z);
+                return;
+            } else {
+                ddxt2d_sub(-1, fArr, z);
+                while (i3 < this.rows) {
+                    this.dctColumns.forward(fArr[i3], z);
+                    i3++;
+                }
+                return;
+            }
+        }
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && this.columns >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i4 = i2 / numberOfThreads;
+            int i5 = 0;
+            while (i5 < numberOfThreads) {
+                final int i6 = i5 * i4;
+                final int i7 = i5 == numberOfThreads + (-1) ? this.rows : i6 + i4;
+                futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.5
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i8 = i6; i8 < i7; i8++) {
+                            FloatDCT_2D.this.dctColumns.forward(fArr[i8], z);
+                        }
+                    }
+                });
+                i5++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i8 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i9 = i3 * i8;
+                final int i10 = i3 == numberOfThreads + (-1) ? this.columns : i9 + i8;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.6
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatDCT_2D.this.rows];
+                        for (int i11 = i9; i11 < i10; i11++) {
+                            for (int i12 = 0; i12 < FloatDCT_2D.this.rows; i12++) {
+                                fArr2[i12] = fArr[i12][i11];
+                            }
+                            FloatDCT_2D.this.dctRows.forward(fArr2, z);
+                            for (int i13 = 0; i13 < FloatDCT_2D.this.rows; i13++) {
+                                fArr[i13][i11] = fArr2[i13];
+                            }
+                        }
+                    }
+                });
+                i3++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e4);
+                return;
+            }
+        }
+        int i11 = 0;
+        while (true) {
+            i = this.rows;
+            if (i11 >= i) {
+                break;
+            }
+            this.dctColumns.forward(fArr[i11], z);
+            i11++;
+        }
+        float[] fArr2 = new float[i];
+        for (int i12 = 0; i12 < this.columns; i12++) {
+            for (int i13 = 0; i13 < this.rows; i13++) {
+                fArr2[i13] = fArr[i13][i12];
+            }
+            this.dctRows.forward(fArr2, z);
+            for (int i14 = 0; i14 < this.rows; i14++) {
+                fArr[i14][i12] = fArr2[i14];
+            }
+        }
+    }
+
+    public void inverse(final float[] fArr, final boolean z) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            if (numberOfThreads > 1 && this.useThreads) {
+                ddxt2d_subth(1, fArr, z);
+                ddxt2d0_subth(1, fArr, z);
+                return;
+            } else {
+                ddxt2d_sub(1, fArr, z);
+                while (i3 < this.rows) {
+                    this.dctColumns.inverse(fArr, this.columns * i3, z);
+                    i3++;
+                }
+                return;
+            }
+        }
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && this.columns >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i4 = i2 / numberOfThreads;
+            int i5 = 0;
+            while (i5 < numberOfThreads) {
+                final int i6 = i5 * i4;
+                final int i7 = i5 == numberOfThreads + (-1) ? this.rows : i6 + i4;
+                futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.7
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i8 = i6; i8 < i7; i8++) {
+                            FloatDCT_2D.this.dctColumns.inverse(fArr, FloatDCT_2D.this.columns * i8, z);
+                        }
+                    }
+                });
+                i5++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i8 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i9 = i3 * i8;
+                final int i10 = i3 == numberOfThreads + (-1) ? this.columns : i9 + i8;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.8
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatDCT_2D.this.rows];
+                        for (int i11 = i9; i11 < i10; i11++) {
+                            for (int i12 = 0; i12 < FloatDCT_2D.this.rows; i12++) {
+                                fArr2[i12] = fArr[(FloatDCT_2D.this.columns * i12) + i11];
+                            }
+                            FloatDCT_2D.this.dctRows.inverse(fArr2, z);
+                            for (int i13 = 0; i13 < FloatDCT_2D.this.rows; i13++) {
+                                fArr[(FloatDCT_2D.this.columns * i13) + i11] = fArr2[i13];
+                            }
+                        }
+                    }
+                });
+                i3++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e4);
+                return;
+            }
+        }
+        int i11 = 0;
+        while (true) {
+            i = this.rows;
+            if (i11 >= i) {
+                break;
+            }
+            this.dctColumns.inverse(fArr, this.columns * i11, z);
+            i11++;
+        }
+        float[] fArr2 = new float[i];
+        for (int i12 = 0; i12 < this.columns; i12++) {
+            for (int i13 = 0; i13 < this.rows; i13++) {
+                fArr2[i13] = fArr[(this.columns * i13) + i12];
+            }
+            this.dctRows.inverse(fArr2, z);
+            for (int i14 = 0; i14 < this.rows; i14++) {
+                fArr[(this.columns * i14) + i12] = fArr2[i14];
+            }
+        }
+    }
+
+    public void inverse(final FloatLargeArray floatLargeArray, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        if (this.isPowerOfTwo) {
+            if (numberOfThreads > 1 && this.useThreads) {
+                ddxt2d_subth(1, floatLargeArray, z);
+                ddxt2d0_subth(1, floatLargeArray, z);
+                return;
+            }
+            ddxt2d_sub(1, floatLargeArray, z);
+            for (long j = 0; j < this.rowsl; j++) {
+                this.dctColumns.inverse(floatLargeArray, this.columnsl * j, z);
+            }
+            return;
+        }
+        int i = 0;
+        if (numberOfThreads > 1 && this.useThreads) {
+            long j2 = this.rowsl;
+            long j3 = numberOfThreads;
+            if (j2 >= j3 && this.columnsl >= j3) {
+                Future[] futureArr = new Future[numberOfThreads];
+                long j4 = j2 / j3;
+                int i2 = 0;
+                while (i2 < numberOfThreads) {
+                    final long j5 = i2 * j4;
+                    final long j6 = i2 == numberOfThreads + (-1) ? this.rowsl : j5 + j4;
+                    futureArr[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.9
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            for (long j7 = j5; j7 < j6; j7++) {
+                                FloatDCT_2D.this.dctColumns.inverse(floatLargeArray, FloatDCT_2D.this.columnsl * j7, z);
+                            }
+                        }
+                    });
+                    i2++;
+                    j3 = j3;
+                }
+                long j7 = j3;
+                String str = null;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr);
+                } catch (InterruptedException e) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+                } catch (ExecutionException e2) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+                }
+                long j8 = this.columnsl / j7;
+                while (i < numberOfThreads) {
+                    final long j9 = i * j8;
+                    final long j10 = i == numberOfThreads + (-1) ? this.columnsl : j9 + j8;
+                    futureArr[i] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.10
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            FloatLargeArray floatLargeArray2 = new FloatLargeArray(FloatDCT_2D.this.rowsl, false);
+                            for (long j11 = j9; j11 < j10; j11++) {
+                                for (long j12 = 0; j12 < FloatDCT_2D.this.rowsl; j12++) {
+                                    floatLargeArray2.setFloat(j12, floatLargeArray.getFloat((FloatDCT_2D.this.columnsl * j12) + j11));
+                                }
+                                FloatDCT_2D.this.dctRows.inverse(floatLargeArray2, z);
+                                for (long j13 = 0; j13 < FloatDCT_2D.this.rowsl; j13++) {
+                                    floatLargeArray.setFloat((FloatDCT_2D.this.columnsl * j13) + j11, floatLargeArray2.getFloat(j13));
+                                }
+                            }
+                        }
+                    });
+                    i++;
+                    str = str;
+                    numberOfThreads = numberOfThreads;
+                }
+                String str2 = str;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr);
+                    return;
+                } catch (InterruptedException e3) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+                    return;
+                } catch (ExecutionException e4) {
+                    Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+                    return;
+                }
+            }
+        }
+        for (long j11 = 0; j11 < this.rowsl; j11++) {
+            this.dctColumns.inverse(floatLargeArray, this.columnsl * j11, z);
+        }
+        FloatLargeArray floatLargeArray2 = new FloatLargeArray(this.rowsl, false);
+        for (long j12 = 0; j12 < this.columnsl; j12++) {
+            for (long j13 = 0; j13 < this.rowsl; j13++) {
+                floatLargeArray2.setFloat(j13, floatLargeArray.getFloat((this.columnsl * j13) + j12));
+            }
+            this.dctRows.inverse(floatLargeArray2, z);
+            for (long j14 = 0; j14 < this.rowsl; j14++) {
+                floatLargeArray.setFloat((this.columnsl * j14) + j12, floatLargeArray2.getFloat(j14));
+            }
+        }
+    }
+
+    public void inverse(final float[][] fArr, final boolean z) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            if (numberOfThreads > 1 && this.useThreads) {
+                ddxt2d_subth(1, fArr, z);
+                ddxt2d0_subth(1, fArr, z);
+                return;
+            } else {
+                ddxt2d_sub(1, fArr, z);
+                while (i3 < this.rows) {
+                    this.dctColumns.inverse(fArr[i3], z);
+                    i3++;
+                }
+                return;
+            }
+        }
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && this.columns >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i4 = i2 / numberOfThreads;
+            int i5 = 0;
+            while (i5 < numberOfThreads) {
+                final int i6 = i5 * i4;
+                final int i7 = i5 == numberOfThreads + (-1) ? this.rows : i6 + i4;
+                futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.11
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i8 = i6; i8 < i7; i8++) {
+                            FloatDCT_2D.this.dctColumns.inverse(fArr[i8], z);
+                        }
+                    }
+                });
+                i5++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i8 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i9 = i3 * i8;
+                final int i10 = i3 == numberOfThreads + (-1) ? this.columns : i9 + i8;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.12
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatDCT_2D.this.rows];
+                        for (int i11 = i9; i11 < i10; i11++) {
+                            for (int i12 = 0; i12 < FloatDCT_2D.this.rows; i12++) {
+                                fArr2[i12] = fArr[i12][i11];
+                            }
+                            FloatDCT_2D.this.dctRows.inverse(fArr2, z);
+                            for (int i13 = 0; i13 < FloatDCT_2D.this.rows; i13++) {
+                                fArr[i13][i11] = fArr2[i13];
+                            }
+                        }
+                    }
+                });
+                i3++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e4);
+                return;
+            }
+        }
+        int i11 = 0;
+        while (true) {
+            i = this.rows;
+            if (i11 >= i) {
+                break;
+            }
+            this.dctColumns.inverse(fArr[i11], z);
+            i11++;
+        }
+        float[] fArr2 = new float[i];
+        for (int i12 = 0; i12 < this.columns; i12++) {
+            for (int i13 = 0; i13 < this.rows; i13++) {
+                fArr2[i13] = fArr[i13][i12];
+            }
+            this.dctRows.inverse(fArr2, z);
+            for (int i14 = 0; i14 < this.rows; i14++) {
+                fArr[i14][i12] = fArr2[i14];
+            }
+        }
+    }
+
+    private void ddxt2d_subth(final int i, final float[] fArr, final boolean z) {
+        final int iMin = FastMath.min(this.columns, ConcurrencyUtils.getNumberOfThreads());
+        int i2 = this.rows * 4;
+        int i3 = this.columns;
+        if (i3 == 2) {
+            i2 >>= 1;
+        } else if (i3 < 2) {
+            i2 >>= 2;
+        }
+        final int i4 = i2;
+        Future[] futureArr = new Future[iMin];
+        for (int i5 = 0; i5 < iMin; i5++) {
+            final int i6 = i5;
+            futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.13
+                @Override // java.lang.Runnable
+                public void run() {
+                    float[] fArr2 = new float[i4];
+                    if (FloatDCT_2D.this.columns <= 2) {
+                        if (FloatDCT_2D.this.columns == 2) {
+                            for (int i7 = 0; i7 < FloatDCT_2D.this.rows; i7++) {
+                                int i8 = (FloatDCT_2D.this.columns * i7) + (i6 * 2);
+                                fArr2[i7] = fArr[i8];
+                                fArr2[FloatDCT_2D.this.rows + i7] = fArr[i8 + 1];
+                            }
+                            if (i == -1) {
+                                FloatDCT_2D.this.dctRows.forward(fArr2, 0, z);
+                                FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows, z);
+                            } else {
+                                FloatDCT_2D.this.dctRows.inverse(fArr2, 0, z);
+                                FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows, z);
+                            }
+                            for (int i9 = 0; i9 < FloatDCT_2D.this.rows; i9++) {
+                                int i10 = (FloatDCT_2D.this.columns * i9) + (i6 * 2);
+                                float[] fArr3 = fArr;
+                                fArr3[i10] = fArr2[i9];
+                                fArr3[i10 + 1] = fArr2[FloatDCT_2D.this.rows + i9];
+                            }
+                            return;
+                        }
+                        return;
+                    }
+                    if (i == -1) {
+                        int i11 = i6 * 4;
+                        while (i11 < FloatDCT_2D.this.columns) {
+                            for (int i12 = 0; i12 < FloatDCT_2D.this.rows; i12++) {
+                                int i13 = (FloatDCT_2D.this.columns * i12) + i11;
+                                int i14 = FloatDCT_2D.this.rows + i12;
+                                float[] fArr4 = fArr;
+                                fArr2[i12] = fArr4[i13];
+                                fArr2[i14] = fArr4[i13 + 1];
+                                fArr2[FloatDCT_2D.this.rows + i14] = fArr[i13 + 2];
+                                fArr2[i14 + (FloatDCT_2D.this.rows * 2)] = fArr[i13 + 3];
+                            }
+                            FloatDCT_2D.this.dctRows.forward(fArr2, 0, z);
+                            FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows, z);
+                            FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows * 2, z);
+                            FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows * 3, z);
+                            for (int i15 = 0; i15 < FloatDCT_2D.this.rows; i15++) {
+                                int i16 = (FloatDCT_2D.this.columns * i15) + i11;
+                                int i17 = FloatDCT_2D.this.rows + i15;
+                                float[] fArr5 = fArr;
+                                fArr5[i16] = fArr2[i15];
+                                fArr5[i16 + 1] = fArr2[i17];
+                                fArr5[i16 + 2] = fArr2[FloatDCT_2D.this.rows + i17];
+                                fArr[i16 + 3] = fArr2[i17 + (FloatDCT_2D.this.rows * 2)];
+                            }
+                            i11 += iMin * 4;
+                        }
+                        return;
+                    }
+                    int i18 = i6 * 4;
+                    while (i18 < FloatDCT_2D.this.columns) {
+                        for (int i19 = 0; i19 < FloatDCT_2D.this.rows; i19++) {
+                            int i20 = (FloatDCT_2D.this.columns * i19) + i18;
+                            int i21 = FloatDCT_2D.this.rows + i19;
+                            float[] fArr6 = fArr;
+                            fArr2[i19] = fArr6[i20];
+                            fArr2[i21] = fArr6[i20 + 1];
+                            fArr2[FloatDCT_2D.this.rows + i21] = fArr[i20 + 2];
+                            fArr2[i21 + (FloatDCT_2D.this.rows * 2)] = fArr[i20 + 3];
+                        }
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, z);
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows, z);
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows * 2, z);
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows * 3, z);
+                        for (int i22 = 0; i22 < FloatDCT_2D.this.rows; i22++) {
+                            int i23 = (FloatDCT_2D.this.columns * i22) + i18;
+                            int i24 = FloatDCT_2D.this.rows + i22;
+                            float[] fArr7 = fArr;
+                            fArr7[i23] = fArr2[i22];
+                            fArr7[i23 + 1] = fArr2[i24];
+                            fArr7[i23 + 2] = fArr2[FloatDCT_2D.this.rows + i24];
+                            fArr[i23 + 3] = fArr2[i24 + (FloatDCT_2D.this.rows * 2)];
+                        }
+                        i18 += iMin * 4;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002f A[LOOP:0: B:10:0x002d->B:11:0x002f, LOOP_END] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void ddxt2d_subth(final int r22, final pl.edu.icm.jlargearrays.FloatLargeArray r23, final boolean r24) {
+        /*
+            r21 = this;
+            r12 = r21
+            java.lang.Class<org.jtransforms.dct.FloatDCT_2D> r13 = org.jtransforms.dct.FloatDCT_2D.class
+            long r0 = r12.columnsl
+            int r2 = pl.edu.icm.jlargearrays.ConcurrencyUtils.getNumberOfThreads()
+            long r2 = (long) r2
+            long r0 = org.apache.commons.math3.util.FastMath.min(r0, r2)
+            int r14 = (int) r0
+            r0 = 4
+            long r2 = r12.rowsl
+            long r2 = r2 * r0
+            long r0 = r12.columnsl
+            r4 = 2
+            int r6 = (r0 > r4 ? 1 : (r0 == r4 ? 0 : -1))
+            if (r6 != 0) goto L21
+            r0 = 1
+        L1f:
+            long r2 = r2 >> r0
+            goto L27
+        L21:
+            int r6 = (r0 > r4 ? 1 : (r0 == r4 ? 0 : -1))
+            if (r6 >= 0) goto L27
+            r0 = 2
+            goto L1f
+        L27:
+            r15 = r2
+            long r10 = (long) r14
+            java.util.concurrent.Future[] r0 = new java.util.concurrent.Future[r14]
+            r1 = 0
+            r8 = 0
+        L2d:
+            if (r8 >= r14) goto L50
+            long r6 = (long) r8
+            org.jtransforms.dct.FloatDCT_2D$14 r17 = new org.jtransforms.dct.FloatDCT_2D$14
+            r1 = r17
+            r2 = r21
+            r3 = r15
+            r5 = r22
+            r18 = r8
+            r8 = r10
+            r19 = r10
+            r10 = r23
+            r11 = r24
+            r1.<init>()
+            java.util.concurrent.Future r1 = pl.edu.icm.jlargearrays.ConcurrencyUtils.submit(r17)
+            r0[r18] = r1
+            int r8 = r18 + 1
+            r10 = r19
+            goto L2d
+        L50:
+            r1 = 0
+            pl.edu.icm.jlargearrays.ConcurrencyUtils.waitForCompletion(r0)     // Catch: java.util.concurrent.ExecutionException -> L55 java.lang.InterruptedException -> L65
+            goto L74
+        L55:
+            r0 = move-exception
+            r2 = r0
+            java.lang.String r0 = r13.getName()
+            java.util.logging.Logger r0 = java.util.logging.Logger.getLogger(r0)
+            java.util.logging.Level r3 = java.util.logging.Level.SEVERE
+            r0.log(r3, r1, r2)
+            goto L74
+        L65:
+            r0 = move-exception
+            r2 = r0
+            java.lang.String r0 = r13.getName()
+            java.util.logging.Logger r0 = java.util.logging.Logger.getLogger(r0)
+            java.util.logging.Level r3 = java.util.logging.Level.SEVERE
+            r0.log(r3, r1, r2)
+        L74:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.jtransforms.dct.FloatDCT_2D.ddxt2d_subth(int, pl.edu.icm.jlargearrays.FloatLargeArray, boolean):void");
+    }
+
+    private void ddxt2d_subth(final int i, final float[][] fArr, final boolean z) {
+        final int iMin = FastMath.min(this.columns, ConcurrencyUtils.getNumberOfThreads());
+        int i2 = this.rows * 4;
+        int i3 = this.columns;
+        if (i3 == 2) {
+            i2 >>= 1;
+        } else if (i3 < 2) {
+            i2 >>= 2;
+        }
+        final int i4 = i2;
+        Future[] futureArr = new Future[iMin];
+        for (int i5 = 0; i5 < iMin; i5++) {
+            final int i6 = i5;
+            futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.15
+                @Override // java.lang.Runnable
+                public void run() {
+                    float[] fArr2 = new float[i4];
+                    if (FloatDCT_2D.this.columns <= 2) {
+                        if (FloatDCT_2D.this.columns == 2) {
+                            for (int i7 = 0; i7 < FloatDCT_2D.this.rows; i7++) {
+                                fArr2[i7] = fArr[i7][i6 * 2];
+                                fArr2[FloatDCT_2D.this.rows + i7] = fArr[i7][(i6 * 2) + 1];
+                            }
+                            if (i == -1) {
+                                FloatDCT_2D.this.dctRows.forward(fArr2, 0, z);
+                                FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows, z);
+                            } else {
+                                FloatDCT_2D.this.dctRows.inverse(fArr2, 0, z);
+                                FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows, z);
+                            }
+                            for (int i8 = 0; i8 < FloatDCT_2D.this.rows; i8++) {
+                                float[] fArr3 = fArr[i8];
+                                int i9 = i6;
+                                fArr3[i9 * 2] = fArr2[i8];
+                                fArr3[(i9 * 2) + 1] = fArr2[FloatDCT_2D.this.rows + i8];
+                            }
+                            return;
+                        }
+                        return;
+                    }
+                    if (i == -1) {
+                        int i10 = i6 * 4;
+                        while (i10 < FloatDCT_2D.this.columns) {
+                            for (int i11 = 0; i11 < FloatDCT_2D.this.rows; i11++) {
+                                int i12 = FloatDCT_2D.this.rows + i11;
+                                float[] fArr4 = fArr[i11];
+                                fArr2[i11] = fArr4[i10];
+                                fArr2[i12] = fArr4[i10 + 1];
+                                fArr2[FloatDCT_2D.this.rows + i12] = fArr[i11][i10 + 2];
+                                fArr2[i12 + (FloatDCT_2D.this.rows * 2)] = fArr[i11][i10 + 3];
+                            }
+                            FloatDCT_2D.this.dctRows.forward(fArr2, 0, z);
+                            FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows, z);
+                            FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows * 2, z);
+                            FloatDCT_2D.this.dctRows.forward(fArr2, FloatDCT_2D.this.rows * 3, z);
+                            for (int i13 = 0; i13 < FloatDCT_2D.this.rows; i13++) {
+                                int i14 = FloatDCT_2D.this.rows + i13;
+                                float[] fArr5 = fArr[i13];
+                                fArr5[i10] = fArr2[i13];
+                                fArr5[i10 + 1] = fArr2[i14];
+                                fArr5[i10 + 2] = fArr2[FloatDCT_2D.this.rows + i14];
+                                fArr[i13][i10 + 3] = fArr2[i14 + (FloatDCT_2D.this.rows * 2)];
+                            }
+                            i10 += iMin * 4;
+                        }
+                        return;
+                    }
+                    int i15 = i6 * 4;
+                    while (i15 < FloatDCT_2D.this.columns) {
+                        for (int i16 = 0; i16 < FloatDCT_2D.this.rows; i16++) {
+                            int i17 = FloatDCT_2D.this.rows + i16;
+                            float[] fArr6 = fArr[i16];
+                            fArr2[i16] = fArr6[i15];
+                            fArr2[i17] = fArr6[i15 + 1];
+                            fArr2[FloatDCT_2D.this.rows + i17] = fArr[i16][i15 + 2];
+                            fArr2[i17 + (FloatDCT_2D.this.rows * 2)] = fArr[i16][i15 + 3];
+                        }
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, 0, z);
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows, z);
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows * 2, z);
+                        FloatDCT_2D.this.dctRows.inverse(fArr2, FloatDCT_2D.this.rows * 3, z);
+                        for (int i18 = 0; i18 < FloatDCT_2D.this.rows; i18++) {
+                            int i19 = FloatDCT_2D.this.rows + i18;
+                            float[] fArr7 = fArr[i18];
+                            fArr7[i15] = fArr2[i18];
+                            fArr7[i15 + 1] = fArr2[i19];
+                            fArr7[i15 + 2] = fArr2[FloatDCT_2D.this.rows + i19];
+                            fArr[i18][i15 + 3] = fArr2[i19 + (FloatDCT_2D.this.rows * 2)];
+                        }
+                        i15 += iMin * 4;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void ddxt2d0_subth(final int i, final float[] fArr, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int numberOfThreads2 = this.rows;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        Future[] futureArr = new Future[numberOfThreads2];
+        for (int i2 = 0; i2 < numberOfThreads2; i2++) {
+            final int i3 = i2;
+            final int i4 = numberOfThreads2;
+            futureArr[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.16
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (i == -1) {
+                        int i5 = i3;
+                        while (i5 < FloatDCT_2D.this.rows) {
+                            FloatDCT_2D.this.dctColumns.forward(fArr, FloatDCT_2D.this.columns * i5, z);
+                            i5 += i4;
+                        }
+                        return;
+                    }
+                    int i6 = i3;
+                    while (i6 < FloatDCT_2D.this.rows) {
+                        FloatDCT_2D.this.dctColumns.inverse(fArr, FloatDCT_2D.this.columns * i6, z);
+                        i6 += i4;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void ddxt2d0_subth(final int i, final FloatLargeArray floatLargeArray, final boolean z) {
+        long numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        long numberOfThreads2 = this.rowsl;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        final int i2 = (int) numberOfThreads2;
+        Future[] futureArr = new Future[i2];
+        for (int i3 = 0; i3 < i2; i3++) {
+            final int i4 = i3;
+            futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.17
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (i == -1) {
+                        long j = i4;
+                        while (j < FloatDCT_2D.this.rowsl) {
+                            FloatDCT_2D.this.dctColumns.forward(floatLargeArray, FloatDCT_2D.this.columnsl * j, z);
+                            j += i2;
+                        }
+                        return;
+                    }
+                    long j2 = i4;
+                    while (j2 < FloatDCT_2D.this.rowsl) {
+                        FloatDCT_2D.this.dctColumns.inverse(floatLargeArray, FloatDCT_2D.this.columnsl * j2, z);
+                        j2 += i2;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void ddxt2d0_subth(final int i, final float[][] fArr, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int numberOfThreads2 = this.rows;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        Future[] futureArr = new Future[numberOfThreads2];
+        for (int i2 = 0; i2 < numberOfThreads2; i2++) {
+            final int i3 = i2;
+            final int i4 = numberOfThreads2;
+            futureArr[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dct.FloatDCT_2D.18
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (i == -1) {
+                        int i5 = i3;
+                        while (i5 < FloatDCT_2D.this.rows) {
+                            FloatDCT_2D.this.dctColumns.forward(fArr[i5], z);
+                            i5 += i4;
+                        }
+                        return;
+                    }
+                    int i6 = i3;
+                    while (i6 < FloatDCT_2D.this.rows) {
+                        FloatDCT_2D.this.dctColumns.inverse(fArr[i6], z);
+                        i6 += i4;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatDCT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void ddxt2d_sub(int i, float[] fArr, boolean z) {
+        int i2 = this.rows * 4;
+        int i3 = this.columns;
+        if (i3 == 2) {
+            i2 >>= 1;
+        } else if (i3 < 2) {
+            i2 >>= 2;
+        }
+        float[] fArr2 = new float[i2];
+        int i4 = 0;
+        if (i3 > 2) {
+            if (i == -1) {
+                for (int i5 = 0; i5 < this.columns; i5 += 4) {
+                    int i6 = 0;
+                    while (true) {
+                        int i7 = this.rows;
+                        if (i6 >= i7) {
+                            break;
+                        }
+                        int i8 = (this.columns * i6) + i5;
+                        int i9 = i7 + i6;
+                        fArr2[i6] = fArr[i8];
+                        fArr2[i9] = fArr[i8 + 1];
+                        fArr2[i9 + i7] = fArr[i8 + 2];
+                        fArr2[i9 + (i7 * 2)] = fArr[i8 + 3];
+                        i6++;
+                    }
+                    this.dctRows.forward(fArr2, 0, z);
+                    this.dctRows.forward(fArr2, this.rows, z);
+                    this.dctRows.forward(fArr2, this.rows * 2, z);
+                    this.dctRows.forward(fArr2, this.rows * 3, z);
+                    int i10 = 0;
+                    while (true) {
+                        int i11 = this.rows;
+                        if (i10 < i11) {
+                            int i12 = (this.columns * i10) + i5;
+                            int i13 = i11 + i10;
+                            fArr[i12] = fArr2[i10];
+                            fArr[i12 + 1] = fArr2[i13];
+                            fArr[i12 + 2] = fArr2[i13 + i11];
+                            fArr[i12 + 3] = fArr2[i13 + (i11 * 2)];
+                            i10++;
+                        }
+                    }
+                }
+                return;
+            }
+            for (int i14 = 0; i14 < this.columns; i14 += 4) {
+                int i15 = 0;
+                while (true) {
+                    int i16 = this.rows;
+                    if (i15 >= i16) {
+                        break;
+                    }
+                    int i17 = (this.columns * i15) + i14;
+                    int i18 = i16 + i15;
+                    fArr2[i15] = fArr[i17];
+                    fArr2[i18] = fArr[i17 + 1];
+                    fArr2[i18 + i16] = fArr[i17 + 2];
+                    fArr2[i18 + (i16 * 2)] = fArr[i17 + 3];
+                    i15++;
+                }
+                this.dctRows.inverse(fArr2, 0, z);
+                this.dctRows.inverse(fArr2, this.rows, z);
+                this.dctRows.inverse(fArr2, this.rows * 2, z);
+                this.dctRows.inverse(fArr2, this.rows * 3, z);
+                int i19 = 0;
+                while (true) {
+                    int i20 = this.rows;
+                    if (i19 < i20) {
+                        int i21 = (this.columns * i19) + i14;
+                        int i22 = i20 + i19;
+                        fArr[i21] = fArr2[i19];
+                        fArr[i21 + 1] = fArr2[i22];
+                        fArr[i21 + 2] = fArr2[i22 + i20];
+                        fArr[i21 + 3] = fArr2[i22 + (i20 * 2)];
+                        i19++;
+                    }
+                }
+            }
+            return;
+        }
+        if (i3 != 2) {
+            return;
+        }
+        int i23 = 0;
+        while (true) {
+            int i24 = this.rows;
+            if (i23 >= i24) {
+                break;
+            }
+            int i25 = this.columns * i23;
+            fArr2[i23] = fArr[i25];
+            fArr2[i24 + i23] = fArr[i25 + 1];
+            i23++;
+        }
+        if (i == -1) {
+            this.dctRows.forward(fArr2, 0, z);
+            this.dctRows.forward(fArr2, this.rows, z);
+        } else {
+            this.dctRows.inverse(fArr2, 0, z);
+            this.dctRows.inverse(fArr2, this.rows, z);
+        }
+        while (true) {
+            int i26 = this.rows;
+            if (i4 >= i26) {
+                return;
+            }
+            int i27 = this.columns * i4;
+            fArr[i27] = fArr2[i4];
+            fArr[i27 + 1] = fArr2[i26 + i4];
+            i4++;
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x01ad  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void ddxt2d_sub(int r25, pl.edu.icm.jlargearrays.FloatLargeArray r26, boolean r27) {
+        /*
+            Method dump skipped, instructions count: 534
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.jtransforms.dct.FloatDCT_2D.ddxt2d_sub(int, pl.edu.icm.jlargearrays.FloatLargeArray, boolean):void");
+    }
+
+    private void ddxt2d_sub(int i, float[][] fArr, boolean z) {
+        int i2 = this.rows * 4;
+        int i3 = this.columns;
+        if (i3 == 2) {
+            i2 >>= 1;
+        } else if (i3 < 2) {
+            i2 >>= 2;
+        }
+        float[] fArr2 = new float[i2];
+        if (i3 > 2) {
+            if (i == -1) {
+                for (int i4 = 0; i4 < this.columns; i4 += 4) {
+                    int i5 = 0;
+                    while (true) {
+                        int i6 = this.rows;
+                        if (i5 >= i6) {
+                            break;
+                        }
+                        int i7 = i6 + i5;
+                        float[] fArr3 = fArr[i5];
+                        fArr2[i5] = fArr3[i4];
+                        fArr2[i7] = fArr3[i4 + 1];
+                        fArr2[i7 + i6] = fArr3[i4 + 2];
+                        fArr2[i7 + (i6 * 2)] = fArr3[i4 + 3];
+                        i5++;
+                    }
+                    this.dctRows.forward(fArr2, 0, z);
+                    this.dctRows.forward(fArr2, this.rows, z);
+                    this.dctRows.forward(fArr2, this.rows * 2, z);
+                    this.dctRows.forward(fArr2, this.rows * 3, z);
+                    int i8 = 0;
+                    while (true) {
+                        int i9 = this.rows;
+                        if (i8 < i9) {
+                            int i10 = i9 + i8;
+                            float[] fArr4 = fArr[i8];
+                            fArr4[i4] = fArr2[i8];
+                            fArr4[i4 + 1] = fArr2[i10];
+                            fArr4[i4 + 2] = fArr2[i10 + i9];
+                            fArr4[i4 + 3] = fArr2[i10 + (i9 * 2)];
+                            i8++;
+                        }
+                    }
+                }
+                return;
+            }
+            for (int i11 = 0; i11 < this.columns; i11 += 4) {
+                int i12 = 0;
+                while (true) {
+                    int i13 = this.rows;
+                    if (i12 >= i13) {
+                        break;
+                    }
+                    int i14 = i13 + i12;
+                    float[] fArr5 = fArr[i12];
+                    fArr2[i12] = fArr5[i11];
+                    fArr2[i14] = fArr5[i11 + 1];
+                    fArr2[i14 + i13] = fArr5[i11 + 2];
+                    fArr2[i14 + (i13 * 2)] = fArr5[i11 + 3];
+                    i12++;
+                }
+                this.dctRows.inverse(fArr2, 0, z);
+                this.dctRows.inverse(fArr2, this.rows, z);
+                this.dctRows.inverse(fArr2, this.rows * 2, z);
+                this.dctRows.inverse(fArr2, this.rows * 3, z);
+                int i15 = 0;
+                while (true) {
+                    int i16 = this.rows;
+                    if (i15 < i16) {
+                        int i17 = i16 + i15;
+                        float[] fArr6 = fArr[i15];
+                        fArr6[i11] = fArr2[i15];
+                        fArr6[i11 + 1] = fArr2[i17];
+                        fArr6[i11 + 2] = fArr2[i17 + i16];
+                        fArr6[i11 + 3] = fArr2[i17 + (i16 * 2)];
+                        i15++;
+                    }
+                }
+            }
+            return;
+        }
+        if (i3 != 2) {
+            return;
+        }
+        int i18 = 0;
+        while (true) {
+            int i19 = this.rows;
+            if (i18 >= i19) {
+                break;
+            }
+            float[] fArr7 = fArr[i18];
+            fArr2[i18] = fArr7[0];
+            fArr2[i19 + i18] = fArr7[1];
+            i18++;
+        }
+        if (i == -1) {
+            this.dctRows.forward(fArr2, 0, z);
+            this.dctRows.forward(fArr2, this.rows, z);
+        } else {
+            this.dctRows.inverse(fArr2, 0, z);
+            this.dctRows.inverse(fArr2, this.rows, z);
+        }
+        int i20 = 0;
+        while (true) {
+            int i21 = this.rows;
+            if (i20 >= i21) {
+                return;
+            }
+            float[] fArr8 = fArr[i20];
+            fArr8[0] = fArr2[i20];
+            fArr8[1] = fArr2[i21 + i20];
+            i20++;
+        }
+    }
+}

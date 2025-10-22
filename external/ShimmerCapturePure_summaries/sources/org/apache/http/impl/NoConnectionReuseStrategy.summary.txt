@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/impl/NoConnectionReuseStrategy.java
+// Size: 550 bytes
+// Modified: 2025-10-21 16:32:04.773009500 +0100
+
+package org.apache.http.impl;
+
+import org.apache.http.ConnectionReuseStrategy;
+import org.apache.http.HttpResponse;
+import org.apache.http.protocol.HttpContext;
+
+/* loaded from: classes5.dex */
+public class NoConnectionReuseStrategy implements ConnectionReuseStrategy {
+    public static final NoConnectionReuseStrategy INSTANCE = new NoConnectionReuseStrategy();
+
+    @Override // org.apache.http.ConnectionReuseStrategy
+    public boolean keepAlive(HttpResponse httpResponse, HttpContext httpContext) {
+        return false;
+    }
+}

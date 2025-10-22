@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/XYFramingModel.java
+// Size: 119 bytes
+// Modified: 2025-10-21 16:32:00.097918000 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public enum XYFramingModel {
+    ORIGIN,
+    EDGE
+}

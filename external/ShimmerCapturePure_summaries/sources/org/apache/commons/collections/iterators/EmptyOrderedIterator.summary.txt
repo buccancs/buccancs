@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/iterators/EmptyOrderedIterator.java
+// Size: 449 bytes
+// Modified: 2025-10-21 16:32:02.864768500 +0100
+
+package org.apache.commons.collections.iterators;
+
+import org.apache.commons.collections.OrderedIterator;
+import org.apache.commons.collections.ResettableIterator;
+
+/* loaded from: classes5.dex */
+public class EmptyOrderedIterator extends AbstractEmptyIterator implements OrderedIterator, ResettableIterator {
+    public static final OrderedIterator INSTANCE = new EmptyOrderedIterator();
+
+    protected EmptyOrderedIterator() {
+    }
+}

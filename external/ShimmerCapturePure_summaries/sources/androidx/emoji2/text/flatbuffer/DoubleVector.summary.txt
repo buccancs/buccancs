@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/emoji2/text/flatbuffer/DoubleVector.java
+// Size: 385 bytes
+// Modified: 2025-10-21 16:32:00.771302700 +0100
+
+package androidx.emoji2.text.flatbuffer;
+
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public final class DoubleVector extends BaseVector {
+    public DoubleVector __assign(int i, ByteBuffer byteBuffer) {
+        __reset(i, 8, byteBuffer);
+        return this;
+    }
+
+    public double get(int i) {
+        return this.bb.getDouble(__element(i));
+    }
+}

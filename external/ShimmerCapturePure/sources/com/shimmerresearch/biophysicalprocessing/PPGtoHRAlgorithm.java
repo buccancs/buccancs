@@ -1,0 +1,378 @@
+package com.shimmerresearch.biophysicalprocessing;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@Deprecated
+/* loaded from: classes2.dex */
+public class PPGtoHRAlgorithm implements Serializable {
+    private static final long serialVersionUID = -208787136966865665L;
+    private static double INVALID_RESULT = -1.0d;
+    private int defaultBufferSize;
+    private int defaultNumberOfBeatsToAve;
+    private boolean mClimbing;
+    private boolean mFirstPass;
+    private double mHeartRate;
+    private int mHeartRateLowerLimitTest;
+    private int mHeartRateUpperLimitTest;
+    private int mIBITestBufferSize;
+    private double mLastknownheartrate;
+    private double mMaxHalfBeatInterval;
+    private int mNumberOfBeatsToAve;
+    private int mNumberOfSamplesSincePeak;
+    private int mPPGDataBufferSize;
+    private List<Double> mPPGDataPoints;
+    private List<Double> mPeakPPGData;
+    private List<Double> mPeakTimestamps;
+    private double mPulsePeriod;
+    private double mSamplingRate;
+    private double mSlope;
+    private double mThreshold;
+    private List<Double> mTimeStampPoints;
+    private boolean mUseLastEstimate;
+    private double mVmean;
+    private double mVpeak;
+
+    public PPGtoHRAlgorithm(double d) {
+        this.mPeakPPGData = new ArrayList();
+        this.mPeakTimestamps = new ArrayList();
+        this.mPPGDataPoints = new ArrayList();
+        this.mTimeStampPoints = new ArrayList();
+        this.mLastknownheartrate = -60.0d;
+        this.mHeartRate = INVALID_RESULT;
+        this.mPulsePeriod = 0.0d;
+        this.mFirstPass = true;
+        this.defaultNumberOfBeatsToAve = 1;
+        this.defaultBufferSize = 2;
+        this.mUseLastEstimate = false;
+        this.mNumberOfBeatsToAve = 1;
+        this.mIBITestBufferSize = 3;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mMaxHalfBeatInterval = 300.0d;
+        setParameters(d, 1, 2);
+    }
+
+    public PPGtoHRAlgorithm(double d, int i) {
+        this.mPeakPPGData = new ArrayList();
+        this.mPeakTimestamps = new ArrayList();
+        this.mPPGDataPoints = new ArrayList();
+        this.mTimeStampPoints = new ArrayList();
+        this.mLastknownheartrate = -60.0d;
+        this.mHeartRate = INVALID_RESULT;
+        this.mPulsePeriod = 0.0d;
+        this.mFirstPass = true;
+        this.defaultNumberOfBeatsToAve = 1;
+        this.defaultBufferSize = 2;
+        this.mUseLastEstimate = false;
+        this.mNumberOfBeatsToAve = 1;
+        this.mIBITestBufferSize = 3;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mMaxHalfBeatInterval = 300.0d;
+        setParameters(d, i, 2);
+    }
+
+    public PPGtoHRAlgorithm(double d, int i, int i2) {
+        this.mPeakPPGData = new ArrayList();
+        this.mPeakTimestamps = new ArrayList();
+        this.mPPGDataPoints = new ArrayList();
+        this.mTimeStampPoints = new ArrayList();
+        this.mLastknownheartrate = -60.0d;
+        this.mHeartRate = INVALID_RESULT;
+        this.mPulsePeriod = 0.0d;
+        this.mFirstPass = true;
+        this.defaultNumberOfBeatsToAve = 1;
+        this.defaultBufferSize = 2;
+        this.mUseLastEstimate = false;
+        this.mNumberOfBeatsToAve = 1;
+        this.mIBITestBufferSize = 3;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mMaxHalfBeatInterval = 300.0d;
+        setParameters(d, i, i2);
+    }
+
+    public PPGtoHRAlgorithm(double d, int i, boolean z) {
+        this.mPeakPPGData = new ArrayList();
+        this.mPeakTimestamps = new ArrayList();
+        this.mPPGDataPoints = new ArrayList();
+        this.mTimeStampPoints = new ArrayList();
+        this.mLastknownheartrate = -60.0d;
+        this.mHeartRate = INVALID_RESULT;
+        this.mPulsePeriod = 0.0d;
+        this.mFirstPass = true;
+        this.defaultNumberOfBeatsToAve = 1;
+        this.defaultBufferSize = 2;
+        this.mUseLastEstimate = false;
+        this.mNumberOfBeatsToAve = 1;
+        this.mIBITestBufferSize = 3;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mMaxHalfBeatInterval = 300.0d;
+        setParameters(d, i, 2);
+        this.mUseLastEstimate = z;
+    }
+
+    private void calculateThreshold() {
+        this.mThreshold = this.mVpeak + (this.mNumberOfSamplesSincePeak * this.mSlope);
+    }
+
+    public int GetLowerHeartRateLimit() {
+        return this.mHeartRateLowerLimitTest;
+    }
+
+    public int GetUpperHeartRateLimit() {
+        return this.mHeartRateUpperLimitTest;
+    }
+
+    public void SetLowerHeartRateLimit(int i) {
+        this.mHeartRateLowerLimitTest = i;
+    }
+
+    public void SetUpperHeartRateLimit(int i) {
+        this.mHeartRateUpperLimitTest = i;
+    }
+
+    public void setInvalidDataUseLastEstimate(boolean z) {
+        this.mUseLastEstimate = z;
+    }
+
+    public void resetParameters() {
+        setParameters(this.mSamplingRate, this.mNumberOfBeatsToAve, this.mPPGDataBufferSize);
+    }
+
+    public void retrain(boolean z) {
+        if (z) {
+            resetParameters();
+        }
+    }
+
+    public void setParameters(double d, int i, int i2) {
+        ResetMemberVariables();
+        this.mSamplingRate = d;
+        this.mPPGDataBufferSize = (int) (d * 2.0d);
+        this.mNumberOfBeatsToAve = i;
+        if (i < 1) {
+            this.mNumberOfBeatsToAve = 1;
+        }
+    }
+
+    public void setParameters(double d, int i, boolean z) {
+        ResetMemberVariables();
+        this.mSamplingRate = d;
+        this.mPPGDataBufferSize = (int) (d * 2.0d);
+        this.mNumberOfBeatsToAve = i;
+        if (i < 1) {
+            this.mNumberOfBeatsToAve = 1;
+        }
+        this.mUseLastEstimate = z;
+    }
+
+    public double ppgToHrConversion(double d, double d2) {
+        this.mPPGDataPoints.add(Double.valueOf(d));
+        this.mTimeStampPoints.add(Double.valueOf(d2));
+        if (this.mPPGDataPoints.size() < this.mPPGDataBufferSize) {
+            return INVALID_RESULT;
+        }
+        if (this.mFirstPass) {
+            this.mVmean = ((Double) Collections.min(this.mPPGDataPoints)).doubleValue();
+            this.mVpeak = ((Double) Collections.max(this.mPPGDataPoints)).doubleValue();
+            this.mSlope = 0.0d;
+            this.mThreshold = 0.0d;
+            this.mClimbing = true;
+            calculatePulsePeriod();
+            this.mFirstPass = false;
+        }
+        return computeHeartRate();
+    }
+
+    public double[] ppgToHrConversion(double[] dArr, double[] dArr2) {
+        double[] dArr3 = new double[dArr.length];
+        for (int i = 0; i < dArr.length; i++) {
+            dArr3[i] = ppgToHrConversion(dArr[i], dArr2[i]);
+        }
+        return dArr3;
+    }
+
+    private void ResetMemberVariables() {
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mLastknownheartrate = -60.0d;
+        this.mHeartRate = INVALID_RESULT;
+        this.mVpeak = 0.0d;
+        this.mVmean = 0.0d;
+        this.mNumberOfSamplesSincePeak = 0;
+        this.mSlope = 0.0d;
+        this.mThreshold = 0.0d;
+        this.mClimbing = true;
+        this.mFirstPass = true;
+        this.mPPGDataPoints.clear();
+        this.mTimeStampPoints.clear();
+    }
+
+    private void calculatePulsePeriod() {
+        this.mPulsePeriod = this.mSamplingRate / Math.abs(this.mLastknownheartrate / 60.0d);
+    }
+
+    private void calculateSlope() {
+        this.mSlope = -Math.abs(((this.mVpeak - this.mVmean) * 2.0d) / (this.mPulsePeriod * 4.5d));
+    }
+
+    private double computeHeartRate() {
+        int i;
+        boolean z;
+        if (this.mPPGDataPoints.size() < this.mPPGDataBufferSize) {
+            return this.mHeartRate;
+        }
+        int i2 = 0;
+        while (true) {
+            int size = this.mPPGDataPoints.size();
+            i = this.mPPGDataBufferSize;
+            if (i2 >= size - i) {
+                break;
+            }
+            this.mPPGDataPoints.remove(0);
+            this.mTimeStampPoints.remove(0);
+            i2++;
+        }
+        if (this.mPPGDataPoints.get(i - 1).doubleValue() > this.mPPGDataPoints.get(this.mPPGDataBufferSize - 2).doubleValue() && this.mPPGDataPoints.get(this.mPPGDataBufferSize - 1).doubleValue() > this.mThreshold) {
+            this.mThreshold = this.mPPGDataPoints.get(this.mPPGDataBufferSize - 1).doubleValue();
+            this.mNumberOfSamplesSincePeak = 0;
+            this.mClimbing = true;
+        } else {
+            if (this.mClimbing) {
+                this.mPeakTimestamps.add(this.mTimeStampPoints.get(this.mPPGDataBufferSize - 2));
+                this.mPeakPPGData.add(this.mPPGDataPoints.get(this.mPPGDataBufferSize - 2));
+                this.mVpeak = this.mPPGDataPoints.get(this.mPPGDataBufferSize - 2).doubleValue();
+                this.mVmean = ((Double) Collections.min(this.mPPGDataPoints)).doubleValue();
+                calculatePulsePeriod();
+                calculateSlope();
+                this.mNumberOfSamplesSincePeak = 1;
+                z = true;
+            } else {
+                this.mNumberOfSamplesSincePeak++;
+                z = false;
+            }
+            calculateThreshold();
+            this.mClimbing = false;
+            if (z) {
+                if (this.mHeartRate != INVALID_RESULT) {
+                    removeFalsePeaks();
+                }
+                int size2 = this.mPeakPPGData.size();
+                int i3 = this.mNumberOfBeatsToAve;
+                int i4 = i3 + 2;
+                int i5 = this.mIBITestBufferSize;
+                if (i5 + 1 > i3 + 2) {
+                    i4 = i5 + 1;
+                }
+                if (size2 < i4) {
+                    this.mHeartRate = INVALID_RESULT;
+                } else {
+                    calculateHeartRate(size2);
+                    for (int i6 = 0; i6 < this.mPeakPPGData.size() - i4; i6++) {
+                        this.mPeakPPGData.remove(0);
+                        this.mPeakTimestamps.remove(0);
+                    }
+                }
+            }
+        }
+        return this.mHeartRate;
+    }
+
+    private void removeFalsePeaks() {
+        double dAbs = (long) ((1000.0d / Math.abs(this.mLastknownheartrate / 60.0d)) * 0.5d);
+        double d = this.mMaxHalfBeatInterval;
+        if (dAbs > d) {
+            dAbs = d;
+        }
+        boolean z = true;
+        int i = 0;
+        while (z) {
+            if (this.mPeakPPGData.size() < 2 || i >= this.mPeakPPGData.size() - 2) {
+                z = false;
+            } else {
+                int i2 = i + 1;
+                if (Double.valueOf(this.mPeakTimestamps.get(i2).doubleValue() - this.mPeakTimestamps.get(i).doubleValue()).doubleValue() >= dAbs) {
+                    i = i2;
+                } else if (this.mPeakPPGData.get(i).doubleValue() > this.mPeakPPGData.get(i2).doubleValue()) {
+                    this.mPeakPPGData.remove(i2);
+                    this.mPeakTimestamps.remove(i2);
+                } else {
+                    this.mPeakPPGData.remove(i);
+                    this.mPeakTimestamps.remove(i);
+                }
+            }
+        }
+    }
+
+    private void calculateHeartRate(int i) {
+        int i2 = i - 1;
+        List<Double> listSubtractTwoList = SubtractTwoList(this.mPeakTimestamps.subList((i - this.mNumberOfBeatsToAve) - 1, i2), this.mPeakTimestamps.subList((i - this.mNumberOfBeatsToAve) - 2, i - 2));
+        ArrayList arrayList = new ArrayList();
+        for (int i3 = 0; i3 < this.mNumberOfBeatsToAve; i3++) {
+            arrayList.add(listSubtractTwoList.get(i3));
+        }
+        List<Double> listSubtractTwoList2 = SubtractTwoList(this.mPeakTimestamps.subList(i - this.mIBITestBufferSize, i), this.mPeakTimestamps.subList((i - this.mIBITestBufferSize) - 1, i2));
+        ArrayList arrayList2 = new ArrayList();
+        for (int i4 = 0; i4 < this.mIBITestBufferSize; i4++) {
+            arrayList2.add(Double.valueOf(1.0d / listSubtractTwoList2.get(i4).doubleValue()));
+        }
+        if (getMedian(arrayList2) * 0.3d < ((Double) Collections.max(arrayList2)).doubleValue() - ((Double) Collections.min(arrayList2)).doubleValue()) {
+            if (this.mUseLastEstimate) {
+                this.mHeartRate = this.mLastknownheartrate;
+                return;
+            } else {
+                this.mHeartRate = INVALID_RESULT;
+                return;
+            }
+        }
+        double dCalculateMean = calculateMean(arrayList);
+        if (dCalculateMean == 0.0d) {
+            this.mHeartRate = INVALID_RESULT;
+        } else {
+            this.mHeartRate = 60000.0d / dCalculateMean;
+        }
+        double d = this.mHeartRate;
+        if (d <= this.mHeartRateUpperLimitTest && d >= this.mHeartRateLowerLimitTest) {
+            this.mLastknownheartrate = d;
+        } else if (this.mUseLastEstimate) {
+            this.mHeartRate = this.mLastknownheartrate;
+        } else {
+            this.mHeartRate = INVALID_RESULT;
+        }
+    }
+
+    private double getMedian(List<Double> list) {
+        Collections.sort(list);
+        int size = list.size();
+        int i = size / 2;
+        if (size % 2 == 0) {
+            return (list.get(i).doubleValue() + list.get(i - 1).doubleValue()) / 2.0d;
+        }
+        return list.get(i + 1).doubleValue();
+    }
+
+    private double calculateMean(List<Double> list) {
+        int size = list.size();
+        double dDoubleValue = 0.0d;
+        for (int i = 0; i < size; i++) {
+            dDoubleValue += list.get(i).doubleValue();
+        }
+        if (size > 0) {
+            return dDoubleValue / size;
+        }
+        return 0.0d;
+    }
+
+    private List<Double> SubtractTwoList(List<Double> list, List<Double> list2) {
+        ArrayList arrayList = new ArrayList(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            arrayList.add(Double.valueOf(list.get(i).doubleValue() - list2.get(i).doubleValue()));
+        }
+        return arrayList;
+    }
+}

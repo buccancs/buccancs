@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/BuildConfig.java
+// Size: 275 bytes
+// Modified: 2025-10-21 16:32:00.056803600 +0100
+
+package com.clj.fastble;
+
+/* loaded from: classes.dex */
+public final class BuildConfig {
+    public static final String BUILD_TYPE = "release";
+    public static final boolean DEBUG = false;
+    public static final String LIBRARY_PACKAGE_NAME = "com.clj.fastble";
+}

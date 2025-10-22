@@ -1,0 +1,221 @@
+package org.apache.commons.math3.stat.descriptive;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+
+import org.apache.commons.math3.exception.NullArgumentException;
+
+/* loaded from: classes5.dex */
+public class AggregateSummaryStatistics implements StatisticalSummary, Serializable {
+    private static final long serialVersionUID = -8207112444016386906L;
+    private final SummaryStatistics statistics;
+    private final SummaryStatistics statisticsPrototype;
+
+    public AggregateSummaryStatistics() {
+        this(new SummaryStatistics());
+    }
+
+    public AggregateSummaryStatistics(SummaryStatistics summaryStatistics) throws NullArgumentException {
+        this(summaryStatistics, summaryStatistics == null ? null : new SummaryStatistics(summaryStatistics));
+    }
+
+    public AggregateSummaryStatistics(SummaryStatistics summaryStatistics, SummaryStatistics summaryStatistics2) {
+        this.statisticsPrototype = summaryStatistics == null ? new SummaryStatistics() : summaryStatistics;
+        this.statistics = summaryStatistics2 == null ? new SummaryStatistics() : summaryStatistics2;
+    }
+
+    public static StatisticalSummaryValues aggregate(Collection<? extends StatisticalSummary> collection) {
+        double d;
+        double d2;
+        if (collection == null) {
+            return null;
+        }
+        Iterator<? extends StatisticalSummary> it2 = collection.iterator();
+        if (!it2.hasNext()) {
+            return null;
+        }
+        StatisticalSummary next = it2.next();
+        long n = next.getN();
+        double min = next.getMin();
+        double sum = next.getSum();
+        double max = next.getMax();
+        double variance = next.getVariance() * (n - 1.0d);
+        double min2 = min;
+        double sum2 = sum;
+        double max2 = max;
+        double mean = next.getMean();
+        while (it2.hasNext()) {
+            StatisticalSummary next2 = it2.next();
+            if (next2.getMin() < min2 || Double.isNaN(min2)) {
+                min2 = next2.getMin();
+            }
+            if (next2.getMax() > max2 || Double.isNaN(max2)) {
+                max2 = next2.getMax();
+            }
+            sum2 += next2.getSum();
+            double d3 = n;
+            double n2 = next2.getN();
+            long j = (long) (d3 + n2);
+            double mean2 = next2.getMean() - mean;
+            double d4 = j;
+            mean = sum2 / d4;
+            variance = variance + (next2.getVariance() * (n2 - 1.0d)) + ((((mean2 * mean2) * d3) * n2) / d4);
+            n = j;
+        }
+        if (n == 0) {
+            d2 = Double.NaN;
+        } else {
+            if (n != 1) {
+                d = variance / (n - 1);
+                return new StatisticalSummaryValues(mean, d, n, max2, min2, sum2);
+            }
+            d2 = 0.0d;
+        }
+        d = d2;
+        return new StatisticalSummaryValues(mean, d, n, max2, min2, sum2);
+    }
+
+    @Override // org.apache.commons.math3.stat.descriptive.StatisticalSummary
+    public double getMax() {
+        double max;
+        synchronized (this.statistics) {
+            max = this.statistics.getMax();
+        }
+        return max;
+    }
+
+    @Override // org.apache.commons.math3.stat.descriptive.StatisticalSummary
+    public double getMean() {
+        double mean;
+        synchronized (this.statistics) {
+            mean = this.statistics.getMean();
+        }
+        return mean;
+    }
+
+    @Override // org.apache.commons.math3.stat.descriptive.StatisticalSummary
+    public double getMin() {
+        double min;
+        synchronized (this.statistics) {
+            min = this.statistics.getMin();
+        }
+        return min;
+    }
+
+    @Override // org.apache.commons.math3.stat.descriptive.StatisticalSummary
+    public long getN() {
+        long n;
+        synchronized (this.statistics) {
+            n = this.statistics.getN();
+        }
+        return n;
+    }
+
+    @Override // org.apache.commons.math3.stat.descriptive.StatisticalSummary
+    public double getStandardDeviation() {
+        double standardDeviation;
+        synchronized (this.statistics) {
+            standardDeviation = this.statistics.getStandardDeviation();
+        }
+        return standardDeviation;
+    }
+
+    @Override // org.apache.commons.math3.stat.descriptive.StatisticalSummary
+    public double getSum() {
+        double sum;
+        synchronized (this.statistics) {
+            sum = this.statistics.getSum();
+        }
+        return sum;
+    }
+
+    @Override // org.apache.commons.math3.stat.descriptive.StatisticalSummary
+    public double getVariance() {
+        double variance;
+        synchronized (this.statistics) {
+            variance = this.statistics.getVariance();
+        }
+        return variance;
+    }
+
+    public double getSumOfLogs() {
+        double sumOfLogs;
+        synchronized (this.statistics) {
+            sumOfLogs = this.statistics.getSumOfLogs();
+        }
+        return sumOfLogs;
+    }
+
+    public double getGeometricMean() {
+        double geometricMean;
+        synchronized (this.statistics) {
+            geometricMean = this.statistics.getGeometricMean();
+        }
+        return geometricMean;
+    }
+
+    public double getSumsq() {
+        double sumsq;
+        synchronized (this.statistics) {
+            sumsq = this.statistics.getSumsq();
+        }
+        return sumsq;
+    }
+
+    public double getSecondMoment() {
+        double secondMoment;
+        synchronized (this.statistics) {
+            secondMoment = this.statistics.getSecondMoment();
+        }
+        return secondMoment;
+    }
+
+    public StatisticalSummary getSummary() {
+        StatisticalSummaryValues statisticalSummaryValues;
+        synchronized (this.statistics) {
+            statisticalSummaryValues = new StatisticalSummaryValues(getMean(), getVariance(), getN(), getMax(), getMin(), getSum());
+        }
+        return statisticalSummaryValues;
+    }
+
+    public SummaryStatistics createContributingStatistics() throws NullArgumentException {
+        AggregatingSummaryStatistics aggregatingSummaryStatistics = new AggregatingSummaryStatistics(this.statistics);
+        SummaryStatistics.copy(this.statisticsPrototype, aggregatingSummaryStatistics);
+        return aggregatingSummaryStatistics;
+    }
+
+    private static class AggregatingSummaryStatistics extends SummaryStatistics {
+        private static final long serialVersionUID = 1;
+        private final SummaryStatistics aggregateStatistics;
+
+        AggregatingSummaryStatistics(SummaryStatistics summaryStatistics) {
+            this.aggregateStatistics = summaryStatistics;
+        }
+
+        @Override // org.apache.commons.math3.stat.descriptive.SummaryStatistics
+        public void addValue(double d) {
+            super.addValue(d);
+            synchronized (this.aggregateStatistics) {
+                this.aggregateStatistics.addValue(d);
+            }
+        }
+
+        @Override // org.apache.commons.math3.stat.descriptive.SummaryStatistics
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof AggregatingSummaryStatistics)) {
+                return false;
+            }
+            AggregatingSummaryStatistics aggregatingSummaryStatistics = (AggregatingSummaryStatistics) obj;
+            return super.equals(aggregatingSummaryStatistics) && this.aggregateStatistics.equals(aggregatingSummaryStatistics.aggregateStatistics);
+        }
+
+        @Override // org.apache.commons.math3.stat.descriptive.SummaryStatistics
+        public int hashCode() {
+            return super.hashCode() + 123 + this.aggregateStatistics.hashCode();
+        }
+    }
+}

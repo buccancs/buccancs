@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/nonlinear/scalar/gradient/Preconditioner.java
+// Size: 199 bytes
+// Modified: 2025-10-21 16:32:00.515034100 +0100
+
+package org.apache.commons.math3.optim.nonlinear.scalar.gradient;
+
+/* loaded from: classes5.dex */
+public interface Preconditioner {
+    double[] precondition(double[] dArr, double[] dArr2);
+}

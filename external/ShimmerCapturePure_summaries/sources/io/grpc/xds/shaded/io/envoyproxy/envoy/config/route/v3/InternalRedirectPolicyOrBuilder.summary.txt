@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/route/v3/InternalRedirectPolicyOrBuilder.java
+// Size: 1146 bytes
+// Modified: 2025-10-21 16:32:03.219696400 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TypedExtensionConfig;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TypedExtensionConfigOrBuilder;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface InternalRedirectPolicyOrBuilder extends MessageOrBuilder {
+    boolean getAllowCrossSchemeRedirect();
+
+    UInt32Value getMaxInternalRedirects();
+
+    UInt32ValueOrBuilder getMaxInternalRedirectsOrBuilder();
+
+    TypedExtensionConfig getPredicates(int i);
+
+    int getPredicatesCount();
+
+    List<TypedExtensionConfig> getPredicatesList();
+
+    TypedExtensionConfigOrBuilder getPredicatesOrBuilder(int i);
+
+    List<? extends TypedExtensionConfigOrBuilder> getPredicatesOrBuilderList();
+
+    int getRedirectResponseCodes(int i);
+
+    int getRedirectResponseCodesCount();
+
+    List<Integer> getRedirectResponseCodesList();
+
+    boolean hasMaxInternalRedirects();
+}

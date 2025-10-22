@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/qtesla/QTESLAPrivateKeyParameters.java
+// Size: 859 bytes
+// Modified: 2025-10-21 16:32:03.315566400 +0100
+
+package org.bouncycastle.pqc.crypto.qtesla;
+
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+import org.bouncycastle.util.Arrays;
+
+/* loaded from: classes5.dex */
+public final class QTESLAPrivateKeyParameters extends AsymmetricKeyParameter {
+    private byte[] privateKey;
+    private int securityCategory;
+
+    public QTESLAPrivateKeyParameters(int i, byte[] bArr) {
+        super(true);
+        if (bArr.length != QTESLASecurityCategory.getPrivateSize(i)) {
+            throw new IllegalArgumentException("invalid key size for security category");
+        }
+        this.securityCategory = i;
+        this.privateKey = Arrays.clone(bArr);
+    }
+
+    public byte[] getSecret() {
+        return Arrays.clone(this.privateKey);
+    }
+
+    public int getSecurityCategory() {
+        return this.securityCategory;
+    }
+}

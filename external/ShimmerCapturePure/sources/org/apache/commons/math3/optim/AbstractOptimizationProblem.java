@@ -1,0 +1,61 @@
+package org.apache.commons.math3.optim;
+
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.TooManyIterationsException;
+import org.apache.commons.math3.util.Incrementor;
+
+/* loaded from: classes5.dex */
+public abstract class AbstractOptimizationProblem<PAIR> implements OptimizationProblem<PAIR> {
+    private static final MaxEvalCallback MAX_EVAL_CALLBACK;
+    private static final MaxIterCallback MAX_ITER_CALLBACK;
+
+    static {
+        MAX_EVAL_CALLBACK = new MaxEvalCallback();
+        MAX_ITER_CALLBACK = new MaxIterCallback();
+    }
+
+    private final ConvergenceChecker<PAIR> checker;
+    private final int maxEvaluations;
+    private final int maxIterations;
+
+    protected AbstractOptimizationProblem(int i, int i2, ConvergenceChecker<PAIR> convergenceChecker) {
+        this.maxEvaluations = i;
+        this.maxIterations = i2;
+        this.checker = convergenceChecker;
+    }
+
+    @Override // org.apache.commons.math3.optim.OptimizationProblem
+    public ConvergenceChecker<PAIR> getConvergenceChecker() {
+        return this.checker;
+    }
+
+    @Override // org.apache.commons.math3.optim.OptimizationProblem
+    public Incrementor getEvaluationCounter() {
+        return new Incrementor(this.maxEvaluations, MAX_EVAL_CALLBACK);
+    }
+
+    @Override // org.apache.commons.math3.optim.OptimizationProblem
+    public Incrementor getIterationCounter() {
+        return new Incrementor(this.maxIterations, MAX_ITER_CALLBACK);
+    }
+
+    private static class MaxEvalCallback implements Incrementor.MaxCountExceededCallback {
+        private MaxEvalCallback() {
+        }
+
+        @Override // org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback
+        public void trigger(int i) {
+            throw new TooManyEvaluationsException(Integer.valueOf(i));
+        }
+    }
+
+    private static class MaxIterCallback implements Incrementor.MaxCountExceededCallback {
+        private MaxIterCallback() {
+        }
+
+        @Override // org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback
+        public void trigger(int i) {
+            throw new TooManyIterationsException(Integer.valueOf(i));
+        }
+    }
+}

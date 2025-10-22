@@ -1,0 +1,53 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.marshalling;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+
+import java.io.IOException;
+
+import org.jboss.marshalling.ByteInput;
+
+/* loaded from: classes3.dex */
+class ChannelBufferByteInput implements ByteInput {
+    private final ByteBuf buffer;
+
+    ChannelBufferByteInput(ByteBuf byteBuf) {
+        this.buffer = byteBuf;
+    }
+
+    public void close() throws IOException {
+    }
+
+    public int available() throws IOException {
+        return this.buffer.readableBytes();
+    }
+
+    public int read() throws IOException {
+        if (this.buffer.isReadable()) {
+            return this.buffer.readByte() & 255;
+        }
+        return -1;
+    }
+
+    public int read(byte[] bArr) throws IOException {
+        return read(bArr, 0, bArr.length);
+    }
+
+    public int read(byte[] bArr, int i, int i2) throws IOException {
+        int iAvailable = available();
+        if (iAvailable == 0) {
+            return -1;
+        }
+        int iMin = Math.min(iAvailable, i2);
+        this.buffer.readBytes(bArr, i, iMin);
+        return iMin;
+    }
+
+    public long skip(long j) throws IOException {
+        long j2 = this.buffer.readableBytes();
+        if (j2 < j) {
+            j = j2;
+        }
+        this.buffer.readerIndex((int) (r0.readerIndex() + j));
+        return j;
+    }
+}

@@ -1,0 +1,109 @@
+package org.apache.commons.math.stat.descriptive.moment;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/moment/Kurtosis.class */
+public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
+    private static final long serialVersionUID = 2784465764798260919L;
+    protected FourthMoment moment;
+    protected boolean incMoment;
+
+    public Kurtosis() {
+        this.incMoment = true;
+        this.moment = new FourthMoment();
+    }
+
+    public Kurtosis(FourthMoment m4) {
+        this.incMoment = false;
+        this.moment = m4;
+    }
+
+    public Kurtosis(Kurtosis original) {
+        copy(original, this);
+    }
+
+    public static void copy(Kurtosis source, Kurtosis dest) {
+        dest.setData(source.getDataRef());
+        dest.moment = source.moment.copy();
+        dest.incMoment = source.incMoment;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void increment(double d) {
+        if (this.incMoment) {
+            this.moment.increment(d);
+            return;
+        }
+        throw MathRuntimeException.createIllegalStateException(LocalizedFormats.CANNOT_INCREMENT_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS, new Object[0]);
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public double getResult() {
+        double kurtosis = Double.NaN;
+        if (this.moment.getN() > 3) {
+            double variance = this.moment.m2 / (this.moment.n - 1);
+            if (this.moment.n <= 3 || variance < 1.0E-19d) {
+                kurtosis = 0.0d;
+            } else {
+                double n = this.moment.n;
+                kurtosis = (((n * (n + 1.0d)) * this.moment.m4) - (((3.0d * this.moment.m2) * this.moment.m2) * (n - 1.0d))) / (((((n - 1.0d) * (n - 2.0d)) * (n - 3.0d)) * variance) * variance);
+            }
+        }
+        return kurtosis;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void clear() {
+        if (this.incMoment) {
+            this.moment.clear();
+            return;
+        }
+        throw MathRuntimeException.createIllegalStateException(LocalizedFormats.CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS, new Object[0]);
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public long getN() {
+        return this.moment.getN();
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic
+    public double evaluate(double[] values, int begin, int length) {
+        double kurt = Double.NaN;
+        if (test(values, begin, length) && length > 3) {
+            Variance variance = new Variance();
+            variance.incrementAll(values, begin, length);
+            double mean = variance.moment.m1;
+            double stdDev = FastMath.sqrt(variance.getResult());
+            double accum3 = 0.0d;
+            for (int i = begin; i < begin + length; i++) {
+                accum3 += FastMath.pow(values[i] - mean, 4.0d);
+            }
+            double accum32 = accum3 / FastMath.pow(stdDev, 4.0d);
+            double n0 = length;
+            double coefficientOne = (n0 * (n0 + 1.0d)) / (((n0 - 1.0d) * (n0 - 2.0d)) * (n0 - 3.0d));
+            double termTwo = (3.0d * FastMath.pow(n0 - 1.0d, 2.0d)) / ((n0 - 2.0d) * (n0 - 3.0d));
+            kurt = (coefficientOne * accum32) - termTwo;
+        }
+        return kurt;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public Kurtosis copy() {
+        Kurtosis result = new Kurtosis();
+        copy(this, result);
+        return result;
+    }
+}

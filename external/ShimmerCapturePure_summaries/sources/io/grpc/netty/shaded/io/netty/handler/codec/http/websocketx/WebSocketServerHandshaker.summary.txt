@@ -1,0 +1,220 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/WebSocketServerHandshaker.java
+// Size: 12091 bytes
+// Modified: 2025-10-21 16:32:13.572164000 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx;
+
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFutureListener;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPipeline;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.channel.SimpleChannelInboundHandler;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.FullHttpRequest;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.FullHttpResponse;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContentCompressor;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpHeaders;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpObjectAggregator;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequestDecoder;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpResponseEncoder;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpServerCodec;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil;
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+import io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener;
+import io.grpc.netty.shaded.io.netty.util.internal.EmptyArrays;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory;
+import java.nio.channels.ClosedChannelException;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+/* loaded from: classes3.dex */
+public abstract class WebSocketServerHandshaker {
+    public static final String SUB_PROTOCOL_WILDCARD = "*";
+    protected static final InternalLogger logger = InternalLoggerFactory.getInstance((Class<?>) WebSocketServerHandshaker.class);
+    private final WebSocketDecoderConfig decoderConfig;
+    private String selectedSubprotocol;
+    private final String[] subprotocols;
+    private final String uri;
+    private final WebSocketVersion version;
+
+    public WebSocketDecoderConfig decoderConfig() {
+        return this.decoderConfig;
+    }
+
+    protected abstract FullHttpResponse newHandshakeResponse(FullHttpRequest fullHttpRequest, HttpHeaders httpHeaders);
+
+    protected abstract WebSocketFrameEncoder newWebSocketEncoder();
+
+    protected abstract WebSocketFrameDecoder newWebsocketDecoder();
+
+    public String selectedSubprotocol() {
+        return this.selectedSubprotocol;
+    }
+
+    public String uri() {
+        return this.uri;
+    }
+
+    public WebSocketVersion version() {
+        return this.version;
+    }
+
+    protected WebSocketServerHandshaker(WebSocketVersion webSocketVersion, String str, String str2, int i) {
+        this(webSocketVersion, str, str2, WebSocketDecoderConfig.newBuilder().maxFramePayloadLength(i).build());
+    }
+
+    protected WebSocketServerHandshaker(WebSocketVersion webSocketVersion, String str, String str2, WebSocketDecoderConfig webSocketDecoderConfig) {
+        this.version = webSocketVersion;
+        this.uri = str;
+        if (str2 != null) {
+            String[] strArrSplit = str2.split(UtilVerisenseDriver.CSV_DELIMITER);
+            for (int i = 0; i < strArrSplit.length; i++) {
+                strArrSplit[i] = strArrSplit[i].trim();
+            }
+            this.subprotocols = strArrSplit;
+        } else {
+            this.subprotocols = EmptyArrays.EMPTY_STRINGS;
+        }
+        this.decoderConfig = (WebSocketDecoderConfig) ObjectUtil.checkNotNull(webSocketDecoderConfig, "decoderConfig");
+    }
+
+    public Set<String> subprotocols() {
+        LinkedHashSet linkedHashSet = new LinkedHashSet();
+        Collections.addAll(linkedHashSet, this.subprotocols);
+        return linkedHashSet;
+    }
+
+    public int maxFramePayloadLength() {
+        return this.decoderConfig.maxFramePayloadLength();
+    }
+
+    public ChannelFuture handshake(Channel channel, FullHttpRequest fullHttpRequest) {
+        return handshake(channel, fullHttpRequest, (HttpHeaders) null, channel.newPromise());
+    }
+
+    public final ChannelFuture handshake(Channel channel, FullHttpRequest fullHttpRequest, HttpHeaders httpHeaders, final ChannelPromise channelPromise) {
+        final String strName;
+        InternalLogger internalLogger = logger;
+        if (internalLogger.isDebugEnabled()) {
+            internalLogger.debug("{} WebSocket version {} server handshake", channel, version());
+        }
+        FullHttpResponse fullHttpResponseNewHandshakeResponse = newHandshakeResponse(fullHttpRequest, httpHeaders);
+        ChannelPipeline channelPipelinePipeline = channel.pipeline();
+        if (channelPipelinePipeline.get(HttpObjectAggregator.class) != null) {
+            channelPipelinePipeline.remove(HttpObjectAggregator.class);
+        }
+        if (channelPipelinePipeline.get(HttpContentCompressor.class) != null) {
+            channelPipelinePipeline.remove(HttpContentCompressor.class);
+        }
+        ChannelHandlerContext channelHandlerContextContext = channelPipelinePipeline.context(HttpRequestDecoder.class);
+        if (channelHandlerContextContext == null) {
+            ChannelHandlerContext channelHandlerContextContext2 = channelPipelinePipeline.context(HttpServerCodec.class);
+            if (channelHandlerContextContext2 == null) {
+                channelPromise.setFailure((Throwable) new IllegalStateException("No HttpDecoder and no HttpServerCodec in the pipeline"));
+                return channelPromise;
+            }
+            channelPipelinePipeline.addBefore(channelHandlerContextContext2.name(), "wsencoder", newWebSocketEncoder());
+            channelPipelinePipeline.addBefore(channelHandlerContextContext2.name(), "wsdecoder", newWebsocketDecoder());
+            strName = channelHandlerContextContext2.name();
+        } else {
+            channelPipelinePipeline.replace(channelHandlerContextContext.name(), "wsdecoder", newWebsocketDecoder());
+            String strName2 = channelPipelinePipeline.context(HttpResponseEncoder.class).name();
+            channelPipelinePipeline.addBefore(strName2, "wsencoder", newWebSocketEncoder());
+            strName = strName2;
+        }
+        channel.writeAndFlush(fullHttpResponseNewHandshakeResponse).addListener((GenericFutureListener<? extends Future<? super Void>>) new ChannelFutureListener() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker.1
+            @Override // io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                if (channelFuture.isSuccess()) {
+                    channelFuture.channel().pipeline().remove(strName);
+                    channelPromise.setSuccess();
+                } else {
+                    channelPromise.setFailure(channelFuture.cause());
+                }
+            }
+        });
+        return channelPromise;
+    }
+
+    public ChannelFuture handshake(Channel channel, HttpRequest httpRequest) {
+        return handshake(channel, httpRequest, (HttpHeaders) null, channel.newPromise());
+    }
+
+    public final ChannelFuture handshake(final Channel channel, HttpRequest httpRequest, final HttpHeaders httpHeaders, final ChannelPromise channelPromise) {
+        if (httpRequest instanceof FullHttpRequest) {
+            return handshake(channel, (FullHttpRequest) httpRequest, httpHeaders, channelPromise);
+        }
+        InternalLogger internalLogger = logger;
+        if (internalLogger.isDebugEnabled()) {
+            internalLogger.debug("{} WebSocket version {} server handshake", channel, version());
+        }
+        ChannelPipeline channelPipelinePipeline = channel.pipeline();
+        ChannelHandlerContext channelHandlerContextContext = channelPipelinePipeline.context(HttpRequestDecoder.class);
+        if (channelHandlerContextContext == null && (channelHandlerContextContext = channelPipelinePipeline.context(HttpServerCodec.class)) == null) {
+            channelPromise.setFailure((Throwable) new IllegalStateException("No HttpDecoder and no HttpServerCodec in the pipeline"));
+            return channelPromise;
+        }
+        channelPipelinePipeline.addAfter(channelHandlerContextContext.name(), "httpAggregator", new HttpObjectAggregator(8192));
+        channelPipelinePipeline.addAfter("httpAggregator", "handshaker", new SimpleChannelInboundHandler<FullHttpRequest>() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker.2
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // io.grpc.netty.shaded.io.netty.channel.SimpleChannelInboundHandler
+            public void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest fullHttpRequest) throws Exception {
+                channelHandlerContext.pipeline().remove(this);
+                WebSocketServerHandshaker.this.handshake(channel, fullHttpRequest, httpHeaders, channelPromise);
+            }
+
+            @Override // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandler, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+            public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable th) throws Exception {
+                channelHandlerContext.pipeline().remove(this);
+                channelPromise.tryFailure(th);
+                channelHandlerContext.fireExceptionCaught(th);
+            }
+
+            @Override // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+            public void channelInactive(ChannelHandlerContext channelHandlerContext) throws Exception {
+                if (!channelPromise.isDone()) {
+                    channelPromise.tryFailure(new ClosedChannelException());
+                }
+                channelHandlerContext.fireChannelInactive();
+            }
+        });
+        try {
+            channelHandlerContextContext.fireChannelRead(ReferenceCountUtil.retain(httpRequest));
+        } catch (Throwable th) {
+            channelPromise.setFailure(th);
+        }
+        return channelPromise;
+    }
+
+    public ChannelFuture close(Channel channel, CloseWebSocketFrame closeWebSocketFrame) {
+        ObjectUtil.checkNotNull(channel, "channel");
+        return close(channel, closeWebSocketFrame, channel.newPromise());
+    }
+
+    /* JADX WARN: Type inference failed for: r2v2, types: [io.grpc.netty.shaded.io.netty.channel.ChannelFuture] */
+    public ChannelFuture close(Channel channel, CloseWebSocketFrame closeWebSocketFrame, ChannelPromise channelPromise) {
+        ObjectUtil.checkNotNull(channel, "channel");
+        return channel.writeAndFlush(closeWebSocketFrame, channelPromise).addListener((GenericFutureListener<? extends Future<? super Void>>) ChannelFutureListener.CLOSE);
+    }
+
+    protected String selectSubprotocol(String str) {
+        if (str != null && this.subprotocols.length != 0) {
+            for (String str2 : str.split(UtilVerisenseDriver.CSV_DELIMITER)) {
+                String strTrim = str2.trim();
+                for (String str3 : this.subprotocols) {
+                    if ("*".equals(str3) || strTrim.equals(str3)) {
+                        this.selectedSubprotocol = strTrim;
+                        return strTrim;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+}

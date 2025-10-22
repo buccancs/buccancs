@@ -1,0 +1,32 @@
+package org.apache.commons.math.exception;
+
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/exception/NumberIsTooLargeException.class */
+public class NumberIsTooLargeException extends MathIllegalNumberException {
+    private static final long serialVersionUID = 4330003017885151975L;
+    private final Number max;
+    private final boolean boundIsAllowed;
+
+    public NumberIsTooLargeException(Number wrong, Number max, boolean boundIsAllowed) {
+        this(null, wrong, max, boundIsAllowed);
+    }
+
+    public NumberIsTooLargeException(Localizable specific, Number wrong, Number max, boolean boundIsAllowed) {
+        super(specific, boundIsAllowed ? LocalizedFormats.NUMBER_TOO_LARGE : LocalizedFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED, wrong, max);
+        this.max = max;
+        this.boundIsAllowed = boundIsAllowed;
+    }
+
+    public boolean getBoundIsAllowed() {
+        return this.boundIsAllowed;
+    }
+
+    public Number getMax() {
+        return this.max;
+    }
+}

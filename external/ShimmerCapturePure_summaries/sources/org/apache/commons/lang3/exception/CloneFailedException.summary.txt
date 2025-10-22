@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang3/exception/CloneFailedException.java
+// Size: 455 bytes
+// Modified: 2025-10-21 16:32:00.481724800 +0100
+
+package org.apache.commons.lang3.exception;
+
+/* loaded from: classes5.dex */
+public class CloneFailedException extends RuntimeException {
+    private static final long serialVersionUID = 20091223;
+
+    public CloneFailedException(String str) {
+        super(str);
+    }
+
+    public CloneFailedException(Throwable th) {
+        super(th);
+    }
+
+    public CloneFailedException(String str, Throwable th) {
+        super(str, th);
+    }
+}

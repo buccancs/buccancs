@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jcajce/provider/util/BadBlockException.java
+// Size: 452 bytes
+// Modified: 2025-10-21 16:32:00.632900600 +0100
+
+package org.bouncycastle.jcajce.provider.util;
+
+import javax.crypto.BadPaddingException;
+
+/* loaded from: classes5.dex */
+public class BadBlockException extends BadPaddingException {
+    private final Throwable cause;
+
+    public BadBlockException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

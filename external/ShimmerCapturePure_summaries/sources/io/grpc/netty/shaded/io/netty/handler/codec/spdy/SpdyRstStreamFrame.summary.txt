@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyRstStreamFrame.java
+// Size: 650 bytes
+// Modified: 2025-10-21 16:32:03.156918300 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+/* loaded from: classes3.dex */
+public interface SpdyRstStreamFrame extends SpdyStreamFrame {
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyDataFrame
+    SpdyRstStreamFrame setLast(boolean z);
+
+    SpdyRstStreamFrame setStatus(SpdyStreamStatus spdyStreamStatus);
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyDataFrame
+    SpdyRstStreamFrame setStreamId(int i);
+
+    SpdyStreamStatus status();
+}

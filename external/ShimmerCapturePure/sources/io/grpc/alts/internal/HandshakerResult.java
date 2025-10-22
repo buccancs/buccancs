@@ -1,0 +1,1102 @@
+package io.grpc.alts.internal;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.alts.internal.Identity;
+import io.grpc.alts.internal.RpcProtocolVersions;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class HandshakerResult extends GeneratedMessageV3 implements HandshakerResultOrBuilder {
+    public static final int APPLICATION_PROTOCOL_FIELD_NUMBER = 1;
+    public static final int KEEP_CHANNEL_OPEN_FIELD_NUMBER = 6;
+    public static final int KEY_DATA_FIELD_NUMBER = 3;
+    public static final int LOCAL_IDENTITY_FIELD_NUMBER = 5;
+    public static final int MAX_FRAME_SIZE_FIELD_NUMBER = 8;
+    public static final int PEER_IDENTITY_FIELD_NUMBER = 4;
+    public static final int PEER_RPC_VERSIONS_FIELD_NUMBER = 7;
+    public static final int RECORD_PROTOCOL_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final HandshakerResult DEFAULT_INSTANCE = new HandshakerResult();
+    private static final Parser<HandshakerResult> PARSER = new AbstractParser<HandshakerResult>() { // from class: io.grpc.alts.internal.HandshakerResult.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public HandshakerResult m6517parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new HandshakerResult(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object applicationProtocol_;
+    private boolean keepChannelOpen_;
+    private ByteString keyData_;
+    private Identity localIdentity_;
+    private int maxFrameSize_;
+    private byte memoizedIsInitialized;
+    private Identity peerIdentity_;
+    private RpcProtocolVersions peerRpcVersions_;
+    private volatile Object recordProtocol_;
+
+    private HandshakerResult(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private HandshakerResult() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.applicationProtocol_ = "";
+        this.recordProtocol_ = "";
+        this.keyData_ = ByteString.EMPTY;
+    }
+
+    private HandshakerResult(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            this.applicationProtocol_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 18) {
+                            this.recordProtocol_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag != 26) {
+                            if (tag == 34) {
+                                Identity identity = this.peerIdentity_;
+                                Identity.Builder builderM6607toBuilder = identity != null ? identity.m6607toBuilder() : null;
+                                Identity identity2 = (Identity) codedInputStream.readMessage(Identity.parser(), extensionRegistryLite);
+                                this.peerIdentity_ = identity2;
+                                if (builderM6607toBuilder != null) {
+                                    builderM6607toBuilder.mergeFrom(identity2);
+                                    this.peerIdentity_ = builderM6607toBuilder.m6614buildPartial();
+                                }
+                            } else if (tag == 42) {
+                                Identity identity3 = this.localIdentity_;
+                                Identity.Builder builderM6607toBuilder2 = identity3 != null ? identity3.m6607toBuilder() : null;
+                                Identity identity4 = (Identity) codedInputStream.readMessage(Identity.parser(), extensionRegistryLite);
+                                this.localIdentity_ = identity4;
+                                if (builderM6607toBuilder2 != null) {
+                                    builderM6607toBuilder2.mergeFrom(identity4);
+                                    this.localIdentity_ = builderM6607toBuilder2.m6614buildPartial();
+                                }
+                            } else if (tag == 48) {
+                                this.keepChannelOpen_ = codedInputStream.readBool();
+                            } else if (tag == 58) {
+                                RpcProtocolVersions rpcProtocolVersions = this.peerRpcVersions_;
+                                RpcProtocolVersions.Builder builderM6700toBuilder = rpcProtocolVersions != null ? rpcProtocolVersions.m6700toBuilder() : null;
+                                RpcProtocolVersions rpcProtocolVersions2 = (RpcProtocolVersions) codedInputStream.readMessage(RpcProtocolVersions.parser(), extensionRegistryLite);
+                                this.peerRpcVersions_ = rpcProtocolVersions2;
+                                if (builderM6700toBuilder != null) {
+                                    builderM6700toBuilder.mergeFrom(rpcProtocolVersions2);
+                                    this.peerRpcVersions_ = builderM6700toBuilder.m6707buildPartial();
+                                }
+                            } else if (tag == 64) {
+                                this.maxFrameSize_ = codedInputStream.readUInt32();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            this.keyData_ = codedInputStream.readBytes();
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static HandshakerResult getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<HandshakerResult> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return HandshakerProto.internal_static_grpc_gcp_HandshakerResult_descriptor;
+    }
+
+    public static HandshakerResult parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (HandshakerResult) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static HandshakerResult parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HandshakerResult) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static HandshakerResult parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (HandshakerResult) PARSER.parseFrom(byteString);
+    }
+
+    public static HandshakerResult parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HandshakerResult) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static HandshakerResult parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (HandshakerResult) PARSER.parseFrom(bArr);
+    }
+
+    public static HandshakerResult parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HandshakerResult) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static HandshakerResult parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static HandshakerResult parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HandshakerResult parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static HandshakerResult parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HandshakerResult parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static HandshakerResult parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m6515toBuilder();
+    }
+
+    public static Builder newBuilder(HandshakerResult handshakerResult) {
+        return DEFAULT_INSTANCE.m6515toBuilder().mergeFrom(handshakerResult);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public HandshakerResult m6510getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public boolean getKeepChannelOpen() {
+        return this.keepChannelOpen_;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public ByteString getKeyData() {
+        return this.keyData_;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public int getMaxFrameSize() {
+        return this.maxFrameSize_;
+    }
+
+    public Parser<HandshakerResult> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public boolean hasLocalIdentity() {
+        return this.localIdentity_ != null;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public boolean hasPeerIdentity() {
+        return this.peerIdentity_ != null;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public boolean hasPeerRpcVersions() {
+        return this.peerRpcVersions_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new HandshakerResult();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return HandshakerProto.internal_static_grpc_gcp_HandshakerResult_fieldAccessorTable.ensureFieldAccessorsInitialized(HandshakerResult.class, Builder.class);
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public String getApplicationProtocol() {
+        Object obj = this.applicationProtocol_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.applicationProtocol_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public ByteString getApplicationProtocolBytes() {
+        Object obj = this.applicationProtocol_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.applicationProtocol_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public String getRecordProtocol() {
+        Object obj = this.recordProtocol_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.recordProtocol_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public ByteString getRecordProtocolBytes() {
+        Object obj = this.recordProtocol_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.recordProtocol_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public Identity getPeerIdentity() {
+        Identity identity = this.peerIdentity_;
+        return identity == null ? Identity.getDefaultInstance() : identity;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public IdentityOrBuilder getPeerIdentityOrBuilder() {
+        return getPeerIdentity();
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public Identity getLocalIdentity() {
+        Identity identity = this.localIdentity_;
+        return identity == null ? Identity.getDefaultInstance() : identity;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public IdentityOrBuilder getLocalIdentityOrBuilder() {
+        return getLocalIdentity();
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public RpcProtocolVersions getPeerRpcVersions() {
+        RpcProtocolVersions rpcProtocolVersions = this.peerRpcVersions_;
+        return rpcProtocolVersions == null ? RpcProtocolVersions.getDefaultInstance() : rpcProtocolVersions;
+    }
+
+    @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+    public RpcProtocolVersionsOrBuilder getPeerRpcVersionsOrBuilder() {
+        return getPeerRpcVersions();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getApplicationProtocolBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.applicationProtocol_);
+        }
+        if (!getRecordProtocolBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.recordProtocol_);
+        }
+        if (!this.keyData_.isEmpty()) {
+            codedOutputStream.writeBytes(3, this.keyData_);
+        }
+        if (this.peerIdentity_ != null) {
+            codedOutputStream.writeMessage(4, getPeerIdentity());
+        }
+        if (this.localIdentity_ != null) {
+            codedOutputStream.writeMessage(5, getLocalIdentity());
+        }
+        boolean z = this.keepChannelOpen_;
+        if (z) {
+            codedOutputStream.writeBool(6, z);
+        }
+        if (this.peerRpcVersions_ != null) {
+            codedOutputStream.writeMessage(7, getPeerRpcVersions());
+        }
+        int i = this.maxFrameSize_;
+        if (i != 0) {
+            codedOutputStream.writeUInt32(8, i);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getApplicationProtocolBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.applicationProtocol_) : 0;
+        if (!getRecordProtocolBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.recordProtocol_);
+        }
+        if (!this.keyData_.isEmpty()) {
+            iComputeStringSize += CodedOutputStream.computeBytesSize(3, this.keyData_);
+        }
+        if (this.peerIdentity_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(4, getPeerIdentity());
+        }
+        if (this.localIdentity_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(5, getLocalIdentity());
+        }
+        boolean z = this.keepChannelOpen_;
+        if (z) {
+            iComputeStringSize += CodedOutputStream.computeBoolSize(6, z);
+        }
+        if (this.peerRpcVersions_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(7, getPeerRpcVersions());
+        }
+        int i2 = this.maxFrameSize_;
+        if (i2 != 0) {
+            iComputeStringSize += CodedOutputStream.computeUInt32Size(8, i2);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof HandshakerResult)) {
+            return super.equals(obj);
+        }
+        HandshakerResult handshakerResult = (HandshakerResult) obj;
+        if (!getApplicationProtocol().equals(handshakerResult.getApplicationProtocol()) || !getRecordProtocol().equals(handshakerResult.getRecordProtocol()) || !getKeyData().equals(handshakerResult.getKeyData()) || hasPeerIdentity() != handshakerResult.hasPeerIdentity()) {
+            return false;
+        }
+        if ((hasPeerIdentity() && !getPeerIdentity().equals(handshakerResult.getPeerIdentity())) || hasLocalIdentity() != handshakerResult.hasLocalIdentity()) {
+            return false;
+        }
+        if ((!hasLocalIdentity() || getLocalIdentity().equals(handshakerResult.getLocalIdentity())) && getKeepChannelOpen() == handshakerResult.getKeepChannelOpen() && hasPeerRpcVersions() == handshakerResult.hasPeerRpcVersions()) {
+            return (!hasPeerRpcVersions() || getPeerRpcVersions().equals(handshakerResult.getPeerRpcVersions())) && getMaxFrameSize() == handshakerResult.getMaxFrameSize() && this.unknownFields.equals(handshakerResult.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getApplicationProtocol().hashCode()) * 37) + 2) * 53) + getRecordProtocol().hashCode()) * 37) + 3) * 53) + getKeyData().hashCode();
+        if (hasPeerIdentity()) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getPeerIdentity().hashCode();
+        }
+        if (hasLocalIdentity()) {
+            iHashCode = (((iHashCode * 37) + 5) * 53) + getLocalIdentity().hashCode();
+        }
+        int iHashBoolean = (((iHashCode * 37) + 6) * 53) + Internal.hashBoolean(getKeepChannelOpen());
+        if (hasPeerRpcVersions()) {
+            iHashBoolean = (((iHashBoolean * 37) + 7) * 53) + getPeerRpcVersions().hashCode();
+        }
+        int maxFrameSize = (((((iHashBoolean * 37) + 8) * 53) + getMaxFrameSize()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = maxFrameSize;
+        return maxFrameSize;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m6512newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m6515toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements HandshakerResultOrBuilder {
+        private Object applicationProtocol_;
+        private boolean keepChannelOpen_;
+        private ByteString keyData_;
+        private SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> localIdentityBuilder_;
+        private Identity localIdentity_;
+        private int maxFrameSize_;
+        private SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> peerIdentityBuilder_;
+        private Identity peerIdentity_;
+        private SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> peerRpcVersionsBuilder_;
+        private RpcProtocolVersions peerRpcVersions_;
+        private Object recordProtocol_;
+
+        private Builder() {
+            this.applicationProtocol_ = "";
+            this.recordProtocol_ = "";
+            this.keyData_ = ByteString.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.applicationProtocol_ = "";
+            this.recordProtocol_ = "";
+            this.keyData_ = ByteString.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return HandshakerProto.internal_static_grpc_gcp_HandshakerResult_descriptor;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public boolean getKeepChannelOpen() {
+            return this.keepChannelOpen_;
+        }
+
+        public Builder setKeepChannelOpen(boolean z) {
+            this.keepChannelOpen_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public ByteString getKeyData() {
+            return this.keyData_;
+        }
+
+        public Builder setKeyData(ByteString byteString) {
+            byteString.getClass();
+            this.keyData_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public int getMaxFrameSize() {
+            return this.maxFrameSize_;
+        }
+
+        public Builder setMaxFrameSize(int i) {
+            this.maxFrameSize_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public boolean hasLocalIdentity() {
+            return (this.localIdentityBuilder_ == null && this.localIdentity_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public boolean hasPeerIdentity() {
+            return (this.peerIdentityBuilder_ == null && this.peerIdentity_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public boolean hasPeerRpcVersions() {
+            return (this.peerRpcVersionsBuilder_ == null && this.peerRpcVersions_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return HandshakerProto.internal_static_grpc_gcp_HandshakerResult_fieldAccessorTable.ensureFieldAccessorsInitialized(HandshakerResult.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = HandshakerResult.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6526clear() {
+            super.clear();
+            this.applicationProtocol_ = "";
+            this.recordProtocol_ = "";
+            this.keyData_ = ByteString.EMPTY;
+            if (this.peerIdentityBuilder_ == null) {
+                this.peerIdentity_ = null;
+            } else {
+                this.peerIdentity_ = null;
+                this.peerIdentityBuilder_ = null;
+            }
+            if (this.localIdentityBuilder_ == null) {
+                this.localIdentity_ = null;
+            } else {
+                this.localIdentity_ = null;
+                this.localIdentityBuilder_ = null;
+            }
+            this.keepChannelOpen_ = false;
+            if (this.peerRpcVersionsBuilder_ == null) {
+                this.peerRpcVersions_ = null;
+            } else {
+                this.peerRpcVersions_ = null;
+                this.peerRpcVersionsBuilder_ = null;
+            }
+            this.maxFrameSize_ = 0;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return HandshakerProto.internal_static_grpc_gcp_HandshakerResult_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HandshakerResult m6539getDefaultInstanceForType() {
+            return HandshakerResult.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HandshakerResult m6520build() throws UninitializedMessageException {
+            HandshakerResult handshakerResultM6522buildPartial = m6522buildPartial();
+            if (handshakerResultM6522buildPartial.isInitialized()) {
+                return handshakerResultM6522buildPartial;
+            }
+            throw newUninitializedMessageException(handshakerResultM6522buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HandshakerResult m6522buildPartial() {
+            HandshakerResult handshakerResult = new HandshakerResult(this);
+            handshakerResult.applicationProtocol_ = this.applicationProtocol_;
+            handshakerResult.recordProtocol_ = this.recordProtocol_;
+            handshakerResult.keyData_ = this.keyData_;
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.peerIdentityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                handshakerResult.peerIdentity_ = this.peerIdentity_;
+            } else {
+                handshakerResult.peerIdentity_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV32 = this.localIdentityBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                handshakerResult.localIdentity_ = this.localIdentity_;
+            } else {
+                handshakerResult.localIdentity_ = singleFieldBuilderV32.build();
+            }
+            handshakerResult.keepChannelOpen_ = this.keepChannelOpen_;
+            SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> singleFieldBuilderV33 = this.peerRpcVersionsBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                handshakerResult.peerRpcVersions_ = this.peerRpcVersions_;
+            } else {
+                handshakerResult.peerRpcVersions_ = singleFieldBuilderV33.build();
+            }
+            handshakerResult.maxFrameSize_ = this.maxFrameSize_;
+            onBuilt();
+            return handshakerResult;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6538clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6550setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6528clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6531clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6552setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6518addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6543mergeFrom(Message message) {
+            if (message instanceof HandshakerResult) {
+                return mergeFrom((HandshakerResult) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(HandshakerResult handshakerResult) {
+            if (handshakerResult == HandshakerResult.getDefaultInstance()) {
+                return this;
+            }
+            if (!handshakerResult.getApplicationProtocol().isEmpty()) {
+                this.applicationProtocol_ = handshakerResult.applicationProtocol_;
+                onChanged();
+            }
+            if (!handshakerResult.getRecordProtocol().isEmpty()) {
+                this.recordProtocol_ = handshakerResult.recordProtocol_;
+                onChanged();
+            }
+            if (handshakerResult.getKeyData() != ByteString.EMPTY) {
+                setKeyData(handshakerResult.getKeyData());
+            }
+            if (handshakerResult.hasPeerIdentity()) {
+                mergePeerIdentity(handshakerResult.getPeerIdentity());
+            }
+            if (handshakerResult.hasLocalIdentity()) {
+                mergeLocalIdentity(handshakerResult.getLocalIdentity());
+            }
+            if (handshakerResult.getKeepChannelOpen()) {
+                setKeepChannelOpen(handshakerResult.getKeepChannelOpen());
+            }
+            if (handshakerResult.hasPeerRpcVersions()) {
+                mergePeerRpcVersions(handshakerResult.getPeerRpcVersions());
+            }
+            if (handshakerResult.getMaxFrameSize() != 0) {
+                setMaxFrameSize(handshakerResult.getMaxFrameSize());
+            }
+            m6548mergeUnknownFields(handshakerResult.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.alts.internal.HandshakerResult.Builder m6544mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.alts.internal.HandshakerResult.access$1300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.alts.internal.HandshakerResult r3 = (io.grpc.alts.internal.HandshakerResult) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.alts.internal.HandshakerResult r4 = (io.grpc.alts.internal.HandshakerResult) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.alts.internal.HandshakerResult.Builder.m6544mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.alts.internal.HandshakerResult$Builder");
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public String getApplicationProtocol() {
+            Object obj = this.applicationProtocol_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.applicationProtocol_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setApplicationProtocol(String str) {
+            str.getClass();
+            this.applicationProtocol_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public ByteString getApplicationProtocolBytes() {
+            Object obj = this.applicationProtocol_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.applicationProtocol_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setApplicationProtocolBytes(ByteString byteString) {
+            byteString.getClass();
+            HandshakerResult.checkByteStringIsUtf8(byteString);
+            this.applicationProtocol_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearApplicationProtocol() {
+            this.applicationProtocol_ = HandshakerResult.getDefaultInstance().getApplicationProtocol();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public String getRecordProtocol() {
+            Object obj = this.recordProtocol_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.recordProtocol_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setRecordProtocol(String str) {
+            str.getClass();
+            this.recordProtocol_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public ByteString getRecordProtocolBytes() {
+            Object obj = this.recordProtocol_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.recordProtocol_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setRecordProtocolBytes(ByteString byteString) {
+            byteString.getClass();
+            HandshakerResult.checkByteStringIsUtf8(byteString);
+            this.recordProtocol_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRecordProtocol() {
+            this.recordProtocol_ = HandshakerResult.getDefaultInstance().getRecordProtocol();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearKeyData() {
+            this.keyData_ = HandshakerResult.getDefaultInstance().getKeyData();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public Identity getPeerIdentity() {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.peerIdentityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Identity identity = this.peerIdentity_;
+            return identity == null ? Identity.getDefaultInstance() : identity;
+        }
+
+        public Builder setPeerIdentity(Identity identity) {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.peerIdentityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                identity.getClass();
+                this.peerIdentity_ = identity;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(identity);
+            }
+            return this;
+        }
+
+        public Builder setPeerIdentity(Identity.Builder builder) {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.peerIdentityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.peerIdentity_ = builder.m6612build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m6612build());
+            }
+            return this;
+        }
+
+        public Builder mergePeerIdentity(Identity identity) {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.peerIdentityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Identity identity2 = this.peerIdentity_;
+                if (identity2 != null) {
+                    this.peerIdentity_ = Identity.newBuilder(identity2).mergeFrom(identity).m6614buildPartial();
+                } else {
+                    this.peerIdentity_ = identity;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(identity);
+            }
+            return this;
+        }
+
+        public Builder clearPeerIdentity() {
+            if (this.peerIdentityBuilder_ == null) {
+                this.peerIdentity_ = null;
+                onChanged();
+            } else {
+                this.peerIdentity_ = null;
+                this.peerIdentityBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Identity.Builder getPeerIdentityBuilder() {
+            onChanged();
+            return getPeerIdentityFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public IdentityOrBuilder getPeerIdentityOrBuilder() {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.peerIdentityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (IdentityOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Identity identity = this.peerIdentity_;
+            return identity == null ? Identity.getDefaultInstance() : identity;
+        }
+
+        private SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> getPeerIdentityFieldBuilder() {
+            if (this.peerIdentityBuilder_ == null) {
+                this.peerIdentityBuilder_ = new SingleFieldBuilderV3<>(getPeerIdentity(), getParentForChildren(), isClean());
+                this.peerIdentity_ = null;
+            }
+            return this.peerIdentityBuilder_;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public Identity getLocalIdentity() {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.localIdentityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Identity identity = this.localIdentity_;
+            return identity == null ? Identity.getDefaultInstance() : identity;
+        }
+
+        public Builder setLocalIdentity(Identity identity) {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.localIdentityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                identity.getClass();
+                this.localIdentity_ = identity;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(identity);
+            }
+            return this;
+        }
+
+        public Builder setLocalIdentity(Identity.Builder builder) {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.localIdentityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.localIdentity_ = builder.m6612build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m6612build());
+            }
+            return this;
+        }
+
+        public Builder mergeLocalIdentity(Identity identity) {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.localIdentityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Identity identity2 = this.localIdentity_;
+                if (identity2 != null) {
+                    this.localIdentity_ = Identity.newBuilder(identity2).mergeFrom(identity).m6614buildPartial();
+                } else {
+                    this.localIdentity_ = identity;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(identity);
+            }
+            return this;
+        }
+
+        public Builder clearLocalIdentity() {
+            if (this.localIdentityBuilder_ == null) {
+                this.localIdentity_ = null;
+                onChanged();
+            } else {
+                this.localIdentity_ = null;
+                this.localIdentityBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Identity.Builder getLocalIdentityBuilder() {
+            onChanged();
+            return getLocalIdentityFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public IdentityOrBuilder getLocalIdentityOrBuilder() {
+            SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> singleFieldBuilderV3 = this.localIdentityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (IdentityOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Identity identity = this.localIdentity_;
+            return identity == null ? Identity.getDefaultInstance() : identity;
+        }
+
+        private SingleFieldBuilderV3<Identity, Identity.Builder, IdentityOrBuilder> getLocalIdentityFieldBuilder() {
+            if (this.localIdentityBuilder_ == null) {
+                this.localIdentityBuilder_ = new SingleFieldBuilderV3<>(getLocalIdentity(), getParentForChildren(), isClean());
+                this.localIdentity_ = null;
+            }
+            return this.localIdentityBuilder_;
+        }
+
+        public Builder clearKeepChannelOpen() {
+            this.keepChannelOpen_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public RpcProtocolVersions getPeerRpcVersions() {
+            SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> singleFieldBuilderV3 = this.peerRpcVersionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            RpcProtocolVersions rpcProtocolVersions = this.peerRpcVersions_;
+            return rpcProtocolVersions == null ? RpcProtocolVersions.getDefaultInstance() : rpcProtocolVersions;
+        }
+
+        public Builder setPeerRpcVersions(RpcProtocolVersions rpcProtocolVersions) {
+            SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> singleFieldBuilderV3 = this.peerRpcVersionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                rpcProtocolVersions.getClass();
+                this.peerRpcVersions_ = rpcProtocolVersions;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(rpcProtocolVersions);
+            }
+            return this;
+        }
+
+        public Builder setPeerRpcVersions(RpcProtocolVersions.Builder builder) {
+            SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> singleFieldBuilderV3 = this.peerRpcVersionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.peerRpcVersions_ = builder.m6705build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m6705build());
+            }
+            return this;
+        }
+
+        public Builder mergePeerRpcVersions(RpcProtocolVersions rpcProtocolVersions) {
+            SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> singleFieldBuilderV3 = this.peerRpcVersionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                RpcProtocolVersions rpcProtocolVersions2 = this.peerRpcVersions_;
+                if (rpcProtocolVersions2 != null) {
+                    this.peerRpcVersions_ = RpcProtocolVersions.newBuilder(rpcProtocolVersions2).mergeFrom(rpcProtocolVersions).m6707buildPartial();
+                } else {
+                    this.peerRpcVersions_ = rpcProtocolVersions;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(rpcProtocolVersions);
+            }
+            return this;
+        }
+
+        public Builder clearPeerRpcVersions() {
+            if (this.peerRpcVersionsBuilder_ == null) {
+                this.peerRpcVersions_ = null;
+                onChanged();
+            } else {
+                this.peerRpcVersions_ = null;
+                this.peerRpcVersionsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public RpcProtocolVersions.Builder getPeerRpcVersionsBuilder() {
+            onChanged();
+            return getPeerRpcVersionsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.alts.internal.HandshakerResultOrBuilder
+        public RpcProtocolVersionsOrBuilder getPeerRpcVersionsOrBuilder() {
+            SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> singleFieldBuilderV3 = this.peerRpcVersionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (RpcProtocolVersionsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            RpcProtocolVersions rpcProtocolVersions = this.peerRpcVersions_;
+            return rpcProtocolVersions == null ? RpcProtocolVersions.getDefaultInstance() : rpcProtocolVersions;
+        }
+
+        private SingleFieldBuilderV3<RpcProtocolVersions, RpcProtocolVersions.Builder, RpcProtocolVersionsOrBuilder> getPeerRpcVersionsFieldBuilder() {
+            if (this.peerRpcVersionsBuilder_ == null) {
+                this.peerRpcVersionsBuilder_ = new SingleFieldBuilderV3<>(getPeerRpcVersions(), getParentForChildren(), isClean());
+                this.peerRpcVersions_ = null;
+            }
+            return this.peerRpcVersionsBuilder_;
+        }
+
+        public Builder clearMaxFrameSize() {
+            this.maxFrameSize_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m6554setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m6548mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

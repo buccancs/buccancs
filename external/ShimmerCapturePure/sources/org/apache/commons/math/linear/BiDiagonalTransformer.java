@@ -1,0 +1,251 @@
+package org.apache.commons.math.linear;
+
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/BiDiagonalTransformer.class */
+class BiDiagonalTransformer {
+    private final double[][] householderVectors;
+    private final double[] main;
+    private final double[] secondary;
+    private RealMatrix cachedU;
+    private RealMatrix cachedB;
+    private RealMatrix cachedV;
+
+    public BiDiagonalTransformer(RealMatrix matrix) {
+        int m = matrix.getRowDimension();
+        int n = matrix.getColumnDimension();
+        int p = FastMath.min(m, n);
+        this.householderVectors = matrix.getData();
+        this.main = new double[p];
+        this.secondary = new double[p - 1];
+        this.cachedU = null;
+        this.cachedB = null;
+        this.cachedV = null;
+        if (m >= n) {
+            transformToUpperBiDiagonal();
+        } else {
+            transformToLowerBiDiagonal();
+        }
+    }
+
+    public RealMatrix getU() throws MatrixIndexException {
+        if (this.cachedU == null) {
+            int m = this.householderVectors.length;
+            int n = this.householderVectors[0].length;
+            int p = this.main.length;
+            int diagOffset = m >= n ? 0 : 1;
+            double[] diagonal = m >= n ? this.main : this.secondary;
+            this.cachedU = MatrixUtils.createRealMatrix(m, m);
+            for (int k = m - 1; k >= p; k--) {
+                this.cachedU.setEntry(k, k, 1.0d);
+            }
+            for (int k2 = p - 1; k2 >= diagOffset; k2--) {
+                double[] hK = this.householderVectors[k2];
+                this.cachedU.setEntry(k2, k2, 1.0d);
+                if (hK[k2 - diagOffset] != 0.0d) {
+                    for (int j = k2; j < m; j++) {
+                        double alpha = 0.0d;
+                        for (int i = k2; i < m; i++) {
+                            alpha -= this.cachedU.getEntry(i, j) * this.householderVectors[i][k2 - diagOffset];
+                        }
+                        double alpha2 = alpha / (diagonal[k2 - diagOffset] * hK[k2 - diagOffset]);
+                        for (int i2 = k2; i2 < m; i2++) {
+                            this.cachedU.addToEntry(i2, j, (-alpha2) * this.householderVectors[i2][k2 - diagOffset]);
+                        }
+                    }
+                }
+            }
+            if (diagOffset > 0) {
+                this.cachedU.setEntry(0, 0, 1.0d);
+            }
+        }
+        return this.cachedU;
+    }
+
+    public RealMatrix getB() throws MatrixIndexException {
+        if (this.cachedB == null) {
+            int m = this.householderVectors.length;
+            int n = this.householderVectors[0].length;
+            this.cachedB = MatrixUtils.createRealMatrix(m, n);
+            for (int i = 0; i < this.main.length; i++) {
+                this.cachedB.setEntry(i, i, this.main[i]);
+                if (m < n) {
+                    if (i > 0) {
+                        this.cachedB.setEntry(i, i - 1, this.secondary[i - 1]);
+                    }
+                } else if (i < this.main.length - 1) {
+                    this.cachedB.setEntry(i, i + 1, this.secondary[i]);
+                }
+            }
+        }
+        return this.cachedB;
+    }
+
+    public RealMatrix getV() throws MatrixIndexException {
+        if (this.cachedV == null) {
+            int m = this.householderVectors.length;
+            int n = this.householderVectors[0].length;
+            int p = this.main.length;
+            int diagOffset = m >= n ? 1 : 0;
+            double[] diagonal = m >= n ? this.secondary : this.main;
+            this.cachedV = MatrixUtils.createRealMatrix(n, n);
+            for (int k = n - 1; k >= p; k--) {
+                this.cachedV.setEntry(k, k, 1.0d);
+            }
+            for (int k2 = p - 1; k2 >= diagOffset; k2--) {
+                double[] hK = this.householderVectors[k2 - diagOffset];
+                this.cachedV.setEntry(k2, k2, 1.0d);
+                if (hK[k2] != 0.0d) {
+                    for (int j = k2; j < n; j++) {
+                        double beta = 0.0d;
+                        for (int i = k2; i < n; i++) {
+                            beta -= this.cachedV.getEntry(i, j) * hK[i];
+                        }
+                        double beta2 = beta / (diagonal[k2 - diagOffset] * hK[k2]);
+                        for (int i2 = k2; i2 < n; i2++) {
+                            this.cachedV.addToEntry(i2, j, (-beta2) * hK[i2]);
+                        }
+                    }
+                }
+            }
+            if (diagOffset > 0) {
+                this.cachedV.setEntry(0, 0, 1.0d);
+            }
+        }
+        return this.cachedV;
+    }
+
+    double[][] getHouseholderVectorsRef() {
+        return this.householderVectors;
+    }
+
+    double[] getMainDiagonalRef() {
+        return this.main;
+    }
+
+    double[] getSecondaryDiagonalRef() {
+        return this.secondary;
+    }
+
+    boolean isUpperBiDiagonal() {
+        return this.householderVectors.length >= this.householderVectors[0].length;
+    }
+
+    private void transformToUpperBiDiagonal() {
+        int m = this.householderVectors.length;
+        int n = this.householderVectors[0].length;
+        for (int k = 0; k < n; k++) {
+            double xNormSqr = 0.0d;
+            for (int i = k; i < m; i++) {
+                double c = this.householderVectors[i][k];
+                xNormSqr += c * c;
+            }
+            double[] hK = this.householderVectors[k];
+            double a = hK[k] > 0.0d ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+            this.main[k] = a;
+            if (a != 0.0d) {
+                int i2 = k;
+                hK[i2] = hK[i2] - a;
+                for (int j = k + 1; j < n; j++) {
+                    double alpha = 0.0d;
+                    for (int i3 = k; i3 < m; i3++) {
+                        double[] hI = this.householderVectors[i3];
+                        alpha -= hI[j] * hI[k];
+                    }
+                    double alpha2 = alpha / (a * this.householderVectors[k][k]);
+                    for (int i4 = k; i4 < m; i4++) {
+                        double[] hI2 = this.householderVectors[i4];
+                        int i5 = j;
+                        hI2[i5] = hI2[i5] - (alpha2 * hI2[k]);
+                    }
+                }
+            }
+            if (k < n - 1) {
+                double xNormSqr2 = 0.0d;
+                for (int j2 = k + 1; j2 < n; j2++) {
+                    double c2 = hK[j2];
+                    xNormSqr2 += c2 * c2;
+                }
+                double b = hK[k + 1] > 0.0d ? -FastMath.sqrt(xNormSqr2) : FastMath.sqrt(xNormSqr2);
+                this.secondary[k] = b;
+                if (b != 0.0d) {
+                    int i6 = k + 1;
+                    hK[i6] = hK[i6] - b;
+                    for (int i7 = k + 1; i7 < m; i7++) {
+                        double[] hI3 = this.householderVectors[i7];
+                        double beta = 0.0d;
+                        for (int j3 = k + 1; j3 < n; j3++) {
+                            beta -= hI3[j3] * hK[j3];
+                        }
+                        double beta2 = beta / (b * hK[k + 1]);
+                        for (int j4 = k + 1; j4 < n; j4++) {
+                            int i8 = j4;
+                            hI3[i8] = hI3[i8] - (beta2 * hK[j4]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void transformToLowerBiDiagonal() {
+        int m = this.householderVectors.length;
+        int n = this.householderVectors[0].length;
+        for (int k = 0; k < m; k++) {
+            double[] hK = this.householderVectors[k];
+            double xNormSqr = 0.0d;
+            for (int j = k; j < n; j++) {
+                double c = hK[j];
+                xNormSqr += c * c;
+            }
+            double a = hK[k] > 0.0d ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+            this.main[k] = a;
+            if (a != 0.0d) {
+                int i = k;
+                hK[i] = hK[i] - a;
+                for (int i2 = k + 1; i2 < m; i2++) {
+                    double[] hI = this.householderVectors[i2];
+                    double alpha = 0.0d;
+                    for (int j2 = k; j2 < n; j2++) {
+                        alpha -= hI[j2] * hK[j2];
+                    }
+                    double alpha2 = alpha / (a * this.householderVectors[k][k]);
+                    for (int j3 = k; j3 < n; j3++) {
+                        int i3 = j3;
+                        hI[i3] = hI[i3] - (alpha2 * hK[j3]);
+                    }
+                }
+            }
+            if (k < m - 1) {
+                double[] hKp1 = this.householderVectors[k + 1];
+                double xNormSqr2 = 0.0d;
+                for (int i4 = k + 1; i4 < m; i4++) {
+                    double c2 = this.householderVectors[i4][k];
+                    xNormSqr2 += c2 * c2;
+                }
+                double b = hKp1[k] > 0.0d ? -FastMath.sqrt(xNormSqr2) : FastMath.sqrt(xNormSqr2);
+                this.secondary[k] = b;
+                if (b != 0.0d) {
+                    int i5 = k;
+                    hKp1[i5] = hKp1[i5] - b;
+                    for (int j4 = k + 1; j4 < n; j4++) {
+                        double beta = 0.0d;
+                        for (int i6 = k + 1; i6 < m; i6++) {
+                            double[] hI2 = this.householderVectors[i6];
+                            beta -= hI2[j4] * hI2[k];
+                        }
+                        double beta2 = beta / (b * hKp1[k]);
+                        for (int i7 = k + 1; i7 < m; i7++) {
+                            double[] hI3 = this.householderVectors[i7];
+                            int i8 = j4;
+                            hI3[i8] = hI3[i8] - (beta2 * hI3[k]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

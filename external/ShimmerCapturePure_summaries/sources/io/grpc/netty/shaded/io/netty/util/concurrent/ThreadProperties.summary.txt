@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/ThreadProperties.java
+// Size: 375 bytes
+// Modified: 2025-10-21 16:32:00.275633000 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import java.lang.Thread;
+
+/* loaded from: classes3.dex */
+public interface ThreadProperties {
+    long id();
+
+    boolean isAlive();
+
+    boolean isDaemon();
+
+    boolean isInterrupted();
+
+    String name();
+
+    int priority();
+
+    StackTraceElement[] stackTrace();
+
+    Thread.State state();
+}

@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/widget/FitWindowsViewGroup.java
+// Size: 349 bytes
+// Modified: 2025-10-21 16:32:00.074266700 +0100
+
+package androidx.appcompat.widget;
+
+import android.graphics.Rect;
+
+/* loaded from: classes.dex */
+public interface FitWindowsViewGroup {
+
+    public interface OnFitSystemWindowsListener {
+        void onFitSystemWindows(Rect rect);
+    }
+
+    void setOnFitSystemWindowsListener(OnFitSystemWindowsListener onFitSystemWindowsListener);
+}

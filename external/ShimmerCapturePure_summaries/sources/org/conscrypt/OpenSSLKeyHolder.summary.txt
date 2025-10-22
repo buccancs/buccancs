@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/OpenSSLKeyHolder.java
+// Size: 132 bytes
+// Modified: 2025-10-21 16:32:05.064756700 +0100
+
+package org.conscrypt;
+
+/* loaded from: classes5.dex */
+public interface OpenSSLKeyHolder {
+    OpenSSLKey getOpenSSLKey();
+}

@@ -1,0 +1,40 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/UnpooledUnsafeNoCleanerDirectByteBuf.java
+// Size: 1352 bytes
+// Modified: 2025-10-21 16:32:11.279813500 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer;
+
+import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+class UnpooledUnsafeNoCleanerDirectByteBuf extends UnpooledUnsafeDirectByteBuf {
+    UnpooledUnsafeNoCleanerDirectByteBuf(ByteBufAllocator byteBufAllocator, int i, int i2) {
+        super(byteBufAllocator, i, i2);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+    protected ByteBuffer allocateDirect(int i) {
+        return PlatformDependent.allocateDirectNoCleaner(i);
+    }
+
+    ByteBuffer reallocateDirect(ByteBuffer byteBuffer, int i) {
+        return PlatformDependent.reallocateDirectNoCleaner(byteBuffer, i);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+    protected void freeDirect(ByteBuffer byteBuffer) {
+        PlatformDependent.freeDirectNoCleaner(byteBuffer);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf, io.grpc.netty.shaded.io.netty.buffer.ByteBuf
+    public ByteBuf capacity(int i) {
+        checkNewCapacity(i);
+        if (i == capacity()) {
+            return this;
+        }
+        trimIndicesToCapacity(i);
+        setByteBuffer(reallocateDirect(this.buffer, i), false);
+        return this;
+    }
+}

@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/com/github/udpa/udpa/core/v1/ContextParamsOrBuilder.java
+// Size: 508 bytes
+// Modified: 2025-10-21 16:32:00.410474700 +0100
+
+package io.grpc.xds.shaded.com.github.udpa.udpa.core.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public interface ContextParamsOrBuilder extends MessageOrBuilder {
+    boolean containsParams(String str);
+
+    @Deprecated
+    Map<String, String> getParams();
+
+    int getParamsCount();
+
+    Map<String, String> getParamsMap();
+
+    String getParamsOrDefault(String str, String str2);
+
+    String getParamsOrThrow(String str);
+}

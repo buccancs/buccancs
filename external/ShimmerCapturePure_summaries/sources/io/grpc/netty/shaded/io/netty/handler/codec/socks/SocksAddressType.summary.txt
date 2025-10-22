@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/SocksAddressType.java
+// Size: 746 bytes
+// Modified: 2025-10-21 16:32:00.238749100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+/* loaded from: classes3.dex */
+public enum SocksAddressType {
+    IPv4((byte) 1),
+    DOMAIN((byte) 3),
+    IPv6((byte) 4),
+    UNKNOWN((byte) -1);
+
+    private final byte b;
+
+    public byte byteValue() {
+        return this.b;
+    }
+
+    SocksAddressType(byte b) {
+        this.b = b;
+    }
+
+    @Deprecated
+    public static SocksAddressType fromByte(byte b) {
+        return valueOf(b);
+    }
+
+    public static SocksAddressType valueOf(byte b) {
+        for (SocksAddressType socksAddressType : values()) {
+            if (socksAddressType.b == b) {
+                return socksAddressType;
+            }
+        }
+        return UNKNOWN;
+    }
+}

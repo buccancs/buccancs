@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/protobuf/ProtoFileDescriptorSupplier.java
+// Size: 209 bytes
+// Modified: 2025-10-21 16:32:00.433526500 +0100
+
+package io.grpc.protobuf;
+
+import com.google.protobuf.Descriptors;
+
+/* loaded from: classes3.dex */
+public interface ProtoFileDescriptorSupplier {
+    Descriptors.FileDescriptor getFileDescriptor();
+}

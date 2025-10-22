@@ -1,0 +1,609 @@
+package com.shimmerresearch.driver;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.grpc.ShimmerGRPC;
+import com.shimmerresearch.sensors.SensorShimmerClock;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+/* loaded from: classes2.dex */
+public final class ObjectCluster implements Cloneable, Serializable {
+    public static final int CAL_INDEX = ChannelDetails.CHANNEL_TYPE.CAL.ordinal();
+    public static final int UNCAL_INDEX = ChannelDetails.CHANNEL_TYPE.CAL.ordinal();
+    private static final long serialVersionUID = -7601464501144773539L;
+    public static OBJECTCLUSTER_TYPE[] mOCTypesEnabled = {null, OBJECTCLUSTER_TYPE.FORMAT_CLUSTER, null, null};
+    public double[] mCalData;
+    public boolean mEnableArraysDataStructure;
+    public int mIndexCal;
+    public int mIndexUncal;
+    public boolean mIsShimmerObjectCluster;
+    public double mLSLTimeStamp;
+    public int mPacketIdValue;
+    public Multimap<String, FormatCluster> mPropertyCluster;
+    public byte[] mRawData;
+    public ArrayList<SensorData> mSensorDataList;
+    @Deprecated
+    public String[] mSensorNames;
+    public ShimmerBluetooth.BT_STATE mState;
+    public double mSystemTimeStamp;
+    public double[] mUncalData;
+    public String[] mUnitCal;
+    public String[] mUnitUncal;
+    public SensorDataArray sensorDataArray;
+    public boolean useList;
+    private int indexKeeper;
+    private List<String> listOfChannelNames;
+    private String mBluetoothAddress;
+    private String mMyName;
+    private ShimmerGRPC.ObjectCluster2.Builder mObjectClusterBuilder;
+    private byte[] mSystemTimeStampBytes;
+    private double mTimeStampMilliSecs;
+
+    public ObjectCluster() {
+        this.mSensorDataList = new ArrayList<>();
+        this.mPropertyCluster = HashMultimap.create();
+        this.listOfChannelNames = new ArrayList();
+        this.indexKeeper = 0;
+        this.mSystemTimeStampBytes = new byte[8];
+        this.mSystemTimeStamp = 0.0d;
+        this.mLSLTimeStamp = 0.0d;
+        this.mIsShimmerObjectCluster = true;
+        this.useList = false;
+        this.mPacketIdValue = 0;
+        this.mIndexCal = 0;
+        this.mIndexUncal = 0;
+        this.mEnableArraysDataStructure = false;
+    }
+
+    public ObjectCluster(String str) {
+        this();
+        this.mMyName = str;
+    }
+
+    public ObjectCluster(String str, String str2) {
+        this(str);
+        this.mBluetoothAddress = str2;
+    }
+
+    public ObjectCluster(String str, String str2, ShimmerBluetooth.BT_STATE bt_state) {
+        this(str, str2);
+        this.mState = bt_state;
+    }
+
+    public ObjectCluster(ShimmerGRPC.ObjectCluster2 objectCluster2) {
+        this.mSensorDataList = new ArrayList<>();
+        this.mPropertyCluster = HashMultimap.create();
+        this.listOfChannelNames = new ArrayList();
+        this.indexKeeper = 0;
+        this.mSystemTimeStampBytes = new byte[8];
+        this.mSystemTimeStamp = 0.0d;
+        this.mLSLTimeStamp = 0.0d;
+        this.mIsShimmerObjectCluster = true;
+        this.useList = false;
+        this.mPacketIdValue = 0;
+        this.mIndexCal = 0;
+        this.mIndexUncal = 0;
+        this.mEnableArraysDataStructure = false;
+        objectCluster2.getDataMap().get("");
+        for (String str : objectCluster2.getDataMap().keySet()) {
+            ShimmerGRPC.ObjectCluster2.FormatCluster2 formatCluster2 = objectCluster2.getDataMap().get(str);
+            for (String str2 : formatCluster2.getFormatMap().keySet()) {
+                ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2 dataCluster2 = formatCluster2.getFormatMap().get(str2);
+                addDataToMap(str, str2, dataCluster2.getUnit(), dataCluster2.getData(), dataCluster2.getDataArrayList());
+            }
+        }
+        this.mBluetoothAddress = objectCluster2.getBluetoothAddress();
+        this.mMyName = objectCluster2.getName();
+    }
+
+    public static OBJECTCLUSTER_TYPE[] getOCTypesEnabled() {
+        return mOCTypesEnabled;
+    }
+
+    public static void setOCTypesEnabled(List<OBJECTCLUSTER_TYPE> list) {
+        mOCTypesEnabled = new OBJECTCLUSTER_TYPE[OBJECTCLUSTER_TYPE.values().length];
+        for (OBJECTCLUSTER_TYPE objectcluster_type : list) {
+            mOCTypesEnabled[objectcluster_type.ordinal()] = objectcluster_type;
+        }
+    }
+
+    public static FormatCluster returnFormatCluster(Collection<FormatCluster> collection, String str) {
+        FormatCluster formatCluster = null;
+        for (FormatCluster formatCluster2 : collection) {
+            if (formatCluster2.mFormat.equals(str)) {
+                formatCluster = formatCluster2;
+            }
+        }
+        return formatCluster;
+    }
+
+    private static List<String[]> getListofEnabledSensorSignalsandFormats(String str, String[] strArr, String[] strArr2, String[] strArr3, String[] strArr4) {
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < strArr.length; i++) {
+            arrayList.add(new String[]{str, strArr[i], strArr2[i], strArr3[i], strArr4[i]});
+        }
+        return arrayList;
+    }
+
+    public static ObjectCluster[] generateRandomObjectClusterArray(String str, String str2, int i, int i2, int i3) {
+        Random random = new Random();
+        double[] dArr = new double[i];
+        for (int i4 = 0; i4 < i; i4++) {
+            dArr[i4] = random.nextInt(i3);
+        }
+        ObjectCluster[] objectClusterArr = new ObjectCluster[i];
+        double d = 1.0E-5d;
+        for (int i5 = 0; i5 < i; i5++) {
+            ObjectCluster objectCluster = new ObjectCluster(str);
+            objectCluster.createArrayData(1);
+            objectCluster.addData(str2, ChannelDetails.CHANNEL_TYPE.CAL, "", dArr[i5]);
+            objectCluster.addCalData(SensorShimmerClock.channelSystemTimestampPlot, d);
+            d += 1.0d;
+            objectClusterArr[i5] = objectCluster;
+        }
+        return objectClusterArr;
+    }
+
+    public List<String> getChannelNamesByInsertionOrder() {
+        return this.listOfChannelNames;
+    }
+
+    public int getIndexKeeper() {
+        return this.indexKeeper;
+    }
+
+    public void setIndexKeeper(int i) {
+        this.indexKeeper = i;
+    }
+
+    public String getMacAddress() {
+        return this.mBluetoothAddress;
+    }
+
+    public void setMacAddress(String str) {
+        this.mBluetoothAddress = str;
+    }
+
+    public Multimap<String, FormatCluster> getPropertyCluster() {
+        return this.mPropertyCluster;
+    }
+
+    public String getShimmerName() {
+        return this.mMyName;
+    }
+
+    public void setShimmerName(String str) {
+        this.mMyName = str;
+    }
+
+    public double getTimestampMilliSecs() {
+        return this.mTimeStampMilliSecs;
+    }
+
+    public boolean isValidObjectCluster() {
+        return this.mState == null && this.mIsShimmerObjectCluster;
+    }
+
+    public void setIsShimmerObjectCluster(boolean z) {
+        this.mIsShimmerObjectCluster = z;
+    }
+
+    public void setTimeStampMilliSecs(double d) {
+        this.mTimeStampMilliSecs = d;
+    }
+
+    public double getFormatClusterValueDefaultFormat(ChannelDetails channelDetails) {
+        return getFormatClusterValue(channelDetails.mObjectClusterName, channelDetails.mListOfChannelTypes.get(0).toString());
+    }
+
+    public double getFormatClusterValue(ChannelDetails channelDetails, ChannelDetails.CHANNEL_TYPE channel_type) {
+        return getFormatClusterValue(channelDetails.mObjectClusterName, channel_type.toString());
+    }
+
+    public double getFormatClusterValue(String str, String str2) {
+        if (this.mEnableArraysDataStructure) {
+            int indexForChannelName = getIndexForChannelName(str);
+            if (indexForChannelName == -1) {
+                return Double.NaN;
+            }
+            if (str2.equals(ChannelDetails.CHANNEL_TYPE.CAL.toString())) {
+                return this.sensorDataArray.mCalData[indexForChannelName];
+            }
+            if (str2.equals(ChannelDetails.CHANNEL_TYPE.UNCAL.toString())) {
+                return this.sensorDataArray.mUncalData[indexForChannelName];
+            }
+            return Double.NaN;
+        }
+        FormatCluster lastFormatCluster = getLastFormatCluster(str, str2);
+        if (lastFormatCluster != null) {
+            return lastFormatCluster.mData;
+        }
+        return Double.NaN;
+    }
+
+    public FormatCluster getLastFormatCluster(String str, String str2) {
+        FormatCluster formatClusterReturnFormatCluster;
+        Collection<FormatCluster> collectionOfFormatClusters = getCollectionOfFormatClusters(str);
+        if (collectionOfFormatClusters == null || (formatClusterReturnFormatCluster = returnFormatCluster(collectionOfFormatClusters, str2)) == null) {
+            return null;
+        }
+        return formatClusterReturnFormatCluster;
+    }
+
+    public void removePropertyFormat(String str, String str2) {
+        this.mPropertyCluster.remove(str, returnFormatCluster(this.mPropertyCluster.get(str), str2));
+    }
+
+    public byte[] serialize() throws IOException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            new ObjectOutputStream(byteArrayOutputStream).writeObject(this);
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<String[]> generateArrayOfChannelsSorted() {
+        ArrayList arrayList = new ArrayList();
+        int i = 0;
+        for (String str : getChannelNamesFromKeySet()) {
+            i++;
+        }
+        String[] strArr = new String[i];
+        Iterator<String> it2 = getChannelNamesFromKeySet().iterator();
+        int i2 = 0;
+        while (it2.hasNext()) {
+            strArr[i2] = it2.next();
+            i2++;
+        }
+        Arrays.sort(strArr);
+        for (int i3 = 0; i3 < i; i3++) {
+            String str2 = strArr[i3];
+            Collection<FormatCluster> collectionOfFormatClusters = getCollectionOfFormatClusters(str2);
+            int i4 = 0;
+            for (FormatCluster formatCluster : collectionOfFormatClusters) {
+                i4++;
+            }
+            String[] strArr2 = new String[i4];
+            String[] strArr3 = new String[i4];
+            Iterator<FormatCluster> it3 = collectionOfFormatClusters.iterator();
+            int i5 = 0;
+            while (it3.hasNext()) {
+                strArr2[i5] = it3.next().mFormat;
+                i5++;
+            }
+            Arrays.sort(strArr2);
+            for (int i6 = 0; i6 < i4; i6++) {
+                for (FormatCluster formatCluster2 : collectionOfFormatClusters) {
+                    if (formatCluster2.mFormat.equals(strArr2[i6])) {
+                        strArr3[i6] = formatCluster2.mUnits;
+                    }
+                }
+            }
+            for (int i7 = 0; i7 < i4; i7++) {
+                arrayList.add(new String[]{this.mMyName, str2, strArr2[i7], strArr3[i7]});
+                System.out.println("Index0");
+            }
+        }
+        return arrayList;
+    }
+
+    public List<String[]> generateArrayOfChannels() {
+        Multimap<String, FormatCluster> multimap = this.mPropertyCluster;
+        int size = multimap.size();
+        System.out.print(size);
+        this.mSensorNames = new String[size];
+        String[] strArr = new String[size];
+        String[] strArr2 = new String[size];
+        String[] strArr3 = new String[size];
+        int i = 0;
+        int i2 = 0;
+        for (String str : multimap.keys()) {
+            if (compareStringArray(this.mSensorNames, str)) {
+                for (FormatCluster formatCluster : multimap.get(str)) {
+                    strArr[i2] = formatCluster.mFormat;
+                    strArr2[i2] = formatCluster.mUnits;
+                    strArr3[i2] = formatCluster.mIsUsingDefaultCalibration ? "*" : "";
+                    i2++;
+                }
+            }
+            this.mSensorNames[i] = str;
+            i++;
+        }
+        return getListofEnabledSensorSignalsandFormats(this.mMyName, this.mSensorNames, strArr, strArr2, strArr3);
+    }
+
+    private boolean compareStringArray(String[] strArr, String str) {
+        boolean z = true;
+        for (String str2 : strArr) {
+            if (str2 == str) {
+                z = false;
+            }
+        }
+        return z;
+    }
+
+    public void createArrayData(int i) {
+        if (this.mEnableArraysDataStructure) {
+            this.sensorDataArray = new SensorDataArray(i);
+            return;
+        }
+        this.mUncalData = new double[i];
+        this.mCalData = new double[i];
+        this.mSensorNames = new String[i];
+        this.mUnitCal = new String[i];
+        this.mUnitUncal = new String[i];
+    }
+
+    public void addData(ChannelDetails channelDetails, double d, double d2) {
+        addData(channelDetails, d, d2, false);
+    }
+
+    public void addData(ChannelDetails channelDetails, double d, double d2, boolean z) {
+        addData(channelDetails, d, d2, this.indexKeeper, z);
+    }
+
+    public void addData(ChannelDetails channelDetails, double d, double d2, int i, boolean z) {
+        if (channelDetails.mListOfChannelTypes.contains(ChannelDetails.CHANNEL_TYPE.UNCAL)) {
+            addUncalData(channelDetails, d, i);
+        }
+        if (channelDetails.mListOfChannelTypes.contains(ChannelDetails.CHANNEL_TYPE.CAL)) {
+            addCalData(channelDetails, d2, i, z);
+        }
+    }
+
+    public void addCalData(ChannelDetails channelDetails, double d) {
+        addCalData(channelDetails, d, this.indexKeeper);
+    }
+
+    public void addCalData(ChannelDetails channelDetails, double d, int i) {
+        addCalData(channelDetails, d, i, false);
+    }
+
+    public void addCalData(ChannelDetails channelDetails, double d, int i, boolean z) {
+        addData(channelDetails.mObjectClusterName, ChannelDetails.CHANNEL_TYPE.CAL, channelDetails.mDefaultCalUnits, d, i, z);
+    }
+
+    public void addUncalData(ChannelDetails channelDetails, double d) {
+        addUncalData(channelDetails, d, this.indexKeeper);
+    }
+
+    public void addUncalData(ChannelDetails channelDetails, double d, int i) {
+        addData(channelDetails.mObjectClusterName, ChannelDetails.CHANNEL_TYPE.UNCAL, channelDetails.mDefaultUncalUnit, d, i);
+    }
+
+    public void addData(String str, ChannelDetails.CHANNEL_TYPE channel_type, String str2, double d) {
+        addData(str, channel_type, str2, d, this.indexKeeper);
+    }
+
+    public void addData(String str, ChannelDetails.CHANNEL_TYPE channel_type, String str2, double d, int i) {
+        addData(str, channel_type, str2, d, i, false);
+    }
+
+    public void addData(String str, ChannelDetails.CHANNEL_TYPE channel_type, String str2, double d, int i, boolean z) {
+        if (mOCTypesEnabled[OBJECTCLUSTER_TYPE.ARRAYS_LEGACY.ordinal()] != null) {
+            if (channel_type == ChannelDetails.CHANNEL_TYPE.CAL) {
+                this.mCalData[i] = d;
+                this.mUnitCal[i] = str2;
+            } else if (channel_type == ChannelDetails.CHANNEL_TYPE.UNCAL) {
+                this.mUncalData[i] = d;
+                this.mUnitUncal[i] = str2;
+            } else if (channel_type == ChannelDetails.CHANNEL_TYPE.DERIVED) {
+                this.mCalData[i] = d;
+                this.mUnitCal[i] = str2;
+                this.mUncalData[i] = d;
+                this.mUnitUncal[i] = str2;
+            }
+            this.mSensorNames[i] = str;
+        }
+        if (mOCTypesEnabled[OBJECTCLUSTER_TYPE.FORMAT_CLUSTER.ordinal()] != null) {
+            addDataToMap(str, channel_type.toString(), str2, d, z);
+        }
+        OBJECTCLUSTER_TYPE objectcluster_type = mOCTypesEnabled[OBJECTCLUSTER_TYPE.PROTOBUF.ordinal()];
+    }
+
+    public void incrementIndexKeeper() {
+        int i;
+        if (mOCTypesEnabled[OBJECTCLUSTER_TYPE.ARRAYS_LEGACY.ordinal()] == null || (i = this.indexKeeper) >= this.mCalData.length) {
+            return;
+        }
+        this.indexKeeper = i + 1;
+    }
+
+    public void addCalDataToMap(ChannelDetails channelDetails, double d) {
+        addDataToMap(channelDetails.mObjectClusterName, ChannelDetails.CHANNEL_TYPE.CAL.toString(), channelDetails.mDefaultCalUnits, d);
+    }
+
+    public void addUncalDataToMap(ChannelDetails channelDetails, double d) {
+        addDataToMap(channelDetails.mObjectClusterName, ChannelDetails.CHANNEL_TYPE.UNCAL.toString(), channelDetails.mDefaultCalUnits, d);
+    }
+
+    public void addDataToMap(String str, String str2, String str3, double d) {
+        addDataToMap(str, str2, str3, d, false);
+    }
+
+    public void addDataToMap(String str, String str2, String str3, double d, boolean z) {
+        if (this.mEnableArraysDataStructure || mOCTypesEnabled[OBJECTCLUSTER_TYPE.FORMAT_CLUSTER.ordinal()] == null) {
+            return;
+        }
+        this.mPropertyCluster.put(str, new FormatCluster(str2, str3, d, z));
+        addChannelNameToList(str);
+    }
+
+    @Deprecated
+    public void addDataToMap(String str, String str2, String str3, List<Double> list) {
+        this.mPropertyCluster.put(str, new FormatCluster(str2, str3, list));
+        addChannelNameToList(str);
+    }
+
+    @Deprecated
+    public void addDataToMap(String str, String str2, String str3, double d, List<Double> list) {
+        this.mPropertyCluster.put(str, new FormatCluster(str2, str3, d, list));
+        addChannelNameToList(str);
+    }
+
+    private void addChannelNameToList(String str) {
+        if (this.listOfChannelNames.contains(str)) {
+            return;
+        }
+        this.listOfChannelNames.add(str);
+    }
+
+    @Deprecated
+    public void removeAll(String str) {
+        this.mPropertyCluster.removeAll(str);
+        this.listOfChannelNames = new ArrayList();
+    }
+
+    public Collection<FormatCluster> getCollectionOfFormatClusters(String str) {
+        return this.mPropertyCluster.get(str);
+    }
+
+    public Set<String> getChannelNamesFromKeySet() {
+        return this.mPropertyCluster.keySet();
+    }
+
+    public ShimmerGRPC.ObjectCluster2 buildProtoBufMsg() {
+        this.mObjectClusterBuilder = ShimmerGRPC.ObjectCluster2.newBuilder();
+        for (String str : this.mPropertyCluster.keys()) {
+            Collection<FormatCluster> collection = this.mPropertyCluster.get(str);
+            ShimmerGRPC.ObjectCluster2.FormatCluster2.Builder builderNewBuilder = ShimmerGRPC.ObjectCluster2.FormatCluster2.newBuilder();
+            for (FormatCluster formatCluster : collection) {
+                ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.Builder builderNewBuilder2 = ShimmerGRPC.ObjectCluster2.FormatCluster2.DataCluster2.newBuilder();
+                if (formatCluster.mData != Double.NaN) {
+                    builderNewBuilder2.setData(formatCluster.mData);
+                }
+                if (formatCluster.mDataObject != null && formatCluster.mDataObject.size() > 0) {
+                    builderNewBuilder2.addAllDataArray(formatCluster.mDataObject);
+                }
+                builderNewBuilder2.setUnit(formatCluster.mUnits);
+                builderNewBuilder.getMutableFormatMap().put(formatCluster.mFormat, builderNewBuilder2.m5807build());
+            }
+            this.mObjectClusterBuilder.getMutableDataMap().put(str, builderNewBuilder.m5755build());
+        }
+        String str2 = this.mBluetoothAddress;
+        if (str2 != null) {
+            this.mObjectClusterBuilder.setBluetoothAddress(str2);
+        }
+        String str3 = this.mMyName;
+        if (str3 != null) {
+            this.mObjectClusterBuilder.setName(str3);
+        }
+        this.mObjectClusterBuilder.setCalibratedTimeStamp(this.mTimeStampMilliSecs);
+        this.mObjectClusterBuilder.setSystemTime((long) this.mSystemTimeStamp);
+        return this.mObjectClusterBuilder.m5704build();
+    }
+
+    public void consolePrintChannelsAndDataSingleLine() {
+        System.out.println("ShimmerName:" + this.mMyName);
+        System.out.println("Channels in ObjectCluster:");
+        String str = "Cal:\t";
+        String str2 = "Uncal:\t";
+        for (String str3 : getChannelNamesByInsertionOrder()) {
+            String str4 = str + str3 + "=" + getFormatClusterValue(str3, ChannelDetails.CHANNEL_TYPE.CAL.toString()) + "\t";
+            str2 = str2 + str3 + "=" + getFormatClusterValue(str3, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()) + "\t";
+            str = str4;
+        }
+        System.out.println(str);
+        System.out.println(str2);
+        System.out.println("");
+    }
+
+    public void consolePrintChannelsAndDataGrouped() {
+        System.out.println("Channels in ObjectCluster:");
+        for (String str : getChannelNamesByInsertionOrder()) {
+            System.out.println("\t" + str + ":\t(" + getFormatClusterValue(str, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()) + UtilVerisenseDriver.CSV_DELIMITER + getFormatClusterValue(str, ChannelDetails.CHANNEL_TYPE.CAL.toString()) + ")");
+        }
+        System.out.println("");
+    }
+
+    public ObjectCluster deepClone() throws IOException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            new ObjectOutputStream(byteArrayOutputStream).writeObject(this);
+            return (ObjectCluster) new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray())).readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+
+    public int getIndexForChannelName(String str) {
+        int i = 0;
+        if (this.mEnableArraysDataStructure) {
+            while (i < this.sensorDataArray.mSensorNames.length) {
+                if (this.sensorDataArray.mSensorNames[i] != null && this.sensorDataArray.mSensorNames[i].equals(str)) {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
+        while (true) {
+            String[] strArr = this.mSensorNames;
+            if (i >= strArr.length) {
+                return -1;
+            }
+            String str2 = strArr[i];
+            if (str2 != null && str2.equals(str)) {
+                return i;
+            }
+            i++;
+        }
+    }
+
+    public void setSystemTimeStampBytes(byte[] bArr) {
+        this.mSystemTimeStampBytes = bArr;
+        ByteBuffer byteBufferAllocate = ByteBuffer.allocate(8);
+        byteBufferAllocate.put(this.mSystemTimeStampBytes);
+        this.mSystemTimeStamp = byteBufferAllocate.getLong();
+    }
+
+    public void setSystemTimeStamp(double d) {
+        this.mSystemTimeStamp = d;
+        this.mSystemTimeStampBytes = ByteBuffer.allocate(8).putLong((long) d).array();
+    }
+
+    public enum OBJECTCLUSTER_TYPE {
+        ARRAYS_LEGACY,
+        FORMAT_CLUSTER,
+        PROTOBUF,
+        ARRAYS
+    }
+
+    public class SensorDataPerType {
+        public double[] mData;
+        public boolean[] mIsUsingDefaultCalibParams;
+        public String[] mSensorNames;
+        public String[] mUnits;
+
+        public SensorDataPerType(int i) {
+            this.mSensorNames = new String[i];
+            this.mUnits = new String[i];
+            this.mData = new double[i];
+            this.mIsUsingDefaultCalibParams = new boolean[i];
+        }
+    }
+}

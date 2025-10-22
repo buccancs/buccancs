@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/SuppressJava6Requirement.java
+// Size: 436 bytes
+// Modified: 2025-10-21 16:32:00.275633000 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE})
+@Retention(RetentionPolicy.CLASS)
+/* loaded from: classes3.dex */
+public @interface SuppressJava6Requirement {
+    String reason();
+}

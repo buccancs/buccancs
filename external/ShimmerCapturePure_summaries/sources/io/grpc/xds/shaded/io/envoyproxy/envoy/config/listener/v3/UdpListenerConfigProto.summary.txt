@@ -1,0 +1,54 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/listener/v3/UdpListenerConfigProto.java
+// Size: 3782 bytes
+// Modified: 2025-10-21 16:32:01.564653800 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes6.dex */
+public final class UdpListenerConfigProto {
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n2envoy/config/listener/v3/udp_listener_config.proto\u0012\u0018envoy.config.listener.v3\u001a\u0019google/protobuf/any.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\"©\u0001\n\u0011UdpListenerConfig\u0012\u0019\n\u0011udp_listener_name\u0018\u0001 \u0001(\t\u0012,\n\ftyped_config\u0018\u0003 \u0001(\u000b2\u0014.google.protobuf.AnyH\u0000:.\u009aÅ\u0088\u001e)\n'envoy.api.v2.listener.UdpListenerConfigB\r\n\u000bconfig_typeJ\u0004\b\u0002\u0010\u0003R\u0006config\"U\n\u001aActiveRawUdpListenerConfig:7\u009aÅ\u0088\u001e2\n0envoy.api.v2.listener.ActiveRawUdpListenerConfigBJ\n&io.envoyproxy.envoy.config.listener.v3B\u0016UdpListenerConfigProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{AnyProto.getDescriptor(), StructProto.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor()});
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_ActiveRawUdpListenerConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_ActiveRawUdpListenerConfig_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_UdpListenerConfig_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_UdpListenerConfig_fieldAccessorTable;
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private UdpListenerConfigProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_listener_v3_UdpListenerConfig_descriptor = descriptor2;
+        internal_static_envoy_config_listener_v3_UdpListenerConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"UdpListenerName", "TypedConfig", "ConfigType"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_listener_v3_ActiveRawUdpListenerConfig_descriptor = descriptor3;
+        internal_static_envoy_config_listener_v3_ActiveRawUdpListenerConfig_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[0]);
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        AnyProto.getDescriptor();
+        StructProto.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/widget/EmojiCompatConfigurationView.java
+// Size: 205 bytes
+// Modified: 2025-10-21 16:32:00.073267000 +0100
+
+package androidx.appcompat.widget;
+
+/* loaded from: classes.dex */
+public interface EmojiCompatConfigurationView {
+    boolean isEmojiCompatEnabled();
+
+    void setEmojiCompatEnabled(boolean z);
+}

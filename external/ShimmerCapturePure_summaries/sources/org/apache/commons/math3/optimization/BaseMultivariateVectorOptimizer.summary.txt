@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optimization/BaseMultivariateVectorOptimizer.java
+// Size: 426 bytes
+// Modified: 2025-10-21 16:32:03.557182100 +0100
+
+package org.apache.commons.math3.optimization;
+
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public interface BaseMultivariateVectorOptimizer<FUNC extends MultivariateVectorFunction> extends BaseOptimizer<PointVectorValuePair> {
+    @Deprecated
+    PointVectorValuePair optimize(int i, FUNC func, double[] dArr, double[] dArr2, double[] dArr3);
+}

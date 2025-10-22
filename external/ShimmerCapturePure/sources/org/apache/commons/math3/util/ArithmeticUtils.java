@@ -1,0 +1,385 @@
+package org.apache.commons.math3.util;
+
+import java.math.BigInteger;
+
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.util.Localizable;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
+/* loaded from: classes5.dex */
+public final class ArithmeticUtils {
+    private ArithmeticUtils() {
+    }
+
+    public static boolean isPowerOfTwo(long j) {
+        return j > 0 && (j & (j - 1)) == 0;
+    }
+
+    public static int addAndCheck(int i, int i2) throws MathArithmeticException {
+        long j = i + i2;
+        if (j < -2147483648L || j > 2147483647L) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, Integer.valueOf(i), Integer.valueOf(i2));
+        }
+        return (int) j;
+    }
+
+    public static long addAndCheck(long j, long j2) throws MathArithmeticException {
+        return addAndCheck(j, j2, LocalizedFormats.OVERFLOW_IN_ADDITION);
+    }
+
+    @Deprecated
+    public static long binomialCoefficient(int i, int i2) throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
+        return CombinatoricsUtils.binomialCoefficient(i, i2);
+    }
+
+    @Deprecated
+    public static double binomialCoefficientDouble(int i, int i2) throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
+        return CombinatoricsUtils.binomialCoefficientDouble(i, i2);
+    }
+
+    @Deprecated
+    public static double binomialCoefficientLog(int i, int i2) throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
+        return CombinatoricsUtils.binomialCoefficientLog(i, i2);
+    }
+
+    @Deprecated
+    public static long factorial(int i) throws NotPositiveException, MathArithmeticException {
+        return CombinatoricsUtils.factorial(i);
+    }
+
+    @Deprecated
+    public static double factorialDouble(int i) throws NotPositiveException {
+        return CombinatoricsUtils.factorialDouble(i);
+    }
+
+    @Deprecated
+    public static double factorialLog(int i) throws NotPositiveException {
+        return CombinatoricsUtils.factorialLog(i);
+    }
+
+    public static int gcd(int i, int i2) throws MathArithmeticException {
+        int i3;
+        boolean z;
+        int i4;
+        if (i == 0 || i2 == 0) {
+            if (i == Integer.MIN_VALUE || i2 == Integer.MIN_VALUE) {
+                throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS, Integer.valueOf(i), Integer.valueOf(i2));
+            }
+            return FastMath.abs(i + i2);
+        }
+        long j = i;
+        long j2 = i2;
+        if (i < 0) {
+            if (Integer.MIN_VALUE == i) {
+                i3 = i;
+                z = true;
+            } else {
+                i3 = -i;
+                z = false;
+            }
+            j = -j;
+        } else {
+            i3 = i;
+            z = false;
+        }
+        if (i2 < 0) {
+            if (Integer.MIN_VALUE == i2) {
+                i4 = i2;
+                z = true;
+            } else {
+                i4 = -i2;
+            }
+            j2 = -j2;
+        } else {
+            i4 = i2;
+        }
+        if (z) {
+            if (j == j2) {
+                throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS, Integer.valueOf(i), Integer.valueOf(i2));
+            }
+            long j3 = j2 % j;
+            if (j3 == 0) {
+                if (j <= 2147483647L) {
+                    return (int) j;
+                }
+                throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS, Integer.valueOf(i), Integer.valueOf(i2));
+            }
+            i4 = (int) j3;
+            i3 = (int) (j % j3);
+        }
+        return gcdPositive(i3, i4);
+    }
+
+    private static int gcdPositive(int i, int i2) {
+        if (i == 0) {
+            return i2;
+        }
+        if (i2 == 0) {
+            return i;
+        }
+        int iNumberOfTrailingZeros = Integer.numberOfTrailingZeros(i);
+        int iNumberOfTrailingZeros2 = i >> iNumberOfTrailingZeros;
+        int iNumberOfTrailingZeros3 = Integer.numberOfTrailingZeros(i2);
+        int iMin = i2 >> iNumberOfTrailingZeros3;
+        int iMin2 = FastMath.min(iNumberOfTrailingZeros, iNumberOfTrailingZeros3);
+        while (iNumberOfTrailingZeros2 != iMin) {
+            int i3 = iNumberOfTrailingZeros2 - iMin;
+            iMin = Math.min(iNumberOfTrailingZeros2, iMin);
+            int iAbs = Math.abs(i3);
+            iNumberOfTrailingZeros2 = iAbs >> Integer.numberOfTrailingZeros(iAbs);
+        }
+        return iNumberOfTrailingZeros2 << iMin2;
+    }
+
+    public static long gcd(long j, long j2) throws MathArithmeticException {
+        long j3;
+        if (j == 0 || j2 == 0) {
+            if (j == Long.MIN_VALUE || j2 == Long.MIN_VALUE) {
+                throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_64_BITS, Long.valueOf(j), Long.valueOf(j2));
+            }
+            return FastMath.abs(j) + FastMath.abs(j2);
+        }
+        long j4 = j > 0 ? -j : j;
+        long j5 = j2 > 0 ? -j2 : j2;
+        int i = 0;
+        while (true) {
+            j3 = j4 & 1;
+            if (j3 != 0 || (j5 & 1) != 0 || i >= 63) {
+                break;
+            }
+            j4 /= 2;
+            j5 /= 2;
+            i++;
+        }
+        if (i == 63) {
+            throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_64_BITS, Long.valueOf(j), Long.valueOf(j2));
+        }
+        long j6 = j3 == 1 ? j5 : -(j4 / 2);
+        while (true) {
+            if ((j6 & 1) == 0) {
+                j6 /= 2;
+            } else {
+                if (j6 > 0) {
+                    j4 = -j6;
+                } else {
+                    j5 = j6;
+                }
+                j6 = (j5 - j4) / 2;
+                if (j6 == 0) {
+                    return (-j4) * (1 << i);
+                }
+            }
+        }
+    }
+
+    public static int lcm(int i, int i2) throws MathArithmeticException {
+        if (i == 0 || i2 == 0) {
+            return 0;
+        }
+        int iAbs = FastMath.abs(mulAndCheck(i / gcd(i, i2), i2));
+        if (iAbs != Integer.MIN_VALUE) {
+            return iAbs;
+        }
+        throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_32_BITS, Integer.valueOf(i), Integer.valueOf(i2));
+    }
+
+    public static long lcm(long j, long j2) throws MathArithmeticException {
+        if (j == 0 || j2 == 0) {
+            return 0L;
+        }
+        long jAbs = FastMath.abs(mulAndCheck(j / gcd(j, j2), j2));
+        if (jAbs != Long.MIN_VALUE) {
+            return jAbs;
+        }
+        throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_64_BITS, Long.valueOf(j), Long.valueOf(j2));
+    }
+
+    public static int mulAndCheck(int i, int i2) throws MathArithmeticException {
+        long j = i * i2;
+        if (j < -2147483648L || j > 2147483647L) {
+            throw new MathArithmeticException();
+        }
+        return (int) j;
+    }
+
+    public static long mulAndCheck(long j, long j2) throws MathArithmeticException {
+        if (j > j2) {
+            return mulAndCheck(j2, j);
+        }
+        if (j >= 0) {
+            if (j > 0) {
+                if (j > Long.MAX_VALUE / j2) {
+                    throw new MathArithmeticException();
+                }
+                return j * j2;
+            }
+            return 0L;
+        }
+        if (j2 >= 0) {
+            if (j2 > 0) {
+                if (Long.MIN_VALUE / j2 > j) {
+                    throw new MathArithmeticException();
+                }
+            }
+            return 0L;
+        }
+        if (j < Long.MAX_VALUE / j2) {
+            throw new MathArithmeticException();
+        }
+        return j * j2;
+    }
+
+    public static int subAndCheck(int i, int i2) throws MathArithmeticException {
+        long j = i - i2;
+        if (j < -2147483648L || j > 2147483647L) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, Integer.valueOf(i), Integer.valueOf(i2));
+        }
+        return (int) j;
+    }
+
+    public static long subAndCheck(long j, long j2) throws MathArithmeticException {
+        if (j2 != Long.MIN_VALUE) {
+            return addAndCheck(j, -j2, LocalizedFormats.OVERFLOW_IN_ADDITION);
+        }
+        if (j < 0) {
+            return j - j2;
+        }
+        throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, Long.valueOf(j), Long.valueOf(-j2));
+    }
+
+    public static int pow(int i, int i2) throws NotPositiveException, MathArithmeticException {
+        if (i2 < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, Integer.valueOf(i2));
+        }
+        int iMulAndCheck = i;
+        int i3 = i2;
+        int iMulAndCheck2 = 1;
+        while (true) {
+            if ((i3 & 1) != 0) {
+                try {
+                    iMulAndCheck2 = mulAndCheck(iMulAndCheck2, iMulAndCheck);
+                } catch (MathArithmeticException e) {
+                    e.getContext().addMessage(LocalizedFormats.OVERFLOW, new Object[0]);
+                    e.getContext().addMessage(LocalizedFormats.BASE, Integer.valueOf(i));
+                    e.getContext().addMessage(LocalizedFormats.EXPONENT, Integer.valueOf(i2));
+                    throw e;
+                }
+            }
+            i3 >>= 1;
+            if (i3 == 0) {
+                return iMulAndCheck2;
+            }
+            iMulAndCheck = mulAndCheck(iMulAndCheck, iMulAndCheck);
+        }
+    }
+
+    @Deprecated
+    public static int pow(int i, long j) throws NotPositiveException {
+        if (j < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, Long.valueOf(j));
+        }
+        int i2 = 1;
+        while (j != 0) {
+            if ((1 & j) != 0) {
+                i2 *= i;
+            }
+            i *= i;
+            j >>= 1;
+        }
+        return i2;
+    }
+
+    public static long pow(long j, int i) throws NotPositiveException, MathArithmeticException {
+        if (i < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, Integer.valueOf(i));
+        }
+        long jMulAndCheck = 1;
+        long jMulAndCheck2 = j;
+        int i2 = i;
+        while (true) {
+            if ((i2 & 1) != 0) {
+                try {
+                    jMulAndCheck = mulAndCheck(jMulAndCheck, jMulAndCheck2);
+                } catch (MathArithmeticException e) {
+                    e.getContext().addMessage(LocalizedFormats.OVERFLOW, new Object[0]);
+                    e.getContext().addMessage(LocalizedFormats.BASE, Long.valueOf(j));
+                    e.getContext().addMessage(LocalizedFormats.EXPONENT, Integer.valueOf(i));
+                    throw e;
+                }
+            }
+            i2 >>= 1;
+            if (i2 == 0) {
+                return jMulAndCheck;
+            }
+            jMulAndCheck2 = mulAndCheck(jMulAndCheck2, jMulAndCheck2);
+        }
+    }
+
+    @Deprecated
+    public static long pow(long j, long j2) throws NotPositiveException {
+        if (j2 < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, Long.valueOf(j2));
+        }
+        long j3 = 1;
+        while (j2 != 0) {
+            if ((j2 & 1) != 0) {
+                j3 *= j;
+            }
+            j *= j;
+            j2 >>= 1;
+        }
+        return j3;
+    }
+
+    public static BigInteger pow(BigInteger bigInteger, int i) throws NotPositiveException {
+        if (i < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, Integer.valueOf(i));
+        }
+        return bigInteger.pow(i);
+    }
+
+    public static BigInteger pow(BigInteger bigInteger, long j) throws NotPositiveException {
+        if (j < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, Long.valueOf(j));
+        }
+        BigInteger bigIntegerMultiply = BigInteger.ONE;
+        while (j != 0) {
+            if ((1 & j) != 0) {
+                bigIntegerMultiply = bigIntegerMultiply.multiply(bigInteger);
+            }
+            bigInteger = bigInteger.multiply(bigInteger);
+            j >>= 1;
+        }
+        return bigIntegerMultiply;
+    }
+
+    public static BigInteger pow(BigInteger bigInteger, BigInteger bigInteger2) throws NotPositiveException {
+        if (bigInteger2.compareTo(BigInteger.ZERO) < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, bigInteger2);
+        }
+        BigInteger bigIntegerMultiply = BigInteger.ONE;
+        while (!BigInteger.ZERO.equals(bigInteger2)) {
+            if (bigInteger2.testBit(0)) {
+                bigIntegerMultiply = bigIntegerMultiply.multiply(bigInteger);
+            }
+            bigInteger = bigInteger.multiply(bigInteger);
+            bigInteger2 = bigInteger2.shiftRight(1);
+        }
+        return bigIntegerMultiply;
+    }
+
+    @Deprecated
+    public static long stirlingS2(int i, int i2) throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
+        return CombinatoricsUtils.stirlingS2(i, i2);
+    }
+
+    private static long addAndCheck(long j, long j2, Localizable localizable) throws MathArithmeticException {
+        long j3 = j + j2;
+        if (((j ^ j2) < 0) || ((j ^ j3) >= 0)) {
+            return j3;
+        }
+        throw new MathArithmeticException(localizable, Long.valueOf(j), Long.valueOf(j2));
+    }
+}

@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/WebSocket07FrameDecoder.java
+// Size: 754 bytes
+// Modified: 2025-10-21 16:32:08.431294100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx;
+
+/* loaded from: classes3.dex */
+public class WebSocket07FrameDecoder extends WebSocket08FrameDecoder {
+    public WebSocket07FrameDecoder(boolean z, boolean z2, int i) {
+        this(WebSocketDecoderConfig.newBuilder().expectMaskedFrames(z).allowExtensions(z2).maxFramePayloadLength(i).build());
+    }
+
+    public WebSocket07FrameDecoder(boolean z, boolean z2, int i, boolean z3) {
+        this(WebSocketDecoderConfig.newBuilder().expectMaskedFrames(z).allowExtensions(z2).maxFramePayloadLength(i).allowMaskMismatch(z3).build());
+    }
+
+    public WebSocket07FrameDecoder(WebSocketDecoderConfig webSocketDecoderConfig) {
+        super(webSocketDecoderConfig);
+    }
+}

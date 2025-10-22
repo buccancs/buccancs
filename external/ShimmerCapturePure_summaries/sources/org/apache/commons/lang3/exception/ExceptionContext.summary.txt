@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang3/exception/ExceptionContext.java
+// Size: 590 bytes
+// Modified: 2025-10-21 16:32:03.285971200 +0100
+
+package org.apache.commons.lang3.exception;
+
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.lang3.tuple.Pair;
+
+/* loaded from: classes5.dex */
+public interface ExceptionContext {
+    ExceptionContext addContextValue(String str, Object obj);
+
+    List<Pair<String, Object>> getContextEntries();
+
+    Set<String> getContextLabels();
+
+    List<Object> getContextValues(String str);
+
+    Object getFirstContextValue(String str);
+
+    String getFormattedExceptionMessage(String str);
+
+    ExceptionContext setContextValue(String str, Object obj);
+}

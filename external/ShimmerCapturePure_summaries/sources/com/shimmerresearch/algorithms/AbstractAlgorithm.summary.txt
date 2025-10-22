@@ -1,0 +1,549 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/algorithms/AbstractAlgorithm.java
+// Size: 18730 bytes
+// Modified: 2025-10-21 16:32:05.364668900 +0100
+
+package com.shimmerresearch.algorithms;
+
+import com.shimmerresearch.driver.BasicProcessWithCallBack;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.ShimmerMsg;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractAlgorithm extends BasicProcessWithCallBack implements Serializable {
+    public static final double mVersion = 1.0d;
+    private static final long serialVersionUID = 1;
+    public HashMap<String, AlgorithmDetails> mAlgorithmChannelsMap;
+    public AlgorithmDetails mAlgorithmDetails;
+
+    @Deprecated
+    public String mAlgorithmGroupingName;
+    public ALGORITHM_INPUT_TYPE mAlgorithmInputType;
+    public String mAlgorithmName;
+    public ALGORITHM_RESULT_TYPE mAlgorithmResultType;
+    public ALGORITHM_TYPE mAlgorithmType;
+    public HashMap<String, ConfigOptionDetails> mConfigOptionsMap;
+    public FILTERING_OPTION mFilteringOptions;
+    protected boolean mInitialized;
+    protected boolean mIsEnabled;
+    public List<Configuration.COMMUNICATION_TYPE> mListOfCommunicationTypesSupported;
+    public List<ShimmerVerObject> mListOfCompatibleSVO;
+    public TreeMap<Integer, SensorGroupingDetails> mMapOfAlgorithmGrouping;
+    protected double mMinSamplingRateForAlgorithhm;
+    public List<String> mOutputChannels;
+    protected ShimmerDevice mShimmerDevice;
+    protected double mShimmerSamplingRate;
+
+    @Deprecated
+    protected String[] mSignalFormat;
+
+    @Deprecated
+    protected String[] mSignalName;
+
+    @Deprecated
+    protected String[] mSignalOutputFormatArray;
+
+    @Deprecated
+    protected String[] mSignalOutputNameArray;
+
+    @Deprecated
+    protected String[] mSignalOutputUnitArray;
+    protected String mTimeStampFormat;
+    protected String mTimeStampName;
+    protected String mTrialName;
+    protected UtilShimmer mUtilShimmer;
+
+    public enum FILTERING_OPTION {
+        NONE,
+        DEFAULT
+    }
+
+    public abstract void eventDataReceived(ShimmerMsg shimmerMsg);
+
+    public abstract void generateAlgorithmGroupingMap();
+
+    public abstract LinkedHashMap<String, Object> generateConfigMap();
+
+    public abstract void generateConfigOptionsMap();
+
+    public ALGORITHM_INPUT_TYPE getAlgorithmInputType() {
+        return this.mAlgorithmInputType;
+    }
+
+    public String getAlgorithmName() {
+        return this.mAlgorithmName;
+    }
+
+    public ALGORITHM_RESULT_TYPE getAlgorithmResultType() {
+        return this.mAlgorithmResultType;
+    }
+
+    public ALGORITHM_TYPE getAlgorithmType() {
+        return this.mAlgorithmType;
+    }
+
+    public HashMap<String, ConfigOptionDetails> getConfigOptionsMap() {
+        return this.mConfigOptionsMap;
+    }
+
+    public abstract Object getDefaultSettings(String str);
+
+    public double getMinSamplingRateForAlgorithm() {
+        return this.mMinSamplingRateForAlgorithhm;
+    }
+
+    public List<String> getOutputChannelList() {
+        return this.mOutputChannels;
+    }
+
+    public abstract Object getSettings(String str);
+
+    public double getShimmerSamplingRate() {
+        return this.mShimmerSamplingRate;
+    }
+
+    @Deprecated
+    public String[] getSignalOutputFormatArray() {
+        return this.mSignalOutputFormatArray;
+    }
+
+    @Deprecated
+    public String[] getSignalOutputNameArray() {
+        return this.mSignalOutputNameArray;
+    }
+
+    @Deprecated
+    public String[] getSignalOutputUnitArray() {
+        return this.mSignalOutputUnitArray;
+    }
+
+    public String getTimeStampFormat() {
+        return this.mTimeStampFormat;
+    }
+
+    public String getTimeStampName() {
+        return this.mTimeStampName;
+    }
+
+    public String getTrialName() {
+        return this.mTrialName;
+    }
+
+    public abstract void initialize() throws Exception;
+
+    public boolean isEnabled() {
+        return this.mIsEnabled;
+    }
+
+    public boolean isInitialized() {
+        return this.mInitialized;
+    }
+
+    public void loadAlgorithmVariables(AbstractAlgorithm abstractAlgorithm) {
+    }
+
+    public abstract void parseConfigMapFromDb(LinkedHashMap<String, Object> linkedHashMap);
+
+    public abstract String printBatchMetrics();
+
+    public abstract AlgorithmResultObject processDataPostCapture(Object obj) throws Exception;
+
+    public abstract AlgorithmResultObject processDataRealTime(ObjectCluster objectCluster) throws Exception;
+
+    public abstract void resetAlgorithm() throws Exception;
+
+    public abstract void resetAlgorithmBuffers();
+
+    public void setDefaultSetting() {
+    }
+
+    public void setFiltering(FILTERING_OPTION filtering_option) {
+        this.mFilteringOptions = filtering_option;
+    }
+
+    public abstract void setFilteringOption();
+
+    public abstract void setGeneralAlgorithmName();
+
+    public void setGeneralAlgorithmName(String str) {
+        this.mAlgorithmName = str;
+    }
+
+    public void setIsInitialized(boolean z) {
+        this.mInitialized = z;
+    }
+
+    protected void setListOfCommunicationTypesSupported(List<Configuration.COMMUNICATION_TYPE> list) {
+        this.mListOfCommunicationTypesSupported = list;
+    }
+
+    public abstract void setMinSamplingRateForAlgorithm();
+
+    public abstract void setSettings(String str, Object obj);
+
+    public abstract void setSupportedVerInfo();
+
+    public void setTimeStampFormat(String str) {
+        this.mTimeStampFormat = str;
+    }
+
+    public void setTimeStampName(String str) {
+        this.mTimeStampName = str;
+    }
+
+    public void setTrialName(String str) {
+        this.mTrialName = str;
+    }
+
+    public enum ALGORITHM_TYPE {
+        ALGORITHM_TYPE_CONTINUOUS("ALGORITHM TYPE CONTINUOUS"),
+        ALGORITHM_TYPE_ONE_SHOT("ALGORITHM TYPE ONE SHOT"),
+        ALGORITHM_TYPE_EVENT_DRIVEN("ALGORITHM TYPE EVENT DRIVEN");
+
+        private final String text;
+
+        @Override // java.lang.Enum
+        public String toString() {
+            return this.text;
+        }
+
+        ALGORITHM_TYPE(String str) {
+            this.text = str;
+        }
+    }
+
+    public enum ALGORITHM_RESULT_TYPE {
+        ALGORITHM_RESULT_TYPE_SINGLE_OBJECT_CLUSTER("ALGORITHM RESULT TYPE SINGLE"),
+        ALGORITHM_RESULT_TYPE_ARRAY_OBJECT_CLUSTER("ALGORITHM RESULT TYPE ARRAY");
+
+        private final String text;
+
+        @Override // java.lang.Enum
+        public String toString() {
+            return this.text;
+        }
+
+        ALGORITHM_RESULT_TYPE(String str) {
+            this.text = str;
+        }
+    }
+
+    public enum ALGORITHM_INPUT_TYPE {
+        ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER("ALGORITHM RESULT TYPE SINGLE"),
+        ALGORITHM_INPUT_TYPE_ARRAY_OBJECT_CLUSTER("ALGORITHM RESULT TYPE ARRAY");
+
+        private final String text;
+
+        @Override // java.lang.Enum
+        public String toString() {
+            return this.text;
+        }
+
+        ALGORITHM_INPUT_TYPE(String str) {
+            this.text = str;
+        }
+    }
+
+    public class GuiLabelConfigCommon {
+        public static final String MIN_ALGO_SAMPLING_RATE = "Algo Min Sampling Rate";
+        public static final String SHIMMER_SAMPLING_RATE = "Sampling Rate";
+        public static final String TIMESTAMP_SIGNAL_FORMAT = "Time Stamp Signal Format";
+        public static final String TIMESTAMP_SIGNAL_NAME = "Time Stamp Signal Name";
+
+        public GuiLabelConfigCommon() {
+        }
+    }
+
+    public AbstractAlgorithm() {
+        this.mSignalName = new String[1];
+        this.mSignalFormat = new String[1];
+        this.mTimeStampName = "";
+        this.mTimeStampFormat = "";
+        this.mInitialized = false;
+        this.mIsEnabled = false;
+        this.mMinSamplingRateForAlgorithhm = 0.0d;
+        this.mShimmerSamplingRate = 128.0d;
+        this.mShimmerDevice = null;
+        this.mUtilShimmer = new UtilShimmer(getClass().getSimpleName(), true);
+        this.mListOfCompatibleSVO = new ArrayList();
+        this.mFilteringOptions = FILTERING_OPTION.NONE;
+        this.mAlgorithmType = ALGORITHM_TYPE.ALGORITHM_TYPE_CONTINUOUS;
+        this.mAlgorithmResultType = ALGORITHM_RESULT_TYPE.ALGORITHM_RESULT_TYPE_SINGLE_OBJECT_CLUSTER;
+        this.mAlgorithmInputType = ALGORITHM_INPUT_TYPE.ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER;
+        this.mConfigOptionsMap = new HashMap<>();
+        this.mAlgorithmChannelsMap = new HashMap<>();
+        this.mMapOfAlgorithmGrouping = new TreeMap<>();
+        this.mListOfCommunicationTypesSupported = Arrays.asList(Configuration.COMMUNICATION_TYPE.values());
+        setGeneralAlgorithmName();
+    }
+
+    public AbstractAlgorithm(AlgorithmDetails algorithmDetails) {
+        this.mSignalName = new String[1];
+        this.mSignalFormat = new String[1];
+        this.mTimeStampName = "";
+        this.mTimeStampFormat = "";
+        this.mInitialized = false;
+        this.mIsEnabled = false;
+        this.mMinSamplingRateForAlgorithhm = 0.0d;
+        this.mShimmerSamplingRate = 128.0d;
+        this.mShimmerDevice = null;
+        this.mUtilShimmer = new UtilShimmer(getClass().getSimpleName(), true);
+        this.mListOfCompatibleSVO = new ArrayList();
+        this.mFilteringOptions = FILTERING_OPTION.NONE;
+        this.mAlgorithmType = ALGORITHM_TYPE.ALGORITHM_TYPE_CONTINUOUS;
+        this.mAlgorithmResultType = ALGORITHM_RESULT_TYPE.ALGORITHM_RESULT_TYPE_SINGLE_OBJECT_CLUSTER;
+        this.mAlgorithmInputType = ALGORITHM_INPUT_TYPE.ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER;
+        this.mConfigOptionsMap = new HashMap<>();
+        this.mAlgorithmChannelsMap = new HashMap<>();
+        this.mMapOfAlgorithmGrouping = new TreeMap<>();
+        this.mListOfCommunicationTypesSupported = Arrays.asList(Configuration.COMMUNICATION_TYPE.values());
+        setAlgorithmDetails(algorithmDetails);
+    }
+
+    public AbstractAlgorithm(ShimmerDevice shimmerDevice, AlgorithmDetails algorithmDetails) {
+        this.mSignalName = new String[1];
+        this.mSignalFormat = new String[1];
+        this.mTimeStampName = "";
+        this.mTimeStampFormat = "";
+        this.mInitialized = false;
+        this.mIsEnabled = false;
+        this.mMinSamplingRateForAlgorithhm = 0.0d;
+        this.mShimmerSamplingRate = 128.0d;
+        this.mShimmerDevice = null;
+        this.mUtilShimmer = new UtilShimmer(getClass().getSimpleName(), true);
+        this.mListOfCompatibleSVO = new ArrayList();
+        this.mFilteringOptions = FILTERING_OPTION.NONE;
+        this.mAlgorithmType = ALGORITHM_TYPE.ALGORITHM_TYPE_CONTINUOUS;
+        this.mAlgorithmResultType = ALGORITHM_RESULT_TYPE.ALGORITHM_RESULT_TYPE_SINGLE_OBJECT_CLUSTER;
+        this.mAlgorithmInputType = ALGORITHM_INPUT_TYPE.ALGORITHM_INPUT_TYPE_SINGLE_OBJECT_CLUSTER;
+        this.mConfigOptionsMap = new HashMap<>();
+        this.mAlgorithmChannelsMap = new HashMap<>();
+        this.mMapOfAlgorithmGrouping = new TreeMap<>();
+        this.mListOfCommunicationTypesSupported = Arrays.asList(Configuration.COMMUNICATION_TYPE.values());
+        setAlgorithmDetails(algorithmDetails);
+        this.mShimmerDevice = shimmerDevice;
+    }
+
+    private void setAlgorithmDetails(AlgorithmDetails algorithmDetails) {
+        this.mAlgorithmDetails = algorithmDetails;
+        this.mAlgorithmName = algorithmDetails.mAlgorithmName;
+        this.mAlgorithmGroupingName = algorithmDetails.mAlgorithmName;
+        this.mAlgorithmChannelsMap.put(this.mAlgorithmName, this.mAlgorithmDetails);
+    }
+
+    public void setupAlgorithm() {
+        setFilteringOption();
+        setMinSamplingRateForAlgorithm();
+        setSupportedVerInfo();
+        generateConfigOptionsMap();
+        generateAlgorithmGroupingMap();
+    }
+
+    @Deprecated
+    public void setSignalName(String str) {
+        this.mSignalName[0] = str;
+    }
+
+    @Deprecated
+    public void setSignalName(String str, int i) {
+        if (i >= 0) {
+            String[] strArr = this.mSignalName;
+            if (i < strArr.length) {
+                strArr[i] = str;
+                return;
+            }
+        }
+        throw new ArrayIndexOutOfBoundsException("Invalid attempt to set element of mSignalName array.");
+    }
+
+    @Deprecated
+    public String getSignalName() {
+        return this.mSignalName[0];
+    }
+
+    @Deprecated
+    public String getSignalName(int i) {
+        if (i >= 0) {
+            String[] strArr = this.mSignalName;
+            if (i < strArr.length) {
+                return strArr[i];
+            }
+        }
+        throw new ArrayIndexOutOfBoundsException("Invalid attempt to get element of mSignalName array.");
+    }
+
+    @Deprecated
+    public void setSignalFormat(String str) {
+        this.mSignalFormat[0] = str;
+    }
+
+    @Deprecated
+    public void setSignalFormat(String str, int i) {
+        if (i >= 0 && i < this.mSignalName.length) {
+            this.mSignalFormat[i] = str;
+            return;
+        }
+        throw new ArrayIndexOutOfBoundsException("Invalid attempt to set element of mSignalFormat array.");
+    }
+
+    @Deprecated
+    public String getSignalFormat() {
+        return this.mSignalFormat[0];
+    }
+
+    @Deprecated
+    public String getSignalFormat(int i) {
+        if (i >= 0 && i < this.mSignalName.length) {
+            return this.mSignalFormat[i];
+        }
+        throw new ArrayIndexOutOfBoundsException("Invalid attempt to get element of mSignalFormat array.");
+    }
+
+    public void setIsEnabled(boolean z) {
+        this.mIsEnabled = z;
+        if (z) {
+            return;
+        }
+        setIsInitialized(false);
+    }
+
+    public void algorithmMapUpdateFromEnabledSensorsVars(long j) {
+        AlgorithmDetails algorithmDetails = this.mAlgorithmDetails;
+        if (algorithmDetails != null) {
+            setIsEnabled((j & algorithmDetails.mDerivedSensorBitmapID) > 0);
+        }
+    }
+
+    public long getDerivedSensorBitmapID() {
+        if (this.mAlgorithmDetails == null || !isEnabled()) {
+            return 0L;
+        }
+        return this.mAlgorithmDetails.mDerivedSensorBitmapID;
+    }
+
+    public List<ChannelDetails> getChannelDetails() {
+        return getChannelDetails(false);
+    }
+
+    public List<ChannelDetails> getChannelDetails(boolean z) {
+        AlgorithmDetails algorithmDetails = this.mAlgorithmDetails;
+        if (algorithmDetails != null) {
+            return algorithmDetails.getChannelDetails();
+        }
+        return null;
+    }
+
+    public Integer getNumberOfEnabledChannels() {
+        List<ChannelDetails> channelDetails = getChannelDetails(false);
+        if (channelDetails != null) {
+            return Integer.valueOf(channelDetails.size());
+        }
+        return 0;
+    }
+
+    public String[] getComboBoxOptions(String str) {
+        return this.mConfigOptionsMap.get(str).mGuiValues;
+    }
+
+    public void sendProcessingResultMsg(AlgorithmResultObject algorithmResultObject) {
+        sendCallBackMsg(1005, algorithmResultObject);
+    }
+
+    @Override // com.shimmerresearch.driver.BasicProcessWithCallBack
+    protected void processMsgFromCallback(ShimmerMsg shimmerMsg) {
+        if (shimmerMsg.mIdentifier == 190) {
+            eventDataReceived(shimmerMsg);
+        }
+    }
+
+    public AlgorithmResultObject processDataRealTime(List<ObjectCluster> list) {
+        Iterator<ObjectCluster> it2 = list.iterator();
+        while (it2.hasNext()) {
+            try {
+                return processDataRealTime(it2.next());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public HashMap<String, Object> getAlgorithmSettings() {
+        HashMap<String, Object> map = new HashMap<>();
+        for (String str : this.mConfigOptionsMap.keySet()) {
+            Object settings = getSettings(str);
+            if (settings != null) {
+                consolePrintLn("getEnabledAlgorithmSettings\t\tConfigKey=" + str + "\tConfigValue=" + settings);
+                map.put(str, settings);
+            }
+        }
+        return map;
+    }
+
+    public void setAlgorithmSettings(HashMap<String, Object> map) {
+        for (String str : map.keySet()) {
+            setSettings(str, map.get(str));
+        }
+    }
+
+    public void setShimmerSamplingRate(double d) {
+        this.mShimmerSamplingRate = d;
+        if (isEnabled()) {
+            try {
+                initialize();
+            } catch (Exception e) {
+                System.err.println("sampling rate=" + d);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void addConfigOption(ConfigOptionDetails configOptionDetails) {
+        this.mConfigOptionsMap.put(configOptionDetails.mGuiHandle, configOptionDetails);
+    }
+
+    protected void setListOfCommunicationTypesSupported(Configuration.COMMUNICATION_TYPE communication_type) {
+        this.mListOfCommunicationTypesSupported = Arrays.asList(communication_type);
+    }
+
+    protected void consolePrintLn(String str) {
+        ShimmerDevice shimmerDevice = this.mShimmerDevice;
+        if (shimmerDevice != null) {
+            shimmerDevice.consolePrintLn(str);
+        } else {
+            this.mUtilShimmer.consolePrintLn(str);
+        }
+    }
+
+    protected void consolePrintErrLn(String str) {
+        ShimmerDevice shimmerDevice = this.mShimmerDevice;
+        if (shimmerDevice != null) {
+            shimmerDevice.consolePrintErrLn(str);
+        } else {
+            this.mUtilShimmer.consolePrintErrLn(str);
+        }
+    }
+
+    protected void consolePrintException(String str, StackTraceElement[] stackTraceElementArr) {
+        ShimmerDevice shimmerDevice = this.mShimmerDevice;
+        if (shimmerDevice != null) {
+            shimmerDevice.consolePrintExeptionLn(str, stackTraceElementArr);
+        } else {
+            this.mUtilShimmer.consolePrintExeptionLn(str, stackTraceElementArr);
+        }
+    }
+}

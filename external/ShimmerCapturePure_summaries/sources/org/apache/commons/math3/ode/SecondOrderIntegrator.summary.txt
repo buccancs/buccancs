@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ode/SecondOrderIntegrator.java
+// Size: 521 bytes
+// Modified: 2025-10-21 16:32:03.553674800 +0100
+
+package org.apache.commons.math3.ode;
+
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MathIllegalStateException;
+
+/* loaded from: classes5.dex */
+public interface SecondOrderIntegrator extends ODEIntegrator {
+    void integrate(SecondOrderDifferentialEquations secondOrderDifferentialEquations, double d, double[] dArr, double[] dArr2, double d2, double[] dArr3, double[] dArr4) throws MathIllegalStateException, MathIllegalArgumentException;
+}

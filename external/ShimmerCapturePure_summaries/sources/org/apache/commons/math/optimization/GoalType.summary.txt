@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/optimization/GoalType.java
+// Size: 362 bytes
+// Modified: 2025-10-21 16:32:00.573734500 +0100
+
+package org.apache.commons.math.optimization;
+
+import java.io.Serializable;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/GoalType.class */
+public enum GoalType implements Serializable {
+    MAXIMIZE,
+    MINIMIZE
+}

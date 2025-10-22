@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/HttpRequestInterceptor.java
+// Size: 287 bytes
+// Modified: 2025-10-21 16:32:02.908901200 +0100
+
+package org.apache.http;
+
+import java.io.IOException;
+import org.apache.http.protocol.HttpContext;
+
+/* loaded from: classes5.dex */
+public interface HttpRequestInterceptor {
+    void process(HttpRequest httpRequest, HttpContext httpContext) throws HttpException, IOException;
+}

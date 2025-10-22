@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/CodecException.java
+// Size: 493 bytes
+// Modified: 2025-10-21 16:32:00.201596900 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec;
+
+/* loaded from: classes3.dex */
+public class CodecException extends RuntimeException {
+    private static final long serialVersionUID = -1464830400709348473L;
+
+    public CodecException() {
+    }
+
+    public CodecException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public CodecException(String str) {
+        super(str);
+    }
+
+    public CodecException(Throwable th) {
+        super(th);
+    }
+}

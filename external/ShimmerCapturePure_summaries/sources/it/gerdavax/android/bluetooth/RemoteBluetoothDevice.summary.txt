@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/it/gerdavax/android/bluetooth/RemoteBluetoothDevice.java
+// Size: 762 bytes
+// Modified: 2025-10-21 16:32:03.218696500 +0100
+
+package it.gerdavax.android.bluetooth;
+
+/* loaded from: classes4.dex */
+public interface RemoteBluetoothDevice extends BluetoothDevice {
+    @Override // it.gerdavax.android.bluetooth.BluetoothDevice
+    String getAddress();
+
+    int getDeviceClass();
+
+    int getDeviceMajorClass();
+
+    int getDeviceMinorClass();
+
+    short getRSSI();
+
+    void getRemoteServiceChannel(int i) throws Exception;
+
+    int getServiceMajorClass();
+
+    boolean isPaired();
+
+    BluetoothSocket openSocket(int i) throws BluetoothException;
+
+    void pair();
+
+    void pair(String str);
+
+    void setListener(RemoteBluetoothDeviceListener remoteBluetoothDeviceListener);
+
+    void setPin(String str) throws BluetoothException;
+
+    void unpair();
+}

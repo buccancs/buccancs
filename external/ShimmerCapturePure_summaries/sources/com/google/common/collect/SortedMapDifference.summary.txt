@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/SortedMapDifference.java
+// Size: 662 bytes
+// Modified: 2025-10-21 16:32:02.101765900 +0100
+
+package com.google.common.collect;
+
+import com.google.common.collect.MapDifference;
+import java.util.SortedMap;
+
+/* loaded from: classes.dex */
+public interface SortedMapDifference<K, V> extends MapDifference<K, V> {
+    @Override // com.google.common.collect.MapDifference
+    SortedMap<K, MapDifference.ValueDifference<V>> entriesDiffering();
+
+    @Override // com.google.common.collect.MapDifference
+    SortedMap<K, V> entriesInCommon();
+
+    @Override // com.google.common.collect.MapDifference
+    SortedMap<K, V> entriesOnlyOnLeft();
+
+    @Override // com.google.common.collect.MapDifference
+    SortedMap<K, V> entriesOnlyOnRight();
+}

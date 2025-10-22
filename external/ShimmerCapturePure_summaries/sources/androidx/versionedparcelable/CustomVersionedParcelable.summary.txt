@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/versionedparcelable/CustomVersionedParcelable.java
+// Size: 256 bytes
+// Modified: 2025-10-21 16:32:00.775300400 +0100
+
+package androidx.versionedparcelable;
+
+/* loaded from: classes.dex */
+public abstract class CustomVersionedParcelable implements VersionedParcelable {
+    public void onPostParceling() {
+    }
+
+    public void onPreParceling(boolean z) {
+    }
+}

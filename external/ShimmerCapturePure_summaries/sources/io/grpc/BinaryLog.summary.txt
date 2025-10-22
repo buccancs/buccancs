@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/BinaryLog.java
+// Size: 348 bytes
+// Modified: 2025-10-21 16:32:03.945973100 +0100
+
+package io.grpc;
+
+import java.io.Closeable;
+
+/* loaded from: classes2.dex */
+public abstract class BinaryLog implements Closeable {
+    public abstract Channel wrapChannel(Channel channel);
+
+    public abstract <ReqT, RespT> ServerMethodDefinition<?, ?> wrapMethodDefinition(ServerMethodDefinition<ReqT, RespT> serverMethodDefinition);
+}

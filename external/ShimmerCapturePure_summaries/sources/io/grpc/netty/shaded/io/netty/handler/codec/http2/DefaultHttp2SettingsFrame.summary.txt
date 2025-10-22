@@ -1,0 +1,42 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/DefaultHttp2SettingsFrame.java
+// Size: 1317 bytes
+// Modified: 2025-10-21 16:32:06.415810200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
+
+/* loaded from: classes3.dex */
+public class DefaultHttp2SettingsFrame implements Http2SettingsFrame {
+    private final Http2Settings settings;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2SettingsFrame, io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2Frame
+    public String name() {
+        return "SETTINGS";
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2SettingsFrame
+    public Http2Settings settings() {
+        return this.settings;
+    }
+
+    public DefaultHttp2SettingsFrame(Http2Settings http2Settings) {
+        this.settings = (Http2Settings) ObjectUtil.checkNotNull(http2Settings, "settings");
+    }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof Http2SettingsFrame) {
+            return this.settings.equals(((Http2SettingsFrame) obj).settings());
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        return this.settings.hashCode();
+    }
+
+    public String toString() {
+        return StringUtil.simpleClassName(this) + "(settings=" + this.settings + ')';
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang3/reflect/Typed.java
+// Size: 165 bytes
+// Modified: 2025-10-21 16:32:00.524362600 +0100
+
+package org.apache.commons.lang3.reflect;
+
+import java.lang.reflect.Type;
+
+/* loaded from: classes5.dex */
+public interface Typed<T> {
+    Type getType();
+}

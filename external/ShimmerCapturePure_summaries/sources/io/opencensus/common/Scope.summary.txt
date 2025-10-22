@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/common/Scope.java
+// Size: 247 bytes
+// Modified: 2025-10-21 16:32:00.880119900 +0100
+
+package io.opencensus.common;
+
+/* loaded from: classes4.dex */
+public interface Scope extends NonThrowingCloseable {
+    @Override // io.opencensus.common.NonThrowingCloseable, java.io.Closeable, java.lang.AutoCloseable
+    void close();
+}

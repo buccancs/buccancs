@@ -22,7 +22,9 @@
 
 ## Output Location Debug APK: `external/IRCamera/app/build/outputs/apk/debug/app-debug.apk`
 
-## Task Details - **Task Name:** `buildIRCamera` - **Group:** External build - **Runs:** `assembleDebug` in IRCamera's Gradle project - **Java:** Requires Java 21 or earlier
+## Task Details - **Task Name:** `buildIRCamera` - **Group:** External build - **Runs:**
+
+`assembleDebug` in IRCamera's Gradle project - **Java:** Requires Java 21 or earlier
 
 ## Verification Check if task is available:
 
@@ -32,4 +34,6 @@
 
 ## Status ✅ IRCamera successfully added to Gradle build system ✅ Task registered and ready to use ✅ Integrated with aggregate build tasks ✅ Documentation complete
 
-## See Also - Full documentation: `docs/ircamera-gradle-integration.md` - Architecture analysis: `docs/ircamera-architecture-analysis.md`
+## See Also - Full documentation: `docs/ircamera-gradle-integration.md` - Architecture analysis:
+
+`docs/ircamera-architecture-analysis.md`

@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/TreeCodec.java
+// Size: 645 bytes
+// Modified: 2025-10-21 16:32:09.503697800 +0100
+
+package com.fasterxml.jackson.core;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public abstract class TreeCodec {
+    public abstract TreeNode createArrayNode();
+
+    public abstract TreeNode createObjectNode();
+
+    public TreeNode missingNode() {
+        return null;
+    }
+
+    public TreeNode nullNode() {
+        return null;
+    }
+
+    public abstract <T extends TreeNode> T readTree(JsonParser jsonParser) throws IOException;
+
+    public abstract JsonParser treeAsTokens(TreeNode treeNode);
+
+    public abstract void writeTree(JsonGenerator jsonGenerator, TreeNode treeNode) throws IOException;
+}

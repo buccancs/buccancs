@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalClientInterceptors.java
+// Size: 456 bytes
+// Modified: 2025-10-21 16:32:07.289767700 +0100
+
+package io.grpc;
+
+import io.grpc.MethodDescriptor;
+
+/* loaded from: classes2.dex */
+public final class InternalClientInterceptors {
+    public static <ReqT, RespT> ClientInterceptor wrapClientInterceptor(ClientInterceptor clientInterceptor, MethodDescriptor.Marshaller<ReqT> marshaller, MethodDescriptor.Marshaller<RespT> marshaller2) {
+        return ClientInterceptors.wrapClientInterceptor(clientInterceptor, marshaller, marshaller2);
+    }
+}

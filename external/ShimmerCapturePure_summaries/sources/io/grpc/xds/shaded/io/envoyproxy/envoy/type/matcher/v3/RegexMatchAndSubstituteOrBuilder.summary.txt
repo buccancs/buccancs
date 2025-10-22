@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/type/matcher/v3/RegexMatchAndSubstituteOrBuilder.java
+// Size: 457 bytes
+// Modified: 2025-10-21 16:32:03.476932900 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface RegexMatchAndSubstituteOrBuilder extends MessageOrBuilder {
+    RegexMatcher getPattern();
+
+    RegexMatcherOrBuilder getPatternOrBuilder();
+
+    String getSubstitution();
+
+    ByteString getSubstitutionBytes();
+
+    boolean hasPattern();
+}

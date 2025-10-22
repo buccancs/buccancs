@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runners/model/RunnerScheduler.java
+// Size: 171 bytes
+// Modified: 2025-10-21 16:32:00.728896000 +0100
+
+package org.junit.runners.model;
+
+/* loaded from: classes2.dex */
+public interface RunnerScheduler {
+    void finished();
+
+    void schedule(Runnable runnable);
+}

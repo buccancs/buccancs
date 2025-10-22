@@ -1,0 +1,92 @@
+package org.apache.commons.math3.genetics;
+
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.apache.commons.math3.random.RandomGenerator;
+
+/* loaded from: classes5.dex */
+public class GeneticAlgorithm {
+    private static RandomGenerator randomGenerator = new JDKRandomGenerator();
+    private final CrossoverPolicy crossoverPolicy;
+    private final double crossoverRate;
+    private final MutationPolicy mutationPolicy;
+    private final double mutationRate;
+    private final SelectionPolicy selectionPolicy;
+    private int generationsEvolved = 0;
+
+    public GeneticAlgorithm(CrossoverPolicy crossoverPolicy, double d, MutationPolicy mutationPolicy, double d2, SelectionPolicy selectionPolicy) throws OutOfRangeException {
+        if (d < 0.0d || d > 1.0d) {
+            throw new OutOfRangeException(LocalizedFormats.CROSSOVER_RATE, Double.valueOf(d), 0, 1);
+        }
+        if (d2 < 0.0d || d2 > 1.0d) {
+            throw new OutOfRangeException(LocalizedFormats.MUTATION_RATE, Double.valueOf(d2), 0, 1);
+        }
+        this.crossoverPolicy = crossoverPolicy;
+        this.crossoverRate = d;
+        this.mutationPolicy = mutationPolicy;
+        this.mutationRate = d2;
+        this.selectionPolicy = selectionPolicy;
+    }
+
+    public static synchronized RandomGenerator getRandomGenerator() {
+        return randomGenerator;
+    }
+
+    public static synchronized void setRandomGenerator(RandomGenerator randomGenerator2) {
+        randomGenerator = randomGenerator2;
+    }
+
+    public CrossoverPolicy getCrossoverPolicy() {
+        return this.crossoverPolicy;
+    }
+
+    public double getCrossoverRate() {
+        return this.crossoverRate;
+    }
+
+    public int getGenerationsEvolved() {
+        return this.generationsEvolved;
+    }
+
+    public MutationPolicy getMutationPolicy() {
+        return this.mutationPolicy;
+    }
+
+    public double getMutationRate() {
+        return this.mutationRate;
+    }
+
+    public SelectionPolicy getSelectionPolicy() {
+        return this.selectionPolicy;
+    }
+
+    public Population evolve(Population population, StoppingCondition stoppingCondition) throws MathIllegalArgumentException {
+        this.generationsEvolved = 0;
+        while (!stoppingCondition.isSatisfied(population)) {
+            population = nextGeneration(population);
+            this.generationsEvolved++;
+        }
+        return population;
+    }
+
+    public Population nextGeneration(Population population) throws MathIllegalArgumentException {
+        Population populationNextGeneration = population.nextGeneration();
+        RandomGenerator randomGenerator2 = getRandomGenerator();
+        while (populationNextGeneration.getPopulationSize() < populationNextGeneration.getPopulationLimit()) {
+            ChromosomePair chromosomePairSelect = getSelectionPolicy().select(population);
+            if (randomGenerator2.nextDouble() < getCrossoverRate()) {
+                chromosomePairSelect = getCrossoverPolicy().crossover(chromosomePairSelect.getFirst(), chromosomePairSelect.getSecond());
+            }
+            if (randomGenerator2.nextDouble() < getMutationRate()) {
+                chromosomePairSelect = new ChromosomePair(getMutationPolicy().mutate(chromosomePairSelect.getFirst()), getMutationPolicy().mutate(chromosomePairSelect.getSecond()));
+            }
+            populationNextGeneration.addChromosome(chromosomePairSelect.getFirst());
+            if (populationNextGeneration.getPopulationSize() < populationNextGeneration.getPopulationLimit()) {
+                populationNextGeneration.addChromosome(chromosomePairSelect.getSecond());
+            }
+        }
+        return populationNextGeneration;
+    }
+}

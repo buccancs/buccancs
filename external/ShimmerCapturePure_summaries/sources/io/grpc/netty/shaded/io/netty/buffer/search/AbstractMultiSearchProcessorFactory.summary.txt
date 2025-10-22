@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/search/AbstractMultiSearchProcessorFactory.java
+// Size: 365 bytes
+// Modified: 2025-10-21 16:32:04.438219900 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer.search;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractMultiSearchProcessorFactory implements MultiSearchProcessorFactory {
+    public static AhoCorasicSearchProcessorFactory newAhoCorasicSearchProcessorFactory(byte[]... bArr) {
+        return new AhoCorasicSearchProcessorFactory(bArr);
+    }
+}

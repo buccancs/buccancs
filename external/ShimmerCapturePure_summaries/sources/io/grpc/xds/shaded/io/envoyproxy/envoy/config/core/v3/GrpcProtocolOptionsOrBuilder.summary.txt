@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/GrpcProtocolOptionsOrBuilder.java
+// Size: 392 bytes
+// Modified: 2025-10-21 16:32:03.407161000 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface GrpcProtocolOptionsOrBuilder extends MessageOrBuilder {
+    Http2ProtocolOptions getHttp2ProtocolOptions();
+
+    Http2ProtocolOptionsOrBuilder getHttp2ProtocolOptionsOrBuilder();
+
+    boolean hasHttp2ProtocolOptions();
+}

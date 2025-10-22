@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/kotlin/jvm/internal/FunctionAdapter.java
+// Size: 171 bytes
+// Modified: 2025-10-21 16:32:02.089746300 +0100
+
+package kotlin.jvm.internal;
+
+import kotlin.Function;
+
+/* loaded from: classes4.dex */
+public interface FunctionAdapter {
+    Function<?> getFunctionDelegate();
+}

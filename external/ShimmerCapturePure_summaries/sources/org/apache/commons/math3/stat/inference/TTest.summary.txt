@@ -1,0 +1,186 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/inference/TTest.java
+// Size: 10917 bytes
+// Modified: 2025-10-21 16:32:10.633862300 +0100
+
+package org.apache.commons.math3.stat.inference;
+
+import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class TTest {
+    protected double df(double d, double d2, double d3, double d4) {
+        double d5 = (d / d3) + (d2 / d4);
+        return (d5 * d5) / (((d * d) / ((d3 * d3) * (d3 - 1.0d))) + ((d2 * d2) / ((d4 * d4) * (d4 - 1.0d))));
+    }
+
+    public double pairedT(double[] dArr, double[] dArr2) throws NumberIsTooSmallException, NullArgumentException, NoDataException, DimensionMismatchException {
+        checkSampleData(dArr);
+        checkSampleData(dArr2);
+        double dMeanDifference = StatUtils.meanDifference(dArr, dArr2);
+        return t(dMeanDifference, 0.0d, StatUtils.varianceDifference(dArr, dArr2, dMeanDifference), dArr.length);
+    }
+
+    public double pairedTTest(double[] dArr, double[] dArr2) throws NumberIsTooSmallException, NullArgumentException, NoDataException, DimensionMismatchException, MaxCountExceededException {
+        double dMeanDifference = StatUtils.meanDifference(dArr, dArr2);
+        return tTest(dMeanDifference, 0.0d, StatUtils.varianceDifference(dArr, dArr2, dMeanDifference), dArr.length);
+    }
+
+    public boolean pairedTTest(double[] dArr, double[] dArr2, double d) throws NumberIsTooSmallException, OutOfRangeException, NullArgumentException, NoDataException, DimensionMismatchException, MaxCountExceededException {
+        checkSignificanceLevel(d);
+        return pairedTTest(dArr, dArr2) < d;
+    }
+
+    public double t(double d, double[] dArr) throws NumberIsTooSmallException, NullArgumentException {
+        checkSampleData(dArr);
+        return t(StatUtils.mean(dArr), d, StatUtils.variance(dArr), dArr.length);
+    }
+
+    public double t(double d, StatisticalSummary statisticalSummary) throws NumberIsTooSmallException, NullArgumentException {
+        checkSampleData(statisticalSummary);
+        return t(statisticalSummary.getMean(), d, statisticalSummary.getVariance(), statisticalSummary.getN());
+    }
+
+    public double homoscedasticT(double[] dArr, double[] dArr2) throws NumberIsTooSmallException, NullArgumentException {
+        checkSampleData(dArr);
+        checkSampleData(dArr2);
+        return homoscedasticT(StatUtils.mean(dArr), StatUtils.mean(dArr2), StatUtils.variance(dArr), StatUtils.variance(dArr2), dArr.length, dArr2.length);
+    }
+
+    public double t(double[] dArr, double[] dArr2) throws NumberIsTooSmallException, NullArgumentException {
+        checkSampleData(dArr);
+        checkSampleData(dArr2);
+        return t(StatUtils.mean(dArr), StatUtils.mean(dArr2), StatUtils.variance(dArr), StatUtils.variance(dArr2), dArr.length, dArr2.length);
+    }
+
+    public double t(StatisticalSummary statisticalSummary, StatisticalSummary statisticalSummary2) throws NumberIsTooSmallException, NullArgumentException {
+        checkSampleData(statisticalSummary);
+        checkSampleData(statisticalSummary2);
+        return t(statisticalSummary.getMean(), statisticalSummary2.getMean(), statisticalSummary.getVariance(), statisticalSummary2.getVariance(), statisticalSummary.getN(), statisticalSummary2.getN());
+    }
+
+    public double homoscedasticT(StatisticalSummary statisticalSummary, StatisticalSummary statisticalSummary2) throws NumberIsTooSmallException, NullArgumentException {
+        checkSampleData(statisticalSummary);
+        checkSampleData(statisticalSummary2);
+        return homoscedasticT(statisticalSummary.getMean(), statisticalSummary2.getMean(), statisticalSummary.getVariance(), statisticalSummary2.getVariance(), statisticalSummary.getN(), statisticalSummary2.getN());
+    }
+
+    public double tTest(double d, double[] dArr) throws NumberIsTooSmallException, NullArgumentException, MaxCountExceededException {
+        checkSampleData(dArr);
+        return tTest(StatUtils.mean(dArr), d, StatUtils.variance(dArr), dArr.length);
+    }
+
+    public boolean tTest(double d, double[] dArr, double d2) throws NumberIsTooSmallException, OutOfRangeException, NullArgumentException, MaxCountExceededException {
+        checkSignificanceLevel(d2);
+        return tTest(d, dArr) < d2;
+    }
+
+    public double tTest(double d, StatisticalSummary statisticalSummary) throws NumberIsTooSmallException, NullArgumentException, MaxCountExceededException {
+        checkSampleData(statisticalSummary);
+        return tTest(statisticalSummary.getMean(), d, statisticalSummary.getVariance(), statisticalSummary.getN());
+    }
+
+    public boolean tTest(double d, StatisticalSummary statisticalSummary, double d2) throws NumberIsTooSmallException, OutOfRangeException, NullArgumentException, MaxCountExceededException {
+        checkSignificanceLevel(d2);
+        return tTest(d, statisticalSummary) < d2;
+    }
+
+    public double tTest(double[] dArr, double[] dArr2) throws NumberIsTooSmallException, NullArgumentException, MaxCountExceededException {
+        checkSampleData(dArr);
+        checkSampleData(dArr2);
+        return tTest(StatUtils.mean(dArr), StatUtils.mean(dArr2), StatUtils.variance(dArr), StatUtils.variance(dArr2), dArr.length, dArr2.length);
+    }
+
+    public double homoscedasticTTest(double[] dArr, double[] dArr2) throws NumberIsTooSmallException, NullArgumentException, MaxCountExceededException {
+        checkSampleData(dArr);
+        checkSampleData(dArr2);
+        return homoscedasticTTest(StatUtils.mean(dArr), StatUtils.mean(dArr2), StatUtils.variance(dArr), StatUtils.variance(dArr2), dArr.length, dArr2.length);
+    }
+
+    public boolean tTest(double[] dArr, double[] dArr2, double d) throws NumberIsTooSmallException, OutOfRangeException, NullArgumentException, MaxCountExceededException {
+        checkSignificanceLevel(d);
+        return tTest(dArr, dArr2) < d;
+    }
+
+    public boolean homoscedasticTTest(double[] dArr, double[] dArr2, double d) throws NumberIsTooSmallException, OutOfRangeException, NullArgumentException, MaxCountExceededException {
+        checkSignificanceLevel(d);
+        return homoscedasticTTest(dArr, dArr2) < d;
+    }
+
+    public double tTest(StatisticalSummary statisticalSummary, StatisticalSummary statisticalSummary2) throws NumberIsTooSmallException, NullArgumentException, MaxCountExceededException {
+        checkSampleData(statisticalSummary);
+        checkSampleData(statisticalSummary2);
+        return tTest(statisticalSummary.getMean(), statisticalSummary2.getMean(), statisticalSummary.getVariance(), statisticalSummary2.getVariance(), statisticalSummary.getN(), statisticalSummary2.getN());
+    }
+
+    public double homoscedasticTTest(StatisticalSummary statisticalSummary, StatisticalSummary statisticalSummary2) throws NumberIsTooSmallException, NullArgumentException, MaxCountExceededException {
+        checkSampleData(statisticalSummary);
+        checkSampleData(statisticalSummary2);
+        return homoscedasticTTest(statisticalSummary.getMean(), statisticalSummary2.getMean(), statisticalSummary.getVariance(), statisticalSummary2.getVariance(), statisticalSummary.getN(), statisticalSummary2.getN());
+    }
+
+    public boolean tTest(StatisticalSummary statisticalSummary, StatisticalSummary statisticalSummary2, double d) throws NumberIsTooSmallException, OutOfRangeException, NullArgumentException, MaxCountExceededException {
+        checkSignificanceLevel(d);
+        return tTest(statisticalSummary, statisticalSummary2) < d;
+    }
+
+    protected double t(double d, double d2, double d3, double d4) {
+        return (d - d2) / FastMath.sqrt(d3 / d4);
+    }
+
+    protected double t(double d, double d2, double d3, double d4, double d5, double d6) {
+        return (d - d2) / FastMath.sqrt((d3 / d5) + (d4 / d6));
+    }
+
+    protected double homoscedasticT(double d, double d2, double d3, double d4, double d5, double d6) {
+        return (d - d2) / FastMath.sqrt(((((d5 - 1.0d) * d3) + ((d6 - 1.0d) * d4)) / ((d5 + d6) - 2.0d)) * ((1.0d / d5) + (1.0d / d6)));
+    }
+
+    protected double tTest(double d, double d2, double d3, double d4) throws MaxCountExceededException, MathIllegalArgumentException {
+        return new TDistribution((RandomGenerator) null, d4 - 1.0d).cumulativeProbability(-FastMath.abs(t(d, d2, d3, d4))) * 2.0d;
+    }
+
+    protected double tTest(double d, double d2, double d3, double d4, double d5, double d6) throws NotStrictlyPositiveException, MaxCountExceededException {
+        return new TDistribution((RandomGenerator) null, df(d3, d4, d5, d6)).cumulativeProbability(-FastMath.abs(t(d, d2, d3, d4, d5, d6))) * 2.0d;
+    }
+
+    protected double homoscedasticTTest(double d, double d2, double d3, double d4, double d5, double d6) throws NotStrictlyPositiveException, MaxCountExceededException {
+        return new TDistribution((RandomGenerator) null, (d5 + d6) - 2.0d).cumulativeProbability(-FastMath.abs(homoscedasticT(d, d2, d3, d4, d5, d6))) * 2.0d;
+    }
+
+    private void checkSignificanceLevel(double d) throws OutOfRangeException {
+        if (d <= 0.0d || d > 0.5d) {
+            throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL, Double.valueOf(d), Double.valueOf(0.0d), Double.valueOf(0.5d));
+        }
+    }
+
+    private void checkSampleData(double[] dArr) throws NumberIsTooSmallException, NullArgumentException {
+        if (dArr == null) {
+            throw new NullArgumentException();
+        }
+        if (dArr.length < 2) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC, Integer.valueOf(dArr.length), 2, true);
+        }
+    }
+
+    private void checkSampleData(StatisticalSummary statisticalSummary) throws NumberIsTooSmallException, NullArgumentException {
+        if (statisticalSummary == null) {
+            throw new NullArgumentException();
+        }
+        if (statisticalSummary.getN() < 2) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC, Long.valueOf(statisticalSummary.getN()), 2, true);
+        }
+    }
+}

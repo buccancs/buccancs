@@ -1,0 +1,62 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/InternalHandlerRegistry.java
+// Size: 2168 bytes
+// Modified: 2025-10-21 16:32:07.922725500 +0100
+
+package io.grpc.internal;
+
+import io.grpc.HandlerRegistry;
+import io.grpc.ServerMethodDefinition;
+import io.grpc.ServerServiceDefinition;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+final class InternalHandlerRegistry extends HandlerRegistry {
+    private final Map<String, ServerMethodDefinition<?, ?>> methods;
+    private final List<ServerServiceDefinition> services;
+
+    @Override // io.grpc.HandlerRegistry
+    public List<ServerServiceDefinition> getServices() {
+        return this.services;
+    }
+
+    private InternalHandlerRegistry(List<ServerServiceDefinition> list, Map<String, ServerMethodDefinition<?, ?>> map) {
+        this.services = list;
+        this.methods = map;
+    }
+
+    @Override // io.grpc.HandlerRegistry
+    @Nullable
+    public ServerMethodDefinition<?, ?> lookupMethod(String str, @Nullable String str2) {
+        return this.methods.get(str);
+    }
+
+    static final class Builder {
+        private final HashMap<String, ServerServiceDefinition> services = new LinkedHashMap();
+
+        Builder() {
+        }
+
+        Builder addService(ServerServiceDefinition serverServiceDefinition) {
+            this.services.put(serverServiceDefinition.getServiceDescriptor().getName(), serverServiceDefinition);
+            return this;
+        }
+
+        InternalHandlerRegistry build() {
+            HashMap map = new HashMap();
+            Iterator<ServerServiceDefinition> it2 = this.services.values().iterator();
+            while (it2.hasNext()) {
+                for (ServerMethodDefinition<?, ?> serverMethodDefinition : it2.next().getMethods()) {
+                    map.put(serverMethodDefinition.getMethodDescriptor().getFullMethodName(), serverMethodDefinition);
+                }
+            }
+            return new InternalHandlerRegistry(Collections.unmodifiableList(new ArrayList(this.services.values())), Collections.unmodifiableMap(map));
+        }
+    }
+}

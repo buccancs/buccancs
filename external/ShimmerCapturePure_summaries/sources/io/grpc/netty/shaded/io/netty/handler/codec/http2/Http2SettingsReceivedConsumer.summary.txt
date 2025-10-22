@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/Http2SettingsReceivedConsumer.java
+// Size: 212 bytes
+// Modified: 2025-10-21 16:32:03.178884600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+/* loaded from: classes3.dex */
+public interface Http2SettingsReceivedConsumer {
+    void consumeReceivedSettings(Http2Settings http2Settings);
+}

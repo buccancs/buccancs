@@ -1,0 +1,69 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/SeriesAndFormatterList.java
+// Size: 1868 bytes
+// Modified: 2025-10-21 16:32:00.781317800 +0100
+
+package com.androidplot.ui;
+
+import com.androidplot.series.Series;
+import java.util.LinkedList;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public class SeriesAndFormatterList<SeriesType extends Series, FormatterType> {
+    private LinkedList<SeriesType> a = new LinkedList<>();
+    private LinkedList<FormatterType> b = new LinkedList<>();
+
+    public List<FormatterType> getFormatterList() {
+        return this.b;
+    }
+
+    public List<SeriesType> getSeriesList() {
+        return this.a;
+    }
+
+    public boolean contains(SeriesType seriestype) {
+        return this.a.contains(seriestype);
+    }
+
+    public int size() {
+        return this.a.size();
+    }
+
+    public boolean add(SeriesType seriestype, FormatterType formattertype) {
+        if (seriestype == null || formattertype == null) {
+            throw new IllegalArgumentException("series and formatter must not be null.");
+        }
+        if (this.a.contains(seriestype)) {
+            return false;
+        }
+        this.a.add(seriestype);
+        this.b.add(formattertype);
+        return true;
+    }
+
+    public boolean remove(SeriesType seriestype) {
+        int iIndexOf = this.a.indexOf(seriestype);
+        if (iIndexOf < 0) {
+            return false;
+        }
+        this.a.remove(iIndexOf);
+        this.b.remove(iIndexOf);
+        return true;
+    }
+
+    public FormatterType getFormatter(SeriesType seriestype) {
+        return this.b.get(this.a.indexOf(seriestype));
+    }
+
+    public FormatterType getFormatter(int i) {
+        return this.b.get(i);
+    }
+
+    public SeriesType getSeries(int i) {
+        return this.a.get(i);
+    }
+
+    public FormatterType setFormatter(SeriesType seriestype, FormatterType formattertype) {
+        return this.b.set(this.a.indexOf(seriestype), formattertype);
+    }
+}

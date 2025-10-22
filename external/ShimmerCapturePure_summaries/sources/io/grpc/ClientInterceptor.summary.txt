@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/ClientInterceptor.java
+// Size: 242 bytes
+// Modified: 2025-10-21 16:32:07.030115400 +0100
+
+package io.grpc;
+
+/* loaded from: classes2.dex */
+public interface ClientInterceptor {
+    <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> methodDescriptor, CallOptions callOptions, Channel channel);
+}

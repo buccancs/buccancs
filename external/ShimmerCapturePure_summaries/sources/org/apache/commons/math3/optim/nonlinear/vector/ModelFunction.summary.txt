@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/nonlinear/vector/ModelFunction.java
+// Size: 588 bytes
+// Modified: 2025-10-21 16:32:01.782297800 +0100
+
+package org.apache.commons.math3.optim.nonlinear.vector;
+
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.optim.OptimizationData;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class ModelFunction implements OptimizationData {
+    private final MultivariateVectorFunction model;
+
+    public MultivariateVectorFunction getModelFunction() {
+        return this.model;
+    }
+
+    public ModelFunction(MultivariateVectorFunction multivariateVectorFunction) {
+        this.model = multivariateVectorFunction;
+    }
+}

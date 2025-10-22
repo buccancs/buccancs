@@ -1,0 +1,66 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/prng/VMPCRandomGenerator.java
+// Size: 6812 bytes
+// Modified: 2025-10-21 16:32:01.836769300 +0100
+
+package org.bouncycastle.crypto.prng;
+
+import com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper;
+import com.google.common.base.Ascii;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.sensors.adxl371.SensorADXL371;
+import com.shimmerresearch.sensors.lisxmdl.SensorLIS3MDL;
+import com.shimmerresearch.sensors.lsm6dsv.SensorLSM6DSV;
+import org.bouncycastle.crypto.signers.PSSSigner;
+import org.bouncycastle.util.Pack;
+
+/* loaded from: classes5.dex */
+public class VMPCRandomGenerator implements RandomGenerator {
+    private byte n = 0;
+    private byte[] P = {ByteSourceJsonBootstrapper.UTF8_BOM_2, 44, ShimmerObject.EXG_REGS_RESPONSE, 127, -75, SensorADXL371.ALT_ACCEL_CALIBRATION_RESPONSE, -44, 13, ShimmerObject.GET_MYID_COMMAND, -2, SensorLIS3MDL.SET_ALT_MAG_SAMPLING_RATE_COMMAND, ShimmerObject.SET_NSHIMMER_COMMAND, -53, ShimmerObject.GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND, ShimmerObject.GET_BT_FW_VERSION_STR_COMMAND, 8, 24, ShimmerObject.STATUS_RESPONSE, 86, -24, 73, 2, 16, -60, -34, ShimmerObject.BUFFER_SIZE_RESPONSE, -91, -20, -128, 18, -72, 105, -38, ShimmerObject.FW_VERSION_RESPONSE, ShimmerObject.GET_TRIAL_CONFIG_COMMAND, -52, ShimmerObject.BT_FW_VERSION_STR_RESPONSE, 9, ShimmerObject.GET_BUFFER_SIZE_COMMAND, 3, ShimmerObject.SET_EXG_REGS_COMMAND, ShimmerObject.ALL_CALIBRATION_RESPONSE, -3, ShimmerObject.ROUTINE_COMMUNICATION, -35, 5, 67, ShimmerObject.RWC_RESPONSE, SensorADXL371.ALT_ACCEL_SAMPLING_RATE_RESPONSE, -56, -31, SensorLIS3MDL.SET_ALT_MAG_CALIBRATION_COMMAND, 87, ShimmerObject.UPD_CALIB_DUMP_COMMAND, 76, -40, SensorLSM6DSV.GET_ALT_ACCEL_RANGE_COMMAND, SensorADXL371.GET_ALT_ACCEL_SAMPLING_RATE_COMMAND, SensorLSM6DSV.ALT_ACCEL_RANGE_RESPONSE, ShimmerObject.SET_CONFIGTIME_COMMAND, 60, 10, -28, -13, ShimmerObject.UPD_SDLOG_CFG_COMMAND, ShimmerObject.SET_EMG_CALIBRATION_COMMAND, 35, 83, -55, ShimmerObject.NSHIMMER_RESPONSE, ShimmerObject.STOP_SDBT_COMMAND, 70, SensorLIS3MDL.GET_ALT_MAG_CALIBRATION_COMMAND, ShimmerObject.RSP_CALIB_DUMP_COMMAND, 100, ShimmerObject.BLINK_LED_RESPONSE, ShimmerObject.CENTER_RESPONSE, -43, Ascii.GS, -42, ShimmerObject.GET_CENTER_COMMAND, -67, ShimmerObject.SET_INTERNAL_EXP_POWER_ENABLE_COMMAND, SensorLIS3MDL.ALT_MAG_CALIBRATION_RESPONSE, ShimmerObject.INSTREAM_CMD_RESPONSE, 34, 56, -8, 104, ShimmerObject.GET_ECG_CALIBRATION_COMMAND, ShimmerObject.ECG_CALIBRATION_RESPONSE, -59, -45, -9, PSSSigner.TRAILER_IMPLICIT, ShimmerObject.GET_DERIVED_CHANNEL_BYTES, -33, 4, -27, -107, 62, ShimmerObject.GET_SHIMMER_VERSION_RESPONSE, ShimmerObject.CONFIGTIME_RESPONSE, -90, 11, ShimmerObject.SET_RWC_COMMAND, -15, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 14, -41, 64, SensorLIS3MDL.ALT_MAG_SAMPLING_RATE_RESPONSE, -49, ShimmerObject.GET_EXPID_COMMAND, 6, 21, ShimmerObject.GET_CALIB_DUMP_COMMAND, 77, 28, -93, -37, ShimmerObject.GET_BLINK_LED, ShimmerObject.START_LOGGING_ONLY_COMMAND, 88, 17, ShimmerObject.EMG_CALIBRATION_RESPONSE, -12, 89, -48, 78, ShimmerObject.SET_BAUD_RATE_COMMAND, 23, ShimmerObject.RESET_CALIBRATION_VALUE_COMMAND, SensorADXL371.SET_ALT_ACCEL_SAMPLING_RATE_COMMAND, -1, 7, -64, ShimmerObject.DAUGHTER_CARD_ID_RESPONSE, ShimmerObject.SET_SHIMMERNAME_COMMAND, -4, -57, -51, ShimmerObject.SET_CENTER_COMMAND, 66, 93, -25, 58, ShimmerObject.SET_BUFFER_SIZE_COMMAND, ShimmerObject.SHIMMERNAME_RESPONSE, ShimmerObject.SET_BLINK_LED, ShimmerObject.GET_EMG_CALIBRATION_COMMAND, 15, ShimmerObject.SET_TRIAL_CONFIG_COMMAND, 1, -7, -47, -46, 25, -23, ShimmerObject.GET_RWC_COMMAND, -71, 90, -19, 65, ShimmerObject.SET_DERIVED_CHANNEL_BYTES, SensorLIS3MDL.GET_ALT_MAG_SAMPLING_RATE_COMMAND, -61, -98, ByteSourceJsonBootstrapper.UTF8_BOM_3, ShimmerObject.GET_EXG_REGS_COMMAND, -6, Ascii.US, 51, ShimmerObject.GET_INTERNAL_EXP_POWER_ENABLE_COMMAND, 71, ShimmerObject.GET_DIR_COMMAND, -16, ShimmerObject.TEST_CONNECTION_COMMAND, 26, ShimmerObject.INTERNAL_EXP_POWER_ENABLE_RESPONSE, ShimmerObject.STOP_LOGGING_ONLY_COMMAND, 61, 55, 75, -39, ShimmerObject.SET_TEST, -63, 27, -10, 57, ShimmerObject.SET_CRC_COMMAND, -73, 12, 32, -50, ShimmerObject.DIR_RESPONSE, ShimmerObject.DERIVED_CHANNEL_BYTES_RESPONSE, -74, ShimmerObject.TRIAL_CONFIG_RESPONSE, ShimmerObject.GET_INFOMEM_COMMAND, ShimmerObject.INFOMEM_RESPONSE, 22, ShimmerObject.SET_ECG_CALIBRATION_COMMAND, -14, ShimmerObject.GET_CONFIGTIME_COMMAND, -11, -21, ShimmerObject.START_SDBT_COMMAND, -29, -5, 85, ShimmerObject.BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, -58, 68, 74, 69, ShimmerObject.EXPID_RESPONSE, -30, ShimmerObject.BAUD_RATE_RESPONSE, 92, ShimmerObject.GET_BAUD_RATE_COMMAND, ShimmerObject.GET_DAUGHTER_CARD_ID_COMMAND, SensorADXL371.SET_ALT_ACCEL_CALIBRATION_COMMAND, ShimmerObject.SET_INFOMEM_COMMAND, -18, ShimmerObject.GET_NSHIMMER_COMMAND, 19, -89, Ascii.RS, -99, -36, 103, 72, -70, ShimmerObject.GET_FW_VERSION_COMMAND, -26, -92, SensorADXL371.GET_ALT_ACCEL_CALIBRATION_COMMAND, ShimmerObject.SET_EXPID_COMMAND, -108, 0, 33, ByteSourceJsonBootstrapper.UTF8_BOM_1, -22, -66, -54, ShimmerObject.GET_STATUS_COMMAND, SensorLSM6DSV.SET_ALT_ACCEL_RANGE_COMMAND, 82, ShimmerObject.SET_CALIB_DUMP_COMMAND, ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW, -62, 20, ShimmerObject.GET_SHIMMERNAME_COMMAND, 59, 84};
+    private byte s = -66;
+
+    @Override // org.bouncycastle.crypto.prng.RandomGenerator
+    public void addSeedMaterial(long j) {
+        addSeedMaterial(Pack.longToBigEndian(j));
+    }
+
+    @Override // org.bouncycastle.crypto.prng.RandomGenerator
+    public void addSeedMaterial(byte[] bArr) {
+        for (byte b : bArr) {
+            byte[] bArr2 = this.P;
+            byte b2 = this.s;
+            byte b3 = this.n;
+            byte b4 = bArr2[(b2 + bArr2[b3 & 255] + b) & 255];
+            this.s = b4;
+            byte b5 = bArr2[b3 & 255];
+            bArr2[b3 & 255] = bArr2[b4 & 255];
+            bArr2[b4 & 255] = b5;
+            this.n = (byte) ((b3 + 1) & 255);
+        }
+    }
+
+    @Override // org.bouncycastle.crypto.prng.RandomGenerator
+    public void nextBytes(byte[] bArr) {
+        nextBytes(bArr, 0, bArr.length);
+    }
+
+    @Override // org.bouncycastle.crypto.prng.RandomGenerator
+    public void nextBytes(byte[] bArr, int i, int i2) {
+        synchronized (this.P) {
+            int i3 = i2 + i;
+            while (i != i3) {
+                byte[] bArr2 = this.P;
+                byte b = this.s;
+                byte b2 = this.n;
+                byte b3 = bArr2[(b + bArr2[b2 & 255]) & 255];
+                this.s = b3;
+                bArr[i] = bArr2[(bArr2[bArr2[b3 & 255] & 255] + 1) & 255];
+                byte b4 = bArr2[b2 & 255];
+                bArr2[b2 & 255] = bArr2[b3 & 255];
+                bArr2[b3 & 255] = b4;
+                this.n = (byte) ((b2 + 1) & 255);
+                i++;
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/activity/result/ActivityResultCaller.java
+// Size: 566 bytes
+// Modified: 2025-10-21 16:32:06.397045900 +0100
+
+package androidx.activity.result;
+
+import androidx.activity.result.contract.ActivityResultContract;
+
+/* loaded from: classes.dex */
+public interface ActivityResultCaller {
+    <I, O> ActivityResultLauncher<I> registerForActivityResult(ActivityResultContract<I, O> activityResultContract, ActivityResultCallback<O> activityResultCallback);
+
+    <I, O> ActivityResultLauncher<I> registerForActivityResult(ActivityResultContract<I, O> activityResultContract, ActivityResultRegistry activityResultRegistry, ActivityResultCallback<O> activityResultCallback);
+}

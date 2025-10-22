@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ssl/OpenSslEngine.java
+// Size: 547 bytes
+// Modified: 2025-10-21 16:32:12.415550900 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+
+/* loaded from: classes3.dex */
+public final class OpenSslEngine extends ReferenceCountedOpenSslEngine {
+    OpenSslEngine(OpenSslContext openSslContext, ByteBufAllocator byteBufAllocator, String str, int i, boolean z) {
+        super(openSslContext, byteBufAllocator, str, i, z, false);
+    }
+
+    protected void finalize() throws Throwable {
+        super.finalize();
+        OpenSsl.releaseIfNeeded(this);
+    }
+}

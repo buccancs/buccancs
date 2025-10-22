@@ -1,0 +1,1503 @@
+package udpa.annotations;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.DescriptorProtos;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessage;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class Migrate {
+    public static final int ENUM_MIGRATE_FIELD_NUMBER = 171962766;
+    public static final int ENUM_VALUE_MIGRATE_FIELD_NUMBER = 171962766;
+    public static final int FIELD_MIGRATE_FIELD_NUMBER = 171962766;
+    public static final int FILE_MIGRATE_FIELD_NUMBER = 171962766;
+    public static final int MESSAGE_MIGRATE_FIELD_NUMBER = 171962766;
+    public static final GeneratedMessage.GeneratedExtension<DescriptorProtos.EnumOptions, MigrateAnnotation> enumMigrate;
+    public static final GeneratedMessage.GeneratedExtension<DescriptorProtos.EnumValueOptions, MigrateAnnotation> enumValueMigrate;
+    public static final GeneratedMessage.GeneratedExtension<DescriptorProtos.FieldOptions, FieldMigrateAnnotation> fieldMigrate;
+    public static final GeneratedMessage.GeneratedExtension<DescriptorProtos.FileOptions, FileMigrateAnnotation> fileMigrate;
+    public static final GeneratedMessage.GeneratedExtension<DescriptorProtos.MessageOptions, MigrateAnnotation> messageMigrate;
+    private static final Descriptors.Descriptor internal_static_udpa_annotations_FieldMigrateAnnotation_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_annotations_FieldMigrateAnnotation_fieldAccessorTable;
+    private static final Descriptors.Descriptor internal_static_udpa_annotations_FileMigrateAnnotation_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_annotations_FileMigrateAnnotation_fieldAccessorTable;
+    private static final Descriptors.Descriptor internal_static_udpa_annotations_MigrateAnnotation_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_annotations_MigrateAnnotation_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor;
+
+    static {
+        GeneratedMessage.GeneratedExtension<DescriptorProtos.MessageOptions, MigrateAnnotation> generatedExtensionNewFileScopedGeneratedExtension = GeneratedMessage.newFileScopedGeneratedExtension(MigrateAnnotation.class, MigrateAnnotation.getDefaultInstance());
+        messageMigrate = generatedExtensionNewFileScopedGeneratedExtension;
+        GeneratedMessage.GeneratedExtension<DescriptorProtos.FieldOptions, FieldMigrateAnnotation> generatedExtensionNewFileScopedGeneratedExtension2 = GeneratedMessage.newFileScopedGeneratedExtension(FieldMigrateAnnotation.class, FieldMigrateAnnotation.getDefaultInstance());
+        fieldMigrate = generatedExtensionNewFileScopedGeneratedExtension2;
+        GeneratedMessage.GeneratedExtension<DescriptorProtos.EnumOptions, MigrateAnnotation> generatedExtensionNewFileScopedGeneratedExtension3 = GeneratedMessage.newFileScopedGeneratedExtension(MigrateAnnotation.class, MigrateAnnotation.getDefaultInstance());
+        enumMigrate = generatedExtensionNewFileScopedGeneratedExtension3;
+        GeneratedMessage.GeneratedExtension<DescriptorProtos.EnumValueOptions, MigrateAnnotation> generatedExtensionNewFileScopedGeneratedExtension4 = GeneratedMessage.newFileScopedGeneratedExtension(MigrateAnnotation.class, MigrateAnnotation.getDefaultInstance());
+        enumValueMigrate = generatedExtensionNewFileScopedGeneratedExtension4;
+        GeneratedMessage.GeneratedExtension<DescriptorProtos.FileOptions, FileMigrateAnnotation> generatedExtensionNewFileScopedGeneratedExtension5 = GeneratedMessage.newFileScopedGeneratedExtension(FileMigrateAnnotation.class, FileMigrateAnnotation.getDefaultInstance());
+        fileMigrate = generatedExtensionNewFileScopedGeneratedExtension5;
+        descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n\u001eudpa/annotations/migrate.proto\u0012\u0010udpa.annotations\u001a google/protobuf/descriptor.proto\"#\n\u0011MigrateAnnotation\u0012\u000e\n\u0006rename\u0018\u0001 \u0001(\t\"A\n\u0016FieldMigrateAnnotation\u0012\u000e\n\u0006rename\u0018\u0001 \u0001(\t\u0012\u0017\n\u000foneof_promotion\u0018\u0002 \u0001(\t\"0\n\u0015FileMigrateAnnotation\u0012\u0017\n\u000fmove_to_package\u0018\u0002 \u0001(\t:`\n\u000fmessage_migrate\u0012\u001f.google.protobuf.MessageOptions\u0018\u008eãÿQ \u0001(\u000b2#.udpa.annotations.MigrateAnnotation:a\n\rfield_migrate\u0012\u001d.google.protobuf.FieldOptions\u0018\u008eãÿQ \u0001(\u000b2(.udpa.annotations.FieldMigrateAnnotation:Z\n\fenum_migrate\u0012\u001c.google.protobuf.EnumOptions\u0018\u008eãÿQ \u0001(\u000b2#.udpa.annotations.MigrateAnnotation:e\n\u0012enum_value_migrate\u0012!.google.protobuf.EnumValueOptions\u0018\u008eãÿQ \u0001(\u000b2#.udpa.annotations.MigrateAnnotation:^\n\ffile_migrate\u0012\u001c.google.protobuf.FileOptions\u0018\u008eãÿQ \u0001(\u000b2'.udpa.annotations.FileMigrateAnnotationb\u0006proto3"}, new Descriptors.FileDescriptor[]{DescriptorProtos.getDescriptor()});
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_udpa_annotations_MigrateAnnotation_descriptor = descriptor2;
+        internal_static_udpa_annotations_MigrateAnnotation_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Rename"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_udpa_annotations_FieldMigrateAnnotation_descriptor = descriptor3;
+        internal_static_udpa_annotations_FieldMigrateAnnotation_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Rename", "OneofPromotion"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_udpa_annotations_FileMigrateAnnotation_descriptor = descriptor4;
+        internal_static_udpa_annotations_FileMigrateAnnotation_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"MoveToPackage"});
+        generatedExtensionNewFileScopedGeneratedExtension.internalInit((Descriptors.FieldDescriptor) descriptor.getExtensions().get(0));
+        generatedExtensionNewFileScopedGeneratedExtension2.internalInit((Descriptors.FieldDescriptor) descriptor.getExtensions().get(1));
+        generatedExtensionNewFileScopedGeneratedExtension3.internalInit((Descriptors.FieldDescriptor) descriptor.getExtensions().get(2));
+        generatedExtensionNewFileScopedGeneratedExtension4.internalInit((Descriptors.FieldDescriptor) descriptor.getExtensions().get(3));
+        generatedExtensionNewFileScopedGeneratedExtension5.internalInit((Descriptors.FieldDescriptor) descriptor.getExtensions().get(4));
+        DescriptorProtos.getDescriptor();
+    }
+
+    private Migrate() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+        extensionRegistryLite.add(messageMigrate);
+        extensionRegistryLite.add(fieldMigrate);
+        extensionRegistryLite.add(enumMigrate);
+        extensionRegistryLite.add(enumValueMigrate);
+        extensionRegistryLite.add(fileMigrate);
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    public interface FieldMigrateAnnotationOrBuilder extends MessageOrBuilder {
+        String getOneofPromotion();
+
+        ByteString getOneofPromotionBytes();
+
+        String getRename();
+
+        ByteString getRenameBytes();
+    }
+
+    public interface FileMigrateAnnotationOrBuilder extends MessageOrBuilder {
+        String getMoveToPackage();
+
+        ByteString getMoveToPackageBytes();
+    }
+
+    public interface MigrateAnnotationOrBuilder extends MessageOrBuilder {
+        String getRename();
+
+        ByteString getRenameBytes();
+    }
+
+    public static final class MigrateAnnotation extends GeneratedMessageV3 implements MigrateAnnotationOrBuilder {
+        public static final int RENAME_FIELD_NUMBER = 1;
+        private static final MigrateAnnotation DEFAULT_INSTANCE = new MigrateAnnotation();
+        private static final Parser<MigrateAnnotation> PARSER = new AbstractParser<MigrateAnnotation>() { // from class: udpa.annotations.Migrate.MigrateAnnotation.1
+            public MigrateAnnotation parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new MigrateAnnotation(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private byte memoizedIsInitialized;
+        private volatile Object rename_;
+
+        private MigrateAnnotation(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private MigrateAnnotation() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.rename_ = "";
+        }
+
+        private MigrateAnnotation(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.rename_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static MigrateAnnotation getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<MigrateAnnotation> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return Migrate.internal_static_udpa_annotations_MigrateAnnotation_descriptor;
+        }
+
+        public static MigrateAnnotation parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (MigrateAnnotation) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static MigrateAnnotation parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MigrateAnnotation) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static MigrateAnnotation parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (MigrateAnnotation) PARSER.parseFrom(byteString);
+        }
+
+        public static MigrateAnnotation parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MigrateAnnotation) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static MigrateAnnotation parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (MigrateAnnotation) PARSER.parseFrom(bArr);
+        }
+
+        public static MigrateAnnotation parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MigrateAnnotation) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static MigrateAnnotation parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static MigrateAnnotation parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static MigrateAnnotation parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static MigrateAnnotation parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static MigrateAnnotation parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static MigrateAnnotation parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m40545toBuilder();
+        }
+
+        public static Builder newBuilder(MigrateAnnotation migrateAnnotation) {
+            return DEFAULT_INSTANCE.m40545toBuilder().mergeFrom(migrateAnnotation);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public MigrateAnnotation m40540getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<MigrateAnnotation> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new MigrateAnnotation();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return Migrate.internal_static_udpa_annotations_MigrateAnnotation_fieldAccessorTable.ensureFieldAccessorsInitialized(MigrateAnnotation.class, Builder.class);
+        }
+
+        @Override // udpa.annotations.Migrate.MigrateAnnotationOrBuilder
+        public String getRename() {
+            Object obj = this.rename_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.rename_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // udpa.annotations.Migrate.MigrateAnnotationOrBuilder
+        public ByteString getRenameBytes() {
+            Object obj = this.rename_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.rename_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getRenameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.rename_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = (!getRenameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.rename_) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeStringSize;
+            return iComputeStringSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof MigrateAnnotation)) {
+                return super.equals(obj);
+            }
+            MigrateAnnotation migrateAnnotation = (MigrateAnnotation) obj;
+            return getRename().equals(migrateAnnotation.getRename()) && this.unknownFields.equals(migrateAnnotation.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getRename().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m40542newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m40545toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements MigrateAnnotationOrBuilder {
+            private Object rename_;
+
+            private Builder() {
+                this.rename_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.rename_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return Migrate.internal_static_udpa_annotations_MigrateAnnotation_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return Migrate.internal_static_udpa_annotations_MigrateAnnotation_fieldAccessorTable.ensureFieldAccessorsInitialized(MigrateAnnotation.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = MigrateAnnotation.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40556clear() {
+                super.clear();
+                this.rename_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return Migrate.internal_static_udpa_annotations_MigrateAnnotation_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MigrateAnnotation m40569getDefaultInstanceForType() {
+                return MigrateAnnotation.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MigrateAnnotation m40550build() throws UninitializedMessageException {
+                MigrateAnnotation migrateAnnotationM40552buildPartial = m40552buildPartial();
+                if (migrateAnnotationM40552buildPartial.isInitialized()) {
+                    return migrateAnnotationM40552buildPartial;
+                }
+                throw newUninitializedMessageException(migrateAnnotationM40552buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MigrateAnnotation m40552buildPartial() {
+                MigrateAnnotation migrateAnnotation = new MigrateAnnotation(this);
+                migrateAnnotation.rename_ = this.rename_;
+                onBuilt();
+                return migrateAnnotation;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40567clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40580setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40558clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40561clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40582setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40548addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40573mergeFrom(Message message) {
+                if (message instanceof MigrateAnnotation) {
+                    return mergeFrom((MigrateAnnotation) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(MigrateAnnotation migrateAnnotation) {
+                if (migrateAnnotation == MigrateAnnotation.getDefaultInstance()) {
+                    return this;
+                }
+                if (!migrateAnnotation.getRename().isEmpty()) {
+                    this.rename_ = migrateAnnotation.rename_;
+                    onChanged();
+                }
+                m40578mergeUnknownFields(migrateAnnotation.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public udpa.annotations.Migrate.MigrateAnnotation.Builder m40574mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = udpa.annotations.Migrate.MigrateAnnotation.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    udpa.annotations.Migrate$MigrateAnnotation r3 = (udpa.annotations.Migrate.MigrateAnnotation) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    udpa.annotations.Migrate$MigrateAnnotation r4 = (udpa.annotations.Migrate.MigrateAnnotation) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: udpa.annotations.Migrate.MigrateAnnotation.Builder.m40574mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):udpa.annotations.Migrate$MigrateAnnotation$Builder");
+            }
+
+            @Override // udpa.annotations.Migrate.MigrateAnnotationOrBuilder
+            public String getRename() {
+                Object obj = this.rename_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.rename_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setRename(String str) {
+                str.getClass();
+                this.rename_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // udpa.annotations.Migrate.MigrateAnnotationOrBuilder
+            public ByteString getRenameBytes() {
+                Object obj = this.rename_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.rename_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setRenameBytes(ByteString byteString) {
+                byteString.getClass();
+                MigrateAnnotation.checkByteStringIsUtf8(byteString);
+                this.rename_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearRename() {
+                this.rename_ = MigrateAnnotation.getDefaultInstance().getRename();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m40584setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m40578mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class FieldMigrateAnnotation extends GeneratedMessageV3 implements FieldMigrateAnnotationOrBuilder {
+        public static final int ONEOF_PROMOTION_FIELD_NUMBER = 2;
+        public static final int RENAME_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final FieldMigrateAnnotation DEFAULT_INSTANCE = new FieldMigrateAnnotation();
+        private static final Parser<FieldMigrateAnnotation> PARSER = new AbstractParser<FieldMigrateAnnotation>() { // from class: udpa.annotations.Migrate.FieldMigrateAnnotation.1
+            public FieldMigrateAnnotation parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new FieldMigrateAnnotation(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object oneofPromotion_;
+        private volatile Object rename_;
+
+        private FieldMigrateAnnotation(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private FieldMigrateAnnotation() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.rename_ = "";
+            this.oneofPromotion_ = "";
+        }
+
+        private FieldMigrateAnnotation(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    this.rename_ = codedInputStream.readStringRequireUtf8();
+                                } else if (tag == 18) {
+                                    this.oneofPromotion_ = codedInputStream.readStringRequireUtf8();
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static FieldMigrateAnnotation getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<FieldMigrateAnnotation> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return Migrate.internal_static_udpa_annotations_FieldMigrateAnnotation_descriptor;
+        }
+
+        public static FieldMigrateAnnotation parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (FieldMigrateAnnotation) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FieldMigrateAnnotation) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (FieldMigrateAnnotation) PARSER.parseFrom(byteString);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FieldMigrateAnnotation) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (FieldMigrateAnnotation) PARSER.parseFrom(bArr);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FieldMigrateAnnotation) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FieldMigrateAnnotation parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static FieldMigrateAnnotation parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static FieldMigrateAnnotation parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m40453toBuilder();
+        }
+
+        public static Builder newBuilder(FieldMigrateAnnotation fieldMigrateAnnotation) {
+            return DEFAULT_INSTANCE.m40453toBuilder().mergeFrom(fieldMigrateAnnotation);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FieldMigrateAnnotation m40448getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<FieldMigrateAnnotation> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new FieldMigrateAnnotation();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return Migrate.internal_static_udpa_annotations_FieldMigrateAnnotation_fieldAccessorTable.ensureFieldAccessorsInitialized(FieldMigrateAnnotation.class, Builder.class);
+        }
+
+        @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+        public String getRename() {
+            Object obj = this.rename_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.rename_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+        public ByteString getRenameBytes() {
+            Object obj = this.rename_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.rename_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+        public String getOneofPromotion() {
+            Object obj = this.oneofPromotion_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.oneofPromotion_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+        public ByteString getOneofPromotionBytes() {
+            Object obj = this.oneofPromotion_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.oneofPromotion_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getRenameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.rename_);
+            }
+            if (!getOneofPromotionBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 2, this.oneofPromotion_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getRenameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.rename_) : 0;
+            if (!getOneofPromotionBytes().isEmpty()) {
+                iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.oneofPromotion_);
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof FieldMigrateAnnotation)) {
+                return super.equals(obj);
+            }
+            FieldMigrateAnnotation fieldMigrateAnnotation = (FieldMigrateAnnotation) obj;
+            return getRename().equals(fieldMigrateAnnotation.getRename()) && getOneofPromotion().equals(fieldMigrateAnnotation.getOneofPromotion()) && this.unknownFields.equals(fieldMigrateAnnotation.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getRename().hashCode()) * 37) + 2) * 53) + getOneofPromotion().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m40450newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m40453toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements FieldMigrateAnnotationOrBuilder {
+            private Object oneofPromotion_;
+            private Object rename_;
+
+            private Builder() {
+                this.rename_ = "";
+                this.oneofPromotion_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.rename_ = "";
+                this.oneofPromotion_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return Migrate.internal_static_udpa_annotations_FieldMigrateAnnotation_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return Migrate.internal_static_udpa_annotations_FieldMigrateAnnotation_fieldAccessorTable.ensureFieldAccessorsInitialized(FieldMigrateAnnotation.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = FieldMigrateAnnotation.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40464clear() {
+                super.clear();
+                this.rename_ = "";
+                this.oneofPromotion_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return Migrate.internal_static_udpa_annotations_FieldMigrateAnnotation_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FieldMigrateAnnotation m40477getDefaultInstanceForType() {
+                return FieldMigrateAnnotation.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FieldMigrateAnnotation m40458build() throws UninitializedMessageException {
+                FieldMigrateAnnotation fieldMigrateAnnotationM40460buildPartial = m40460buildPartial();
+                if (fieldMigrateAnnotationM40460buildPartial.isInitialized()) {
+                    return fieldMigrateAnnotationM40460buildPartial;
+                }
+                throw newUninitializedMessageException(fieldMigrateAnnotationM40460buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FieldMigrateAnnotation m40460buildPartial() {
+                FieldMigrateAnnotation fieldMigrateAnnotation = new FieldMigrateAnnotation(this);
+                fieldMigrateAnnotation.rename_ = this.rename_;
+                fieldMigrateAnnotation.oneofPromotion_ = this.oneofPromotion_;
+                onBuilt();
+                return fieldMigrateAnnotation;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40475clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40488setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40466clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40469clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40490setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40456addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40481mergeFrom(Message message) {
+                if (message instanceof FieldMigrateAnnotation) {
+                    return mergeFrom((FieldMigrateAnnotation) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(FieldMigrateAnnotation fieldMigrateAnnotation) {
+                if (fieldMigrateAnnotation == FieldMigrateAnnotation.getDefaultInstance()) {
+                    return this;
+                }
+                if (!fieldMigrateAnnotation.getRename().isEmpty()) {
+                    this.rename_ = fieldMigrateAnnotation.rename_;
+                    onChanged();
+                }
+                if (!fieldMigrateAnnotation.getOneofPromotion().isEmpty()) {
+                    this.oneofPromotion_ = fieldMigrateAnnotation.oneofPromotion_;
+                    onChanged();
+                }
+                m40486mergeUnknownFields(fieldMigrateAnnotation.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public udpa.annotations.Migrate.FieldMigrateAnnotation.Builder m40482mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = udpa.annotations.Migrate.FieldMigrateAnnotation.access$2000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    udpa.annotations.Migrate$FieldMigrateAnnotation r3 = (udpa.annotations.Migrate.FieldMigrateAnnotation) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    udpa.annotations.Migrate$FieldMigrateAnnotation r4 = (udpa.annotations.Migrate.FieldMigrateAnnotation) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: udpa.annotations.Migrate.FieldMigrateAnnotation.Builder.m40482mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):udpa.annotations.Migrate$FieldMigrateAnnotation$Builder");
+            }
+
+            @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+            public String getRename() {
+                Object obj = this.rename_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.rename_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setRename(String str) {
+                str.getClass();
+                this.rename_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+            public ByteString getRenameBytes() {
+                Object obj = this.rename_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.rename_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setRenameBytes(ByteString byteString) {
+                byteString.getClass();
+                FieldMigrateAnnotation.checkByteStringIsUtf8(byteString);
+                this.rename_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearRename() {
+                this.rename_ = FieldMigrateAnnotation.getDefaultInstance().getRename();
+                onChanged();
+                return this;
+            }
+
+            @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+            public String getOneofPromotion() {
+                Object obj = this.oneofPromotion_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.oneofPromotion_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setOneofPromotion(String str) {
+                str.getClass();
+                this.oneofPromotion_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // udpa.annotations.Migrate.FieldMigrateAnnotationOrBuilder
+            public ByteString getOneofPromotionBytes() {
+                Object obj = this.oneofPromotion_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.oneofPromotion_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setOneofPromotionBytes(ByteString byteString) {
+                byteString.getClass();
+                FieldMigrateAnnotation.checkByteStringIsUtf8(byteString);
+                this.oneofPromotion_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearOneofPromotion() {
+                this.oneofPromotion_ = FieldMigrateAnnotation.getDefaultInstance().getOneofPromotion();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m40492setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m40486mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class FileMigrateAnnotation extends GeneratedMessageV3 implements FileMigrateAnnotationOrBuilder {
+        public static final int MOVE_TO_PACKAGE_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final FileMigrateAnnotation DEFAULT_INSTANCE = new FileMigrateAnnotation();
+        private static final Parser<FileMigrateAnnotation> PARSER = new AbstractParser<FileMigrateAnnotation>() { // from class: udpa.annotations.Migrate.FileMigrateAnnotation.1
+            public FileMigrateAnnotation parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new FileMigrateAnnotation(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object moveToPackage_;
+
+        private FileMigrateAnnotation(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private FileMigrateAnnotation() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.moveToPackage_ = "";
+        }
+
+        private FileMigrateAnnotation(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 18) {
+                                this.moveToPackage_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static FileMigrateAnnotation getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<FileMigrateAnnotation> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return Migrate.internal_static_udpa_annotations_FileMigrateAnnotation_descriptor;
+        }
+
+        public static FileMigrateAnnotation parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (FileMigrateAnnotation) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static FileMigrateAnnotation parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FileMigrateAnnotation) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static FileMigrateAnnotation parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (FileMigrateAnnotation) PARSER.parseFrom(byteString);
+        }
+
+        public static FileMigrateAnnotation parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FileMigrateAnnotation) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static FileMigrateAnnotation parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (FileMigrateAnnotation) PARSER.parseFrom(bArr);
+        }
+
+        public static FileMigrateAnnotation parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FileMigrateAnnotation) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static FileMigrateAnnotation parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static FileMigrateAnnotation parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FileMigrateAnnotation parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static FileMigrateAnnotation parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FileMigrateAnnotation parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static FileMigrateAnnotation parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m40499toBuilder();
+        }
+
+        public static Builder newBuilder(FileMigrateAnnotation fileMigrateAnnotation) {
+            return DEFAULT_INSTANCE.m40499toBuilder().mergeFrom(fileMigrateAnnotation);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FileMigrateAnnotation m40494getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<FileMigrateAnnotation> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new FileMigrateAnnotation();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return Migrate.internal_static_udpa_annotations_FileMigrateAnnotation_fieldAccessorTable.ensureFieldAccessorsInitialized(FileMigrateAnnotation.class, Builder.class);
+        }
+
+        @Override // udpa.annotations.Migrate.FileMigrateAnnotationOrBuilder
+        public String getMoveToPackage() {
+            Object obj = this.moveToPackage_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.moveToPackage_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // udpa.annotations.Migrate.FileMigrateAnnotationOrBuilder
+        public ByteString getMoveToPackageBytes() {
+            Object obj = this.moveToPackage_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.moveToPackage_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getMoveToPackageBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 2, this.moveToPackage_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = (!getMoveToPackageBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(2, this.moveToPackage_) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeStringSize;
+            return iComputeStringSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof FileMigrateAnnotation)) {
+                return super.equals(obj);
+            }
+            FileMigrateAnnotation fileMigrateAnnotation = (FileMigrateAnnotation) obj;
+            return getMoveToPackage().equals(fileMigrateAnnotation.getMoveToPackage()) && this.unknownFields.equals(fileMigrateAnnotation.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 2) * 53) + getMoveToPackage().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m40496newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m40499toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements FileMigrateAnnotationOrBuilder {
+            private Object moveToPackage_;
+
+            private Builder() {
+                this.moveToPackage_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.moveToPackage_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return Migrate.internal_static_udpa_annotations_FileMigrateAnnotation_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return Migrate.internal_static_udpa_annotations_FileMigrateAnnotation_fieldAccessorTable.ensureFieldAccessorsInitialized(FileMigrateAnnotation.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = FileMigrateAnnotation.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40510clear() {
+                super.clear();
+                this.moveToPackage_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return Migrate.internal_static_udpa_annotations_FileMigrateAnnotation_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FileMigrateAnnotation m40523getDefaultInstanceForType() {
+                return FileMigrateAnnotation.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FileMigrateAnnotation m40504build() throws UninitializedMessageException {
+                FileMigrateAnnotation fileMigrateAnnotationM40506buildPartial = m40506buildPartial();
+                if (fileMigrateAnnotationM40506buildPartial.isInitialized()) {
+                    return fileMigrateAnnotationM40506buildPartial;
+                }
+                throw newUninitializedMessageException(fileMigrateAnnotationM40506buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FileMigrateAnnotation m40506buildPartial() {
+                FileMigrateAnnotation fileMigrateAnnotation = new FileMigrateAnnotation(this);
+                fileMigrateAnnotation.moveToPackage_ = this.moveToPackage_;
+                onBuilt();
+                return fileMigrateAnnotation;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40521clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40534setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40512clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40515clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40536setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40502addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m40527mergeFrom(Message message) {
+                if (message instanceof FileMigrateAnnotation) {
+                    return mergeFrom((FileMigrateAnnotation) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(FileMigrateAnnotation fileMigrateAnnotation) {
+                if (fileMigrateAnnotation == FileMigrateAnnotation.getDefaultInstance()) {
+                    return this;
+                }
+                if (!fileMigrateAnnotation.getMoveToPackage().isEmpty()) {
+                    this.moveToPackage_ = fileMigrateAnnotation.moveToPackage_;
+                    onChanged();
+                }
+                m40532mergeUnknownFields(fileMigrateAnnotation.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public udpa.annotations.Migrate.FileMigrateAnnotation.Builder m40528mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = udpa.annotations.Migrate.FileMigrateAnnotation.access$3200()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    udpa.annotations.Migrate$FileMigrateAnnotation r3 = (udpa.annotations.Migrate.FileMigrateAnnotation) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    udpa.annotations.Migrate$FileMigrateAnnotation r4 = (udpa.annotations.Migrate.FileMigrateAnnotation) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: udpa.annotations.Migrate.FileMigrateAnnotation.Builder.m40528mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):udpa.annotations.Migrate$FileMigrateAnnotation$Builder");
+            }
+
+            @Override // udpa.annotations.Migrate.FileMigrateAnnotationOrBuilder
+            public String getMoveToPackage() {
+                Object obj = this.moveToPackage_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.moveToPackage_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setMoveToPackage(String str) {
+                str.getClass();
+                this.moveToPackage_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // udpa.annotations.Migrate.FileMigrateAnnotationOrBuilder
+            public ByteString getMoveToPackageBytes() {
+                Object obj = this.moveToPackage_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.moveToPackage_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setMoveToPackageBytes(ByteString byteString) {
+                byteString.getClass();
+                FileMigrateAnnotation.checkByteStringIsUtf8(byteString);
+                this.moveToPackage_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearMoveToPackage() {
+                this.moveToPackage_ = FileMigrateAnnotation.getDefaultInstance().getMoveToPackage();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m40538setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m40532mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+}

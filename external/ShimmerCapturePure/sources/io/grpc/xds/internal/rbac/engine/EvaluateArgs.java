@@ -1,0 +1,63 @@
+package io.grpc.xds.internal.rbac.engine;
+
+import com.google.common.collect.ImmutableMap;
+import io.grpc.Grpc;
+import io.grpc.Metadata;
+import io.grpc.ServerCall;
+
+import java.net.SocketAddress;
+
+/* loaded from: classes3.dex */
+public class EvaluateArgs {
+    private ServerCall<?, ?> call;
+    private Metadata headers;
+
+    public EvaluateArgs(Metadata metadata, ServerCall<?, ?> serverCall) {
+        this.headers = metadata;
+        this.call = serverCall;
+    }
+
+    protected String getConnectionUriSanPeerCertificate() {
+        return "placeholder";
+    }
+
+    protected int getDestinationPort() {
+        return 0;
+    }
+
+    protected Metadata getRequestHeaders() {
+        return this.headers;
+    }
+
+    protected int getSourcePort() {
+        return 0;
+    }
+
+    protected String getSourcePrincipal() {
+        return "placeholder";
+    }
+
+    protected String getRequestUrlPath() {
+        return this.call.getMethodDescriptor().getFullMethodName();
+    }
+
+    protected String getRequestHost() {
+        return this.call.getAuthority();
+    }
+
+    protected String getRequestMethod() {
+        return this.call.getMethodDescriptor().getServiceName();
+    }
+
+    protected String getSourceAddress() {
+        return ((SocketAddress) this.call.getAttributes().get(Grpc.TRANSPORT_ATTR_REMOTE_ADDR)).toString();
+    }
+
+    protected String getDestinationAddress() {
+        return ((SocketAddress) this.call.getAttributes().get(Grpc.TRANSPORT_ATTR_LOCAL_ADDR)).toString();
+    }
+
+    public ImmutableMap<String, Object> generateEnvoyAttributes() {
+        return ImmutableMap.builder().put("request.url_path", getRequestUrlPath()).put("request.host", getRequestHost()).put("request.method", getRequestMethod()).put("request.headers", getRequestHeaders()).put("source.address", getSourceAddress()).put("source.port", Integer.valueOf(getSourcePort())).put("destination.address", getDestinationAddress()).put("destination.port", Integer.valueOf(getDestinationPort())).put("connection.uri_san_peer_certificate", getConnectionUriSanPeerCertificate()).put("source.principal", getSourcePrincipal()).build();
+    }
+}

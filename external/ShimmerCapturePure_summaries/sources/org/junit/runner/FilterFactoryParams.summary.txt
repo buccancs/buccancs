@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runner/FilterFactoryParams.java
+// Size: 602 bytes
+// Modified: 2025-10-21 16:32:01.076919800 +0100
+
+package org.junit.runner;
+
+/* loaded from: classes2.dex */
+public final class FilterFactoryParams {
+    private final String args;
+    private final Description topLevelDescription;
+
+    public String getArgs() {
+        return this.args;
+    }
+
+    public Description getTopLevelDescription() {
+        return this.topLevelDescription;
+    }
+
+    public FilterFactoryParams(Description description, String str) {
+        if (str == null || description == null) {
+            throw null;
+        }
+        this.topLevelDescription = description;
+        this.args = str;
+    }
+}

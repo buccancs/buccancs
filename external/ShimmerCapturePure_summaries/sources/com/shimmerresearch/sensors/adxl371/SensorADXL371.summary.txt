@@ -1,0 +1,546 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/sensors/adxl371/SensorADXL371.java
+// Size: 30876 bytes
+// Modified: 2025-10-21 16:32:14.863765800 +0100
+
+package com.shimmerresearch.sensors.adxl371;
+
+import com.shimmerresearch.bluetooth.BtCommandDetails;
+import com.shimmerresearch.driver.ConfigByteLayout;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import com.shimmerresearch.driver.calibration.UtilCalibration;
+import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.ActionSetting;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import org.apache.commons.lang3.ArrayUtils;
+
+/* loaded from: classes2.dex */
+public class SensorADXL371 extends AbstractSensor {
+    public static final byte ALT_ACCEL_CALIBRATION_RESPONSE = -86;
+    public static final byte ALT_ACCEL_SAMPLING_RATE_RESPONSE = -83;
+    public static final double[][] DefaultAlignmentADXL371;
+    public static final double[][] DefaultAlignmentMatrixHighGAccelShimmer3R;
+    public static final double[][] DefaultOffsetVectorHighGAccelShimmer3R = {new double[]{10.0d}, new double[]{10.0d}, new double[]{10.0d}};
+    public static final double[][] DefaultSensitivityMatrixHighGAccelShimmer3R = {new double[]{1.0d, 0.0d, 0.0d}, new double[]{0.0d, 1.0d, 0.0d}, new double[]{0.0d, 0.0d, 1.0d}};
+    public static final byte GET_ALT_ACCEL_CALIBRATION_COMMAND = -85;
+    public static final byte GET_ALT_ACCEL_SAMPLING_RATE_COMMAND = -82;
+    public static final String[] ListofADXL371AccelRange;
+    public static final Integer[] ListofADXL371AccelRangeConfigValues;
+    public static final String[] ListofADXL371AccelRate;
+    public static final Integer[] ListofADXL371AccelRateConfigValues;
+    public static final byte SET_ALT_ACCEL_CALIBRATION_COMMAND = -87;
+    public static final byte SET_ALT_ACCEL_SAMPLING_RATE_COMMAND = -84;
+    public static final ChannelDetails channelADXL371AccelX;
+    public static final ChannelDetails channelADXL371AccelY;
+    public static final ChannelDetails channelADXL371AccelZ;
+    public static final ConfigOptionDetailsSensor configOptionAccelRange;
+    public static final ConfigOptionDetailsSensor configOptionAccelRate;
+    public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
+    public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
+    public static final Map<String, ChannelDetails> mChannelMapRef;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
+    public static final SensorDetailsRef sensorADXL371Accel;
+    public static final SensorGroupingDetails sensorGroupAdxlAccel;
+    private static final long serialVersionUID = -841122434330904985L;
+    private CalibDetailsKinematic calibDetailsAccelHighG;
+    protected int mADXL371AnalogAccelRange;
+    protected int mADXL371AnalogAccelRate;
+    protected int mAccelRange;
+    public CalibDetailsKinematic mCurrentCalibDetailsAccelHighG;
+    protected boolean mHighResAccelHighG;
+    public boolean mIsUsingDefaultHighGAccelParam;
+    protected int mSensorIdAccel;
+
+    public static class DatabaseChannelHandles {
+        public static final String HIGHG_ACC_X = "ADXL371_ACC_X";
+        public static final String HIGHG_ACC_Y = "ADXL371_ACC_Y";
+        public static final String HIGHG_ACC_Z = "ADXL371_ACC_Z";
+    }
+
+    public static final class DatabaseConfigHandle {
+        public static final String HIGHG_ACC = "ADXL371_Acc";
+        public static final String HIGHG_ACC_CALIB_TIME = "ADXL371_Acc_Calib_Time";
+        public static final String HIGHG_ACC_RANGE = "ADXL371_Acc_Range";
+        public static final String HIGHG_ACC_RATE = "ADXL371_Acc_Rate";
+        public static final String HIGHG_ACC_OFFSET_X = "ADXL371_Acc_Offset_X";
+        public static final String HIGHG_ACC_OFFSET_Y = "ADXL371_Acc_Offset_Y";
+        public static final String HIGHG_ACC_OFFSET_Z = "ADXL371_Acc_Offset_Z";
+        public static final String HIGHG_ACC_GAIN_X = "ADXL371_Acc_Gain_X";
+        public static final String HIGHG_ACC_GAIN_Y = "ADXL371_Acc_Gain_Y";
+        public static final String HIGHG_ACC_GAIN_Z = "ADXL371_Acc_Gain_Z";
+        public static final String HIGHG_ACC_ALIGN_XX = "ADXL371_Acc_Align_XX";
+        public static final String HIGHG_ACC_ALIGN_XY = "ADXL371_Acc_Align_XY";
+        public static final String HIGHG_ACC_ALIGN_XZ = "ADXL371_Acc_Align_XZ";
+        public static final String HIGHG_ACC_ALIGN_YX = "ADXL371_Acc_Align_YX";
+        public static final String HIGHG_ACC_ALIGN_YY = "ADXL371_Acc_Align_YY";
+        public static final String HIGHG_ACC_ALIGN_YZ = "ADXL371_Acc_Align_YZ";
+        public static final String HIGHG_ACC_ALIGN_ZX = "ADXL371_Acc_Align_ZX";
+        public static final String HIGHG_ACC_ALIGN_ZY = "ADXL371_Acc_Align_ZY";
+        public static final String HIGHG_ACC_ALIGN_ZZ = "ADXL371_Acc_Align_ZZ";
+        public static final List<String> LIST_OF_CALIB_HANDLES_HIGHG_ACCEL = Arrays.asList(HIGHG_ACC_OFFSET_X, HIGHG_ACC_OFFSET_Y, HIGHG_ACC_OFFSET_Z, HIGHG_ACC_GAIN_X, HIGHG_ACC_GAIN_Y, HIGHG_ACC_GAIN_Z, HIGHG_ACC_ALIGN_XX, HIGHG_ACC_ALIGN_XY, HIGHG_ACC_ALIGN_XZ, HIGHG_ACC_ALIGN_YX, HIGHG_ACC_ALIGN_YY, HIGHG_ACC_ALIGN_YZ, HIGHG_ACC_ALIGN_ZX, HIGHG_ACC_ALIGN_ZY, HIGHG_ACC_ALIGN_ZZ);
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String ACCEL_HIGHG_X = "Accel_HighG_X";
+        public static String ACCEL_HIGHG_Y = "Accel_HighG_Y";
+        public static String ACCEL_HIGHG_Z = "Accel_HighG_Z";
+    }
+
+    public static int getAccelRateFromFreq(boolean z, double d) {
+        if (!z || d <= 320.0d) {
+            return 0;
+        }
+        if (d <= 640.0d) {
+            return 1;
+        }
+        if (d <= 1280.0d) {
+            return 2;
+        }
+        return d <= 2560.0d ? 3 : 0;
+    }
+
+    public int getADXL371AnalogAccelRange() {
+        return this.mADXL371AnalogAccelRange;
+    }
+
+    public int getADXL371AnalogAccelRate() {
+        return this.mADXL371AnalogAccelRate;
+    }
+
+    public int getAccelRange() {
+        return this.mAccelRange;
+    }
+
+    public CalibDetailsKinematic getCurrentCalibDetailsAccelHighG() {
+        return this.mCurrentCalibDetailsAccelHighG;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    public void setADXL371AnalogAccelRateInternal(int i) {
+        this.mADXL371AnalogAccelRate = i;
+    }
+
+    public class GuiLabelConfig {
+        public static final String ADXL371_ACCEL_RANGE = "High G Accel Range";
+        public static final String ADXL371_ACCEL_RATE = "High G Accel Rate";
+
+        public GuiLabelConfig() {
+        }
+    }
+
+    public class GuiLabelSensors {
+        public static final String ACCEL_HIGHG = "High-G Accelerometer";
+
+        public GuiLabelSensors() {
+        }
+    }
+
+    public class LABEL_SENSOR_TILE {
+        public static final String ACCEL = "ACCEL";
+        public static final String HIGH_G_ACCEL = "High-G Accelerometer";
+
+        public LABEL_SENSOR_TILE() {
+        }
+    }
+
+    static {
+        double[][] dArr = {new double[]{0.0d, 1.0d, 0.0d}, new double[]{1.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+        DefaultAlignmentADXL371 = dArr;
+        DefaultAlignmentMatrixHighGAccelShimmer3R = dArr;
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(4194304L, 4194304L, "High-G Accelerometer", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371, Arrays.asList(GuiLabelConfig.ADXL371_ACCEL_RANGE, GuiLabelConfig.ADXL371_ACCEL_RATE), Arrays.asList(ObjectClusterSensorName.ACCEL_HIGHG_X, ObjectClusterSensorName.ACCEL_HIGHG_Y, ObjectClusterSensorName.ACCEL_HIGHG_Z));
+        sensorADXL371Accel = sensorDetailsRef;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(40, sensorDetailsRef);
+        mSensorMapRef = Collections.unmodifiableMap(linkedHashMap);
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put(Byte.valueOf(GET_ALT_ACCEL_CALIBRATION_COMMAND), new BtCommandDetails(GET_ALT_ACCEL_CALIBRATION_COMMAND, "GET_ALT_ACCEL_CALIBRATION_COMMAND", ALT_ACCEL_CALIBRATION_RESPONSE));
+        linkedHashMap2.put(Byte.valueOf(GET_ALT_ACCEL_SAMPLING_RATE_COMMAND), new BtCommandDetails(GET_ALT_ACCEL_SAMPLING_RATE_COMMAND, "GET_ALT_ACCEL_SAMPLING_RATE_COMMAND", ALT_ACCEL_SAMPLING_RATE_RESPONSE));
+        mBtGetCommandMap = Collections.unmodifiableMap(linkedHashMap2);
+        LinkedHashMap linkedHashMap3 = new LinkedHashMap();
+        linkedHashMap3.put(Byte.valueOf(SET_ALT_ACCEL_CALIBRATION_COMMAND), new BtCommandDetails(SET_ALT_ACCEL_CALIBRATION_COMMAND, "SET_ALT_ACCEL_CALIBRATION_COMMAND"));
+        linkedHashMap3.put(Byte.valueOf(SET_ALT_ACCEL_SAMPLING_RATE_COMMAND), new BtCommandDetails(SET_ALT_ACCEL_SAMPLING_RATE_COMMAND, "SET_ALT_ACCEL_SAMPLING_RATE_COMMAND"));
+        mBtSetCommandMap = Collections.unmodifiableMap(linkedHashMap3);
+        String[] strArr = {"320Hz", "640Hz", "1280Hz", "2560Hz"};
+        ListofADXL371AccelRate = strArr;
+        Integer[] numArr = {0, 1, 2, 3};
+        ListofADXL371AccelRateConfigValues = numArr;
+        String[] strArr2 = {"+/- 200g"};
+        ListofADXL371AccelRange = strArr2;
+        Integer[] numArr2 = {0};
+        ListofADXL371AccelRangeConfigValues = numArr2;
+        configOptionAccelRate = new ConfigOptionDetailsSensor(GuiLabelConfig.ADXL371_ACCEL_RATE, DatabaseConfigHandle.HIGHG_ACC_RATE, strArr, numArr, ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371);
+        configOptionAccelRange = new ConfigOptionDetailsSensor(GuiLabelConfig.ADXL371_ACCEL_RANGE, DatabaseConfigHandle.HIGHG_ACC_RANGE, strArr2, numArr2, ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371);
+        ChannelDetails channelDetails = new ChannelDetails(ObjectClusterSensorName.ACCEL_HIGHG_X, ObjectClusterSensorName.ACCEL_HIGHG_X, DatabaseChannelHandles.HIGHG_ACC_X, ChannelDetails.CHANNEL_DATA_TYPE.UNKOWN, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, "m/(s^2)", (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 20);
+        channelADXL371AccelX = channelDetails;
+        ChannelDetails channelDetails2 = new ChannelDetails(ObjectClusterSensorName.ACCEL_HIGHG_Y, ObjectClusterSensorName.ACCEL_HIGHG_Y, DatabaseChannelHandles.HIGHG_ACC_Y, ChannelDetails.CHANNEL_DATA_TYPE.UNKOWN, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, "m/(s^2)", (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 21);
+        channelADXL371AccelY = channelDetails2;
+        ChannelDetails channelDetails3 = new ChannelDetails(ObjectClusterSensorName.ACCEL_HIGHG_Z, ObjectClusterSensorName.ACCEL_HIGHG_Z, DatabaseChannelHandles.HIGHG_ACC_Z, ChannelDetails.CHANNEL_DATA_TYPE.UNKOWN, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, "m/(s^2)", (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 22);
+        channelADXL371AccelZ = channelDetails3;
+        LinkedHashMap linkedHashMap4 = new LinkedHashMap();
+        linkedHashMap4.put(ObjectClusterSensorName.ACCEL_HIGHG_X, channelDetails);
+        linkedHashMap4.put(ObjectClusterSensorName.ACCEL_HIGHG_Y, channelDetails2);
+        linkedHashMap4.put(ObjectClusterSensorName.ACCEL_HIGHG_Z, channelDetails3);
+        mChannelMapRef = Collections.unmodifiableMap(linkedHashMap4);
+        sensorGroupAdxlAccel = new SensorGroupingDetails("High-G Accelerometer", Arrays.asList(40), Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoADXL371);
+    }
+
+    public SensorADXL371() {
+        super(AbstractSensor.SENSORS.ADXL371);
+        this.mSensorIdAccel = -1;
+        this.mAccelRange = 0;
+        this.mCurrentCalibDetailsAccelHighG = null;
+        this.mIsUsingDefaultHighGAccelParam = true;
+        this.mHighResAccelHighG = true;
+        this.mADXL371AnalogAccelRate = 0;
+        this.mADXL371AnalogAccelRange = 0;
+        this.calibDetailsAccelHighG = new CalibDetailsKinematic(ListofADXL371AccelRangeConfigValues[0].intValue(), ListofADXL371AccelRange[0], DefaultAlignmentMatrixHighGAccelShimmer3R, DefaultSensitivityMatrixHighGAccelShimmer3R, DefaultOffsetVectorHighGAccelShimmer3R);
+        initialise();
+    }
+
+    public SensorADXL371(ShimmerObject shimmerObject) {
+        super(AbstractSensor.SENSORS.ADXL371, shimmerObject);
+        this.mSensorIdAccel = -1;
+        this.mAccelRange = 0;
+        this.mCurrentCalibDetailsAccelHighG = null;
+        this.mIsUsingDefaultHighGAccelParam = true;
+        this.mHighResAccelHighG = true;
+        this.mADXL371AnalogAccelRate = 0;
+        this.mADXL371AnalogAccelRange = 0;
+        this.calibDetailsAccelHighG = new CalibDetailsKinematic(ListofADXL371AccelRangeConfigValues[0].intValue(), ListofADXL371AccelRange[0], DefaultAlignmentMatrixHighGAccelShimmer3R, DefaultSensitivityMatrixHighGAccelShimmer3R, DefaultOffsetVectorHighGAccelShimmer3R);
+        initialise();
+    }
+
+    public SensorADXL371(ShimmerDevice shimmerDevice) {
+        super(AbstractSensor.SENSORS.ADXL371, shimmerDevice);
+        this.mSensorIdAccel = -1;
+        this.mAccelRange = 0;
+        this.mCurrentCalibDetailsAccelHighG = null;
+        this.mIsUsingDefaultHighGAccelParam = true;
+        this.mHighResAccelHighG = true;
+        this.mADXL371AnalogAccelRate = 0;
+        this.mADXL371AnalogAccelRange = 0;
+        this.calibDetailsAccelHighG = new CalibDetailsKinematic(ListofADXL371AccelRangeConfigValues[0].intValue(), ListofADXL371AccelRange[0], DefaultAlignmentMatrixHighGAccelShimmer3R, DefaultSensitivityMatrixHighGAccelShimmer3R, DefaultOffsetVectorHighGAccelShimmer3R);
+        initialise();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+        addConfigOption(configOptionAccelRate);
+        addConfigOption(configOptionAccelRange);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+        this.mSensorGroupingMap = new LinkedHashMap<>();
+        this.mSensorGroupingMap.put(Integer.valueOf(Configuration.Shimmer3.LABEL_SENSOR_TILE.HIGH_G_ACCEL.ordinal()), sensorGroupAdxlAccel);
+        super.updateSensorGroupingMap();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        ObjectCluster objectClusterProcessDataCommon = sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        if (mEnableCalibration && sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("High-G Accelerometer") && this.mCurrentCalibDetailsAccelHighG != null) {
+            double[] dArr = new double[3];
+            for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+                if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_X)) {
+                    dArr[0] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_Y)) {
+                    dArr[1] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_Z)) {
+                    dArr[2] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                }
+            }
+            double[] dArrCalibrateInertialSensorData = UtilCalibration.calibrateInertialSensorData(dArr, this.mCurrentCalibDetailsAccelHighG);
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("High-G Accelerometer")) {
+                for (ChannelDetails channelDetails2 : sensorDetails.mListOfChannels) {
+                    if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_X)) {
+                        objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[0], objectClusterProcessDataCommon.getIndexKeeper() - 3, isUsingDefaultHighGAccelParam());
+                    } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_Y)) {
+                        objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[1], objectClusterProcessDataCommon.getIndexKeeper() - 2, isUsingDefaultHighGAccelParam());
+                    } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_HIGHG_Z)) {
+                        objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[2], objectClusterProcessDataCommon.getIndexKeeper() - 1, isUsingDefaultHighGAccelParam());
+                    }
+                }
+            }
+            if (this.mIsDebugOutput) {
+                super.consolePrintChannelsCal(objectClusterProcessDataCommon, Arrays.asList(new String[]{ObjectClusterSensorName.ACCEL_HIGHG_X, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_HIGHG_Y, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_HIGHG_Z, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_HIGHG_X, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_HIGHG_Y, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_HIGHG_Z, ChannelDetails.CHANNEL_TYPE.CAL.toString()}));
+            }
+        }
+        return objectClusterProcessDataCommon;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+        if (isSensorEnabled(this.mSensorIdAccel)) {
+            return;
+        }
+        setDefaultAdxl371AccelSensorConfig(false);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            int i = configByteLayoutShimmer3.idxConfigSetupByte4;
+            bArr[i] = (byte) (bArr[i] | ((byte) ((getADXL371AnalogAccelRate() & configByteLayoutShimmer3.maskADXL371AltAccelSamplingRate) << configByteLayoutShimmer3.bitShiftADXL371AltAccelSamplingRate)));
+            System.arraycopy(generateCalParamADXL371Accel(), 0, bArr, configByteLayoutShimmer3.idxADXL371AltAccelCalibration, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            setADXL371AnalogAccelRate((bArr[configByteLayoutShimmer3.idxConfigSetupByte4] >> configByteLayoutShimmer3.bitShiftADXL371AltAccelSamplingRate) & configByteLayoutShimmer3.maskADXL371AltAccelSamplingRate);
+            if (shimmerDevice.isConnected()) {
+                getCurrentCalibDetailsAccelHighG().mCalibReadSource = CalibDetails.CALIB_READ_SOURCE.INFOMEM;
+            }
+            byte[] bArr2 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+            System.arraycopy(bArr, configByteLayoutShimmer3.idxADXL371AltAccelCalibration, bArr2, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+            parseCalibParamFromPacketAccelAdxl(bArr2, CalibDetails.CALIB_READ_SOURCE.INFOMEM);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        Object configValueUsingConfigLabelCommon;
+        str.hashCode();
+        switch (str) {
+            case "High G Accel Rate":
+                setADXL371AnalogAccelRate(((Integer) obj).intValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Rate":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    setConfigValueUsingConfigLabel(GuiLabelConfig.ADXL371_ACCEL_RATE, obj);
+                }
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Range":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    setConfigValueUsingConfigLabel(GuiLabelConfig.ADXL371_ACCEL_RANGE, obj);
+                }
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "High G Accel Range":
+                setADXL371AccelRange(((Integer) obj).intValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            default:
+                configValueUsingConfigLabelCommon = super.setConfigValueUsingConfigLabelCommon(num, str, obj);
+                break;
+        }
+        if (str.equals(GuiLabelConfig.ADXL371_ACCEL_RATE)) {
+            checkConfigOptionValues(str);
+        }
+        return configValueUsingConfigLabelCommon;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        if (str.equals(GuiLabelConfig.ADXL371_ACCEL_RATE)) {
+            checkConfigOptionValues(str);
+        }
+        str.hashCode();
+        switch (str) {
+            case "High G Accel Rate":
+                return Integer.valueOf(getADXL371AnalogAccelRate());
+            case "Rate":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    return getConfigValueUsingConfigLabel(GuiLabelConfig.ADXL371_ACCEL_RATE);
+                }
+                return null;
+            case "Range":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    return getConfigValueUsingConfigLabel(GuiLabelConfig.ADXL371_ACCEL_RANGE);
+                }
+                return null;
+            case "High G Accel Range":
+                return Integer.valueOf(getAccelRange());
+            default:
+                return super.getConfigValueUsingConfigLabelCommon(num, str);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+        setADXL371AccelRateFromFreq(d);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        if (!this.mSensorMap.containsKey(Integer.valueOf(i))) {
+            return false;
+        }
+        if (i != this.mSensorIdAccel) {
+            return true;
+        }
+        setDefaultAdxl371AccelSensorConfig(z);
+        return true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        this.mConfigOptionsMap.containsKey(str);
+        return true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return new ActionSetting(communication_type);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put(DatabaseConfigHandle.HIGHG_ACC_RATE, Integer.valueOf(getADXL371AnalogAccelRate()));
+        linkedHashMap.put(DatabaseConfigHandle.HIGHG_ACC_RANGE, Integer.valueOf(getADXL371AnalogAccelRange()));
+        AbstractSensor.addCalibDetailsToDbMap(linkedHashMap, getCurrentCalibDetailsAccelHighG(), DatabaseConfigHandle.LIST_OF_CALIB_HANDLES_HIGHG_ACCEL, DatabaseConfigHandle.HIGHG_ACC_CALIB_TIME);
+        return linkedHashMap;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+        if (linkedHashMap.containsKey(DatabaseConfigHandle.HIGHG_ACC_RATE)) {
+            setADXL371AnalogAccelRate(((Double) linkedHashMap.get(DatabaseConfigHandle.HIGHG_ACC_RATE)).intValue());
+        }
+        parseCalibDetailsKinematicFromDb(linkedHashMap, 40, 0, DatabaseConfigHandle.LIST_OF_CALIB_HANDLES_HIGHG_ACCEL, DatabaseConfigHandle.HIGHG_ACC_CALIB_TIME);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void initialise() {
+        this.mSensorIdAccel = 40;
+        super.initialise();
+        this.mADXL371AnalogAccelRange = ListofADXL371AccelRangeConfigValues[0].intValue();
+        updateCurrentAccelHighGCalibInUse();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateCalibMap() {
+        super.generateCalibMap();
+        TreeMap<Integer, CalibDetails> treeMap = new TreeMap<>();
+        treeMap.put(Integer.valueOf(this.calibDetailsAccelHighG.mRangeValue), this.calibDetailsAccelHighG);
+        setCalibrationMapPerSensor(40, treeMap);
+        updateCurrentAccelHighGCalibInUse();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean isSensorUsingDefaultCal(int i) {
+        if (i == 40) {
+            return isUsingDefaultHighGAccelParam();
+        }
+        return false;
+    }
+
+    public void updateCurrentAccelHighGCalibInUse() {
+        this.mCurrentCalibDetailsAccelHighG = getCurrentCalibDetailsIfKinematic(this.mSensorIdAccel, getAccelRange());
+    }
+
+    public boolean isUsingDefaultHighGAccelParam() {
+        return this.mCurrentCalibDetailsAccelHighG.isUsingDefaultParameters();
+    }
+
+    public byte[] generateCalParamADXL371Accel() {
+        return this.mCurrentCalibDetailsAccelHighG.generateCalParamByteArray();
+    }
+
+    public void parseCalibParamFromPacketAccelAdxl(byte[] bArr, CalibDetails.CALIB_READ_SOURCE calib_read_source) {
+        this.mCurrentCalibDetailsAccelHighG.parseCalParamByteArray(bArr, calib_read_source);
+    }
+
+    public void updateIsUsingDefaultHighGAccelParam() {
+        this.mIsUsingDefaultHighGAccelParam = getCurrentCalibDetailsAccelHighG().isUsingDefaultParameters();
+    }
+
+    public int setADXL371AccelRateFromFreq(double d) {
+        setADXL371AnalogAccelRateInternal(getAccelRateFromFreqForSensor(isSensorEnabled(this.mSensorIdAccel), d));
+        return this.mADXL371AnalogAccelRate;
+    }
+
+    public int getAccelRateFromFreqForSensor(boolean z, double d) {
+        return getAccelRateFromFreq(z, d);
+    }
+
+    public void setADXL371AccelRange(int i) {
+        if (ArrayUtils.contains(ListofADXL371AccelRangeConfigValues, Integer.valueOf(i))) {
+            this.mAccelRange = i;
+            updateCurrentAccelHighGCalibInUse();
+        }
+    }
+
+    public void setADXL371AnalogAccelRate(int i) {
+        setADXL371AnalogAccelRateInternal(i);
+    }
+
+    public void setDefaultAdxl371AccelSensorConfig(boolean z) {
+        if (z) {
+            setADXL371AccelRange(0);
+        }
+    }
+
+    public double getCalibTimeHighGAccel() {
+        return this.mCurrentCalibDetailsAccelHighG.getCalibTimeMs();
+    }
+
+    public boolean isUsingValidHighGAccelParam() {
+        return (UtilShimmer.isAllZeros(getAlignmentMatrixHighGAccel()) || UtilShimmer.isAllZeros(getSensitivityMatrixHighGAccel())) ? false : true;
+    }
+
+    public double[][] getAlignmentMatrixHighGAccel() {
+        return this.mCurrentCalibDetailsAccelHighG.getValidAlignmentMatrix();
+    }
+
+    public double[][] getSensitivityMatrixHighGAccel() {
+        return this.mCurrentCalibDetailsAccelHighG.getValidSensitivityMatrix();
+    }
+
+    public double[][] getOffsetVectorMatrixHighGAccel() {
+        return this.mCurrentCalibDetailsAccelHighG.getValidOffsetVector();
+    }
+
+    public void setADXL371AnalogAccelRange(int i) {
+        this.mADXL371AnalogAccelRange = i;
+        updateCurrentAccelHighGCalibInUse();
+    }
+
+    public static String parseFromDBColumnToGUIChannel(String str) {
+        return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, str);
+    }
+
+    public static String parseFromGUIChannelsToDBColumn(String str) {
+        return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, str);
+    }
+}

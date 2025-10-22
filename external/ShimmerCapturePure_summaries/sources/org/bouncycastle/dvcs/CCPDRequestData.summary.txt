@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/dvcs/CCPDRequestData.java
+// Size: 675 bytes
+// Modified: 2025-10-21 16:32:08.752194400 +0100
+
+package org.bouncycastle.dvcs;
+
+import org.bouncycastle.asn1.dvcs.Data;
+
+/* loaded from: classes5.dex */
+public class CCPDRequestData extends DVCSRequestData {
+    CCPDRequestData(Data data) throws DVCSConstructionException {
+        super(data);
+        initDigest();
+    }
+
+    private void initDigest() throws DVCSConstructionException {
+        if (this.data.getMessageImprint() == null) {
+            throw new DVCSConstructionException("DVCSRequest.data.messageImprint should be specified for CCPD service");
+        }
+    }
+
+    public MessageImprint getMessageImprint() {
+        return new MessageImprint(this.data.getMessageImprint());
+    }
+}

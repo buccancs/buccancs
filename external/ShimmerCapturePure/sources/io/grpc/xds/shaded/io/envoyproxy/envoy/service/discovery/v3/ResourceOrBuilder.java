@@ -1,0 +1,42 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3;
+
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface ResourceOrBuilder extends MessageOrBuilder {
+    String getAliases(int i);
+
+    ByteString getAliasesBytes(int i);
+
+    int getAliasesCount();
+
+    /* renamed from: getAliasesList */
+    List<String> mo32574getAliasesList();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    Any getResource();
+
+    AnyOrBuilder getResourceOrBuilder();
+
+    ResourceName getUdpaResourceName();
+
+    ResourceNameOrBuilder getUdpaResourceNameOrBuilder();
+
+    String getVersion();
+
+    ByteString getVersionBytes();
+
+    boolean hasResource();
+
+    boolean hasUdpaResourceName();
+}

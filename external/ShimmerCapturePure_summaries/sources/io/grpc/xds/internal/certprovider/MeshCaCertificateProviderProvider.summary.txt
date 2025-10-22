@@ -1,0 +1,190 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/certprovider/MeshCaCertificateProviderProvider.java
+// Size: 11199 bytes
+// Modified: 2025-10-21 16:32:12.560013100 +0100
+
+package io.grpc.xds.internal.certprovider;
+
+import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.grpc.internal.BackoffPolicy;
+import io.grpc.internal.ExponentialBackoffPolicy;
+import io.grpc.internal.JsonUtil;
+import io.grpc.internal.TimeProvider;
+import io.grpc.xds.internal.certprovider.CertificateProvider;
+import io.grpc.xds.internal.certprovider.MeshCaCertificateProvider;
+import io.grpc.xds.internal.sts.StsCredentials;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/* loaded from: classes3.dex */
+final class MeshCaCertificateProviderProvider implements CertificateProviderProvider {
+    private static final String AUDIENCE_PREFIX = "identitynamespace:";
+    static final long CERT_VALIDITY_SECONDS_DEFAULT = 32400;
+    private static final String CERT_VALIDITY_SECONDS_KEY = "certificate_lifetime";
+    private static final Pattern CLUSTER_URL_PATTERN = Pattern.compile(".*/projects/(.*)/locations/(.*)/clusters/.*");
+    private static final String GKECLUSTER_URL_KEY = "location";
+    private static final String GKE_SA_JWT_LOCATION_KEY = "subject_token_path";
+    static final String KEY_ALGO_DEFAULT = "RSA";
+    private static final String KEY_ALGO_KEY = "key_type";
+    static final int KEY_SIZE_DEFAULT = 2048;
+    private static final String KEY_SIZE_KEY = "key_size";
+    static final int MAX_RETRY_ATTEMPTS_DEFAULT = 3;
+    static final String MESHCA_URL_DEFAULT = "meshca.googleapis.com";
+    private static final String MESHCA_URL_KEY = "target_uri";
+    static final String MESH_CA_NAME = "meshCA";
+    static final long RENEWAL_GRACE_PERIOD_SECONDS_DEFAULT = 3600;
+    private static final String RENEWAL_GRACE_PERIOD_SECONDS_KEY = "renewal_grace_period";
+    static final long RPC_TIMEOUT_SECONDS = 10;
+    static final long RPC_TIMEOUT_SECONDS_DEFAULT = 5;
+    private static final String RPC_TIMEOUT_SECONDS_KEY = "time_out";
+    private static final String SERVER_CONFIG_KEY = "server";
+    static final String SIGNATURE_ALGO_DEFAULT = "SHA256withRSA";
+    private static final String STS_SERVICE_KEY = "sts_service";
+    static final String STS_URL_DEFAULT = "https://securetoken.googleapis.com/v1/identitybindingtoken";
+    private static final String TOKEN_EXCHANGE_SERVICE_KEY = "token_exchange_service";
+    private static final String TRUST_DOMAIN_SUFFIX = ".svc.id.goog";
+    final BackoffPolicy.Provider backoffPolicyProvider;
+    final MeshCaCertificateProvider.Factory meshCaCertificateProviderFactory;
+    final MeshCaCertificateProvider.MeshCaChannelFactory meshCaChannelFactory;
+    final ScheduledExecutorServiceFactory scheduledExecutorServiceFactory;
+    final StsCredentials.Factory stsCredentialsFactory;
+    final TimeProvider timeProvider;
+
+    @Override // io.grpc.xds.internal.certprovider.CertificateProviderProvider
+    public String getName() {
+        return MESH_CA_NAME;
+    }
+
+    static {
+        CertificateProviderRegistry.getInstance().register(new MeshCaCertificateProviderProvider(StsCredentials.Factory.getInstance(), MeshCaCertificateProvider.MeshCaChannelFactory.getInstance(), new ExponentialBackoffPolicy.Provider(), MeshCaCertificateProvider.Factory.getInstance(), ScheduledExecutorServiceFactory.DEFAULT_INSTANCE, TimeProvider.SYSTEM_TIME_PROVIDER));
+    }
+
+    MeshCaCertificateProviderProvider(StsCredentials.Factory factory, MeshCaCertificateProvider.MeshCaChannelFactory meshCaChannelFactory, BackoffPolicy.Provider provider, MeshCaCertificateProvider.Factory factory2, ScheduledExecutorServiceFactory scheduledExecutorServiceFactory, TimeProvider timeProvider) {
+        this.stsCredentialsFactory = factory;
+        this.meshCaChannelFactory = meshCaChannelFactory;
+        this.backoffPolicyProvider = provider;
+        this.meshCaCertificateProviderFactory = factory2;
+        this.scheduledExecutorServiceFactory = scheduledExecutorServiceFactory;
+        this.timeProvider = timeProvider;
+    }
+
+    @Override // io.grpc.xds.internal.certprovider.CertificateProviderProvider
+    public CertificateProvider createCertificateProvider(Object obj, CertificateProvider.DistributorWatcher distributorWatcher, boolean z) {
+        Config configValidateAndTranslateConfig = validateAndTranslateConfig(obj);
+        return this.meshCaCertificateProviderFactory.create(distributorWatcher, z, configValidateAndTranslateConfig.meshCaUrl, configValidateAndTranslateConfig.zone, configValidateAndTranslateConfig.certValiditySeconds.longValue(), configValidateAndTranslateConfig.keySize.intValue(), configValidateAndTranslateConfig.keyAlgo, configValidateAndTranslateConfig.signatureAlgo, this.meshCaChannelFactory, this.backoffPolicyProvider, configValidateAndTranslateConfig.renewalGracePeriodSeconds.longValue(), configValidateAndTranslateConfig.maxRetryAttempts.intValue(), this.stsCredentialsFactory.create(configValidateAndTranslateConfig.stsUrl, AUDIENCE_PREFIX + configValidateAndTranslateConfig.project + ".svc.id.goog:" + configValidateAndTranslateConfig.gkeClusterUrl, configValidateAndTranslateConfig.gkeSaJwtLocation), this.scheduledExecutorServiceFactory.create(configValidateAndTranslateConfig.meshCaUrl), this.timeProvider, TimeUnit.SECONDS.toMillis(RPC_TIMEOUT_SECONDS));
+    }
+
+    private static Config validateAndTranslateConfig(Object obj) {
+        Preconditions.checkArgument(obj instanceof Map, "Only Map supported for config");
+        Map map = (Map) obj;
+        Config config = new Config();
+        extractMeshCaServerConfig(config, JsonUtil.getObject(map, SERVER_CONFIG_KEY));
+        config.certValiditySeconds = getSeconds(JsonUtil.getObject(map, CERT_VALIDITY_SECONDS_KEY), CERT_VALIDITY_SECONDS_DEFAULT);
+        config.renewalGracePeriodSeconds = getSeconds(JsonUtil.getObject(map, RENEWAL_GRACE_PERIOD_SECONDS_KEY), RENEWAL_GRACE_PERIOD_SECONDS_DEFAULT);
+        String string = JsonUtil.getString(map, KEY_ALGO_KEY);
+        Preconditions.checkArgument(string == null || string.equals(KEY_ALGO_DEFAULT), "key_type can only be null or 'RSA'");
+        config.maxRetryAttempts = 3;
+        config.keyAlgo = KEY_ALGO_DEFAULT;
+        config.signatureAlgo = SIGNATURE_ALGO_DEFAULT;
+        config.keySize = JsonUtil.getNumberAsInteger(map, KEY_SIZE_KEY);
+        if (config.keySize == null) {
+            config.keySize = 2048;
+        }
+        config.gkeClusterUrl = (String) Preconditions.checkNotNull(JsonUtil.getString(map, GKECLUSTER_URL_KEY), "'location' is required in the config");
+        parseProjectAndZone(config.gkeClusterUrl, config);
+        return config;
+    }
+
+    private static void extractMeshCaServerConfig(Config config, Map<String, ?> map) {
+        config.meshCaUrl = MESHCA_URL_DEFAULT;
+        config.rpcTimeoutSeconds = Long.valueOf(RPC_TIMEOUT_SECONDS_DEFAULT);
+        config.stsUrl = STS_URL_DEFAULT;
+        if (map != null) {
+            Preconditions.checkArgument("GRPC".equals(JsonUtil.getString(map, "api_type")), "Only GRPC api_type supported");
+            for (Map map2 : (List) Preconditions.checkNotNull(JsonUtil.getListOfObjects(map, "grpc_services"), "grpc_services not found")) {
+                Map<String, ?> object = JsonUtil.getObject(map2, "google_grpc");
+                if (object != null) {
+                    String string = JsonUtil.getString(object, MESHCA_URL_KEY);
+                    if (string != null) {
+                        config.meshCaUrl = string;
+                    }
+                    Map<String, ?> object2 = JsonUtil.getObject(object, "channel_credentials");
+                    if (object2 != null) {
+                        Preconditions.checkArgument(((Map) Preconditions.checkNotNull(JsonUtil.getObject(object2, "google_default"), "channel_credentials need to be google_default!")).isEmpty(), "google_default credentials contain illegal value");
+                    }
+                    Iterator<Map<String, ?>> it2 = JsonUtil.getListOfObjects(object, "call_credentials").iterator();
+                    while (it2.hasNext()) {
+                        Map<String, ?> object3 = JsonUtil.getObject(it2.next(), STS_SERVICE_KEY);
+                        if (object3 != null) {
+                            String string2 = JsonUtil.getString(object3, TOKEN_EXCHANGE_SERVICE_KEY);
+                            if (string2 != null) {
+                                config.stsUrl = string2;
+                            }
+                            config.gkeSaJwtLocation = JsonUtil.getString(object3, GKE_SA_JWT_LOCATION_KEY);
+                        }
+                    }
+                    config.rpcTimeoutSeconds = getSeconds(JsonUtil.getObject(map2, RPC_TIMEOUT_SECONDS_KEY), RPC_TIMEOUT_SECONDS_DEFAULT);
+                }
+            }
+        }
+        Preconditions.checkNotNull(config.gkeSaJwtLocation, "'subject_token_path' is required in the config");
+    }
+
+    private static Long getSeconds(Map<String, ?> map, long j) {
+        if (map != null) {
+            return JsonUtil.getNumberAsLong(map, "seconds");
+        }
+        return Long.valueOf(j);
+    }
+
+    private static void parseProjectAndZone(String str, Config config) {
+        Matcher matcher = CLUSTER_URL_PATTERN.matcher(str);
+        Preconditions.checkState(matcher.find(), "gkeClusterUrl does not have correct format");
+        Preconditions.checkState(matcher.groupCount() == 2, "gkeClusterUrl does not have project and location parts");
+        config.project = matcher.group(1);
+        config.zone = matcher.group(2);
+    }
+
+    static abstract class ScheduledExecutorServiceFactory {
+        private static final ScheduledExecutorServiceFactory DEFAULT_INSTANCE = new ScheduledExecutorServiceFactory() { // from class: io.grpc.xds.internal.certprovider.MeshCaCertificateProviderProvider.ScheduledExecutorServiceFactory.1
+            @Override // io.grpc.xds.internal.certprovider.MeshCaCertificateProviderProvider.ScheduledExecutorServiceFactory
+            ScheduledExecutorService create(String str) {
+                return Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("meshca-" + str + "-%d").setDaemon(true).build());
+            }
+        };
+
+        static ScheduledExecutorServiceFactory getInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        abstract ScheduledExecutorService create(String str);
+
+        ScheduledExecutorServiceFactory() {
+        }
+    }
+
+    static class Config {
+        Long certValiditySeconds;
+        String gkeClusterUrl;
+        String gkeSaJwtLocation;
+        String keyAlgo;
+        Integer keySize;
+        Integer maxRetryAttempts;
+        String meshCaUrl;
+        String project;
+        Long renewalGracePeriodSeconds;
+        Long rpcTimeoutSeconds;
+        String signatureAlgo;
+        String stsUrl;
+        String zone;
+
+        Config() {
+        }
+    }
+}

@@ -1,0 +1,217 @@
+package org.apache.commons.math.stat.descriptive;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/AggregateSummaryStatistics.class */
+public class AggregateSummaryStatistics implements StatisticalSummary, Serializable {
+    private static final long serialVersionUID = -8207112444016386906L;
+    private final SummaryStatistics statisticsPrototype;
+    private final SummaryStatistics statistics;
+
+    public AggregateSummaryStatistics() {
+        this(new SummaryStatistics());
+    }
+
+    public AggregateSummaryStatistics(SummaryStatistics prototypeStatistics) {
+        this(prototypeStatistics, prototypeStatistics == null ? null : new SummaryStatistics(prototypeStatistics));
+    }
+
+    public AggregateSummaryStatistics(SummaryStatistics prototypeStatistics, SummaryStatistics initialStatistics) {
+        this.statisticsPrototype = prototypeStatistics == null ? new SummaryStatistics() : prototypeStatistics;
+        this.statistics = initialStatistics == null ? new SummaryStatistics() : initialStatistics;
+    }
+
+    public static StatisticalSummaryValues aggregate(Collection<SummaryStatistics> statistics) {
+        double variance;
+        if (statistics == null) {
+            return null;
+        }
+        Iterator<SummaryStatistics> iterator = statistics.iterator();
+        if (!iterator.hasNext()) {
+            return null;
+        }
+        SummaryStatistics current = iterator.next();
+        long n = current.getN();
+        double min = current.getMin();
+        double sum = current.getSum();
+        double max = current.getMax();
+        double m2 = current.getSecondMoment();
+        double mean = current.getMean();
+        while (iterator.hasNext()) {
+            SummaryStatistics current2 = iterator.next();
+            if (current2.getMin() < min || Double.isNaN(min)) {
+                min = current2.getMin();
+            }
+            if (current2.getMax() > max || Double.isNaN(max)) {
+                max = current2.getMax();
+            }
+            sum += current2.getSum();
+            double oldN = n;
+            double curN = current2.getN();
+            n = (long) (n + curN);
+            double meanDiff = current2.getMean() - mean;
+            mean = sum / n;
+            m2 = m2 + current2.getSecondMoment() + ((((meanDiff * meanDiff) * oldN) * curN) / n);
+        }
+        if (n == 0) {
+            variance = Double.NaN;
+        } else if (n == 1) {
+            variance = 0.0d;
+        } else {
+            variance = m2 / (n - 1);
+        }
+        return new StatisticalSummaryValues(mean, variance, n, max, min, sum);
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getMax() {
+        double max;
+        synchronized (this.statistics) {
+            max = this.statistics.getMax();
+        }
+        return max;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getMean() {
+        double mean;
+        synchronized (this.statistics) {
+            mean = this.statistics.getMean();
+        }
+        return mean;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getMin() {
+        double min;
+        synchronized (this.statistics) {
+            min = this.statistics.getMin();
+        }
+        return min;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public long getN() {
+        long n;
+        synchronized (this.statistics) {
+            n = this.statistics.getN();
+        }
+        return n;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getStandardDeviation() {
+        double standardDeviation;
+        synchronized (this.statistics) {
+            standardDeviation = this.statistics.getStandardDeviation();
+        }
+        return standardDeviation;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getSum() {
+        double sum;
+        synchronized (this.statistics) {
+            sum = this.statistics.getSum();
+        }
+        return sum;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.StatisticalSummary
+    public double getVariance() {
+        double variance;
+        synchronized (this.statistics) {
+            variance = this.statistics.getVariance();
+        }
+        return variance;
+    }
+
+    public double getSumOfLogs() {
+        double sumOfLogs;
+        synchronized (this.statistics) {
+            sumOfLogs = this.statistics.getSumOfLogs();
+        }
+        return sumOfLogs;
+    }
+
+    public double getGeometricMean() {
+        double geometricMean;
+        synchronized (this.statistics) {
+            geometricMean = this.statistics.getGeometricMean();
+        }
+        return geometricMean;
+    }
+
+    public double getSumsq() {
+        double sumsq;
+        synchronized (this.statistics) {
+            sumsq = this.statistics.getSumsq();
+        }
+        return sumsq;
+    }
+
+    public double getSecondMoment() {
+        double secondMoment;
+        synchronized (this.statistics) {
+            secondMoment = this.statistics.getSecondMoment();
+        }
+        return secondMoment;
+    }
+
+    public StatisticalSummary getSummary() {
+        StatisticalSummaryValues statisticalSummaryValues;
+        synchronized (this.statistics) {
+            statisticalSummaryValues = new StatisticalSummaryValues(getMean(), getVariance(), getN(), getMax(), getMin(), getSum());
+        }
+        return statisticalSummaryValues;
+    }
+
+    public SummaryStatistics createContributingStatistics() {
+        SummaryStatistics contributingStatistics = new AggregatingSummaryStatistics(this.statistics);
+        SummaryStatistics.copy(this.statisticsPrototype, contributingStatistics);
+        return contributingStatistics;
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/AggregateSummaryStatistics$AggregatingSummaryStatistics.class */
+    private static class AggregatingSummaryStatistics extends SummaryStatistics {
+        private static final long serialVersionUID = 1;
+        private final SummaryStatistics aggregateStatistics;
+
+        public AggregatingSummaryStatistics(SummaryStatistics aggregateStatistics) {
+            this.aggregateStatistics = aggregateStatistics;
+        }
+
+        @Override // org.apache.commons.math.stat.descriptive.SummaryStatistics
+        public void addValue(double value) {
+            super.addValue(value);
+            synchronized (this.aggregateStatistics) {
+                this.aggregateStatistics.addValue(value);
+            }
+        }
+
+        @Override // org.apache.commons.math.stat.descriptive.SummaryStatistics
+        public boolean equals(Object object) {
+            if (object == this) {
+                return true;
+            }
+            if (!(object instanceof AggregatingSummaryStatistics)) {
+                return false;
+            }
+            AggregatingSummaryStatistics stat = (AggregatingSummaryStatistics) object;
+            return super.equals(stat) && this.aggregateStatistics.equals(stat.aggregateStatistics);
+        }
+
+        @Override // org.apache.commons.math.stat.descriptive.SummaryStatistics
+        public int hashCode() {
+            return 123 + super.hashCode() + this.aggregateStatistics.hashCode();
+        }
+    }
+}

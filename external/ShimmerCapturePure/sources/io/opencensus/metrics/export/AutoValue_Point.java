@@ -1,0 +1,50 @@
+package io.opencensus.metrics.export;
+
+import io.opencensus.common.Timestamp;
+import org.apache.commons.math3.geometry.VectorFormat;
+
+/* loaded from: classes4.dex */
+final class AutoValue_Point extends Point {
+    private final Timestamp timestamp;
+    private final Value value;
+
+    AutoValue_Point(Value value, Timestamp timestamp) {
+        if (value == null) {
+            throw new NullPointerException("Null value");
+        }
+        this.value = value;
+        if (timestamp == null) {
+            throw new NullPointerException("Null timestamp");
+        }
+        this.timestamp = timestamp;
+    }
+
+    @Override // io.opencensus.metrics.export.Point
+    public Timestamp getTimestamp() {
+        return this.timestamp;
+    }
+
+    @Override // io.opencensus.metrics.export.Point
+    public Value getValue() {
+        return this.value;
+    }
+
+    public String toString() {
+        return "Point{value=" + this.value + ", timestamp=" + this.timestamp + VectorFormat.DEFAULT_SUFFIX;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Point)) {
+            return false;
+        }
+        Point point = (Point) obj;
+        return this.value.equals(point.getValue()) && this.timestamp.equals(point.getTimestamp());
+    }
+
+    public int hashCode() {
+        return ((this.value.hashCode() ^ 1000003) * 1000003) ^ this.timestamp.hashCode();
+    }
+}

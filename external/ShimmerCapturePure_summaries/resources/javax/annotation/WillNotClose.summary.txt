@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/resources/javax/annotation/WillNotClose.java
+// Size: 344 bytes
+// Modified: 2025-10-21 16:31:58.377908600 +0100
+
+package javax.annotation;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+/**
+ * Used to annotate a method parameter to indicate that this method will not
+ * close the resource.
+ */
+public @interface WillNotClose {
+
+}

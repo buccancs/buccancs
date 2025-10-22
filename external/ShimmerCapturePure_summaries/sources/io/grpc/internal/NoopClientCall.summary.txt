@@ -1,0 +1,35 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/NoopClientCall.java
+// Size: 760 bytes
+// Modified: 2025-10-21 16:32:05.092109700 +0100
+
+package io.grpc.internal;
+
+import io.grpc.ClientCall;
+import io.grpc.Metadata;
+
+/* loaded from: classes2.dex */
+public class NoopClientCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
+
+    public static class NoopClientCallListener<T> extends ClientCall.Listener<T> {
+    }
+
+    @Override // io.grpc.ClientCall
+    public void cancel(String str, Throwable th) {
+    }
+
+    @Override // io.grpc.ClientCall
+    public void halfClose() {
+    }
+
+    @Override // io.grpc.ClientCall
+    public void request(int i) {
+    }
+
+    @Override // io.grpc.ClientCall
+    public void sendMessage(ReqT reqt) {
+    }
+
+    @Override // io.grpc.ClientCall
+    public void start(ClientCall.Listener<RespT> listener, Metadata metadata) {
+    }
+}

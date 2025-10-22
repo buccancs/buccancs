@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/eventbus/SubscriberExceptionHandler.java
+// Size: 217 bytes
+// Modified: 2025-10-21 16:32:02.105767200 +0100
+
+package com.google.common.eventbus;
+
+/* loaded from: classes.dex */
+public interface SubscriberExceptionHandler {
+    void handleException(Throwable th, SubscriberExceptionContext subscriberExceptionContext);
+}

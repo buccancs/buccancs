@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/HttpObject.java
+// Size: 358 bytes
+// Modified: 2025-10-21 16:32:03.385957100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResult;
+import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResultProvider;
+
+/* loaded from: classes3.dex */
+public interface HttpObject extends DecoderResultProvider {
+    @Deprecated
+    DecoderResult getDecoderResult();
+}

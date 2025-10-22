@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/InternalWriteBufferingAndExceptionHandlerUtils.java
+// Size: 303 bytes
+// Modified: 2025-10-21 16:32:09.603233900 +0100
+
+package io.grpc.netty;
+
+import io.netty.channel.Channel;
+
+/* loaded from: classes2.dex */
+public final class InternalWriteBufferingAndExceptionHandlerUtils {
+    public static void writeBufferingAndRemove(Channel channel) {
+        NettyClientHandler.writeBufferingAndRemove(channel);
+    }
+}

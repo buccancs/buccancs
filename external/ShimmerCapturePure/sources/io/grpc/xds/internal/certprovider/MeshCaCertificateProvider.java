@@ -1,0 +1,371 @@
+package io.grpc.xds.internal.certprovider;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.protobuf.Duration;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.UninitializedMessageException;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.ClientCall;
+import io.grpc.ClientInterceptor;
+import io.grpc.ForwardingClientCall;
+import io.grpc.InternalLogId;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.Metadata;
+import io.grpc.MethodDescriptor;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.auth.MoreCallCredentials;
+import io.grpc.internal.BackoffPolicy;
+import io.grpc.internal.TimeProvider;
+import io.grpc.xds.internal.certprovider.CertificateProvider;
+import io.grpc.xds.internal.sds.trust.CertificateUtils;
+import io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateRequest;
+import io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateResponse;
+import io.grpc.xds.shaded.com.google.security.meshca.v1.MeshCertificateServiceGrpc;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.lang.Thread;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.security.auth.x500.X500Principal;
+
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
+import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemObjectGenerator;
+
+/* loaded from: classes3.dex */
+final class MeshCaCertificateProvider extends CertificateProvider {
+    static final long INITIAL_DELAY_SECONDS = 4;
+    static final Metadata.Key<String> KEY_FOR_ZONE_INFO = Metadata.Key.of("x-goog-request-params", Metadata.ASCII_STRING_MARSHALLER);
+    private static final Logger logger = Logger.getLogger(MeshCaCertificateProvider.class.getName());
+    private static final EnumSet<Status.Code> RETRIABLE_CODES = EnumSet.of(Status.Code.CANCELLED, Status.Code.UNKNOWN, Status.Code.DEADLINE_EXCEEDED, Status.Code.RESOURCE_EXHAUSTED, Status.Code.ABORTED, Status.Code.INTERNAL, Status.Code.UNAVAILABLE);
+    private final BackoffPolicy.Provider backoffPolicyProvider;
+    private final ZoneInfoClientInterceptor headerInterceptor;
+    private final int keySize;
+    private final int maxRetryAttempts;
+    private final MeshCaChannelFactory meshCaChannelFactory;
+    private final String meshCaUrl;
+    private final GoogleCredentials oauth2Creds;
+    private final long renewalGracePeriodSeconds;
+    private final long rpcTimeoutMillis;
+    private final ScheduledExecutorService scheduledExecutorService;
+    private final String signatureAlg;
+    private final SynchronizationContext syncContext;
+    private final TimeProvider timeProvider;
+    private final long validitySeconds;
+    SynchronizationContext.ScheduledHandle scheduledHandle;
+
+    MeshCaCertificateProvider(CertificateProvider.DistributorWatcher distributorWatcher, boolean z, String str, String str2, long j, int i, String str3, String str4, MeshCaChannelFactory meshCaChannelFactory, BackoffPolicy.Provider provider, long j2, int i2, GoogleCredentials googleCredentials, ScheduledExecutorService scheduledExecutorService, TimeProvider timeProvider, long j3) {
+        super(distributorWatcher, z);
+        this.meshCaUrl = (String) Preconditions.checkNotNull(str, "meshCaUrl");
+        Preconditions.checkArgument(j > INITIAL_DELAY_SECONDS, "validitySeconds must be greater than 4");
+        this.validitySeconds = j;
+        this.keySize = i;
+        this.signatureAlg = (String) Preconditions.checkNotNull(str4, "signatureAlg");
+        this.meshCaChannelFactory = (MeshCaChannelFactory) Preconditions.checkNotNull(meshCaChannelFactory, "meshCaChannelFactory");
+        this.backoffPolicyProvider = (BackoffPolicy.Provider) Preconditions.checkNotNull(provider, "backoffPolicyProvider");
+        Preconditions.checkArgument(j2 > 0 && j2 < j, "renewalGracePeriodSeconds should be between 0 and " + j);
+        this.renewalGracePeriodSeconds = j2;
+        Preconditions.checkArgument(i2 >= 0, "maxRetryAttempts must be >= 0");
+        this.maxRetryAttempts = i2;
+        this.oauth2Creds = (GoogleCredentials) Preconditions.checkNotNull(googleCredentials, "oauth2Creds");
+        this.scheduledExecutorService = (ScheduledExecutorService) Preconditions.checkNotNull(scheduledExecutorService, "scheduledExecutorService");
+        this.timeProvider = (TimeProvider) Preconditions.checkNotNull(timeProvider, "timeProvider");
+        this.headerInterceptor = new ZoneInfoClientInterceptor((String) Preconditions.checkNotNull(str2, "zone"));
+        this.syncContext = createSynchronizationContext(str);
+        this.rpcTimeoutMillis = j3;
+    }
+
+    private static boolean retriable(Throwable th) {
+        return RETRIABLE_CODES.contains(Status.fromThrowable(th).getCode());
+    }
+
+    private static /* synthetic */ void $closeResource(Throwable th, AutoCloseable autoCloseable) throws Exception {
+        if (th == null) {
+            autoCloseable.close();
+            return;
+        }
+        try {
+            autoCloseable.close();
+        } catch (Throwable th2) {
+            th.addSuppressed(th2);
+        }
+    }
+
+    private static void shutdownChannel(ManagedChannel managedChannel) {
+        managedChannel.shutdown();
+        try {
+            managedChannel.awaitTermination(10L, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE, "awaiting channel Termination", (Throwable) e);
+            managedChannel.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private SynchronizationContext createSynchronizationContext(String str) {
+        final InternalLogId internalLogIdAllocate = InternalLogId.allocate("MeshCaCertificateProvider", str);
+        return new SynchronizationContext(new Thread.UncaughtExceptionHandler() { // from class: io.grpc.xds.internal.certprovider.MeshCaCertificateProvider.1
+            private boolean panicMode;
+
+            @Override // java.lang.Thread.UncaughtExceptionHandler
+            public void uncaughtException(Thread thread, Throwable th) {
+                MeshCaCertificateProvider.logger.log(Level.SEVERE, "[" + internalLogIdAllocate + "] Uncaught exception in the SynchronizationContext. Panic!", th);
+                panic(th);
+            }
+
+            void panic(Throwable th) {
+                if (this.panicMode) {
+                    return;
+                }
+                this.panicMode = true;
+                MeshCaCertificateProvider.this.close();
+            }
+        });
+    }
+
+    @Override // io.grpc.xds.internal.certprovider.CertificateProvider
+    public void start() {
+        scheduleNextRefreshCertificate(INITIAL_DELAY_SECONDS);
+    }
+
+    @Override
+    // io.grpc.xds.internal.certprovider.CertificateProvider, io.grpc.xds.internal.sds.Closeable, java.io.Closeable, java.lang.AutoCloseable
+    public void close() {
+        SynchronizationContext.ScheduledHandle scheduledHandle = this.scheduledHandle;
+        if (scheduledHandle != null) {
+            scheduledHandle.cancel();
+            this.scheduledHandle = null;
+        }
+        getWatcher().close();
+    }
+
+    private void scheduleNextRefreshCertificate(long j) {
+        SynchronizationContext.ScheduledHandle scheduledHandle = this.scheduledHandle;
+        if (scheduledHandle != null && scheduledHandle.isPending()) {
+            logger.log(Level.SEVERE, "Pending task found: inconsistent state in scheduledHandle!");
+            this.scheduledHandle.cancel();
+        }
+        this.scheduledHandle = this.syncContext.schedule(new RefreshCertificateTask(), j, TimeUnit.SECONDS, this.scheduledExecutorService);
+    }
+
+    void refreshCertificate() throws NoSuchAlgorithmException, OperatorCreationException, IOException {
+        long jComputeRefreshSecondsFromCurrentCertExpiry = computeRefreshSecondsFromCurrentCertExpiry();
+        ManagedChannel managedChannelCreateChannel = this.meshCaChannelFactory.createChannel(this.meshCaUrl);
+        try {
+            String string = UUID.randomUUID().toString();
+            Duration durationBuild = Duration.newBuilder().setSeconds(this.validitySeconds).build();
+            KeyPair keyPairGenerateKeyPair = generateKeyPair();
+            List<X509Certificate> listMakeRequestWithRetries = makeRequestWithRetries(createStubToMeshCa(managedChannelCreateChannel), string, durationBuild, generateCsr(keyPairGenerateKeyPair));
+            if (listMakeRequestWithRetries != null) {
+                jComputeRefreshSecondsFromCurrentCertExpiry = computeDelaySecondsToCertExpiry(listMakeRequestWithRetries.get(0)) - this.renewalGracePeriodSeconds;
+                getWatcher().updateCertificate(keyPairGenerateKeyPair.getPrivate(), listMakeRequestWithRetries);
+                getWatcher().updateTrustedRoots(ImmutableList.of(listMakeRequestWithRetries.get(listMakeRequestWithRetries.size() - 1)));
+            }
+        } finally {
+            shutdownChannel(managedChannelCreateChannel);
+            scheduleNextRefreshCertificate(jComputeRefreshSecondsFromCurrentCertExpiry);
+        }
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    private MeshCertificateServiceGrpc.MeshCertificateServiceBlockingStub createStubToMeshCa(ManagedChannel managedChannel) {
+        return (MeshCertificateServiceGrpc.MeshCertificateServiceBlockingStub) ((MeshCertificateServiceGrpc.MeshCertificateServiceBlockingStub) MeshCertificateServiceGrpc.newBlockingStub(managedChannel).withCallCredentials(MoreCallCredentials.from(this.oauth2Creds))).withInterceptors(this.headerInterceptor);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    private List<X509Certificate> makeRequestWithRetries(MeshCertificateServiceGrpc.MeshCertificateServiceBlockingStub meshCertificateServiceBlockingStub, String str, Duration duration, String str2) throws UninitializedMessageException {
+        MeshCertificateRequest meshCertificateRequestM11521build = MeshCertificateRequest.newBuilder().setValidity(duration).setCsr(str2).setRequestId(str).m11521build();
+        BackoffPolicy backoffPolicy = this.backoffPolicyProvider.get();
+        Throwable th = null;
+        for (int i = 0; i <= this.maxRetryAttempts; i++) {
+            try {
+                return getX509CertificatesFromResponse(((MeshCertificateServiceGrpc.MeshCertificateServiceBlockingStub) meshCertificateServiceBlockingStub.withDeadlineAfter(this.rpcTimeoutMillis, TimeUnit.MILLISECONDS)).createCertificate(meshCertificateRequestM11521build));
+            } catch (Throwable th2) {
+                th = th2;
+                if (!retriable(th)) {
+                    generateErrorIfCurrentCertExpired(th);
+                    return null;
+                }
+                sleepForNanos(backoffPolicy.nextBackoffNanos());
+            }
+        }
+        generateErrorIfCurrentCertExpired(th);
+        return null;
+    }
+
+    private void sleepForNanos(long j) {
+        try {
+            this.scheduledExecutorService.schedule(new Runnable() { // from class: io.grpc.xds.internal.certprovider.MeshCaCertificateProvider.2
+                @Override // java.lang.Runnable
+                public void run() {
+                }
+            }, j, TimeUnit.NANOSECONDS).get(j, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE, "Inside sleep", (Throwable) e);
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e2) {
+            e = e2;
+            logger.log(Level.SEVERE, "Inside sleep", e);
+        } catch (TimeoutException e3) {
+            e = e3;
+            logger.log(Level.SEVERE, "Inside sleep", e);
+        }
+    }
+
+    private void generateErrorIfCurrentCertExpired(Throwable th) {
+        X509Certificate lastIdentityCert = getWatcher().getLastIdentityCert();
+        if (lastIdentityCert != null) {
+            if (computeDelaySecondsToCertExpiry(lastIdentityCert) > INITIAL_DELAY_SECONDS) {
+                return;
+            } else {
+                getWatcher().clearValues();
+            }
+        }
+        getWatcher().onError(Status.fromThrowable(th));
+    }
+
+    private KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(this.keySize);
+        return keyPairGenerator.generateKeyPair();
+    }
+
+    private String generateCsr(KeyPair keyPair) throws Exception {
+        PemObject pemObject = new PemObject("NEW CERTIFICATE REQUEST", new JcaPKCS10CertificationRequestBuilder(new X500Principal("CN=EXAMPLE.COM"), keyPair.getPublic()).build(new JcaContentSignerBuilder(this.signatureAlg).build(keyPair.getPrivate())).getEncoded());
+        StringWriter stringWriter = new StringWriter();
+        try {
+            JcaPEMWriter jcaPEMWriter = new JcaPEMWriter(stringWriter);
+            try {
+                jcaPEMWriter.writeObject((PemObjectGenerator) pemObject);
+                $closeResource(null, jcaPEMWriter);
+                String string = stringWriter.toString();
+                $closeResource(null, stringWriter);
+                return string;
+            } finally {
+            }
+        } finally {
+        }
+    }
+
+    private long computeRefreshSecondsFromCurrentCertExpiry() {
+        X509Certificate lastIdentityCert = getWatcher().getLastIdentityCert();
+        return lastIdentityCert == null ? INITIAL_DELAY_SECONDS : Math.max(computeDelaySecondsToCertExpiry(lastIdentityCert) / 2, INITIAL_DELAY_SECONDS);
+    }
+
+    private long computeDelaySecondsToCertExpiry(X509Certificate x509Certificate) {
+        Preconditions.checkNotNull(x509Certificate, "lastCert");
+        return TimeUnit.NANOSECONDS.toSeconds(TimeUnit.MILLISECONDS.toNanos(x509Certificate.getNotAfter().getTime()) - this.timeProvider.currentTimeNanos());
+    }
+
+    private List<X509Certificate> getX509CertificatesFromResponse(MeshCertificateResponse meshCertificateResponse) throws Exception {
+        ProtocolStringList protocolStringListMo11557getCertChainList = meshCertificateResponse.mo11557getCertChainList();
+        ArrayList arrayList = new ArrayList(protocolStringListMo11557getCertChainList.size());
+        Iterator it2 = protocolStringListMo11557getCertChainList.iterator();
+        while (it2.hasNext()) {
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(((String) it2.next()).getBytes(StandardCharsets.UTF_8));
+            try {
+                arrayList.add(CertificateUtils.toX509Certificate(byteArrayInputStream));
+                $closeResource(null, byteArrayInputStream);
+            } finally {
+            }
+        }
+        return arrayList;
+    }
+
+    static abstract class MeshCaChannelFactory {
+        private static final MeshCaChannelFactory DEFAULT_INSTANCE = new MeshCaChannelFactory() { // from class: io.grpc.xds.internal.certprovider.MeshCaCertificateProvider.MeshCaChannelFactory.1
+            @Override
+                // io.grpc.xds.internal.certprovider.MeshCaCertificateProvider.MeshCaChannelFactory
+            ManagedChannel createChannel(String str) {
+                Preconditions.checkArgument((str == null || str.isEmpty()) ? false : true, "serverUri is null/empty!");
+                MeshCaCertificateProvider.logger.log(Level.INFO, "Creating channel to {0}", str);
+                return ManagedChannelBuilder.forTarget(str).keepAliveTime(1L, TimeUnit.MINUTES).build();
+            }
+        };
+
+        MeshCaChannelFactory() {
+        }
+
+        static MeshCaChannelFactory getInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        abstract ManagedChannel createChannel(String str);
+    }
+
+    static abstract class Factory {
+        private static final Factory DEFAULT_INSTANCE = new Factory() { // from class: io.grpc.xds.internal.certprovider.MeshCaCertificateProvider.Factory.1
+            @Override
+                // io.grpc.xds.internal.certprovider.MeshCaCertificateProvider.Factory
+            MeshCaCertificateProvider create(CertificateProvider.DistributorWatcher distributorWatcher, boolean z, String str, String str2, long j, int i, String str3, String str4, MeshCaChannelFactory meshCaChannelFactory, BackoffPolicy.Provider provider, long j2, int i2, GoogleCredentials googleCredentials, ScheduledExecutorService scheduledExecutorService, TimeProvider timeProvider, long j3) {
+                return new MeshCaCertificateProvider(distributorWatcher, z, str, str2, j, i, str3, str4, meshCaChannelFactory, provider, j2, i2, googleCredentials, scheduledExecutorService, timeProvider, j3);
+            }
+        };
+
+        Factory() {
+        }
+
+        static Factory getInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        abstract MeshCaCertificateProvider create(CertificateProvider.DistributorWatcher distributorWatcher, boolean z, String str, String str2, long j, int i, String str3, String str4, MeshCaChannelFactory meshCaChannelFactory, BackoffPolicy.Provider provider, long j2, int i2, GoogleCredentials googleCredentials, ScheduledExecutorService scheduledExecutorService, TimeProvider timeProvider, long j3);
+    }
+
+    class RefreshCertificateTask implements Runnable {
+        RefreshCertificateTask() {
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            try {
+                MeshCaCertificateProvider.this.refreshCertificate();
+            } catch (IOException | NoSuchAlgorithmException | OperatorCreationException e) {
+                MeshCaCertificateProvider.logger.log(Level.SEVERE, "refreshing certificate", e);
+            }
+        }
+    }
+
+    private class ZoneInfoClientInterceptor implements ClientInterceptor {
+        private final String zone;
+
+        ZoneInfoClientInterceptor(String str) {
+            this.zone = str;
+        }
+
+        @Override // io.grpc.ClientInterceptor
+        public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> methodDescriptor, CallOptions callOptions, Channel channel) {
+            return new ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(channel.newCall(methodDescriptor, callOptions)) { // from class: io.grpc.xds.internal.certprovider.MeshCaCertificateProvider.ZoneInfoClientInterceptor.1
+                @Override // io.grpc.ForwardingClientCall, io.grpc.ClientCall
+                public void start(ClientCall.Listener<RespT> listener, Metadata metadata) {
+                    metadata.put(MeshCaCertificateProvider.KEY_FOR_ZONE_INFO, ZoneInfoClientInterceptor.this.zone);
+                    super.start(listener, metadata);
+                }
+            };
+        }
+    }
+}

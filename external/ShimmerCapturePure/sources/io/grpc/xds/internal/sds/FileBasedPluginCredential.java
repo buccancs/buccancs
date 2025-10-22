@@ -1,0 +1,92 @@
+package io.grpc.xds.internal.sds;
+
+import com.google.common.base.Preconditions;
+import com.google.common.io.Files;
+import com.google.protobuf.Struct;
+import com.google.protobuf.Value;
+import io.grpc.CallCredentials;
+import io.grpc.Metadata;
+import io.grpc.Status;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.GrpcService;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.GrpcService;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Executor;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class FileBasedPluginCredential extends CallCredentials {
+    public static final String DEFAULT_HEADER_KEY = "authorization";
+    public static final String FILENAME = "filename";
+    public static final String HEADER_KEY = "header_key";
+    public static final String HEADER_PREFIX = "header_prefix";
+    public static final String PLUGIN_NAME = "envoy.grpc_credentials.file_based_metadata";
+    public static final String SECRET_DATA = "secret_data";
+    final String headerKey;
+    final String headerPrefix;
+    final DataSource secretData;
+
+    FileBasedPluginCredential(GrpcService.GoogleGrpc.CallCredentials.MetadataCredentialsFromPlugin metadataCredentialsFromPlugin) {
+        Preconditions.checkNotNull(metadataCredentialsFromPlugin, "metadataCredentialsFromPlugin");
+        Preconditions.checkArgument(PLUGIN_NAME.equals(metadataCredentialsFromPlugin.getName()), "plugin name should be %s", PLUGIN_NAME);
+        Preconditions.checkArgument(metadataCredentialsFromPlugin.hasConfig(), "typed_config not supported");
+        Struct config = metadataCredentialsFromPlugin.getConfig();
+        if (config.containsFields(HEADER_KEY)) {
+            this.headerKey = config.getFieldsOrThrow(HEADER_KEY).getStringValue();
+        } else {
+            this.headerKey = DEFAULT_HEADER_KEY;
+        }
+        if (config.containsFields(HEADER_PREFIX)) {
+            this.headerPrefix = config.getFieldsOrThrow(HEADER_PREFIX).getStringValue();
+        } else {
+            this.headerPrefix = "";
+        }
+        Value fieldsOrThrow = config.getFieldsOrThrow(SECRET_DATA);
+        Preconditions.checkState(fieldsOrThrow.hasStructValue(), "expected struct value for %s", SECRET_DATA);
+        this.secretData = buildDataSourceFromConfigStruct(fieldsOrThrow.getStructValue());
+    }
+
+    FileBasedPluginCredential(GrpcService.GoogleGrpc.CallCredentials.MetadataCredentialsFromPlugin metadataCredentialsFromPlugin) {
+        Preconditions.checkNotNull(metadataCredentialsFromPlugin, "metadataCredentialsFromPlugin");
+        Preconditions.checkArgument(PLUGIN_NAME.equals(metadataCredentialsFromPlugin.getName()), "plugin name should be %s", PLUGIN_NAME);
+        this.headerKey = DEFAULT_HEADER_KEY;
+        this.headerPrefix = "";
+        this.secretData = null;
+    }
+
+    private static DataSource buildDataSourceFromConfigStruct(Struct struct) {
+        Preconditions.checkNotNull(struct, "secretValueStruct");
+        if (struct.containsFields(FILENAME)) {
+            return DataSource.newBuilder().setFilename(struct.getFieldsOrThrow(FILENAME).getStringValue()).m14725build();
+        }
+        throw new UnsupportedOperationException("only secret_data of filename type supported");
+    }
+
+    @Override // io.grpc.CallCredentials
+    public void thisUsesUnstableApi() {
+    }
+
+    @Override // io.grpc.CallCredentials
+    public void applyRequestMetadata(@Nullable CallCredentials.RequestInfo requestInfo, Executor executor, final CallCredentials.MetadataApplier metadataApplier) {
+        executor.execute(new Runnable() { // from class: io.grpc.xds.internal.sds.FileBasedPluginCredential.1
+            @Override // java.lang.Runnable
+            public void run() {
+                try {
+                    Metadata metadata = new Metadata();
+                    String str = FileBasedPluginCredential.this.headerPrefix + Files.asCharSource(new File(FileBasedPluginCredential.this.secretData.getFilename()), StandardCharsets.UTF_8).read();
+                    if (FileBasedPluginCredential.this.headerKey.endsWith(Metadata.BINARY_HEADER_SUFFIX)) {
+                        metadata.put(Metadata.Key.of(FileBasedPluginCredential.this.headerKey, Metadata.BINARY_BYTE_MARSHALLER), str.getBytes(StandardCharsets.UTF_8));
+                    } else {
+                        metadata.put(Metadata.Key.of(FileBasedPluginCredential.this.headerKey, Metadata.ASCII_STRING_MARSHALLER), str);
+                    }
+                    metadataApplier.apply(metadata);
+                } catch (IOException e) {
+                    metadataApplier.fail(Status.fromThrowable(e));
+                }
+            }
+        });
+    }
+}

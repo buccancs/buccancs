@@ -1,0 +1,41 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/io/IoUtils.java
+// Size: 983 bytes
+// Modified: 2025-10-21 16:32:00.703656100 +0100
+
+package org.conscrypt.io;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.net.Socket;
+
+/* loaded from: classes5.dex */
+public final class IoUtils {
+    private IoUtils() {
+    }
+
+    public static void closeQuietly(Closeable closeable) throws IOException {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (RuntimeException e) {
+                throw e;
+            } catch (Exception unused) {
+            }
+        }
+    }
+
+    public static void closeQuietly(Socket socket) throws IOException {
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (Exception unused) {
+            }
+        }
+    }
+
+    public static void throwInterruptedIoException() throws InterruptedIOException {
+        Thread.currentThread().interrupt();
+        throw new InterruptedIOException();
+    }
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/sensors/ActionSetting.java
+// Size: 538 bytes
+// Modified: 2025-10-21 16:32:07.108690200 +0100
+
+package com.shimmerresearch.sensors;
+
+import com.shimmerresearch.driver.Configuration;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class ActionSetting {
+    public Configuration.COMMUNICATION_ACTION mAction;
+    public byte[] mActionByteArray;
+    public List<byte[]> mActionListByteArray;
+    public Configuration.COMMUNICATION_TYPE mCommType;
+    public int mIndex;
+
+    public ActionSetting(Configuration.COMMUNICATION_TYPE communication_type) {
+        this.mCommType = communication_type;
+    }
+}

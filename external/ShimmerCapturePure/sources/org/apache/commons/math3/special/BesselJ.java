@@ -1,0 +1,87 @@
+package org.apache.commons.math3.special;
+
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.exception.ConvergenceException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
+
+/* loaded from: classes5.dex */
+public class BesselJ implements UnivariateFunction {
+    private static final double ENMTEN = 8.9E-308d;
+    private static final double ENSIG = 1.0E16d;
+    private static final double ENTEN = 1.0E308d;
+    private static final double[] FACT = {1.0d, 1.0d, 2.0d, 6.0d, 24.0d, 120.0d, 720.0d, 5040.0d, 40320.0d, 362880.0d, 3628800.0d, 3.99168E7d, 4.790016E8d, 6.2270208E9d, 8.71782912E10d, 1.307674368E12d, 2.0922789888E13d, 3.55687428096E14d, 6.402373705728E15d, 1.21645100408832E17d, 2.43290200817664E18d, 5.109094217170944E19d, 1.1240007277776077E21d, 2.585201673888498E22d, 6.204484017332394E23d};
+    private static final double PI2 = 0.6366197723675814d;
+    private static final double RTNSIG = 1.0E-4d;
+    private static final double TOWPI1 = 6.28125d;
+    private static final double TWOPI = 6.283185307179586d;
+    private static final double TWOPI2 = 0.001935307179586477d;
+    private static final double X_MAX = 10000.0d;
+    private static final double X_MIN = 0.0d;
+    private final double order;
+
+    public BesselJ(double d) {
+        this.order = d;
+    }
+
+    public static double value(double d, double d2) throws ConvergenceException, MathIllegalArgumentException {
+        int i = (int) d;
+        int i2 = i + 1;
+        BesselJResult besselJResultRjBesl = rjBesl(d2, d - i, i2);
+        if (besselJResultRjBesl.nVals >= i2) {
+            return besselJResultRjBesl.vals[i];
+        }
+        if (besselJResultRjBesl.nVals < 0) {
+            throw new MathIllegalArgumentException(LocalizedFormats.BESSEL_FUNCTION_BAD_ARGUMENT, Double.valueOf(d), Double.valueOf(d2));
+        }
+        if (FastMath.abs(besselJResultRjBesl.vals[besselJResultRjBesl.nVals - 1]) >= 1.0E-100d) {
+            throw new ConvergenceException(LocalizedFormats.BESSEL_FUNCTION_FAILED_CONVERGENCE, Double.valueOf(d), Double.valueOf(d2));
+        }
+        return besselJResultRjBesl.vals[i];
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:148:0x03b0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x03b9  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x03f6  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0431  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x0446  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x044b  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x007b  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public static org.apache.commons.math3.special.BesselJ.BesselJResult rjBesl(double r49, double r51, int r53) {
+        /*
+            Method dump skipped, instructions count: 1148
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.special.BesselJ.rjBesl(double, double, int):org.apache.commons.math3.special.BesselJ$BesselJResult");
+    }
+
+    @Override // org.apache.commons.math3.analysis.UnivariateFunction
+    public double value(double d) throws ConvergenceException, MathIllegalArgumentException {
+        return value(this.order, d);
+    }
+
+    public static class BesselJResult {
+        private final int nVals;
+        private final double[] vals;
+
+        public BesselJResult(double[] dArr, int i) {
+            this.vals = MathArrays.copyOf(dArr, dArr.length);
+            this.nVals = i;
+        }
+
+        public int getnVals() {
+            return this.nVals;
+        }
+
+        public double[] getVals() {
+            double[] dArr = this.vals;
+            return MathArrays.copyOf(dArr, dArr.length);
+        }
+    }
+}

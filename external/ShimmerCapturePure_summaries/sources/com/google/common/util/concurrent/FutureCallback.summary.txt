@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/FutureCallback.java
+// Size: 269 bytes
+// Modified: 2025-10-21 16:32:00.802493400 +0100
+
+package com.google.common.util.concurrent;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+public interface FutureCallback<V> {
+    void onFailure(Throwable th);
+
+    void onSuccess(@NullableDecl V v);
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/cache/LongAddable.java
+// Size: 163 bytes
+// Modified: 2025-10-21 16:32:00.152828900 +0100
+
+package com.google.common.cache;
+
+/* loaded from: classes.dex */
+interface LongAddable {
+    void add(long j);
+
+    void increment();
+
+    long sum();
+}

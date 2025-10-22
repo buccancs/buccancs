@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/misc/NetscapeRevocationURL.java
+// Size: 443 bytes
+// Modified: 2025-10-21 16:32:04.799332300 +0100
+
+package org.bouncycastle.asn1.misc;
+
+import org.bouncycastle.asn1.DERIA5String;
+
+/* loaded from: classes5.dex */
+public class NetscapeRevocationURL extends DERIA5String {
+    public NetscapeRevocationURL(DERIA5String dERIA5String) {
+        super(dERIA5String.getString());
+    }
+
+    @Override // org.bouncycastle.asn1.DERIA5String
+    public String toString() {
+        return "NetscapeRevocationURL: " + getString();
+    }
+}

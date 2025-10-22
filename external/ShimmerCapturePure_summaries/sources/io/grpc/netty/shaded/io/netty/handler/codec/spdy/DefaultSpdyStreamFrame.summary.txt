@@ -1,0 +1,40 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/DefaultSpdyStreamFrame.java
+// Size: 1231 bytes
+// Modified: 2025-10-21 16:32:02.245867300 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class DefaultSpdyStreamFrame implements SpdyStreamFrame {
+    private boolean last;
+    private int streamId;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame
+    public boolean isLast() {
+        return this.last;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyDataFrame
+    public SpdyStreamFrame setLast(boolean z) {
+        this.last = z;
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame
+    public int streamId() {
+        return this.streamId;
+    }
+
+    protected DefaultSpdyStreamFrame(int i) {
+        setStreamId(i);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyDataFrame
+    public SpdyStreamFrame setStreamId(int i) {
+        ObjectUtil.checkPositive(i, "streamId");
+        this.streamId = i;
+        return this;
+    }
+}

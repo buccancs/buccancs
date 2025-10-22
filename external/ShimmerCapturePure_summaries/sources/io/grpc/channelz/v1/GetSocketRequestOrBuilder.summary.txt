@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/channelz/v1/GetSocketRequestOrBuilder.java
+// Size: 241 bytes
+// Modified: 2025-10-21 16:32:00.207635900 +0100
+
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface GetSocketRequestOrBuilder extends MessageOrBuilder {
+    long getSocketId();
+
+    boolean getSummary();
+}

@@ -1,0 +1,51 @@
+package com.codeminders.hidapi;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+/* loaded from: classes.dex */
+public class ClassPathLibraryLoader {
+    private static final String[] HID_LIB_NAMES = {"/native/linux/libhidapi-jni-64.so", "/native/linux/libhidapi-jni-32.so", "/native/mac/libhidapi-jni-64.jnilib", "/native/mac/libhidapi-jni-32.jnilib", "/native/win/hidapi-jni-64.dll", "/native/win/hidapi-jni-32.dll"};
+
+    public static boolean loadNativeHIDLibrary() throws IOException {
+        boolean z = false;
+        for (String str : HID_LIB_NAMES) {
+            try {
+                InputStream resourceAsStream = ClassPathLibraryLoader.class.getResourceAsStream(str);
+                if (resourceAsStream != null) {
+                    try {
+                        String strSubstring = str.substring(str.lastIndexOf(47) + 1);
+                        File fileCreateTempFile = File.createTempFile(strSubstring.substring(0, strSubstring.lastIndexOf(46)), strSubstring.substring(strSubstring.lastIndexOf(46), strSubstring.length()));
+                        fileCreateTempFile.deleteOnExit();
+                        FileOutputStream fileOutputStream = new FileOutputStream(fileCreateTempFile);
+                        byte[] bArr = new byte[1024];
+                        while (true) {
+                            int i = resourceAsStream.read(bArr);
+                            if (i <= 0) {
+                                break;
+                            }
+                            fileOutputStream.write(bArr, 0, i);
+                        }
+                        fileOutputStream.close();
+                        Runtime.getRuntime().load(fileCreateTempFile.toString());
+                        try {
+                            resourceAsStream.close();
+                        } catch (Exception | UnsatisfiedLinkError unused) {
+                        }
+                        z = true;
+                    } catch (Throwable th) {
+                        resourceAsStream.close();
+                        throw th;
+                    }
+                }
+            } catch (Exception | UnsatisfiedLinkError unused2) {
+            }
+            if (z) {
+                break;
+            }
+        }
+        return z;
+    }
+}

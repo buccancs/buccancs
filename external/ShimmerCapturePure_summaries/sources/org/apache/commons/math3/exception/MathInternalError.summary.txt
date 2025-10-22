@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/exception/MathInternalError.java
+// Size: 808 bytes
+// Modified: 2025-10-21 16:32:05.133760300 +0100
+
+package org.apache.commons.math3.exception;
+
+import org.apache.commons.math3.exception.util.Localizable;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
+/* loaded from: classes5.dex */
+public class MathInternalError extends MathIllegalStateException {
+    private static final String REPORT_URL = "https://issues.apache.org/jira/browse/MATH";
+    private static final long serialVersionUID = -6276776513966934846L;
+
+    public MathInternalError() {
+        getContext().addMessage(LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
+    }
+
+    public MathInternalError(Throwable th) {
+        super(th, LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
+    }
+
+    public MathInternalError(Localizable localizable, Object... objArr) {
+        super(localizable, objArr);
+    }
+}

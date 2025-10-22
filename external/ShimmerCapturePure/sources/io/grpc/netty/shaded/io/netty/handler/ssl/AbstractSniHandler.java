@@ -1,0 +1,83 @@
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.util.CharsetUtil;
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+
+import java.util.Locale;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractSniHandler<T> extends SslClientHelloHandler<T> {
+    private String hostname;
+
+    private static String extractSniHostname(ByteBuf byteBuf) {
+        int i = byteBuf.readerIndex();
+        int iWriterIndex = byteBuf.writerIndex();
+        int i2 = i + 34;
+        if (iWriterIndex - i2 < 6) {
+            return null;
+        }
+        int unsignedByte = i2 + byteBuf.getUnsignedByte(i2) + 1;
+        int unsignedShort = unsignedByte + byteBuf.getUnsignedShort(unsignedByte) + 2;
+        int unsignedByte2 = unsignedShort + byteBuf.getUnsignedByte(unsignedShort) + 1;
+        int unsignedShort2 = byteBuf.getUnsignedShort(unsignedByte2);
+        int i3 = unsignedByte2 + 2;
+        int i4 = unsignedShort2 + i3;
+        if (i4 > iWriterIndex) {
+            return null;
+        }
+        while (i4 - i3 >= 4) {
+            int unsignedShort3 = byteBuf.getUnsignedShort(i3);
+            int unsignedShort4 = byteBuf.getUnsignedShort(i3 + 2);
+            int i5 = i3 + 4;
+            if (i4 - i5 < unsignedShort4) {
+                return null;
+            }
+            if (unsignedShort3 == 0) {
+                int i6 = i3 + 6;
+                if (i4 - i6 < 3) {
+                    return null;
+                }
+                int i7 = i3 + 7;
+                if (byteBuf.getUnsignedByte(i6) != 0) {
+                    return null;
+                }
+                int unsignedShort5 = byteBuf.getUnsignedShort(i7);
+                int i8 = i3 + 9;
+                if (i4 - i8 < unsignedShort5) {
+                    return null;
+                }
+                return byteBuf.toString(i8, unsignedShort5, CharsetUtil.US_ASCII).toLowerCase(Locale.US);
+            }
+            i3 = i5 + unsignedShort4;
+        }
+        return null;
+    }
+
+    protected abstract Future<T> lookup(ChannelHandlerContext channelHandlerContext, String str) throws Exception;
+
+    protected abstract void onLookupComplete(ChannelHandlerContext channelHandlerContext, String str, Future<T> future) throws Exception;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslClientHelloHandler
+    protected Future<T> lookup(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
+        String strExtractSniHostname = byteBuf == null ? null : extractSniHostname(byteBuf);
+        this.hostname = strExtractSniHostname;
+        return lookup(channelHandlerContext, strExtractSniHostname);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.ssl.SslClientHelloHandler
+    protected void onLookupComplete(ChannelHandlerContext channelHandlerContext, Future<T> future) throws Exception {
+        fireSniCompletionEvent(channelHandlerContext, this.hostname, future);
+        onLookupComplete(channelHandlerContext, this.hostname, future);
+    }
+
+    private void fireSniCompletionEvent(ChannelHandlerContext channelHandlerContext, String str, Future<T> future) {
+        Throwable thCause = future.cause();
+        if (thCause == null) {
+            channelHandlerContext.fireUserEventTriggered((Object) new SniCompletionEvent(str));
+        } else {
+            channelHandlerContext.fireUserEventTriggered((Object) new SniCompletionEvent(str, thCause));
+        }
+    }
+}

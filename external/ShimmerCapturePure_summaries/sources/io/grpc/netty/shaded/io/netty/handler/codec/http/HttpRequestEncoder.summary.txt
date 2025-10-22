@@ -1,0 +1,66 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/HttpRequestEncoder.java
+// Size: 2917 bytes
+// Modified: 2025-10-21 16:32:11.703048700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufUtil;
+import io.grpc.netty.shaded.io.netty.util.CharsetUtil;
+
+/* loaded from: classes3.dex */
+public class HttpRequestEncoder extends HttpObjectEncoder<HttpRequest> {
+    private static final char QUESTION_MARK = '?';
+    private static final char SLASH = '/';
+    private static final int SLASH_AND_SPACE_SHORT = 12064;
+    private static final int SPACE_SLASH_AND_SPACE_MEDIUM = 2109216;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpObjectEncoder, io.grpc.netty.shaded.io.netty.handler.codec.MessageToMessageEncoder
+    public boolean acceptOutboundMessage(Object obj) throws Exception {
+        return super.acceptOutboundMessage(obj) && !(obj instanceof HttpResponse);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpObjectEncoder
+    public void encodeInitialLine(ByteBuf byteBuf, HttpRequest httpRequest) throws Exception {
+        ByteBufUtil.copy(httpRequest.method().asciiName(), byteBuf);
+        String strUri = httpRequest.uri();
+        if (strUri.isEmpty()) {
+            ByteBufUtil.writeMediumBE(byteBuf, SPACE_SLASH_AND_SPACE_MEDIUM);
+        } else {
+            int iIndexOf = strUri.indexOf("://");
+            boolean z = false;
+            CharSequence charSequenceInsert = strUri;
+            if (iIndexOf != -1) {
+                char cCharAt = strUri.charAt(0);
+                charSequenceInsert = strUri;
+                if (cCharAt != '/') {
+                    int i = iIndexOf + 3;
+                    int iIndexOf2 = strUri.indexOf(63, i);
+                    if (iIndexOf2 == -1) {
+                        int iLastIndexOf = strUri.lastIndexOf(47);
+                        charSequenceInsert = strUri;
+                        if (iLastIndexOf < i) {
+                            z = true;
+                            charSequenceInsert = strUri;
+                        }
+                    } else {
+                        int iLastIndexOf2 = strUri.lastIndexOf(47, iIndexOf2);
+                        charSequenceInsert = strUri;
+                        if (iLastIndexOf2 < i) {
+                            charSequenceInsert = new StringBuilder(strUri).insert(iIndexOf2, '/');
+                        }
+                    }
+                }
+            }
+            byteBuf.writeByte(32).writeCharSequence(charSequenceInsert, CharsetUtil.UTF_8);
+            if (z) {
+                ByteBufUtil.writeShortBE(byteBuf, SLASH_AND_SPACE_SHORT);
+            } else {
+                byteBuf.writeByte(32);
+            }
+        }
+        httpRequest.protocolVersion().encode(byteBuf);
+        ByteBufUtil.writeShortBE(byteBuf, 3338);
+    }
+}

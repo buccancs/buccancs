@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/linear/FieldVectorChangingVisitor.java
+// Size: 287 bytes
+// Modified: 2025-10-21 16:32:01.779291700 +0100
+
+package org.apache.commons.math3.linear;
+
+import org.apache.commons.math3.FieldElement;
+
+/* loaded from: classes5.dex */
+public interface FieldVectorChangingVisitor<T extends FieldElement<?>> {
+    T end();
+
+    void start(int i, int i2, int i3);
+
+    T visit(int i, T t);
+}

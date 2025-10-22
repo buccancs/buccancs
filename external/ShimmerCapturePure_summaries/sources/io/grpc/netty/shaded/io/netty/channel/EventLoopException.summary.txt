@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/EventLoopException.java
+// Size: 507 bytes
+// Modified: 2025-10-21 16:32:01.448989500 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+/* loaded from: classes3.dex */
+public class EventLoopException extends ChannelException {
+    private static final long serialVersionUID = -8969100344583703616L;
+
+    public EventLoopException() {
+    }
+
+    public EventLoopException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public EventLoopException(String str) {
+        super(str);
+    }
+
+    public EventLoopException(Throwable th) {
+        super(th);
+    }
+}

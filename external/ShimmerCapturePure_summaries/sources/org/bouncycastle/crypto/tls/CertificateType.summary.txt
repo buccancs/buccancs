@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/CertificateType.java
+// Size: 242 bytes
+// Modified: 2025-10-21 16:32:00.607817900 +0100
+
+package org.bouncycastle.crypto.tls;
+
+/* loaded from: classes5.dex */
+public class CertificateType {
+    public static final short OpenPGP = 1;
+    public static final short RawPublicKey = 2;
+    public static final short X509 = 0;
+}

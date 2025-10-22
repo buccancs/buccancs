@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/jcajce/interfaces/SPHINCSKey.java
+// Size: 185 bytes
+// Modified: 2025-10-21 16:32:00.646981300 +0100
+
+package org.bouncycastle.pqc.jcajce.interfaces;
+
+import java.security.Key;
+
+/* loaded from: classes5.dex */
+public interface SPHINCSKey extends Key {
+    byte[] getKeyData();
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/protobuf/ProtoMethodDescriptorSupplier.java
+// Size: 320 bytes
+// Modified: 2025-10-21 16:32:03.158784300 +0100
+
+package io.grpc.protobuf;
+
+import com.google.protobuf.Descriptors;
+import javax.annotation.CheckReturnValue;
+
+/* loaded from: classes3.dex */
+public interface ProtoMethodDescriptorSupplier extends ProtoServiceDescriptorSupplier {
+    @CheckReturnValue
+    Descriptors.MethodDescriptor getMethodDescriptor();
+}

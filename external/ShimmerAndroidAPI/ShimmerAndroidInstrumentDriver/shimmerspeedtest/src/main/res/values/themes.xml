@@ -23,7 +23,7 @@
         </item>
     </style>
 
-    <style name="Theme.ShimmerAndroidInstrumentDriver.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ShimmerAndroidInstrumentDriver.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="Theme.ShimmerAndroidInstrumentDriver.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.ShimmerAndroidInstrumentDriver.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

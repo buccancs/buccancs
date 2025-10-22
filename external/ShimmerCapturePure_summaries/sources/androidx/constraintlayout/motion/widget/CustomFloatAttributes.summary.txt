@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/motion/widget/CustomFloatAttributes.java
+// Size: 234 bytes
+// Modified: 2025-10-21 16:31:59.828507400 +0100
+
+package androidx.constraintlayout.motion.widget;
+
+/* loaded from: classes.dex */
+public interface CustomFloatAttributes {
+    float get(String str);
+
+    String[] getListOfAttributes();
+
+    void set(String str, float f);
+}

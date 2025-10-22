@@ -1,0 +1,318 @@
+package org.apache.commons.math.analysis;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/ComposableFunction.class */
+public abstract class ComposableFunction implements UnivariateRealFunction {
+    public static final ComposableFunction ZERO = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.1
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return 0.0d;
+        }
+    };
+    public static final ComposableFunction ONE = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.2
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return 1.0d;
+        }
+    };
+    public static final ComposableFunction IDENTITY = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.3
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return d;
+        }
+    };
+    public static final ComposableFunction ABS = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.4
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.abs(d);
+        }
+    };
+    public static final ComposableFunction NEGATE = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.5
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return -d;
+        }
+    };
+    public static final ComposableFunction INVERT = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.6
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return 1.0d / d;
+        }
+    };
+    public static final ComposableFunction SIN = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.7
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.sin(d);
+        }
+    };
+    public static final ComposableFunction SQRT = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.8
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.sqrt(d);
+        }
+    };
+    public static final ComposableFunction SINH = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.9
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.sinh(d);
+        }
+    };
+    public static final ComposableFunction EXP = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.10
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.exp(d);
+        }
+    };
+    public static final ComposableFunction EXPM1 = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.11
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.expm1(d);
+        }
+    };
+    public static final ComposableFunction ASIN = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.12
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.asin(d);
+        }
+    };
+    public static final ComposableFunction ATAN = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.13
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.atan(d);
+        }
+    };
+    public static final ComposableFunction TAN = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.14
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.tan(d);
+        }
+    };
+    public static final ComposableFunction TANH = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.15
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.tanh(d);
+        }
+    };
+    public static final ComposableFunction CBRT = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.16
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.cbrt(d);
+        }
+    };
+    public static final ComposableFunction CEIL = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.17
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.ceil(d);
+        }
+    };
+    public static final ComposableFunction FLOOR = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.18
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.floor(d);
+        }
+    };
+    public static final ComposableFunction LOG = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.19
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.log(d);
+        }
+    };
+    public static final ComposableFunction LOG10 = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.20
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.log10(d);
+        }
+    };
+    public static final ComposableFunction LOG1P = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.21
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.log1p(d);
+        }
+    };
+    public static final ComposableFunction COS = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.22
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.cos(d);
+        }
+    };
+    public static final ComposableFunction ACOS = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.23
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.acos(d);
+        }
+    };
+    public static final ComposableFunction COSH = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.24
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.cosh(d);
+        }
+    };
+    public static final ComposableFunction RINT = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.25
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.rint(d);
+        }
+    };
+    public static final ComposableFunction SIGNUM = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.26
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.signum(d);
+        }
+    };
+    public static final ComposableFunction ULP = new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.27
+        @Override
+        // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+        public double value(double d) {
+            return FastMath.ulp(d);
+        }
+    };
+
+    @Override // org.apache.commons.math.analysis.UnivariateRealFunction
+    public abstract double value(double d) throws FunctionEvaluationException;
+
+    public ComposableFunction of(final UnivariateRealFunction f) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.28
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return ComposableFunction.this.value(f.value(x));
+            }
+        };
+    }
+
+    public ComposableFunction postCompose(final UnivariateRealFunction f) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.29
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return f.value(ComposableFunction.this.value(x));
+            }
+        };
+    }
+
+    public ComposableFunction combine(final UnivariateRealFunction f, final BivariateRealFunction combiner) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.30
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return combiner.value(ComposableFunction.this.value(x), f.value(x));
+            }
+        };
+    }
+
+    public ComposableFunction add(final UnivariateRealFunction f) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.31
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return ComposableFunction.this.value(x) + f.value(x);
+            }
+        };
+    }
+
+    public ComposableFunction add(final double a) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.32
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return ComposableFunction.this.value(x) + a;
+            }
+        };
+    }
+
+    public ComposableFunction subtract(final UnivariateRealFunction f) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.33
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return ComposableFunction.this.value(x) - f.value(x);
+            }
+        };
+    }
+
+    public ComposableFunction multiply(final UnivariateRealFunction f) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.34
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return ComposableFunction.this.value(x) * f.value(x);
+            }
+        };
+    }
+
+    public ComposableFunction multiply(final double scaleFactor) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.35
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return ComposableFunction.this.value(x) * scaleFactor;
+            }
+        };
+    }
+
+    public ComposableFunction divide(final UnivariateRealFunction f) {
+        return new ComposableFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.36
+            @Override
+            // org.apache.commons.math.analysis.ComposableFunction, org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                return ComposableFunction.this.value(x) / f.value(x);
+            }
+        };
+    }
+
+    public MultivariateRealFunction asCollector(final BivariateRealFunction combiner, final double initialValue) {
+        return new MultivariateRealFunction() { // from class: org.apache.commons.math.analysis.ComposableFunction.37
+            @Override // org.apache.commons.math.analysis.MultivariateRealFunction
+            public double value(double[] point) throws FunctionEvaluationException, IllegalArgumentException {
+                double result = initialValue;
+                for (double entry : point) {
+                    result = combiner.value(result, ComposableFunction.this.value(entry));
+                }
+                return result;
+            }
+        };
+    }
+
+    public MultivariateRealFunction asCollector(BivariateRealFunction combiner) {
+        return asCollector(combiner, 0.0d);
+    }
+
+    public MultivariateRealFunction asCollector(double initialValue) {
+        return asCollector(BinaryFunction.ADD, initialValue);
+    }
+
+    public MultivariateRealFunction asCollector() {
+        return asCollector(BinaryFunction.ADD, 0.0d);
+    }
+}

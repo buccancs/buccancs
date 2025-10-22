@@ -1,0 +1,113 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/nonlinear/vector/jacobian/AbstractLeastSquaresOptimizer.java
+// Size: 5012 bytes
+// Modified: 2025-10-21 16:32:11.928860700 +0100
+
+package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
+
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.QRDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.optim.ConvergenceChecker;
+import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.optim.nonlinear.vector.JacobianMultivariateVectorOptimizer;
+import org.apache.commons.math3.optim.nonlinear.vector.Weight;
+import org.apache.commons.math3.util.FastMath;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public abstract class AbstractLeastSquaresOptimizer extends JacobianMultivariateVectorOptimizer {
+    private double cost;
+    private RealMatrix weightMatrixSqrt;
+
+    public double getChiSquare() {
+        double d = this.cost;
+        return d * d;
+    }
+
+    protected void setCost(double d) {
+        this.cost = d;
+    }
+
+    protected AbstractLeastSquaresOptimizer(ConvergenceChecker<PointVectorValuePair> convergenceChecker) {
+        super(convergenceChecker);
+    }
+
+    protected RealMatrix computeWeightedJacobian(double[] dArr) {
+        return this.weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(computeJacobian(dArr)));
+    }
+
+    protected double computeCost(double[] dArr) {
+        ArrayRealVector arrayRealVector = new ArrayRealVector(dArr);
+        return FastMath.sqrt(arrayRealVector.dotProduct(getWeight().operate(arrayRealVector)));
+    }
+
+    public double getRMS() {
+        return FastMath.sqrt(getChiSquare() / getTargetSize());
+    }
+
+    public RealMatrix getWeightSquareRoot() {
+        return this.weightMatrixSqrt.copy();
+    }
+
+    public double[][] computeCovariances(double[] dArr, double d) {
+        RealMatrix realMatrixComputeWeightedJacobian = computeWeightedJacobian(dArr);
+        return new QRDecomposition(realMatrixComputeWeightedJacobian.transpose().multiply(realMatrixComputeWeightedJacobian), d).getSolver().getInverse().getData();
+    }
+
+    public double[] computeSigma(double[] dArr, double d) {
+        int length = dArr.length;
+        double[] dArr2 = new double[length];
+        double[][] dArrComputeCovariances = computeCovariances(dArr, d);
+        for (int i = 0; i < length; i++) {
+            dArr2[i] = FastMath.sqrt(dArrComputeCovariances[i][i]);
+        }
+        return dArr2;
+    }
+
+    @Override // org.apache.commons.math3.optim.nonlinear.vector.JacobianMultivariateVectorOptimizer, org.apache.commons.math3.optim.nonlinear.vector.MultivariateVectorOptimizer, org.apache.commons.math3.optim.BaseMultivariateOptimizer, org.apache.commons.math3.optim.BaseOptimizer
+    public PointVectorValuePair optimize(OptimizationData... optimizationDataArr) throws TooManyEvaluationsException {
+        return super.optimize(optimizationDataArr);
+    }
+
+    protected double[] computeResiduals(double[] dArr) {
+        double[] target = getTarget();
+        if (dArr.length != target.length) {
+            throw new DimensionMismatchException(target.length, dArr.length);
+        }
+        double[] dArr2 = new double[target.length];
+        for (int i = 0; i < target.length; i++) {
+            dArr2[i] = target[i] - dArr[i];
+        }
+        return dArr2;
+    }
+
+    @Override // org.apache.commons.math3.optim.nonlinear.vector.JacobianMultivariateVectorOptimizer, org.apache.commons.math3.optim.nonlinear.vector.MultivariateVectorOptimizer, org.apache.commons.math3.optim.BaseMultivariateOptimizer, org.apache.commons.math3.optim.BaseOptimizer
+    protected void parseOptimizationData(OptimizationData... optimizationDataArr) {
+        super.parseOptimizationData(optimizationDataArr);
+        for (OptimizationData optimizationData : optimizationDataArr) {
+            if (optimizationData instanceof Weight) {
+                this.weightMatrixSqrt = squareRoot(((Weight) optimizationData).getWeight());
+                return;
+            }
+        }
+    }
+
+    private RealMatrix squareRoot(RealMatrix realMatrix) throws OutOfRangeException {
+        if (realMatrix instanceof DiagonalMatrix) {
+            int rowDimension = realMatrix.getRowDimension();
+            DiagonalMatrix diagonalMatrix = new DiagonalMatrix(rowDimension);
+            for (int i = 0; i < rowDimension; i++) {
+                diagonalMatrix.setEntry(i, i, FastMath.sqrt(realMatrix.getEntry(i, i)));
+            }
+            return diagonalMatrix;
+        }
+        return new EigenDecomposition(realMatrix).getSquareRoot();
+    }
+}

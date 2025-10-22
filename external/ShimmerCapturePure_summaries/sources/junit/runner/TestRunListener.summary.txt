@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/junit/runner/TestRunListener.java
+// Size: 438 bytes
+// Modified: 2025-10-21 16:32:00.493780800 +0100
+
+package junit.runner;
+
+/* loaded from: classes4.dex */
+public interface TestRunListener {
+    public static final int STATUS_ERROR = 1;
+    public static final int STATUS_FAILURE = 2;
+
+    void testEnded(String str);
+
+    void testFailed(int i, String str, String str2);
+
+    void testRunEnded(long j);
+
+    void testRunStarted(String str, int i);
+
+    void testRunStopped(long j);
+
+    void testStarted(String str);
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/widget/ConstraintsChangedListener.java
+// Size: 249 bytes
+// Modified: 2025-10-21 16:31:59.947016500 +0100
+
+package androidx.constraintlayout.widget;
+
+/* loaded from: classes.dex */
+public abstract class ConstraintsChangedListener {
+    public void postLayoutChange(int i, int i2) {
+    }
+
+    public void preLayoutChange(int i, int i2) {
+    }
+}

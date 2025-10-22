@@ -1,0 +1,37 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.ListenerFilterChainMatchPredicate;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3.Int32Range;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3.Int32RangeOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface ListenerFilterChainMatchPredicateOrBuilder extends MessageOrBuilder {
+    ListenerFilterChainMatchPredicate.MatchSet getAndMatch();
+
+    ListenerFilterChainMatchPredicate.MatchSetOrBuilder getAndMatchOrBuilder();
+
+    boolean getAnyMatch();
+
+    Int32Range getDestinationPortRange();
+
+    Int32RangeOrBuilder getDestinationPortRangeOrBuilder();
+
+    ListenerFilterChainMatchPredicate getNotMatch();
+
+    ListenerFilterChainMatchPredicateOrBuilder getNotMatchOrBuilder();
+
+    ListenerFilterChainMatchPredicate.MatchSet getOrMatch();
+
+    ListenerFilterChainMatchPredicate.MatchSetOrBuilder getOrMatchOrBuilder();
+
+    ListenerFilterChainMatchPredicate.RuleCase getRuleCase();
+
+    boolean hasAndMatch();
+
+    boolean hasDestinationPortRange();
+
+    boolean hasNotMatch();
+
+    boolean hasOrMatch();
+}

@@ -1,0 +1,61 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/nonlinear/scalar/MultiStartMultivariateOptimizer.java
+// Size: 2781 bytes
+// Modified: 2025-10-21 16:32:09.191711800 +0100
+
+package org.apache.commons.math3.optim.nonlinear.scalar;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.optim.BaseMultiStartMultivariateOptimizer;
+import org.apache.commons.math3.optim.PointValuePair;
+import org.apache.commons.math3.random.RandomVectorGenerator;
+
+/* loaded from: classes5.dex */
+public class MultiStartMultivariateOptimizer extends BaseMultiStartMultivariateOptimizer<PointValuePair> {
+    private final List<PointValuePair> optima;
+    private final MultivariateOptimizer optimizer;
+
+    public MultiStartMultivariateOptimizer(MultivariateOptimizer multivariateOptimizer, int i, RandomVectorGenerator randomVectorGenerator) throws NotStrictlyPositiveException, NullArgumentException {
+        super(multivariateOptimizer, i, randomVectorGenerator);
+        this.optima = new ArrayList();
+        this.optimizer = multivariateOptimizer;
+    }
+
+    @Override // org.apache.commons.math3.optim.BaseMultiStartMultivariateOptimizer
+    public PointValuePair[] getOptima() {
+        Collections.sort(this.optima, getPairComparator());
+        return (PointValuePair[]) this.optima.toArray(new PointValuePair[0]);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.apache.commons.math3.optim.BaseMultiStartMultivariateOptimizer
+    public void store(PointValuePair pointValuePair) {
+        this.optima.add(pointValuePair);
+    }
+
+    @Override // org.apache.commons.math3.optim.BaseMultiStartMultivariateOptimizer
+    protected void clear() {
+        this.optima.clear();
+    }
+
+    private Comparator<PointValuePair> getPairComparator() {
+        return new Comparator<PointValuePair>() { // from class: org.apache.commons.math3.optim.nonlinear.scalar.MultiStartMultivariateOptimizer.1
+            @Override // java.util.Comparator
+            public int compare(PointValuePair pointValuePair, PointValuePair pointValuePair2) {
+                if (pointValuePair == null) {
+                    return pointValuePair2 == null ? 0 : 1;
+                }
+                if (pointValuePair2 == null) {
+                    return -1;
+                }
+                double dDoubleValue = pointValuePair.getValue().doubleValue();
+                double dDoubleValue2 = pointValuePair2.getValue().doubleValue();
+                return MultiStartMultivariateOptimizer.this.optimizer.getGoalType() == GoalType.MINIMIZE ? Double.compare(dDoubleValue, dDoubleValue2) : Double.compare(dDoubleValue2, dDoubleValue);
+            }
+        };
+    }
+}

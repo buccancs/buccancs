@@ -1,0 +1,214 @@
+package org.apache.commons.math.analysis.solvers;
+
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/solvers/LaguerreSolver.class */
+public class LaguerreSolver extends UnivariateRealSolverImpl {
+
+    @Deprecated
+    private final PolynomialFunction p;
+
+    @Deprecated
+    public LaguerreSolver(UnivariateRealFunction f) throws IllegalArgumentException {
+        super(f, 100, 1.0E-6d);
+        if (f instanceof PolynomialFunction) {
+            this.p = (PolynomialFunction) f;
+            return;
+        }
+        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_POLYNOMIAL, new Object[0]);
+    }
+
+    @Deprecated
+    public LaguerreSolver() {
+        super(100, 1.0E-6d);
+        this.p = null;
+    }
+
+    @Deprecated
+    public PolynomialFunction getPolynomialFunction() {
+        return new PolynomialFunction(this.p.getCoefficients());
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(double min, double max) throws FunctionEvaluationException, ConvergenceException {
+        return solve(this.p, min, max);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(double min, double max, double initial) throws FunctionEvaluationException, ConvergenceException {
+        return solve(this.p, min, max, initial);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
+    public double solve(int maxEval, UnivariateRealFunction f, double min, double max, double initial) throws FunctionEvaluationException, ConvergenceException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, initial);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(UnivariateRealFunction f, double min, double max, double initial) throws FunctionEvaluationException, ConvergenceException {
+        if (f.value(min) == 0.0d) {
+            return min;
+        }
+        if (f.value(max) == 0.0d) {
+            return max;
+        }
+        if (f.value(initial) == 0.0d) {
+            return initial;
+        }
+        verifyBracketing(min, max, f);
+        verifySequence(min, initial, max);
+        if (isBracketing(min, initial, f)) {
+            return solve(f, min, initial);
+        }
+        return solve(f, initial, max);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
+    public double solve(int maxEval, UnivariateRealFunction f, double min, double max) throws FunctionEvaluationException, ConvergenceException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(UnivariateRealFunction f, double min, double max) throws FunctionEvaluationException, ConvergenceException {
+        if (!(f instanceof PolynomialFunction)) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_POLYNOMIAL, new Object[0]);
+        }
+        if (f.value(min) == 0.0d) {
+            return min;
+        }
+        if (f.value(max) == 0.0d) {
+            return max;
+        }
+        verifyBracketing(min, max, f);
+        double[] coefficients = ((PolynomialFunction) f).getCoefficients();
+        Complex[] c = new Complex[coefficients.length];
+        for (int i = 0; i < coefficients.length; i++) {
+            c[i] = new Complex(coefficients[i], 0.0d);
+        }
+        Complex initial = new Complex(0.5d * (min + max), 0.0d);
+        Complex z = solve(c, initial);
+        if (isRootOK(min, max, z)) {
+            setResult(z.getReal(), this.iterationCount);
+            return this.result;
+        }
+        Complex[] root = solveAll(c, initial);
+        for (int i2 = 0; i2 < root.length; i2++) {
+            if (isRootOK(min, max, root[i2])) {
+                setResult(root[i2].getReal(), this.iterationCount);
+                return this.result;
+            }
+        }
+        throw new ConvergenceException();
+    }
+
+    protected boolean isRootOK(double min, double max, Complex z) {
+        double tolerance = FastMath.max(this.relativeAccuracy * z.abs(), this.absoluteAccuracy);
+        return isSequence(min, z.getReal(), max) && (FastMath.abs(z.getImaginary()) <= tolerance || z.abs() <= this.functionValueAccuracy);
+    }
+
+    @Deprecated
+    public Complex[] solveAll(double[] coefficients, double initial) throws FunctionEvaluationException, ConvergenceException {
+        Complex[] c = new Complex[coefficients.length];
+        Complex z = new Complex(initial, 0.0d);
+        for (int i = 0; i < c.length; i++) {
+            c[i] = new Complex(coefficients[i], 0.0d);
+        }
+        return solveAll(c, z);
+    }
+
+    @Deprecated
+    public Complex[] solveAll(Complex[] coefficients, Complex initial) throws FunctionEvaluationException, MaxIterationsExceededException {
+        int n = coefficients.length - 1;
+        int iterationCount = 0;
+        if (n < 1) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NON_POSITIVE_POLYNOMIAL_DEGREE, Integer.valueOf(n));
+        }
+        Complex[] c = new Complex[n + 1];
+        for (int i = 0; i <= n; i++) {
+            c[i] = coefficients[i];
+        }
+        Complex[] root = new Complex[n];
+        for (int i2 = 0; i2 < n; i2++) {
+            Complex[] subarray = new Complex[(n - i2) + 1];
+            System.arraycopy(c, 0, subarray, 0, subarray.length);
+            root[i2] = solve(subarray, initial);
+            Complex newc = c[n - i2];
+            for (int j = (n - i2) - 1; j >= 0; j--) {
+                Complex oldc = c[j];
+                c[j] = newc;
+                newc = oldc.add(newc.multiply(root[i2]));
+            }
+            iterationCount += this.iterationCount;
+        }
+        this.resultComputed = true;
+        this.iterationCount = iterationCount;
+        return root;
+    }
+
+    @Deprecated
+    public Complex solve(Complex[] coefficients, Complex initial) throws FunctionEvaluationException, MaxIterationsExceededException {
+        int n = coefficients.length - 1;
+        if (n < 1) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NON_POSITIVE_POLYNOMIAL_DEGREE, Integer.valueOf(n));
+        }
+        Complex N = new Complex(n, 0.0d);
+        Complex N1 = new Complex(n - 1, 0.0d);
+        Complex z = initial;
+        Complex oldz = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        for (int i = 1; i <= this.maximalIterationCount; i++) {
+            Complex pv = coefficients[n];
+            Complex dv = Complex.ZERO;
+            Complex d2v = Complex.ZERO;
+            for (int j = n - 1; j >= 0; j--) {
+                d2v = dv.add(z.multiply(d2v));
+                dv = pv.add(z.multiply(dv));
+                pv = coefficients[j].add(z.multiply(pv));
+            }
+            Complex d2v2 = d2v.multiply(new Complex(2.0d, 0.0d));
+            double tolerance = FastMath.max(this.relativeAccuracy * z.abs(), this.absoluteAccuracy);
+            if (z.subtract(oldz).abs() <= tolerance) {
+                this.resultComputed = true;
+                this.iterationCount = i;
+                return z;
+            }
+            if (pv.abs() <= this.functionValueAccuracy) {
+                this.resultComputed = true;
+                this.iterationCount = i;
+                return z;
+            }
+            Complex G = dv.divide(pv);
+            Complex G2 = G.multiply(G);
+            Complex H = G2.subtract(d2v2.divide(pv));
+            Complex delta = N1.multiply(N.multiply(H).subtract(G2));
+            Complex deltaSqrt = delta.sqrt();
+            Complex dplus = G.add(deltaSqrt);
+            Complex dminus = G.subtract(deltaSqrt);
+            Complex denominator = dplus.abs() > dminus.abs() ? dplus : dminus;
+            if (denominator.equals(new Complex(0.0d, 0.0d))) {
+                z = z.add(new Complex(this.absoluteAccuracy, this.absoluteAccuracy));
+                oldz = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+            } else {
+                oldz = z;
+                z = z.subtract(N.divide(denominator));
+            }
+        }
+        throw new MaxIterationsExceededException(this.maximalIterationCount);
+    }
+}

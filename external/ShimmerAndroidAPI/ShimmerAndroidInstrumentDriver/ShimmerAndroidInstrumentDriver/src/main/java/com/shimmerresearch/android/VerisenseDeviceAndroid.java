@@ -1,7 +1,6 @@
 package com.shimmerresearch.android;
 
 import android.os.Handler;
-
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
 import com.shimmerresearch.driver.CallbackObject;
 import com.shimmerresearch.driver.ObjectCluster;

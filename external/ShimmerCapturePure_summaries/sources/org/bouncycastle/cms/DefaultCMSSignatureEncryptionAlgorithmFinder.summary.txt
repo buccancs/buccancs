@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/DefaultCMSSignatureEncryptionAlgorithmFinder.java
+// Size: 1734 bytes
+// Modified: 2025-10-21 16:32:08.475025800 +0100
+
+package org.bouncycastle.cms;
+
+import java.util.HashSet;
+import java.util.Set;
+import org.bouncycastle.asn1.DERNull;
+import org.bouncycastle.asn1.oiw.OIWObjectIdentifiers;
+import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
+import org.bouncycastle.asn1.teletrust.TeleTrusTObjectIdentifiers;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
+
+/* loaded from: classes5.dex */
+public class DefaultCMSSignatureEncryptionAlgorithmFinder implements CMSSignatureEncryptionAlgorithmFinder {
+    private static final Set RSA_PKCS1d5;
+
+    static {
+        HashSet hashSet = new HashSet();
+        RSA_PKCS1d5 = hashSet;
+        hashSet.add(PKCSObjectIdentifiers.md2WithRSAEncryption);
+        hashSet.add(PKCSObjectIdentifiers.md4WithRSAEncryption);
+        hashSet.add(PKCSObjectIdentifiers.md5WithRSAEncryption);
+        hashSet.add(PKCSObjectIdentifiers.sha1WithRSAEncryption);
+        hashSet.add(OIWObjectIdentifiers.md4WithRSAEncryption);
+        hashSet.add(OIWObjectIdentifiers.md4WithRSA);
+        hashSet.add(OIWObjectIdentifiers.md5WithRSA);
+        hashSet.add(OIWObjectIdentifiers.sha1WithRSA);
+        hashSet.add(TeleTrusTObjectIdentifiers.rsaSignatureWithripemd128);
+        hashSet.add(TeleTrusTObjectIdentifiers.rsaSignatureWithripemd160);
+        hashSet.add(TeleTrusTObjectIdentifiers.rsaSignatureWithripemd256);
+    }
+
+    @Override // org.bouncycastle.cms.CMSSignatureEncryptionAlgorithmFinder
+    public AlgorithmIdentifier findEncryptionAlgorithm(AlgorithmIdentifier algorithmIdentifier) {
+        return RSA_PKCS1d5.contains(algorithmIdentifier.getAlgorithm()) ? new AlgorithmIdentifier(PKCSObjectIdentifiers.rsaEncryption, DERNull.INSTANCE) : algorithmIdentifier;
+    }
+}

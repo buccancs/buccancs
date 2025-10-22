@@ -1,0 +1,228 @@
+package com.shimmerresearch.verisense.sensors;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.verisense.VerisenseDevice;
+import com.shimmerresearch.verisense.sensors.SensorMAX86XXX;
+import io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2CodecUtil;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import kotlin.UByte$$ExternalSyntheticBackport0;
+
+/* loaded from: classes2.dex */
+public class SensorMAX86150 extends SensorMAX86XXX {
+    public static final Map<String, ChannelDetails> CHANNEL_MAP_REF;
+    public static final ChannelDetails CHANNEL_MAX86150_PPG_ECG;
+    public static final ChannelDetails CHANNEL_MAX86150_PPG_IR;
+    public static final ChannelDetails CHANNEL_MAX86150_PPG_RED;
+    public static final ConfigOptionDetailsSensor CONFIG_OPTION_PPG_RATE;
+    public static final Map<Integer, SensorDetailsRef> SENSOR_MAP_REF;
+    public static final SensorDetailsRef SENSOR_MAX86150_PPG_IR;
+    public static final SensorDetailsRef SENSOR_MAX86150_PPG_RED;
+    public static final SensorDetailsRef sensorMAX86150Ecg;
+    private static final long serialVersionUID = 519272511737130670L;
+
+    static {
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(Http2CodecUtil.DEFAULT_HEADER_LIST_SIZE, Http2CodecUtil.DEFAULT_HEADER_LIST_SIZE, SensorMAX86XXX.GuiLabelSensorsCommon.PPG_RED, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86150, Arrays.asList(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_LED_RED_AMPLITUDE), Arrays.asList(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED));
+        SENSOR_MAX86150_PPG_RED = sensorDetailsRef;
+        SensorDetailsRef sensorDetailsRef2 = new SensorDetailsRef(4096L, 4096L, SensorMAX86XXX.GuiLabelSensorsCommon.PPG_IR, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86150, Arrays.asList(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_LED_IR_AMPLITUDE), Arrays.asList(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR));
+        SENSOR_MAX86150_PPG_IR = sensorDetailsRef2;
+        SensorDetailsRef sensorDetailsRef3 = new SensorDetailsRef(2048L, 2048L, "ECG", Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86150, Arrays.asList(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE), Arrays.asList(ObjectClusterSensorName.MAX86150_ECG));
+        sensorMAX86150Ecg = sensorDetailsRef3;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(2008, sensorDetailsRef);
+        linkedHashMap.put(2009, sensorDetailsRef2);
+        linkedHashMap.put(Integer.valueOf(Configuration.Verisense.SENSOR_ID.MAX86150_ECG), sensorDetailsRef3);
+        SENSOR_MAP_REF = Collections.unmodifiableMap(linkedHashMap);
+        ChannelDetails channelDetails = new ChannelDetails(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED, SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED, DatabaseChannelHandles.MAX86150_PPG_RED, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.NANOAMPS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        CHANNEL_MAX86150_PPG_RED = channelDetails;
+        ChannelDetails channelDetails2 = new ChannelDetails(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR, SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR, DatabaseChannelHandles.MAX86150_PPG_IR, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.NANOAMPS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        CHANNEL_MAX86150_PPG_IR = channelDetails2;
+        ChannelDetails channelDetails3 = new ChannelDetails(ObjectClusterSensorName.MAX86150_ECG, ObjectClusterSensorName.MAX86150_ECG, DatabaseChannelHandles.MAX86150_ECG, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        CHANNEL_MAX86150_PPG_ECG = channelDetails3;
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED, channelDetails);
+        linkedHashMap2.put(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR, channelDetails2);
+        linkedHashMap2.put(ObjectClusterSensorName.MAX86150_ECG, channelDetails3);
+        CHANNEL_MAP_REF = Collections.unmodifiableMap(linkedHashMap2);
+        CONFIG_OPTION_PPG_RATE = new ConfigOptionDetailsSensor(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, SensorMAX86XXX.DatabaseConfigHandle.MAX86XXX_RATE, MAX86150_SAMPLE_RATE.getLabels(), MAX86150_SAMPLE_RATE.getConfigValues(), ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86150);
+    }
+
+    private MAX86150_SAMPLE_RATE sampleRate;
+
+    public SensorMAX86150(VerisenseDevice verisenseDevice) {
+        super(AbstractSensor.SENSORS.MAX86150, verisenseDevice);
+        this.sampleRate = MAX86150_SAMPLE_RATE.SR_50_0_HZ;
+    }
+
+    public MAX86150_SAMPLE_RATE getSampleRate() {
+        return this.sampleRate;
+    }
+
+    public void setSampleRate(MAX86150_SAMPLE_RATE max86150_sample_rate) {
+        this.sampleRate = max86150_sample_rate;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        super.createLocalSensorMapWithCustomParser(SENSOR_MAP_REF, CHANNEL_MAP_REF);
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+        this.mConfigOptionsMap.clear();
+        addConfigOption(CONFIG_OPTION_PPG_RATE);
+        super.generateConfigOptionsMap();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_RED) || sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_IR)) {
+            bArr[0] = (byte) (bArr[0] & 7);
+        }
+        ObjectCluster objectClusterProcessDataCommon = sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_RED)) {
+            ChannelDetails channelDetails = CHANNEL_MAX86150_PPG_RED;
+            double formatClusterValue = objectClusterProcessDataCommon.getFormatClusterValue(channelDetails, ChannelDetails.CHANNEL_TYPE.UNCAL);
+            if (UByte$$ExternalSyntheticBackport0.m38878m(formatClusterValue)) {
+                objectClusterProcessDataCommon.addCalData(channelDetails, calibratePpg(formatClusterValue));
+            }
+        } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_IR)) {
+            ChannelDetails channelDetails2 = CHANNEL_MAX86150_PPG_IR;
+            double formatClusterValue2 = objectClusterProcessDataCommon.getFormatClusterValue(channelDetails2, ChannelDetails.CHANNEL_TYPE.UNCAL);
+            if (UByte$$ExternalSyntheticBackport0.m38878m(formatClusterValue2)) {
+                objectClusterProcessDataCommon.addCalData(channelDetails2, calibratePpg(formatClusterValue2));
+            }
+        } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("ECG")) {
+            UByte$$ExternalSyntheticBackport0.m38878m(objectClusterProcessDataCommon.getFormatClusterValue(CHANNEL_MAX86150_PPG_ECG, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        }
+        return objectClusterProcessDataCommon;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        if ((isSensorEnabled(2008) || isSensorEnabled(2009)) && communication_type == Configuration.COMMUNICATION_TYPE.SD) {
+            byte ppgAdcResolutionConfigValue = (byte) (bArr[1] | ((getPpgAdcResolutionConfigValue() & 3) << 6));
+            bArr[1] = ppgAdcResolutionConfigValue;
+            byte bIntValue = (byte) (ppgAdcResolutionConfigValue | ((getSampleRate().configValue.intValue() & 15) << 2));
+            bArr[1] = bIntValue;
+            bArr[1] = (byte) (bIntValue | (getPpgPulseWidthConfigValue() & 3));
+            bArr[14] = (byte) (bArr[14] | (getPpgSampleAverageConfigValue() & 7));
+            bArr[15] = (byte) (bArr[15] | (getPpgLedAmplitudeRedConfigValue() & 255));
+            if ((shimmerDevice instanceof VerisenseDevice) && ((VerisenseDevice) shimmerDevice).isPayloadDesignV5orAbove()) {
+                bArr[16] = (byte) (bArr[16] | (getPpgLedAmplitudeIrConfigValue() & 255));
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        if ((isSensorEnabled(2008) || isSensorEnabled(2009)) && communication_type == Configuration.COMMUNICATION_TYPE.SD) {
+            setPpgPulseWidthConfigValue(bArr[1] & 3);
+            setRateConfigValue((bArr[1] >> 2) & 15);
+            setPpgAdcResolutionConfigValue((bArr[1] >> 6) & 3);
+            setPpgSampleAverageConfigValue(bArr[14] & 7);
+            setPpgLedAmplitudeRedConfigValue(bArr[15] & 255);
+            if ((shimmerDevice instanceof VerisenseDevice) && ((VerisenseDevice) shimmerDevice).isPayloadDesignV5orAbove()) {
+                setPpgLedAmplitudeIrConfigValue(bArr[16] & 255);
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+        for (MAX86150_SAMPLE_RATE max86150_sample_rate : MAX86150_SAMPLE_RATE.values()) {
+            if (d <= max86150_sample_rate.freqHz) {
+                setSampleRate(max86150_sample_rate);
+            }
+        }
+    }
+
+    public void setRateConfigValue(int i) {
+        setSampleRate(MAX86150_SAMPLE_RATE.getForConfigValue(i));
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX
+    public double getSamplingRateFreq() {
+        return getSampleRate().freqHz;
+    }
+
+    public enum MAX86150_SAMPLE_RATE implements ISensorConfig {
+        SR_10_0_HZ("10.0Hz", 0, 10.0d),
+        SR_20_0_HZ("20.0Hz", 1, 20.0d),
+        SR_50_0_HZ("50.0Hz", 2, 50.0d),
+        SR_84_0_HZ("84.0Hz", 3, 84.0d),
+        SR_100_0_HZ("100.0Hz", 4, 100.0d),
+        SR_200_0_HZ("200.0Hz", 5, 200.0d),
+        SR_400_0_HZ("400.0Hz", 6, 400.0d),
+        SR_800_0_HZ("800.0Hz", 7, 800.0d),
+        SR_1000_0_HZ("1000.0Hz", 8, 1000.0d),
+        SR_1600_0_HZ("1600.0Hz", 9, 1600.0d),
+        SR_3200_0_HZ("3200.0Hz", 10, 3200.0d);
+
+        static Map<Integer, MAX86150_SAMPLE_RATE> BY_CONFIG_VALUE;
+        static Map<String, Integer> REF_MAP = new HashMap();
+
+        static {
+            for (MAX86150_SAMPLE_RATE max86150_sample_rate : values()) {
+                REF_MAP.put(max86150_sample_rate.label, max86150_sample_rate.configValue);
+            }
+            BY_CONFIG_VALUE = new HashMap();
+            for (MAX86150_SAMPLE_RATE max86150_sample_rate2 : values()) {
+                BY_CONFIG_VALUE.put(max86150_sample_rate2.configValue, max86150_sample_rate2);
+            }
+        }
+
+        Integer configValue;
+        double freqHz;
+        String label;
+
+        MAX86150_SAMPLE_RATE(String str, int i, double d) {
+            this.label = str;
+            this.configValue = Integer.valueOf(i);
+            this.freqHz = d;
+        }
+
+        public static String[] getLabels() {
+            return (String[]) REF_MAP.keySet().toArray(new String[REF_MAP.keySet().size()]);
+        }
+
+        public static Integer[] getConfigValues() {
+            return (Integer[]) REF_MAP.values().toArray(new Integer[REF_MAP.values().size()]);
+        }
+
+        public static MAX86150_SAMPLE_RATE getForConfigValue(int i) {
+            return BY_CONFIG_VALUE.get(Integer.valueOf(UtilShimmer.nudgeInteger(i, SR_10_0_HZ.configValue.intValue(), SR_3200_0_HZ.configValue.intValue())));
+        }
+    }
+
+    public static class DatabaseChannelHandles {
+        public static final String MAX86150_ECG = "MAX86150_ECG";
+        public static final String MAX86150_PPG_IR = "MAX86150_PPG_IR";
+        public static final String MAX86150_PPG_RED = "MAX86150_PPG_Red";
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String MAX86150_ECG = "ECG";
+    }
+
+    public class GuiLabelSensors {
+        public static final String ECG = "ECG";
+
+        public GuiLabelSensors() {
+        }
+    }
+}

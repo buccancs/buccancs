@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/sphincs/SPHINCSKeyParameters.java
+// Size: 570 bytes
+// Modified: 2025-10-21 16:32:01.906748200 +0100
+
+package org.bouncycastle.pqc.crypto.sphincs;
+
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+
+/* loaded from: classes5.dex */
+public class SPHINCSKeyParameters extends AsymmetricKeyParameter {
+    public static final String SHA3_256 = "SHA3-256";
+    public static final String SHA512_256 = "SHA-512/256";
+    private final String treeDigest;
+
+    protected SPHINCSKeyParameters(boolean z, String str) {
+        super(z);
+        this.treeDigest = str;
+    }
+
+    public String getTreeDigest() {
+        return this.treeDigest;
+    }
+}

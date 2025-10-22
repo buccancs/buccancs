@@ -1,0 +1,82 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.RuntimeFractionalPercent;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.RuntimeFractionalPercentOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.RouteMatch;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatcherOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface RouteMatchOrBuilder extends MessageOrBuilder {
+    BoolValue getCaseSensitive();
+
+    BoolValueOrBuilder getCaseSensitiveOrBuilder();
+
+    RouteMatch.GrpcRouteMatchOptions getGrpc();
+
+    RouteMatch.GrpcRouteMatchOptionsOrBuilder getGrpcOrBuilder();
+
+    HeaderMatcher getHeaders(int i);
+
+    int getHeadersCount();
+
+    List<HeaderMatcher> getHeadersList();
+
+    HeaderMatcherOrBuilder getHeadersOrBuilder(int i);
+
+    List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList();
+
+    String getPath();
+
+    ByteString getPathBytes();
+
+    RouteMatch.PathSpecifierCase getPathSpecifierCase();
+
+    String getPrefix();
+
+    ByteString getPrefixBytes();
+
+    QueryParameterMatcher getQueryParameters(int i);
+
+    int getQueryParametersCount();
+
+    List<QueryParameterMatcher> getQueryParametersList();
+
+    QueryParameterMatcherOrBuilder getQueryParametersOrBuilder(int i);
+
+    List<? extends QueryParameterMatcherOrBuilder> getQueryParametersOrBuilderList();
+
+    @Deprecated
+    String getRegex();
+
+    @Deprecated
+    ByteString getRegexBytes();
+
+    RuntimeFractionalPercent getRuntimeFraction();
+
+    RuntimeFractionalPercentOrBuilder getRuntimeFractionOrBuilder();
+
+    RegexMatcher getSafeRegex();
+
+    RegexMatcherOrBuilder getSafeRegexOrBuilder();
+
+    RouteMatch.TlsContextMatchOptions getTlsContext();
+
+    RouteMatch.TlsContextMatchOptionsOrBuilder getTlsContextOrBuilder();
+
+    boolean hasCaseSensitive();
+
+    boolean hasGrpc();
+
+    boolean hasRuntimeFraction();
+
+    boolean hasSafeRegex();
+
+    boolean hasTlsContext();
+}

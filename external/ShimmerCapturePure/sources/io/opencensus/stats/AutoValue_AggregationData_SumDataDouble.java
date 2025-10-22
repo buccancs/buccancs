@@ -1,0 +1,33 @@
+package io.opencensus.stats;
+
+import io.opencensus.stats.AggregationData;
+import org.apache.commons.math3.geometry.VectorFormat;
+
+/* loaded from: classes4.dex */
+final class AutoValue_AggregationData_SumDataDouble extends AggregationData.SumDataDouble {
+    private final double sum;
+
+    AutoValue_AggregationData_SumDataDouble(double d) {
+        this.sum = d;
+    }
+
+    @Override // io.opencensus.stats.AggregationData.SumDataDouble
+    public double getSum() {
+        return this.sum;
+    }
+
+    public String toString() {
+        return "SumDataDouble{sum=" + this.sum + VectorFormat.DEFAULT_SUFFIX;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        return (obj instanceof AggregationData.SumDataDouble) && Double.doubleToLongBits(this.sum) == Double.doubleToLongBits(((AggregationData.SumDataDouble) obj).getSum());
+    }
+
+    public int hashCode() {
+        return (int) (1000003 ^ ((Double.doubleToLongBits(this.sum) >>> 32) ^ Double.doubleToLongBits(this.sum)));
+    }
+}

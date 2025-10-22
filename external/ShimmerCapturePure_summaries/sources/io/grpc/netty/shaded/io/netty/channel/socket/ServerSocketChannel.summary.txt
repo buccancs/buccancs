@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/socket/ServerSocketChannel.java
+// Size: 570 bytes
+// Modified: 2025-10-21 16:32:04.434688500 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.socket;
+
+import io.grpc.netty.shaded.io.netty.channel.ServerChannel;
+import java.net.InetSocketAddress;
+
+/* loaded from: classes3.dex */
+public interface ServerSocketChannel extends ServerChannel {
+    @Override // io.grpc.netty.shaded.io.netty.channel.Channel
+    ServerSocketChannelConfig config();
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.Channel
+    InetSocketAddress localAddress();
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.Channel
+    InetSocketAddress remoteAddress();
+}

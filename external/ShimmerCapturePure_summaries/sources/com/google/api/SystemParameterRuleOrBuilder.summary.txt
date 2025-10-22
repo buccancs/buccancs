@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/SystemParameterRuleOrBuilder.java
+// Size: 582 bytes
+// Modified: 2025-10-21 16:32:03.103063500 +0100
+
+package com.google.api;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public interface SystemParameterRuleOrBuilder extends MessageOrBuilder {
+    SystemParameter getParameters(int i);
+
+    int getParametersCount();
+
+    List<SystemParameter> getParametersList();
+
+    SystemParameterOrBuilder getParametersOrBuilder(int i);
+
+    List<? extends SystemParameterOrBuilder> getParametersOrBuilderList();
+
+    String getSelector();
+
+    ByteString getSelectorBytes();
+}

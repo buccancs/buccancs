@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/ApplicationProtocolSelector.java
+// Size: 399 bytes
+// Modified: 2025-10-21 16:32:00.666846400 +0100
+
+package org.conscrypt;
+
+import java.util.List;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLSocket;
+
+/* loaded from: classes5.dex */
+public abstract class ApplicationProtocolSelector {
+    public abstract String selectApplicationProtocol(SSLEngine sSLEngine, List<String> list);
+
+    public abstract String selectApplicationProtocol(SSLSocket sSLSocket, List<String> list);
+}

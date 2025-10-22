@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/async/NonBlockingInputFeeder.java
+// Size: 179 bytes
+// Modified: 2025-10-21 16:32:00.102931200 +0100
+
+package com.fasterxml.jackson.core.async;
+
+/* loaded from: classes.dex */
+public interface NonBlockingInputFeeder {
+    void endOfInput();
+
+    boolean needMoreInput();
+}

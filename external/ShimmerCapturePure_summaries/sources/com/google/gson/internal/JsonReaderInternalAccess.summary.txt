@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/internal/JsonReaderInternalAccess.java
+// Size: 340 bytes
+// Modified: 2025-10-21 16:32:03.516849700 +0100
+
+package com.google.gson.internal;
+
+import com.google.gson.stream.JsonReader;
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public abstract class JsonReaderInternalAccess {
+    public static JsonReaderInternalAccess INSTANCE;
+
+    public abstract void promoteNameToValue(JsonReader jsonReader) throws IOException;
+}

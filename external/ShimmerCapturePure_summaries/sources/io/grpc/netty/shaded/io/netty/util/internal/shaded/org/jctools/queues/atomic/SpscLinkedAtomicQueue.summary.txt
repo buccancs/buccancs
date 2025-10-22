@@ -1,0 +1,139 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/shaded/org/jctools/queues/atomic/SpscLinkedAtomicQueue.java
+// Size: 7194 bytes
+// Modified: 2025-10-21 16:32:06.698716100 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic;
+
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueueUtil;
+
+/* loaded from: classes3.dex */
+public class SpscLinkedAtomicQueue<E> extends BaseLinkedAtomicQueue<E> {
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ int capacity() {
+        return super.capacity();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ int drain(MessagePassingQueue.Consumer consumer) {
+        return super.drain(consumer);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ int drain(MessagePassingQueue.Consumer consumer, int i) {
+        return super.drain(consumer, i);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ void drain(MessagePassingQueue.Consumer consumer, MessagePassingQueue.WaitStrategy waitStrategy, MessagePassingQueue.ExitCondition exitCondition) {
+        super.drain(consumer, waitStrategy, exitCondition);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, java.util.AbstractCollection, java.util.Collection, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ boolean isEmpty() {
+        return super.isEmpty();
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ boolean relaxedOffer(Object obj) {
+        return super.relaxedOffer(obj);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ Object relaxedPeek() {
+        return super.relaxedPeek();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public /* bridge */ /* synthetic */ Object relaxedPoll() {
+        return super.relaxedPoll();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseLinkedAtomicQueue, java.util.AbstractCollection
+    public /* bridge */ /* synthetic */ String toString() {
+        return super.toString();
+    }
+
+    public SpscLinkedAtomicQueue() {
+        LinkedQueueAtomicNode<E> linkedQueueAtomicNodeNewNode = newNode();
+        spProducerNode(linkedQueueAtomicNodeNewNode);
+        spConsumerNode(linkedQueueAtomicNodeNewNode);
+        linkedQueueAtomicNodeNewNode.soNext(null);
+    }
+
+    @Override // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public boolean offer(E e) {
+        if (e == null) {
+            throw null;
+        }
+        LinkedQueueAtomicNode<E> linkedQueueAtomicNodeNewNode = newNode(e);
+        lpProducerNode().soNext(linkedQueueAtomicNodeNewNode);
+        spProducerNode(linkedQueueAtomicNodeNewNode);
+        return true;
+    }
+
+    @Override // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E poll() {
+        return (E) relaxedPoll();
+    }
+
+    @Override // java.util.Queue, io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public E peek() {
+        return (E) relaxedPeek();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int fill(MessagePassingQueue.Supplier<E> supplier) {
+        return MessagePassingQueueUtil.fillUnbounded(this, supplier);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public int fill(MessagePassingQueue.Supplier<E> supplier, int i) {
+        if (supplier == null) {
+            throw new IllegalArgumentException("supplier is null");
+        }
+        if (i < 0) {
+            throw new IllegalArgumentException("limit is negative:" + i);
+        }
+        if (i == 0) {
+            return 0;
+        }
+        LinkedQueueAtomicNode<E> linkedQueueAtomicNodeNewNode = newNode(supplier.get());
+        int i2 = 1;
+        LinkedQueueAtomicNode<E> linkedQueueAtomicNode = linkedQueueAtomicNodeNewNode;
+        while (i2 < i) {
+            LinkedQueueAtomicNode<E> linkedQueueAtomicNodeNewNode2 = newNode(supplier.get());
+            linkedQueueAtomicNode.soNext(linkedQueueAtomicNodeNewNode2);
+            i2++;
+            linkedQueueAtomicNode = linkedQueueAtomicNodeNewNode2;
+        }
+        lpProducerNode().soNext(linkedQueueAtomicNodeNewNode);
+        spProducerNode(linkedQueueAtomicNode);
+        return i;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue
+    public void fill(MessagePassingQueue.Supplier<E> supplier, MessagePassingQueue.WaitStrategy waitStrategy, MessagePassingQueue.ExitCondition exitCondition) {
+        if (waitStrategy == null) {
+            throw new IllegalArgumentException("waiter is null");
+        }
+        if (exitCondition == null) {
+            throw new IllegalArgumentException("exit condition is null");
+        }
+        if (supplier == null) {
+            throw new IllegalArgumentException("supplier is null");
+        }
+        LinkedQueueAtomicNode<E> linkedQueueAtomicNodeLpProducerNode = lpProducerNode();
+        while (exitCondition.keepRunning()) {
+            int i = 0;
+            while (i < 4096) {
+                LinkedQueueAtomicNode<E> linkedQueueAtomicNodeNewNode = newNode(supplier.get());
+                linkedQueueAtomicNodeLpProducerNode.soNext(linkedQueueAtomicNodeNewNode);
+                spProducerNode(linkedQueueAtomicNodeNewNode);
+                i++;
+                linkedQueueAtomicNodeLpProducerNode = linkedQueueAtomicNodeNewNode;
+            }
+        }
+    }
+}

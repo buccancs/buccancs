@@ -1,0 +1,43 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/os/ConfigurationCompat.java
+// Size: 1295 bytes
+// Modified: 2025-10-21 16:32:03.911359600 +0100
+
+package androidx.core.os;
+
+import android.content.res.Configuration;
+import android.os.Build;
+import android.os.LocaleList;
+
+/* loaded from: classes.dex */
+public final class ConfigurationCompat {
+    private ConfigurationCompat() {
+    }
+
+    public static LocaleListCompat getLocales(Configuration configuration) {
+        return Build.VERSION.SDK_INT >= 24 ? LocaleListCompat.wrap(Api24Impl.getLocales(configuration)) : LocaleListCompat.create(configuration.locale);
+    }
+
+    public static void setLocales(Configuration configuration, LocaleListCompat localeListCompat) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Api24Impl.setLocales(configuration, localeListCompat);
+        } else {
+            if (localeListCompat.isEmpty()) {
+                return;
+            }
+            configuration.setLocale(localeListCompat.get(0));
+        }
+    }
+
+    static class Api24Impl {
+        private Api24Impl() {
+        }
+
+        static LocaleList getLocales(Configuration configuration) {
+            return configuration.getLocales();
+        }
+
+        static void setLocales(Configuration configuration, LocaleListCompat localeListCompat) {
+            configuration.setLocales((LocaleList) localeListCompat.unwrap());
+        }
+    }
+}

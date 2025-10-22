@@ -1,0 +1,103 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/extensions/WebSocketServerExtensionHandler.java
+// Size: 7088 bytes
+// Modified: 2025-10-21 16:32:10.405285800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFutureListener;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpHeaderNames;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpHeaders;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpResponse;
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+import io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public class WebSocketServerExtensionHandler extends ChannelDuplexHandler {
+    private final List<WebSocketServerExtensionHandshaker> extensionHandshakers;
+    private List<WebSocketServerExtension> validExtensions;
+
+    public WebSocketServerExtensionHandler(WebSocketServerExtensionHandshaker... webSocketServerExtensionHandshakerArr) {
+        ObjectUtil.checkNotNull(webSocketServerExtensionHandshakerArr, "extensionHandshakers");
+        if (webSocketServerExtensionHandshakerArr.length == 0) {
+            throw new IllegalArgumentException("extensionHandshakers must contains at least one handshaker");
+        }
+        this.extensionHandshakers = Arrays.asList(webSocketServerExtensionHandshakerArr);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+    public void channelRead(ChannelHandlerContext channelHandlerContext, Object obj) throws Exception {
+        String asString;
+        if (obj instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) obj;
+            if (WebSocketExtensionUtil.isWebsocketUpgrade(httpRequest.headers()) && (asString = httpRequest.headers().getAsString(HttpHeaderNames.SEC_WEBSOCKET_EXTENSIONS)) != null) {
+                int iRsv = 0;
+                for (WebSocketExtensionData webSocketExtensionData : WebSocketExtensionUtil.extractExtensions(asString)) {
+                    Iterator<WebSocketServerExtensionHandshaker> it2 = this.extensionHandshakers.iterator();
+                    WebSocketServerExtension webSocketServerExtensionHandshakeExtension = null;
+                    while (webSocketServerExtensionHandshakeExtension == null && it2.hasNext()) {
+                        webSocketServerExtensionHandshakeExtension = it2.next().handshakeExtension(webSocketExtensionData);
+                    }
+                    if (webSocketServerExtensionHandshakeExtension != null && (webSocketServerExtensionHandshakeExtension.rsv() & iRsv) == 0) {
+                        if (this.validExtensions == null) {
+                            this.validExtensions = new ArrayList(1);
+                        }
+                        iRsv |= webSocketServerExtensionHandshakeExtension.rsv();
+                        this.validExtensions.add(webSocketServerExtensionHandshakeExtension);
+                    }
+                }
+            }
+        }
+        super.channelRead(channelHandlerContext, obj);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void write(final ChannelHandlerContext channelHandlerContext, Object obj, ChannelPromise channelPromise) throws Exception {
+        if (obj instanceof HttpResponse) {
+            HttpHeaders httpHeadersHeaders = ((HttpResponse) obj).headers();
+            if (WebSocketExtensionUtil.isWebsocketUpgrade(httpHeadersHeaders)) {
+                if (this.validExtensions != null) {
+                    String asString = httpHeadersHeaders.getAsString(HttpHeaderNames.SEC_WEBSOCKET_EXTENSIONS);
+                    Iterator<WebSocketServerExtension> it2 = this.validExtensions.iterator();
+                    while (it2.hasNext()) {
+                        WebSocketExtensionData webSocketExtensionDataNewReponseData = it2.next().newReponseData();
+                        asString = WebSocketExtensionUtil.appendExtension(asString, webSocketExtensionDataNewReponseData.name(), webSocketExtensionDataNewReponseData.parameters());
+                    }
+                    channelPromise.addListener((GenericFutureListener<? extends Future<? super Void>>) new ChannelFutureListener() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions.WebSocketServerExtensionHandler.1
+                        @Override // io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener
+                        public void operationComplete(ChannelFuture channelFuture) {
+                            if (channelFuture.isSuccess()) {
+                                for (WebSocketServerExtension webSocketServerExtension : WebSocketServerExtensionHandler.this.validExtensions) {
+                                    WebSocketExtensionDecoder webSocketExtensionDecoderNewExtensionDecoder = webSocketServerExtension.newExtensionDecoder();
+                                    WebSocketExtensionEncoder webSocketExtensionEncoderNewExtensionEncoder = webSocketServerExtension.newExtensionEncoder();
+                                    channelHandlerContext.pipeline().addAfter(channelHandlerContext.name(), webSocketExtensionDecoderNewExtensionDecoder.getClass().getName(), webSocketExtensionDecoderNewExtensionDecoder).addAfter(channelHandlerContext.name(), webSocketExtensionEncoderNewExtensionEncoder.getClass().getName(), webSocketExtensionEncoderNewExtensionEncoder);
+                                }
+                            }
+                        }
+                    });
+                    if (asString != null) {
+                        httpHeadersHeaders.set(HttpHeaderNames.SEC_WEBSOCKET_EXTENSIONS, asString);
+                    }
+                }
+                channelPromise.addListener((GenericFutureListener<? extends Future<? super Void>>) new ChannelFutureListener() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions.WebSocketServerExtensionHandler.2
+                    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener
+                    public void operationComplete(ChannelFuture channelFuture) {
+                        if (channelFuture.isSuccess()) {
+                            channelHandlerContext.pipeline().remove(WebSocketServerExtensionHandler.this);
+                        }
+                    }
+                });
+            }
+        }
+        super.write(channelHandlerContext, obj, channelPromise);
+    }
+}

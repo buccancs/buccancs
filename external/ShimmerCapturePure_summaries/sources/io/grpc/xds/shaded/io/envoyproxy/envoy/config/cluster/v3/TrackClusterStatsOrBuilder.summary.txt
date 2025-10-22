@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/cluster/v3/TrackClusterStatsOrBuilder.java
+// Size: 301 bytes
+// Modified: 2025-10-21 16:32:00.315660500 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface TrackClusterStatsOrBuilder extends MessageOrBuilder {
+    boolean getRequestResponseSizes();
+
+    boolean getTimeoutBudgets();
+}

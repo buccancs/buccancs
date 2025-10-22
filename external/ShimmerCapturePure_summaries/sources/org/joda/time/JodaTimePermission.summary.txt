@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/JodaTimePermission.java
+// Size: 309 bytes
+// Modified: 2025-10-21 16:32:00.702654300 +0100
+
+package org.joda.time;
+
+import java.security.BasicPermission;
+
+/* loaded from: classes2.dex */
+public class JodaTimePermission extends BasicPermission {
+    private static final long serialVersionUID = 1408944367355875472L;
+
+    public JodaTimePermission(String str) {
+        super(str);
+    }
+}

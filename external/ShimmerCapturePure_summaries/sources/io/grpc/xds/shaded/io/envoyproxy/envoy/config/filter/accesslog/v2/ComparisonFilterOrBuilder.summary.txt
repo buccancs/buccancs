@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/accesslog/v2/ComparisonFilterOrBuilder.java
+// Size: 652 bytes
+// Modified: 2025-10-21 16:32:04.697590900 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.RuntimeUInt32;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.RuntimeUInt32OrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2.ComparisonFilter;
+
+/* loaded from: classes6.dex */
+public interface ComparisonFilterOrBuilder extends MessageOrBuilder {
+    ComparisonFilter.Op getOp();
+
+    int getOpValue();
+
+    RuntimeUInt32 getValue();
+
+    RuntimeUInt32OrBuilder getValueOrBuilder();
+
+    boolean hasValue();
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/openssl/PEMEncryptor.java
+// Size: 213 bytes
+// Modified: 2025-10-21 16:32:00.668361900 +0100
+
+package org.bouncycastle.openssl;
+
+/* loaded from: classes5.dex */
+public interface PEMEncryptor {
+    byte[] encrypt(byte[] bArr) throws PEMException;
+
+    String getAlgorithm();
+
+    byte[] getIV();
+}

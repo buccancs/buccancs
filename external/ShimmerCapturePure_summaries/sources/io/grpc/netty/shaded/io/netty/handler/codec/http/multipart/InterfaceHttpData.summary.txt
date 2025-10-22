@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/multipart/InterfaceHttpData.java
+// Size: 590 bytes
+// Modified: 2025-10-21 16:32:00.850719800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.multipart;
+
+import io.grpc.netty.shaded.io.netty.util.ReferenceCounted;
+
+/* loaded from: classes3.dex */
+public interface InterfaceHttpData extends Comparable<InterfaceHttpData>, ReferenceCounted {
+
+    public enum HttpDataType {
+        Attribute,
+        FileUpload,
+        InternalAttribute
+    }
+
+    HttpDataType getHttpDataType();
+
+    String getName();
+
+    InterfaceHttpData retain();
+
+    InterfaceHttpData retain(int i);
+
+    InterfaceHttpData touch();
+
+    InterfaceHttpData touch(Object obj);
+}

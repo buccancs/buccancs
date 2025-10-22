@@ -1,0 +1,52 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.Int64Range;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.Int64RangeOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.RegexMatcherOrBuilder;
+
+/* loaded from: classes5.dex */
+public interface HeaderMatcherOrBuilder extends MessageOrBuilder {
+    String getExactMatch();
+
+    ByteString getExactMatchBytes();
+
+    HeaderMatcher.HeaderMatchSpecifierCase getHeaderMatchSpecifierCase();
+
+    boolean getInvertMatch();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    String getPrefixMatch();
+
+    ByteString getPrefixMatchBytes();
+
+    boolean getPresentMatch();
+
+    Int64Range getRangeMatch();
+
+    Int64RangeOrBuilder getRangeMatchOrBuilder();
+
+    @Deprecated
+    String getRegexMatch();
+
+    @Deprecated
+    ByteString getRegexMatchBytes();
+
+    RegexMatcher getSafeRegexMatch();
+
+    RegexMatcherOrBuilder getSafeRegexMatchOrBuilder();
+
+    String getSuffixMatch();
+
+    ByteString getSuffixMatchBytes();
+
+    boolean hasRangeMatch();
+
+    boolean hasSafeRegexMatch();
+}

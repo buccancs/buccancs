@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/SocksMessageType.java
+// Size: 172 bytes
+// Modified: 2025-10-21 16:32:00.260113000 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+/* loaded from: classes3.dex */
+public enum SocksMessageType {
+    REQUEST,
+    RESPONSE,
+    UNKNOWN
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/rbac/engine/cel/Metadata.java
+// Size: 173 bytes
+// Modified: 2025-10-21 16:32:00.329730500 +0100
+
+package io.grpc.xds.internal.rbac.engine.cel;
+
+/* loaded from: classes3.dex */
+public interface Metadata {
+    String getLocation();
+
+    int getPosition(long j);
+}

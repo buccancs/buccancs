@@ -1,0 +1,93 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/MessageToByteEncoder.java
+// Size: 3720 bytes
+// Modified: 2025-10-21 16:32:08.008801600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCounted;
+import io.grpc.netty.shaded.io.netty.util.internal.TypeParameterMatcher;
+
+/* loaded from: classes3.dex */
+public abstract class MessageToByteEncoder<I> extends ChannelOutboundHandlerAdapter {
+    private final TypeParameterMatcher matcher;
+    private final boolean preferDirect;
+
+    protected abstract void encode(ChannelHandlerContext channelHandlerContext, I i, ByteBuf byteBuf) throws Exception;
+
+    protected boolean isPreferDirect() {
+        return this.preferDirect;
+    }
+
+    protected MessageToByteEncoder() {
+        this(true);
+    }
+
+    protected MessageToByteEncoder(Class<? extends I> cls) {
+        this(cls, true);
+    }
+
+    protected MessageToByteEncoder(boolean z) {
+        this.matcher = TypeParameterMatcher.find(this, MessageToByteEncoder.class, "I");
+        this.preferDirect = z;
+    }
+
+    protected MessageToByteEncoder(Class<? extends I> cls, boolean z) {
+        this.matcher = TypeParameterMatcher.get(cls);
+        this.preferDirect = z;
+    }
+
+    public boolean acceptOutboundMessage(Object obj) throws Exception {
+        return this.matcher.match(obj);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void write(ChannelHandlerContext channelHandlerContext, Object obj, ChannelPromise channelPromise) throws Exception {
+        ReferenceCounted referenceCounted = null;
+        try {
+            try {
+                if (acceptOutboundMessage(obj)) {
+                    ByteBuf byteBufAllocateBuffer = allocateBuffer(channelHandlerContext, obj, this.preferDirect);
+                    try {
+                        encode(channelHandlerContext, obj, byteBufAllocateBuffer);
+                        ReferenceCountUtil.release(obj);
+                        if (byteBufAllocateBuffer.isReadable()) {
+                            channelHandlerContext.write(byteBufAllocateBuffer, channelPromise);
+                            return;
+                        } else {
+                            byteBufAllocateBuffer.release();
+                            channelHandlerContext.write(Unpooled.EMPTY_BUFFER, channelPromise);
+                            return;
+                        }
+                    } catch (Throwable th) {
+                        ReferenceCountUtil.release(obj);
+                        throw th;
+                    }
+                }
+                channelHandlerContext.write(obj, channelPromise);
+            } catch (Throwable th2) {
+                if (0 != 0) {
+                    referenceCounted.release();
+                }
+                throw th2;
+            }
+        } catch (EncoderException e) {
+            throw e;
+        } catch (Throwable th3) {
+            throw new EncoderException(th3);
+        }
+    }
+
+    protected ByteBuf allocateBuffer(ChannelHandlerContext channelHandlerContext, I i, boolean z) throws Exception {
+        if (z) {
+            return channelHandlerContext.alloc().ioBuffer();
+        }
+        return channelHandlerContext.alloc().heapBuffer();
+    }
+}

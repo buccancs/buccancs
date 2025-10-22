@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/BufferUnderflowException.java
+// Size: 648 bytes
+// Modified: 2025-10-21 16:32:00.464637800 +0100
+
+package org.apache.commons.collections;
+
+import java.util.NoSuchElementException;
+
+/* loaded from: classes5.dex */
+public class BufferUnderflowException extends NoSuchElementException {
+    private final Throwable throwable;
+
+    @Override // java.lang.Throwable
+    public final Throwable getCause() {
+        return this.throwable;
+    }
+
+    public BufferUnderflowException() {
+        this.throwable = null;
+    }
+
+    public BufferUnderflowException(String str) {
+        this(str, null);
+    }
+
+    public BufferUnderflowException(String str, Throwable th) {
+        super(str);
+        this.throwable = th;
+    }
+}

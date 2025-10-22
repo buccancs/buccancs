@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/unix/LimitsStaticallyReferencedJniMethods.java
+// Size: 398 bytes
+// Modified: 2025-10-21 16:32:00.188074000 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.unix;
+
+/* loaded from: classes3.dex */
+final class LimitsStaticallyReferencedJniMethods {
+    static native int iovMax();
+
+    static native int sizeOfjlong();
+
+    static native long ssizeMax();
+
+    static native int udsSunPathSize();
+
+    static native int uioMaxIov();
+
+    private LimitsStaticallyReferencedJniMethods() {
+    }
+}

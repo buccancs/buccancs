@@ -1,0 +1,545 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/cloud/audit/RequestMetadata.java
+// Size: 25276 bytes
+// Modified: 2025-10-21 16:32:03.118618200 +0100
+
+package com.google.cloud.audit;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public final class RequestMetadata extends GeneratedMessageV3 implements RequestMetadataOrBuilder {
+    public static final int CALLER_IP_FIELD_NUMBER = 1;
+    public static final int CALLER_SUPPLIED_USER_AGENT_FIELD_NUMBER = 2;
+    private static final RequestMetadata DEFAULT_INSTANCE = new RequestMetadata();
+    private static final Parser<RequestMetadata> PARSER = new AbstractParser<RequestMetadata>() { // from class: com.google.cloud.audit.RequestMetadata.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public RequestMetadata m2891parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new RequestMetadata(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private volatile Object callerIp_;
+    private volatile Object callerSuppliedUserAgent_;
+    private byte memoizedIsInitialized;
+
+    public static RequestMetadata getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<RequestMetadata> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public RequestMetadata m2885getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<RequestMetadata> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private RequestMetadata(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private RequestMetadata() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.callerIp_ = "";
+        this.callerSuppliedUserAgent_ = "";
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private RequestMetadata(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.callerIp_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                this.callerSuppliedUserAgent_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return AuditLogProto.internal_static_google_cloud_audit_RequestMetadata_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return AuditLogProto.internal_static_google_cloud_audit_RequestMetadata_fieldAccessorTable.ensureFieldAccessorsInitialized(RequestMetadata.class, Builder.class);
+    }
+
+    @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+    public String getCallerIp() {
+        Object obj = this.callerIp_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.callerIp_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+    public ByteString getCallerIpBytes() {
+        Object obj = this.callerIp_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.callerIp_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+    public String getCallerSuppliedUserAgent() {
+        Object obj = this.callerSuppliedUserAgent_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.callerSuppliedUserAgent_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+    public ByteString getCallerSuppliedUserAgentBytes() {
+        Object obj = this.callerSuppliedUserAgent_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.callerSuppliedUserAgent_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getCallerIpBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.callerIp_);
+        }
+        if (!getCallerSuppliedUserAgentBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.callerSuppliedUserAgent_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getCallerIpBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.callerIp_) : 0;
+        if (!getCallerSuppliedUserAgentBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.callerSuppliedUserAgent_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof RequestMetadata)) {
+            return super.equals(obj);
+        }
+        RequestMetadata requestMetadata = (RequestMetadata) obj;
+        return getCallerIp().equals(requestMetadata.getCallerIp()) && getCallerSuppliedUserAgent().equals(requestMetadata.getCallerSuppliedUserAgent()) && this.unknownFields.equals(requestMetadata.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getCallerIp().hashCode()) * 37) + 2) * 53) + getCallerSuppliedUserAgent().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    public static RequestMetadata parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (RequestMetadata) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static RequestMetadata parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RequestMetadata) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static RequestMetadata parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (RequestMetadata) PARSER.parseFrom(byteString);
+    }
+
+    public static RequestMetadata parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RequestMetadata) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static RequestMetadata parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (RequestMetadata) PARSER.parseFrom(bArr);
+    }
+
+    public static RequestMetadata parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RequestMetadata) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static RequestMetadata parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static RequestMetadata parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RequestMetadata parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static RequestMetadata parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RequestMetadata parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static RequestMetadata parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m2888newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m2890toBuilder();
+    }
+
+    public static Builder newBuilder(RequestMetadata requestMetadata) {
+        return DEFAULT_INSTANCE.m2890toBuilder().mergeFrom(requestMetadata);
+    }
+
+    /* renamed from: toBuilder, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m2890toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] */
+    public Builder m2887newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RequestMetadataOrBuilder {
+        private Object callerIp_;
+        private Object callerSuppliedUserAgent_;
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return AuditLogProto.internal_static_google_cloud_audit_RequestMetadata_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return AuditLogProto.internal_static_google_cloud_audit_RequestMetadata_fieldAccessorTable.ensureFieldAccessorsInitialized(RequestMetadata.class, Builder.class);
+        }
+
+        private Builder() {
+            this.callerIp_ = "";
+            this.callerSuppliedUserAgent_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.callerIp_ = "";
+            this.callerSuppliedUserAgent_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = RequestMetadata.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2901clear() {
+            super.clear();
+            this.callerIp_ = "";
+            this.callerSuppliedUserAgent_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return AuditLogProto.internal_static_google_cloud_audit_RequestMetadata_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RequestMetadata m2914getDefaultInstanceForType() {
+            return RequestMetadata.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RequestMetadata m2895build() throws UninitializedMessageException {
+            RequestMetadata requestMetadataM2897buildPartial = m2897buildPartial();
+            if (requestMetadataM2897buildPartial.isInitialized()) {
+                return requestMetadataM2897buildPartial;
+            }
+            throw newUninitializedMessageException(requestMetadataM2897buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RequestMetadata m2897buildPartial() {
+            RequestMetadata requestMetadata = new RequestMetadata(this);
+            requestMetadata.callerIp_ = this.callerIp_;
+            requestMetadata.callerSuppliedUserAgent_ = this.callerSuppliedUserAgent_;
+            onBuilt();
+            return requestMetadata;
+        }
+
+        /* renamed from: clone, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2912clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2925setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2903clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2906clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2927setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2893addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2919mergeFrom(Message message) {
+            if (message instanceof RequestMetadata) {
+                return mergeFrom((RequestMetadata) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(RequestMetadata requestMetadata) {
+            if (requestMetadata == RequestMetadata.getDefaultInstance()) {
+                return this;
+            }
+            if (!requestMetadata.getCallerIp().isEmpty()) {
+                this.callerIp_ = requestMetadata.callerIp_;
+                onChanged();
+            }
+            if (!requestMetadata.getCallerSuppliedUserAgent().isEmpty()) {
+                this.callerSuppliedUserAgent_ = requestMetadata.callerSuppliedUserAgent_;
+                onChanged();
+            }
+            m2923mergeUnknownFields(requestMetadata.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public com.google.cloud.audit.RequestMetadata.Builder m2920mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = com.google.cloud.audit.RequestMetadata.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                com.google.cloud.audit.RequestMetadata r3 = (com.google.cloud.audit.RequestMetadata) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                com.google.cloud.audit.RequestMetadata r4 = (com.google.cloud.audit.RequestMetadata) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: com.google.cloud.audit.RequestMetadata.Builder.m2920mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.google.cloud.audit.RequestMetadata$Builder");
+        }
+
+        @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+        public String getCallerIp() {
+            Object obj = this.callerIp_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.callerIp_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+        public ByteString getCallerIpBytes() {
+            Object obj = this.callerIp_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.callerIp_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setCallerIp(String str) {
+            str.getClass();
+            this.callerIp_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearCallerIp() {
+            this.callerIp_ = RequestMetadata.getDefaultInstance().getCallerIp();
+            onChanged();
+            return this;
+        }
+
+        public Builder setCallerIpBytes(ByteString byteString) {
+            byteString.getClass();
+            RequestMetadata.checkByteStringIsUtf8(byteString);
+            this.callerIp_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+        public String getCallerSuppliedUserAgent() {
+            Object obj = this.callerSuppliedUserAgent_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.callerSuppliedUserAgent_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // com.google.cloud.audit.RequestMetadataOrBuilder
+        public ByteString getCallerSuppliedUserAgentBytes() {
+            Object obj = this.callerSuppliedUserAgent_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.callerSuppliedUserAgent_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setCallerSuppliedUserAgent(String str) {
+            str.getClass();
+            this.callerSuppliedUserAgent_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearCallerSuppliedUserAgent() {
+            this.callerSuppliedUserAgent_ = RequestMetadata.getDefaultInstance().getCallerSuppliedUserAgent();
+            onChanged();
+            return this;
+        }
+
+        public Builder setCallerSuppliedUserAgentBytes(ByteString byteString) {
+            byteString.getClass();
+            RequestMetadata.checkByteStringIsUtf8(byteString);
+            this.callerSuppliedUserAgent_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m2929setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m2923mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

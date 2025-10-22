@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/HttpExpectationFailedEvent.java
+// Size: 296 bytes
+// Modified: 2025-10-21 16:32:00.218043700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http;
+
+/* loaded from: classes3.dex */
+public final class HttpExpectationFailedEvent {
+    public static final HttpExpectationFailedEvent INSTANCE = new HttpExpectationFailedEvent();
+
+    private HttpExpectationFailedEvent() {
+    }
+}

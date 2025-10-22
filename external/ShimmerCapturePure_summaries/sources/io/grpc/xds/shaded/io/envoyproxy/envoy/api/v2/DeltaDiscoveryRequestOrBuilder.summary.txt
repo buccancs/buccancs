@@ -1,0 +1,68 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/DeltaDiscoveryRequestOrBuilder.java
+// Size: 1777 bytes
+// Modified: 2025-10-21 16:32:07.891569200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.rpc.Status;
+import com.google.rpc.StatusOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.NodeOrBuilder;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public interface DeltaDiscoveryRequestOrBuilder extends MessageOrBuilder {
+    boolean containsInitialResourceVersions(String str);
+
+    Status getErrorDetail();
+
+    StatusOrBuilder getErrorDetailOrBuilder();
+
+    @Deprecated
+    Map<String, String> getInitialResourceVersions();
+
+    int getInitialResourceVersionsCount();
+
+    Map<String, String> getInitialResourceVersionsMap();
+
+    String getInitialResourceVersionsOrDefault(String str, String str2);
+
+    String getInitialResourceVersionsOrThrow(String str);
+
+    Node getNode();
+
+    NodeOrBuilder getNodeOrBuilder();
+
+    String getResourceNamesSubscribe(int i);
+
+    ByteString getResourceNamesSubscribeBytes(int i);
+
+    int getResourceNamesSubscribeCount();
+
+    /* renamed from: getResourceNamesSubscribeList */
+    List<String> mo12443getResourceNamesSubscribeList();
+
+    String getResourceNamesUnsubscribe(int i);
+
+    ByteString getResourceNamesUnsubscribeBytes(int i);
+
+    int getResourceNamesUnsubscribeCount();
+
+    /* renamed from: getResourceNamesUnsubscribeList */
+    List<String> mo12444getResourceNamesUnsubscribeList();
+
+    String getResponseNonce();
+
+    ByteString getResponseNonceBytes();
+
+    String getTypeUrl();
+
+    ByteString getTypeUrlBytes();
+
+    boolean hasErrorDetail();
+
+    boolean hasNode();
+}

@@ -1,0 +1,10 @@
+package com.google.type;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface LatLngOrBuilder extends MessageOrBuilder {
+    double getLatitude();
+
+    double getLongitude();
+}

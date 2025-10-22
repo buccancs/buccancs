@@ -1,0 +1,115 @@
+package com.shimmerresearch.bluetoothmanager.guiUtilities;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.AssembleShimmerConfig;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.managers.bluetoothManager.ShimmerBluetoothManager;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractSensorConfigDialog {
+    protected ShimmerBluetoothManager bluetoothManager;
+    protected ShimmerDevice cloneDevice;
+    protected Map<String, ConfigOptionDetailsSensor> configOptionsMap;
+    protected List<String> listOfKeys;
+    protected Map<Integer, SensorDetails> sensorMap;
+    protected ShimmerDevice shimmerDevice;
+    protected int dialogHeight = 0;
+    protected boolean mEnableFilter = false;
+    protected List<String> keysToFilter = null;
+    protected boolean mDisplayButDisableEnableFilter = false;
+    protected List<String> keysToDisplayButDisableFilter = null;
+
+    public AbstractSensorConfigDialog(ShimmerDevice shimmerDevice, ShimmerBluetoothManager shimmerBluetoothManager) {
+        this.shimmerDevice = shimmerDevice;
+        this.bluetoothManager = shimmerBluetoothManager;
+    }
+
+    public static void main(String[] strArr) {
+    }
+
+    public abstract void createComboBox(int i, String str, ConfigOptionDetailsSensor configOptionDetailsSensor, Object[] objArr, boolean z);
+
+    public abstract void createEditText(String str, boolean z);
+
+    public abstract void createFrame();
+
+    public abstract void createLabel(String str);
+
+    public void setSensorDisplayButDisableKeysFilter(List<String> list, boolean z) {
+        this.mDisplayButDisableEnableFilter = z;
+        this.keysToDisplayButDisableFilter = list;
+    }
+
+    public void setSensorKeysFilter(List<String> list, boolean z) {
+        this.mEnableFilter = z;
+        this.keysToFilter = list;
+    }
+
+    public abstract void showFrame();
+
+    public void initialize() {
+        List<String> list;
+        ShimmerDevice shimmerDeviceDeepClone = this.shimmerDevice.deepClone();
+        this.cloneDevice = shimmerDeviceDeepClone;
+        this.sensorMap = shimmerDeviceDeepClone.getSensorMap();
+        this.configOptionsMap = this.cloneDevice.getConfigOptionsMap();
+        this.listOfKeys = new ArrayList();
+        for (SensorDetails sensorDetails : this.sensorMap.values()) {
+            if (sensorDetails.mSensorDetailsRef.mListOfConfigOptionKeysAssociated != null && sensorDetails.isEnabled()) {
+                this.listOfKeys.addAll(sensorDetails.mSensorDetailsRef.mListOfConfigOptionKeysAssociated);
+            }
+        }
+        this.dialogHeight = 0;
+        ArrayList arrayList = new ArrayList();
+        for (String str : this.listOfKeys) {
+            if (this.configOptionsMap.get(str) == null) {
+                arrayList.add(str);
+            }
+        }
+        if (this.mEnableFilter && (list = this.keysToFilter) != null) {
+            arrayList.addAll(list);
+        }
+        Iterator it2 = arrayList.iterator();
+        while (it2.hasNext()) {
+            this.listOfKeys.remove((String) it2.next());
+        }
+        for (String str2 : this.listOfKeys) {
+            ConfigOptionDetailsSensor configOptionDetailsSensor = this.configOptionsMap.get(str2);
+            if (configOptionDetailsSensor != null) {
+                String[] guiValues = configOptionDetailsSensor.getGuiValues();
+                createLabel(str2);
+                if (guiValues != null) {
+                    int length = guiValues.length;
+                    Object[] objArr = new Object[length];
+                    if (configOptionDetailsSensor.mGuiComponentType == ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX) {
+                        if (this.keysToDisplayButDisableFilter.contains(str2)) {
+                            createComboBox(length, str2, configOptionDetailsSensor, objArr, false);
+                        } else {
+                            createComboBox(length, str2, configOptionDetailsSensor, objArr, true);
+                        }
+                    }
+                }
+                if (configOptionDetailsSensor.mGuiComponentType == ConfigOptionDetails.GUI_COMPONENT_TYPE.TEXTFIELD) {
+                    if (this.keysToDisplayButDisableFilter.contains(str2)) {
+                        createEditText(str2, false);
+                    } else {
+                        createEditText(str2, true);
+                    }
+                }
+            }
+        }
+    }
+
+    protected void writeConfiguration() throws InterruptedException {
+        AssembleShimmerConfig.generateSingleShimmerConfig(this.cloneDevice, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+        this.bluetoothManager.configureShimmer(this.cloneDevice);
+    }
+}

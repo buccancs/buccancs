@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/MetricRuleOrBuilder.java
+// Size: 595 bytes
+// Modified: 2025-10-21 16:32:00.090909900 +0100
+
+package com.google.api;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.Map;
+
+/* loaded from: classes.dex */
+public interface MetricRuleOrBuilder extends MessageOrBuilder {
+    boolean containsMetricCosts(String str);
+
+    @Deprecated
+    Map<String, Long> getMetricCosts();
+
+    int getMetricCostsCount();
+
+    Map<String, Long> getMetricCostsMap();
+
+    long getMetricCostsOrDefault(String str, long j);
+
+    long getMetricCostsOrThrow(String str);
+
+    String getSelector();
+
+    ByteString getSelectorBytes();
+}

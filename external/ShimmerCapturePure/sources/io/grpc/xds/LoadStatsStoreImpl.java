@@ -1,0 +1,106 @@
+package io.grpc.xds;
+
+import androidx.core.app.NotificationCompat;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.xds.ClientLoadCounter;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.LoadStatsManager;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class LoadStatsStoreImpl implements LoadStatsManager.LoadStatsStore {
+    private final String clusterName;
+
+    @Nullable
+    private final String clusterServiceName;
+    private final ConcurrentMap<String, AtomicLong> dropCounters;
+    private final ConcurrentMap<EnvoyProtoData.Locality, ReferenceCounted<ClientLoadCounter>> localityLoadCounters;
+    private final Stopwatch stopwatch;
+
+    LoadStatsStoreImpl(String str, @Nullable String str2) {
+        this(str, str2, GrpcUtil.STOPWATCH_SUPPLIER.get(), new ConcurrentHashMap());
+    }
+
+    LoadStatsStoreImpl(String str, @Nullable String str2, Stopwatch stopwatch, ConcurrentMap<String, AtomicLong> concurrentMap) {
+        this.localityLoadCounters = new ConcurrentHashMap();
+        this.clusterName = (String) Preconditions.checkNotNull(str, "clusterName");
+        this.clusterServiceName = str2;
+        this.stopwatch = (Stopwatch) Preconditions.checkNotNull(stopwatch, NotificationCompat.CATEGORY_STOPWATCH);
+        this.dropCounters = (ConcurrentMap) Preconditions.checkNotNull(concurrentMap, "dropCounters");
+        stopwatch.reset().start();
+    }
+
+    static LoadStatsManager.LoadStatsStoreFactory getDefaultFactory() {
+        return new LoadStatsManager.LoadStatsStoreFactory() { // from class: io.grpc.xds.LoadStatsStoreImpl.1
+            @Override // io.grpc.xds.LoadStatsManager.LoadStatsStoreFactory
+            public LoadStatsManager.LoadStatsStore newLoadStatsStore(String str, String str2) {
+                return new LoadStatsStoreImpl(str, str2);
+            }
+        };
+    }
+
+    @Override // io.grpc.xds.LoadStatsManager.LoadStatsStore
+    public EnvoyProtoData.ClusterStats generateLoadReport() {
+        EnvoyProtoData.ClusterStats.Builder builderNewBuilder = EnvoyProtoData.ClusterStats.newBuilder();
+        builderNewBuilder.setClusterName(this.clusterName);
+        String str = this.clusterServiceName;
+        if (str != null) {
+            builderNewBuilder.setClusterServiceName(str);
+        }
+        for (Map.Entry<EnvoyProtoData.Locality, ReferenceCounted<ClientLoadCounter>> entry : this.localityLoadCounters.entrySet()) {
+            ClientLoadCounter.ClientLoadSnapshot clientLoadSnapshotSnapshot = entry.getValue().get().snapshot();
+            EnvoyProtoData.UpstreamLocalityStats.Builder locality = EnvoyProtoData.UpstreamLocalityStats.newBuilder().setLocality(entry.getKey());
+            locality.setTotalSuccessfulRequests(clientLoadSnapshotSnapshot.getCallsSucceeded()).setTotalErrorRequests(clientLoadSnapshotSnapshot.getCallsFailed()).setTotalRequestsInProgress(clientLoadSnapshotSnapshot.getCallsInProgress()).setTotalIssuedRequests(clientLoadSnapshotSnapshot.getCallsIssued());
+            for (Map.Entry<String, ClientLoadCounter.MetricValue> entry2 : clientLoadSnapshotSnapshot.getMetricValues().entrySet()) {
+                locality.addLoadMetricStats(EnvoyProtoData.EndpointLoadMetricStats.newBuilder().setMetricName(entry2.getKey()).setNumRequestsFinishedWithMetric(entry2.getValue().getNumReports()).setTotalMetricValue(entry2.getValue().getTotalValue()).build());
+            }
+            builderNewBuilder.addUpstreamLocalityStats(locality.build());
+            if (entry.getValue().getReferenceCount() == 0 && clientLoadSnapshotSnapshot.getCallsInProgress() == 0) {
+                this.localityLoadCounters.remove(entry.getKey());
+            }
+        }
+        long j = 0;
+        for (Map.Entry<String, AtomicLong> entry3 : this.dropCounters.entrySet()) {
+            long andSet = entry3.getValue().getAndSet(0L);
+            j += andSet;
+            builderNewBuilder.addDroppedRequests(new EnvoyProtoData.ClusterStats.DroppedRequests(entry3.getKey(), andSet));
+        }
+        builderNewBuilder.setTotalDroppedRequests(j);
+        builderNewBuilder.setLoadReportIntervalNanos(this.stopwatch.elapsed(TimeUnit.NANOSECONDS));
+        this.stopwatch.reset().start();
+        return builderNewBuilder.build();
+    }
+
+    @Override // io.grpc.xds.LoadStatsManager.LoadStatsStore
+    public ClientLoadCounter addLocality(EnvoyProtoData.Locality locality) {
+        ReferenceCounted<ClientLoadCounter> referenceCountedWrap = this.localityLoadCounters.get(locality);
+        if (referenceCountedWrap == null) {
+            referenceCountedWrap = ReferenceCounted.wrap(new ClientLoadCounter());
+            this.localityLoadCounters.put(locality, referenceCountedWrap);
+        }
+        referenceCountedWrap.retain();
+        return referenceCountedWrap.get();
+    }
+
+    @Override // io.grpc.xds.LoadStatsManager.LoadStatsStore
+    public void removeLocality(EnvoyProtoData.Locality locality) {
+        this.localityLoadCounters.get(locality).release();
+    }
+
+    @Override // io.grpc.xds.LoadStatsManager.LoadStatsStore
+    public void recordDroppedRequest(String str) {
+        AtomicLong atomicLongPutIfAbsent = this.dropCounters.get(str);
+        if (atomicLongPutIfAbsent == null && (atomicLongPutIfAbsent = this.dropCounters.putIfAbsent(str, new AtomicLong())) == null) {
+            atomicLongPutIfAbsent = this.dropCounters.get(str);
+        }
+        atomicLongPutIfAbsent.getAndIncrement();
+    }
+}

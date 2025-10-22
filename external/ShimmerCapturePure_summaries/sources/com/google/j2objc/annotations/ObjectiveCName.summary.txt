@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/j2objc/annotations/ObjectiveCName.java
+// Size: 431 bytes
+// Modified: 2025-10-21 16:32:00.230727700 +0100
+
+package com.google.j2objc.annotations;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.PACKAGE})
+@Retention(RetentionPolicy.CLASS)
+/* loaded from: classes.dex */
+public @interface ObjectiveCName {
+    String value();
+}

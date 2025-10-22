@@ -1,0 +1,1019 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/metrics/v1/Metric.java
+// Size: 47891 bytes
+// Modified: 2025-10-21 16:32:09.028566800 +0100
+
+package io.opencensus.proto.metrics.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.opencensus.proto.metrics.v1.MetricDescriptor;
+import io.opencensus.proto.metrics.v1.TimeSeries;
+import io.opencensus.proto.resource.v1.Resource;
+import io.opencensus.proto.resource.v1.ResourceOrBuilder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public final class Metric extends GeneratedMessageV3 implements MetricOrBuilder {
+    public static final int METRIC_DESCRIPTOR_FIELD_NUMBER = 1;
+    public static final int RESOURCE_FIELD_NUMBER = 3;
+    public static final int TIMESERIES_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private int bitField0_;
+    private byte memoizedIsInitialized;
+    private MetricDescriptor metricDescriptor_;
+    private Resource resource_;
+    private List<TimeSeries> timeseries_;
+    private static final Metric DEFAULT_INSTANCE = new Metric();
+    private static final Parser<Metric> PARSER = new AbstractParser<Metric>() { // from class: io.opencensus.proto.metrics.v1.Metric.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Metric m37102parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Metric(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static Metric getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Metric> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Metric m37095getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Metric> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public List<TimeSeries> getTimeseriesList() {
+        return this.timeseries_;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public List<? extends TimeSeriesOrBuilder> getTimeseriesOrBuilderList() {
+        return this.timeseries_;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public boolean hasMetricDescriptor() {
+        return this.metricDescriptor_ != null;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public boolean hasResource() {
+        return this.resource_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private Metric(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Metric() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.timeseries_ = Collections.emptyList();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private Metric(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (true) {
+            if (z) {
+                break;
+            }
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            MetricDescriptor metricDescriptor = this.metricDescriptor_;
+                            MetricDescriptor.Builder builderM37146toBuilder = metricDescriptor != null ? metricDescriptor.m37146toBuilder() : null;
+                            MetricDescriptor metricDescriptor2 = (MetricDescriptor) codedInputStream.readMessage(MetricDescriptor.parser(), extensionRegistryLite);
+                            this.metricDescriptor_ = metricDescriptor2;
+                            if (builderM37146toBuilder != null) {
+                                builderM37146toBuilder.mergeFrom(metricDescriptor2);
+                                this.metricDescriptor_ = builderM37146toBuilder.m37153buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            if ((i & 2) != 2) {
+                                this.timeseries_ = new ArrayList();
+                                i |= 2;
+                            }
+                            this.timeseries_.add(codedInputStream.readMessage(TimeSeries.parser(), extensionRegistryLite));
+                        } else if (tag != 26) {
+                            if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            Resource resource = this.resource_;
+                            Resource.Builder builderM37423toBuilder = resource != null ? resource.m37423toBuilder() : null;
+                            Resource resource2 = (Resource) codedInputStream.readMessage(Resource.parser(), extensionRegistryLite);
+                            this.resource_ = resource2;
+                            if (builderM37423toBuilder != null) {
+                                builderM37423toBuilder.mergeFrom(resource2);
+                                this.resource_ = builderM37423toBuilder.m37430buildPartial();
+                            }
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 2) == 2) {
+                    this.timeseries_ = Collections.unmodifiableList(this.timeseries_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return MetricsProto.internal_static_opencensus_proto_metrics_v1_Metric_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return MetricsProto.internal_static_opencensus_proto_metrics_v1_Metric_fieldAccessorTable.ensureFieldAccessorsInitialized(Metric.class, Builder.class);
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public MetricDescriptor getMetricDescriptor() {
+        MetricDescriptor metricDescriptor = this.metricDescriptor_;
+        return metricDescriptor == null ? MetricDescriptor.getDefaultInstance() : metricDescriptor;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public MetricDescriptorOrBuilder getMetricDescriptorOrBuilder() {
+        return getMetricDescriptor();
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public int getTimeseriesCount() {
+        return this.timeseries_.size();
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public TimeSeries getTimeseries(int i) {
+        return this.timeseries_.get(i);
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public TimeSeriesOrBuilder getTimeseriesOrBuilder(int i) {
+        return this.timeseries_.get(i);
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public Resource getResource() {
+        Resource resource = this.resource_;
+        return resource == null ? Resource.getDefaultInstance() : resource;
+    }
+
+    @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+    public ResourceOrBuilder getResourceOrBuilder() {
+        return getResource();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.metricDescriptor_ != null) {
+            codedOutputStream.writeMessage(1, getMetricDescriptor());
+        }
+        for (int i = 0; i < this.timeseries_.size(); i++) {
+            codedOutputStream.writeMessage(2, this.timeseries_.get(i));
+        }
+        if (this.resource_ != null) {
+            codedOutputStream.writeMessage(3, getResource());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.metricDescriptor_ != null ? CodedOutputStream.computeMessageSize(1, getMetricDescriptor()) : 0;
+        for (int i2 = 0; i2 < this.timeseries_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, this.timeseries_.get(i2));
+        }
+        if (this.resource_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, getResource());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0050  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public boolean equals(java.lang.Object r5) {
+        /*
+            r4 = this;
+            r0 = 1
+            if (r5 != r4) goto L4
+            return r0
+        L4:
+            boolean r1 = r5 instanceof io.opencensus.proto.metrics.v1.Metric
+            if (r1 != 0) goto Ld
+            boolean r5 = super.equals(r5)
+            return r5
+        Ld:
+            io.opencensus.proto.metrics.v1.Metric r5 = (io.opencensus.proto.metrics.v1.Metric) r5
+            boolean r1 = r4.hasMetricDescriptor()
+            boolean r2 = r5.hasMetricDescriptor()
+            r3 = 0
+            if (r1 != r2) goto L1c
+            r1 = 1
+            goto L1d
+        L1c:
+            r1 = 0
+        L1d:
+            boolean r2 = r4.hasMetricDescriptor()
+            if (r2 == 0) goto L34
+            if (r1 == 0) goto L50
+            io.opencensus.proto.metrics.v1.MetricDescriptor r1 = r4.getMetricDescriptor()
+            io.opencensus.proto.metrics.v1.MetricDescriptor r2 = r5.getMetricDescriptor()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L50
+            goto L36
+        L34:
+            if (r1 == 0) goto L50
+        L36:
+            java.util.List r1 = r4.getTimeseriesList()
+            java.util.List r2 = r5.getTimeseriesList()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L50
+            boolean r1 = r4.hasResource()
+            boolean r2 = r5.hasResource()
+            if (r1 != r2) goto L50
+            r1 = 1
+            goto L51
+        L50:
+            r1 = 0
+        L51:
+            boolean r2 = r4.hasResource()
+            if (r2 == 0) goto L68
+            if (r1 == 0) goto L75
+            io.opencensus.proto.resource.v1.Resource r1 = r4.getResource()
+            io.opencensus.proto.resource.v1.Resource r2 = r5.getResource()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L75
+            goto L6a
+        L68:
+            if (r1 == 0) goto L75
+        L6a:
+            com.google.protobuf.UnknownFieldSet r1 = r4.unknownFields
+            com.google.protobuf.UnknownFieldSet r5 = r5.unknownFields
+            boolean r5 = r1.equals(r5)
+            if (r5 == 0) goto L75
+            goto L76
+        L75:
+            r0 = 0
+        L76:
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.metrics.v1.Metric.equals(java.lang.Object):boolean");
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasMetricDescriptor()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getMetricDescriptor().hashCode();
+        }
+        if (getTimeseriesCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getTimeseriesList().hashCode();
+        }
+        if (hasResource()) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getResource().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    public static Metric parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Metric) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Metric parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Metric) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Metric parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Metric) PARSER.parseFrom(byteString);
+    }
+
+    public static Metric parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Metric) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Metric parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Metric) PARSER.parseFrom(bArr);
+    }
+
+    public static Metric parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Metric) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Metric parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Metric parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Metric parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Metric parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Metric parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Metric parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m37097newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m37100toBuilder();
+    }
+
+    public static Builder newBuilder(Metric metric) {
+        return DEFAULT_INSTANCE.m37100toBuilder().mergeFrom(metric);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m37100toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements MetricOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> metricDescriptorBuilder_;
+        private MetricDescriptor metricDescriptor_;
+        private SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> resourceBuilder_;
+        private Resource resource_;
+        private RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> timeseriesBuilder_;
+        private List<TimeSeries> timeseries_;
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public boolean hasMetricDescriptor() {
+            return (this.metricDescriptorBuilder_ == null && this.metricDescriptor_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public boolean hasResource() {
+            return (this.resourceBuilder_ == null && this.resource_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_Metric_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_Metric_fieldAccessorTable.ensureFieldAccessorsInitialized(Metric.class, Builder.class);
+        }
+
+        private Builder() {
+            this.metricDescriptor_ = null;
+            this.timeseries_ = Collections.emptyList();
+            this.resource_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.metricDescriptor_ = null;
+            this.timeseries_ = Collections.emptyList();
+            this.resource_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (Metric.alwaysUseFieldBuilders) {
+                getTimeseriesFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37111clear() {
+            super.clear();
+            if (this.metricDescriptorBuilder_ == null) {
+                this.metricDescriptor_ = null;
+            } else {
+                this.metricDescriptor_ = null;
+                this.metricDescriptorBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.timeseries_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return MetricsProto.internal_static_opencensus_proto_metrics_v1_Metric_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Metric m37124getDefaultInstanceForType() {
+            return Metric.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Metric m37105build() throws UninitializedMessageException {
+            Metric metricM37107buildPartial = m37107buildPartial();
+            if (metricM37107buildPartial.isInitialized()) {
+                return metricM37107buildPartial;
+            }
+            throw newUninitializedMessageException(metricM37107buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Metric m37107buildPartial() {
+            Metric metric = new Metric(this);
+            SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> singleFieldBuilderV3 = this.metricDescriptorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                metric.metricDescriptor_ = this.metricDescriptor_;
+            } else {
+                metric.metricDescriptor_ = singleFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 2) == 2) {
+                    this.timeseries_ = Collections.unmodifiableList(this.timeseries_);
+                    this.bitField0_ &= -3;
+                }
+                metric.timeseries_ = this.timeseries_;
+            } else {
+                metric.timeseries_ = repeatedFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV32 = this.resourceBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                metric.resource_ = this.resource_;
+            } else {
+                metric.resource_ = singleFieldBuilderV32.build();
+            }
+            metric.bitField0_ = 0;
+            onBuilt();
+            return metric;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37123clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37135setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37113clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37116clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37137setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37103addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37128mergeFrom(Message message) {
+            if (message instanceof Metric) {
+                return mergeFrom((Metric) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Metric metric) {
+            if (metric == Metric.getDefaultInstance()) {
+                return this;
+            }
+            if (metric.hasMetricDescriptor()) {
+                mergeMetricDescriptor(metric.getMetricDescriptor());
+            }
+            if (this.timeseriesBuilder_ == null) {
+                if (!metric.timeseries_.isEmpty()) {
+                    if (this.timeseries_.isEmpty()) {
+                        this.timeseries_ = metric.timeseries_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureTimeseriesIsMutable();
+                        this.timeseries_.addAll(metric.timeseries_);
+                    }
+                    onChanged();
+                }
+            } else if (!metric.timeseries_.isEmpty()) {
+                if (!this.timeseriesBuilder_.isEmpty()) {
+                    this.timeseriesBuilder_.addAllMessages(metric.timeseries_);
+                } else {
+                    this.timeseriesBuilder_.dispose();
+                    this.timeseriesBuilder_ = null;
+                    this.timeseries_ = metric.timeseries_;
+                    this.bitField0_ &= -3;
+                    this.timeseriesBuilder_ = Metric.alwaysUseFieldBuilders ? getTimeseriesFieldBuilder() : null;
+                }
+            }
+            if (metric.hasResource()) {
+                mergeResource(metric.getResource());
+            }
+            m37133mergeUnknownFields(metric.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.metrics.v1.Metric.Builder m37129mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.metrics.v1.Metric.access$1000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.metrics.v1.Metric r3 = (io.opencensus.proto.metrics.v1.Metric) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.metrics.v1.Metric r4 = (io.opencensus.proto.metrics.v1.Metric) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.metrics.v1.Metric.Builder.m37129mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.metrics.v1.Metric$Builder");
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public MetricDescriptor getMetricDescriptor() {
+            SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> singleFieldBuilderV3 = this.metricDescriptorBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            MetricDescriptor metricDescriptor = this.metricDescriptor_;
+            return metricDescriptor == null ? MetricDescriptor.getDefaultInstance() : metricDescriptor;
+        }
+
+        public Builder setMetricDescriptor(MetricDescriptor metricDescriptor) {
+            SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> singleFieldBuilderV3 = this.metricDescriptorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                metricDescriptor.getClass();
+                this.metricDescriptor_ = metricDescriptor;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(metricDescriptor);
+            }
+            return this;
+        }
+
+        public Builder setMetricDescriptor(MetricDescriptor.Builder builder) {
+            SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> singleFieldBuilderV3 = this.metricDescriptorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.metricDescriptor_ = builder.m37151build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m37151build());
+            }
+            return this;
+        }
+
+        public Builder mergeMetricDescriptor(MetricDescriptor metricDescriptor) {
+            SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> singleFieldBuilderV3 = this.metricDescriptorBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                MetricDescriptor metricDescriptor2 = this.metricDescriptor_;
+                if (metricDescriptor2 != null) {
+                    this.metricDescriptor_ = MetricDescriptor.newBuilder(metricDescriptor2).mergeFrom(metricDescriptor).m37153buildPartial();
+                } else {
+                    this.metricDescriptor_ = metricDescriptor;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(metricDescriptor);
+            }
+            return this;
+        }
+
+        public Builder clearMetricDescriptor() {
+            if (this.metricDescriptorBuilder_ == null) {
+                this.metricDescriptor_ = null;
+                onChanged();
+            } else {
+                this.metricDescriptor_ = null;
+                this.metricDescriptorBuilder_ = null;
+            }
+            return this;
+        }
+
+        public MetricDescriptor.Builder getMetricDescriptorBuilder() {
+            onChanged();
+            return getMetricDescriptorFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public MetricDescriptorOrBuilder getMetricDescriptorOrBuilder() {
+            SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> singleFieldBuilderV3 = this.metricDescriptorBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (MetricDescriptorOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            MetricDescriptor metricDescriptor = this.metricDescriptor_;
+            return metricDescriptor == null ? MetricDescriptor.getDefaultInstance() : metricDescriptor;
+        }
+
+        private SingleFieldBuilderV3<MetricDescriptor, MetricDescriptor.Builder, MetricDescriptorOrBuilder> getMetricDescriptorFieldBuilder() {
+            if (this.metricDescriptorBuilder_ == null) {
+                this.metricDescriptorBuilder_ = new SingleFieldBuilderV3<>(getMetricDescriptor(), getParentForChildren(), isClean());
+                this.metricDescriptor_ = null;
+            }
+            return this.metricDescriptorBuilder_;
+        }
+
+        private void ensureTimeseriesIsMutable() {
+            if ((this.bitField0_ & 2) != 2) {
+                this.timeseries_ = new ArrayList(this.timeseries_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public List<TimeSeries> getTimeseriesList() {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.timeseries_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public int getTimeseriesCount() {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.timeseries_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public TimeSeries getTimeseries(int i) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.timeseries_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setTimeseries(int i, TimeSeries timeSeries) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                timeSeries.getClass();
+                ensureTimeseriesIsMutable();
+                this.timeseries_.set(i, timeSeries);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, timeSeries);
+            }
+            return this;
+        }
+
+        public Builder setTimeseries(int i, TimeSeries.Builder builder) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTimeseriesIsMutable();
+                this.timeseries_.set(i, builder.m37382build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m37382build());
+            }
+            return this;
+        }
+
+        public Builder addTimeseries(TimeSeries timeSeries) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                timeSeries.getClass();
+                ensureTimeseriesIsMutable();
+                this.timeseries_.add(timeSeries);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(timeSeries);
+            }
+            return this;
+        }
+
+        public Builder addTimeseries(int i, TimeSeries timeSeries) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                timeSeries.getClass();
+                ensureTimeseriesIsMutable();
+                this.timeseries_.add(i, timeSeries);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, timeSeries);
+            }
+            return this;
+        }
+
+        public Builder addTimeseries(TimeSeries.Builder builder) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTimeseriesIsMutable();
+                this.timeseries_.add(builder.m37382build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m37382build());
+            }
+            return this;
+        }
+
+        public Builder addTimeseries(int i, TimeSeries.Builder builder) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTimeseriesIsMutable();
+                this.timeseries_.add(i, builder.m37382build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m37382build());
+            }
+            return this;
+        }
+
+        public Builder addAllTimeseries(Iterable<? extends TimeSeries> iterable) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTimeseriesIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.timeseries_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearTimeseries() {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.timeseries_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeTimeseries(int i) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTimeseriesIsMutable();
+                this.timeseries_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public TimeSeries.Builder getTimeseriesBuilder(int i) {
+            return getTimeseriesFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public TimeSeriesOrBuilder getTimeseriesOrBuilder(int i) {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.timeseries_.get(i);
+            }
+            return (TimeSeriesOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public List<? extends TimeSeriesOrBuilder> getTimeseriesOrBuilderList() {
+            RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> repeatedFieldBuilderV3 = this.timeseriesBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.timeseries_);
+        }
+
+        public TimeSeries.Builder addTimeseriesBuilder() {
+            return getTimeseriesFieldBuilder().addBuilder(TimeSeries.getDefaultInstance());
+        }
+
+        public TimeSeries.Builder addTimeseriesBuilder(int i) {
+            return getTimeseriesFieldBuilder().addBuilder(i, TimeSeries.getDefaultInstance());
+        }
+
+        public List<TimeSeries.Builder> getTimeseriesBuilderList() {
+            return getTimeseriesFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<TimeSeries, TimeSeries.Builder, TimeSeriesOrBuilder> getTimeseriesFieldBuilder() {
+            if (this.timeseriesBuilder_ == null) {
+                this.timeseriesBuilder_ = new RepeatedFieldBuilderV3<>(this.timeseries_, (this.bitField0_ & 2) == 2, getParentForChildren(), isClean());
+                this.timeseries_ = null;
+            }
+            return this.timeseriesBuilder_;
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public Resource getResource() {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Resource resource = this.resource_;
+            return resource == null ? Resource.getDefaultInstance() : resource;
+        }
+
+        public Builder setResource(Resource resource) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                resource.getClass();
+                this.resource_ = resource;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(resource);
+            }
+            return this;
+        }
+
+        public Builder setResource(Resource.Builder builder) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.resource_ = builder.m37428build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m37428build());
+            }
+            return this;
+        }
+
+        public Builder mergeResource(Resource resource) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Resource resource2 = this.resource_;
+                if (resource2 != null) {
+                    this.resource_ = Resource.newBuilder(resource2).mergeFrom(resource).m37430buildPartial();
+                } else {
+                    this.resource_ = resource;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(resource);
+            }
+            return this;
+        }
+
+        public Builder clearResource() {
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+                onChanged();
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Resource.Builder getResourceBuilder() {
+            onChanged();
+            return getResourceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.metrics.v1.MetricOrBuilder
+        public ResourceOrBuilder getResourceOrBuilder() {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ResourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Resource resource = this.resource_;
+            return resource == null ? Resource.getDefaultInstance() : resource;
+        }
+
+        private SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> getResourceFieldBuilder() {
+            if (this.resourceBuilder_ == null) {
+                this.resourceBuilder_ = new SingleFieldBuilderV3<>(getResource(), getParentForChildren(), isClean());
+                this.resource_ = null;
+            }
+            return this.resourceBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m37139setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m37133mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

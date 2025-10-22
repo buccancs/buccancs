@@ -1,0 +1,174 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/alts/internal/AltsHandshakerClient.java
+// Size: 8092 bytes
+// Modified: 2025-10-21 16:32:12.750589300 +0100
+
+package io.grpc.alts.internal;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.UnmodifiableIterator;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.UninitializedMessageException;
+import io.grpc.Status;
+import io.grpc.alts.internal.HandshakerReq;
+import io.grpc.alts.internal.HandshakerServiceGrpc;
+import io.grpc.alts.internal.StartClientHandshakeReq;
+import io.grpc.alts.internal.StartServerHandshakeReq;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.security.GeneralSecurityException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/* loaded from: classes2.dex */
+class AltsHandshakerClient {
+    private static final String APPLICATION_PROTOCOL = "grpc";
+    private static final String RECORD_PROTOCOL = "ALTSRP_GCM_AES128_REKEY";
+    private boolean closed = false;
+    private final AltsHandshakerOptions handshakerOptions;
+    private final AltsHandshakerStub handshakerStub;
+    private HandshakerResult result;
+    private HandshakerStatus status;
+    private static final Logger logger = Logger.getLogger(AltsHandshakerClient.class.getName());
+    private static final int KEY_LENGTH = AltsChannelCrypter.getKeyLength();
+
+    static String getApplicationProtocol() {
+        return APPLICATION_PROTOCOL;
+    }
+
+    static String getRecordProtocol() {
+        return RECORD_PROTOCOL;
+    }
+
+    public HandshakerResult getResult() {
+        return this.result;
+    }
+
+    public HandshakerStatus getStatus() {
+        return this.status;
+    }
+
+    AltsHandshakerClient(HandshakerServiceGrpc.HandshakerServiceStub handshakerServiceStub, AltsHandshakerOptions altsHandshakerOptions) {
+        this.handshakerStub = new AltsHandshakerStub(handshakerServiceStub);
+        this.handshakerOptions = altsHandshakerOptions;
+    }
+
+    AltsHandshakerClient(AltsHandshakerStub altsHandshakerStub, AltsHandshakerOptions altsHandshakerOptions) {
+        this.handshakerStub = altsHandshakerStub;
+        this.handshakerOptions = altsHandshakerOptions;
+    }
+
+    private void setStartClientFields(HandshakerReq.Builder builder) {
+        StartClientHandshakeReq.Builder builderAddRecordProtocols = StartClientHandshakeReq.newBuilder().setHandshakeSecurityProtocol(HandshakeProtocol.ALTS).addApplicationProtocols(APPLICATION_PROTOCOL).addRecordProtocols(RECORD_PROTOCOL);
+        if (this.handshakerOptions.getRpcProtocolVersions() != null) {
+            builderAddRecordProtocols.setRpcVersions(this.handshakerOptions.getRpcProtocolVersions());
+        }
+        AltsHandshakerOptions altsHandshakerOptions = this.handshakerOptions;
+        if (altsHandshakerOptions instanceof AltsClientOptions) {
+            AltsClientOptions altsClientOptions = (AltsClientOptions) altsHandshakerOptions;
+            if (!Strings.isNullOrEmpty(altsClientOptions.getTargetName())) {
+                builderAddRecordProtocols.setTargetName(altsClientOptions.getTargetName());
+            }
+            UnmodifiableIterator<String> it2 = altsClientOptions.getTargetServiceAccounts().iterator();
+            while (it2.hasNext()) {
+                builderAddRecordProtocols.addTargetIdentitiesBuilder().setServiceAccount(it2.next());
+            }
+        }
+        builderAddRecordProtocols.setMaxFrameSize(AltsTsiFrameProtector.getMaxFrameSize());
+        builder.setClientStart(builderAddRecordProtocols);
+    }
+
+    private void setStartServerFields(HandshakerReq.Builder builder, ByteBuffer byteBuffer) throws UninitializedMessageException {
+        StartServerHandshakeReq.Builder inBytes = StartServerHandshakeReq.newBuilder().addApplicationProtocols(APPLICATION_PROTOCOL).putHandshakeParameters(HandshakeProtocol.ALTS.getNumber(), ServerHandshakeParameters.newBuilder().addRecordProtocols(RECORD_PROTOCOL).m6799build()).setInBytes(ByteString.copyFrom(byteBuffer.duplicate()));
+        if (this.handshakerOptions.getRpcProtocolVersions() != null) {
+            inBytes.setRpcVersions(this.handshakerOptions.getRpcProtocolVersions());
+        }
+        inBytes.setMaxFrameSize(AltsTsiFrameProtector.getMaxFrameSize());
+        builder.setServerStart(inBytes);
+    }
+
+    public boolean isFinished() {
+        if (this.result != null) {
+            return true;
+        }
+        HandshakerStatus handshakerStatus = this.status;
+        return (handshakerStatus == null || handshakerStatus.getCode() == Status.Code.OK.value()) ? false : true;
+    }
+
+    public byte[] getKey() {
+        HandshakerResult handshakerResult = this.result;
+        if (handshakerResult == null) {
+            return null;
+        }
+        int size = handshakerResult.getKeyData().size();
+        int i = KEY_LENGTH;
+        if (size < i) {
+            throw new IllegalStateException("Could not get enough key data from the handshake.");
+        }
+        byte[] bArr = new byte[i];
+        this.result.getKeyData().substring(0, i).copyTo(bArr, 0);
+        return bArr;
+    }
+
+    private void handleResponse(HandshakerResp handshakerResp) throws GeneralSecurityException {
+        this.status = handshakerResp.getStatus();
+        if (handshakerResp.hasResult()) {
+            this.result = handshakerResp.getResult();
+            close();
+        }
+        if (this.status.getCode() == Status.Code.OK.value()) {
+            return;
+        }
+        String str = "Handshaker service error: " + this.status.getDetails();
+        logger.log(Level.INFO, str);
+        close();
+        throw new GeneralSecurityException(str);
+    }
+
+    public ByteBuffer startClientHandshake() throws GeneralSecurityException {
+        Preconditions.checkState(!isFinished(), "Handshake has already finished.");
+        HandshakerReq.Builder builderNewBuilder = HandshakerReq.newBuilder();
+        setStartClientFields(builderNewBuilder);
+        try {
+            HandshakerResp handshakerRespSend = this.handshakerStub.send(builderNewBuilder.m6428build());
+            handleResponse(handshakerRespSend);
+            return handshakerRespSend.getOutFrames().asReadOnlyByteBuffer();
+        } catch (IOException | InterruptedException e) {
+            throw new GeneralSecurityException(e);
+        }
+    }
+
+    public ByteBuffer startServerHandshake(ByteBuffer byteBuffer) throws UninitializedMessageException, GeneralSecurityException {
+        Preconditions.checkState(!isFinished(), "Handshake has already finished.");
+        HandshakerReq.Builder builderNewBuilder = HandshakerReq.newBuilder();
+        setStartServerFields(builderNewBuilder, byteBuffer);
+        try {
+            HandshakerResp handshakerRespSend = this.handshakerStub.send(builderNewBuilder.m6428build());
+            handleResponse(handshakerRespSend);
+            byteBuffer.position(byteBuffer.position() + handshakerRespSend.getBytesConsumed());
+            return handshakerRespSend.getOutFrames().asReadOnlyByteBuffer();
+        } catch (IOException | InterruptedException e) {
+            throw new GeneralSecurityException(e);
+        }
+    }
+
+    public ByteBuffer next(ByteBuffer byteBuffer) throws GeneralSecurityException {
+        Preconditions.checkState(!isFinished(), "Handshake has already finished.");
+        try {
+            HandshakerResp handshakerRespSend = this.handshakerStub.send(HandshakerReq.newBuilder().setNext(NextHandshakeMessageReq.newBuilder().setInBytes(ByteString.copyFrom(byteBuffer.duplicate())).m6659build()).m6428build());
+            handleResponse(handshakerRespSend);
+            byteBuffer.position(byteBuffer.position() + handshakerRespSend.getBytesConsumed());
+            return handshakerRespSend.getOutFrames().asReadOnlyByteBuffer();
+        } catch (IOException | InterruptedException e) {
+            throw new GeneralSecurityException(e);
+        }
+    }
+
+    public void close() {
+        if (this.closed) {
+            return;
+        }
+        this.closed = true;
+        this.handshakerStub.close();
+    }
+}

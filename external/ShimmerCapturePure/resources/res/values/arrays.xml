@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="plotColor">
+        <item>@color/red</item>
+        <item>@color/green</item>
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+        <item>@color/orange</item>
+        <item>@color/violet</item>
+        <item>@color/turquoise</item>
+        <item>@color/brown</item>
+        <item>@color/pink</item>
+        <item>@color/lime</item>
+        <item>@color/gray</item>
+        <item>@color/gold</item>
+        <item>@color/purple</item>
+        <item>@color/black</item>
+        <item>@color/indigo</item>
+        <item>@color/dark_red</item>
+        <item>@color/dark_green</item>
+        <item>@color/dark_blue</item>
+        <item>@color/dark_orange</item>
+        <item>@color/dark_gray</item>
+    </array>
+</resources>

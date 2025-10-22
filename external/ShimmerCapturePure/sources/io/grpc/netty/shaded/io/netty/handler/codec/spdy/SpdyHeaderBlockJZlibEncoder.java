@@ -1,0 +1,130 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import androidx.constraintlayout.core.motion.utils.TypedValues;
+import com.jcraft.jzlib.Deflater;
+import com.jcraft.jzlib.JZlib;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.handler.codec.compression.CompressionException;
+
+/* loaded from: classes3.dex */
+class SpdyHeaderBlockJZlibEncoder extends SpdyHeaderBlockRawEncoder {
+    private final Deflater z;
+    private boolean finished;
+
+    SpdyHeaderBlockJZlibEncoder(SpdyVersion spdyVersion, int i, int i2, int i3) {
+        super(spdyVersion);
+        Deflater deflater = new Deflater();
+        this.z = deflater;
+        if (i < 0 || i > 9) {
+            throw new IllegalArgumentException("compressionLevel: " + i + " (expected: 0-9)");
+        }
+        if (i2 < 9 || i2 > 15) {
+            throw new IllegalArgumentException("windowBits: " + i2 + " (expected: 9-15)");
+        }
+        if (i3 < 1 || i3 > 9) {
+            throw new IllegalArgumentException("memLevel: " + i3 + " (expected: 1-9)");
+        }
+        int iDeflateInit = deflater.deflateInit(i, i2, i3, JZlib.W_ZLIB);
+        if (iDeflateInit != 0) {
+            throw new CompressionException("failed to initialize an SPDY header block deflater: " + iDeflateInit);
+        }
+        int iDeflateSetDictionary = deflater.deflateSetDictionary(SpdyCodecUtil.SPDY_DICT, SpdyCodecUtil.SPDY_DICT.length);
+        if (iDeflateSetDictionary == 0) {
+            return;
+        }
+        throw new CompressionException("failed to set the SPDY dictionary: " + iDeflateSetDictionary);
+    }
+
+    private void setInput(ByteBuf byteBuf) {
+        byte[] bArrArray;
+        int iArrayOffset;
+        int i = byteBuf.readableBytes();
+        if (byteBuf.hasArray()) {
+            bArrArray = byteBuf.array();
+            iArrayOffset = byteBuf.arrayOffset() + byteBuf.readerIndex();
+        } else {
+            bArrArray = new byte[i];
+            byteBuf.getBytes(byteBuf.readerIndex(), bArrArray);
+            iArrayOffset = 0;
+        }
+        this.z.next_in = bArrArray;
+        this.z.next_in_index = iArrayOffset;
+        this.z.avail_in = i;
+    }
+
+    private ByteBuf encode(ByteBufAllocator byteBufAllocator) throws Throwable {
+        ByteBuf byteBufHeapBuffer;
+        try {
+            int i = this.z.next_in_index;
+            int i2 = this.z.next_out_index;
+            int iCeil = ((int) Math.ceil(this.z.next_in.length * 1.001d)) + 12;
+            byteBufHeapBuffer = byteBufAllocator.heapBuffer(iCeil);
+            try {
+                this.z.next_out = byteBufHeapBuffer.array();
+                this.z.next_out_index = byteBufHeapBuffer.arrayOffset() + byteBufHeapBuffer.writerIndex();
+                this.z.avail_out = iCeil;
+                try {
+                    int iDeflate = this.z.deflate(2);
+                    if (iDeflate != 0) {
+                        throw new CompressionException("compression failure: " + iDeflate);
+                    }
+                    int i3 = this.z.next_out_index - i2;
+                    if (i3 > 0) {
+                        byteBufHeapBuffer.writerIndex(byteBufHeapBuffer.writerIndex() + i3);
+                    }
+                    this.z.next_in = null;
+                    this.z.next_out = null;
+                    return byteBufHeapBuffer;
+                } finally {
+                    byteBufHeapBuffer.skipBytes(this.z.next_in_index - i);
+                }
+            } catch (Throwable th) {
+                th = th;
+                this.z.next_in = null;
+                this.z.next_out = null;
+                if (byteBufHeapBuffer != null) {
+                    byteBufHeapBuffer.release();
+                }
+                throw th;
+            }
+        } catch (Throwable th2) {
+            th = th2;
+            byteBufHeapBuffer = null;
+        }
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockRawEncoder, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockEncoder
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, SpdyHeadersFrame spdyHeadersFrame) throws Exception {
+        if (spdyHeadersFrame == null) {
+            throw new IllegalArgumentException(TypedValues.AttributesType.S_FRAME);
+        }
+        if (this.finished) {
+            return Unpooled.EMPTY_BUFFER;
+        }
+        ByteBuf byteBufEncode = super.encode(byteBufAllocator, spdyHeadersFrame);
+        try {
+            if (!byteBufEncode.isReadable()) {
+                return Unpooled.EMPTY_BUFFER;
+            }
+            setInput(byteBufEncode);
+            return encode(byteBufAllocator);
+        } finally {
+            byteBufEncode.release();
+        }
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockRawEncoder, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeaderBlockEncoder
+    public void end() {
+        if (this.finished) {
+            return;
+        }
+        this.finished = true;
+        this.z.deflateEnd();
+        this.z.next_in = null;
+        this.z.next_out = null;
+    }
+}

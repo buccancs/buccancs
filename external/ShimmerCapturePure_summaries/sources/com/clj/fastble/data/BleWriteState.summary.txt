@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/data/BleWriteState.java
+// Size: 150 bytes
+// Modified: 2025-10-21 16:32:00.089908000 +0100
+
+package com.clj.fastble.data;
+
+/* loaded from: classes.dex */
+public class BleWriteState {
+    public static final int DATA_WRITE_SINGLE = 1;
+}

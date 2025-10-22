@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/base/BaseLocal.java
+// Size: 281 bytes
+// Modified: 2025-10-21 16:32:05.201518200 +0100
+
+package org.joda.time.base;
+
+/* loaded from: classes2.dex */
+public abstract class BaseLocal extends AbstractPartial {
+    private static final long serialVersionUID = 276453175381783L;
+
+    protected abstract long getLocalMillis();
+
+    protected BaseLocal() {
+    }
+}

@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/cluster/v3/LoadBalancingPolicyOrBuilder.java
+// Size: 638 bytes
+// Modified: 2025-10-21 16:32:02.704865200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.LoadBalancingPolicy;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface LoadBalancingPolicyOrBuilder extends MessageOrBuilder {
+    LoadBalancingPolicy.Policy getPolicies(int i);
+
+    int getPoliciesCount();
+
+    List<LoadBalancingPolicy.Policy> getPoliciesList();
+
+    LoadBalancingPolicy.PolicyOrBuilder getPoliciesOrBuilder(int i);
+
+    List<? extends LoadBalancingPolicy.PolicyOrBuilder> getPoliciesOrBuilderList();
+}

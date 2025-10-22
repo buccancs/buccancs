@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/TimeProvider.java
+// Size: 492 bytes
+// Modified: 2025-10-21 16:32:00.212643700 +0100
+
+package io.grpc.internal;
+
+import java.util.concurrent.TimeUnit;
+
+/* loaded from: classes2.dex */
+public interface TimeProvider {
+    public static final TimeProvider SYSTEM_TIME_PROVIDER = new TimeProvider() { // from class: io.grpc.internal.TimeProvider.1
+        @Override // io.grpc.internal.TimeProvider
+        public long currentTimeNanos() {
+            return TimeUnit.MILLISECONDS.toNanos(System.currentTimeMillis());
+        }
+    };
+
+    long currentTimeNanos();
+}

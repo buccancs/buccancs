@@ -1,0 +1,70 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/PromiseAggregator.java
+// Size: 2465 bytes
+// Modified: 2025-10-21 16:32:04.444739500 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Deprecated
+/* loaded from: classes3.dex */
+public class PromiseAggregator<V, F extends Future<V>> implements GenericFutureListener<F> {
+    private final Promise<?> aggregatePromise;
+    private final boolean failPending;
+    private Set<Promise<V>> pendingPromises;
+
+    public PromiseAggregator(Promise<Void> promise, boolean z) {
+        this.aggregatePromise = (Promise) ObjectUtil.checkNotNull(promise, "aggregatePromise");
+        this.failPending = z;
+    }
+
+    public PromiseAggregator(Promise<Void> promise) {
+        this(promise, true);
+    }
+
+    @SafeVarargs
+    public final PromiseAggregator<V, F> add(Promise<V>... promiseArr) {
+        ObjectUtil.checkNotNull(promiseArr, "promises");
+        if (promiseArr.length == 0) {
+            return this;
+        }
+        synchronized (this) {
+            if (this.pendingPromises == null) {
+                this.pendingPromises = new LinkedHashSet(promiseArr.length > 1 ? promiseArr.length : 2);
+            }
+            for (Promise<V> promise : promiseArr) {
+                if (promise != null) {
+                    this.pendingPromises.add(promise);
+                    promise.addListener((GenericFutureListener) this);
+                }
+            }
+        }
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener
+    public synchronized void operationComplete(F f) throws Exception {
+        Set<Promise<V>> set = this.pendingPromises;
+        if (set == null) {
+            this.aggregatePromise.setSuccess(null);
+        } else {
+            set.remove(f);
+            if (!f.isSuccess()) {
+                Throwable thCause = f.cause();
+                this.aggregatePromise.setFailure(thCause);
+                if (this.failPending) {
+                    Iterator<Promise<V>> it2 = this.pendingPromises.iterator();
+                    while (it2.hasNext()) {
+                        it2.next().setFailure(thCause);
+                    }
+                }
+            } else if (this.pendingPromises.isEmpty()) {
+                this.aggregatePromise.setSuccess(null);
+            }
+        }
+    }
+}

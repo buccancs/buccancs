@@ -3,11 +3,11 @@ package com.buccancs.data.sensor.topdon.di
 import com.buccancs.data.sensor.topdon.DataStoreTopdonSettingsRepository
 import com.buccancs.data.sensor.topdon.DefaultTopdonDeviceRepository
 import com.buccancs.data.sensor.topdon.gallery.DefaultTopdonGalleryRepository
-import com.buccancs.hardware.topdon.DefaultTopdonThermalClient
-import com.buccancs.hardware.topdon.TopdonThermalClient
 import com.buccancs.domain.repository.TopdonDeviceRepository
 import com.buccancs.domain.repository.TopdonGalleryRepository
 import com.buccancs.domain.repository.TopdonSettingsRepository
+import com.buccancs.hardware.topdon.DefaultTopdonThermalClient
+import com.buccancs.hardware.topdon.TopdonThermalClient
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

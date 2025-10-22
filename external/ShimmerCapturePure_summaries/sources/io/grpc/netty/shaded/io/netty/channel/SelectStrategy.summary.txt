@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/SelectStrategy.java
+// Size: 393 bytes
+// Modified: 2025-10-21 16:32:00.837664100 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+import io.grpc.netty.shaded.io.netty.util.IntSupplier;
+
+/* loaded from: classes3.dex */
+public interface SelectStrategy {
+    public static final int BUSY_WAIT = -3;
+    public static final int CONTINUE = -2;
+    public static final int SELECT = -1;
+
+    int calculateStrategy(IntSupplier intSupplier, boolean z) throws Exception;
+}

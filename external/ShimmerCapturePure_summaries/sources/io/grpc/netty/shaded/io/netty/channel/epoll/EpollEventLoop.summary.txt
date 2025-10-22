@@ -1,0 +1,379 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/epoll/EpollEventLoop.java
+// Size: 17251 bytes
+// Modified: 2025-10-21 16:32:11.520717500 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.epoll;
+
+import io.grpc.netty.shaded.io.netty.channel.EventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.EventLoopTaskQueueFactory;
+import io.grpc.netty.shaded.io.netty.channel.SelectStrategy;
+import io.grpc.netty.shaded.io.netty.channel.SingleThreadEventLoop;
+import io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel;
+import io.grpc.netty.shaded.io.netty.channel.unix.FileDescriptor;
+import io.grpc.netty.shaded.io.netty.channel.unix.IovArray;
+import io.grpc.netty.shaded.io.netty.util.IntSupplier;
+import io.grpc.netty.shaded.io.netty.util.collection.IntObjectHashMap;
+import io.grpc.netty.shaded.io.netty.util.collection.IntObjectMap;
+import io.grpc.netty.shaded.io.netty.util.concurrent.RejectedExecutionHandler;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory;
+import java.io.IOException;
+import java.util.Queue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicLong;
+
+/* loaded from: classes3.dex */
+class EpollEventLoop extends SingleThreadEventLoop {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final long AWAKE = -1;
+    private static final long MAX_SCHEDULED_TIMERFD_NS = 999999999;
+    private static final long NONE = Long.MAX_VALUE;
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance((Class<?>) EpollEventLoop.class);
+    private final boolean allowGrowing;
+    private final IntObjectMap<AbstractEpollChannel> channels;
+    private NativeDatagramPacketArray datagramPacketArray;
+    private final FileDescriptor epollFd;
+    private final FileDescriptor eventFd;
+    private final EpollEventArray events;
+    private volatile int ioRatio;
+    private IovArray iovArray;
+    private final AtomicLong nextWakeupNanos;
+    private boolean pendingWakeup;
+    private final IntSupplier selectNowSupplier;
+    private final SelectStrategy selectStrategy;
+    private final FileDescriptor timerFd;
+
+    public int getIoRatio() {
+        return this.ioRatio;
+    }
+
+    static {
+        Epoll.ensureAvailability();
+    }
+
+    EpollEventLoop(EventLoopGroup eventLoopGroup, Executor executor, int i, SelectStrategy selectStrategy, RejectedExecutionHandler rejectedExecutionHandler, EventLoopTaskQueueFactory eventLoopTaskQueueFactory) throws Throwable {
+        FileDescriptor fileDescriptor;
+        FileDescriptor fileDescriptorNewEventFd;
+        super(eventLoopGroup, executor, false, newTaskQueue(eventLoopTaskQueueFactory), newTaskQueue(eventLoopTaskQueueFactory), rejectedExecutionHandler);
+        this.channels = new IntObjectHashMap(4096);
+        this.selectNowSupplier = new IntSupplier() { // from class: io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.1
+            @Override // io.grpc.netty.shaded.io.netty.util.IntSupplier
+            public int get() throws Exception {
+                return EpollEventLoop.this.epollWaitNow();
+            }
+        };
+        this.nextWakeupNanos = new AtomicLong(-1L);
+        this.ioRatio = 50;
+        this.selectStrategy = (SelectStrategy) ObjectUtil.checkNotNull(selectStrategy, "strategy");
+        if (i == 0) {
+            this.allowGrowing = true;
+            this.events = new EpollEventArray(4096);
+        } else {
+            this.allowGrowing = false;
+            this.events = new EpollEventArray(i);
+        }
+        FileDescriptor fileDescriptorNewTimerFd = null;
+        try {
+            FileDescriptor fileDescriptorNewEpollCreate = Native.newEpollCreate();
+            try {
+                this.epollFd = fileDescriptorNewEpollCreate;
+                fileDescriptorNewEventFd = Native.newEventFd();
+                try {
+                    this.eventFd = fileDescriptorNewEventFd;
+                    try {
+                        Native.epollCtlAdd(fileDescriptorNewEpollCreate.intValue(), fileDescriptorNewEventFd.intValue(), Native.EPOLLIN | Native.EPOLLET);
+                        fileDescriptorNewTimerFd = Native.newTimerFd();
+                        this.timerFd = fileDescriptorNewTimerFd;
+                        try {
+                            Native.epollCtlAdd(fileDescriptorNewEpollCreate.intValue(), fileDescriptorNewTimerFd.intValue(), Native.EPOLLIN | Native.EPOLLET);
+                        } catch (IOException e) {
+                            throw new IllegalStateException("Unable to add timerFd filedescriptor to epoll", e);
+                        }
+                    } catch (IOException e2) {
+                        throw new IllegalStateException("Unable to add eventFd filedescriptor to epoll", e2);
+                    }
+                } catch (Throwable th) {
+                    th = th;
+                    fileDescriptor = fileDescriptorNewTimerFd;
+                    fileDescriptorNewTimerFd = fileDescriptorNewEpollCreate;
+                    if (fileDescriptorNewTimerFd != null) {
+                        try {
+                            fileDescriptorNewTimerFd.close();
+                        } catch (Exception unused) {
+                        }
+                    }
+                    if (fileDescriptorNewEventFd != null) {
+                        try {
+                            fileDescriptorNewEventFd.close();
+                        } catch (Exception unused2) {
+                        }
+                    }
+                    if (fileDescriptor != null) {
+                        try {
+                            fileDescriptor.close();
+                            throw th;
+                        } catch (Exception unused3) {
+                            throw th;
+                        }
+                    }
+                    throw th;
+                }
+            } catch (Throwable th2) {
+                th = th2;
+                fileDescriptorNewEventFd = null;
+                fileDescriptorNewTimerFd = fileDescriptorNewEpollCreate;
+                fileDescriptor = null;
+            }
+        } catch (Throwable th3) {
+            th = th3;
+            fileDescriptor = null;
+            fileDescriptorNewEventFd = null;
+        }
+    }
+
+    private static Queue<Runnable> newTaskQueue(EventLoopTaskQueueFactory eventLoopTaskQueueFactory) {
+        if (eventLoopTaskQueueFactory == null) {
+            return newTaskQueue0(DEFAULT_MAX_PENDING_TASKS);
+        }
+        return eventLoopTaskQueueFactory.newTaskQueue(DEFAULT_MAX_PENDING_TASKS);
+    }
+
+    IovArray cleanIovArray() {
+        IovArray iovArray = this.iovArray;
+        if (iovArray == null) {
+            this.iovArray = new IovArray();
+        } else {
+            iovArray.clear();
+        }
+        return this.iovArray;
+    }
+
+    NativeDatagramPacketArray cleanDatagramPacketArray() {
+        NativeDatagramPacketArray nativeDatagramPacketArray = this.datagramPacketArray;
+        if (nativeDatagramPacketArray == null) {
+            this.datagramPacketArray = new NativeDatagramPacketArray();
+        } else {
+            nativeDatagramPacketArray.clear();
+        }
+        return this.datagramPacketArray;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor
+    protected void wakeup(boolean z) {
+        if (z || this.nextWakeupNanos.getAndSet(-1L) == -1) {
+            return;
+        }
+        Native.eventFdWrite(this.eventFd.intValue(), 1L);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.AbstractScheduledEventExecutor
+    protected boolean beforeScheduledTaskSubmitted(long j) {
+        return j < this.nextWakeupNanos.get();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.AbstractScheduledEventExecutor
+    protected boolean afterScheduledTaskSubmitted(long j) {
+        return j < this.nextWakeupNanos.get();
+    }
+
+    void add(AbstractEpollChannel abstractEpollChannel) throws IOException {
+        int iIntValue = abstractEpollChannel.socket.intValue();
+        Native.epollCtlAdd(this.epollFd.intValue(), iIntValue, abstractEpollChannel.flags);
+        this.channels.put(iIntValue, (int) abstractEpollChannel);
+    }
+
+    void modify(AbstractEpollChannel abstractEpollChannel) throws IOException {
+        Native.epollCtlMod(this.epollFd.intValue(), abstractEpollChannel.socket.intValue(), abstractEpollChannel.flags);
+    }
+
+    void remove(AbstractEpollChannel abstractEpollChannel) throws IOException {
+        int iIntValue = abstractEpollChannel.socket.intValue();
+        AbstractEpollChannel abstractEpollChannelRemove = this.channels.remove(iIntValue);
+        if (abstractEpollChannelRemove != null && abstractEpollChannelRemove != abstractEpollChannel) {
+            this.channels.put(iIntValue, (int) abstractEpollChannelRemove);
+        } else if (abstractEpollChannel.isOpen()) {
+            Native.epollCtlDel(this.epollFd.intValue(), iIntValue);
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor
+    protected Queue<Runnable> newTaskQueue(int i) {
+        return newTaskQueue0(i);
+    }
+
+    private static Queue<Runnable> newTaskQueue0(int i) {
+        if (i == Integer.MAX_VALUE) {
+            return PlatformDependent.newMpscQueue();
+        }
+        return PlatformDependent.newMpscQueue(i);
+    }
+
+    public void setIoRatio(int i) {
+        if (i > 0 && i <= 100) {
+            this.ioRatio = i;
+            return;
+        }
+        throw new IllegalArgumentException("ioRatio: " + i + " (expected: 0 < ioRatio <= 100)");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.SingleThreadEventLoop
+    public int registeredChannels() {
+        return this.channels.size();
+    }
+
+    private int epollWait(long j) throws IOException {
+        if (j == Long.MAX_VALUE) {
+            return Native.epollWait(this.epollFd, this.events, this.timerFd, Integer.MAX_VALUE, 0);
+        }
+        long jDeadlineToDelayNanos = deadlineToDelayNanos(j);
+        int iMin = (int) Math.min(jDeadlineToDelayNanos / 1000000000, 2147483647L);
+        return Native.epollWait(this.epollFd, this.events, this.timerFd, iMin, (int) Math.min(jDeadlineToDelayNanos - (iMin * 1000000000), MAX_SCHEDULED_TIMERFD_NS));
+    }
+
+    private int epollWaitNoTimerChange() throws IOException {
+        return Native.epollWait(this.epollFd, this.events, false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int epollWaitNow() throws IOException {
+        return Native.epollWait(this.epollFd, this.events, true);
+    }
+
+    private int epollBusyWait() throws IOException {
+        return Native.epollBusyWait(this.epollFd, this.events);
+    }
+
+    private int epollWaitTimeboxed() throws IOException {
+        return Native.epollWait(this.epollFd, this.events, 1000);
+    }
+
+    /* JADX WARN: Can't wrap try/catch for region: R(13:88|3|(2:5|(2:99|98)(3:94|7|(3:10|(9:18|(1:20)|21|22|89|23|(2:25|(1:27)(3:82|29|30))|33|(1:37))(2:12|(1:14)(2:15|(1:17)(0)))|98)(1:9)))(2:93|45)|46|47|(2:(3:86|50|(1:52))|56)(1:(5:58|84|59|(1:61)|62)(1:66))|67|(1:71)|91|75|97|(3:95|77|(2:96|79)(1:101))(1:100)|98) */
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x010d, code lost:
+    
+        r4 = move-exception;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x010e, code lost:
+    
+        handleLoopException(r4);
+     */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x003a A[Catch: all -> 0x00f9, PHI: r4
+  0x003a: PHI (r4v11 int) = (r4v5 int), (r4v19 int) binds: [B:11:0x001f, B:16:0x0037] A[DONT_GENERATE, DONT_INLINE], TryCatch #3 {all -> 0x00f9, blocks: (B:3:0x0006, B:46:0x0097, B:56:0x00ae, B:67:0x00e7, B:69:0x00eb, B:71:0x00f3, B:54:0x00aa, B:55:0x00ad, B:58:0x00b4, B:62:0x00c1, B:64:0x00d2, B:65:0x00e1, B:66:0x00e2, B:10:0x001d, B:12:0x0021, B:15:0x0029, B:18:0x003a, B:21:0x0045, B:39:0x007c, B:41:0x0086, B:44:0x0092, B:43:0x0090, B:33:0x0064, B:35:0x006e, B:37:0x0078, B:45:0x0093, B:59:0x00b8, B:50:0x009f), top: B:88:0x0006, inners: #1, #2 }] */
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    protected void run() throws java.lang.InterruptedException, java.io.IOException {
+        /*
+            Method dump skipped, instructions count: 275
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run():void");
+    }
+
+    void handleLoopException(Throwable th) throws InterruptedException {
+        logger.warn("Unexpected exception in the selector loop.", th);
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException unused) {
+        }
+    }
+
+    private void closeAll() {
+        for (AbstractEpollChannel abstractEpollChannel : (AbstractEpollChannel[]) this.channels.values().toArray(new AbstractEpollChannel[0])) {
+            abstractEpollChannel.unsafe().close(abstractEpollChannel.unsafe().voidPromise());
+        }
+    }
+
+    private boolean processReady(EpollEventArray epollEventArray, int i) {
+        boolean z = false;
+        for (int i2 = 0; i2 < i; i2++) {
+            int iFd = epollEventArray.fd(i2);
+            if (iFd == this.eventFd.intValue()) {
+                this.pendingWakeup = false;
+            } else if (iFd == this.timerFd.intValue()) {
+                z = true;
+            } else {
+                long jEvents = epollEventArray.events(i2);
+                AbstractEpollChannel abstractEpollChannel = this.channels.get(iFd);
+                if (abstractEpollChannel != null) {
+                    AbstractEpollChannel.AbstractEpollUnsafe abstractEpollUnsafe = (AbstractEpollChannel.AbstractEpollUnsafe) abstractEpollChannel.unsafe();
+                    if (((Native.EPOLLERR | Native.EPOLLOUT) & jEvents) != 0) {
+                        abstractEpollUnsafe.epollOutReady();
+                    }
+                    if (((Native.EPOLLERR | Native.EPOLLIN) & jEvents) != 0) {
+                        abstractEpollUnsafe.epollInReady();
+                    }
+                    if ((jEvents & Native.EPOLLRDHUP) != 0) {
+                        abstractEpollUnsafe.epollRdHupReady();
+                    }
+                } else {
+                    try {
+                        Native.epollCtlDel(this.epollFd.intValue(), iFd);
+                    } catch (IOException unused) {
+                    }
+                }
+            }
+        }
+        return z;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor
+    protected void cleanup() {
+        int iEpollWaitTimeboxed;
+        while (true) {
+            try {
+                if (this.pendingWakeup) {
+                    try {
+                        iEpollWaitTimeboxed = epollWaitTimeboxed();
+                    } catch (IOException unused) {
+                    }
+                    if (iEpollWaitTimeboxed == 0) {
+                        break;
+                    }
+                    int i = 0;
+                    while (true) {
+                        if (i >= iEpollWaitTimeboxed) {
+                            break;
+                        }
+                        if (this.events.fd(i) == this.eventFd.intValue()) {
+                            this.pendingWakeup = false;
+                            break;
+                        }
+                        i++;
+                    }
+                }
+            } finally {
+                IovArray iovArray = this.iovArray;
+                if (iovArray != null) {
+                    iovArray.release();
+                    this.iovArray = null;
+                }
+                NativeDatagramPacketArray nativeDatagramPacketArray = this.datagramPacketArray;
+                if (nativeDatagramPacketArray != null) {
+                    nativeDatagramPacketArray.release();
+                    this.datagramPacketArray = null;
+                }
+                this.events.free();
+            }
+        }
+        try {
+            this.eventFd.close();
+        } catch (IOException e) {
+            logger.warn("Failed to close the event fd.", (Throwable) e);
+        }
+        try {
+            this.timerFd.close();
+        } catch (IOException e2) {
+            logger.warn("Failed to close the timer fd.", (Throwable) e2);
+        }
+        try {
+            this.epollFd.close();
+        } catch (IOException e3) {
+            logger.warn("Failed to close the epoll fd.", (Throwable) e3);
+        }
+    }
+}

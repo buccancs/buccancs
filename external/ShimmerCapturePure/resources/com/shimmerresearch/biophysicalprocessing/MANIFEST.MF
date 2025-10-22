@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Module-Class: com.shimmerresearch.biophysicalprocessing.PPGtoHRAlgorithm;
+Module-Class: com.shimmerresearch.biophysicalprocessing.ECGtoHRAlgorithm;
+

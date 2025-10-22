@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/Function.java
+// Size: 279 bytes
+// Modified: 2025-10-21 16:32:00.795960500 +0100
+
+package com.google.common.base;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+public interface Function<F, T> {
+    @NullableDecl
+    T apply(@NullableDecl F f);
+
+    boolean equals(@NullableDecl Object obj);
+}

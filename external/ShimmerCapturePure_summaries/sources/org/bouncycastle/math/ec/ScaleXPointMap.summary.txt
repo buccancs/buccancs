@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/math/ec/ScaleXPointMap.java
+// Size: 426 bytes
+// Modified: 2025-10-21 16:32:06.499243900 +0100
+
+package org.bouncycastle.math.ec;
+
+/* loaded from: classes5.dex */
+public class ScaleXPointMap implements ECPointMap {
+    protected final ECFieldElement scale;
+
+    public ScaleXPointMap(ECFieldElement eCFieldElement) {
+        this.scale = eCFieldElement;
+    }
+
+    @Override // org.bouncycastle.math.ec.ECPointMap
+    public ECPoint map(ECPoint eCPoint) {
+        return eCPoint.scaleX(this.scale);
+    }
+}

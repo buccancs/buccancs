@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/stats/AutoValue_Aggregation_Count.java
+// Size: 466 bytes
+// Modified: 2025-10-21 16:32:04.697590900 +0100
+
+package io.opencensus.stats;
+
+import io.opencensus.stats.Aggregation;
+
+/* loaded from: classes4.dex */
+final class AutoValue_Aggregation_Count extends Aggregation.Count {
+    public int hashCode() {
+        return 1;
+    }
+
+    public String toString() {
+        return "Count{}";
+    }
+
+    AutoValue_Aggregation_Count() {
+    }
+
+    public boolean equals(Object obj) {
+        return obj == this || (obj instanceof Aggregation.Count);
+    }
+}

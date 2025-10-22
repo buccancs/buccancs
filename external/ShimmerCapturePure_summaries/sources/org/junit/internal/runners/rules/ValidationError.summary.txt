@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/runners/rules/ValidationError.java
+// Size: 437 bytes
+// Modified: 2025-10-21 16:32:01.918848900 +0100
+
+package org.junit.internal.runners.rules;
+
+import java.lang.annotation.Annotation;
+import org.junit.runners.model.FrameworkMember;
+
+/* loaded from: classes2.dex */
+class ValidationError extends Exception {
+    public ValidationError(FrameworkMember<?> frameworkMember, Class<? extends Annotation> cls, String str) {
+        super(String.format("The @%s '%s' %s", cls.getSimpleName(), frameworkMember.getName(), str));
+    }
+}

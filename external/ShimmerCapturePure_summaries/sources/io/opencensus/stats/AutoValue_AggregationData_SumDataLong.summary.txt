@@ -1,0 +1,38 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/stats/AutoValue_AggregationData_SumDataLong.java
+// Size: 976 bytes
+// Modified: 2025-10-21 16:32:05.099629300 +0100
+
+package io.opencensus.stats;
+
+import io.opencensus.stats.AggregationData;
+import org.apache.commons.math3.geometry.VectorFormat;
+
+/* loaded from: classes4.dex */
+final class AutoValue_AggregationData_SumDataLong extends AggregationData.SumDataLong {
+    private final long sum;
+
+    @Override // io.opencensus.stats.AggregationData.SumDataLong
+    public long getSum() {
+        return this.sum;
+    }
+
+    public int hashCode() {
+        long j = this.sum;
+        return (int) (1000003 ^ (j ^ (j >>> 32)));
+    }
+
+    AutoValue_AggregationData_SumDataLong(long j) {
+        this.sum = j;
+    }
+
+    public String toString() {
+        return "SumDataLong{sum=" + this.sum + VectorFormat.DEFAULT_SUFFIX;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        return (obj instanceof AggregationData.SumDataLong) && this.sum == ((AggregationData.SumDataLong) obj).getSum();
+    }
+}

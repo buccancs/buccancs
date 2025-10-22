@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/fragment/app/FragmentOnAttachListener.java
+// Size: 194 bytes
+// Modified: 2025-10-21 16:32:12.805519600 +0100
+
+package androidx.fragment.app;
+
+/* loaded from: classes.dex */
+public interface FragmentOnAttachListener {
+    void onAttachFragment(FragmentManager fragmentManager, Fragment fragment);
+}

@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/bolts/Continuation.java
+// Size: 192 bytes
+// Modified: 2025-10-21 16:32:05.362668600 +0100
+
+package bolts;
+
+/* loaded from: classes.dex */
+public interface Continuation<TTaskResult, TContinuationResult> {
+    TContinuationResult then(Task<TTaskResult> task) throws Exception;
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/stats/ViewManager.java
+// Size: 378 bytes
+// Modified: 2025-10-21 16:32:04.039841700 +0100
+
+package io.opencensus.stats;
+
+import io.opencensus.stats.View;
+import java.util.Set;
+import javax.annotation.Nullable;
+
+/* loaded from: classes4.dex */
+public abstract class ViewManager {
+    public abstract Set<View> getAllExportedViews();
+
+    @Nullable
+    public abstract ViewData getView(View.Name name);
+
+    public abstract void registerView(View view);
+}

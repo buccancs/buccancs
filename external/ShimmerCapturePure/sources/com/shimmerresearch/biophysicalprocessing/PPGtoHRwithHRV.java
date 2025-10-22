@@ -1,0 +1,336 @@
+package com.shimmerresearch.biophysicalprocessing;
+
+import com.shimmerresearch.utilityfunctions.ListStatistics;
+import com.shimmerresearch.utilityfunctions.LombScarglePeriodogram;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class PPGtoHRwithHRV {
+    private static int CLIMBING = 1;
+    private static int INITIALISING = 0;
+    private static double INVALID_RESULT = -1.0d;
+    private static int SLIDING = 2;
+    private static int mNumPeaksMin = 3;
+    private static int mRRBufferSize = 4;
+    private static double mRRStdThreshold = 60.0d;
+    private static double mRRmaxMilliSec = 1000.0d;
+    private double mAVNN;
+    private List<Double> mAVNNBuffer;
+    private double mCurrentTime;
+    private List<Double> mDataBuffer;
+    private double mHFPower;
+    private double mHRVWindowMilliSec;
+    private double mHeartRate;
+    private int mInitSamples;
+    private double mLFHFRatio;
+    private double mLFPower;
+    private LombScarglePeriodogram mLSPeriodogram;
+    private ListStatistics mListStats;
+    private boolean mNNBufferFull;
+    private boolean mNNBufferUpdate;
+    private List<Double> mNNIntervalBuffer;
+    private List<Double> mNPeakTimeBuffer;
+    private int mNumPeaksFound;
+    private double mPNN50;
+    private double mPNNx;
+    private double mPrevY;
+    private double mPulsePeriod;
+    private double mRMSSD;
+    private double mRPeakPos;
+    private double mRPeakPosPrev;
+    private double mRRInterval;
+    private List<Double> mRRIntervalBuffer;
+    private int mRRmaxSamples;
+    private double mSDANN;
+    private double mSDNN;
+    private List<Double> mSDNNBuffer;
+    private double mSDNNIDX;
+    private double mSDSD;
+    private int mSamplesSincePeak;
+    private double mSamplingRate;
+    private double mSlope;
+    private int mState;
+    private double mThreshold;
+    private double mTotalPower;
+    private double mVMeanAmp;
+    private double mVPeakAmp;
+
+    public PPGtoHRwithHRV(double d) {
+        this.mPrevY = 0.0d;
+        this.mDataBuffer = new ArrayList();
+        this.mRRIntervalBuffer = new ArrayList();
+        this.mNNIntervalBuffer = new ArrayList();
+        this.mNPeakTimeBuffer = new ArrayList();
+        this.mNNBufferUpdate = false;
+        this.mNNBufferFull = false;
+        this.mHRVWindowMilliSec = 300000.0d;
+        this.mSDNNBuffer = new ArrayList();
+        this.mAVNNBuffer = new ArrayList();
+        this.mListStats = new ListStatistics();
+        this.mLSPeriodogram = new LombScarglePeriodogram();
+        double d2 = INVALID_RESULT;
+        this.mHeartRate = d2;
+        this.mPulsePeriod = 0.0d;
+        this.mRRInterval = d2;
+        setParameters(d);
+    }
+
+    public PPGtoHRwithHRV(double d, int i) {
+        this.mPrevY = 0.0d;
+        this.mDataBuffer = new ArrayList();
+        this.mRRIntervalBuffer = new ArrayList();
+        this.mNNIntervalBuffer = new ArrayList();
+        this.mNPeakTimeBuffer = new ArrayList();
+        this.mNNBufferUpdate = false;
+        this.mNNBufferFull = false;
+        this.mHRVWindowMilliSec = 300000.0d;
+        this.mSDNNBuffer = new ArrayList();
+        this.mAVNNBuffer = new ArrayList();
+        this.mListStats = new ListStatistics();
+        this.mLSPeriodogram = new LombScarglePeriodogram();
+        double d2 = INVALID_RESULT;
+        this.mHeartRate = d2;
+        this.mPulsePeriod = 0.0d;
+        this.mRRInterval = d2;
+        setParameters(d);
+        this.mHRVWindowMilliSec = i;
+    }
+
+    public double getAVNN() {
+        return this.mAVNN;
+    }
+
+    public double getHFPower() {
+        return this.mHFPower;
+    }
+
+    public double getHeartRate() {
+        return this.mHeartRate;
+    }
+
+    public double getLFHFRatio() {
+        return this.mLFHFRatio;
+    }
+
+    public double getLFPower() {
+        return this.mLFPower;
+    }
+
+    public double getRMSSD() {
+        return this.mRMSSD;
+    }
+
+    public double getRPeakPos() {
+        return this.mRPeakPos;
+    }
+
+    public double getRRInterval() {
+        return this.mRRInterval;
+    }
+
+    public double getSDANN() {
+        return this.mSDANN;
+    }
+
+    public double getSDNN() {
+        return this.mSDNN;
+    }
+
+    public double getSDNNIDX() {
+        return this.mSDNNIDX;
+    }
+
+    public double getSDSD() {
+        return this.mSDSD;
+    }
+
+    public double getTotalPower() {
+        return this.mTotalPower;
+    }
+
+    public double getpNN50() {
+        return this.mPNN50;
+    }
+
+    public double getpNNx() {
+        return this.mPNNx;
+    }
+
+    public void setParameters(double d) {
+        reset();
+        this.mSamplingRate = d;
+        this.mRRmaxSamples = (int) ((mRRmaxMilliSec * d) / 1000.0d);
+        this.mInitSamples = (int) (d * 1.5d);
+        this.mDataBuffer = new ArrayList(this.mInitSamples);
+    }
+
+    public void reset() {
+        this.mHeartRate = INVALID_RESULT;
+        this.mSamplesSincePeak = 0;
+        this.mSlope = 0.0d;
+        this.mRPeakPos = 0.0d;
+        this.mRPeakPosPrev = 0.0d;
+        this.mVPeakAmp = 0.0d;
+        this.mVMeanAmp = 0.0d;
+        this.mNumPeaksFound = 0;
+        this.mPrevY = 0.0d;
+        this.mDataBuffer.clear();
+        this.mState = INITIALISING;
+        this.mRRIntervalBuffer.clear();
+        this.mNNIntervalBuffer.clear();
+        this.mNPeakTimeBuffer.clear();
+        this.mAVNNBuffer.clear();
+        this.mSDNNBuffer.clear();
+        this.mNNBufferFull = false;
+        this.mNNBufferUpdate = false;
+    }
+
+    public double[] ppgToHrConversion(double[] dArr, double[] dArr2) {
+        double[] dArr3 = new double[dArr.length];
+        for (int i = 0; i < dArr.length; i++) {
+            dArr3[i] = ppgToHrConversion(dArr[i], dArr2[i]);
+        }
+        return dArr3;
+    }
+
+    public double ppgToHrConversion(double d, double d2) {
+        this.mCurrentTime = d2;
+        this.mDataBuffer.add(Double.valueOf(d));
+        this.mNNBufferUpdate = false;
+        this.mSamplesSincePeak++;
+        if (this.mDataBuffer.size() > this.mInitSamples) {
+            this.mDataBuffer.remove(0);
+            int i = this.mState;
+            if (i == INITIALISING) {
+                this.mVMeanAmp = ((Double) Collections.min(this.mDataBuffer)).doubleValue();
+                this.mVPeakAmp = ((Double) Collections.max(this.mDataBuffer)).doubleValue();
+                this.mSlope = 0.0d;
+                this.mThreshold = 0.0d;
+                this.mState = CLIMBING;
+            } else {
+                int i2 = SLIDING;
+                if (i == i2) {
+                    double d3 = this.mVPeakAmp + (this.mSamplesSincePeak * this.mSlope);
+                    this.mThreshold = d3;
+                    if (d > this.mPrevY && d > d3) {
+                        this.mState = CLIMBING;
+                        this.mSamplesSincePeak = 0;
+                        this.mVPeakAmp = d;
+                        this.mThreshold = d;
+                    }
+                } else if (i == CLIMBING) {
+                    if (d >= this.mThreshold) {
+                        this.mVPeakAmp = d;
+                        this.mThreshold = d;
+                    } else {
+                        this.mState = i2;
+                        this.mSamplesSincePeak = 0;
+                        this.mRPeakPos = this.mCurrentTime;
+                        this.mThreshold = this.mVPeakAmp;
+                        double d4 = this.mHeartRate;
+                        if (d4 == INVALID_RESULT) {
+                            this.mPulsePeriod = this.mSamplingRate;
+                        } else {
+                            this.mPulsePeriod = this.mSamplingRate / Math.abs(d4 / 60.0d);
+                        }
+                        this.mSlope = -Math.abs(((this.mVPeakAmp - this.mVMeanAmp) * 2.0d) / (this.mPulsePeriod * 4.5d));
+                        int i3 = this.mNumPeaksFound;
+                        int i4 = mNumPeaksMin;
+                        if (i3 < i4) {
+                            this.mNumPeaksFound = i3 + 1;
+                        }
+                        if (this.mNumPeaksFound >= i4) {
+                            this.mRRInterval = this.mRPeakPos - this.mRPeakPosPrev;
+                            if (this.mRRIntervalBuffer.size() < mRRBufferSize) {
+                                this.mRRIntervalBuffer.add(Double.valueOf(this.mRRInterval));
+                            } else {
+                                this.mRRIntervalBuffer.remove(0);
+                                this.mRRIntervalBuffer.add(Double.valueOf(this.mRRInterval));
+                                if (this.mListStats.ListStdDev(this.mRRIntervalBuffer) < mRRStdThreshold) {
+                                    double d5 = this.mRRInterval;
+                                    this.mHeartRate = (1000.0d / d5) * 60.0d;
+                                    this.mNNIntervalBuffer.add(Double.valueOf(d5));
+                                    this.mNPeakTimeBuffer.add(Double.valueOf(this.mRPeakPos));
+                                    this.mNNBufferUpdate = true;
+                                }
+                                if (this.mNPeakTimeBuffer.size() >= 1 && this.mNPeakTimeBuffer.get(0).doubleValue() < this.mCurrentTime - this.mHRVWindowMilliSec) {
+                                    this.mNNBufferFull = true;
+                                    this.mNNIntervalBuffer.remove(0);
+                                    this.mNPeakTimeBuffer.remove(0);
+                                    this.mNNBufferUpdate = true;
+                                }
+                            }
+                        }
+                        this.mRPeakPosPrev = this.mRPeakPos;
+                    }
+                }
+            }
+        }
+        this.mPrevY = d;
+        return this.mHeartRate;
+    }
+
+    public void calculateTimeDomainHRVContinuous() {
+        if (this.mNNBufferFull && this.mNNBufferUpdate) {
+            List<Double> listListDiff = this.mListStats.ListDiff(this.mNNIntervalBuffer);
+            this.mRMSSD = Math.sqrt(this.mListStats.ListMean(this.mListStats.ListPower(listListDiff, 2.0d)));
+            this.mSDSD = this.mListStats.ListStdDev(listListDiff);
+            this.mPNN50 = pNNx(listListDiff, 50.0d);
+            double dListStdDev = this.mListStats.ListStdDev(this.mNNIntervalBuffer);
+            this.mSDNN = dListStdDev;
+            this.mSDNNBuffer.add(Double.valueOf(dListStdDev));
+            double dListMean = this.mListStats.ListMean(this.mNNIntervalBuffer);
+            this.mAVNN = dListMean;
+            this.mAVNNBuffer.add(Double.valueOf(dListMean));
+        }
+    }
+
+    public void calculateTimeDomainHRVFullDataSet() {
+        this.mSDANN = this.mListStats.ListStdDev(this.mAVNNBuffer);
+        this.mSDNNIDX = this.mListStats.ListMean(this.mSDNNBuffer);
+    }
+
+    public void calculateFreqDomainHRVContinuous() {
+        if (this.mNNBufferFull && this.mNNBufferUpdate) {
+            int i = ((int) 10.999999999999998d) + 1;
+            int i2 = ((int) 25.0d) + 1;
+            double[] dArr = new double[i];
+            double[] dArr2 = new double[i2];
+            for (int i3 = 0; i3 < i; i3++) {
+                dArr[i3] = 0.04d + (i3 * 0.01d);
+            }
+            for (int i4 = 0; i4 < i2; i4++) {
+                dArr2[i4] = 0.15d + (i4 * 0.01d);
+            }
+            List<Double> listCalculatePeriodogram = this.mLSPeriodogram.calculatePeriodogram(this.mNNIntervalBuffer, this.mNPeakTimeBuffer, dArr);
+            List<Double> listCalculatePeriodogram2 = this.mLSPeriodogram.calculatePeriodogram(this.mNNIntervalBuffer, this.mNPeakTimeBuffer, dArr2);
+            this.mLFPower = this.mListStats.ListSum(listCalculatePeriodogram);
+            double dListSum = this.mListStats.ListSum(listCalculatePeriodogram2);
+            this.mHFPower = dListSum;
+            double d = this.mLFPower;
+            this.mLFHFRatio = d / dListSum;
+            this.mTotalPower = d + dListSum;
+        }
+    }
+
+    public double calculatePNNx(double d) {
+        if (this.mNPeakTimeBuffer.size() > 1 && this.mNPeakTimeBuffer.get(0).doubleValue() <= this.mCurrentTime - this.mHRVWindowMilliSec) {
+            this.mPNNx = pNNx(this.mListStats.ListDiff(this.mNNIntervalBuffer), d);
+        }
+        return this.mPNNx;
+    }
+
+    private double pNNx(List<Double> list, double d) {
+        int size = list.size();
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            if (list.get(i2).doubleValue() > d) {
+                i++;
+            }
+        }
+        return (i / size) * 100.0d;
+    }
+}

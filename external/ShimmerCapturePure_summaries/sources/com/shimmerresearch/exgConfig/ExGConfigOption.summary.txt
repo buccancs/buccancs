@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/exgConfig/ExGConfigOption.java
+// Size: 486 bytes
+// Modified: 2025-10-21 16:32:00.207103200 +0100
+
+package com.shimmerresearch.exgConfig;
+
+import java.io.Serializable;
+
+/* loaded from: classes2.dex */
+public class ExGConfigOption implements Serializable {
+    public int configValueInt;
+    public String guiValue;
+    public String settingTitle;
+    public int bitShift = 0;
+    public int mask = 0;
+
+    public ExGConfigOption(String str, String str2, int i) {
+        this.settingTitle = str;
+        this.guiValue = str2;
+        this.configValueInt = i;
+    }
+}

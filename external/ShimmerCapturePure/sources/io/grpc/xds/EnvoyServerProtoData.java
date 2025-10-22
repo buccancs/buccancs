@@ -1,0 +1,334 @@
+package io.grpc.xds;
+
+import com.google.protobuf.InvalidProtocolBufferException;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Address;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SocketAddress;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+public final class EnvoyServerProtoData {
+    private EnvoyServerProtoData() {
+    }
+
+    public static abstract class BaseTlsContext {
+
+        @Nullable
+        protected final CommonTlsContext commonTlsContext;
+
+        protected BaseTlsContext(@Nullable CommonTlsContext commonTlsContext) {
+            this.commonTlsContext = commonTlsContext;
+        }
+
+        @Nullable
+        public CommonTlsContext getCommonTlsContext() {
+            return this.commonTlsContext;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj instanceof BaseTlsContext) {
+                return Objects.equals(this.commonTlsContext, ((BaseTlsContext) obj).commonTlsContext);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            return Objects.hashCode(this.commonTlsContext);
+        }
+    }
+
+    public static final class UpstreamTlsContext extends BaseTlsContext {
+        public UpstreamTlsContext(CommonTlsContext commonTlsContext) {
+            super(commonTlsContext);
+        }
+
+        public static UpstreamTlsContext fromEnvoyProtoUpstreamTlsContext(io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext upstreamTlsContext) {
+            return new UpstreamTlsContext(upstreamTlsContext.getCommonTlsContext());
+        }
+
+        public String toString() {
+            return "UpstreamTlsContext{commonTlsContext=" + this.commonTlsContext + '}';
+        }
+    }
+
+    public static final class DownstreamTlsContext extends BaseTlsContext {
+        private final boolean requireClientCertificate;
+
+        public DownstreamTlsContext(CommonTlsContext commonTlsContext, boolean z) {
+            super(commonTlsContext);
+            this.requireClientCertificate = z;
+        }
+
+        public static DownstreamTlsContext fromEnvoyProtoDownstreamTlsContext(io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext downstreamTlsContext) {
+            return new DownstreamTlsContext(downstreamTlsContext.getCommonTlsContext(), downstreamTlsContext.hasRequireClientCertificate());
+        }
+
+        public boolean isRequireClientCertificate() {
+            return this.requireClientCertificate;
+        }
+
+        public String toString() {
+            return "DownstreamTlsContext{commonTlsContext=" + this.commonTlsContext + ", requireClientCertificate=" + this.requireClientCertificate + '}';
+        }
+
+        @Override // io.grpc.xds.EnvoyServerProtoData.BaseTlsContext
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            return obj != null && getClass() == obj.getClass() && super.equals(obj) && this.requireClientCertificate == ((DownstreamTlsContext) obj).requireClientCertificate;
+        }
+
+        @Override // io.grpc.xds.EnvoyServerProtoData.BaseTlsContext
+        public int hashCode() {
+            return Objects.hash(Integer.valueOf(super.hashCode()), Boolean.valueOf(this.requireClientCertificate));
+        }
+    }
+
+    static final class CidrRange {
+        private final String addressPrefix;
+        private final int prefixLen;
+
+        CidrRange(String str, int i) {
+            this.addressPrefix = str;
+            this.prefixLen = i;
+        }
+
+        static CidrRange fromEnvoyProtoCidrRange(io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.CidrRange cidrRange) {
+            return new CidrRange(cidrRange.getAddressPrefix(), cidrRange.getPrefixLen().getValue());
+        }
+
+        public String getAddressPrefix() {
+            return this.addressPrefix;
+        }
+
+        public int getPrefixLen() {
+            return this.prefixLen;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            CidrRange cidrRange = (CidrRange) obj;
+            return this.prefixLen == cidrRange.prefixLen && Objects.equals(this.addressPrefix, cidrRange.addressPrefix);
+        }
+
+        public int hashCode() {
+            return Objects.hash(this.addressPrefix, Integer.valueOf(this.prefixLen));
+        }
+
+        public String toString() {
+            return "CidrRange{addressPrefix='" + this.addressPrefix + "', prefixLen=" + this.prefixLen + '}';
+        }
+    }
+
+    static final class FilterChainMatch {
+        private final List<String> applicationProtocols;
+        private final int destinationPort;
+        private final List<CidrRange> prefixRanges;
+
+        FilterChainMatch(int i, List<CidrRange> list, List<String> list2) {
+            this.destinationPort = i;
+            this.prefixRanges = Collections.unmodifiableList(list);
+            this.applicationProtocols = Collections.unmodifiableList(list2);
+        }
+
+        static FilterChainMatch fromEnvoyProtoFilterChainMatch(io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.FilterChainMatch filterChainMatch) {
+            ArrayList arrayList = new ArrayList();
+            Iterator<io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.CidrRange> it2 = filterChainMatch.getPrefixRangesList().iterator();
+            while (it2.hasNext()) {
+                arrayList.add(CidrRange.fromEnvoyProtoCidrRange(it2.next()));
+            }
+            ArrayList arrayList2 = new ArrayList();
+            Iterator it3 = filterChainMatch.mo27014getApplicationProtocolsList().iterator();
+            while (it3.hasNext()) {
+                arrayList2.add((String) it3.next());
+            }
+            return new FilterChainMatch(filterChainMatch.getDestinationPort().getValue(), arrayList, arrayList2);
+        }
+
+        public List<String> getApplicationProtocols() {
+            return this.applicationProtocols;
+        }
+
+        public int getDestinationPort() {
+            return this.destinationPort;
+        }
+
+        public List<CidrRange> getPrefixRanges() {
+            return this.prefixRanges;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            FilterChainMatch filterChainMatch = (FilterChainMatch) obj;
+            return this.destinationPort == filterChainMatch.destinationPort && Objects.equals(this.prefixRanges, filterChainMatch.prefixRanges) && Objects.equals(this.applicationProtocols, filterChainMatch.applicationProtocols);
+        }
+
+        public int hashCode() {
+            return Objects.hash(Integer.valueOf(this.destinationPort), this.prefixRanges, this.applicationProtocols);
+        }
+
+        public String toString() {
+            return "FilterChainMatch{destinationPort=" + this.destinationPort + ", prefixRanges=" + this.prefixRanges + ", applicationProtocols=" + this.applicationProtocols + '}';
+        }
+    }
+
+    static final class FilterChain {
+
+        @Nullable
+        private final DownstreamTlsContext downstreamTlsContext;
+        private final FilterChainMatch filterChainMatch;
+
+        FilterChain(FilterChainMatch filterChainMatch, @Nullable DownstreamTlsContext downstreamTlsContext) {
+            this.filterChainMatch = filterChainMatch;
+            this.downstreamTlsContext = downstreamTlsContext;
+        }
+
+        static FilterChain fromEnvoyProtoFilterChain(io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.FilterChain filterChain) throws InvalidProtocolBufferException {
+            return new FilterChain(FilterChainMatch.fromEnvoyProtoFilterChainMatch(filterChain.getFilterChainMatch()), getTlsContextFromFilterChain(filterChain));
+        }
+
+        @Nullable
+        private static DownstreamTlsContext getTlsContextFromFilterChain(io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.FilterChain filterChain) throws InvalidProtocolBufferException {
+            if (filterChain.hasTransportSocket() && "tls".equals(filterChain.getTransportSocket().getName())) {
+                return DownstreamTlsContext.fromEnvoyProtoDownstreamTlsContext(io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext.parseFrom(filterChain.getTransportSocket().getTypedConfig().getValue()));
+            }
+            return null;
+        }
+
+        @Nullable
+        public DownstreamTlsContext getDownstreamTlsContext() {
+            return this.downstreamTlsContext;
+        }
+
+        public FilterChainMatch getFilterChainMatch() {
+            return this.filterChainMatch;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            FilterChain filterChain = (FilterChain) obj;
+            return Objects.equals(this.filterChainMatch, filterChain.filterChainMatch) && Objects.equals(this.downstreamTlsContext, filterChain.downstreamTlsContext);
+        }
+
+        public int hashCode() {
+            return Objects.hash(this.filterChainMatch, this.downstreamTlsContext);
+        }
+
+        public String toString() {
+            return "FilterChain{filterChainMatch=" + this.filterChainMatch + ", downstreamTlsContext=" + this.downstreamTlsContext + '}';
+        }
+    }
+
+    static final class Listener {
+
+        @Nullable
+        private final String address;
+        private final List<FilterChain> filterChains;
+        private final String name;
+
+        Listener(String str, String str2, List<FilterChain> list) {
+            this.name = str;
+            this.address = str2;
+            this.filterChains = Collections.unmodifiableList(list);
+        }
+
+        private static String convertEnvoyAddressToString(Address address) {
+            if (!address.hasSocketAddress()) {
+                return null;
+            }
+            SocketAddress socketAddress = address.getSocketAddress();
+            String address2 = socketAddress.getAddress();
+            int i = AnonymousClass1.$SwitchMap$io$envoyproxy$envoy$config$core$v3$SocketAddress$PortSpecifierCase[socketAddress.getPortSpecifierCase().ordinal()];
+            if (i == 1) {
+                return address2 + ":" + socketAddress.getNamedPort();
+            }
+            if (i != 2) {
+                return address2;
+            }
+            return address2 + ":" + socketAddress.getPortValue();
+        }
+
+        static Listener fromEnvoyProtoListener(io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.Listener listener) throws InvalidProtocolBufferException {
+            ArrayList arrayList = new ArrayList(listener.getFilterChainsCount());
+            Iterator<io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.FilterChain> it2 = listener.getFilterChainsList().iterator();
+            while (it2.hasNext()) {
+                arrayList.add(FilterChain.fromEnvoyProtoFilterChain(it2.next()));
+            }
+            return new Listener(listener.getName(), convertEnvoyAddressToString(listener.getAddress()), arrayList);
+        }
+
+        public String getAddress() {
+            return this.address;
+        }
+
+        public List<FilterChain> getFilterChains() {
+            return this.filterChains;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            Listener listener = (Listener) obj;
+            return Objects.equals(this.name, listener.name) && Objects.equals(this.address, listener.address) && Objects.equals(this.filterChains, listener.filterChains);
+        }
+
+        public int hashCode() {
+            return Objects.hash(this.name, this.address, this.filterChains);
+        }
+
+        public String toString() {
+            return "Listener{name='" + this.name + "', address='" + this.address + "', filterChains=" + this.filterChains + '}';
+        }
+    }
+
+    /* renamed from: io.grpc.xds.EnvoyServerProtoData$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$core$v3$SocketAddress$PortSpecifierCase;
+
+        static {
+            int[] iArr = new int[SocketAddress.PortSpecifierCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$core$v3$SocketAddress$PortSpecifierCase = iArr;
+            try {
+                iArr[SocketAddress.PortSpecifierCase.NAMED_PORT.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$core$v3$SocketAddress$PortSpecifierCase[SocketAddress.PortSpecifierCase.PORT_VALUE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+}

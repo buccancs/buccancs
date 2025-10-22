@@ -1,0 +1,154 @@
+package org.apache.commons.math.distribution;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/distribution/GammaDistributionImpl.class */
+public class GammaDistributionImpl extends AbstractContinuousDistribution implements GammaDistribution, Serializable {
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1.0E-9d;
+    private static final long serialVersionUID = -3239549463135430361L;
+    private final double solverAbsoluteAccuracy;
+    private double alpha;
+    private double beta;
+
+    public GammaDistributionImpl(double alpha, double beta) {
+        this(alpha, beta, 1.0E-9d);
+    }
+
+    public GammaDistributionImpl(double alpha, double beta, double inverseCumAccuracy) {
+        setAlphaInternal(alpha);
+        setBetaInternal(beta);
+        this.solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
+    @Override // org.apache.commons.math.distribution.Distribution
+    public double cumulativeProbability(double x) throws MathException {
+        double ret;
+        if (x <= 0.0d) {
+            ret = 0.0d;
+        } else {
+            ret = Gamma.regularizedGammaP(this.alpha, x / this.beta);
+        }
+        return ret;
+    }
+
+    @Override
+    // org.apache.commons.math.distribution.AbstractContinuousDistribution, org.apache.commons.math.distribution.ContinuousDistribution
+    public double inverseCumulativeProbability(double p) throws MathException {
+        if (p == 0.0d) {
+            return 0.0d;
+        }
+        if (p == 1.0d) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return super.inverseCumulativeProbability(p);
+    }
+
+    private void setAlphaInternal(double newAlpha) {
+        if (newAlpha <= 0.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_ALPHA, Double.valueOf(newAlpha));
+        }
+        this.alpha = newAlpha;
+    }
+
+    @Override // org.apache.commons.math.distribution.GammaDistribution
+    public double getAlpha() {
+        return this.alpha;
+    }
+
+    @Override // org.apache.commons.math.distribution.GammaDistribution
+    @Deprecated
+    public void setAlpha(double alpha) {
+        setAlphaInternal(alpha);
+    }
+
+    private void setBetaInternal(double newBeta) {
+        if (newBeta <= 0.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_BETA, Double.valueOf(newBeta));
+        }
+        this.beta = newBeta;
+    }
+
+    @Override // org.apache.commons.math.distribution.GammaDistribution
+    public double getBeta() {
+        return this.beta;
+    }
+
+    @Override // org.apache.commons.math.distribution.GammaDistribution
+    @Deprecated
+    public void setBeta(double newBeta) {
+        setBetaInternal(newBeta);
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    public double density(double x) {
+        if (x < 0.0d) {
+            return 0.0d;
+        }
+        return ((FastMath.pow(x / this.beta, this.alpha - 1.0d) / this.beta) * FastMath.exp((-x) / this.beta)) / FastMath.exp(Gamma.logGamma(this.alpha));
+    }
+
+    /* JADX WARN: Can't rename method to resolve collision */
+    @Override // org.apache.commons.math.distribution.HasDensity
+    @Deprecated
+    public double density(Double x) {
+        return density(x.doubleValue());
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainLowerBound(double p) {
+        return Double.MIN_VALUE;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainUpperBound(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = this.alpha * this.beta;
+        } else {
+            ret = Double.MAX_VALUE;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getInitialDomain(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = this.alpha * this.beta * 0.5d;
+        } else {
+            ret = this.alpha * this.beta;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getSolverAbsoluteAccuracy() {
+        return this.solverAbsoluteAccuracy;
+    }
+
+    public double getSupportLowerBound() {
+        return 0.0d;
+    }
+
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    public double getNumericalMean() {
+        return getAlpha() * getBeta();
+    }
+
+    public double getNumericalVariance() {
+        double b = getBeta();
+        return getAlpha() * b * b;
+    }
+}

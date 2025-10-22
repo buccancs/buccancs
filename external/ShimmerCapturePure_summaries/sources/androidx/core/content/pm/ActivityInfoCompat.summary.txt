@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/content/pm/ActivityInfoCompat.java
+// Size: 241 bytes
+// Modified: 2025-10-21 16:31:59.938503100 +0100
+
+package androidx.core.content.pm;
+
+@Deprecated
+/* loaded from: classes.dex */
+public final class ActivityInfoCompat {
+
+    @Deprecated
+    public static final int CONFIG_UI_MODE = 512;
+
+    private ActivityInfoCompat() {
+    }
+}

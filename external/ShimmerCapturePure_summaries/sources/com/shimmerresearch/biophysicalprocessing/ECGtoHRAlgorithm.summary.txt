@@ -1,0 +1,306 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/biophysicalprocessing/ECGtoHRAlgorithm.java
+// Size: 12528 bytes
+// Modified: 2025-10-21 16:32:00.262113500 +0100
+
+package com.shimmerresearch.biophysicalprocessing;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@Deprecated
+/* loaded from: classes2.dex */
+public class ECGtoHRAlgorithm implements Serializable {
+    private static double INVALID_RESULT = -1.0d;
+    private static int mMinWindowSize = 4;
+    private static double mSlopeMultiplier = 0.5d;
+    private static double mWindowLengthSec = 0.1d;
+    private int mDefaultTrainingPeriod;
+    private int mECGDataBufferSize;
+    private List<Double> mECGDataPoints;
+    private int mHalfWindowSize;
+    double mHeartRate;
+    private int mHeartRateLowerLimitTest;
+    private int mHeartRateUpperLimitTest;
+    private double mLastknownheartrate;
+    private double mMaxHalfBeatInterval;
+    private int mNumTrainingSamples;
+    private int mNumberOfBeatsToAve;
+    private List<Double> mPeakECGData;
+    private List<Double> mPeakTimestamps;
+    private List<Integer> mRPeaksDataPoints;
+    private int mRRIntervalTestBufferSize;
+    private boolean mRWave;
+    private double mSamplingRate;
+    private double mSlopeThreshold;
+    private List<Double> mTimeStampPoints;
+    private boolean mTrainingCompleted;
+    private List<Double> mTrainingData;
+    private boolean mUseLastEstimate;
+    private int mWindowSize;
+
+    public int GetLowerHeartRateLimit() {
+        return this.mHeartRateLowerLimitTest;
+    }
+
+    public int GetUpperHeartRateLimit() {
+        return this.mHeartRateUpperLimitTest;
+    }
+
+    public void SetLowerHeartRateLimit(int i) {
+        this.mHeartRateLowerLimitTest = i;
+    }
+
+    public void SetUpperHeartRateLimit(int i) {
+        this.mHeartRateUpperLimitTest = i;
+    }
+
+    public void setInvalidDataUseLastEstimate(boolean z) {
+        this.mUseLastEstimate = z;
+    }
+
+    public void setStaticticalLimitsTest(int i, int i2, int i3, int i4) {
+        this.mNumberOfBeatsToAve = i2;
+        this.mHeartRateUpperLimitTest = i3;
+        this.mHeartRateLowerLimitTest = i4;
+    }
+
+    public ECGtoHRAlgorithm(double d) {
+        this.mSlopeThreshold = 0.0d;
+        this.mTrainingData = new ArrayList();
+        this.mDefaultTrainingPeriod = 10;
+        this.mTrainingCompleted = false;
+        this.mUseLastEstimate = false;
+        this.mPeakECGData = new ArrayList();
+        this.mPeakTimestamps = new ArrayList();
+        this.mECGDataPoints = new ArrayList();
+        this.mTimeStampPoints = new ArrayList();
+        this.mRPeaksDataPoints = new ArrayList();
+        this.mLastknownheartrate = -1.0d;
+        this.mMaxHalfBeatInterval = 300.0d;
+        this.mNumberOfBeatsToAve = 1;
+        this.mRRIntervalTestBufferSize = 3;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mHeartRate = INVALID_RESULT;
+        setParameters(d, this.mDefaultTrainingPeriod);
+    }
+
+    public ECGtoHRAlgorithm(double d, int i, int i2) {
+        this.mSlopeThreshold = 0.0d;
+        this.mTrainingData = new ArrayList();
+        this.mDefaultTrainingPeriod = 10;
+        this.mTrainingCompleted = false;
+        this.mUseLastEstimate = false;
+        this.mPeakECGData = new ArrayList();
+        this.mPeakTimestamps = new ArrayList();
+        this.mECGDataPoints = new ArrayList();
+        this.mTimeStampPoints = new ArrayList();
+        this.mRPeaksDataPoints = new ArrayList();
+        this.mLastknownheartrate = -1.0d;
+        this.mMaxHalfBeatInterval = 300.0d;
+        this.mNumberOfBeatsToAve = 1;
+        this.mRRIntervalTestBufferSize = 3;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mHeartRate = INVALID_RESULT;
+        setParameters(d, i);
+        this.mNumberOfBeatsToAve = i2;
+    }
+
+    public ECGtoHRAlgorithm(double d, int i, int i2, boolean z) {
+        this.mSlopeThreshold = 0.0d;
+        this.mTrainingData = new ArrayList();
+        this.mDefaultTrainingPeriod = 10;
+        this.mTrainingCompleted = false;
+        this.mUseLastEstimate = false;
+        this.mPeakECGData = new ArrayList();
+        this.mPeakTimestamps = new ArrayList();
+        this.mECGDataPoints = new ArrayList();
+        this.mTimeStampPoints = new ArrayList();
+        this.mRPeaksDataPoints = new ArrayList();
+        this.mLastknownheartrate = -1.0d;
+        this.mMaxHalfBeatInterval = 300.0d;
+        this.mNumberOfBeatsToAve = 1;
+        this.mRRIntervalTestBufferSize = 3;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mHeartRate = INVALID_RESULT;
+        setParameters(d, i);
+        this.mNumberOfBeatsToAve = i2;
+        this.mUseLastEstimate = z;
+    }
+
+    public void setParameters(double d, int i) {
+        resetParameters();
+        this.mSamplingRate = d;
+        int iRound = (int) Math.round(mWindowLengthSec * d);
+        this.mWindowSize = iRound;
+        int i2 = mMinWindowSize;
+        if (iRound < i2) {
+            this.mWindowSize = i2;
+        }
+        int i3 = this.mWindowSize;
+        if (i3 % 2 != 0) {
+            this.mWindowSize = i3 + 1;
+        }
+        this.mHalfWindowSize = this.mWindowSize / 2;
+        double d2 = this.mSamplingRate;
+        this.mNumTrainingSamples = ((int) d2) * i;
+        this.mECGDataBufferSize = ((int) d2) * 10;
+    }
+
+    public void setParameters(double d, int i, boolean z) {
+        resetParameters();
+        this.mSamplingRate = d;
+        int iRound = (int) Math.round(mWindowLengthSec * d);
+        this.mWindowSize = iRound;
+        int i2 = mMinWindowSize;
+        if (iRound < i2) {
+            this.mWindowSize = i2;
+        }
+        int i3 = this.mWindowSize;
+        if (i3 % 2 != 0) {
+            this.mWindowSize = i3 + 1;
+        }
+        this.mHalfWindowSize = this.mWindowSize / 2;
+        double d2 = this.mSamplingRate;
+        this.mNumTrainingSamples = ((int) d2) * i;
+        this.mECGDataBufferSize = ((int) d2) * 10;
+        this.mUseLastEstimate = z;
+    }
+
+    public void resetParameters() {
+        this.mTrainingCompleted = false;
+        this.mSlopeThreshold = 0.0d;
+        this.mECGDataPoints.clear();
+        this.mTimeStampPoints.clear();
+        this.mRPeaksDataPoints.clear();
+        this.mLastknownheartrate = -60.0d;
+        this.mNumberOfBeatsToAve = 1;
+        this.mHeartRateUpperLimitTest = 215;
+        this.mHeartRateLowerLimitTest = 30;
+        this.mHeartRate = INVALID_RESULT;
+        this.mTrainingData.clear();
+    }
+
+    public void retrain(boolean z) {
+        if (z) {
+            this.mTrainingCompleted = false;
+            this.mSlopeThreshold = 0.0d;
+            this.mECGDataPoints.clear();
+            this.mTrainingData.clear();
+            this.mTimeStampPoints.clear();
+            this.mRPeaksDataPoints.clear();
+            this.mLastknownheartrate = -60.0d;
+            this.mHeartRate = INVALID_RESULT;
+        }
+    }
+
+    public double[] ecgToHrConversion(double[] dArr, double[] dArr2) {
+        double[] dArr3 = new double[dArr.length];
+        for (int i = 0; i < dArr.length; i++) {
+            dArr3[i] = ecgToHrConversion(dArr[i], dArr2[i]);
+        }
+        return dArr3;
+    }
+
+    public double ecgToHrConversion(double d, double d2) {
+        this.mECGDataPoints.add(Double.valueOf(d));
+        this.mTimeStampPoints.add(Double.valueOf(d2));
+        if (!this.mTrainingCompleted) {
+            this.mTrainingData.add(Double.valueOf(d));
+            if (this.mTrainingData.size() < this.mNumTrainingSamples) {
+                return INVALID_RESULT;
+            }
+            ArrayList arrayList = new ArrayList();
+            ArrayList arrayList2 = new ArrayList();
+            ArrayList arrayList3 = new ArrayList();
+            ArrayList arrayList4 = new ArrayList();
+            arrayList.clear();
+            arrayList3.clear();
+            ArrayList arrayList5 = new ArrayList(this.mNumTrainingSamples - this.mWindowSize);
+            ArrayList arrayList6 = new ArrayList(this.mNumTrainingSamples - this.mWindowSize);
+            ArrayList arrayList7 = new ArrayList(this.mNumTrainingSamples - this.mWindowSize);
+            for (int i = 0; i < this.mNumTrainingSamples - this.mWindowSize; i++) {
+                arrayList5.add(i, this.mTrainingData.get(i));
+                arrayList6.add(i, this.mTrainingData.get(this.mHalfWindowSize + i));
+                arrayList7.add(i, this.mTrainingData.get(this.mWindowSize + i));
+            }
+            List<Double> listSubtractTwoList = subtractTwoList(arrayList5, arrayList6);
+            List<Double> listSubtractTwoList2 = subtractTwoList(arrayList7, arrayList6);
+            for (int i2 = 0; i2 < this.mNumTrainingSamples - this.mWindowSize; i2++) {
+                if (listSubtractTwoList.get(i2).doubleValue() > 0.0d && listSubtractTwoList2.get(i2).doubleValue() > 0.0d) {
+                    arrayList4.add(Double.valueOf((listSubtractTwoList.get(i2).doubleValue() + listSubtractTwoList2.get(i2).doubleValue()) / 2.0d));
+                } else if (listSubtractTwoList.get(i2).doubleValue() < 0.0d && listSubtractTwoList2.get(i2).doubleValue() < 0.0d) {
+                    arrayList2.add(Double.valueOf(Math.abs(listSubtractTwoList.get(i2).doubleValue() + listSubtractTwoList2.get(i2).doubleValue()) / 2.0d));
+                }
+            }
+            if (arrayList2.size() == 0 || arrayList4.size() == 0) {
+                this.mTrainingCompleted = false;
+                this.mTrainingData.clear();
+                return INVALID_RESULT;
+            }
+            double dDoubleValue = ((Double) Collections.max(arrayList2)).doubleValue();
+            double dDoubleValue2 = ((Double) Collections.min(arrayList4)).doubleValue();
+            if (1.4d * dDoubleValue > dDoubleValue2) {
+                this.mRWave = true;
+                this.mSlopeThreshold = mSlopeMultiplier * (dDoubleValue + getMedian(arrayList2));
+            } else {
+                this.mRWave = false;
+                this.mSlopeThreshold = mSlopeMultiplier * (dDoubleValue2 + getMedian(arrayList4));
+            }
+            this.mTrainingCompleted = true;
+            this.mTrainingData.clear();
+            return INVALID_RESULT;
+        }
+        return computeHeartRate();
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0332 A[PHI: r8
+  0x0332: PHI (r8v23 boolean) = (r8v10 boolean), (r8v30 boolean) binds: [B:96:0x0330, B:85:0x02e0] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0334 A[PHI: r8
+  0x0334: PHI (r8v17 boolean) = (r8v10 boolean), (r8v10 boolean), (r8v30 boolean), (r8v30 boolean) binds: [B:94:0x0322, B:96:0x0330, B:83:0x02d2, B:85:0x02e0] A[DONT_GENERATE, DONT_INLINE]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private double computeHeartRate() {
+        /*
+            Method dump skipped, instructions count: 900
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.biophysicalprocessing.ECGtoHRAlgorithm.computeHeartRate():double");
+    }
+
+    private double getMedian(List<Double> list) {
+        Collections.sort(list);
+        int size = list.size();
+        int i = size / 2;
+        if (size % 2 == 0) {
+            return (list.get(i).doubleValue() + list.get(i - 1).doubleValue()) / 2.0d;
+        }
+        return list.get(i + 1).doubleValue();
+    }
+
+    private List<Double> subtractTwoList(List<Double> list, List<Double> list2) {
+        ArrayList arrayList = new ArrayList(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            arrayList.add(Double.valueOf(list.get(i).doubleValue() - list2.get(i).doubleValue()));
+        }
+        return arrayList;
+    }
+
+    private Double calculateAverage(List<Double> list) {
+        int size = list.size();
+        Double dValueOf = Double.valueOf(0.0d);
+        if (size < 1) {
+            return dValueOf;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            dValueOf = Double.valueOf(dValueOf.doubleValue() + list.get(i).doubleValue());
+        }
+        return Double.valueOf(dValueOf.doubleValue() / list.size());
+    }
+}

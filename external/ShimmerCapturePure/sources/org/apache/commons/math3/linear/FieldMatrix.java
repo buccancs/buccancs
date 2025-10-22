@@ -1,0 +1,114 @@
+package org.apache.commons.math3.linear;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+
+/* loaded from: classes5.dex */
+public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
+    FieldMatrix<T> add(FieldMatrix<T> fieldMatrix) throws MatrixDimensionMismatchException;
+
+    void addToEntry(int i, int i2, T t) throws OutOfRangeException;
+
+    FieldMatrix<T> copy();
+
+    void copySubMatrix(int i, int i2, int i3, int i4, T[][] tArr) throws NumberIsTooSmallException, OutOfRangeException, MatrixDimensionMismatchException;
+
+    void copySubMatrix(int[] iArr, int[] iArr2, T[][] tArr) throws OutOfRangeException, MatrixDimensionMismatchException, NullArgumentException, NoDataException;
+
+    FieldMatrix<T> createMatrix(int i, int i2) throws NotStrictlyPositiveException;
+
+    T[] getColumn(int i) throws OutOfRangeException;
+
+    FieldMatrix<T> getColumnMatrix(int i) throws OutOfRangeException;
+
+    FieldVector<T> getColumnVector(int i) throws OutOfRangeException;
+
+    T[][] getData();
+
+    T getEntry(int i, int i2) throws OutOfRangeException;
+
+    Field<T> getField();
+
+    T[] getRow(int i) throws OutOfRangeException;
+
+    FieldMatrix<T> getRowMatrix(int i) throws OutOfRangeException;
+
+    FieldVector<T> getRowVector(int i) throws OutOfRangeException;
+
+    FieldMatrix<T> getSubMatrix(int i, int i2, int i3, int i4) throws NumberIsTooSmallException, OutOfRangeException;
+
+    FieldMatrix<T> getSubMatrix(int[] iArr, int[] iArr2) throws OutOfRangeException, NullArgumentException, NoDataException;
+
+    T getTrace() throws NonSquareMatrixException;
+
+    FieldMatrix<T> multiply(FieldMatrix<T> fieldMatrix) throws DimensionMismatchException;
+
+    void multiplyEntry(int i, int i2, T t) throws OutOfRangeException;
+
+    FieldVector<T> operate(FieldVector<T> fieldVector) throws DimensionMismatchException;
+
+    T[] operate(T[] tArr) throws DimensionMismatchException;
+
+    FieldMatrix<T> power(int i) throws NotPositiveException, NonSquareMatrixException;
+
+    FieldMatrix<T> preMultiply(FieldMatrix<T> fieldMatrix) throws DimensionMismatchException;
+
+    FieldVector<T> preMultiply(FieldVector<T> fieldVector) throws DimensionMismatchException;
+
+    T[] preMultiply(T[] tArr) throws DimensionMismatchException;
+
+    FieldMatrix<T> scalarAdd(T t);
+
+    FieldMatrix<T> scalarMultiply(T t);
+
+    void setColumn(int i, T[] tArr) throws OutOfRangeException, MatrixDimensionMismatchException;
+
+    void setColumnMatrix(int i, FieldMatrix<T> fieldMatrix) throws OutOfRangeException, MatrixDimensionMismatchException;
+
+    void setColumnVector(int i, FieldVector<T> fieldVector) throws OutOfRangeException, MatrixDimensionMismatchException;
+
+    void setEntry(int i, int i2, T t) throws OutOfRangeException;
+
+    void setRow(int i, T[] tArr) throws OutOfRangeException, MatrixDimensionMismatchException;
+
+    void setRowMatrix(int i, FieldMatrix<T> fieldMatrix) throws OutOfRangeException, MatrixDimensionMismatchException;
+
+    void setRowVector(int i, FieldVector<T> fieldVector) throws OutOfRangeException, MatrixDimensionMismatchException;
+
+    void setSubMatrix(T[][] tArr, int i, int i2) throws OutOfRangeException, NullArgumentException, NoDataException, DimensionMismatchException;
+
+    FieldMatrix<T> subtract(FieldMatrix<T> fieldMatrix) throws MatrixDimensionMismatchException;
+
+    FieldMatrix<T> transpose();
+
+    T walkInColumnOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor);
+
+    T walkInColumnOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor, int i, int i2, int i3, int i4) throws NumberIsTooSmallException, OutOfRangeException;
+
+    T walkInColumnOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor);
+
+    T walkInColumnOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor, int i, int i2, int i3, int i4) throws NumberIsTooSmallException, OutOfRangeException;
+
+    T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor);
+
+    T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor, int i, int i2, int i3, int i4) throws NumberIsTooSmallException, OutOfRangeException;
+
+    T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor);
+
+    T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor, int i, int i2, int i3, int i4) throws NumberIsTooSmallException, OutOfRangeException;
+
+    T walkInRowOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor);
+
+    T walkInRowOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor, int i, int i2, int i3, int i4) throws NumberIsTooSmallException, OutOfRangeException;
+
+    T walkInRowOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor);
+
+    T walkInRowOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor, int i, int i2, int i3, int i4) throws NumberIsTooSmallException, OutOfRangeException;
+}

@@ -1,0 +1,49 @@
+package org.apache.commons.math3.ml.neuralnet.twod.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.ml.neuralnet.Neuron;
+import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
+
+/* loaded from: classes5.dex */
+public class LocationFinder {
+    private final Map<Long, Location> locations = new HashMap();
+
+    public LocationFinder(NeuronSquareMesh2D neuronSquareMesh2D) {
+        int numberOfRows = neuronSquareMesh2D.getNumberOfRows();
+        int numberOfColumns = neuronSquareMesh2D.getNumberOfColumns();
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int i2 = 0; i2 < numberOfColumns; i2++) {
+                Long lValueOf = Long.valueOf(neuronSquareMesh2D.getNeuron(i, i2).getIdentifier());
+                if (this.locations.get(lValueOf) != null) {
+                    throw new MathIllegalStateException();
+                }
+                this.locations.put(lValueOf, new Location(i, i2));
+            }
+        }
+    }
+
+    public Location getLocation(Neuron neuron) {
+        return this.locations.get(Long.valueOf(neuron.getIdentifier()));
+    }
+
+    public static class Location {
+        private final int column;
+        private final int row;
+
+        public Location(int i, int i2) {
+            this.row = i;
+            this.column = i2;
+        }
+
+        public int getColumn() {
+            return this.column;
+        }
+
+        public int getRow() {
+            return this.row;
+        }
+    }
+}

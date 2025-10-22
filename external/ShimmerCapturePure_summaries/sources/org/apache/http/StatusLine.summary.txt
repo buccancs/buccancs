@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/StatusLine.java
+// Size: 199 bytes
+// Modified: 2025-10-21 16:32:01.791158000 +0100
+
+package org.apache.http;
+
+/* loaded from: classes5.dex */
+public interface StatusLine {
+    ProtocolVersion getProtocolVersion();
+
+    String getReasonPhrase();
+
+    int getStatusCode();
+}

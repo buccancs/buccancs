@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/TableModel.java
+// Size: 651 bytes
+// Modified: 2025-10-21 16:32:00.781317800 +0100
+
+package com.androidplot.ui;
+
+import android.graphics.RectF;
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+public abstract class TableModel {
+    private TableOrder a;
+
+    public enum Axis {
+        ROW,
+        COLUMN
+    }
+
+    public enum CellSizingMethod {
+        FIXED,
+        FILL
+    }
+
+    public abstract Iterator<RectF> getIterator(RectF rectF, int i);
+
+    public TableOrder getOrder() {
+        return this.a;
+    }
+
+    public void setOrder(TableOrder tableOrder) {
+        this.a = tableOrder;
+    }
+
+    protected TableModel(TableOrder tableOrder) {
+        setOrder(tableOrder);
+    }
+}

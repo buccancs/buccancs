@@ -1,0 +1,1735 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSourceOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.v3.StringMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.v3.StringMatcherOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public final class CertificateValidationContext extends GeneratedMessageV3 implements CertificateValidationContextOrBuilder {
+    public static final int ALLOW_EXPIRED_CERTIFICATE_FIELD_NUMBER = 8;
+    public static final int CRL_FIELD_NUMBER = 7;
+    public static final int MATCH_SUBJECT_ALT_NAMES_FIELD_NUMBER = 9;
+    public static final int REQUIRE_OCSP_STAPLE_FIELD_NUMBER = 5;
+    public static final int REQUIRE_SIGNED_CERTIFICATE_TIMESTAMP_FIELD_NUMBER = 6;
+    public static final int TRUSTED_CA_FIELD_NUMBER = 1;
+    public static final int TRUST_CHAIN_VERIFICATION_FIELD_NUMBER = 10;
+    public static final int VERIFY_CERTIFICATE_HASH_FIELD_NUMBER = 2;
+    public static final int VERIFY_CERTIFICATE_SPKI_FIELD_NUMBER = 3;
+    private static final long serialVersionUID = 0;
+    private static final CertificateValidationContext DEFAULT_INSTANCE = new CertificateValidationContext();
+    private static final Parser<CertificateValidationContext> PARSER = new AbstractParser<CertificateValidationContext>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public CertificateValidationContext m31606parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new CertificateValidationContext(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private boolean allowExpiredCertificate_;
+    private DataSource crl_;
+    private List<StringMatcher> matchSubjectAltNames_;
+    private byte memoizedIsInitialized;
+    private BoolValue requireOcspStaple_;
+    private BoolValue requireSignedCertificateTimestamp_;
+    private int trustChainVerification_;
+    private DataSource trustedCa_;
+    private LazyStringList verifyCertificateHash_;
+    private LazyStringList verifyCertificateSpki_;
+
+    private CertificateValidationContext(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private CertificateValidationContext() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.verifyCertificateSpki_ = LazyStringArrayList.EMPTY;
+        this.verifyCertificateHash_ = LazyStringArrayList.EMPTY;
+        this.matchSubjectAltNames_ = Collections.emptyList();
+        this.trustChainVerification_ = 0;
+    }
+
+    private CertificateValidationContext(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        DataSource.Builder builderM21891toBuilder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                DataSource dataSource = this.trustedCa_;
+                                builderM21891toBuilder = dataSource != null ? dataSource.m21891toBuilder() : null;
+                                DataSource dataSource2 = (DataSource) codedInputStream.readMessage(DataSource.parser(), extensionRegistryLite);
+                                this.trustedCa_ = dataSource2;
+                                if (builderM21891toBuilder != null) {
+                                    builderM21891toBuilder.mergeFrom(dataSource2);
+                                    this.trustedCa_ = builderM21891toBuilder.m21898buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                                if ((i & 2) == 0) {
+                                    this.verifyCertificateHash_ = new LazyStringArrayList();
+                                    i |= 2;
+                                }
+                                this.verifyCertificateHash_.add(stringRequireUtf8);
+                            } else if (tag == 26) {
+                                String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                                if ((i & 1) == 0) {
+                                    this.verifyCertificateSpki_ = new LazyStringArrayList();
+                                    i |= 1;
+                                }
+                                this.verifyCertificateSpki_.add(stringRequireUtf82);
+                            } else if (tag == 42) {
+                                BoolValue boolValue = this.requireOcspStaple_;
+                                builderM21891toBuilder = boolValue != null ? boolValue.toBuilder() : null;
+                                BoolValue message = codedInputStream.readMessage(BoolValue.parser(), extensionRegistryLite);
+                                this.requireOcspStaple_ = message;
+                                if (builderM21891toBuilder != null) {
+                                    builderM21891toBuilder.mergeFrom(message);
+                                    this.requireOcspStaple_ = builderM21891toBuilder.buildPartial();
+                                }
+                            } else if (tag == 50) {
+                                BoolValue boolValue2 = this.requireSignedCertificateTimestamp_;
+                                builderM21891toBuilder = boolValue2 != null ? boolValue2.toBuilder() : null;
+                                BoolValue message2 = codedInputStream.readMessage(BoolValue.parser(), extensionRegistryLite);
+                                this.requireSignedCertificateTimestamp_ = message2;
+                                if (builderM21891toBuilder != null) {
+                                    builderM21891toBuilder.mergeFrom(message2);
+                                    this.requireSignedCertificateTimestamp_ = builderM21891toBuilder.buildPartial();
+                                }
+                            } else if (tag == 58) {
+                                DataSource dataSource3 = this.crl_;
+                                builderM21891toBuilder = dataSource3 != null ? dataSource3.m21891toBuilder() : null;
+                                DataSource dataSource4 = (DataSource) codedInputStream.readMessage(DataSource.parser(), extensionRegistryLite);
+                                this.crl_ = dataSource4;
+                                if (builderM21891toBuilder != null) {
+                                    builderM21891toBuilder.mergeFrom(dataSource4);
+                                    this.crl_ = builderM21891toBuilder.m21898buildPartial();
+                                }
+                            } else if (tag == 64) {
+                                this.allowExpiredCertificate_ = codedInputStream.readBool();
+                            } else if (tag == 74) {
+                                if ((i & 4) == 0) {
+                                    this.matchSubjectAltNames_ = new ArrayList();
+                                    i |= 4;
+                                }
+                                this.matchSubjectAltNames_.add(codedInputStream.readMessage(StringMatcher.parser(), extensionRegistryLite));
+                            } else if (tag == 80) {
+                                this.trustChainVerification_ = codedInputStream.readEnum();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 2) != 0) {
+                    this.verifyCertificateHash_ = this.verifyCertificateHash_.getUnmodifiableView();
+                }
+                if ((i & 1) != 0) {
+                    this.verifyCertificateSpki_ = this.verifyCertificateSpki_.getUnmodifiableView();
+                }
+                if ((i & 4) != 0) {
+                    this.matchSubjectAltNames_ = Collections.unmodifiableList(this.matchSubjectAltNames_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static CertificateValidationContext getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<CertificateValidationContext> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_CertificateValidationContext_descriptor;
+    }
+
+    public static CertificateValidationContext parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (CertificateValidationContext) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static CertificateValidationContext parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CertificateValidationContext) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static CertificateValidationContext parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (CertificateValidationContext) PARSER.parseFrom(byteString);
+    }
+
+    public static CertificateValidationContext parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CertificateValidationContext) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static CertificateValidationContext parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (CertificateValidationContext) PARSER.parseFrom(bArr);
+    }
+
+    public static CertificateValidationContext parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CertificateValidationContext) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static CertificateValidationContext parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static CertificateValidationContext parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CertificateValidationContext parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static CertificateValidationContext parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CertificateValidationContext parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static CertificateValidationContext parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m31604toBuilder();
+    }
+
+    public static Builder newBuilder(CertificateValidationContext certificateValidationContext) {
+        return DEFAULT_INSTANCE.m31604toBuilder().mergeFrom(certificateValidationContext);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public boolean getAllowExpiredCertificate() {
+        return this.allowExpiredCertificate_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public CertificateValidationContext m31597getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public List<StringMatcher> getMatchSubjectAltNamesList() {
+        return this.matchSubjectAltNames_;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public List<? extends StringMatcherOrBuilder> getMatchSubjectAltNamesOrBuilderList() {
+        return this.matchSubjectAltNames_;
+    }
+
+    public Parser<CertificateValidationContext> getParserForType() {
+        return PARSER;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public int getTrustChainVerificationValue() {
+        return this.trustChainVerification_;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    /* renamed from: getVerifyCertificateHashList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo31599getVerifyCertificateHashList() {
+        return this.verifyCertificateHash_;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    /* renamed from: getVerifyCertificateSpkiList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo31600getVerifyCertificateSpkiList() {
+        return this.verifyCertificateSpki_;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public boolean hasCrl() {
+        return this.crl_ != null;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public boolean hasRequireOcspStaple() {
+        return this.requireOcspStaple_ != null;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public boolean hasRequireSignedCertificateTimestamp() {
+        return this.requireSignedCertificateTimestamp_ != null;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public boolean hasTrustedCa() {
+        return this.trustedCa_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new CertificateValidationContext();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_CertificateValidationContext_fieldAccessorTable.ensureFieldAccessorsInitialized(CertificateValidationContext.class, Builder.class);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public DataSource getTrustedCa() {
+        DataSource dataSource = this.trustedCa_;
+        return dataSource == null ? DataSource.getDefaultInstance() : dataSource;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public DataSourceOrBuilder getTrustedCaOrBuilder() {
+        return getTrustedCa();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public int getVerifyCertificateSpkiCount() {
+        return this.verifyCertificateSpki_.size();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public String getVerifyCertificateSpki(int i) {
+        return (String) this.verifyCertificateSpki_.get(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public ByteString getVerifyCertificateSpkiBytes(int i) {
+        return this.verifyCertificateSpki_.getByteString(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public int getVerifyCertificateHashCount() {
+        return this.verifyCertificateHash_.size();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public String getVerifyCertificateHash(int i) {
+        return (String) this.verifyCertificateHash_.get(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public ByteString getVerifyCertificateHashBytes(int i) {
+        return this.verifyCertificateHash_.getByteString(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public int getMatchSubjectAltNamesCount() {
+        return this.matchSubjectAltNames_.size();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public StringMatcher getMatchSubjectAltNames(int i) {
+        return this.matchSubjectAltNames_.get(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public StringMatcherOrBuilder getMatchSubjectAltNamesOrBuilder(int i) {
+        return this.matchSubjectAltNames_.get(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public BoolValue getRequireOcspStaple() {
+        BoolValue boolValue = this.requireOcspStaple_;
+        return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public BoolValueOrBuilder getRequireOcspStapleOrBuilder() {
+        return getRequireOcspStaple();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public BoolValue getRequireSignedCertificateTimestamp() {
+        BoolValue boolValue = this.requireSignedCertificateTimestamp_;
+        return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public BoolValueOrBuilder getRequireSignedCertificateTimestampOrBuilder() {
+        return getRequireSignedCertificateTimestamp();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public DataSource getCrl() {
+        DataSource dataSource = this.crl_;
+        return dataSource == null ? DataSource.getDefaultInstance() : dataSource;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public DataSourceOrBuilder getCrlOrBuilder() {
+        return getCrl();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+    public TrustChainVerification getTrustChainVerification() {
+        TrustChainVerification trustChainVerificationValueOf = TrustChainVerification.valueOf(this.trustChainVerification_);
+        return trustChainVerificationValueOf == null ? TrustChainVerification.UNRECOGNIZED : trustChainVerificationValueOf;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.trustedCa_ != null) {
+            codedOutputStream.writeMessage(1, getTrustedCa());
+        }
+        for (int i = 0; i < this.verifyCertificateHash_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.verifyCertificateHash_.getRaw(i));
+        }
+        for (int i2 = 0; i2 < this.verifyCertificateSpki_.size(); i2++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.verifyCertificateSpki_.getRaw(i2));
+        }
+        if (this.requireOcspStaple_ != null) {
+            codedOutputStream.writeMessage(5, getRequireOcspStaple());
+        }
+        if (this.requireSignedCertificateTimestamp_ != null) {
+            codedOutputStream.writeMessage(6, getRequireSignedCertificateTimestamp());
+        }
+        if (this.crl_ != null) {
+            codedOutputStream.writeMessage(7, getCrl());
+        }
+        boolean z = this.allowExpiredCertificate_;
+        if (z) {
+            codedOutputStream.writeBool(8, z);
+        }
+        for (int i3 = 0; i3 < this.matchSubjectAltNames_.size(); i3++) {
+            codedOutputStream.writeMessage(9, this.matchSubjectAltNames_.get(i3));
+        }
+        if (this.trustChainVerification_ != TrustChainVerification.VERIFY_TRUST_CHAIN.getNumber()) {
+            codedOutputStream.writeEnum(10, this.trustChainVerification_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.trustedCa_ != null ? CodedOutputStream.computeMessageSize(1, getTrustedCa()) : 0;
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.verifyCertificateHash_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.verifyCertificateHash_.getRaw(i2));
+        }
+        int size = iComputeMessageSize + iComputeStringSizeNoTag + mo31599getVerifyCertificateHashList().size();
+        int iComputeStringSizeNoTag2 = 0;
+        for (int i3 = 0; i3 < this.verifyCertificateSpki_.size(); i3++) {
+            iComputeStringSizeNoTag2 += computeStringSizeNoTag(this.verifyCertificateSpki_.getRaw(i3));
+        }
+        int size2 = size + iComputeStringSizeNoTag2 + mo31600getVerifyCertificateSpkiList().size();
+        if (this.requireOcspStaple_ != null) {
+            size2 += CodedOutputStream.computeMessageSize(5, getRequireOcspStaple());
+        }
+        if (this.requireSignedCertificateTimestamp_ != null) {
+            size2 += CodedOutputStream.computeMessageSize(6, getRequireSignedCertificateTimestamp());
+        }
+        if (this.crl_ != null) {
+            size2 += CodedOutputStream.computeMessageSize(7, getCrl());
+        }
+        boolean z = this.allowExpiredCertificate_;
+        if (z) {
+            size2 += CodedOutputStream.computeBoolSize(8, z);
+        }
+        for (int i4 = 0; i4 < this.matchSubjectAltNames_.size(); i4++) {
+            size2 += CodedOutputStream.computeMessageSize(9, this.matchSubjectAltNames_.get(i4));
+        }
+        if (this.trustChainVerification_ != TrustChainVerification.VERIFY_TRUST_CHAIN.getNumber()) {
+            size2 += CodedOutputStream.computeEnumSize(10, this.trustChainVerification_);
+        }
+        int serializedSize = size2 + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof CertificateValidationContext)) {
+            return super.equals(obj);
+        }
+        CertificateValidationContext certificateValidationContext = (CertificateValidationContext) obj;
+        if (hasTrustedCa() != certificateValidationContext.hasTrustedCa()) {
+            return false;
+        }
+        if ((hasTrustedCa() && !getTrustedCa().equals(certificateValidationContext.getTrustedCa())) || !mo31600getVerifyCertificateSpkiList().equals(certificateValidationContext.mo31600getVerifyCertificateSpkiList()) || !mo31599getVerifyCertificateHashList().equals(certificateValidationContext.mo31599getVerifyCertificateHashList()) || !getMatchSubjectAltNamesList().equals(certificateValidationContext.getMatchSubjectAltNamesList()) || hasRequireOcspStaple() != certificateValidationContext.hasRequireOcspStaple()) {
+            return false;
+        }
+        if ((hasRequireOcspStaple() && !getRequireOcspStaple().equals(certificateValidationContext.getRequireOcspStaple())) || hasRequireSignedCertificateTimestamp() != certificateValidationContext.hasRequireSignedCertificateTimestamp()) {
+            return false;
+        }
+        if ((!hasRequireSignedCertificateTimestamp() || getRequireSignedCertificateTimestamp().equals(certificateValidationContext.getRequireSignedCertificateTimestamp())) && hasCrl() == certificateValidationContext.hasCrl()) {
+            return (!hasCrl() || getCrl().equals(certificateValidationContext.getCrl())) && getAllowExpiredCertificate() == certificateValidationContext.getAllowExpiredCertificate() && this.trustChainVerification_ == certificateValidationContext.trustChainVerification_ && this.unknownFields.equals(certificateValidationContext.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasTrustedCa()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getTrustedCa().hashCode();
+        }
+        if (getVerifyCertificateSpkiCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + mo31600getVerifyCertificateSpkiList().hashCode();
+        }
+        if (getVerifyCertificateHashCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + mo31599getVerifyCertificateHashList().hashCode();
+        }
+        if (getMatchSubjectAltNamesCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 9) * 53) + getMatchSubjectAltNamesList().hashCode();
+        }
+        if (hasRequireOcspStaple()) {
+            iHashCode = (((iHashCode * 37) + 5) * 53) + getRequireOcspStaple().hashCode();
+        }
+        if (hasRequireSignedCertificateTimestamp()) {
+            iHashCode = (((iHashCode * 37) + 6) * 53) + getRequireSignedCertificateTimestamp().hashCode();
+        }
+        if (hasCrl()) {
+            iHashCode = (((iHashCode * 37) + 7) * 53) + getCrl().hashCode();
+        }
+        int iHashBoolean = (((((((((iHashCode * 37) + 8) * 53) + Internal.hashBoolean(getAllowExpiredCertificate())) * 37) + 10) * 53) + this.trustChainVerification_) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashBoolean;
+        return iHashBoolean;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m31601newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m31604toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum TrustChainVerification implements ProtocolMessageEnum {
+        VERIFY_TRUST_CHAIN(0),
+        ACCEPT_UNTRUSTED(1),
+        UNRECOGNIZED(-1);
+
+        public static final int ACCEPT_UNTRUSTED_VALUE = 1;
+        public static final int VERIFY_TRUST_CHAIN_VALUE = 0;
+        private static final Internal.EnumLiteMap<TrustChainVerification> internalValueMap = new Internal.EnumLiteMap<TrustChainVerification>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext.TrustChainVerification.1
+            public TrustChainVerification findValueByNumber(int i) {
+                return TrustChainVerification.forNumber(i);
+            }
+        };
+        private static final TrustChainVerification[] VALUES = values();
+        private final int value;
+
+        TrustChainVerification(int i) {
+            this.value = i;
+        }
+
+        public static TrustChainVerification forNumber(int i) {
+            if (i == 0) {
+                return VERIFY_TRUST_CHAIN;
+            }
+            if (i != 1) {
+                return null;
+            }
+            return ACCEPT_UNTRUSTED;
+        }
+
+        public static Internal.EnumLiteMap<TrustChainVerification> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static TrustChainVerification valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) CertificateValidationContext.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static TrustChainVerification valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CertificateValidationContextOrBuilder {
+        private boolean allowExpiredCertificate_;
+        private int bitField0_;
+        private SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> crlBuilder_;
+        private DataSource crl_;
+        private RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> matchSubjectAltNamesBuilder_;
+        private List<StringMatcher> matchSubjectAltNames_;
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> requireOcspStapleBuilder_;
+        private BoolValue requireOcspStaple_;
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> requireSignedCertificateTimestampBuilder_;
+        private BoolValue requireSignedCertificateTimestamp_;
+        private int trustChainVerification_;
+        private SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> trustedCaBuilder_;
+        private DataSource trustedCa_;
+        private LazyStringList verifyCertificateHash_;
+        private LazyStringList verifyCertificateSpki_;
+
+        private Builder() {
+            this.verifyCertificateSpki_ = LazyStringArrayList.EMPTY;
+            this.verifyCertificateHash_ = LazyStringArrayList.EMPTY;
+            this.matchSubjectAltNames_ = Collections.emptyList();
+            this.trustChainVerification_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.verifyCertificateSpki_ = LazyStringArrayList.EMPTY;
+            this.verifyCertificateHash_ = LazyStringArrayList.EMPTY;
+            this.matchSubjectAltNames_ = Collections.emptyList();
+            this.trustChainVerification_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_CertificateValidationContext_descriptor;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public boolean getAllowExpiredCertificate() {
+            return this.allowExpiredCertificate_;
+        }
+
+        public Builder setAllowExpiredCertificate(boolean z) {
+            this.allowExpiredCertificate_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public int getTrustChainVerificationValue() {
+            return this.trustChainVerification_;
+        }
+
+        public Builder setTrustChainVerificationValue(int i) {
+            this.trustChainVerification_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public boolean hasCrl() {
+            return (this.crlBuilder_ == null && this.crl_ == null) ? false : true;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public boolean hasRequireOcspStaple() {
+            return (this.requireOcspStapleBuilder_ == null && this.requireOcspStaple_ == null) ? false : true;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public boolean hasRequireSignedCertificateTimestamp() {
+            return (this.requireSignedCertificateTimestampBuilder_ == null && this.requireSignedCertificateTimestamp_ == null) ? false : true;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public boolean hasTrustedCa() {
+            return (this.trustedCaBuilder_ == null && this.trustedCa_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_CertificateValidationContext_fieldAccessorTable.ensureFieldAccessorsInitialized(CertificateValidationContext.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (CertificateValidationContext.alwaysUseFieldBuilders) {
+                getMatchSubjectAltNamesFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31615clear() {
+            super.clear();
+            if (this.trustedCaBuilder_ == null) {
+                this.trustedCa_ = null;
+            } else {
+                this.trustedCa_ = null;
+                this.trustedCaBuilder_ = null;
+            }
+            this.verifyCertificateSpki_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            this.verifyCertificateHash_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.matchSubjectAltNames_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            if (this.requireOcspStapleBuilder_ == null) {
+                this.requireOcspStaple_ = null;
+            } else {
+                this.requireOcspStaple_ = null;
+                this.requireOcspStapleBuilder_ = null;
+            }
+            if (this.requireSignedCertificateTimestampBuilder_ == null) {
+                this.requireSignedCertificateTimestamp_ = null;
+            } else {
+                this.requireSignedCertificateTimestamp_ = null;
+                this.requireSignedCertificateTimestampBuilder_ = null;
+            }
+            if (this.crlBuilder_ == null) {
+                this.crl_ = null;
+            } else {
+                this.crl_ = null;
+                this.crlBuilder_ = null;
+            }
+            this.allowExpiredCertificate_ = false;
+            this.trustChainVerification_ = 0;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_CertificateValidationContext_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CertificateValidationContext m31628getDefaultInstanceForType() {
+            return CertificateValidationContext.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CertificateValidationContext m31609build() throws UninitializedMessageException {
+            CertificateValidationContext certificateValidationContextM31611buildPartial = m31611buildPartial();
+            if (certificateValidationContextM31611buildPartial.isInitialized()) {
+                return certificateValidationContextM31611buildPartial;
+            }
+            throw newUninitializedMessageException(certificateValidationContextM31611buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CertificateValidationContext m31611buildPartial() {
+            CertificateValidationContext certificateValidationContext = new CertificateValidationContext(this);
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.trustedCaBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                certificateValidationContext.trustedCa_ = this.trustedCa_;
+            } else {
+                certificateValidationContext.trustedCa_ = singleFieldBuilderV3.build();
+            }
+            if ((this.bitField0_ & 1) != 0) {
+                this.verifyCertificateSpki_ = this.verifyCertificateSpki_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            certificateValidationContext.verifyCertificateSpki_ = this.verifyCertificateSpki_;
+            if ((this.bitField0_ & 2) != 0) {
+                this.verifyCertificateHash_ = this.verifyCertificateHash_.getUnmodifiableView();
+                this.bitField0_ &= -3;
+            }
+            certificateValidationContext.verifyCertificateHash_ = this.verifyCertificateHash_;
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 4) != 0) {
+                    this.matchSubjectAltNames_ = Collections.unmodifiableList(this.matchSubjectAltNames_);
+                    this.bitField0_ &= -5;
+                }
+                certificateValidationContext.matchSubjectAltNames_ = this.matchSubjectAltNames_;
+            } else {
+                certificateValidationContext.matchSubjectAltNames_ = repeatedFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV32 = this.requireOcspStapleBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                certificateValidationContext.requireOcspStaple_ = this.requireOcspStaple_;
+            } else {
+                certificateValidationContext.requireOcspStaple_ = singleFieldBuilderV32.build();
+            }
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV33 = this.requireSignedCertificateTimestampBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                certificateValidationContext.requireSignedCertificateTimestamp_ = this.requireSignedCertificateTimestamp_;
+            } else {
+                certificateValidationContext.requireSignedCertificateTimestamp_ = singleFieldBuilderV33.build();
+            }
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV34 = this.crlBuilder_;
+            if (singleFieldBuilderV34 == null) {
+                certificateValidationContext.crl_ = this.crl_;
+            } else {
+                certificateValidationContext.crl_ = singleFieldBuilderV34.build();
+            }
+            certificateValidationContext.allowExpiredCertificate_ = this.allowExpiredCertificate_;
+            certificateValidationContext.trustChainVerification_ = this.trustChainVerification_;
+            onBuilt();
+            return certificateValidationContext;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31627clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31639setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31617clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31620clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31641setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31607addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31632mergeFrom(Message message) {
+            if (message instanceof CertificateValidationContext) {
+                return mergeFrom((CertificateValidationContext) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(CertificateValidationContext certificateValidationContext) {
+            if (certificateValidationContext == CertificateValidationContext.getDefaultInstance()) {
+                return this;
+            }
+            if (certificateValidationContext.hasTrustedCa()) {
+                mergeTrustedCa(certificateValidationContext.getTrustedCa());
+            }
+            if (!certificateValidationContext.verifyCertificateSpki_.isEmpty()) {
+                if (this.verifyCertificateSpki_.isEmpty()) {
+                    this.verifyCertificateSpki_ = certificateValidationContext.verifyCertificateSpki_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureVerifyCertificateSpkiIsMutable();
+                    this.verifyCertificateSpki_.addAll(certificateValidationContext.verifyCertificateSpki_);
+                }
+                onChanged();
+            }
+            if (!certificateValidationContext.verifyCertificateHash_.isEmpty()) {
+                if (this.verifyCertificateHash_.isEmpty()) {
+                    this.verifyCertificateHash_ = certificateValidationContext.verifyCertificateHash_;
+                    this.bitField0_ &= -3;
+                } else {
+                    ensureVerifyCertificateHashIsMutable();
+                    this.verifyCertificateHash_.addAll(certificateValidationContext.verifyCertificateHash_);
+                }
+                onChanged();
+            }
+            if (this.matchSubjectAltNamesBuilder_ == null) {
+                if (!certificateValidationContext.matchSubjectAltNames_.isEmpty()) {
+                    if (this.matchSubjectAltNames_.isEmpty()) {
+                        this.matchSubjectAltNames_ = certificateValidationContext.matchSubjectAltNames_;
+                        this.bitField0_ &= -5;
+                    } else {
+                        ensureMatchSubjectAltNamesIsMutable();
+                        this.matchSubjectAltNames_.addAll(certificateValidationContext.matchSubjectAltNames_);
+                    }
+                    onChanged();
+                }
+            } else if (!certificateValidationContext.matchSubjectAltNames_.isEmpty()) {
+                if (!this.matchSubjectAltNamesBuilder_.isEmpty()) {
+                    this.matchSubjectAltNamesBuilder_.addAllMessages(certificateValidationContext.matchSubjectAltNames_);
+                } else {
+                    this.matchSubjectAltNamesBuilder_.dispose();
+                    this.matchSubjectAltNamesBuilder_ = null;
+                    this.matchSubjectAltNames_ = certificateValidationContext.matchSubjectAltNames_;
+                    this.bitField0_ &= -5;
+                    this.matchSubjectAltNamesBuilder_ = CertificateValidationContext.alwaysUseFieldBuilders ? getMatchSubjectAltNamesFieldBuilder() : null;
+                }
+            }
+            if (certificateValidationContext.hasRequireOcspStaple()) {
+                mergeRequireOcspStaple(certificateValidationContext.getRequireOcspStaple());
+            }
+            if (certificateValidationContext.hasRequireSignedCertificateTimestamp()) {
+                mergeRequireSignedCertificateTimestamp(certificateValidationContext.getRequireSignedCertificateTimestamp());
+            }
+            if (certificateValidationContext.hasCrl()) {
+                mergeCrl(certificateValidationContext.getCrl());
+            }
+            if (certificateValidationContext.getAllowExpiredCertificate()) {
+                setAllowExpiredCertificate(certificateValidationContext.getAllowExpiredCertificate());
+            }
+            if (certificateValidationContext.trustChainVerification_ != 0) {
+                setTrustChainVerificationValue(certificateValidationContext.getTrustChainVerificationValue());
+            }
+            m31637mergeUnknownFields(certificateValidationContext.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext.Builder m31633mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext.access$1500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext.Builder.m31633mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext$Builder");
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public DataSource getTrustedCa() {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.trustedCaBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            DataSource dataSource = this.trustedCa_;
+            return dataSource == null ? DataSource.getDefaultInstance() : dataSource;
+        }
+
+        public Builder setTrustedCa(DataSource dataSource) {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.trustedCaBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                dataSource.getClass();
+                this.trustedCa_ = dataSource;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(dataSource);
+            }
+            return this;
+        }
+
+        public Builder setTrustedCa(DataSource.Builder builder) {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.trustedCaBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.trustedCa_ = builder.m21896build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21896build());
+            }
+            return this;
+        }
+
+        public Builder mergeTrustedCa(DataSource dataSource) {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.trustedCaBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                DataSource dataSource2 = this.trustedCa_;
+                if (dataSource2 != null) {
+                    this.trustedCa_ = DataSource.newBuilder(dataSource2).mergeFrom(dataSource).m21898buildPartial();
+                } else {
+                    this.trustedCa_ = dataSource;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(dataSource);
+            }
+            return this;
+        }
+
+        public Builder clearTrustedCa() {
+            if (this.trustedCaBuilder_ == null) {
+                this.trustedCa_ = null;
+                onChanged();
+            } else {
+                this.trustedCa_ = null;
+                this.trustedCaBuilder_ = null;
+            }
+            return this;
+        }
+
+        public DataSource.Builder getTrustedCaBuilder() {
+            onChanged();
+            return getTrustedCaFieldBuilder().getBuilder();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public DataSourceOrBuilder getTrustedCaOrBuilder() {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.trustedCaBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (DataSourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            DataSource dataSource = this.trustedCa_;
+            return dataSource == null ? DataSource.getDefaultInstance() : dataSource;
+        }
+
+        private SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> getTrustedCaFieldBuilder() {
+            if (this.trustedCaBuilder_ == null) {
+                this.trustedCaBuilder_ = new SingleFieldBuilderV3<>(getTrustedCa(), getParentForChildren(), isClean());
+                this.trustedCa_ = null;
+            }
+            return this.trustedCaBuilder_;
+        }
+
+        private void ensureVerifyCertificateSpkiIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.verifyCertificateSpki_ = new LazyStringArrayList(this.verifyCertificateSpki_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        /* renamed from: getVerifyCertificateSpkiList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo31600getVerifyCertificateSpkiList() {
+            return this.verifyCertificateSpki_.getUnmodifiableView();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public int getVerifyCertificateSpkiCount() {
+            return this.verifyCertificateSpki_.size();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public String getVerifyCertificateSpki(int i) {
+            return (String) this.verifyCertificateSpki_.get(i);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public ByteString getVerifyCertificateSpkiBytes(int i) {
+            return this.verifyCertificateSpki_.getByteString(i);
+        }
+
+        public Builder setVerifyCertificateSpki(int i, String str) {
+            str.getClass();
+            ensureVerifyCertificateSpkiIsMutable();
+            this.verifyCertificateSpki_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addVerifyCertificateSpki(String str) {
+            str.getClass();
+            ensureVerifyCertificateSpkiIsMutable();
+            this.verifyCertificateSpki_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllVerifyCertificateSpki(Iterable<String> iterable) {
+            ensureVerifyCertificateSpkiIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.verifyCertificateSpki_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearVerifyCertificateSpki() {
+            this.verifyCertificateSpki_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addVerifyCertificateSpkiBytes(ByteString byteString) {
+            byteString.getClass();
+            CertificateValidationContext.checkByteStringIsUtf8(byteString);
+            ensureVerifyCertificateSpkiIsMutable();
+            this.verifyCertificateSpki_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureVerifyCertificateHashIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.verifyCertificateHash_ = new LazyStringArrayList(this.verifyCertificateHash_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        /* renamed from: getVerifyCertificateHashList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo31599getVerifyCertificateHashList() {
+            return this.verifyCertificateHash_.getUnmodifiableView();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public int getVerifyCertificateHashCount() {
+            return this.verifyCertificateHash_.size();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public String getVerifyCertificateHash(int i) {
+            return (String) this.verifyCertificateHash_.get(i);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public ByteString getVerifyCertificateHashBytes(int i) {
+            return this.verifyCertificateHash_.getByteString(i);
+        }
+
+        public Builder setVerifyCertificateHash(int i, String str) {
+            str.getClass();
+            ensureVerifyCertificateHashIsMutable();
+            this.verifyCertificateHash_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addVerifyCertificateHash(String str) {
+            str.getClass();
+            ensureVerifyCertificateHashIsMutable();
+            this.verifyCertificateHash_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllVerifyCertificateHash(Iterable<String> iterable) {
+            ensureVerifyCertificateHashIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.verifyCertificateHash_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearVerifyCertificateHash() {
+            this.verifyCertificateHash_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            onChanged();
+            return this;
+        }
+
+        public Builder addVerifyCertificateHashBytes(ByteString byteString) {
+            byteString.getClass();
+            CertificateValidationContext.checkByteStringIsUtf8(byteString);
+            ensureVerifyCertificateHashIsMutable();
+            this.verifyCertificateHash_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureMatchSubjectAltNamesIsMutable() {
+            if ((this.bitField0_ & 4) == 0) {
+                this.matchSubjectAltNames_ = new ArrayList(this.matchSubjectAltNames_);
+                this.bitField0_ |= 4;
+            }
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public List<StringMatcher> getMatchSubjectAltNamesList() {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.matchSubjectAltNames_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public int getMatchSubjectAltNamesCount() {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.matchSubjectAltNames_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public StringMatcher getMatchSubjectAltNames(int i) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.matchSubjectAltNames_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setMatchSubjectAltNames(int i, StringMatcher stringMatcher) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                stringMatcher.getClass();
+                ensureMatchSubjectAltNamesIsMutable();
+                this.matchSubjectAltNames_.set(i, stringMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, stringMatcher);
+            }
+            return this;
+        }
+
+        public Builder setMatchSubjectAltNames(int i, StringMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMatchSubjectAltNamesIsMutable();
+                this.matchSubjectAltNames_.set(i, builder.m33831build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m33831build());
+            }
+            return this;
+        }
+
+        public Builder addMatchSubjectAltNames(StringMatcher stringMatcher) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                stringMatcher.getClass();
+                ensureMatchSubjectAltNamesIsMutable();
+                this.matchSubjectAltNames_.add(stringMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(stringMatcher);
+            }
+            return this;
+        }
+
+        public Builder addMatchSubjectAltNames(int i, StringMatcher stringMatcher) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                stringMatcher.getClass();
+                ensureMatchSubjectAltNamesIsMutable();
+                this.matchSubjectAltNames_.add(i, stringMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, stringMatcher);
+            }
+            return this;
+        }
+
+        public Builder addMatchSubjectAltNames(StringMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMatchSubjectAltNamesIsMutable();
+                this.matchSubjectAltNames_.add(builder.m33831build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m33831build());
+            }
+            return this;
+        }
+
+        public Builder addMatchSubjectAltNames(int i, StringMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMatchSubjectAltNamesIsMutable();
+                this.matchSubjectAltNames_.add(i, builder.m33831build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m33831build());
+            }
+            return this;
+        }
+
+        public Builder addAllMatchSubjectAltNames(Iterable<? extends StringMatcher> iterable) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMatchSubjectAltNamesIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.matchSubjectAltNames_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearMatchSubjectAltNames() {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.matchSubjectAltNames_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeMatchSubjectAltNames(int i) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMatchSubjectAltNamesIsMutable();
+                this.matchSubjectAltNames_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public StringMatcher.Builder getMatchSubjectAltNamesBuilder(int i) {
+            return getMatchSubjectAltNamesFieldBuilder().getBuilder(i);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public StringMatcherOrBuilder getMatchSubjectAltNamesOrBuilder(int i) {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.matchSubjectAltNames_.get(i);
+            }
+            return (StringMatcherOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public List<? extends StringMatcherOrBuilder> getMatchSubjectAltNamesOrBuilderList() {
+            RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> repeatedFieldBuilderV3 = this.matchSubjectAltNamesBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.matchSubjectAltNames_);
+        }
+
+        public StringMatcher.Builder addMatchSubjectAltNamesBuilder() {
+            return getMatchSubjectAltNamesFieldBuilder().addBuilder(StringMatcher.getDefaultInstance());
+        }
+
+        public StringMatcher.Builder addMatchSubjectAltNamesBuilder(int i) {
+            return getMatchSubjectAltNamesFieldBuilder().addBuilder(i, StringMatcher.getDefaultInstance());
+        }
+
+        public List<StringMatcher.Builder> getMatchSubjectAltNamesBuilderList() {
+            return getMatchSubjectAltNamesFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<StringMatcher, StringMatcher.Builder, StringMatcherOrBuilder> getMatchSubjectAltNamesFieldBuilder() {
+            if (this.matchSubjectAltNamesBuilder_ == null) {
+                this.matchSubjectAltNamesBuilder_ = new RepeatedFieldBuilderV3<>(this.matchSubjectAltNames_, (this.bitField0_ & 4) != 0, getParentForChildren(), isClean());
+                this.matchSubjectAltNames_ = null;
+            }
+            return this.matchSubjectAltNamesBuilder_;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public BoolValue getRequireOcspStaple() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireOcspStapleBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BoolValue boolValue = this.requireOcspStaple_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        public Builder setRequireOcspStaple(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireOcspStapleBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                boolValue.getClass();
+                this.requireOcspStaple_ = boolValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(boolValue);
+            }
+            return this;
+        }
+
+        public Builder setRequireOcspStaple(BoolValue.Builder builder) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireOcspStapleBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.requireOcspStaple_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeRequireOcspStaple(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireOcspStapleBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BoolValue boolValue2 = this.requireOcspStaple_;
+                if (boolValue2 != null) {
+                    this.requireOcspStaple_ = BoolValue.newBuilder(boolValue2).mergeFrom(boolValue).buildPartial();
+                } else {
+                    this.requireOcspStaple_ = boolValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(boolValue);
+            }
+            return this;
+        }
+
+        public Builder clearRequireOcspStaple() {
+            if (this.requireOcspStapleBuilder_ == null) {
+                this.requireOcspStaple_ = null;
+                onChanged();
+            } else {
+                this.requireOcspStaple_ = null;
+                this.requireOcspStapleBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BoolValue.Builder getRequireOcspStapleBuilder() {
+            onChanged();
+            return getRequireOcspStapleFieldBuilder().getBuilder();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public BoolValueOrBuilder getRequireOcspStapleOrBuilder() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireOcspStapleBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BoolValue boolValue = this.requireOcspStaple_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> getRequireOcspStapleFieldBuilder() {
+            if (this.requireOcspStapleBuilder_ == null) {
+                this.requireOcspStapleBuilder_ = new SingleFieldBuilderV3<>(getRequireOcspStaple(), getParentForChildren(), isClean());
+                this.requireOcspStaple_ = null;
+            }
+            return this.requireOcspStapleBuilder_;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public BoolValue getRequireSignedCertificateTimestamp() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireSignedCertificateTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BoolValue boolValue = this.requireSignedCertificateTimestamp_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        public Builder setRequireSignedCertificateTimestamp(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireSignedCertificateTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                boolValue.getClass();
+                this.requireSignedCertificateTimestamp_ = boolValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(boolValue);
+            }
+            return this;
+        }
+
+        public Builder setRequireSignedCertificateTimestamp(BoolValue.Builder builder) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireSignedCertificateTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.requireSignedCertificateTimestamp_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeRequireSignedCertificateTimestamp(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireSignedCertificateTimestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BoolValue boolValue2 = this.requireSignedCertificateTimestamp_;
+                if (boolValue2 != null) {
+                    this.requireSignedCertificateTimestamp_ = BoolValue.newBuilder(boolValue2).mergeFrom(boolValue).buildPartial();
+                } else {
+                    this.requireSignedCertificateTimestamp_ = boolValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(boolValue);
+            }
+            return this;
+        }
+
+        public Builder clearRequireSignedCertificateTimestamp() {
+            if (this.requireSignedCertificateTimestampBuilder_ == null) {
+                this.requireSignedCertificateTimestamp_ = null;
+                onChanged();
+            } else {
+                this.requireSignedCertificateTimestamp_ = null;
+                this.requireSignedCertificateTimestampBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BoolValue.Builder getRequireSignedCertificateTimestampBuilder() {
+            onChanged();
+            return getRequireSignedCertificateTimestampFieldBuilder().getBuilder();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public BoolValueOrBuilder getRequireSignedCertificateTimestampOrBuilder() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.requireSignedCertificateTimestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BoolValue boolValue = this.requireSignedCertificateTimestamp_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> getRequireSignedCertificateTimestampFieldBuilder() {
+            if (this.requireSignedCertificateTimestampBuilder_ == null) {
+                this.requireSignedCertificateTimestampBuilder_ = new SingleFieldBuilderV3<>(getRequireSignedCertificateTimestamp(), getParentForChildren(), isClean());
+                this.requireSignedCertificateTimestamp_ = null;
+            }
+            return this.requireSignedCertificateTimestampBuilder_;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public DataSource getCrl() {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.crlBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            DataSource dataSource = this.crl_;
+            return dataSource == null ? DataSource.getDefaultInstance() : dataSource;
+        }
+
+        public Builder setCrl(DataSource dataSource) {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.crlBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                dataSource.getClass();
+                this.crl_ = dataSource;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(dataSource);
+            }
+            return this;
+        }
+
+        public Builder setCrl(DataSource.Builder builder) {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.crlBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.crl_ = builder.m21896build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21896build());
+            }
+            return this;
+        }
+
+        public Builder mergeCrl(DataSource dataSource) {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.crlBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                DataSource dataSource2 = this.crl_;
+                if (dataSource2 != null) {
+                    this.crl_ = DataSource.newBuilder(dataSource2).mergeFrom(dataSource).m21898buildPartial();
+                } else {
+                    this.crl_ = dataSource;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(dataSource);
+            }
+            return this;
+        }
+
+        public Builder clearCrl() {
+            if (this.crlBuilder_ == null) {
+                this.crl_ = null;
+                onChanged();
+            } else {
+                this.crl_ = null;
+                this.crlBuilder_ = null;
+            }
+            return this;
+        }
+
+        public DataSource.Builder getCrlBuilder() {
+            onChanged();
+            return getCrlFieldBuilder().getBuilder();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public DataSourceOrBuilder getCrlOrBuilder() {
+            SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> singleFieldBuilderV3 = this.crlBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (DataSourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            DataSource dataSource = this.crl_;
+            return dataSource == null ? DataSource.getDefaultInstance() : dataSource;
+        }
+
+        private SingleFieldBuilderV3<DataSource, DataSource.Builder, DataSourceOrBuilder> getCrlFieldBuilder() {
+            if (this.crlBuilder_ == null) {
+                this.crlBuilder_ = new SingleFieldBuilderV3<>(getCrl(), getParentForChildren(), isClean());
+                this.crl_ = null;
+            }
+            return this.crlBuilder_;
+        }
+
+        public Builder clearAllowExpiredCertificate() {
+            this.allowExpiredCertificate_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContextOrBuilder
+        public TrustChainVerification getTrustChainVerification() {
+            TrustChainVerification trustChainVerificationValueOf = TrustChainVerification.valueOf(this.trustChainVerification_);
+            return trustChainVerificationValueOf == null ? TrustChainVerification.UNRECOGNIZED : trustChainVerificationValueOf;
+        }
+
+        public Builder setTrustChainVerification(TrustChainVerification trustChainVerification) {
+            trustChainVerification.getClass();
+            this.trustChainVerification_ = trustChainVerification.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTrustChainVerification() {
+            this.trustChainVerification_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m31643setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m31637mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

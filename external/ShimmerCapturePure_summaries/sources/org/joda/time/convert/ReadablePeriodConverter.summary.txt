@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/convert/ReadablePeriodConverter.java
+// Size: 1021 bytes
+// Modified: 2025-10-21 16:32:08.922300500 +0100
+
+package org.joda.time.convert;
+
+import org.joda.time.Chronology;
+import org.joda.time.PeriodType;
+import org.joda.time.ReadWritablePeriod;
+import org.joda.time.ReadablePeriod;
+
+/* loaded from: classes2.dex */
+class ReadablePeriodConverter extends AbstractConverter implements PeriodConverter {
+    static final ReadablePeriodConverter INSTANCE = new ReadablePeriodConverter();
+
+    protected ReadablePeriodConverter() {
+    }
+
+    @Override // org.joda.time.convert.PeriodConverter
+    public void setInto(ReadWritablePeriod readWritablePeriod, Object obj, Chronology chronology) {
+        readWritablePeriod.setPeriod((ReadablePeriod) obj);
+    }
+
+    @Override // org.joda.time.convert.AbstractConverter, org.joda.time.convert.PeriodConverter
+    public PeriodType getPeriodType(Object obj) {
+        return ((ReadablePeriod) obj).getPeriodType();
+    }
+
+    @Override // org.joda.time.convert.Converter
+    public Class<?> getSupportedType() {
+        return ReadablePeriod.class;
+    }
+}

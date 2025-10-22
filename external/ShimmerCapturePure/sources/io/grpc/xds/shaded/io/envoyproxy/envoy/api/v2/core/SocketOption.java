@@ -1,0 +1,880 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class SocketOption extends GeneratedMessageV3 implements SocketOptionOrBuilder {
+    public static final int BUF_VALUE_FIELD_NUMBER = 5;
+    public static final int DESCRIPTION_FIELD_NUMBER = 1;
+    public static final int INT_VALUE_FIELD_NUMBER = 4;
+    public static final int LEVEL_FIELD_NUMBER = 2;
+    public static final int NAME_FIELD_NUMBER = 3;
+    public static final int STATE_FIELD_NUMBER = 6;
+    private static final long serialVersionUID = 0;
+    private static final SocketOption DEFAULT_INSTANCE = new SocketOption();
+    private static final Parser<SocketOption> PARSER = new AbstractParser<SocketOption>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public SocketOption m16846parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new SocketOption(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object description_;
+    private long level_;
+    private byte memoizedIsInitialized;
+    private long name_;
+    private int state_;
+    private int valueCase_;
+    private Object value_;
+
+    private SocketOption(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.valueCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private SocketOption() {
+        this.valueCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.description_ = "";
+        this.state_ = 0;
+    }
+
+    private SocketOption(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            this.description_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 16) {
+                            this.level_ = codedInputStream.readInt64();
+                        } else if (tag == 24) {
+                            this.name_ = codedInputStream.readInt64();
+                        } else if (tag == 32) {
+                            this.valueCase_ = 4;
+                            this.value_ = Long.valueOf(codedInputStream.readInt64());
+                        } else if (tag == 42) {
+                            this.valueCase_ = 5;
+                            this.value_ = codedInputStream.readBytes();
+                        } else if (tag == 48) {
+                            this.state_ = codedInputStream.readEnum();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static SocketOption getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<SocketOption> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return SocketOptionProto.internal_static_envoy_api_v2_core_SocketOption_descriptor;
+    }
+
+    public static SocketOption parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (SocketOption) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static SocketOption parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SocketOption) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static SocketOption parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (SocketOption) PARSER.parseFrom(byteString);
+    }
+
+    public static SocketOption parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SocketOption) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static SocketOption parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (SocketOption) PARSER.parseFrom(bArr);
+    }
+
+    public static SocketOption parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SocketOption) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static SocketOption parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static SocketOption parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static SocketOption parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static SocketOption parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static SocketOption parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static SocketOption parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m16844toBuilder();
+    }
+
+    public static Builder newBuilder(SocketOption socketOption) {
+        return DEFAULT_INSTANCE.m16844toBuilder().mergeFrom(socketOption);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public SocketOption m16839getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public long getLevel() {
+        return this.level_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public long getName() {
+        return this.name_;
+    }
+
+    public Parser<SocketOption> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public int getStateValue() {
+        return this.state_;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new SocketOption();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return SocketOptionProto.internal_static_envoy_api_v2_core_SocketOption_fieldAccessorTable.ensureFieldAccessorsInitialized(SocketOption.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public ValueCase getValueCase() {
+        return ValueCase.forNumber(this.valueCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public String getDescription() {
+        Object obj = this.description_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.description_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public ByteString getDescriptionBytes() {
+        Object obj = this.description_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.description_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public long getIntValue() {
+        if (this.valueCase_ == 4) {
+            return ((Long) this.value_).longValue();
+        }
+        return 0L;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public ByteString getBufValue() {
+        if (this.valueCase_ == 5) {
+            return (ByteString) this.value_;
+        }
+        return ByteString.EMPTY;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+    public SocketState getState() {
+        SocketState socketStateValueOf = SocketState.valueOf(this.state_);
+        return socketStateValueOf == null ? SocketState.UNRECOGNIZED : socketStateValueOf;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getDescriptionBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.description_);
+        }
+        long j = this.level_;
+        if (j != 0) {
+            codedOutputStream.writeInt64(2, j);
+        }
+        long j2 = this.name_;
+        if (j2 != 0) {
+            codedOutputStream.writeInt64(3, j2);
+        }
+        if (this.valueCase_ == 4) {
+            codedOutputStream.writeInt64(4, ((Long) this.value_).longValue());
+        }
+        if (this.valueCase_ == 5) {
+            codedOutputStream.writeBytes(5, (ByteString) this.value_);
+        }
+        if (this.state_ != SocketState.STATE_PREBIND.getNumber()) {
+            codedOutputStream.writeEnum(6, this.state_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getDescriptionBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.description_) : 0;
+        long j = this.level_;
+        if (j != 0) {
+            iComputeStringSize += CodedOutputStream.computeInt64Size(2, j);
+        }
+        long j2 = this.name_;
+        if (j2 != 0) {
+            iComputeStringSize += CodedOutputStream.computeInt64Size(3, j2);
+        }
+        if (this.valueCase_ == 4) {
+            iComputeStringSize += CodedOutputStream.computeInt64Size(4, ((Long) this.value_).longValue());
+        }
+        if (this.valueCase_ == 5) {
+            iComputeStringSize += CodedOutputStream.computeBytesSize(5, (ByteString) this.value_);
+        }
+        if (this.state_ != SocketState.STATE_PREBIND.getNumber()) {
+            iComputeStringSize += CodedOutputStream.computeEnumSize(6, this.state_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof SocketOption)) {
+            return super.equals(obj);
+        }
+        SocketOption socketOption = (SocketOption) obj;
+        if (!getDescription().equals(socketOption.getDescription()) || getLevel() != socketOption.getLevel() || getName() != socketOption.getName() || this.state_ != socketOption.state_ || !getValueCase().equals(socketOption.getValueCase())) {
+            return false;
+        }
+        int i = this.valueCase_;
+        if (i != 4) {
+            if (i == 5 && !getBufValue().equals(socketOption.getBufValue())) {
+                return false;
+            }
+        } else if (getIntValue() != socketOption.getIntValue()) {
+            return false;
+        }
+        return this.unknownFields.equals(socketOption.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashLong;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getDescription().hashCode()) * 37) + 2) * 53) + Internal.hashLong(getLevel())) * 37) + 3) * 53) + Internal.hashLong(getName())) * 37) + 6) * 53) + this.state_;
+        int i2 = this.valueCase_;
+        if (i2 == 4) {
+            i = ((iHashCode * 37) + 4) * 53;
+            iHashLong = Internal.hashLong(getIntValue());
+        } else {
+            if (i2 == 5) {
+                i = ((iHashCode * 37) + 5) * 53;
+                iHashLong = getBufValue().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+        iHashCode = i + iHashLong;
+        int iHashCode22 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode22;
+        return iHashCode22;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16841newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16844toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum SocketState implements ProtocolMessageEnum {
+        STATE_PREBIND(0),
+        STATE_BOUND(1),
+        STATE_LISTENING(2),
+        UNRECOGNIZED(-1);
+
+        public static final int STATE_BOUND_VALUE = 1;
+        public static final int STATE_LISTENING_VALUE = 2;
+        public static final int STATE_PREBIND_VALUE = 0;
+        private static final Internal.EnumLiteMap<SocketState> internalValueMap = new Internal.EnumLiteMap<SocketState>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption.SocketState.1
+            public SocketState findValueByNumber(int i) {
+                return SocketState.forNumber(i);
+            }
+        };
+        private static final SocketState[] VALUES = values();
+        private final int value;
+
+        SocketState(int i) {
+            this.value = i;
+        }
+
+        public static SocketState forNumber(int i) {
+            if (i == 0) {
+                return STATE_PREBIND;
+            }
+            if (i == 1) {
+                return STATE_BOUND;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return STATE_LISTENING;
+        }
+
+        public static Internal.EnumLiteMap<SocketState> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static SocketState valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) SocketOption.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static SocketState valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum ValueCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        INT_VALUE(4),
+        BUF_VALUE(5),
+        VALUE_NOT_SET(0);
+
+        private final int value;
+
+        ValueCase(int i) {
+            this.value = i;
+        }
+
+        public static ValueCase forNumber(int i) {
+            if (i == 0) {
+                return VALUE_NOT_SET;
+            }
+            if (i == 4) {
+                return INT_VALUE;
+            }
+            if (i != 5) {
+                return null;
+            }
+            return BUF_VALUE;
+        }
+
+        @Deprecated
+        public static ValueCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements SocketOptionOrBuilder {
+        private Object description_;
+        private long level_;
+        private long name_;
+        private int state_;
+        private int valueCase_;
+        private Object value_;
+
+        private Builder() {
+            this.valueCase_ = 0;
+            this.description_ = "";
+            this.state_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.valueCase_ = 0;
+            this.description_ = "";
+            this.state_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return SocketOptionProto.internal_static_envoy_api_v2_core_SocketOption_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public long getLevel() {
+            return this.level_;
+        }
+
+        public Builder setLevel(long j) {
+            this.level_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public long getName() {
+            return this.name_;
+        }
+
+        public Builder setName(long j) {
+            this.name_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public int getStateValue() {
+            return this.state_;
+        }
+
+        public Builder setStateValue(int i) {
+            this.state_ = i;
+            onChanged();
+            return this;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return SocketOptionProto.internal_static_envoy_api_v2_core_SocketOption_fieldAccessorTable.ensureFieldAccessorsInitialized(SocketOption.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = SocketOption.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16855clear() {
+            super.clear();
+            this.description_ = "";
+            this.level_ = 0L;
+            this.name_ = 0L;
+            this.state_ = 0;
+            this.valueCase_ = 0;
+            this.value_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return SocketOptionProto.internal_static_envoy_api_v2_core_SocketOption_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SocketOption m16868getDefaultInstanceForType() {
+            return SocketOption.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SocketOption m16849build() throws UninitializedMessageException {
+            SocketOption socketOptionM16851buildPartial = m16851buildPartial();
+            if (socketOptionM16851buildPartial.isInitialized()) {
+                return socketOptionM16851buildPartial;
+            }
+            throw newUninitializedMessageException(socketOptionM16851buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SocketOption m16851buildPartial() {
+            SocketOption socketOption = new SocketOption(this);
+            socketOption.description_ = this.description_;
+            socketOption.level_ = this.level_;
+            socketOption.name_ = this.name_;
+            if (this.valueCase_ == 4) {
+                socketOption.value_ = this.value_;
+            }
+            if (this.valueCase_ == 5) {
+                socketOption.value_ = this.value_;
+            }
+            socketOption.state_ = this.state_;
+            socketOption.valueCase_ = this.valueCase_;
+            onBuilt();
+            return socketOption;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16867clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16879setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16857clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16860clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16881setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16847addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16872mergeFrom(Message message) {
+            if (message instanceof SocketOption) {
+                return mergeFrom((SocketOption) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(SocketOption socketOption) {
+            if (socketOption == SocketOption.getDefaultInstance()) {
+                return this;
+            }
+            if (!socketOption.getDescription().isEmpty()) {
+                this.description_ = socketOption.description_;
+                onChanged();
+            }
+            if (socketOption.getLevel() != 0) {
+                setLevel(socketOption.getLevel());
+            }
+            if (socketOption.getName() != 0) {
+                setName(socketOption.getName());
+            }
+            if (socketOption.state_ != 0) {
+                setStateValue(socketOption.getStateValue());
+            }
+            int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$api$v2$core$SocketOption$ValueCase[socketOption.getValueCase().ordinal()];
+            if (i == 1) {
+                setIntValue(socketOption.getIntValue());
+            } else if (i == 2) {
+                setBufValue(socketOption.getBufValue());
+            }
+            m16877mergeUnknownFields(socketOption.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption.Builder m16873mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption.access$1100()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption.Builder.m16873mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public ValueCase getValueCase() {
+            return ValueCase.forNumber(this.valueCase_);
+        }
+
+        public Builder clearValue() {
+            this.valueCase_ = 0;
+            this.value_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public String getDescription() {
+            Object obj = this.description_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.description_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setDescription(String str) {
+            str.getClass();
+            this.description_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public ByteString getDescriptionBytes() {
+            Object obj = this.description_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.description_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setDescriptionBytes(ByteString byteString) {
+            byteString.getClass();
+            SocketOption.checkByteStringIsUtf8(byteString);
+            this.description_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearDescription() {
+            this.description_ = SocketOption.getDefaultInstance().getDescription();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearLevel() {
+            this.level_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearName() {
+            this.name_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public long getIntValue() {
+            if (this.valueCase_ == 4) {
+                return ((Long) this.value_).longValue();
+            }
+            return 0L;
+        }
+
+        public Builder setIntValue(long j) {
+            this.valueCase_ = 4;
+            this.value_ = Long.valueOf(j);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearIntValue() {
+            if (this.valueCase_ == 4) {
+                this.valueCase_ = 0;
+                this.value_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public ByteString getBufValue() {
+            if (this.valueCase_ == 5) {
+                return (ByteString) this.value_;
+            }
+            return ByteString.EMPTY;
+        }
+
+        public Builder setBufValue(ByteString byteString) {
+            byteString.getClass();
+            this.valueCase_ = 5;
+            this.value_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearBufValue() {
+            if (this.valueCase_ == 5) {
+                this.valueCase_ = 0;
+                this.value_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOptionOrBuilder
+        public SocketState getState() {
+            SocketState socketStateValueOf = SocketState.valueOf(this.state_);
+            return socketStateValueOf == null ? SocketState.UNRECOGNIZED : socketStateValueOf;
+        }
+
+        public Builder setState(SocketState socketState) {
+            socketState.getClass();
+            this.state_ = socketState.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearState() {
+            this.state_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16883setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16877mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SocketOption$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$api$v2$core$SocketOption$ValueCase;
+
+        static {
+            int[] iArr = new int[ValueCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$api$v2$core$SocketOption$ValueCase = iArr;
+            try {
+                iArr[ValueCase.INT_VALUE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$core$SocketOption$ValueCase[ValueCase.BUF_VALUE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$core$SocketOption$ValueCase[ValueCase.VALUE_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+        }
+    }
+}

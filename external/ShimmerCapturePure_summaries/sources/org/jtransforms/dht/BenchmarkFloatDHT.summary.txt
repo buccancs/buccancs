@@ -1,0 +1,317 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/jtransforms/dht/BenchmarkFloatDHT.java
+// Size: 15785 bytes
+// Modified: 2025-10-21 16:32:09.888492200 +0100
+
+package org.jtransforms.dht;
+
+import com.shimmerresearch.verisense.communication.VerisenseMessage;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
+import io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2CodecUtil;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import org.jtransforms.utils.CommonUtils;
+import org.jtransforms.utils.IOUtils;
+import pl.edu.icm.jlargearrays.ConcurrencyUtils;
+import pl.edu.icm.jlargearrays.FloatLargeArray;
+
+/* loaded from: classes2.dex */
+public class BenchmarkFloatDHT {
+    private static boolean doWarmup = true;
+    private static int niter = 200;
+    private static int nsize = 16;
+    private static int nthread = 8;
+    private static int threadsBegin2D = 65636;
+    private static int threadsBegin3D = 65636;
+    private static long[] sizes1D = {262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 10368, 27000, 75600, 165375, 362880, 1562500, 3211264, 6250000};
+    private static long[] sizes2D = {256, 512, 1024, 2048, 4096, Http2CodecUtil.DEFAULT_HEADER_LIST_SIZE, DefaultHttpDataFactory.MINSIZE, 32768, 260, 520, 1050, 1458, 1960, 2916, 4116, 5832};
+    private static long[] sizes3D = {16, 32, 64, 128, 256, 512, 1024, 2048, 5, 17, 30, 95, 180, 270, 324, 420};
+    private static boolean doScaling = false;
+
+    private BenchmarkFloatDHT() {
+    }
+
+    public static void parseArguments(String[] strArr) throws NumberFormatException {
+        if (strArr.length > 0) {
+            int i = 0;
+            nthread = Integer.parseInt(strArr[0]);
+            threadsBegin2D = Integer.parseInt(strArr[1]);
+            threadsBegin3D = Integer.parseInt(strArr[2]);
+            niter = Integer.parseInt(strArr[3]);
+            doWarmup = Boolean.parseBoolean(strArr[4]);
+            doScaling = Boolean.parseBoolean(strArr[5]);
+            int i2 = Integer.parseInt(strArr[6]);
+            nsize = i2;
+            sizes1D = new long[i2];
+            sizes2D = new long[i2];
+            sizes3D = new long[i2];
+            for (int i3 = 0; i3 < nsize; i3++) {
+                sizes1D[i3] = Integer.parseInt(strArr[i3 + 7]);
+            }
+            int i4 = 0;
+            while (true) {
+                if (i4 >= nsize) {
+                    break;
+                }
+                sizes2D[i4] = Integer.parseInt(strArr[r2 + 7 + i4]);
+                i4++;
+            }
+            while (true) {
+                if (i >= nsize) {
+                    break;
+                }
+                sizes3D[i] = Integer.parseInt(strArr[r1 + 7 + r1 + i]);
+                i++;
+            }
+        } else {
+            System.out.println("Default settings are used.");
+        }
+        ConcurrencyUtils.setNumberOfThreads(nthread);
+        CommonUtils.setThreadsBeginN_2D(threadsBegin2D);
+        CommonUtils.setThreadsBeginN_3D(threadsBegin3D);
+        System.out.println("nthred = " + nthread);
+        System.out.println("threadsBegin2D = " + threadsBegin2D);
+        System.out.println("threadsBegin3D = " + threadsBegin3D);
+        System.out.println("niter = " + niter);
+        System.out.println("doWarmup = " + doWarmup);
+        System.out.println("doScaling = " + doScaling);
+        System.out.println("nsize = " + nsize);
+        System.out.println("sizes1D[] = " + Arrays.toString(sizes1D));
+        System.out.println("sizes2D[] = " + Arrays.toString(sizes2D));
+        System.out.println("sizes3D[] = " + Arrays.toString(sizes3D));
+    }
+
+    public static void benchmarkForward_1D() throws InterruptedException, IOException {
+        int i = nsize;
+        double[] dArr = new double[i];
+        double[] dArr2 = new double[i];
+        for (int i2 = 0; i2 < nsize; i2++) {
+            System.out.println("Forward DHT 1D of size " + sizes1D[i2]);
+            if (doWarmup) {
+                FloatDHT_1D floatDHT_1D = new FloatDHT_1D(sizes1D[i2]);
+                long j = sizes1D[i2];
+                float[] fArr = new float[(int) j];
+                IOUtils.fillMatrix_1D(j, fArr);
+                floatDHT_1D.forward(fArr);
+                IOUtils.fillMatrix_1D(sizes1D[i2], fArr);
+                floatDHT_1D.forward(fArr);
+            }
+            long jNanoTime = System.nanoTime();
+            FloatDHT_1D floatDHT_1D2 = new FloatDHT_1D(sizes1D[i2]);
+            dArr2[i2] = (System.nanoTime() - jNanoTime) / 1000000.0d;
+            float[] fArr2 = new float[(int) sizes1D[i2]];
+            double d = 0.0d;
+            for (int i3 = 0; i3 < niter; i3++) {
+                IOUtils.fillMatrix_1D(sizes1D[i2], fArr2);
+                long jNanoTime2 = System.nanoTime();
+                floatDHT_1D2.forward(fArr2);
+                double dNanoTime = System.nanoTime() - jNanoTime2;
+                if (dNanoTime < d) {
+                    d = dNanoTime;
+                }
+            }
+            double d2 = d / 1000000.0d;
+            dArr[i2] = d2;
+            dArr2[i2] = dArr2[i2] + d2;
+            System.out.println("\tBest execution time without constructor: " + String.format("%.2f", Double.valueOf(dArr[i2])) + " msec");
+            System.out.println("\tBest execution time with constructor: " + String.format("%.2f", Double.valueOf(dArr2[i2])) + " msec");
+            System.gc();
+            CommonUtils.sleep(VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+        }
+        IOUtils.writeFFTBenchmarkResultsToFile("benchmarkFloatForwardDHT_1D.txt", nthread, niter, doWarmup, doScaling, sizes1D, dArr, dArr2);
+    }
+
+    public static void benchmarkForward_2D_input_1D() throws InterruptedException, IOException {
+        int i = nsize;
+        double[] dArr = new double[i];
+        double[] dArr2 = new double[i];
+        for (int i2 = 0; i2 < nsize; i2++) {
+            System.out.println("Forward DHT 2D (input 1D) of size " + sizes2D[i2] + " x " + sizes2D[i2]);
+            if (doWarmup) {
+                long j = sizes2D[i2];
+                FloatDHT_2D floatDHT_2D = new FloatDHT_2D(j, j);
+                long j2 = sizes2D[i2];
+                FloatLargeArray floatLargeArray = new FloatLargeArray(j2 * j2, false);
+                long j3 = sizes2D[i2];
+                IOUtils.fillMatrix_2D(j3, j3, floatLargeArray);
+                floatDHT_2D.forward(floatLargeArray);
+                long j4 = sizes2D[i2];
+                IOUtils.fillMatrix_2D(j4, j4, floatLargeArray);
+                floatDHT_2D.forward(floatLargeArray);
+            }
+            long jNanoTime = System.nanoTime();
+            long j5 = sizes2D[i2];
+            FloatDHT_2D floatDHT_2D2 = new FloatDHT_2D(j5, j5);
+            dArr2[i2] = (System.nanoTime() - jNanoTime) / 1000000.0d;
+            long j6 = sizes2D[i2];
+            FloatLargeArray floatLargeArray2 = new FloatLargeArray(j6 * j6, false);
+            double d = 0.0d;
+            for (int i3 = 0; i3 < niter; i3++) {
+                long j7 = sizes2D[i2];
+                IOUtils.fillMatrix_2D(j7, j7, floatLargeArray2);
+                long jNanoTime2 = System.nanoTime();
+                floatDHT_2D2.forward(floatLargeArray2);
+                double dNanoTime = System.nanoTime() - jNanoTime2;
+                if (dNanoTime < d) {
+                    d = dNanoTime;
+                }
+            }
+            double d2 = d / 1000000.0d;
+            dArr[i2] = d2;
+            dArr2[i2] = dArr2[i2] + d2;
+            System.out.println("\tBest execution time without constructor: " + String.format("%.2f", Double.valueOf(dArr[i2])) + " msec");
+            System.out.println("\tBest execution time with constructor: " + String.format("%.2f", Double.valueOf(dArr2[i2])) + " msec");
+            System.gc();
+            CommonUtils.sleep(VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+        }
+        IOUtils.writeFFTBenchmarkResultsToFile("benchmarkFloatForwardDHT_2D_input_1D.txt", nthread, niter, doWarmup, doScaling, sizes2D, dArr, dArr2);
+    }
+
+    public static void benchmarkForward_2D_input_2D() throws InterruptedException, IOException {
+        int i = nsize;
+        double[] dArr = new double[i];
+        double[] dArr2 = new double[i];
+        for (int i2 = 0; i2 < nsize; i2++) {
+            System.out.println("Forward DHT 2D (input 2D) of size " + sizes2D[i2] + " x " + sizes2D[i2]);
+            if (doWarmup) {
+                long j = sizes2D[i2];
+                FloatDHT_2D floatDHT_2D = new FloatDHT_2D(j, j);
+                long j2 = sizes2D[i2];
+                float[][] fArr = (float[][]) Array.newInstance((Class<?>) Float.TYPE, (int) j2, (int) j2);
+                long j3 = sizes2D[i2];
+                IOUtils.fillMatrix_2D(j3, j3, fArr);
+                floatDHT_2D.forward(fArr);
+                long j4 = sizes2D[i2];
+                IOUtils.fillMatrix_2D(j4, j4, fArr);
+                floatDHT_2D.forward(fArr);
+            }
+            long jNanoTime = System.nanoTime();
+            long j5 = sizes2D[i2];
+            FloatDHT_2D floatDHT_2D2 = new FloatDHT_2D(j5, j5);
+            dArr2[i2] = (System.nanoTime() - jNanoTime) / 1000000.0d;
+            long j6 = sizes2D[i2];
+            float[][] fArr2 = (float[][]) Array.newInstance((Class<?>) Float.TYPE, (int) j6, (int) j6);
+            double d = 0.0d;
+            for (int i3 = 0; i3 < niter; i3++) {
+                long j7 = sizes2D[i2];
+                IOUtils.fillMatrix_2D(j7, j7, fArr2);
+                long jNanoTime2 = System.nanoTime();
+                floatDHT_2D2.forward(fArr2);
+                double dNanoTime = System.nanoTime() - jNanoTime2;
+                if (dNanoTime < d) {
+                    d = dNanoTime;
+                }
+            }
+            double d2 = d / 1000000.0d;
+            dArr[i2] = d2;
+            dArr2[i2] = dArr2[i2] + d2;
+            System.out.println("\tBest execution time without constructor: " + String.format("%.2f", Double.valueOf(dArr[i2])) + " msec");
+            System.out.println("\tBest execution time with constructor: " + String.format("%.2f", Double.valueOf(dArr2[i2])) + " msec");
+            System.gc();
+            CommonUtils.sleep(VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+        }
+        IOUtils.writeFFTBenchmarkResultsToFile("benchmarkFloatForwardDHT_2D_input_2D.txt", nthread, niter, doWarmup, doScaling, sizes2D, dArr, dArr2);
+    }
+
+    public static void benchmarkForward_3D_input_1D() throws InterruptedException, IOException {
+        int i = nsize;
+        double[] dArr = new double[i];
+        double[] dArr2 = new double[i];
+        for (int i2 = 0; i2 < nsize; i2++) {
+            System.out.println("Forward DHT 3D (input 1D) of size " + sizes3D[i2] + " x " + sizes3D[i2] + " x " + sizes3D[i2]);
+            if (doWarmup) {
+                long j = sizes3D[i2];
+                FloatDHT_3D floatDHT_3D = new FloatDHT_3D(j, j, j);
+                long j2 = sizes3D[i2];
+                FloatLargeArray floatLargeArray = new FloatLargeArray(j2 * j2 * j2, false);
+                long j3 = sizes3D[i2];
+                IOUtils.fillMatrix_3D(j3, j3, j3, floatLargeArray);
+                floatDHT_3D.forward(floatLargeArray);
+                long j4 = sizes3D[i2];
+                IOUtils.fillMatrix_3D(j4, j4, j4, floatLargeArray);
+                floatDHT_3D.forward(floatLargeArray);
+            }
+            long jNanoTime = System.nanoTime();
+            long j5 = sizes3D[i2];
+            FloatDHT_3D floatDHT_3D2 = new FloatDHT_3D(j5, j5, j5);
+            dArr2[i2] = (System.nanoTime() - jNanoTime) / 1000000.0d;
+            long j6 = sizes3D[i2];
+            FloatLargeArray floatLargeArray2 = new FloatLargeArray(j6 * j6 * j6, false);
+            double d = 0.0d;
+            for (int i3 = 0; i3 < niter; i3++) {
+                long j7 = sizes3D[i2];
+                IOUtils.fillMatrix_3D(j7, j7, j7, floatLargeArray2);
+                long jNanoTime2 = System.nanoTime();
+                floatDHT_3D2.forward(floatLargeArray2);
+                double dNanoTime = System.nanoTime() - jNanoTime2;
+                if (dNanoTime < d) {
+                    d = dNanoTime;
+                }
+            }
+            double d2 = d / 1000000.0d;
+            dArr[i2] = d2;
+            dArr2[i2] = dArr2[i2] + d2;
+            System.out.println("\tBest execution time without constructor: " + String.format("%.2f", Double.valueOf(dArr[i2])) + " msec");
+            System.out.println("\tBest execution time with constructor: " + String.format("%.2f", Double.valueOf(dArr2[i2])) + " msec");
+            System.gc();
+            CommonUtils.sleep(VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+        }
+        IOUtils.writeFFTBenchmarkResultsToFile("benchmarkFloatForwardDHT_3D_input_1D.txt", nthread, niter, doWarmup, doScaling, sizes3D, dArr, dArr2);
+    }
+
+    public static void benchmarkForward_3D_input_3D() throws InterruptedException, IOException {
+        int i = nsize;
+        double[] dArr = new double[i];
+        double[] dArr2 = new double[i];
+        for (int i2 = 0; i2 < nsize; i2++) {
+            System.out.println("Forward DHT 3D (input 3D) of size " + sizes3D[i2] + " x " + sizes3D[i2] + " x " + sizes3D[i2]);
+            if (doWarmup) {
+                long j = sizes3D[i2];
+                FloatDHT_3D floatDHT_3D = new FloatDHT_3D(j, j, j);
+                long j2 = sizes3D[i2];
+                float[][][] fArr = (float[][][]) Array.newInstance((Class<?>) Float.TYPE, (int) j2, (int) j2, (int) j2);
+                long j3 = sizes3D[i2];
+                IOUtils.fillMatrix_3D(j3, j3, j3, fArr);
+                floatDHT_3D.forward(fArr);
+                long j4 = sizes3D[i2];
+                IOUtils.fillMatrix_3D(j4, j4, j4, fArr);
+                floatDHT_3D.forward(fArr);
+            }
+            long jNanoTime = System.nanoTime();
+            long j5 = sizes3D[i2];
+            FloatDHT_3D floatDHT_3D2 = new FloatDHT_3D(j5, j5, j5);
+            dArr2[i2] = (System.nanoTime() - jNanoTime) / 1000000.0d;
+            long j6 = sizes3D[i2];
+            float[][][] fArr2 = (float[][][]) Array.newInstance((Class<?>) Float.TYPE, (int) j6, (int) j6, (int) j6);
+            double d = 0.0d;
+            for (int i3 = 0; i3 < niter; i3++) {
+                long j7 = sizes3D[i2];
+                IOUtils.fillMatrix_3D(j7, j7, j7, fArr2);
+                long jNanoTime2 = System.nanoTime();
+                floatDHT_3D2.forward(fArr2);
+                double dNanoTime = System.nanoTime() - jNanoTime2;
+                if (dNanoTime < d) {
+                    d = dNanoTime;
+                }
+            }
+            double d2 = d / 1000000.0d;
+            dArr[i2] = d2;
+            dArr2[i2] = dArr2[i2] + d2;
+            System.out.println("\tBest execution time without constructor: " + String.format("%.2f", Double.valueOf(dArr[i2])) + " msec");
+            System.out.println("\tBest execution time with constructor: " + String.format("%.2f", Double.valueOf(dArr2[i2])) + " msec");
+            System.gc();
+            CommonUtils.sleep(VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+        }
+        IOUtils.writeFFTBenchmarkResultsToFile("benchmarkFloatForwardDHT_3D_input_3D.txt", nthread, niter, doWarmup, doScaling, sizes3D, dArr, dArr2);
+    }
+
+    public static void main(String[] strArr) throws InterruptedException, NumberFormatException, IOException {
+        parseArguments(strArr);
+        benchmarkForward_1D();
+        benchmarkForward_2D_input_1D();
+        benchmarkForward_2D_input_2D();
+        benchmarkForward_3D_input_1D();
+        benchmarkForward_3D_input_3D();
+        System.exit(0);
+    }
+}

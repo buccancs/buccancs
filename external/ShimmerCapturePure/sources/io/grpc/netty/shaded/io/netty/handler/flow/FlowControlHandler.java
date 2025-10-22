@@ -1,0 +1,151 @@
+package io.grpc.netty.shaded.io.netty.handler.flow;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelConfig;
+import io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectPool;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory;
+
+import java.util.ArrayDeque;
+
+/* loaded from: classes3.dex */
+public class FlowControlHandler extends ChannelDuplexHandler {
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance((Class<?>) FlowControlHandler.class);
+    private final boolean releaseMessages;
+    private ChannelConfig config;
+    private RecyclableArrayDeque queue;
+    private int readRequestCount;
+
+    public FlowControlHandler() {
+        this(true);
+    }
+
+    public FlowControlHandler(boolean z) {
+        this.releaseMessages = z;
+    }
+
+    boolean isQueueEmpty() {
+        RecyclableArrayDeque recyclableArrayDeque = this.queue;
+        return recyclableArrayDeque == null || recyclableArrayDeque.isEmpty();
+    }
+
+    private void destroy() {
+        RecyclableArrayDeque recyclableArrayDeque = this.queue;
+        if (recyclableArrayDeque != null) {
+            if (!recyclableArrayDeque.isEmpty()) {
+                logger.trace("Non-empty queue: {}", this.queue);
+                if (this.releaseMessages) {
+                    while (true) {
+                        Object objPoll = this.queue.poll();
+                        if (objPoll == null) {
+                            break;
+                        } else {
+                            ReferenceCountUtil.safeRelease(objPoll);
+                        }
+                    }
+                }
+            }
+            this.queue.recycle();
+            this.queue = null;
+        }
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandler
+    public void handlerAdded(ChannelHandlerContext channelHandlerContext) throws Exception {
+        this.config = channelHandlerContext.channel().config();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandler
+    public void handlerRemoved(ChannelHandlerContext channelHandlerContext) throws Exception {
+        super.handlerRemoved(channelHandlerContext);
+        if (!isQueueEmpty()) {
+            dequeue(channelHandlerContext, this.queue.size());
+        }
+        destroy();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+    public void channelInactive(ChannelHandlerContext channelHandlerContext) throws Exception {
+        destroy();
+        channelHandlerContext.fireChannelInactive();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void read(ChannelHandlerContext channelHandlerContext) throws Exception {
+        if (dequeue(channelHandlerContext, 1) == 0) {
+            this.readRequestCount++;
+            channelHandlerContext.read();
+        }
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+    public void channelRead(ChannelHandlerContext channelHandlerContext, Object obj) throws Exception {
+        if (this.queue == null) {
+            this.queue = RecyclableArrayDeque.newInstance();
+        }
+        this.queue.offer(obj);
+        int iMin = Math.min(this.readRequestCount, this.queue.size());
+        this.readRequestCount -= iMin;
+        dequeue(channelHandlerContext, iMin);
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+    public void channelReadComplete(ChannelHandlerContext channelHandlerContext) throws Exception {
+        if (isQueueEmpty()) {
+            channelHandlerContext.fireChannelReadComplete();
+        }
+    }
+
+    private int dequeue(ChannelHandlerContext channelHandlerContext, int i) {
+        Object objPoll;
+        int i2 = 0;
+        while (this.queue != null && ((i2 < i || this.config.isAutoRead()) && (objPoll = this.queue.poll()) != null)) {
+            i2++;
+            channelHandlerContext.fireChannelRead(objPoll);
+        }
+        RecyclableArrayDeque recyclableArrayDeque = this.queue;
+        if (recyclableArrayDeque != null && recyclableArrayDeque.isEmpty()) {
+            this.queue.recycle();
+            this.queue = null;
+            if (i2 > 0) {
+                channelHandlerContext.fireChannelReadComplete();
+            }
+        }
+        return i2;
+    }
+
+    private static final class RecyclableArrayDeque extends ArrayDeque<Object> {
+        private static final int DEFAULT_NUM_ELEMENTS = 2;
+        private static final ObjectPool<RecyclableArrayDeque> RECYCLER = ObjectPool.newPool(new ObjectPool.ObjectCreator<RecyclableArrayDeque>() { // from class: io.grpc.netty.shaded.io.netty.handler.flow.FlowControlHandler.RecyclableArrayDeque.1
+            /* JADX WARN: Can't rename method to resolve collision */
+            @Override // io.grpc.netty.shaded.io.netty.util.internal.ObjectPool.ObjectCreator
+            public RecyclableArrayDeque newObject(ObjectPool.Handle<RecyclableArrayDeque> handle) {
+                return new RecyclableArrayDeque(2, handle);
+            }
+        });
+        private static final long serialVersionUID = 0;
+        private final ObjectPool.Handle<RecyclableArrayDeque> handle;
+
+        private RecyclableArrayDeque(int i, ObjectPool.Handle<RecyclableArrayDeque> handle) {
+            super(i);
+            this.handle = handle;
+        }
+
+        public static RecyclableArrayDeque newInstance() {
+            return RECYCLER.get();
+        }
+
+        public void recycle() {
+            clear();
+            this.handle.recycle(this);
+        }
+    }
+}

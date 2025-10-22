@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/PlotListener.java
+// Size: 141 bytes
+// Modified: 2025-10-21 16:32:01.194277400 +0100
+
+package com.androidplot;
+
+/* loaded from: classes.dex */
+public interface PlotListener {
+    void onPlotUpdate(PlotEvent plotEvent);
+}

@@ -1,0 +1,78 @@
+package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
+
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.optim.ConvergenceChecker;
+import org.apache.commons.math3.optim.PointValuePair;
+import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
+import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class PowellOptimizer extends MultivariateOptimizer {
+    private static final double MIN_RELATIVE_TOLERANCE = FastMath.ulp(1.0d) * 2.0d;
+    private final double absoluteThreshold;
+    private final LineSearch line;
+    private final double relativeThreshold;
+
+    public PowellOptimizer(double d, double d2, ConvergenceChecker<PointValuePair> convergenceChecker) {
+        this(d, d2, FastMath.sqrt(d), FastMath.sqrt(d2), convergenceChecker);
+    }
+
+    public PowellOptimizer(double d, double d2, double d3, double d4, ConvergenceChecker<PointValuePair> convergenceChecker) {
+        super(convergenceChecker);
+        double d5 = MIN_RELATIVE_TOLERANCE;
+        if (d < d5) {
+            throw new NumberIsTooSmallException(Double.valueOf(d), Double.valueOf(d5), true);
+        }
+        if (d2 <= 0.0d) {
+            throw new NotStrictlyPositiveException(Double.valueOf(d2));
+        }
+        this.relativeThreshold = d;
+        this.absoluteThreshold = d2;
+        this.line = new LineSearch(this, d3, d4, 1.0d);
+    }
+
+    public PowellOptimizer(double d, double d2) {
+        this(d, d2, null);
+    }
+
+    public PowellOptimizer(double d, double d2, double d3, double d4) {
+        this(d, d2, d3, d4, null);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0130  */
+    @Override // org.apache.commons.math3.optim.BaseOptimizer
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public org.apache.commons.math3.optim.PointValuePair doOptimize() {
+        /*
+            Method dump skipped, instructions count: 313
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.optim.nonlinear.scalar.noderiv.PowellOptimizer.doOptimize():org.apache.commons.math3.optim.PointValuePair");
+    }
+
+    private double[][] newPointAndDirection(double[] dArr, double[] dArr2, double d) {
+        int length = dArr.length;
+        double[] dArr3 = new double[length];
+        double[] dArr4 = new double[length];
+        for (int i = 0; i < length; i++) {
+            double d2 = dArr2[i] * d;
+            dArr4[i] = d2;
+            dArr3[i] = dArr[i] + d2;
+        }
+        return new double[][]{dArr3, dArr4};
+    }
+
+    private void checkParameters() {
+        if (getLowerBound() != null || getUpperBound() != null) {
+            throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT, new Object[0]);
+        }
+    }
+}

@@ -1,0 +1,87 @@
+package org.apache.commons.math3.transform;
+
+import java.io.Serializable;
+
+import org.apache.commons.math3.analysis.FunctionUtils;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class FastCosineTransformer implements RealTransformer, Serializable {
+    static final long serialVersionUID = 20120212;
+    private final DctNormalization normalization;
+
+    public FastCosineTransformer(DctNormalization dctNormalization) {
+        this.normalization = dctNormalization;
+    }
+
+    @Override // org.apache.commons.math3.transform.RealTransformer
+    public double[] transform(double[] dArr, TransformType transformType) throws MathIllegalArgumentException {
+        if (transformType == TransformType.FORWARD) {
+            if (this.normalization == DctNormalization.ORTHOGONAL_DCT_I) {
+                return TransformUtils.scaleArray(fct(dArr), FastMath.sqrt(2.0d / (dArr.length - 1)));
+            }
+            return fct(dArr);
+        }
+        double length = 2.0d / (dArr.length - 1);
+        if (this.normalization == DctNormalization.ORTHOGONAL_DCT_I) {
+            length = FastMath.sqrt(length);
+        }
+        return TransformUtils.scaleArray(fct(dArr), length);
+    }
+
+    @Override // org.apache.commons.math3.transform.RealTransformer
+    public double[] transform(UnivariateFunction univariateFunction, double d, double d2, int i, TransformType transformType) throws MathIllegalArgumentException {
+        return transform(FunctionUtils.sample(univariateFunction, d, d2, i), transformType);
+    }
+
+    protected double[] fct(double[] dArr) throws MathIllegalArgumentException {
+        double[] dArr2 = new double[dArr.length];
+        int length = dArr.length - 1;
+        if (!ArithmeticUtils.isPowerOfTwo(length)) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NOT_POWER_OF_TWO_PLUS_ONE, Integer.valueOf(dArr.length));
+        }
+        double d = 0.5d;
+        if (length == 1) {
+            double d2 = dArr[0];
+            double d3 = dArr[1];
+            dArr2[0] = (d2 + d3) * 0.5d;
+            dArr2[1] = (dArr[0] - d3) * 0.5d;
+            return dArr2;
+        }
+        double[] dArr3 = new double[length];
+        dArr3[0] = (dArr[0] + dArr[length]) * 0.5d;
+        int i = length >> 1;
+        dArr3[i] = dArr[i];
+        double d4 = (dArr[0] - dArr[length]) * 0.5d;
+        int i2 = 1;
+        while (i2 < i) {
+            int i3 = length - i2;
+            double d5 = (dArr[i2] + dArr[i3]) * d;
+            double[] dArr4 = dArr3;
+            double d6 = (i2 * 3.141592653589793d) / length;
+            double dSin = FastMath.sin(d6) * (dArr[i2] - dArr[i3]);
+            double dCos = FastMath.cos(d6) * (dArr[i2] - dArr[i3]);
+            dArr4[i2] = d5 - dSin;
+            dArr4[i3] = d5 + dSin;
+            d4 += dCos;
+            i2++;
+            dArr3 = dArr4;
+            d = 0.5d;
+        }
+        Complex[] complexArrTransform = new FastFourierTransformer(DftNormalization.STANDARD).transform(dArr3, TransformType.FORWARD);
+        dArr2[0] = complexArrTransform[0].getReal();
+        dArr2[1] = d4;
+        for (int i4 = 1; i4 < i; i4++) {
+            int i5 = i4 * 2;
+            dArr2[i5] = complexArrTransform[i4].getReal();
+            dArr2[i5 + 1] = dArr2[i5 - 1] - complexArrTransform[i4].getImaginary();
+        }
+        dArr2[length] = complexArrTransform[i].getReal();
+        return dArr2;
+    }
+}

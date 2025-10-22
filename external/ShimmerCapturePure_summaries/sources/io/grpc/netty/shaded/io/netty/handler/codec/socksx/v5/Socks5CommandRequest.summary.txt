@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socksx/v5/Socks5CommandRequest.java
+// Size: 283 bytes
+// Modified: 2025-10-21 16:32:03.744734300 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socksx.v5;
+
+/* loaded from: classes3.dex */
+public interface Socks5CommandRequest extends Socks5Message {
+    String dstAddr();
+
+    Socks5AddressType dstAddrType();
+
+    int dstPort();
+
+    Socks5CommandType type();
+}

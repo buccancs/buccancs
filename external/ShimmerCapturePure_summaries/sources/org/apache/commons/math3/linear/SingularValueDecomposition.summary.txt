@@ -1,0 +1,610 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/linear/SingularValueDecomposition.java
+// Size: 24306 bytes
+// Modified: 2025-10-21 16:32:12.834779400 +0100
+
+package org.apache.commons.math3.linear;
+
+import java.lang.reflect.Array;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
+
+/* loaded from: classes5.dex */
+public class SingularValueDecomposition {
+    private static final double EPS = 2.220446049250313E-16d;
+    private static final double TINY = 1.6033346880071782E-291d;
+    private RealMatrix cachedS;
+    private final RealMatrix cachedU;
+    private RealMatrix cachedUt;
+    private final RealMatrix cachedV;
+    private RealMatrix cachedVt;
+    private final int m;
+    private final int n;
+    private final double[] singularValues;
+    private final double tol;
+    private final boolean transposed;
+
+    public RealMatrix getU() {
+        return this.cachedU;
+    }
+
+    public RealMatrix getV() {
+        return this.cachedV;
+    }
+
+    public SingularValueDecomposition(RealMatrix realMatrix) {
+        double[][] data;
+        double d;
+        char c;
+        int i;
+        double[][] dArr;
+        int i2;
+        double d2;
+        double[][] dArr2;
+        int i3;
+        if (realMatrix.getRowDimension() < realMatrix.getColumnDimension()) {
+            this.transposed = true;
+            data = realMatrix.transpose().getData();
+            this.m = realMatrix.getColumnDimension();
+            this.n = realMatrix.getRowDimension();
+        } else {
+            this.transposed = false;
+            data = realMatrix.getData();
+            this.m = realMatrix.getRowDimension();
+            this.n = realMatrix.getColumnDimension();
+        }
+        int i4 = this.n;
+        this.singularValues = new double[i4];
+        double[][] dArr3 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, this.m, i4);
+        int i5 = this.n;
+        double[][] dArr4 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, i5, i5);
+        int i6 = this.n;
+        double[] dArr5 = new double[i6];
+        int i7 = this.m;
+        double[] dArr6 = new double[i7];
+        int iMin = FastMath.min(i7 - 1, i6);
+        char c2 = 2;
+        int iMax = FastMath.max(0, this.n - 2);
+        int i8 = 0;
+        while (true) {
+            d = 0.0d;
+            if (i8 >= FastMath.max(iMin, iMax)) {
+                break;
+            }
+            if (i8 < iMin) {
+                this.singularValues[i8] = 0.0d;
+                int i9 = i8;
+                while (i9 < this.m) {
+                    double[] dArr7 = this.singularValues;
+                    dArr7[i8] = FastMath.hypot(dArr7[i8], data[i9][i8]);
+                    i9++;
+                    dArr4 = dArr4;
+                }
+                dArr2 = dArr4;
+                double[] dArr8 = this.singularValues;
+                double d3 = dArr8[i8];
+                if (d3 != 0.0d) {
+                    if (data[i8][i8] < 0.0d) {
+                        dArr8[i8] = -d3;
+                    }
+                    for (int i10 = i8; i10 < this.m; i10++) {
+                        double[] dArr9 = data[i10];
+                        dArr9[i8] = dArr9[i8] / this.singularValues[i8];
+                    }
+                    double[] dArr10 = data[i8];
+                    dArr10[i8] = dArr10[i8] + 1.0d;
+                }
+                double[] dArr11 = this.singularValues;
+                dArr11[i8] = -dArr11[i8];
+            } else {
+                dArr2 = dArr4;
+            }
+            int i11 = i8 + 1;
+            for (int i12 = i11; i12 < this.n; i12++) {
+                if (i8 < iMin && this.singularValues[i8] != 0.0d) {
+                    double d4 = 0.0d;
+                    for (int i13 = i8; i13 < this.m; i13++) {
+                        double[] dArr12 = data[i13];
+                        d4 += dArr12[i8] * dArr12[i12];
+                    }
+                    double d5 = (-d4) / data[i8][i8];
+                    for (int i14 = i8; i14 < this.m; i14++) {
+                        double[] dArr13 = data[i14];
+                        dArr13[i12] = dArr13[i12] + (dArr13[i8] * d5);
+                    }
+                }
+                dArr5[i12] = data[i8][i12];
+            }
+            if (i8 < iMin) {
+                for (int i15 = i8; i15 < this.m; i15++) {
+                    dArr3[i15][i8] = data[i15][i8];
+                }
+            }
+            if (i8 < iMax) {
+                dArr5[i8] = 0.0d;
+                int i16 = i11;
+                while (i16 < this.n) {
+                    dArr5[i8] = FastMath.hypot(dArr5[i8], dArr5[i16]);
+                    i16++;
+                    iMin = iMin;
+                }
+                i3 = iMin;
+                double d6 = dArr5[i8];
+                if (d6 != 0.0d) {
+                    if (dArr5[i11] < 0.0d) {
+                        dArr5[i8] = -d6;
+                    }
+                    for (int i17 = i11; i17 < this.n; i17++) {
+                        dArr5[i17] = dArr5[i17] / dArr5[i8];
+                    }
+                    dArr5[i11] = dArr5[i11] + 1.0d;
+                }
+                double d7 = -dArr5[i8];
+                dArr5[i8] = d7;
+                if (i11 < this.m && d7 != 0.0d) {
+                    for (int i18 = i11; i18 < this.m; i18++) {
+                        dArr6[i18] = 0.0d;
+                    }
+                    for (int i19 = i11; i19 < this.n; i19++) {
+                        for (int i20 = i11; i20 < this.m; i20++) {
+                            dArr6[i20] = dArr6[i20] + (dArr5[i19] * data[i20][i19]);
+                        }
+                    }
+                    for (int i21 = i11; i21 < this.n; i21++) {
+                        double d8 = (-dArr5[i21]) / dArr5[i11];
+                        for (int i22 = i11; i22 < this.m; i22++) {
+                            double[] dArr14 = data[i22];
+                            dArr14[i21] = dArr14[i21] + (dArr6[i22] * d8);
+                        }
+                    }
+                }
+                for (int i23 = i11; i23 < this.n; i23++) {
+                    dArr2[i23][i8] = dArr5[i23];
+                }
+            } else {
+                i3 = iMin;
+            }
+            dArr4 = dArr2;
+            i8 = i11;
+            iMin = i3;
+        }
+        double[][] dArr15 = dArr4;
+        int i24 = iMin;
+        int i25 = this.n;
+        if (i24 < i25) {
+            this.singularValues[i24] = data[i24][i24];
+        }
+        if (this.m < i25) {
+            this.singularValues[i25 - 1] = 0.0d;
+        }
+        if (iMax + 1 < i25) {
+            dArr5[iMax] = data[iMax][i25 - 1];
+        }
+        int i26 = i25 - 1;
+        dArr5[i26] = 0.0d;
+        for (int i27 = i24; i27 < this.n; i27++) {
+            for (int i28 = 0; i28 < this.m; i28++) {
+                dArr3[i28][i27] = 0.0d;
+            }
+            dArr3[i27][i27] = 1.0d;
+        }
+        for (int i29 = i24 - 1; i29 >= 0; i29--) {
+            if (this.singularValues[i29] != 0.0d) {
+                for (int i30 = i29 + 1; i30 < this.n; i30++) {
+                    double d9 = 0.0d;
+                    for (int i31 = i29; i31 < this.m; i31++) {
+                        double[] dArr16 = dArr3[i31];
+                        d9 += dArr16[i29] * dArr16[i30];
+                    }
+                    double d10 = (-d9) / dArr3[i29][i29];
+                    for (int i32 = i29; i32 < this.m; i32++) {
+                        double[] dArr17 = dArr3[i32];
+                        dArr17[i30] = dArr17[i30] + (dArr17[i29] * d10);
+                    }
+                }
+                for (int i33 = i29; i33 < this.m; i33++) {
+                    double[] dArr18 = dArr3[i33];
+                    dArr18[i29] = -dArr18[i29];
+                }
+                double[] dArr19 = dArr3[i29];
+                dArr19[i29] = dArr19[i29] + 1.0d;
+                for (int i34 = 0; i34 < i29 - 1; i34++) {
+                    dArr3[i34][i29] = 0.0d;
+                }
+            } else {
+                for (int i35 = 0; i35 < this.m; i35++) {
+                    dArr3[i35][i29] = 0.0d;
+                }
+                dArr3[i29][i29] = 1.0d;
+            }
+        }
+        for (int i36 = this.n - 1; i36 >= 0; i36--) {
+            if (i36 < iMax && dArr5[i36] != 0.0d) {
+                int i37 = i36 + 1;
+                for (int i38 = i37; i38 < this.n; i38++) {
+                    double d11 = 0.0d;
+                    for (int i39 = i37; i39 < this.n; i39++) {
+                        double[] dArr20 = dArr15[i39];
+                        d11 += dArr20[i36] * dArr20[i38];
+                    }
+                    double d12 = (-d11) / dArr15[i37][i36];
+                    for (int i40 = i37; i40 < this.n; i40++) {
+                        double[] dArr21 = dArr15[i40];
+                        dArr21[i38] = dArr21[i38] + (dArr21[i36] * d12);
+                    }
+                }
+            }
+            for (int i41 = 0; i41 < this.n; i41++) {
+                dArr15[i41][i36] = 0.0d;
+            }
+            dArr15[i36][i36] = 1.0d;
+        }
+        while (i25 > 0) {
+            int i42 = i25 - 2;
+            int i43 = i42;
+            while (true) {
+                if (i43 < 0) {
+                    break;
+                }
+                if (FastMath.abs(dArr5[i43]) <= ((FastMath.abs(this.singularValues[i43]) + FastMath.abs(this.singularValues[i43 + 1])) * EPS) + TINY) {
+                    dArr5[i43] = d;
+                    break;
+                }
+                i43--;
+            }
+            if (i43 == i42) {
+                c = 4;
+            } else {
+                int i44 = i25 - 1;
+                int i45 = i44;
+                while (true) {
+                    if (i45 < i43 || i45 == i43) {
+                        break;
+                    }
+                    if (FastMath.abs(this.singularValues[i45]) <= (((i45 != i25 ? FastMath.abs(dArr5[i45]) : d) + (i45 != i43 + 1 ? FastMath.abs(dArr5[i45 - 1]) : d)) * EPS) + TINY) {
+                        this.singularValues[i45] = d;
+                        break;
+                    }
+                    i45--;
+                }
+                if (i45 == i43) {
+                    c = 3;
+                } else if (i45 == i44) {
+                    c = 1;
+                } else {
+                    i43 = i45;
+                    c = 2;
+                }
+            }
+            int i46 = i43 + 1;
+            if (c == 1) {
+                i = i26;
+                dArr = dArr3;
+                i2 = i25;
+                double d13 = dArr5[i42];
+                dArr5[i42] = 0.0d;
+                while (i42 >= i46) {
+                    double dHypot = FastMath.hypot(this.singularValues[i42], d13);
+                    double[] dArr22 = this.singularValues;
+                    double d14 = dArr22[i42] / dHypot;
+                    double d15 = d13 / dHypot;
+                    dArr22[i42] = dHypot;
+                    if (i42 != i46) {
+                        int i47 = i42 - 1;
+                        double d16 = dArr5[i47];
+                        d13 = (-d15) * d16;
+                        dArr5[i47] = d16 * d14;
+                    }
+                    int i48 = 0;
+                    while (i48 < this.n) {
+                        double[] dArr23 = dArr15[i48];
+                        double d17 = dArr23[i42];
+                        int i49 = i2 - 1;
+                        double d18 = dArr23[i49];
+                        dArr23[i49] = ((-d15) * d17) + (d18 * d14);
+                        dArr23[i42] = (d14 * d17) + (d15 * d18);
+                        i48++;
+                        d13 = d13;
+                    }
+                    i42--;
+                }
+            } else if (c == c2) {
+                i = i26;
+                dArr = dArr3;
+                int i50 = i25;
+                double d19 = dArr5[i43];
+                dArr5[i43] = 0.0d;
+                int i51 = i46;
+                i2 = i50;
+                while (i51 < i2) {
+                    double dHypot2 = FastMath.hypot(this.singularValues[i51], d19);
+                    double[] dArr24 = this.singularValues;
+                    double d20 = dArr24[i51] / dHypot2;
+                    double d21 = d19 / dHypot2;
+                    dArr24[i51] = dHypot2;
+                    double d22 = -d21;
+                    double d23 = dArr5[i51];
+                    double d24 = d22 * d23;
+                    dArr5[i51] = d23 * d20;
+                    for (int i52 = 0; i52 < this.m; i52++) {
+                        double[] dArr25 = dArr[i52];
+                        double d25 = dArr25[i51];
+                        double d26 = dArr25[i43];
+                        dArr25[i43] = (d25 * d22) + (d26 * d20);
+                        dArr25[i51] = (d20 * d25) + (d21 * d26);
+                    }
+                    i51++;
+                    d19 = d24;
+                }
+            } else if (c == 3) {
+                int i53 = i25 - 1;
+                double dMax = FastMath.max(FastMath.max(FastMath.max(FastMath.max(FastMath.abs(this.singularValues[i53]), FastMath.abs(this.singularValues[i42])), FastMath.abs(dArr5[i42])), FastMath.abs(this.singularValues[i46])), FastMath.abs(dArr5[i46]));
+                double[] dArr26 = this.singularValues;
+                double d27 = dArr26[i53] / dMax;
+                double d28 = dArr26[i42] / dMax;
+                double d29 = dArr5[i42] / dMax;
+                double d30 = dArr26[i46] / dMax;
+                double d31 = dArr5[i46] / dMax;
+                double d32 = (((d28 + d27) * (d28 - d27)) + (d29 * d29)) / 2.0d;
+                double d33 = d29 * d27;
+                double d34 = d33 * d33;
+                if (d32 == d && d34 == d) {
+                    d2 = d;
+                } else {
+                    double dSqrt = FastMath.sqrt((d32 * d32) + d34);
+                    d2 = d34 / (d32 + (d32 < d ? -dSqrt : dSqrt));
+                }
+                double d35 = ((d30 + d27) * (d30 - d27)) + d2;
+                int i54 = i46;
+                double d36 = d30 * d31;
+                while (i54 < i53) {
+                    double dHypot3 = FastMath.hypot(d35, d36);
+                    double d37 = d35 / dHypot3;
+                    double d38 = d36 / dHypot3;
+                    if (i54 != i46) {
+                        dArr5[i54 - 1] = dHypot3;
+                    }
+                    double[] dArr27 = this.singularValues;
+                    double d39 = dArr27[i54];
+                    double d40 = dArr5[i54];
+                    double d41 = (d37 * d39) + (d38 * d40);
+                    dArr5[i54] = (d40 * d37) - (d39 * d38);
+                    int i55 = i54 + 1;
+                    double d42 = dArr27[i55];
+                    int i56 = i46;
+                    int i57 = i42;
+                    double d43 = d38 * d42;
+                    dArr27[i55] = d42 * d37;
+                    int i58 = i26;
+                    int i59 = 0;
+                    while (i59 < this.n) {
+                        double[] dArr28 = dArr15[i59];
+                        double d44 = dArr28[i54];
+                        double d45 = dArr28[i55];
+                        dArr28[i55] = ((-d38) * d44) + (d45 * d37);
+                        dArr28[i54] = (d37 * d44) + (d38 * d45);
+                        i59++;
+                        dArr3 = dArr3;
+                        i25 = i25;
+                    }
+                    double[][] dArr29 = dArr3;
+                    int i60 = i25;
+                    double dHypot4 = FastMath.hypot(d41, d43);
+                    double d46 = d41 / dHypot4;
+                    double d47 = d43 / dHypot4;
+                    double[] dArr30 = this.singularValues;
+                    dArr30[i54] = dHypot4;
+                    double d48 = dArr5[i54];
+                    double d49 = dArr30[i55];
+                    double d50 = (d46 * d48) + (d47 * d49);
+                    int i61 = i53;
+                    double d51 = -d47;
+                    dArr30[i55] = (d48 * d51) + (d49 * d46);
+                    double d52 = dArr5[i55];
+                    d36 = d47 * d52;
+                    dArr5[i55] = d52 * d46;
+                    if (i54 < this.m - 1) {
+                        for (int i62 = 0; i62 < this.m; i62++) {
+                            double[] dArr31 = dArr29[i62];
+                            double d53 = dArr31[i54];
+                            double d54 = dArr31[i55];
+                            dArr31[i55] = (d53 * d51) + (d54 * d46);
+                            dArr31[i54] = (d46 * d53) + (d47 * d54);
+                        }
+                    }
+                    i53 = i61;
+                    i54 = i55;
+                    i26 = i58;
+                    dArr3 = dArr29;
+                    i42 = i57;
+                    i46 = i56;
+                    d35 = d50;
+                    i25 = i60;
+                }
+                i = i26;
+                dArr = dArr3;
+                dArr5[i42] = d35;
+                i2 = i25;
+            } else {
+                double[] dArr32 = this.singularValues;
+                double d55 = dArr32[i46];
+                if (d55 <= d) {
+                    dArr32[i46] = d55 < d ? -d55 : d;
+                    for (int i63 = 0; i63 <= i26; i63++) {
+                        double[] dArr33 = dArr15[i63];
+                        dArr33[i46] = -dArr33[i46];
+                    }
+                }
+                while (i46 < i26) {
+                    double[] dArr34 = this.singularValues;
+                    double d56 = dArr34[i46];
+                    int i64 = i46 + 1;
+                    double d57 = dArr34[i64];
+                    if (d56 >= d57) {
+                        break;
+                    }
+                    dArr34[i46] = d57;
+                    dArr34[i64] = d56;
+                    if (i46 < this.n - 1) {
+                        for (int i65 = 0; i65 < this.n; i65++) {
+                            double[] dArr35 = dArr15[i65];
+                            double d58 = dArr35[i64];
+                            dArr35[i64] = dArr35[i46];
+                            dArr35[i46] = d58;
+                        }
+                    }
+                    if (i46 < this.m - 1) {
+                        for (int i66 = 0; i66 < this.m; i66++) {
+                            double[] dArr36 = dArr3[i66];
+                            double d59 = dArr36[i64];
+                            dArr36[i64] = dArr36[i46];
+                            dArr36[i46] = d59;
+                        }
+                    }
+                    i46 = i64;
+                }
+                i25--;
+                i = i26;
+                dArr = dArr3;
+                i26 = i;
+                dArr3 = dArr;
+                c2 = 2;
+                d = 0.0d;
+            }
+            i25 = i2;
+            i26 = i;
+            dArr3 = dArr;
+            c2 = 2;
+            d = 0.0d;
+        }
+        double[][] dArr37 = dArr3;
+        this.tol = FastMath.max(this.m * this.singularValues[0] * EPS, FastMath.sqrt(Precision.SAFE_MIN));
+        if (!this.transposed) {
+            this.cachedU = MatrixUtils.createRealMatrix(dArr37);
+            this.cachedV = MatrixUtils.createRealMatrix(dArr15);
+        } else {
+            this.cachedU = MatrixUtils.createRealMatrix(dArr15);
+            this.cachedV = MatrixUtils.createRealMatrix(dArr37);
+        }
+    }
+
+    public RealMatrix getUT() {
+        if (this.cachedUt == null) {
+            this.cachedUt = getU().transpose();
+        }
+        return this.cachedUt;
+    }
+
+    public RealMatrix getS() {
+        if (this.cachedS == null) {
+            this.cachedS = MatrixUtils.createRealDiagonalMatrix(this.singularValues);
+        }
+        return this.cachedS;
+    }
+
+    public double[] getSingularValues() {
+        return (double[]) this.singularValues.clone();
+    }
+
+    public RealMatrix getVT() {
+        if (this.cachedVt == null) {
+            this.cachedVt = getV().transpose();
+        }
+        return this.cachedVt;
+    }
+
+    public RealMatrix getCovariance(double d) throws NumberIsTooSmallException, OutOfRangeException {
+        int length = this.singularValues.length;
+        int i = 0;
+        while (i < length && this.singularValues[i] >= d) {
+            i++;
+        }
+        if (i == 0) {
+            throw new NumberIsTooLargeException(LocalizedFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE, Double.valueOf(d), Double.valueOf(this.singularValues[0]), true);
+        }
+        final double[][] dArr = (double[][]) Array.newInstance((Class<?>) Double.TYPE, i, length);
+        getVT().walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() { // from class: org.apache.commons.math3.linear.SingularValueDecomposition.1
+            @Override // org.apache.commons.math3.linear.DefaultRealMatrixPreservingVisitor, org.apache.commons.math3.linear.RealMatrixPreservingVisitor
+            public void visit(int i2, int i3, double d2) {
+                dArr[i2][i3] = d2 / SingularValueDecomposition.this.singularValues[i2];
+            }
+        }, 0, i - 1, 0, length - 1);
+        RealMatrix array2DRowRealMatrix = new Array2DRowRealMatrix(dArr, false);
+        return array2DRowRealMatrix.transpose().multiply(array2DRowRealMatrix);
+    }
+
+    public double getNorm() {
+        return this.singularValues[0];
+    }
+
+    public double getConditionNumber() {
+        double[] dArr = this.singularValues;
+        return dArr[0] / dArr[this.n - 1];
+    }
+
+    public double getInverseConditionNumber() {
+        double[] dArr = this.singularValues;
+        return dArr[this.n - 1] / dArr[0];
+    }
+
+    public int getRank() {
+        int i = 0;
+        int i2 = 0;
+        while (true) {
+            double[] dArr = this.singularValues;
+            if (i >= dArr.length) {
+                return i2;
+            }
+            if (dArr[i] > this.tol) {
+                i2++;
+            }
+            i++;
+        }
+    }
+
+    public DecompositionSolver getSolver() {
+        return new Solver(this.singularValues, getUT(), getV(), getRank() == this.m, this.tol);
+    }
+
+    private static class Solver implements DecompositionSolver {
+        private boolean nonSingular;
+        private final RealMatrix pseudoInverse;
+
+        @Override // org.apache.commons.math3.linear.DecompositionSolver
+        public RealMatrix getInverse() {
+            return this.pseudoInverse;
+        }
+
+        @Override // org.apache.commons.math3.linear.DecompositionSolver
+        public boolean isNonSingular() {
+            return this.nonSingular;
+        }
+
+        private Solver(double[] dArr, RealMatrix realMatrix, RealMatrix realMatrix2, boolean z, double d) {
+            double[][] data = realMatrix.getData();
+            for (int i = 0; i < dArr.length; i++) {
+                double d2 = dArr[i];
+                double d3 = d2 > d ? 1.0d / d2 : 0.0d;
+                double[] dArr2 = data[i];
+                for (int i2 = 0; i2 < dArr2.length; i2++) {
+                    dArr2[i2] = dArr2[i2] * d3;
+                }
+            }
+            this.pseudoInverse = realMatrix2.multiply(new Array2DRowRealMatrix(data, false));
+            this.nonSingular = z;
+        }
+
+        @Override // org.apache.commons.math3.linear.DecompositionSolver
+        public RealVector solve(RealVector realVector) {
+            return this.pseudoInverse.operate(realVector);
+        }
+
+        @Override // org.apache.commons.math3.linear.DecompositionSolver
+        public RealMatrix solve(RealMatrix realMatrix) {
+            return this.pseudoInverse.multiply(realMatrix);
+        }
+    }
+}

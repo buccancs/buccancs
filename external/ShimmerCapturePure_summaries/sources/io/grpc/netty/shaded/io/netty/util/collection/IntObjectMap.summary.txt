@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/collection/IntObjectMap.java
+// Size: 455 bytes
+// Modified: 2025-10-21 16:32:00.263111500 +0100
+
+package io.grpc.netty.shaded.io.netty.util.collection;
+
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public interface IntObjectMap<V> extends Map<Integer, V> {
+
+    public interface PrimitiveEntry<V> {
+        int key();
+
+        void setValue(V v);
+
+        V value();
+    }
+
+    boolean containsKey(int i);
+
+    Iterable<PrimitiveEntry<V>> entries();
+
+    V get(int i);
+
+    V put(int i, V v);
+
+    V remove(int i);
+}

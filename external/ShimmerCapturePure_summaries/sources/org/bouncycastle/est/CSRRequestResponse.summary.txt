@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/est/CSRRequestResponse.java
+// Size: 983 bytes
+// Modified: 2025-10-21 16:32:05.010861300 +0100
+
+package org.bouncycastle.est;
+
+/* loaded from: classes5.dex */
+public class CSRRequestResponse {
+    private final CSRAttributesResponse attributesResponse;
+    private final Source source;
+
+    public CSRRequestResponse(CSRAttributesResponse cSRAttributesResponse, Source source) {
+        this.attributesResponse = cSRAttributesResponse;
+        this.source = source;
+    }
+
+    public CSRAttributesResponse getAttributesResponse() {
+        CSRAttributesResponse cSRAttributesResponse = this.attributesResponse;
+        if (cSRAttributesResponse != null) {
+            return cSRAttributesResponse;
+        }
+        throw new IllegalStateException("Response has no CSRAttributesResponse.");
+    }
+
+    public Object getSession() {
+        return this.source.getSession();
+    }
+
+    public Source getSource() {
+        return this.source;
+    }
+
+    public boolean hasAttributesResponse() {
+        return this.attributesResponse != null;
+    }
+}

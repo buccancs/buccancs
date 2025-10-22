@@ -1,0 +1,16 @@
+package org.apache.commons.math.optimization.linear;
+
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.optimization.OptimizationException;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/linear/NoFeasibleSolutionException.class */
+public class NoFeasibleSolutionException extends OptimizationException {
+    private static final long serialVersionUID = -3044253632189082760L;
+
+    public NoFeasibleSolutionException() {
+        super(LocalizedFormats.NO_FEASIBLE_SOLUTION, new Object[0]);
+    }
+}

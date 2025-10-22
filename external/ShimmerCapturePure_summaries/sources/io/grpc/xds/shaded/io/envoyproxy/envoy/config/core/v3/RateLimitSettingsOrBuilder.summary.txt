@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/RateLimitSettingsOrBuilder.java
+// Size: 637 bytes
+// Modified: 2025-10-21 16:32:00.410474700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.DoubleValue;
+import com.google.protobuf.DoubleValueOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface RateLimitSettingsOrBuilder extends MessageOrBuilder {
+    DoubleValue getFillRate();
+
+    DoubleValueOrBuilder getFillRateOrBuilder();
+
+    UInt32Value getMaxTokens();
+
+    UInt32ValueOrBuilder getMaxTokensOrBuilder();
+
+    boolean hasFillRate();
+
+    boolean hasMaxTokens();
+}

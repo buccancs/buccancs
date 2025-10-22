@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/SocksAuthResponse.java
+// Size: 1010 bytes
+// Modified: 2025-10-21 16:32:05.391837700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public final class SocksAuthResponse extends SocksResponse {
+    private static final SocksSubnegotiationVersion SUBNEGOTIATION_VERSION = SocksSubnegotiationVersion.AUTH_PASSWORD;
+    private final SocksAuthStatus authStatus;
+
+    public SocksAuthStatus authStatus() {
+        return this.authStatus;
+    }
+
+    public SocksAuthResponse(SocksAuthStatus socksAuthStatus) {
+        super(SocksResponseType.AUTH);
+        this.authStatus = (SocksAuthStatus) ObjectUtil.checkNotNull(socksAuthStatus, "authStatus");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.socks.SocksMessage
+    public void encodeAsByteBuf(ByteBuf byteBuf) {
+        byteBuf.writeByte(SUBNEGOTIATION_VERSION.byteValue());
+        byteBuf.writeByte(this.authStatus.byteValue());
+    }
+}

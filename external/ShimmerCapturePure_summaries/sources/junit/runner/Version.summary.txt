@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/junit/runner/Version.java
+// Size: 275 bytes
+// Modified: 2025-10-21 16:32:00.495781300 +0100
+
+package junit.runner;
+
+/* loaded from: classes4.dex */
+public class Version {
+    public static String id() {
+        return "4.12";
+    }
+
+    private Version() {
+    }
+
+    public static void main(String[] strArr) {
+        System.out.println(id());
+    }
+}

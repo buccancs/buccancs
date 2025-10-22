@@ -1,0 +1,19 @@
+package org.apache.commons.math;
+
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/DuplicateSampleAbscissaException.class */
+public class DuplicateSampleAbscissaException extends MathException {
+    private static final long serialVersionUID = -2271007547170169872L;
+
+    public DuplicateSampleAbscissaException(double abscissa, int i1, int i2) {
+        super(LocalizedFormats.DUPLICATED_ABSCISSA, Double.valueOf(abscissa), Integer.valueOf(i1), Integer.valueOf(i2));
+    }
+
+    public double getDuplicateAbscissa() {
+        return ((Double) getArguments()[0]).doubleValue();
+    }
+}

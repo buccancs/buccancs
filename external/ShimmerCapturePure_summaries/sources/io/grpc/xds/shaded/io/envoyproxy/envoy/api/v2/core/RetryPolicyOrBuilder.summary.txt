@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/core/RetryPolicyOrBuilder.java
+// Size: 560 bytes
+// Modified: 2025-10-21 16:32:03.203129100 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+
+/* loaded from: classes3.dex */
+public interface RetryPolicyOrBuilder extends MessageOrBuilder {
+    UInt32Value getNumRetries();
+
+    UInt32ValueOrBuilder getNumRetriesOrBuilder();
+
+    BackoffStrategy getRetryBackOff();
+
+    BackoffStrategyOrBuilder getRetryBackOffOrBuilder();
+
+    boolean hasNumRetries();
+
+    boolean hasRetryBackOff();
+}

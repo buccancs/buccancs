@@ -1,0 +1,125 @@
+package org.apache.commons.math.random;
+
+import com.shimmerresearch.driver.ShimmerObject;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/MersenneTwister.class */
+public class MersenneTwister extends BitsStreamGenerator implements Serializable {
+    private static final long serialVersionUID = 8661194735290153518L;
+    private static final int N = 624;
+    private static final int M = 397;
+    private static final int[] MAG01 = {0, -1727483681};
+    private int[] mt;
+    private int mti;
+
+    public MersenneTwister() {
+        this.mt = new int[N];
+        setSeed(System.currentTimeMillis());
+    }
+
+    public MersenneTwister(int seed) {
+        this.mt = new int[N];
+        setSeed(seed);
+    }
+
+    public MersenneTwister(int[] seed) {
+        this.mt = new int[N];
+        setSeed(seed);
+    }
+
+    public MersenneTwister(long seed) {
+        this.mt = new int[N];
+        setSeed(seed);
+    }
+
+    @Override // org.apache.commons.math.random.BitsStreamGenerator, org.apache.commons.math.random.RandomGenerator
+    public void setSeed(int seed) {
+        long longMT = seed;
+        this.mt[0] = (int) longMT;
+        this.mti = 1;
+        while (this.mti < N) {
+            longMT = ((1812433253 * (longMT ^ (longMT >> 30))) + this.mti) & 4294967295L;
+            this.mt[this.mti] = (int) longMT;
+            this.mti++;
+        }
+    }
+
+    @Override // org.apache.commons.math.random.BitsStreamGenerator, org.apache.commons.math.random.RandomGenerator
+    public void setSeed(int[] seed) {
+        if (seed == null) {
+            setSeed(System.currentTimeMillis());
+            return;
+        }
+        setSeed(19650218);
+        int i = 1;
+        int j = 0;
+        for (int k = FastMath.max(N, seed.length); k != 0; k--) {
+            long l0 = (this.mt[i] & 2147483647L) | (this.mt[i] < 0 ? ShimmerObject.SDLogHeader.MPL_QUAT_6DOF : 0L);
+            long l1 = (this.mt[i - 1] & 2147483647L) | (this.mt[i - 1] < 0 ? ShimmerObject.SDLogHeader.MPL_QUAT_6DOF : 0L);
+            long l = (l0 ^ ((l1 ^ (l1 >> 30)) * 1664525)) + seed[j] + j;
+            this.mt[i] = (int) (l & 4294967295L);
+            i++;
+            j++;
+            if (i >= N) {
+                this.mt[0] = this.mt[623];
+                i = 1;
+            }
+            if (j >= seed.length) {
+                j = 0;
+            }
+        }
+        for (int k2 = 623; k2 != 0; k2--) {
+            long l02 = (this.mt[i] & 2147483647L) | (this.mt[i] < 0 ? ShimmerObject.SDLogHeader.MPL_QUAT_6DOF : 0L);
+            long l12 = (this.mt[i - 1] & 2147483647L) | (this.mt[i - 1] < 0 ? ShimmerObject.SDLogHeader.MPL_QUAT_6DOF : 0L);
+            long l2 = (l02 ^ ((l12 ^ (l12 >> 30)) * 1566083941)) - i;
+            this.mt[i] = (int) (l2 & 4294967295L);
+            i++;
+            if (i >= N) {
+                this.mt[0] = this.mt[623];
+                i = 1;
+            }
+        }
+        this.mt[0] = Integer.MIN_VALUE;
+    }
+
+    @Override // org.apache.commons.math.random.BitsStreamGenerator, org.apache.commons.math.random.RandomGenerator
+    public void setSeed(long seed) {
+        setSeed(new int[]{(int) (seed >>> 32), (int) (seed & 4294967295L)});
+    }
+
+    @Override // org.apache.commons.math.random.BitsStreamGenerator
+    protected int next(int bits) {
+        if (this.mti >= N) {
+            int mtNext = this.mt[0];
+            for (int k = 0; k < 227; k++) {
+                int mtCurr = mtNext;
+                mtNext = this.mt[k + 1];
+                int y = (mtCurr & Integer.MIN_VALUE) | (mtNext & Integer.MAX_VALUE);
+                this.mt[k] = (this.mt[k + M] ^ (y >>> 1)) ^ MAG01[y & 1];
+            }
+            for (int k2 = 227; k2 < 623; k2++) {
+                int mtCurr2 = mtNext;
+                mtNext = this.mt[k2 + 1];
+                int y2 = (mtCurr2 & Integer.MIN_VALUE) | (mtNext & Integer.MAX_VALUE);
+                this.mt[k2] = (this.mt[k2 - 227] ^ (y2 >>> 1)) ^ MAG01[y2 & 1];
+            }
+            int y3 = (mtNext & Integer.MIN_VALUE) | (this.mt[0] & Integer.MAX_VALUE);
+            this.mt[623] = (this.mt[396] ^ (y3 >>> 1)) ^ MAG01[y3 & 1];
+            this.mti = 0;
+        }
+        int[] iArr = this.mt;
+        int i = this.mti;
+        this.mti = i + 1;
+        int y4 = iArr[i];
+        int y5 = y4 ^ (y4 >>> 11);
+        int y6 = y5 ^ ((y5 << 7) & (-1658038656));
+        int y7 = y6 ^ ((y6 << 15) & (-272236544));
+        return (y7 ^ (y7 >>> 18)) >>> (32 - bits);
+    }
+}

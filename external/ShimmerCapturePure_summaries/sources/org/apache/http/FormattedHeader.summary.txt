@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/FormattedHeader.java
+// Size: 223 bytes
+// Modified: 2025-10-21 16:32:04.274888700 +0100
+
+package org.apache.http;
+
+import org.apache.http.util.CharArrayBuffer;
+
+/* loaded from: classes5.dex */
+public interface FormattedHeader extends Header {
+    CharArrayBuffer getBuffer();
+
+    int getValuePos();
+}

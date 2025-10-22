@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/HttpConnectionFactory.java
+// Size: 287 bytes
+// Modified: 2025-10-21 16:32:01.785297300 +0100
+
+package org.apache.http;
+
+import java.io.IOException;
+import java.net.Socket;
+import org.apache.http.HttpConnection;
+
+/* loaded from: classes5.dex */
+public interface HttpConnectionFactory<T extends HttpConnection> {
+    T createConnection(Socket socket) throws IOException;
+}

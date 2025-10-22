@@ -1,0 +1,127 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/FixedTableModel.java
+// Size: 3845 bytes
+// Modified: 2025-10-21 16:32:01.986116100 +0100
+
+package com.androidplot.ui;
+
+import android.graphics.RectF;
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+public class FixedTableModel extends TableModel {
+    private float a;
+    private float b;
+
+    public float getCellHeight() {
+        return this.b;
+    }
+
+    public float getCellWidth() {
+        return this.a;
+    }
+
+    public void setCellHeight(float f) {
+        this.b = f;
+    }
+
+    public void setCellWidth(float f) {
+        this.a = f;
+    }
+
+    @Override // com.androidplot.ui.TableModel
+    public Iterator<RectF> getIterator(RectF rectF, int i) {
+        return new a(this, this, rectF, i);
+    }
+
+    private class a implements Iterator<RectF> {
+        private FixedTableModel a;
+        private RectF b;
+        private RectF c;
+        private int d;
+        private int e;
+
+        protected a(FixedTableModel fixedTableModel, FixedTableModel fixedTableModel2, RectF rectF, int i) {
+            this.a = fixedTableModel2;
+            this.b = rectF;
+            this.d = i;
+            this.c = new RectF(rectF.left, rectF.top, rectF.left + fixedTableModel2.getCellWidth(), rectF.top + fixedTableModel2.getCellHeight());
+        }
+
+        @Override // java.util.Iterator
+        public final boolean hasNext() {
+            if (this.e < this.d) {
+                return (a() && b()) ? false : true;
+            }
+            return false;
+        }
+
+        private boolean a() {
+            return this.c.bottom + this.a.getCellHeight() > this.b.height();
+        }
+
+        private boolean b() {
+            return this.c.right + this.a.getCellWidth() > this.b.width();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Override // java.util.Iterator
+        /* renamed from: c, reason: merged with bridge method [inline-methods] */
+        public RectF next() {
+            try {
+                int i = this.e;
+                if (i == 0) {
+                    RectF rectF = this.c;
+                    this.e = i + 1;
+                    return rectF;
+                }
+                if (i >= this.d) {
+                    throw new IndexOutOfBoundsException();
+                }
+                int i2 = b.a[this.a.getOrder().ordinal()];
+                if (i2 != 1) {
+                    if (i2 == 2) {
+                        if (b()) {
+                            this.c.offsetTo(this.b.left, this.c.bottom);
+                        } else {
+                            RectF rectF2 = this.c;
+                            rectF2.offsetTo(rectF2.right, this.c.top);
+                        }
+                    } else {
+                        throw new UnsupportedOperationException();
+                    }
+                } else if (a()) {
+                    RectF rectF3 = this.c;
+                    rectF3.offsetTo(rectF3.right, this.b.top);
+                } else {
+                    RectF rectF4 = this.c;
+                    rectF4.offsetTo(rectF4.left, this.c.bottom);
+                }
+                return this.c;
+            } finally {
+                this.e++;
+            }
+        }
+
+        @Override // java.util.Iterator
+        public final void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    static /* synthetic */ class b {
+        static final /* synthetic */ int[] a;
+
+        static {
+            int[] iArr = new int[TableOrder.values().length];
+            a = iArr;
+            try {
+                iArr[TableOrder.ROW_MAJOR.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                a[TableOrder.COLUMN_MAJOR.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socksx/v5/DefaultSocks5InitialResponse.java
+// Size: 1331 bytes
+// Modified: 2025-10-21 16:32:07.295766100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socksx.v5;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResult;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
+
+/* loaded from: classes3.dex */
+public class DefaultSocks5InitialResponse extends AbstractSocks5Message implements Socks5InitialResponse {
+    private final Socks5AuthMethod authMethod;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.socksx.v5.Socks5InitialResponse
+    public Socks5AuthMethod authMethod() {
+        return this.authMethod;
+    }
+
+    public DefaultSocks5InitialResponse(Socks5AuthMethod socks5AuthMethod) {
+        this.authMethod = (Socks5AuthMethod) ObjectUtil.checkNotNull(socks5AuthMethod, "authMethod");
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder(StringUtil.simpleClassName(this));
+        DecoderResult decoderResult = decoderResult();
+        if (!decoderResult.isSuccess()) {
+            sb.append("(decoderResult: ");
+            sb.append(decoderResult);
+            sb.append(", authMethod: ");
+        } else {
+            sb.append("(authMethod: ");
+        }
+        sb.append(authMethod());
+        sb.append(')');
+        return sb.toString();
+    }
+}

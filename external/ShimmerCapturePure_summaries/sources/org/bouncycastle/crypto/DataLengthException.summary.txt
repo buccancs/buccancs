@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/DataLengthException.java
+// Size: 258 bytes
+// Modified: 2025-10-21 16:32:00.986085700 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public class DataLengthException extends RuntimeCryptoException {
+    public DataLengthException() {
+    }
+
+    public DataLengthException(String str) {
+        super(str);
+    }
+}

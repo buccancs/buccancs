@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyHttpCodec.java
+// Size: 606 bytes
+// Modified: 2025-10-21 16:32:12.849899000 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import io.grpc.netty.shaded.io.netty.channel.CombinedChannelDuplexHandler;
+
+/* loaded from: classes3.dex */
+public final class SpdyHttpCodec extends CombinedChannelDuplexHandler<SpdyHttpDecoder, SpdyHttpEncoder> {
+    public SpdyHttpCodec(SpdyVersion spdyVersion, int i) {
+        super(new SpdyHttpDecoder(spdyVersion, i), new SpdyHttpEncoder(spdyVersion));
+    }
+
+    public SpdyHttpCodec(SpdyVersion spdyVersion, int i, boolean z) {
+        super(new SpdyHttpDecoder(spdyVersion, i, z), new SpdyHttpEncoder(spdyVersion));
+    }
+}

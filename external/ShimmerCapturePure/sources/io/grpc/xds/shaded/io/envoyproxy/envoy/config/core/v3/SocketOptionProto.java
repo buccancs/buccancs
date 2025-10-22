@@ -1,0 +1,45 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes6.dex */
+public final class SocketOptionProto {
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_SocketOption_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_SocketOption_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n(envoy/config/core/v3/socket_option.proto\u0012\u0014envoy.config.core.v3\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\u001a\u0017validate/validate.proto\"°\u0002\n\fSocketOption\u0012\u0013\n\u000bdescription\u0018\u0001 \u0001(\t\u0012\r\n\u0005level\u0018\u0002 \u0001(\u0003\u0012\f\n\u0004name\u0018\u0003 \u0001(\u0003\u0012\u0013\n\tint_value\u0018\u0004 \u0001(\u0003H\u0000\u0012\u0013\n\tbuf_value\u0018\u0005 \u0001(\fH\u0000\u0012G\n\u0005state\u0018\u0006 \u0001(\u000e2..envoy.config.core.v3.SocketOption.SocketStateB\búB\u0005\u0082\u0001\u0002\u0010\u0001\"F\n\u000bSocketState\u0012\u0011\n\rSTATE_PREBIND\u0010\u0000\u0012\u000f\n\u000bSTATE_BOUND\u0010\u0001\u0012\u0013\n\u000fSTATE_LISTENING\u0010\u0002:%\u009aÅ\u0088\u001e \n\u001eenvoy.api.v2.core.SocketOptionB\f\n\u0005value\u0012\u0003øB\u0001BA\n\"io.envoyproxy.envoy.config.core.v3B\u0011SocketOptionProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{Status.getDescriptor(), Versioning.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_core_v3_SocketOption_descriptor = descriptor2;
+        internal_static_envoy_config_core_v3_SocketOption_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Description", "Level", "Name", "IntValue", "BufValue", "State", "Value"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private SocketOptionProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

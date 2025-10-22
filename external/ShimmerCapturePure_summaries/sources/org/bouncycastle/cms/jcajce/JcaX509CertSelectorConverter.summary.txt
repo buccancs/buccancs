@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/jcajce/JcaX509CertSelectorConverter.java
+// Size: 767 bytes
+// Modified: 2025-10-21 16:32:08.248280400 +0100
+
+package org.bouncycastle.cms.jcajce;
+
+import java.security.cert.X509CertSelector;
+import org.bouncycastle.cms.KeyTransRecipientId;
+import org.bouncycastle.cms.SignerId;
+
+/* loaded from: classes5.dex */
+public class JcaX509CertSelectorConverter extends org.bouncycastle.cert.selector.jcajce.JcaX509CertSelectorConverter {
+    public X509CertSelector getCertSelector(KeyTransRecipientId keyTransRecipientId) {
+        return doConversion(keyTransRecipientId.getIssuer(), keyTransRecipientId.getSerialNumber(), keyTransRecipientId.getSubjectKeyIdentifier());
+    }
+
+    public X509CertSelector getCertSelector(SignerId signerId) {
+        return doConversion(signerId.getIssuer(), signerId.getSerialNumber(), signerId.getSubjectKeyIdentifier());
+    }
+}

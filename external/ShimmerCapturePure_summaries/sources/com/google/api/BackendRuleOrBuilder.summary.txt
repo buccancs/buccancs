@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/BackendRuleOrBuilder.java
+// Size: 712 bytes
+// Modified: 2025-10-21 16:32:02.008873400 +0100
+
+package com.google.api;
+
+import com.google.api.BackendRule;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes.dex */
+public interface BackendRuleOrBuilder extends MessageOrBuilder {
+    String getAddress();
+
+    ByteString getAddressBytes();
+
+    BackendRule.AuthenticationCase getAuthenticationCase();
+
+    double getDeadline();
+
+    String getJwtAudience();
+
+    ByteString getJwtAudienceBytes();
+
+    double getMinDeadline();
+
+    double getOperationDeadline();
+
+    BackendRule.PathTranslation getPathTranslation();
+
+    int getPathTranslationValue();
+
+    String getSelector();
+
+    ByteString getSelectorBytes();
+}

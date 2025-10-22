@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/HttpEntityEnclosingRequest.java
+// Size: 239 bytes
+// Modified: 2025-10-21 16:32:03.559722900 +0100
+
+package org.apache.http;
+
+/* loaded from: classes5.dex */
+public interface HttpEntityEnclosingRequest extends HttpRequest {
+    boolean expectContinue();
+
+    HttpEntity getEntity();
+
+    void setEntity(HttpEntity httpEntity);
+}

@@ -1,0 +1,297 @@
+package org.jtransforms.dst;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.jtransforms.dct.DoubleDCT_1D;
+import org.jtransforms.utils.CommonUtils;
+import pl.edu.icm.jlargearrays.ConcurrencyUtils;
+import pl.edu.icm.jlargearrays.DoubleLargeArray;
+import pl.edu.icm.jlargearrays.LargeArray;
+
+/* loaded from: classes2.dex */
+public class DoubleDST_1D {
+    private final DoubleDCT_1D dct;
+    private final int n;
+    private final long nl;
+    private final boolean useLargeArrays;
+
+    public DoubleDST_1D(long j) {
+        this.n = (int) j;
+        this.nl = j;
+        this.useLargeArrays = CommonUtils.isUseLargeArrays() || j > ((long) LargeArray.getMaxSizeOf32bitArray());
+        this.dct = new DoubleDCT_1D(j);
+    }
+
+    public void forward(double[] dArr, boolean z) {
+        forward(dArr, 0, z);
+    }
+
+    public void forward(DoubleLargeArray doubleLargeArray, boolean z) {
+        forward(doubleLargeArray, 0L, z);
+    }
+
+    public void forward(final double[] dArr, final int i, boolean z) {
+        int i2 = this.n;
+        if (i2 == 1) {
+            return;
+        }
+        if (this.useLargeArrays) {
+            forward(new DoubleLargeArray(dArr), i, z);
+            return;
+        }
+        int i3 = i2 / 2;
+        int i4 = i2 + i;
+        for (int i5 = i + 1; i5 < i4; i5 += 2) {
+            dArr[i5] = -dArr[i5];
+        }
+        this.dct.forward(dArr, i, z);
+        if (ConcurrencyUtils.getNumberOfThreads() <= 1 || i3 <= CommonUtils.getThreadsBeginN_1D_FFT_2Threads()) {
+            int i6 = (this.n + i) - 1;
+            for (int i7 = 0; i7 < i3; i7++) {
+                int i8 = i + i7;
+                double d = dArr[i8];
+                int i9 = i6 - i7;
+                dArr[i8] = dArr[i9];
+                dArr[i9] = d;
+            }
+            return;
+        }
+        int i10 = i3 / 2;
+        Future[] futureArr = new Future[2];
+        int i11 = 0;
+        while (i11 < 2) {
+            final int i12 = i11 * i10;
+            final int i13 = i11 == 1 ? i3 : i12 + i10;
+            futureArr[i11] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dst.DoubleDST_1D.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    int i14 = (i + DoubleDST_1D.this.n) - 1;
+                    for (int i15 = i12; i15 < i13; i15++) {
+                        int i16 = i + i15;
+                        double[] dArr2 = dArr;
+                        double d2 = dArr2[i16];
+                        int i17 = i14 - i15;
+                        dArr2[i16] = dArr2[i17];
+                        dArr2[i17] = d2;
+                    }
+                }
+            });
+            i11++;
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    public void forward(final DoubleLargeArray doubleLargeArray, final long j, boolean z) {
+        long j2 = this.nl;
+        if (j2 == 1) {
+            return;
+        }
+        if (!this.useLargeArrays) {
+            if (!doubleLargeArray.isLarge() && !doubleLargeArray.isConstant() && j < 2147483647L) {
+                forward(doubleLargeArray.getData(), (int) j, z);
+                return;
+            }
+            throw new IllegalArgumentException("The data array is too big.");
+        }
+        long j3 = j2 / 2;
+        long j4 = j2 + j;
+        for (long j5 = j + 1; j5 < j4; j5 += 2) {
+            doubleLargeArray.setDouble(j5, -doubleLargeArray.getDouble(j5));
+        }
+        this.dct.forward(doubleLargeArray, j, z);
+        int i = 1;
+        if (ConcurrencyUtils.getNumberOfThreads() <= 1 || j3 <= CommonUtils.getThreadsBeginN_1D_FFT_2Threads()) {
+            long j6 = (this.nl + j) - 1;
+            long j7 = 0;
+            while (j7 < j3) {
+                long j8 = j + j7;
+                double d = doubleLargeArray.getDouble(j8);
+                long j9 = j6 - j7;
+                doubleLargeArray.setDouble(j8, doubleLargeArray.getDouble(j9));
+                doubleLargeArray.setDouble(j9, d);
+                j7++;
+                j6 = j6;
+            }
+            return;
+        }
+        int i2 = 2;
+        long j10 = j3 / 2;
+        Future[] futureArr = new Future[2];
+        int i3 = 0;
+        while (i3 < i2) {
+            final long j11 = i3 * j10;
+            long j12 = i3 == i ? j3 : j11 + j10;
+            int i4 = i3;
+            Future[] futureArr2 = futureArr;
+            final long j13 = j12;
+            futureArr2[i4] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dst.DoubleDST_1D.2
+                @Override // java.lang.Runnable
+                public void run() {
+                    long j14 = (j + DoubleDST_1D.this.nl) - 1;
+                    for (long j15 = j11; j15 < j13; j15++) {
+                        long j16 = j + j15;
+                        double d2 = doubleLargeArray.getDouble(j16);
+                        long j17 = j14 - j15;
+                        DoubleLargeArray doubleLargeArray2 = doubleLargeArray;
+                        doubleLargeArray2.setDouble(j16, doubleLargeArray2.getDouble(j17));
+                        doubleLargeArray.setDouble(j17, d2);
+                    }
+                }
+            });
+            i3 = i4 + 1;
+            futureArr = futureArr2;
+            i2 = 2;
+            i = 1;
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    public void inverse(double[] dArr, boolean z) {
+        inverse(dArr, 0, z);
+    }
+
+    public void inverse(DoubleLargeArray doubleLargeArray, boolean z) {
+        inverse(doubleLargeArray, 0L, z);
+    }
+
+    public void inverse(final double[] dArr, final int i, boolean z) {
+        int i2 = this.n;
+        if (i2 == 1) {
+            return;
+        }
+        if (this.useLargeArrays) {
+            inverse(new DoubleLargeArray(dArr), i, z);
+            return;
+        }
+        int i3 = i2 / 2;
+        if (ConcurrencyUtils.getNumberOfThreads() <= 1 || i3 <= CommonUtils.getThreadsBeginN_1D_FFT_2Threads()) {
+            int i4 = (this.n + i) - 1;
+            for (int i5 = 0; i5 < i3; i5++) {
+                int i6 = i + i5;
+                double d = dArr[i6];
+                int i7 = i4 - i5;
+                dArr[i6] = dArr[i7];
+                dArr[i7] = d;
+            }
+        } else {
+            int i8 = i3 / 2;
+            Future[] futureArr = new Future[2];
+            int i9 = 0;
+            while (i9 < 2) {
+                final int i10 = i9 * i8;
+                final int i11 = i9 == 1 ? i3 : i10 + i8;
+                int i12 = i9;
+                futureArr[i12] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dst.DoubleDST_1D.3
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        int i13 = (i + DoubleDST_1D.this.n) - 1;
+                        for (int i14 = i10; i14 < i11; i14++) {
+                            int i15 = i + i14;
+                            double[] dArr2 = dArr;
+                            double d2 = dArr2[i15];
+                            int i16 = i13 - i14;
+                            dArr2[i15] = dArr2[i16];
+                            dArr2[i16] = d2;
+                        }
+                    }
+                });
+                i9 = i12 + 1;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+        }
+        this.dct.inverse(dArr, i, z);
+        int i13 = this.n + i;
+        for (int i14 = i + 1; i14 < i13; i14 += 2) {
+            dArr[i14] = -dArr[i14];
+        }
+    }
+
+    public void inverse(final DoubleLargeArray doubleLargeArray, final long j, boolean z) {
+        long j2 = this.nl;
+        if (j2 == 1) {
+            return;
+        }
+        if (!this.useLargeArrays) {
+            if (!doubleLargeArray.isLarge() && !doubleLargeArray.isConstant() && j < 2147483647L) {
+                inverse(doubleLargeArray.getData(), (int) j, z);
+                return;
+            }
+            throw new IllegalArgumentException("The data array is too big.");
+        }
+        long j3 = j2 / 2;
+        int i = 1;
+        if (ConcurrencyUtils.getNumberOfThreads() <= 1 || j3 <= CommonUtils.getThreadsBeginN_1D_FFT_2Threads()) {
+            long j4 = (this.nl + j) - 1;
+            long j5 = 0;
+            while (j5 < j3) {
+                long j6 = j + j5;
+                double d = doubleLargeArray.getDouble(j6);
+                long j7 = j4 - j5;
+                doubleLargeArray.setDouble(j6, doubleLargeArray.getDouble(j7));
+                doubleLargeArray.setDouble(j7, d);
+                j5++;
+                j4 = j4;
+            }
+        } else {
+            long j8 = j3 / 2;
+            Future[] futureArr = new Future[2];
+            int i2 = 0;
+            while (i2 < 2) {
+                final long j9 = i2 * j8;
+                Future[] futureArr2 = futureArr;
+                int i3 = i2;
+                final long j10 = i2 == i ? j3 : j9 + j8;
+                futureArr2[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.dst.DoubleDST_1D.4
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        long j11 = (j + DoubleDST_1D.this.nl) - 1;
+                        for (long j12 = j9; j12 < j10; j12++) {
+                            long j13 = j + j12;
+                            double d2 = doubleLargeArray.getDouble(j13);
+                            long j14 = j11 - j12;
+                            DoubleLargeArray doubleLargeArray2 = doubleLargeArray;
+                            doubleLargeArray2.setDouble(j13, doubleLargeArray2.getDouble(j14));
+                            doubleLargeArray.setDouble(j14, d2);
+                        }
+                    }
+                });
+                i2 = i3 + 1;
+                futureArr = futureArr2;
+                i = 1;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(DoubleDST_1D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+        }
+        this.dct.inverse(doubleLargeArray, j, z);
+        long j11 = this.nl + j;
+        for (long j12 = j + 1; j12 < j11; j12 += 2) {
+            doubleLargeArray.setDouble(j12, -doubleLargeArray.getDouble(j12));
+        }
+    }
+}

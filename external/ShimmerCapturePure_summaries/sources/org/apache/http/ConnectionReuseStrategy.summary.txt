@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/ConnectionReuseStrategy.java
+// Size: 232 bytes
+// Modified: 2025-10-21 16:32:03.821109500 +0100
+
+package org.apache.http;
+
+import org.apache.http.protocol.HttpContext;
+
+/* loaded from: classes5.dex */
+public interface ConnectionReuseStrategy {
+    boolean keepAlive(HttpResponse httpResponse, HttpContext httpContext);
+}

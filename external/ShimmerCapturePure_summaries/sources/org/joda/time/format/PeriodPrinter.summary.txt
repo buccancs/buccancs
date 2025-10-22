@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/format/PeriodPrinter.java
+// Size: 580 bytes
+// Modified: 2025-10-21 16:32:03.668729400 +0100
+
+package org.joda.time.format;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Locale;
+import org.joda.time.ReadablePeriod;
+
+/* loaded from: classes2.dex */
+public interface PeriodPrinter {
+    int calculatePrintedLength(ReadablePeriod readablePeriod, Locale locale);
+
+    int countFieldsToPrint(ReadablePeriod readablePeriod, int i, Locale locale);
+
+    void printTo(Writer writer, ReadablePeriod readablePeriod, Locale locale) throws IOException;
+
+    void printTo(StringBuffer stringBuffer, ReadablePeriod readablePeriod, Locale locale);
+}

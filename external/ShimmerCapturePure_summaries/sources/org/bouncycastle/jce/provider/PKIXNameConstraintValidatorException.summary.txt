@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/provider/PKIXNameConstraintValidatorException.java
+// Size: 240 bytes
+// Modified: 2025-10-21 16:32:00.631900100 +0100
+
+package org.bouncycastle.jce.provider;
+
+/* loaded from: classes5.dex */
+public class PKIXNameConstraintValidatorException extends Exception {
+    public PKIXNameConstraintValidatorException(String str) {
+        super(str);
+    }
+}

@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/auth/oauth2/QuotaProjectIdProvider.java
+// Size: 146 bytes
+// Modified: 2025-10-21 16:32:00.145745000 +0100
+
+package com.google.auth.oauth2;
+
+/* loaded from: classes.dex */
+public interface QuotaProjectIdProvider {
+    String getQuotaProjectId();
+}

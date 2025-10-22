@@ -1,0 +1,152 @@
+package org.apache.commons.math.distribution;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/distribution/CauchyDistributionImpl.class */
+public class CauchyDistributionImpl extends AbstractContinuousDistribution implements CauchyDistribution, Serializable {
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1.0E-9d;
+    private static final long serialVersionUID = 8589540077390120676L;
+    private final double solverAbsoluteAccuracy;
+    private double median;
+    private double scale;
+
+    public CauchyDistributionImpl() {
+        this(0.0d, 1.0d);
+    }
+
+    public CauchyDistributionImpl(double median, double s) {
+        this(median, s, 1.0E-9d);
+    }
+
+    public CauchyDistributionImpl(double median, double s, double inverseCumAccuracy) {
+        this.median = 0.0d;
+        this.scale = 1.0d;
+        setMedianInternal(median);
+        setScaleInternal(s);
+        this.solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
+    @Override // org.apache.commons.math.distribution.Distribution
+    public double cumulativeProbability(double x) {
+        return 0.5d + (FastMath.atan((x - this.median) / this.scale) / 3.141592653589793d);
+    }
+
+    @Override // org.apache.commons.math.distribution.CauchyDistribution
+    public double getMedian() {
+        return this.median;
+    }
+
+    @Override // org.apache.commons.math.distribution.CauchyDistribution
+    @Deprecated
+    public void setMedian(double median) {
+        setMedianInternal(median);
+    }
+
+    @Override // org.apache.commons.math.distribution.CauchyDistribution
+    public double getScale() {
+        return this.scale;
+    }
+
+    @Override // org.apache.commons.math.distribution.CauchyDistribution
+    @Deprecated
+    public void setScale(double s) {
+        setScaleInternal(s);
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    public double density(double x) {
+        double dev = x - this.median;
+        return 0.3183098861837907d * (this.scale / ((dev * dev) + (this.scale * this.scale)));
+    }
+
+    @Override
+    // org.apache.commons.math.distribution.AbstractContinuousDistribution, org.apache.commons.math.distribution.ContinuousDistribution
+    public double inverseCumulativeProbability(double p) {
+        double ret;
+        if (p < 0.0d || p > 1.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE, Double.valueOf(p), Double.valueOf(0.0d), Double.valueOf(1.0d));
+        }
+        if (p == 0.0d) {
+            ret = Double.NEGATIVE_INFINITY;
+        } else if (p == 1.0d) {
+            ret = Double.POSITIVE_INFINITY;
+        } else {
+            ret = this.median + (this.scale * FastMath.tan(3.141592653589793d * (p - 0.5d)));
+        }
+        return ret;
+    }
+
+    private void setMedianInternal(double newMedian) {
+        this.median = newMedian;
+    }
+
+    private void setScaleInternal(double s) {
+        if (s <= 0.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_SCALE, Double.valueOf(s));
+        }
+        this.scale = s;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainLowerBound(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = -1.7976931348623157E308d;
+        } else {
+            ret = this.median;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainUpperBound(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = this.median;
+        } else {
+            ret = Double.MAX_VALUE;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getInitialDomain(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = this.median - this.scale;
+        } else if (p > 0.5d) {
+            ret = this.median + this.scale;
+        } else {
+            ret = this.median;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getSolverAbsoluteAccuracy() {
+        return this.solverAbsoluteAccuracy;
+    }
+
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    public double getNumericalMean() {
+        return Double.NaN;
+    }
+
+    public double getNumericalVariance() {
+        return Double.NaN;
+    }
+}

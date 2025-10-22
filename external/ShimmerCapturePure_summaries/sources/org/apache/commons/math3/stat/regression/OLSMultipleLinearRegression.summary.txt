@@ -1,0 +1,105 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.java
+// Size: 4341 bytes
+// Modified: 2025-10-21 16:32:13.052009500 +0100
+
+package org.apache.commons.math3.stat.regression;
+
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.QRDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.SingularMatrixException;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
+
+/* loaded from: classes5.dex */
+public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
+    private QRDecomposition qr;
+    private final double threshold;
+
+    public OLSMultipleLinearRegression() {
+        this(0.0d);
+    }
+
+    public OLSMultipleLinearRegression(double d) {
+        this.qr = null;
+        this.threshold = d;
+    }
+
+    public void newSampleData(double[] dArr, double[][] dArr2) throws MathIllegalArgumentException {
+        validateSampleData(dArr2, dArr);
+        newYSampleData(dArr);
+        newXSampleData(dArr2);
+    }
+
+    @Override // org.apache.commons.math3.stat.regression.AbstractMultipleLinearRegression
+    public void newSampleData(double[] dArr, int i, int i2) {
+        super.newSampleData(dArr, i, i2);
+        this.qr = new QRDecomposition(getX(), this.threshold);
+    }
+
+    public RealMatrix calculateHat() {
+        RealMatrix q = this.qr.getQ();
+        int columnDimension = this.qr.getR().getColumnDimension();
+        int columnDimension2 = q.getColumnDimension();
+        Array2DRowRealMatrix array2DRowRealMatrix = new Array2DRowRealMatrix(columnDimension2, columnDimension2);
+        double[][] dataRef = array2DRowRealMatrix.getDataRef();
+        for (int i = 0; i < columnDimension2; i++) {
+            for (int i2 = 0; i2 < columnDimension2; i2++) {
+                if (i == i2 && i < columnDimension) {
+                    dataRef[i][i2] = 1.0d;
+                } else {
+                    dataRef[i][i2] = 0.0d;
+                }
+            }
+        }
+        return q.multiply(array2DRowRealMatrix).multiply(q.transpose());
+    }
+
+    public double calculateTotalSumOfSquares() {
+        if (isNoIntercept()) {
+            return StatUtils.sumSq(getY().toArray());
+        }
+        return new SecondMoment().evaluate(getY().toArray());
+    }
+
+    public double calculateResidualSumOfSquares() {
+        RealVector realVectorCalculateResiduals = calculateResiduals();
+        return realVectorCalculateResiduals.dotProduct(realVectorCalculateResiduals);
+    }
+
+    public double calculateRSquared() {
+        return 1.0d - (calculateResidualSumOfSquares() / calculateTotalSumOfSquares());
+    }
+
+    public double calculateAdjustedRSquared() {
+        double dCalculateResidualSumOfSquares;
+        double rowDimension = getX().getRowDimension();
+        if (isNoIntercept()) {
+            dCalculateResidualSumOfSquares = (1.0d - calculateRSquared()) * (rowDimension / (rowDimension - getX().getColumnDimension()));
+        } else {
+            dCalculateResidualSumOfSquares = (calculateResidualSumOfSquares() * (rowDimension - 1.0d)) / (calculateTotalSumOfSquares() * (rowDimension - getX().getColumnDimension()));
+        }
+        return 1.0d - dCalculateResidualSumOfSquares;
+    }
+
+    @Override // org.apache.commons.math3.stat.regression.AbstractMultipleLinearRegression
+    protected void newXSampleData(double[][] dArr) {
+        super.newXSampleData(dArr);
+        this.qr = new QRDecomposition(getX(), this.threshold);
+    }
+
+    @Override // org.apache.commons.math3.stat.regression.AbstractMultipleLinearRegression
+    protected RealVector calculateBeta() {
+        return this.qr.getSolver().solve(getY());
+    }
+
+    @Override // org.apache.commons.math3.stat.regression.AbstractMultipleLinearRegression
+    protected RealMatrix calculateBetaVariance() throws SingularMatrixException {
+        int columnDimension = getX().getColumnDimension() - 1;
+        RealMatrix inverse = new LUDecomposition(this.qr.getR().getSubMatrix(0, columnDimension, 0, columnDimension)).getSolver().getInverse();
+        return inverse.multiply(inverse.transpose());
+    }
+}

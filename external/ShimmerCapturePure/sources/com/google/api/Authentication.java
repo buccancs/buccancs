@@ -1,0 +1,941 @@
+package com.google.api;
+
+import com.google.api.AuthProvider;
+import com.google.api.AuthenticationRule;
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public final class Authentication extends GeneratedMessageV3 implements AuthenticationOrBuilder {
+    public static final int PROVIDERS_FIELD_NUMBER = 4;
+    public static final int RULES_FIELD_NUMBER = 3;
+    private static final Authentication DEFAULT_INSTANCE = new Authentication();
+    private static final Parser<Authentication> PARSER = new AbstractParser<Authentication>() { // from class: com.google.api.Authentication.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Authentication m341parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Authentication(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private byte memoizedIsInitialized;
+    private List<AuthProvider> providers_;
+    private List<AuthenticationRule> rules_;
+
+    private Authentication(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Authentication() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.rules_ = Collections.emptyList();
+        this.providers_ = Collections.emptyList();
+    }
+
+    private Authentication(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 26) {
+                                if ((i & 1) == 0) {
+                                    this.rules_ = new ArrayList();
+                                    i |= 1;
+                                }
+                                this.rules_.add(codedInputStream.readMessage(AuthenticationRule.parser(), extensionRegistryLite));
+                            } else if (tag == 34) {
+                                if ((i & 2) == 0) {
+                                    this.providers_ = new ArrayList();
+                                    i |= 2;
+                                }
+                                this.providers_.add(codedInputStream.readMessage(AuthProvider.parser(), extensionRegistryLite));
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    }
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.rules_ = Collections.unmodifiableList(this.rules_);
+                }
+                if ((i & 2) != 0) {
+                    this.providers_ = Collections.unmodifiableList(this.providers_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Authentication getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Authentication> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return AuthProto.internal_static_google_api_Authentication_descriptor;
+    }
+
+    public static Authentication parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Authentication) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Authentication parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Authentication) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Authentication parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Authentication) PARSER.parseFrom(byteString);
+    }
+
+    public static Authentication parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Authentication) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Authentication parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Authentication) PARSER.parseFrom(bArr);
+    }
+
+    public static Authentication parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Authentication) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Authentication parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Authentication parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Authentication parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Authentication parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Authentication parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Authentication parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m340toBuilder();
+    }
+
+    public static Builder newBuilder(Authentication authentication) {
+        return DEFAULT_INSTANCE.m340toBuilder().mergeFrom(authentication);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Authentication m335getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Authentication> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public List<AuthProvider> getProvidersList() {
+        return this.providers_;
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public List<? extends AuthProviderOrBuilder> getProvidersOrBuilderList() {
+        return this.providers_;
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public List<AuthenticationRule> getRulesList() {
+        return this.rules_;
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public List<? extends AuthenticationRuleOrBuilder> getRulesOrBuilderList() {
+        return this.rules_;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return AuthProto.internal_static_google_api_Authentication_fieldAccessorTable.ensureFieldAccessorsInitialized(Authentication.class, Builder.class);
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public int getRulesCount() {
+        return this.rules_.size();
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public AuthenticationRule getRules(int i) {
+        return this.rules_.get(i);
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public AuthenticationRuleOrBuilder getRulesOrBuilder(int i) {
+        return this.rules_.get(i);
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public int getProvidersCount() {
+        return this.providers_.size();
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public AuthProvider getProviders(int i) {
+        return this.providers_.get(i);
+    }
+
+    @Override // com.google.api.AuthenticationOrBuilder
+    public AuthProviderOrBuilder getProvidersOrBuilder(int i) {
+        return this.providers_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        for (int i = 0; i < this.rules_.size(); i++) {
+            codedOutputStream.writeMessage(3, this.rules_.get(i));
+        }
+        for (int i2 = 0; i2 < this.providers_.size(); i2++) {
+            codedOutputStream.writeMessage(4, this.providers_.get(i2));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = 0;
+        for (int i2 = 0; i2 < this.rules_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, this.rules_.get(i2));
+        }
+        for (int i3 = 0; i3 < this.providers_.size(); i3++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, this.providers_.get(i3));
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Authentication)) {
+            return super.equals(obj);
+        }
+        Authentication authentication = (Authentication) obj;
+        return getRulesList().equals(authentication.getRulesList()) && getProvidersList().equals(authentication.getProvidersList()) && this.unknownFields.equals(authentication.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getRulesCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getRulesList().hashCode();
+        }
+        if (getProvidersCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getProvidersList().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m338newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m340toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] */
+    public Builder m337newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements AuthenticationOrBuilder {
+        private int bitField0_;
+        private RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> providersBuilder_;
+        private List<AuthProvider> providers_;
+        private RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> rulesBuilder_;
+        private List<AuthenticationRule> rules_;
+
+        private Builder() {
+            this.rules_ = Collections.emptyList();
+            this.providers_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.rules_ = Collections.emptyList();
+            this.providers_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return AuthProto.internal_static_google_api_Authentication_descriptor;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return AuthProto.internal_static_google_api_Authentication_fieldAccessorTable.ensureFieldAccessorsInitialized(Authentication.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (Authentication.alwaysUseFieldBuilders) {
+                getRulesFieldBuilder();
+                getProvidersFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m351clear() {
+            super.clear();
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.rules_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV32 = this.providersBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.providers_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return AuthProto.internal_static_google_api_Authentication_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Authentication m364getDefaultInstanceForType() {
+            return Authentication.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Authentication m345build() throws UninitializedMessageException {
+            Authentication authenticationM347buildPartial = m347buildPartial();
+            if (authenticationM347buildPartial.isInitialized()) {
+                return authenticationM347buildPartial;
+            }
+            throw newUninitializedMessageException(authenticationM347buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Authentication m347buildPartial() {
+            Authentication authentication = new Authentication(this);
+            int i = this.bitField0_;
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((i & 1) != 0) {
+                    this.rules_ = Collections.unmodifiableList(this.rules_);
+                    this.bitField0_ &= -2;
+                }
+                authentication.rules_ = this.rules_;
+            } else {
+                authentication.rules_ = repeatedFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV32 = this.providersBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 2) != 0) {
+                    this.providers_ = Collections.unmodifiableList(this.providers_);
+                    this.bitField0_ &= -3;
+                }
+                authentication.providers_ = this.providers_;
+            } else {
+                authentication.providers_ = repeatedFieldBuilderV32.build();
+            }
+            onBuilt();
+            return authentication;
+        }
+
+        /* renamed from: clone, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m362clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m375setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m353clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m356clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m377setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m343addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m369mergeFrom(Message message) {
+            if (message instanceof Authentication) {
+                return mergeFrom((Authentication) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Authentication authentication) {
+            if (authentication == Authentication.getDefaultInstance()) {
+                return this;
+            }
+            if (this.rulesBuilder_ == null) {
+                if (!authentication.rules_.isEmpty()) {
+                    if (this.rules_.isEmpty()) {
+                        this.rules_ = authentication.rules_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureRulesIsMutable();
+                        this.rules_.addAll(authentication.rules_);
+                    }
+                    onChanged();
+                }
+            } else if (!authentication.rules_.isEmpty()) {
+                if (!this.rulesBuilder_.isEmpty()) {
+                    this.rulesBuilder_.addAllMessages(authentication.rules_);
+                } else {
+                    this.rulesBuilder_.dispose();
+                    this.rulesBuilder_ = null;
+                    this.rules_ = authentication.rules_;
+                    this.bitField0_ &= -2;
+                    this.rulesBuilder_ = Authentication.alwaysUseFieldBuilders ? getRulesFieldBuilder() : null;
+                }
+            }
+            if (this.providersBuilder_ == null) {
+                if (!authentication.providers_.isEmpty()) {
+                    if (this.providers_.isEmpty()) {
+                        this.providers_ = authentication.providers_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureProvidersIsMutable();
+                        this.providers_.addAll(authentication.providers_);
+                    }
+                    onChanged();
+                }
+            } else if (!authentication.providers_.isEmpty()) {
+                if (!this.providersBuilder_.isEmpty()) {
+                    this.providersBuilder_.addAllMessages(authentication.providers_);
+                } else {
+                    this.providersBuilder_.dispose();
+                    this.providersBuilder_ = null;
+                    this.providers_ = authentication.providers_;
+                    this.bitField0_ &= -3;
+                    this.providersBuilder_ = Authentication.alwaysUseFieldBuilders ? getProvidersFieldBuilder() : null;
+                }
+            }
+            m373mergeUnknownFields(authentication.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public com.google.api.Authentication.Builder m370mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = com.google.api.Authentication.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                com.google.api.Authentication r3 = (com.google.api.Authentication) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                com.google.api.Authentication r4 = (com.google.api.Authentication) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: com.google.api.Authentication.Builder.m370mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.google.api.Authentication$Builder");
+        }
+
+        private void ensureRulesIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.rules_ = new ArrayList(this.rules_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public List<AuthenticationRule> getRulesList() {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.rules_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public int getRulesCount() {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.rules_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public AuthenticationRule getRules(int i) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.rules_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setRules(int i, AuthenticationRule authenticationRule) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                authenticationRule.getClass();
+                ensureRulesIsMutable();
+                this.rules_.set(i, authenticationRule);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, authenticationRule);
+            }
+            return this;
+        }
+
+        public Builder setRules(int i, AuthenticationRule.Builder builder) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRulesIsMutable();
+                this.rules_.set(i, builder.m391build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m391build());
+            }
+            return this;
+        }
+
+        public Builder addRules(AuthenticationRule authenticationRule) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                authenticationRule.getClass();
+                ensureRulesIsMutable();
+                this.rules_.add(authenticationRule);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(authenticationRule);
+            }
+            return this;
+        }
+
+        public Builder addRules(int i, AuthenticationRule authenticationRule) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                authenticationRule.getClass();
+                ensureRulesIsMutable();
+                this.rules_.add(i, authenticationRule);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, authenticationRule);
+            }
+            return this;
+        }
+
+        public Builder addRules(AuthenticationRule.Builder builder) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRulesIsMutable();
+                this.rules_.add(builder.m391build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m391build());
+            }
+            return this;
+        }
+
+        public Builder addRules(int i, AuthenticationRule.Builder builder) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRulesIsMutable();
+                this.rules_.add(i, builder.m391build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m391build());
+            }
+            return this;
+        }
+
+        public Builder addAllRules(Iterable<? extends AuthenticationRule> iterable) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRulesIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.rules_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearRules() {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.rules_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeRules(int i) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRulesIsMutable();
+                this.rules_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public AuthenticationRule.Builder getRulesBuilder(int i) {
+            return getRulesFieldBuilder().getBuilder(i);
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public AuthenticationRuleOrBuilder getRulesOrBuilder(int i) {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.rules_.get(i);
+            }
+            return (AuthenticationRuleOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public List<? extends AuthenticationRuleOrBuilder> getRulesOrBuilderList() {
+            RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.rules_);
+        }
+
+        public AuthenticationRule.Builder addRulesBuilder() {
+            return getRulesFieldBuilder().addBuilder(AuthenticationRule.getDefaultInstance());
+        }
+
+        public AuthenticationRule.Builder addRulesBuilder(int i) {
+            return getRulesFieldBuilder().addBuilder(i, AuthenticationRule.getDefaultInstance());
+        }
+
+        public List<AuthenticationRule.Builder> getRulesBuilderList() {
+            return getRulesFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<AuthenticationRule, AuthenticationRule.Builder, AuthenticationRuleOrBuilder> getRulesFieldBuilder() {
+            if (this.rulesBuilder_ == null) {
+                this.rulesBuilder_ = new RepeatedFieldBuilderV3<>(this.rules_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.rules_ = null;
+            }
+            return this.rulesBuilder_;
+        }
+
+        private void ensureProvidersIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.providers_ = new ArrayList(this.providers_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public List<AuthProvider> getProvidersList() {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.providers_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public int getProvidersCount() {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.providers_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public AuthProvider getProviders(int i) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.providers_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setProviders(int i, AuthProvider authProvider) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                authProvider.getClass();
+                ensureProvidersIsMutable();
+                this.providers_.set(i, authProvider);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, authProvider);
+            }
+            return this;
+        }
+
+        public Builder setProviders(int i, AuthProvider.Builder builder) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureProvidersIsMutable();
+                this.providers_.set(i, builder.m253build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m253build());
+            }
+            return this;
+        }
+
+        public Builder addProviders(AuthProvider authProvider) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                authProvider.getClass();
+                ensureProvidersIsMutable();
+                this.providers_.add(authProvider);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(authProvider);
+            }
+            return this;
+        }
+
+        public Builder addProviders(int i, AuthProvider authProvider) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                authProvider.getClass();
+                ensureProvidersIsMutable();
+                this.providers_.add(i, authProvider);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, authProvider);
+            }
+            return this;
+        }
+
+        public Builder addProviders(AuthProvider.Builder builder) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureProvidersIsMutable();
+                this.providers_.add(builder.m253build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m253build());
+            }
+            return this;
+        }
+
+        public Builder addProviders(int i, AuthProvider.Builder builder) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureProvidersIsMutable();
+                this.providers_.add(i, builder.m253build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m253build());
+            }
+            return this;
+        }
+
+        public Builder addAllProviders(Iterable<? extends AuthProvider> iterable) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureProvidersIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.providers_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearProviders() {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.providers_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeProviders(int i) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureProvidersIsMutable();
+                this.providers_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public AuthProvider.Builder getProvidersBuilder(int i) {
+            return getProvidersFieldBuilder().getBuilder(i);
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public AuthProviderOrBuilder getProvidersOrBuilder(int i) {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.providers_.get(i);
+            }
+            return (AuthProviderOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // com.google.api.AuthenticationOrBuilder
+        public List<? extends AuthProviderOrBuilder> getProvidersOrBuilderList() {
+            RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> repeatedFieldBuilderV3 = this.providersBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.providers_);
+        }
+
+        public AuthProvider.Builder addProvidersBuilder() {
+            return getProvidersFieldBuilder().addBuilder(AuthProvider.getDefaultInstance());
+        }
+
+        public AuthProvider.Builder addProvidersBuilder(int i) {
+            return getProvidersFieldBuilder().addBuilder(i, AuthProvider.getDefaultInstance());
+        }
+
+        public List<AuthProvider.Builder> getProvidersBuilderList() {
+            return getProvidersFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<AuthProvider, AuthProvider.Builder, AuthProviderOrBuilder> getProvidersFieldBuilder() {
+            if (this.providersBuilder_ == null) {
+                this.providersBuilder_ = new RepeatedFieldBuilderV3<>(this.providers_, (this.bitField0_ & 2) != 0, getParentForChildren(), isClean());
+                this.providers_ = null;
+            }
+            return this.providersBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m379setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m373mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

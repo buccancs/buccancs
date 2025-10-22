@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/fault/v2/FaultRateLimitOrBuilder.java
+// Size: 957 bytes
+// Modified: 2025-10-21 16:32:05.107655700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.FractionalPercent;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.FractionalPercentOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface FaultRateLimitOrBuilder extends MessageOrBuilder {
+    FaultRateLimit.FixedLimit getFixedLimit();
+
+    FaultRateLimit.FixedLimitOrBuilder getFixedLimitOrBuilder();
+
+    FaultRateLimit.HeaderLimit getHeaderLimit();
+
+    FaultRateLimit.HeaderLimitOrBuilder getHeaderLimitOrBuilder();
+
+    FaultRateLimit.LimitTypeCase getLimitTypeCase();
+
+    FractionalPercent getPercentage();
+
+    FractionalPercentOrBuilder getPercentageOrBuilder();
+
+    boolean hasFixedLimit();
+
+    boolean hasHeaderLimit();
+
+    boolean hasPercentage();
+}

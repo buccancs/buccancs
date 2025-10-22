@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/convert/PeriodConverter.java
+// Size: 374 bytes
+// Modified: 2025-10-21 16:32:05.899754600 +0100
+
+package org.joda.time.convert;
+
+import org.joda.time.Chronology;
+import org.joda.time.PeriodType;
+import org.joda.time.ReadWritablePeriod;
+
+/* loaded from: classes2.dex */
+public interface PeriodConverter extends Converter {
+    PeriodType getPeriodType(Object obj);
+
+    void setInto(ReadWritablePeriod readWritablePeriod, Object obj, Chronology chronology);
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/nonlinear/scalar/ObjectiveFunctionGradient.java
+// Size: 620 bytes
+// Modified: 2025-10-21 16:32:01.782297800 +0100
+
+package org.apache.commons.math3.optim.nonlinear.scalar;
+
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.optim.OptimizationData;
+
+/* loaded from: classes5.dex */
+public class ObjectiveFunctionGradient implements OptimizationData {
+    private final MultivariateVectorFunction gradient;
+
+    public MultivariateVectorFunction getObjectiveFunctionGradient() {
+        return this.gradient;
+    }
+
+    public ObjectiveFunctionGradient(MultivariateVectorFunction multivariateVectorFunction) {
+        this.gradient = multivariateVectorFunction;
+    }
+}

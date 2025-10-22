@@ -1,10 +1,12 @@
 package com.buccancs.domain.usecase
 
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.failure
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 

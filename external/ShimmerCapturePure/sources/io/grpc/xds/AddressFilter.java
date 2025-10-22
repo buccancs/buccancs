@@ -1,0 +1,60 @@
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.Attributes;
+import io.grpc.EquivalentAddressGroup;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class AddressFilter {
+    private static final Attributes.Key<PathChain> PATH_CHAIN_KEY = Attributes.Key.create("io.grpc.xds.AddressFilter.PATH_CHAIN_KEY");
+
+    private AddressFilter() {
+    }
+
+    static EquivalentAddressGroup setPathFilter(EquivalentAddressGroup equivalentAddressGroup, List<String> list) {
+        Preconditions.checkNotNull(equivalentAddressGroup, "address");
+        Preconditions.checkNotNull(list, "names");
+        Attributes.Builder builderDiscard = equivalentAddressGroup.getAttributes().toBuilder().discard(PATH_CHAIN_KEY);
+        PathChain pathChain = null;
+        for (String str : list) {
+            if (pathChain == null) {
+                pathChain = new PathChain(str);
+                builderDiscard.set(PATH_CHAIN_KEY, pathChain);
+            } else {
+                pathChain.next = new PathChain(str);
+            }
+        }
+        return new EquivalentAddressGroup(equivalentAddressGroup.getAddresses(), builderDiscard.build());
+    }
+
+    static List<EquivalentAddressGroup> filter(List<EquivalentAddressGroup> list, String str) {
+        Preconditions.checkNotNull(list, "addresses");
+        Preconditions.checkNotNull(str, "name");
+        ArrayList arrayList = new ArrayList();
+        for (EquivalentAddressGroup equivalentAddressGroup : list) {
+            Attributes attributes = equivalentAddressGroup.getAttributes();
+            Attributes.Key<PathChain> key = PATH_CHAIN_KEY;
+            PathChain pathChain = (PathChain) attributes.get(key);
+            if (pathChain != null && pathChain.name.equals(str)) {
+                arrayList.add(new EquivalentAddressGroup(equivalentAddressGroup.getAddresses(), equivalentAddressGroup.getAttributes().toBuilder().set(key, pathChain.next).build()));
+            }
+        }
+        return Collections.unmodifiableList(arrayList);
+    }
+
+    private static final class PathChain {
+        final String name;
+
+        @Nullable
+        PathChain next;
+
+        PathChain(String str) {
+            this.name = (String) Preconditions.checkNotNull(str, "name");
+        }
+    }
+}

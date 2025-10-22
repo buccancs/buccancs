@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/async/ByteArrayFeeder.java
+// Size: 246 bytes
+// Modified: 2025-10-21 16:32:00.785318300 +0100
+
+package com.fasterxml.jackson.core.async;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public interface ByteArrayFeeder extends NonBlockingInputFeeder {
+    void feedInput(byte[] bArr, int i, int i2) throws IOException;
+}

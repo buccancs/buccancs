@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/grpc/netty/InternalNettySocketSupport.java
+// Size: 1003 bytes
+// Modified: 2025-10-21 16:32:08.116756700 +0100
+
+package io.grpc.netty.shaded.io.grpc.netty;
+
+import io.grpc.InternalChannelz;
+import io.grpc.netty.shaded.io.grpc.netty.NettySocketSupport;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public final class InternalNettySocketSupport {
+
+    public interface InternalHelper extends NettySocketSupport.Helper {
+        @Override // io.grpc.netty.shaded.io.grpc.netty.NettySocketSupport.Helper
+        InternalNativeSocketOptions getNativeSocketOptions(Channel channel);
+    }
+
+    public static final class InternalNativeSocketOptions extends NettySocketSupport.NativeSocketOptions {
+        public InternalNativeSocketOptions(InternalChannelz.TcpInfo tcpInfo, Map<String, String> map) {
+            super(tcpInfo, map);
+        }
+    }
+
+    public static void setHelper(InternalHelper internalHelper) {
+        NettySocketSupport.setHelper(internalHelper);
+    }
+
+    private InternalNettySocketSupport() {
+    }
+}

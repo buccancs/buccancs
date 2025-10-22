@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/StreamCipher.java
+// Size: 388 bytes
+// Modified: 2025-10-21 16:32:00.989598800 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface StreamCipher {
+    String getAlgorithmName();
+
+    void init(boolean z, CipherParameters cipherParameters) throws IllegalArgumentException;
+
+    int processBytes(byte[] bArr, int i, int i2, byte[] bArr2, int i3) throws DataLengthException;
+
+    void reset();
+
+    byte returnByte(byte b);
+}

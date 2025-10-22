@@ -1,0 +1,42 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/exception/ConnectException.java
+// Size: 1108 bytes
+// Modified: 2025-10-21 16:32:00.784318600 +0100
+
+package com.clj.fastble.exception;
+
+import android.bluetooth.BluetoothGatt;
+
+/* loaded from: classes.dex */
+public class ConnectException extends BleException {
+    private BluetoothGatt bluetoothGatt;
+    private int gattStatus;
+
+    public BluetoothGatt getBluetoothGatt() {
+        return this.bluetoothGatt;
+    }
+
+    public int getGattStatus() {
+        return this.gattStatus;
+    }
+
+    public ConnectException setBluetoothGatt(BluetoothGatt bluetoothGatt) {
+        this.bluetoothGatt = bluetoothGatt;
+        return this;
+    }
+
+    public ConnectException setGattStatus(int i) {
+        this.gattStatus = i;
+        return this;
+    }
+
+    public ConnectException(BluetoothGatt bluetoothGatt, int i) {
+        super(101, "Gatt Exception Occurred! ");
+        this.bluetoothGatt = bluetoothGatt;
+        this.gattStatus = i;
+    }
+
+    @Override // com.clj.fastble.exception.BleException
+    public String toString() {
+        return "ConnectException{gattStatus=" + this.gattStatus + ", bluetoothGatt=" + this.bluetoothGatt + "} " + super.toString();
+    }
+}

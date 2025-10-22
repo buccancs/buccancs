@@ -1,0 +1,81 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/ode/nonstiff/RungeKuttaStepInterpolator.java
+// Size: 3220 bytes
+// Modified: 2025-10-21 16:32:04.228685000 +0100
+
+package org.apache.commons.math.ode.nonstiff;
+
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import org.apache.commons.math.ode.AbstractIntegrator;
+import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ode/nonstiff/RungeKuttaStepInterpolator.class */
+abstract class RungeKuttaStepInterpolator extends AbstractStepInterpolator {
+    protected double[][] yDotK;
+    protected AbstractIntegrator integrator;
+
+    protected RungeKuttaStepInterpolator() {
+        this.yDotK = (double[][]) null;
+        this.integrator = null;
+    }
+
+    /* JADX WARN: Type inference failed for: r1v7, types: [double[], double[][]] */
+    public RungeKuttaStepInterpolator(RungeKuttaStepInterpolator interpolator) {
+        super(interpolator);
+        if (interpolator.currentState != null) {
+            int dimension = this.currentState.length;
+            this.yDotK = new double[interpolator.yDotK.length];
+            for (int k = 0; k < interpolator.yDotK.length; k++) {
+                this.yDotK[k] = new double[dimension];
+                System.arraycopy(interpolator.yDotK[k], 0, this.yDotK[k], 0, dimension);
+            }
+        } else {
+            this.yDotK = (double[][]) null;
+        }
+        this.integrator = null;
+    }
+
+    public void reinitialize(AbstractIntegrator rkIntegrator, double[] y, double[][] yDotArray, boolean forward) {
+        reinitialize(y, forward);
+        this.yDotK = yDotArray;
+        this.integrator = rkIntegrator;
+    }
+
+    @Override // org.apache.commons.math.ode.sampling.AbstractStepInterpolator, java.io.Externalizable
+    public void writeExternal(ObjectOutput out) throws IOException {
+        writeBaseExternal(out);
+        int n = this.currentState == null ? -1 : this.currentState.length;
+        int kMax = this.yDotK == null ? -1 : this.yDotK.length;
+        out.writeInt(kMax);
+        for (int k = 0; k < kMax; k++) {
+            for (int i = 0; i < n; i++) {
+                out.writeDouble(this.yDotK[k][i]);
+            }
+        }
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // org.apache.commons.math.ode.sampling.AbstractStepInterpolator, java.io.Externalizable
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        double baseExternal = readBaseExternal(objectInput);
+        int length = this.currentState == null ? -1 : this.currentState.length;
+        int i = objectInput.readInt();
+        this.yDotK = i < 0 ? (double[][]) null : new double[i];
+        for (int i2 = 0; i2 < i; i2++) {
+            this.yDotK[i2] = length < 0 ? null : new double[length];
+            for (int i3 = 0; i3 < length; i3++) {
+                this.yDotK[i2][i3] = objectInput.readDouble();
+            }
+        }
+        this.integrator = null;
+        if (this.currentState != null) {
+            setInterpolatedTime(baseExternal);
+        } else {
+            this.interpolatedTime = baseExternal;
+        }
+    }
+}

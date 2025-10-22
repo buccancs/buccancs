@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang3/concurrent/ConcurrentRuntimeException.java
+// Size: 533 bytes
+// Modified: 2025-10-21 16:32:03.506821700 +0100
+
+package org.apache.commons.lang3.concurrent;
+
+/* loaded from: classes5.dex */
+public class ConcurrentRuntimeException extends RuntimeException {
+    private static final long serialVersionUID = -6582182735562919670L;
+
+    protected ConcurrentRuntimeException() {
+    }
+
+    public ConcurrentRuntimeException(Throwable th) {
+        super(ConcurrentUtils.checkedException(th));
+    }
+
+    public ConcurrentRuntimeException(String str, Throwable th) {
+        super(str, ConcurrentUtils.checkedException(th));
+    }
+}

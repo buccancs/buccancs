@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/widget/WithHint.java
+// Size: 131 bytes
+// Modified: 2025-10-21 16:32:00.100934100 +0100
+
+package androidx.appcompat.widget;
+
+/* loaded from: classes.dex */
+public interface WithHint {
+    CharSequence getHint();
+}

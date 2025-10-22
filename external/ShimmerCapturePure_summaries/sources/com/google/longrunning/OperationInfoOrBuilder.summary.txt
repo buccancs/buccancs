@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/longrunning/OperationInfoOrBuilder.java
+// Size: 375 bytes
+// Modified: 2025-10-21 16:32:00.164851300 +0100
+
+package com.google.longrunning;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface OperationInfoOrBuilder extends MessageOrBuilder {
+    String getMetadataType();
+
+    ByteString getMetadataTypeBytes();
+
+    String getResponseType();
+
+    ByteString getResponseTypeBytes();
+}

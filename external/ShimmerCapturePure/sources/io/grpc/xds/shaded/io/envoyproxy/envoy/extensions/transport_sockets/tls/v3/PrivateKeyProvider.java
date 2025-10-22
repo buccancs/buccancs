@@ -1,0 +1,708 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes4.dex */
+public final class PrivateKeyProvider extends GeneratedMessageV3 implements PrivateKeyProviderOrBuilder {
+    public static final int PROVIDER_NAME_FIELD_NUMBER = 1;
+    public static final int TYPED_CONFIG_FIELD_NUMBER = 3;
+    private static final PrivateKeyProvider DEFAULT_INSTANCE = new PrivateKeyProvider();
+    private static final Parser<PrivateKeyProvider> PARSER = new AbstractParser<PrivateKeyProvider>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public PrivateKeyProvider m31930parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new PrivateKeyProvider(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private int configTypeCase_;
+    private Object configType_;
+    private byte memoizedIsInitialized;
+    private volatile Object providerName_;
+
+    private PrivateKeyProvider(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.configTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private PrivateKeyProvider() {
+        this.configTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.providerName_ = "";
+    }
+
+    private PrivateKeyProvider(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            this.providerName_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 26) {
+                            Any.Builder builder = this.configTypeCase_ == 3 ? ((Any) this.configType_).toBuilder() : null;
+                            Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                            this.configType_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.configType_ = builder.buildPartial();
+                            }
+                            this.configTypeCase_ = 3;
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static PrivateKeyProvider getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<PrivateKeyProvider> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_PrivateKeyProvider_descriptor;
+    }
+
+    public static PrivateKeyProvider parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (PrivateKeyProvider) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static PrivateKeyProvider parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (PrivateKeyProvider) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static PrivateKeyProvider parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (PrivateKeyProvider) PARSER.parseFrom(byteString);
+    }
+
+    public static PrivateKeyProvider parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (PrivateKeyProvider) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static PrivateKeyProvider parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (PrivateKeyProvider) PARSER.parseFrom(bArr);
+    }
+
+    public static PrivateKeyProvider parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (PrivateKeyProvider) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static PrivateKeyProvider parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static PrivateKeyProvider parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static PrivateKeyProvider parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static PrivateKeyProvider parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static PrivateKeyProvider parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static PrivateKeyProvider parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m31928toBuilder();
+    }
+
+    public static Builder newBuilder(PrivateKeyProvider privateKeyProvider) {
+        return DEFAULT_INSTANCE.m31928toBuilder().mergeFrom(privateKeyProvider);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public PrivateKeyProvider m31923getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<PrivateKeyProvider> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+    public boolean hasTypedConfig() {
+        return this.configTypeCase_ == 3;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new PrivateKeyProvider();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_PrivateKeyProvider_fieldAccessorTable.ensureFieldAccessorsInitialized(PrivateKeyProvider.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+    public ConfigTypeCase getConfigTypeCase() {
+        return ConfigTypeCase.forNumber(this.configTypeCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+    public String getProviderName() {
+        Object obj = this.providerName_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.providerName_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+    public ByteString getProviderNameBytes() {
+        Object obj = this.providerName_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.providerName_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+    public Any getTypedConfig() {
+        if (this.configTypeCase_ == 3) {
+            return (Any) this.configType_;
+        }
+        return Any.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+    public AnyOrBuilder getTypedConfigOrBuilder() {
+        if (this.configTypeCase_ == 3) {
+            return (Any) this.configType_;
+        }
+        return Any.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getProviderNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.providerName_);
+        }
+        if (this.configTypeCase_ == 3) {
+            codedOutputStream.writeMessage(3, (Any) this.configType_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getProviderNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.providerName_) : 0;
+        if (this.configTypeCase_ == 3) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(3, (Any) this.configType_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof PrivateKeyProvider)) {
+            return super.equals(obj);
+        }
+        PrivateKeyProvider privateKeyProvider = (PrivateKeyProvider) obj;
+        if (getProviderName().equals(privateKeyProvider.getProviderName()) && getConfigTypeCase().equals(privateKeyProvider.getConfigTypeCase())) {
+            return (this.configTypeCase_ != 3 || getTypedConfig().equals(privateKeyProvider.getTypedConfig())) && this.unknownFields.equals(privateKeyProvider.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getProviderName().hashCode();
+        if (this.configTypeCase_ == 3) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getTypedConfig().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m31925newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m31928toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum ConfigTypeCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        TYPED_CONFIG(3),
+        CONFIGTYPE_NOT_SET(0);
+
+        private final int value;
+
+        ConfigTypeCase(int i) {
+            this.value = i;
+        }
+
+        public static ConfigTypeCase forNumber(int i) {
+            if (i == 0) {
+                return CONFIGTYPE_NOT_SET;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return TYPED_CONFIG;
+        }
+
+        @Deprecated
+        public static ConfigTypeCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements PrivateKeyProviderOrBuilder {
+        private int configTypeCase_;
+        private Object configType_;
+        private Object providerName_;
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> typedConfigBuilder_;
+
+        private Builder() {
+            this.configTypeCase_ = 0;
+            this.providerName_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.configTypeCase_ = 0;
+            this.providerName_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_PrivateKeyProvider_descriptor;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+        public boolean hasTypedConfig() {
+            return this.configTypeCase_ == 3;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_PrivateKeyProvider_fieldAccessorTable.ensureFieldAccessorsInitialized(PrivateKeyProvider.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = PrivateKeyProvider.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31939clear() {
+            super.clear();
+            this.providerName_ = "";
+            this.configTypeCase_ = 0;
+            this.configType_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return CommonProto.internal_static_envoy_extensions_transport_sockets_tls_v3_PrivateKeyProvider_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public PrivateKeyProvider m31952getDefaultInstanceForType() {
+            return PrivateKeyProvider.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public PrivateKeyProvider m31933build() throws UninitializedMessageException {
+            PrivateKeyProvider privateKeyProviderM31935buildPartial = m31935buildPartial();
+            if (privateKeyProviderM31935buildPartial.isInitialized()) {
+                return privateKeyProviderM31935buildPartial;
+            }
+            throw newUninitializedMessageException(privateKeyProviderM31935buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public PrivateKeyProvider m31935buildPartial() {
+            PrivateKeyProvider privateKeyProvider = new PrivateKeyProvider(this);
+            privateKeyProvider.providerName_ = this.providerName_;
+            if (this.configTypeCase_ == 3) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    privateKeyProvider.configType_ = this.configType_;
+                } else {
+                    privateKeyProvider.configType_ = singleFieldBuilderV3.build();
+                }
+            }
+            privateKeyProvider.configTypeCase_ = this.configTypeCase_;
+            onBuilt();
+            return privateKeyProvider;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31951clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31963setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31941clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31944clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31965setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31931addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31956mergeFrom(Message message) {
+            if (message instanceof PrivateKeyProvider) {
+                return mergeFrom((PrivateKeyProvider) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(PrivateKeyProvider privateKeyProvider) {
+            if (privateKeyProvider == PrivateKeyProvider.getDefaultInstance()) {
+                return this;
+            }
+            if (!privateKeyProvider.getProviderName().isEmpty()) {
+                this.providerName_ = privateKeyProvider.providerName_;
+                onChanged();
+            }
+            if (AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$extensions$transport_sockets$tls$v3$PrivateKeyProvider$ConfigTypeCase[privateKeyProvider.getConfigTypeCase().ordinal()] == 1) {
+                mergeTypedConfig(privateKeyProvider.getTypedConfig());
+            }
+            m31961mergeUnknownFields(privateKeyProvider.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider.Builder m31957mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider.Builder.m31957mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider$Builder");
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+        public ConfigTypeCase getConfigTypeCase() {
+            return ConfigTypeCase.forNumber(this.configTypeCase_);
+        }
+
+        public Builder clearConfigType() {
+            this.configTypeCase_ = 0;
+            this.configType_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+        public String getProviderName() {
+            Object obj = this.providerName_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.providerName_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setProviderName(String str) {
+            str.getClass();
+            this.providerName_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+        public ByteString getProviderNameBytes() {
+            Object obj = this.providerName_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.providerName_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setProviderNameBytes(ByteString byteString) {
+            byteString.getClass();
+            PrivateKeyProvider.checkByteStringIsUtf8(byteString);
+            this.providerName_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearProviderName() {
+            this.providerName_ = PrivateKeyProvider.getDefaultInstance().getProviderName();
+            onChanged();
+            return this;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+        public Any getTypedConfig() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.configTypeCase_ == 3) {
+                    return (Any) this.configType_;
+                }
+                return Any.getDefaultInstance();
+            }
+            if (this.configTypeCase_ == 3) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Any.getDefaultInstance();
+        }
+
+        public Builder setTypedConfig(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                any.getClass();
+                this.configType_ = any;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(any);
+            }
+            this.configTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder setTypedConfig(Any.Builder builder) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.configType_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            this.configTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder mergeTypedConfig(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.configTypeCase_ != 3 || this.configType_ == Any.getDefaultInstance()) {
+                    this.configType_ = any;
+                } else {
+                    this.configType_ = Any.newBuilder((Any) this.configType_).mergeFrom(any).buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.configTypeCase_ == 3) {
+                    singleFieldBuilderV3.mergeFrom(any);
+                }
+                this.typedConfigBuilder_.setMessage(any);
+            }
+            this.configTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder clearTypedConfig() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.configTypeCase_ == 3) {
+                    this.configTypeCase_ = 0;
+                    this.configType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.configTypeCase_ == 3) {
+                this.configTypeCase_ = 0;
+                this.configType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Any.Builder getTypedConfigBuilder() {
+            return getTypedConfigFieldBuilder().getBuilder();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProviderOrBuilder
+        public AnyOrBuilder getTypedConfigOrBuilder() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3;
+            int i = this.configTypeCase_;
+            if (i == 3 && (singleFieldBuilderV3 = this.typedConfigBuilder_) != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 3) {
+                return (Any) this.configType_;
+            }
+            return Any.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getTypedConfigFieldBuilder() {
+            if (this.typedConfigBuilder_ == null) {
+                if (this.configTypeCase_ != 3) {
+                    this.configType_ = Any.getDefaultInstance();
+                }
+                this.typedConfigBuilder_ = new SingleFieldBuilderV3<>((Any) this.configType_, getParentForChildren(), isClean());
+                this.configType_ = null;
+            }
+            this.configTypeCase_ = 3;
+            onChanged();
+            return this.typedConfigBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m31967setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m31961mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.PrivateKeyProvider$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$extensions$transport_sockets$tls$v3$PrivateKeyProvider$ConfigTypeCase;
+
+        static {
+            int[] iArr = new int[ConfigTypeCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$extensions$transport_sockets$tls$v3$PrivateKeyProvider$ConfigTypeCase = iArr;
+            try {
+                iArr[ConfigTypeCase.TYPED_CONFIG.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$extensions$transport_sockets$tls$v3$PrivateKeyProvider$ConfigTypeCase[ConfigTypeCase.CONFIGTYPE_NOT_SET.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+}

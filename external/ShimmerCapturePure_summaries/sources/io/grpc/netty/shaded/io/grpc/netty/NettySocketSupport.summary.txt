@@ -1,0 +1,56 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/grpc/netty/NettySocketSupport.java
+// Size: 1648 bytes
+// Modified: 2025-10-21 16:32:08.114756600 +0100
+
+package io.grpc.netty.shaded.io.grpc.netty;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import io.grpc.InternalChannelz;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import java.util.Map;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+final class NettySocketSupport {
+    private static volatile Helper instance = new NettySocketHelperImpl();
+
+    interface Helper {
+        @Nullable
+        NativeSocketOptions getNativeSocketOptions(Channel channel);
+    }
+
+    NettySocketSupport() {
+    }
+
+    public static class NativeSocketOptions {
+        public final ImmutableMap<String, String> otherInfo;
+
+        @Nullable
+        public final InternalChannelz.TcpInfo tcpInfo;
+
+        public NativeSocketOptions(InternalChannelz.TcpInfo tcpInfo, Map<String, String> map) {
+            Preconditions.checkNotNull(map);
+            this.tcpInfo = tcpInfo;
+            this.otherInfo = ImmutableMap.copyOf((Map) map);
+        }
+    }
+
+    public static NativeSocketOptions getNativeSocketOptions(Channel channel) {
+        return instance.getNativeSocketOptions(channel);
+    }
+
+    static void setHelper(Helper helper) {
+        instance = (Helper) Preconditions.checkNotNull(helper);
+    }
+
+    private static final class NettySocketHelperImpl implements Helper {
+        @Override // io.grpc.netty.shaded.io.grpc.netty.NettySocketSupport.Helper
+        public NativeSocketOptions getNativeSocketOptions(Channel channel) {
+            return null;
+        }
+
+        private NettySocketHelperImpl() {
+        }
+    }
+}
