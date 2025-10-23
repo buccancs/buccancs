@@ -235,7 +235,26 @@ New-Item -ItemType Directory -Force -Path $toolchainsRoot, $androidSdkDir, $andr
 
 Write-Host "`n==> Android command-line tools"
 Download-IfMissing -Url $cmdlineToolsUrl -Destination $cmdlineToolsZip -Overwrite:$ForceRedownload
-Expand-Zip -ArchivePath $cmdlineToolsZip -Destination $cmdlineToolsExtractRoot -Force:$ForceRedownload
+
+$needsReExtraction = $false
+if ((Test-Path $cmdlineToolsExtractRoot) -and -not $ForceRedownload) {
+    $hasValidStructure = $false
+    $latestBinPath = Join-Path $cmdlineToolsExtractRoot "latest\bin\sdkmanager.bat"
+    $nestedBinPath = Get-ChildItem -Path $cmdlineToolsExtractRoot -Directory -Recurse -ErrorAction SilentlyContinue |
+        Where-Object { Test-Path (Join-Path $_.FullName "bin\sdkmanager.bat") } |
+        Select-Object -First 1
+    
+    if ((Test-Path $latestBinPath) -or $nestedBinPath) {
+        $hasValidStructure = $true
+    }
+    
+    if (-not $hasValidStructure) {
+        Write-Host "⚠ Existing cmdline-tools directory has invalid structure, forcing re-extraction"
+        $needsReExtraction = $true
+    }
+}
+
+Expand-Zip -ArchivePath $cmdlineToolsZip -Destination $cmdlineToolsExtractRoot -Force:($ForceRedownload -or $needsReExtraction)
 $sdkManagerBat = Ensure-CmdlineToolsLayout -Root $cmdlineToolsExtractRoot
 
 Write-Host "`n==> Temurin JDK"

@@ -8,7 +8,7 @@
 
 Design and ship a unified capture experience that controls thermal (Topdon),
 RGB, and Shimmer sensors from a single screen. Build on the completed Topdon
-Phase 1 & 2 work and align with the `Topdon Integration Summary`.
+Phase 1 & 2 work documented in `docs/hardware/topdon.md`.
 
 ## Acceptance Criteria
 
@@ -43,17 +43,15 @@ Phase 1 & 2 work and align with the `Topdon Integration Summary`.
 
 | Item           | Notes                                                                                                                  | Owner        |
 |----------------|------------------------------------------------------------------------------------------------------------------------|--------------|
-| IRCMD coverage | Ensure new commands (auto shutter, calibration) remain stable; reuse helpers outlined in `Topdon Integration Summary`. | Thermal team |
+| IRCMD coverage | Ensure new commands (auto shutter, calibration) remain stable; reuse helpers outlined in `docs/hardware/topdon.md`. | Thermal team |
 | Performance    | Combined previews may strain low-end tablets; budget render and encoding costs early.                                  | Mobile       |
 | Storage layout | Multi-modal recordings will grow quickly; confirm retention policy with research team.                                 | Product      |
 
 ## Reference Material
 
-- `docs/tasks/topdon-integration-summary.md` – hardware capability baseline.
-- `docs/ircamera-architecture-analysis.md` – patterns to borrow from the
-  upstream Topdon app.
-- `docs/telemetry-ui-improvements.md` – prior Compose patterns for monitoring
-  dashboards.
+- `docs/hardware/topdon.md` – hardware capability baseline and upstream notes.
+- `docs/hardware/shimmer.md` – service patterns to reuse for wearable telemetry.
+- `docs/operations/telemetry.md` – Compose telemetry motifs for dashboards.
 
 ## Design Notes (carry-over from proposal)
 
@@ -67,9 +65,7 @@ Phase 1 & 2 work and align with the `Topdon Integration Summary`.
 
 ## Next Checkpoint
 
-Schedule design + engineering review on 2025-10-24 to lock the unified UX and
-divide implementation tasks across teams.
-
+1. Schedule design + engineering review on 2025-10-24 to lock the unified UX
+   and divide implementation tasks across teams.
 2. Reinstate a compact automation reference if new workflows surface.
-
 3. Schedule a quarterly doc review to keep the curated set current.

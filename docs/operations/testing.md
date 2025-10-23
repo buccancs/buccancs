@@ -4,9 +4,9 @@ BuccanCS ships with automated test suites and targeted manual drills that ensure
 multi-device recording remains stable. Use this guide to plan coverage, run
 stress scenarios, and capture the right artefacts for debugging.
 
-> Refer to `AGENTS.md` for the canonical testing expectations and contributor
-> checklist. This > document expands on those > requirements with drill
-> instructions and artefact references.
+> Refer to `AGENTS.md` for the canonical expectations and review gates. This
+> document layers in drill instructions, artefact capture guidance, and current
+> tooling status.
 
 ## Automated Tests
 
@@ -26,6 +26,19 @@ stress scenarios, and capture the right artefacts for debugging.
 - Continuous integration: Build pipelines are blocked on Android SDK Platform 36
   licence acceptance; run local smoke builds (`gradlew.bat build`) before
   opening pull requests.
+
+## Test Suite Status (2025-10-23)
+
+- Total Kotlin test files: **67** (unit, integration, instrumentation).
+- Gradle flag `-Ptests.enabled=true` re-enables the legacy suites; the default
+  build keeps them disabled until the API migrations settle.
+- Known blockers when enabling the suites:
+  1. References to relocated classes (`EventPublisher`, `ControlServerToken`).
+  2. Constructor signature drift in `RecordingService`.
+  3. Result/error API nullability updates not mirrored in tests.
+  4. `MediaCodec.CodecException` constructor access restrictions on newer SDKs.
+- Keep this section updated whenever tests are re-enabled or additional gaps are
+  resolved; link validation evidence in the relevant change request.
 
 ## Manual Drills
 

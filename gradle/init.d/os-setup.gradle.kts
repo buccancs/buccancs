@@ -48,6 +48,7 @@ val osToolchainRoot = when (osKey) {
     "mac" -> File(toolchainRoot, "mac")
     else -> toolchainRoot
 }.apply { mkdirs() }
+val homeToolchainRoot = File(System.getProperty("user.home"), "toolchain")
 
 fun dirHasContent(dir: File): Boolean =
     dir.exists() && dir.isDirectory && dir.list()?.isNotEmpty() == true
@@ -63,11 +64,33 @@ fun defaultToolchainPath(
     ensureDir: Boolean = false,
     validator: (File) -> Boolean = File::exists
 ): String? {
-    val dir = File(osToolchainRoot, child)
-    if (ensureDir && !dir.exists()) {
-        dir.mkdirs()
+    val candidates = listOf(
+        File(osToolchainRoot, child),
+        File(toolchainRoot, child),
+        File(homeToolchainRoot, child)
+    )
+
+    candidates.forEach { dir ->
+        if (validator(dir)) {
+            if (ensureDir && !dir.exists()) {
+                dir.mkdirs()
+            }
+            return dir.absolutePath
+        }
     }
-    return dir.takeIf(validator)?.absolutePath
+
+    if (ensureDir) {
+        candidates.forEach { dir ->
+            if (!dir.exists()) {
+                dir.mkdirs()
+            }
+            if (validator(dir)) {
+                return dir.absolutePath
+            }
+        }
+    }
+
+    return null
 }
 
 fun Properties.getOsSpecific(keySuffix: String): String? =

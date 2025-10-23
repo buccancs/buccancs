@@ -10,8 +10,9 @@ Store active and archived task plans in this directory.
   `task-plan-2025-10-16-completion.md`) before starting the next plan.
 
 - Capture completed milestones in a sibling note (for example,
-  `topdon-integration-summary.md`) so historic context stays close without
-  bloating `active-plan.md`.
+  `milestone-2025-10-20-topdon-phase2.md`) so historic context stays close
+  without bloating `active-plan.md`. Hardware-specific retrospectives belong in
+  `../hardware/` once they are stable references.
 
 - Each task list should be actionable by a single agent session and include any
   prerequisites, verification steps, and expected artefacts (code changes,

@@ -1,11 +1,10 @@
-# Development Guide
+# Development Workflow
 
-Follow this guide to provision a workstation, build the modules, and exercise
-the platform during day-to-day development.
+Follow this guide for day-to-day engineering tasks. Environment provisioning and
+toolchain bootstrap steps are centralised in `docs/development/environment.md`.
 
-> Canonical contributor guidance now lives in `AGENTS.md`. Use this document for
-> extended setup > notes and troubleshooting > detail that complement the
-> ground-truth checklist.
+> Read `AGENTS.md` before automating edits. That checklist remains the
+> contributor source of truth; this guide adds colour where extra context helps.
 
 ## Prerequisites
 
@@ -37,11 +36,11 @@ the platform during day-to-day development.
    git submodule update --init --recursive
    ```
 
-3. Windows: run `scripts\bootstrap-toolchains.ps1` to download the Android SDK,
-   JDK, and seed `toolchains/`. On macOS/Linux, populate
-   `<repo>/toolchains/android-sdk` (and optional `android-ndk`, `java`,
-   `gradle-user-home`) or symlink those directories to your existing installs.
-   The Gradle init script keeps `local.properties` in sync automatically.
+3. Provision toolchains as described in `docs/development/environment.md`.
+   Windows users should run `scripts\bootstrap-toolchains.ps1`; Linux/WSL users
+   can run `./scripts/bootstrap-toolchains.sh` or map existing installs via
+   symlinks. The Gradle init script keeps `local.properties` in sync
+   automatically.
 
 4. Open the project in Android Studio or IntelliJ; allow the IDE to import
    Gradle settings.
@@ -131,7 +130,7 @@ to maintain momentum whilst you are away from the keyboard.
 
 - Command templates: Update the harness arguments if you need to reuse an
   existing session (for example, sending prompts into tmux). Always include the
-  repository planning reminder so `docs/tasks/active-plan.md` stays
+  repository planning reminder so `docs/planning/active-plan.md` stays
   authoritative.
 
 - First-run checklist: Run `automation/configure_copilot_trust.ps1` once so

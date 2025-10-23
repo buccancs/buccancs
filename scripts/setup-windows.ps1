@@ -8,7 +8,14 @@ param(
 $ErrorActionPreference = "Stop"
 
 function Resolve-RepoRoot {
-    $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+    $scriptDir = if ($PSScriptRoot) {
+        $PSScriptRoot
+    } elseif ($MyInvocation.MyCommand.Path) {
+        Split-Path -Parent $MyInvocation.MyCommand.Path
+    } else {
+        Get-Location | Select-Object -ExpandProperty Path
+    }
+    
     return Resolve-Path (Join-Path $scriptDir "..")
 }
 
